@@ -269,6 +269,7 @@ void LBChronoRace::on_makeRankings_clicked() {
                                 outStream.setFieldWidth(sWidth);
                                 outStream.setFieldAlignment(QTextStream::AlignRight);
                                 outStream << ++i;
+                                outStream.setFieldWidth(0);
                                 outStream << " - ";
                             } else {
                                 outStream.setFieldWidth(sWidth + 3);
@@ -277,6 +278,7 @@ void LBChronoRace::on_makeRankings_clicked() {
                             outStream.setFieldWidth(bWidth);
                             outStream.setFieldAlignment(QTextStream::AlignRight);
                             outStream << teamRanking->getClassEntry(j)->getBib();
+                            outStream.setFieldWidth(0);
                             outStream << " - ";
                             outStream << teamRanking->getClassEntry(j)->getNamesTxt();
                             outStream << " - ";
@@ -374,10 +376,12 @@ void LBChronoRace::on_makeRankings_clicked() {
                         outStream.setFieldWidth(sWidth);
                         outStream.setFieldAlignment(QTextStream::AlignRight);
                         outStream << i++;
+                        outStream.setFieldWidth(0);
                         outStream << " - ";
                         outStream.setFieldWidth(bWidth);
                         outStream.setFieldAlignment(QTextStream::AlignRight);
                         outStream << c->getBib();
+                        outStream.setFieldWidth(0);
                         outStream << " - ";
                         outStream << c->getNamesTxt();
                         outStream << " - ";
