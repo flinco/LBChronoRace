@@ -1,0 +1,8 @@
+- individual_latin1
+Sample of individual race with ISO-8859-1 (Latin1) file encoding.
+
+- individual_utf8
+The same of individual_latin1 but with UTF-8 encoding.
+
+- relay_latin1
+Sample of 3-leg relay with ISO-8859-1 (Latin1) file encoding.
