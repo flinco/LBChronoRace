@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LBChronoRace</class>
+ <widget class="QMainWindow" name="LBChronoRace">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string notr="true">LBChronoRace</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QLabel" name="labelTeams">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>65</y>
+      <width>90</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Teams</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="loadStartList">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>220</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load Start List</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelCompetitors">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>20</y>
+      <width>90</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Competitors</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="loadCategories">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>110</y>
+      <width>220</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load Categories</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelCategories">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>110</y>
+      <width>90</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Categories</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="makeRankings">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>425</y>
+      <width>150</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Make Rankings</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="quitButton">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>425</y>
+      <width>100</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Exit</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="selectorFormat">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>425</y>
+      <width>100</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rankings Format&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>CSV</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Plain Text</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QPlainTextEdit" name="infoDisplay">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>205</y>
+      <width>760</width>
+      <height>210</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="loadTimings">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>155</y>
+      <width>220</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load Timings</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelTimings">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>155</y>
+      <width>90</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Timings</string>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="counterCompetitors">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>20</y>
+      <width>64</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="counterTeams">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>65</y>
+      <width>64</width>
+      <height>35</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="counterCategories">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>110</y>
+      <width>64</width>
+      <height>35</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="counterTimings">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>155</y>
+      <width>64</width>
+      <height>35</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelEncoding">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>425</y>
+      <width>70</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Encoding</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="selectorEncoding">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>425</y>
+      <width>100</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;File Encoding: ISO-8859-1 (Latin1) or UTF-8&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>Latin1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>UTF-8</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="labelFormat">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>425</y>
+      <width>140</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rankings format</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="viewStartList">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>20</y>
+      <width>220</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View Start List</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="viewCategories">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>110</y>
+      <width>220</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View Categories</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="viewTimings">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>155</y>
+      <width>220</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View Timings</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="viewTeamsList">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>65</y>
+      <width>220</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View Teams List</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>Fi&amp;le</string>
+    </property>
+    <addaction name="actionSave"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="actionStartListView"/>
+    <addaction name="actionTeamsView"/>
+    <addaction name="actionCategoriesView"/>
+    <addaction name="actionTimingsView"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuView"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <action name="actionQuit">
+   <property name="text">
+    <string>&amp;Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Q</string>
+   </property>
+  </action>
+  <action name="actionStartListView">
+   <property name="text">
+    <string>&amp;Start List</string>
+   </property>
+  </action>
+  <action name="actionCategoriesView">
+   <property name="text">
+    <string>&amp;Categories</string>
+   </property>
+  </action>
+  <action name="actionTimingsView">
+   <property name="text">
+    <string>&amp;Timings</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+   <property name="shortcut">
+    <string>S</string>
+   </property>
+  </action>
+  <action name="actionTeamsView">
+   <property name="text">
+    <string>Teams</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>Info</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>loadStartList</tabstop>
+  <tabstop>loadCategories</tabstop>
+  <tabstop>loadTimings</tabstop>
+  <tabstop>infoDisplay</tabstop>
+  <tabstop>selectorEncoding</tabstop>
+  <tabstop>selectorFormat</tabstop>
+  <tabstop>makeRankings</tabstop>
+  <tabstop>quitButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>quitButton</sender>
+   <signal>clicked()</signal>
+   <receiver>LBChronoRace</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>722</x>
+     <y>466</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>854</x>
+     <y>9</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChronoRaceTable</class>
+ <widget class="QDialog" name="ChronoRaceTable">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string notr="true">Dialog</string>
+  </property>
+  <widget class="QTableView" name="tableView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>780</width>
+     <height>540</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="rowAdd">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>555</y>
+     <width>100</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Add Row</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="rowDel">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>555</y>
+     <width>100</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Delete Row</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="modelSave">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>555</y>
+     <width>100</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="modelQuit">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>555</y>
+     <width>100</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
