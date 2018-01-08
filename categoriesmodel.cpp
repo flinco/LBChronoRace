@@ -44,7 +44,7 @@ QVariant CategoriesModel::data(const QModelIndex &index, int role) const {
         case Category::CTF_TEAM:
             return QVariant(tr("Individual (I) or Team (T)"));
         case Category::CTF_SEX:
-            return QVariant(tr("Male (M), Female (F) or Misc (X)"));
+            return QVariant(tr("Male (M), Female (F), Misc (X) or Unspecified (U)"));
         case Category::CTF_TO_YEAR:
             return QVariant(tr("The category will include competitors born up to and including this year (i.e. 2000); 0 to disable"));
         case Category::CTF_FROM_YEAR:
@@ -72,9 +72,8 @@ bool CategoriesModel::setData(const QModelIndex &index, const QVariant &value, i
             break;
         case Category::CTF_SEX:
             try {
-                Competitor::Sex sex = Competitor::toSex(value.toString().trimmed());
-                retval = (sex != Competitor::UNDEFINED);
-                if (retval) categories[index.row()].setSex(sex);
+                categories[index.row()].setSex(Competitor::toSex(value.toString().trimmed()));
+                retval = true;
             } catch (ChronoRaceException ex) {
                 retval = false;
             }
