@@ -16,10 +16,10 @@
 #include "lbcrexception.h"
 
 LBChronoRace::LBChronoRace(QWidget *parent) : QMainWindow(parent), ui(new Ui::LBChronoRace) {
-    startListFileName  = LBCHRONORACE_STARTLIST_DEFAULT;
-    timingsFileName    = LBCHRONORACE_TIMINGS_DEFAULT;
-    categoriesFileName = LBCHRONORACE_CATEGORIES_DEFAULT;
-    teamsFileName      = LBCHRONORACE_TEAMLIST_DEFAULT;
+    startListFileName  = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath(LBCHRONORACE_STARTLIST_DEFAULT);
+    timingsFileName    = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath(LBCHRONORACE_TIMINGS_DEFAULT);
+    categoriesFileName = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath(LBCHRONORACE_CATEGORIES_DEFAULT);
+    teamsFileName      = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath(LBCHRONORACE_TEAMLIST_DEFAULT);
 
     ui->setupUi(this);
 
@@ -55,7 +55,7 @@ LBChronoRace::~LBChronoRace() {
 
 void LBChronoRace::on_loadStartList_clicked() {
     startListFileName = QFileDialog::getOpenFileName(this,
-        tr("Select Start List"), "./startlist.csv", tr("CSV (*.csv)"));
+        tr("Select Start List"), QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath("startlist.csv"), tr("CSV (*.csv)"));
 
     if (!startListFileName.isEmpty()) {
         QPair<int, int> count(0, 0);
@@ -75,7 +75,7 @@ void LBChronoRace::on_loadStartList_clicked() {
 
 void LBChronoRace::on_loadCategories_clicked() {
     categoriesFileName = QFileDialog::getOpenFileName(this,
-        tr("Select Categories File"), "./categories.csv", tr("CSV (*.csv)"));
+        tr("Select Categories File"), QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath("categories.csv"), tr("CSV (*.csv)"));
 
     if (!categoriesFileName.isEmpty()) {
         int count = 0;
@@ -93,7 +93,7 @@ void LBChronoRace::on_loadCategories_clicked() {
 
 void LBChronoRace::on_loadTimings_clicked() {
     timingsFileName = QFileDialog::getOpenFileName(this,
-        tr("Select Timings File"), "./timings.csv", tr("CSV (*.csv)"));
+        tr("Select Timings File"), QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath("timings.csv"), tr("CSV (*.csv)"));
 
     if (!timingsFileName.isEmpty()) {
         int count = 0;
