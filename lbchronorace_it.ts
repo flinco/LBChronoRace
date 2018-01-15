@@ -73,8 +73,9 @@
     </message>
     <message>
         <location filename="categoriesmodel.cpp" line="47"/>
-        <source>Male (M), Female (F) or Misc (X)</source>
-        <translation>Maschile (M), Femminile (F) o Mista (X)</translation>
+        <source>Male (M), Female (F), Misc (X) or Unspecified (U)</source>
+        <oldsource>Male (M), Female (F) or Misc (X)</oldsource>
+        <translation>Maschile (M), Femminile (F), Mista (X) o Non specificato (U)</translation>
     </message>
     <message>
         <location filename="categoriesmodel.cpp" line="49"/>
@@ -97,32 +98,32 @@
         <translation>Abbreviazione categoria</translation>
     </message>
     <message>
-        <location filename="categoriesmodel.cpp" line="114"/>
+        <location filename="categoriesmodel.cpp" line="113"/>
         <source>Individual/Team</source>
         <translation>Individuale/Squarda</translation>
     </message>
     <message>
-        <location filename="categoriesmodel.cpp" line="116"/>
+        <location filename="categoriesmodel.cpp" line="115"/>
         <source>Sex</source>
         <translation>Sesso</translation>
     </message>
     <message>
-        <location filename="categoriesmodel.cpp" line="118"/>
+        <location filename="categoriesmodel.cpp" line="117"/>
         <source>Up to</source>
         <translation>Fino al</translation>
     </message>
     <message>
-        <location filename="categoriesmodel.cpp" line="120"/>
+        <location filename="categoriesmodel.cpp" line="119"/>
         <source>From</source>
         <translation>Dal</translation>
     </message>
     <message>
-        <location filename="categoriesmodel.cpp" line="122"/>
+        <location filename="categoriesmodel.cpp" line="121"/>
         <source>Category Full Name</source>
         <translation>Nome Categoria</translation>
     </message>
     <message>
-        <location filename="categoriesmodel.cpp" line="124"/>
+        <location filename="categoriesmodel.cpp" line="123"/>
         <source>Category Short Name</source>
         <translation>Abbreviazione Categoria</translation>
     </message>
@@ -400,7 +401,7 @@
         <location filename="lbchronorace.cpp" line="68"/>
         <location filename="lbchronorace.cpp" line="87"/>
         <location filename="lbchronorace.cpp" line="105"/>
-        <location filename="lbchronorace.cpp" line="408"/>
+        <location filename="lbchronorace.cpp" line="416"/>
         <source>Error: %1</source>
         <translation>Errore: %1</translation>
     </message>
@@ -446,28 +447,33 @@
         <translation>Attenzione: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="149"/>
+        <location filename="lbchronorace.cpp" line="128"/>
+        <source>Select Rankings Destination Folder</source>
+        <translation>Seleziona Cartella Destinazione Classifiche</translation>
+    </message>
+    <message>
+        <location filename="lbchronorace.cpp" line="153"/>
         <source>Competitor not found for bib %1</source>
         <translation>Concorrente non trovato per il pettorale %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="306"/>
-        <location filename="lbchronorace.cpp" line="401"/>
+        <location filename="lbchronorace.cpp" line="312"/>
+        <location filename="lbchronorace.cpp" line="409"/>
         <source>Generated Ranking &apos;%1&apos;: %2</source>
         <translation>Generata Classifica &apos;%1&apos;: %2</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="353"/>
+        <location filename="lbchronorace.cpp" line="359"/>
         <source>Error: cannot open %1</source>
         <translation>Errore: non posso aprire %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="516"/>
+        <location filename="lbchronorace.cpp" line="524"/>
         <source>Informations</source>
         <translation>Informazioni</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="516"/>
+        <location filename="lbchronorace.cpp" line="524"/>
         <source>
 %1
 
@@ -499,32 +505,32 @@ Versione: %2
         <translation>Lista Tempi</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="431"/>
+        <location filename="lbchronorace.cpp" line="439"/>
         <source>Start List File saved: %1</source>
         <translation>File Ordine di Partenza salvato: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="436"/>
+        <location filename="lbchronorace.cpp" line="444"/>
         <source>Teams File saved: %1</source>
         <translation>File Squadre salvato: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="441"/>
+        <location filename="lbchronorace.cpp" line="449"/>
         <source>Categories File saved: %1</source>
         <translation>File Categorie salvato: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="446"/>
+        <location filename="lbchronorace.cpp" line="454"/>
         <source>Timings File saved: %1</source>
         <translation>File Tempi salvato: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="487"/>
+        <location filename="lbchronorace.cpp" line="495"/>
         <source>Selected encoding: %1</source>
         <translation>Codifica selezionata: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="496"/>
+        <location filename="lbchronorace.cpp" line="504"/>
         <source>Output mode: %1</source>
         <translation>Tipo file generati: %1</translation>
     </message>

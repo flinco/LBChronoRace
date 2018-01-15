@@ -9,7 +9,7 @@
 #include "chronoracetable.h"
 
 #define LBCHRONORACE_NAME "LBChronoRace"
-#define LBCHRONORACE_VERSION "0.1.0"
+#define LBCHRONORACE_VERSION "0.1.1"
 #define LBCHRONORACE_STARTLIST_DEFAULT    "startlist.csv"
 #define LBCHRONORACE_TEAMLIST_DEFAULT     "teamlist.csv"
 #define LBCHRONORACE_TIMINGS_DEFAULT      "timings.csv"

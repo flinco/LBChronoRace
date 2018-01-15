@@ -124,6 +124,10 @@ void LBChronoRace::on_makeRankings_clicked() {
             ui->infoDisplay->appendPlainText(tr("Warning: %1").arg(message));
         messages.clear();
 
+        QString rankingsBasePath = QFileDialog::getExistingDirectory(this,
+            tr("Select Rankings Destination Folder"), QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
+            QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
         i = startList.size();
         sWidth = 1;
         while ((i /= 10)) sWidth++;
@@ -240,7 +244,7 @@ void LBChronoRace::on_makeRankings_clicked() {
 
                 // print the ranking
                 bool plainText = (CRLoader::getFormat() == CRLoader::TEXT);
-                QString outFileName = QString("class%1_%2.%3").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()).arg((plainText ? "txt" : "csv"));
+                QString outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.%3").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()).arg((plainText ? "txt" : "csv")));
                 QFile outFile(outFileName);
                 if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
                     throw(ChronoRaceException(QString("Error: cannot open %1").arg(outFileName)));
@@ -349,7 +353,7 @@ void LBChronoRace::on_makeRankings_clicked() {
 
                 // print the ranking
                 bool plainText = (CRLoader::getFormat() == CRLoader::TEXT);
-                QString outFileName = QString("class%1_%2.%3").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()).arg((plainText ? "txt" : "csv"));
+                QString outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.%3").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()).arg((plainText ? "txt" : "csv")));
                 QFile outFile(outFileName);
                 if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
                     throw(ChronoRaceException(tr("Error: cannot open %1").arg(outFileName)));
