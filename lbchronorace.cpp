@@ -487,7 +487,7 @@ void LBChronoRace::on_actionSave_triggered() {
 }
 
 void LBChronoRace::on_selectorEncoding_activated(const QString &arg1) {
-    if (arg1.compare("UTF-8", Qt::CaseInsensitive) == 0) {
+    if (arg1.compare(tr("UTF-8"), Qt::CaseInsensitive) == 0) {
         CRLoader::setEncoding(CRLoader::UTF8);
     } else {
         CRLoader::setEncoding(CRLoader::LATIN1);
@@ -496,7 +496,7 @@ void LBChronoRace::on_selectorEncoding_activated(const QString &arg1) {
 }
 
 void LBChronoRace::on_selectorFormat_activated(const QString &arg1) {
-    if (arg1.compare("Testo", Qt::CaseInsensitive) == 0) {
+    if (arg1.compare(tr("Plain Text"), Qt::CaseInsensitive) == 0) {
         CRLoader::setFormat(CRLoader::TEXT);
     } else {
         CRLoader::setFormat(CRLoader::CSV);
