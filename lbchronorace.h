@@ -5,6 +5,7 @@
 #include <QTranslator>
 #include <QAbstractButton>
 #include <QStandardPaths>
+#include <QDir>
 
 #include "chronoracetable.h"
 
@@ -58,6 +59,7 @@ public slots:
 private:
     Ui::LBChronoRace *ui;
 
+    QDir    lastSelectedPath;
     QString startListFileName;
     QString timingsFileName;
     QString categoriesFileName;
