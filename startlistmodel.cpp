@@ -81,7 +81,7 @@ bool StartListModel::setData(const QModelIndex &index, const QVariant &value, in
                 Competitor::Sex sex = Competitor::toSex(value.toString().trimmed(), true);
                 retval = (sex != Competitor::UNDEFINED);
                 if (retval) startList[index.row()].setSex(sex);
-            } catch (ChronoRaceException ex) {
+            } catch (ChronoRaceException &ex) {
                 retval = false;
             }
             break;

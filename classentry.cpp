@@ -34,7 +34,7 @@ const QString ClassEntry::getNamesCSV() const {
             skip = (this->competitors[j]->getName().compare(c->getName()) == 0);
         }
         if (!skip) {
-            retString += QString("%1%2,%3").arg(first ? "" : ",").arg(c->getName()).arg(Competitor::toSexString(c->getSex()));
+            retString += QString("%1%2,%3,%4").arg(first ? "" : ",").arg(c->getName()).arg(Competitor::toSexString(c->getSex())).arg(c->getYear());
             first = false;
         }
         i++;
@@ -57,7 +57,7 @@ const QString ClassEntry::getNamesTxt() const {
             skip = (this->competitors[j]->getName().compare(c->getName()) == 0);
         }
         if (!skip) {
-            retString += QString("%1%2 (%3)").arg(first ? "" : " - ").arg(c->getName(), -CRLoader::getStartListNameWidthMax()).arg(Competitor::toSexString(c->getSex()));
+            retString += QString("%1%2 (%3,%4)").arg(first ? "" : " - ").arg(c->getName(), -CRLoader::getStartListNameWidthMax()).arg(Competitor::toSexString(c->getSex())).arg(c->getYear());
             first = false;
         }
         i++;

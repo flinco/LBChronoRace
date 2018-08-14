@@ -64,7 +64,7 @@ bool TimingsModel::setData(const QModelIndex &index, const QVariant &value, int 
             try {
                 timings[index.row()].setTiming(value.toString().trimmed());
                 retval = true;
-            } catch (ChronoRaceException ex) {
+            } catch (ChronoRaceException &ex) {
                 retval = false;
             }
             break;

@@ -74,7 +74,7 @@ bool CategoriesModel::setData(const QModelIndex &index, const QVariant &value, i
             try {
                 categories[index.row()].setSex(Competitor::toSex(value.toString().trimmed()));
                 retval = true;
-            } catch (ChronoRaceException ex) {
+            } catch (ChronoRaceException &ex) {
                 retval = false;
             }
             break;
