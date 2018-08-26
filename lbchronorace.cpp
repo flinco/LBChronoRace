@@ -171,7 +171,11 @@ void LBChronoRace::on_makeRankings_clicked() {
                     break;
                 }
             }
-            Q_ASSERT(comp);
+            if (!comp)
+            {
+                ui->infoDisplay->appendPlainText(tr("Bib %1 skipped; check for possible duplicated entries").arg(bib));
+                continue;
+            }
 
             if (classEntryIt != rankingByBib.end()) {
                 classEntryIt->setTime(comp, timing);
