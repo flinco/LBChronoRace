@@ -33,7 +33,7 @@ QVariant TimingsModel::data(const QModelIndex &index, int role) const {
         default:
             return QVariant();
         }
-    else if ((role == Qt::ToolTipRole))
+    else if (role == Qt::ToolTipRole)
         switch (index.column()) {
         case Timing::TMF_BIB:
             return QVariant(tr("Bib number (not 0)"));

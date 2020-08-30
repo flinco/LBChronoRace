@@ -5,14 +5,14 @@
 
 int StartListModel::rowCount(const QModelIndex &parent) const {
 
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     return startList.count();
 }
 
 int StartListModel::columnCount(const QModelIndex &parent) const {
 
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     return Competitor::CMF_COUNT;
 }
@@ -36,10 +36,12 @@ QVariant StartListModel::data(const QModelIndex &index, int role) const {
             return QVariant(startList.at(index.row()).getYear());
         case Competitor::CMF_TEAM:
             return QVariant(startList.at(index.row()).getTeam());
+        case Competitor::CMF_OFFSET:
+            return QVariant(Competitor::toOffsetString(startList.at(index.row()).getOffset()));
         default:
             return QVariant();
         }
-    else if ((role == Qt::ToolTipRole))
+    else if (role == Qt::ToolTipRole)
         switch (index.column()) {
         case Competitor::CMF_BIB:
             return QVariant(tr("Bib number (not 0)"));
@@ -51,6 +53,8 @@ QVariant StartListModel::data(const QModelIndex &index, int role) const {
             return QVariant(tr("Year of birth (i.e. 1982)"));
         case Competitor::CMF_TEAM:
             return QVariant(tr("Team name"));
+        case Competitor::CMF_OFFSET:
+            return QVariant(tr("Start time offset"));
         default:
             return QVariant();
         }
@@ -94,6 +98,10 @@ bool StartListModel::setData(const QModelIndex &index, const QVariant &value, in
             emit newTeam(startList[index.row()].getTeam());
             retval = true;
             break;
+        case Competitor::CMF_OFFSET:
+            startList[index.row()].setOffset(Competitor::toOffset(value.toString().simplified()));
+            retval = true;
+            break;
         default:
             break;
         }
@@ -119,6 +127,8 @@ QVariant StartListModel::headerData(int section, Qt::Orientation orientation, in
             return QString("%1").arg(tr("Year"));
         case Competitor::CMF_TEAM:
             return QString("%1").arg(tr("Team"));
+        case Competitor::CMF_OFFSET:
+            return QString("%1").arg(tr("Start time"));
         default:
             return QString("%1").arg(section + 1);
         }
@@ -135,7 +145,7 @@ Qt::ItemFlags StartListModel::flags(const QModelIndex &index) const {
 
 bool StartListModel::insertRows(int position, int rows, const QModelIndex &parent) {
 
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
 
@@ -149,7 +159,7 @@ bool StartListModel::insertRows(int position, int rows, const QModelIndex &paren
 
 bool StartListModel::removeRows(int position, int rows, const QModelIndex &parent) {
 
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
 

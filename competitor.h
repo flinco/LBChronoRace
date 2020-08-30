@@ -25,14 +25,15 @@ public:
 
     enum Field
         {
-            CMF_FIRST = 0,
-            CMF_BIB   = 0,
-            CMF_NAME  = 1,
-            CMF_SEX   = 2,
-            CMF_YEAR  = 3,
-            CMF_TEAM  = 4,
-            CMF_LAST  = 4,
-            CMF_COUNT = 5
+            CMF_FIRST  = 0,
+            CMF_BIB    = 0,
+            CMF_NAME   = 1,
+            CMF_SEX    = 2,
+            CMF_YEAR   = 3,
+            CMF_TEAM   = 4,
+            CMF_OFFSET = 5,
+            CMF_LAST   = 5,
+            CMF_COUNT  = 6
         };
 
 private:
@@ -43,6 +44,7 @@ private:
     uint    year;
     QString team;
     uint    leg;
+    int     offset;
 
 public:
     Competitor();
@@ -61,10 +63,14 @@ public:
     void setYear(uint year);
     uint getLeg() const;
     void setLeg(uint leg);
+    int getOffset() const;
+    void setOffset(int offset);
     bool isValid();
 
     static Sex toSex(const QString& sex, const bool strict = false);
     static QString toSexString(const Sex sex);
+    static int toOffset(const QString& offset);
+    static QString toOffsetString(int offset);
 
     bool operator<  (const Competitor& rhs) const;
     bool operator>  (const Competitor& rhs) const;

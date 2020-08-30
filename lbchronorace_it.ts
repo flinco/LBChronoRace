@@ -545,54 +545,64 @@ Versione: %2
 <context>
     <name>StartListModel</name>
     <message>
-        <location filename="startlistmodel.cpp" line="45"/>
+        <location filename="startlistmodel.cpp" line="47"/>
         <source>Bib number (not 0)</source>
         <translation>Pettorale (non 0)</translation>
     </message>
     <message>
-        <location filename="startlistmodel.cpp" line="47"/>
+        <location filename="startlistmodel.cpp" line="49"/>
         <source>Competitor name</source>
         <translation>Nome concorrente</translation>
     </message>
     <message>
-        <location filename="startlistmodel.cpp" line="49"/>
+        <location filename="startlistmodel.cpp" line="51"/>
         <source>Male (M) or Female (F)</source>
         <translation>Maschio (M) o Femmina (F)</translation>
     </message>
     <message>
-        <location filename="startlistmodel.cpp" line="51"/>
+        <location filename="startlistmodel.cpp" line="53"/>
         <source>Year of birth (i.e. 1982)</source>
         <translation>Anno di nascita (es. 1982)</translation>
     </message>
     <message>
-        <location filename="startlistmodel.cpp" line="53"/>
+        <location filename="startlistmodel.cpp" line="55"/>
         <source>Team name</source>
         <translation>Nome squadra</translation>
     </message>
     <message>
-        <location filename="startlistmodel.cpp" line="113"/>
+        <location filename="startlistmodel.cpp" line="57"/>
+        <source>Start time offset</source>
+        <translation>Ritardo pertenza</translation>
+    </message>
+    <message>
+        <location filename="startlistmodel.cpp" line="121"/>
         <source>Bib</source>
         <translation>Pettorale</translation>
     </message>
     <message>
-        <location filename="startlistmodel.cpp" line="115"/>
+        <location filename="startlistmodel.cpp" line="123"/>
         <source>Competitor</source>
         <translation>Concorrente</translation>
     </message>
     <message>
-        <location filename="startlistmodel.cpp" line="117"/>
+        <location filename="startlistmodel.cpp" line="125"/>
         <source>Sex</source>
         <translation>Sesso</translation>
     </message>
     <message>
-        <location filename="startlistmodel.cpp" line="119"/>
+        <location filename="startlistmodel.cpp" line="127"/>
         <source>Year</source>
         <translation>Anno</translation>
     </message>
     <message>
-        <location filename="startlistmodel.cpp" line="121"/>
+        <location filename="startlistmodel.cpp" line="129"/>
         <source>Team</source>
         <translation>Squadra</translation>
+    </message>
+    <message>
+        <location filename="startlistmodel.cpp" line="131"/>
+        <source>Start time</source>
+        <translation>Partenza</translation>
     </message>
 </context>
 <context>

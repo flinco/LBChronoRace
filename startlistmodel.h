@@ -11,9 +11,9 @@ class StartListModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    StartListModel(QObject *parent = 0)
+    StartListModel(QObject *parent = nullptr)
         : QAbstractTableModel(parent), startList() {}
-    StartListModel(const QList<Competitor>& startList, QObject *parent = 0)
+    StartListModel(const QList<Competitor>& startList, QObject *parent = nullptr)
         : QAbstractTableModel(parent), startList(startList) {}
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;

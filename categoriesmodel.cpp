@@ -39,7 +39,7 @@ QVariant CategoriesModel::data(const QModelIndex &index, int role) const {
         default:
             return QVariant();
         }
-    else if ((role == Qt::ToolTipRole))
+    else if (role == Qt::ToolTipRole)
         switch (index.column()) {
         case Category::CTF_TEAM:
             return QVariant(tr("Individual (I) or Team (T)"));

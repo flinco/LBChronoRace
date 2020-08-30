@@ -94,7 +94,7 @@ void TeamsListModel::sort(int column, Qt::SortOrder order) {
 
     if (column == 0) {
         std::stable_sort(teamsList.begin(), teamsList.end());
-        if ((order == Qt::DescendingOrder)) std::reverse(teamsList.begin(), teamsList.end());
+        if (order == Qt::DescendingOrder) std::reverse(teamsList.begin(), teamsList.end());
         emit dataChanged(QModelIndex(), QModelIndex());
     }
 }

@@ -11,9 +11,9 @@ class CategoriesModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    CategoriesModel(QObject *parent = 0)
+    CategoriesModel(QObject *parent = nullptr)
         : QAbstractTableModel(parent), categories() {}
-    CategoriesModel(const QList<Category>& categoriesList, QObject *parent = 0)
+    CategoriesModel(const QList<Category>& categoriesList, QObject *parent = nullptr)
         : QAbstractTableModel(parent), categories(categoriesList) {}
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;

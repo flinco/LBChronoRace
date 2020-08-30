@@ -268,6 +268,11 @@ QMultiMap<uint, Competitor>& CRLoader::getStartList(QStringList& messages) {
                             teamNameWidthMax = element->getTeam().length();
                     }
                     break;
+            case Competitor::CMF_OFFSET:
+                {
+                    element->setOffset(Competitor::toOffset(value.toString()));
+                }
+                break;
                 default:
                     {
                         throw(ChronoRaceException(tr("Field enumeration value not managed!")));
