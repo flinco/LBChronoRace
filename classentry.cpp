@@ -125,8 +125,20 @@ void ClassEntry::setTime(Competitor* comp, const Timing& timing) {
         this->times.push_back(0);
         this->totalTime = UINT_MAX - 1;
     } else {
-        this->times.push_back(timing.getSeconds() - this->totalTime);
-        this->totalTime = timing.getSeconds();
+        int offset = comp->getOffset();
+        if (offset < 0) {
+            // no offset; use standard timing logic
+            // good for both individual and relay races
+            this->times.push_back(timing.getSeconds() - this->totalTime);
+            this->totalTime = timing.getSeconds();
+        } else {
+            // competitor with offset; maybe individual
+            // race without mass start or relay race with
+            // timings sum
+            uint seconds = timing.getSeconds() - (uint) offset;
+            this->times.push_back(seconds);
+            this->totalTime += seconds;
+        }
     }
 }
 
