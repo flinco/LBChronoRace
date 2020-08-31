@@ -7,7 +7,7 @@
         <location filename="crloader.cpp" line="116"/>
         <location filename="crloader.cpp" line="171"/>
         <source>Error: cannot open %1</source>
-        <translation>Errore: non posso aprire %1</translation>
+        <translation>Errore: impossibile aprire %1</translation>
     </message>
     <message>
         <location filename="crloader.cpp" line="157"/>
@@ -166,10 +166,6 @@
         <source>Inconsistent leg index %1 for bib %2</source>
         <translation>Indice di frazione %1 inconsistente per il pettorale %2</translation>
     </message>
-    <message>
-        <source>Invalid status value %1</source>
-        <translation type="vanished">Valore di stato %1 non valido</translation>
-    </message>
 </context>
 <context>
     <name>Competitor</name>
@@ -182,14 +178,6 @@
         <location filename="competitor.cpp" line="109"/>
         <source>Unexpected Sex enum value &apos;%1&apos;</source>
         <translation>Valore enumerazione Sex &apos;%1&apos; non valido</translation>
-    </message>
-    <message>
-        <source>Illegal bib number &apos;%1&apos;</source>
-        <translation type="vanished">Pettorale &apos;%1&apos; non valido</translation>
-    </message>
-    <message>
-        <source>Illegal year &apos;%1&apos;</source>
-        <translation type="vanished">Anno &apos;%1&apos; non valido</translation>
     </message>
 </context>
 <context>
@@ -472,7 +460,7 @@
     <message>
         <location filename="lbchronorace.cpp" line="367"/>
         <source>Error: cannot open %1</source>
-        <translation>Errore: non posso aprire %1</translation>
+        <translation>Errore: impossibile aprire %1</translation>
     </message>
     <message>
         <location filename="lbchronorace.cpp" line="533"/>
