@@ -60,4 +60,4 @@ FORMS += \
     chronoracetable.ui
 
 TRANSLATIONS += \
-    lbchronorace_it.ts
+    LBChronoRace_it.ts

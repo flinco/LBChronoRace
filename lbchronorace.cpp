@@ -185,8 +185,8 @@ void LBChronoRace::on_makeRankings_clicked() {
         }
 
         // sort by time
-        QLinkedList<ClassEntry*> rankingByTime;
-        QLinkedList<ClassEntry*>::iterator c;
+        std::list<ClassEntry*> rankingByTime;
+        std::list<ClassEntry*>::iterator c;
         for (auto classEntry = rankingByBib.begin(); classEntry != rankingByBib.end(); classEntry++) {
             c = rankingByTime.begin();
             while ((c != rankingByTime.end()) && (**c < classEntry.value())) ++c;
@@ -242,8 +242,8 @@ void LBChronoRace::on_makeRankings_clicked() {
                 }
 
                 // sort the team rankings
-                QLinkedList<TeamClassEntry*> sortedTeamRanking;
-                QLinkedList<TeamClassEntry*>::iterator c;
+                std::list<TeamClassEntry*> sortedTeamRanking;
+                std::list<TeamClassEntry*>::iterator c;
                 for (auto teamClassEntry = teamRankingByTeam.begin(); teamClassEntry != teamRankingByTeam.end(); teamClassEntry++) {
                     c = sortedTeamRanking.begin();
                     while ((c != sortedTeamRanking.end()) && (**c < teamClassEntry.value())) ++c;
@@ -273,7 +273,7 @@ void LBChronoRace::on_makeRankings_clicked() {
 
                 if (plainText) {
 
-                    outStream << ranking.getFullDescription() << endl;
+                    outStream << ranking.getFullDescription() << Qt::endl;
                     i = 0;
                     for (auto teamRanking : sortedTeamRanking) {
                         for (int j = 0; j < teamRanking->getClassEntryCount(); j++) {
@@ -296,13 +296,13 @@ void LBChronoRace::on_makeRankings_clicked() {
                             outStream << " - ";
                             if (CRLoader::getStartListLegs() > 1)
                                 outStream << teamRanking->getClassEntry(j)->getTimesTxt(sWidth) << " - ";
-                            outStream << teamRanking->getClassEntry(j)->getTotalTimeTxt() << endl;
+                            outStream << teamRanking->getClassEntry(j)->getTotalTimeTxt() << Qt::endl;
                         }
-                        outStream << endl;
+                        outStream << Qt::endl;
                     }
-                    outStream << endl;
+                    outStream << Qt::endl;
                 } else {
-                    outStream << ranking.getShortDescription() << endl;
+                    outStream << ranking.getShortDescription() << Qt::endl;
                     i = 0;
                     for (auto teamRanking : sortedTeamRanking) {
                         i++;
@@ -312,10 +312,10 @@ void LBChronoRace::on_makeRankings_clicked() {
                             outStream << teamRanking->getClassEntry(j)->getNamesCSV() << ",";
                             if (CRLoader::getStartListLegs() > 1)
                                 outStream << teamRanking->getClassEntry(j)->getTimesCSV() << ",";
-                            outStream << teamRanking->getClassEntry(j)->getTotalTimeCSV() << endl;
+                            outStream << teamRanking->getClassEntry(j)->getTotalTimeCSV() << Qt::endl;
                         }
                     }
-                    outStream << endl;
+                    outStream << Qt::endl;
                 }
                 ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(ranking.getFullDescription()).arg(outFileInfo.absoluteFilePath()));
 
@@ -349,9 +349,9 @@ void LBChronoRace::on_makeRankings_clicked() {
 
                 // do the sorting of the single leg times
                 for (leg = 0; leg < CRLoader::getStartListLegs(); leg++) {
-                    QMap<uint, ClassEntry*> sortedLegClassification;
+                    QMultiMap<uint, ClassEntry*> sortedLegClassification;
                     for (auto classEntry : individualRanking) {
-                        sortedLegClassification.insertMulti(classEntry->getTime(leg), classEntry);
+                        sortedLegClassification.insert(classEntry->getTime(leg), classEntry);
                     }
                     i = 0;
                     for (auto classEntry : sortedLegClassification) {
@@ -382,7 +382,7 @@ void LBChronoRace::on_makeRankings_clicked() {
 
                 if (plainText) {
 
-                    outStream << ranking.getFullDescription() << endl;
+                    outStream << ranking.getFullDescription() << Qt::endl;
                     i = 1;
                     for (auto c : individualRanking) {
                         outStream.setFieldWidth(sWidth);
@@ -399,9 +399,9 @@ void LBChronoRace::on_makeRankings_clicked() {
                         outStream << " - ";
                         if (CRLoader::getStartListLegs() > 1)
                             outStream << c->getTimesTxt(sWidth) << " - ";
-                        outStream << c->getTotalTimeTxt() << endl;
+                        outStream << c->getTotalTimeTxt() << Qt::endl;
                     }
-                    outStream << endl;
+                    outStream << Qt::endl;
                 } else {
                     i = 1;
                     for (auto c : individualRanking) {
@@ -410,9 +410,9 @@ void LBChronoRace::on_makeRankings_clicked() {
                         outStream << c->getNamesCSV() << ",";
                         if (CRLoader::getStartListLegs() > 1)
                             outStream << c->getTimesCSV() << ",";
-                        outStream << c->getTotalTimeTxt() << endl;
+                        outStream << c->getTotalTimeTxt() << Qt::endl;
                     }
-                    outStream << endl;
+                    outStream << Qt::endl;
                 }
                 ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(ranking.getFullDescription()).arg(outFileInfo.absoluteFilePath()));
 
@@ -533,3 +533,6 @@ void LBChronoRace::on_actionAbout_triggered() {
     QMessageBox::about(this, tr("Informations"), tr("\n%1\n\nAuthor: Lorenzo Buzzi (lorenzo.buzzi@gmail.com)\n\nVersion: %2\n").arg(LBCHRONORACE_NAME).arg(LBCHRONORACE_VERSION));
 }
 
+void LBChronoRace::on_actionAboutQt_triggered() {
+    QMessageBox::aboutQt(this, tr("About &Qt"));
+}

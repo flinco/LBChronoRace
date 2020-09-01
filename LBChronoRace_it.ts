@@ -307,9 +307,16 @@
         <translation>&amp;Tempi</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="415"/>
-        <source>Info</source>
-        <translation>Info</translation>
+        <location filename="chronorace.ui" line="326"/>
+        <location filename="chronorace.ui" line="329"/>
+        <source>About LBChronoRace</source>
+        <translation>Informazioni su LBChronoRace</translation>
+    </message>
+    <message>
+        <location filename="chronorace.ui" line="334"/>
+        <location filename="chronorace.ui" line="337"/>
+        <source>About &amp;Qt</source>
+        <translation>Informazioni su &amp;Qt</translation>
     </message>
     <message>
         <location filename="chronorace.ui" line="176"/>

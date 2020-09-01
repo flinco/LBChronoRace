@@ -10,7 +10,7 @@
 #include "chronoracetable.h"
 
 #define LBCHRONORACE_NAME "LBChronoRace"
-#define LBCHRONORACE_VERSION "0.1.5"
+#define LBCHRONORACE_VERSION "0.9.0"
 #define LBCHRONORACE_STARTLIST_DEFAULT    "startlist.csv"
 #define LBCHRONORACE_TEAMLIST_DEFAULT     "teamlist.csv"
 #define LBCHRONORACE_TIMINGS_DEFAULT      "timings.csv"
@@ -47,6 +47,7 @@ private slots:
     void on_viewTimings_clicked();
 
     void on_actionAbout_triggered();
+    void on_actionAboutQt_triggered();
 
 public slots:
     void on_actionSave_triggered();

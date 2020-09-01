@@ -63,7 +63,7 @@ void Timing::setTiming(const QString& timing) {
             sep.clear();
             sep.append(".");
         }
-        for (auto token : timing.split(sep, QString::KeepEmptyParts, Qt::CaseInsensitive)) {
+        for (auto token : timing.split(sep, Qt::KeepEmptyParts, Qt::CaseInsensitive)) {
             converted = true;
             val = token.toUInt(&converted);
             if (!converted) {

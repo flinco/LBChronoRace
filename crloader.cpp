@@ -136,7 +136,7 @@ void CRLoader::saveCSV(const QString &filePath, const QAbstractTableModel* model
             model->index(r, c, QModelIndex());
             outStream << model->data(model->index(r, c, QModelIndex()), Qt::DisplayRole).toString();
         }
-        outStream << endl;
+        outStream << Qt::endl;
     }
 
     outStream.flush();
@@ -185,7 +185,7 @@ void CRLoader::saveTeams(const QString& path) {
 
     int rowCount = teamsListModel.rowCount();
     for (int r = 0; r < rowCount; ++r)
-        outStream << teamsListModel.data(teamsListModel.index(r, 0, QModelIndex()), Qt::DisplayRole).toString() << endl;
+        outStream << teamsListModel.data(teamsListModel.index(r, 0, QModelIndex()), Qt::DisplayRole).toString() << Qt::endl;
 
     outStream.flush();
     outFile.close();
