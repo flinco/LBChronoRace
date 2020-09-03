@@ -136,292 +136,294 @@ void LBChronoRace::on_makeRankings_clicked() {
             tr("Select Rankings Destination Folder"), lastSelectedPath.absolutePath(),
             QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
-        i = startList.size();
-        sWidth = 1;
-        while ((i /= 10)) sWidth++;
+        if (!rankingsBasePath.isEmpty()) {
+            i = startList.size();
+            sWidth = 1;
+            while ((i /= 10)) sWidth++;
 
-        bib = CRLoader::getStartListBibMax();
-        bWidth = 1;
-        while ((bib /= 10)) bWidth++;
+            bib = CRLoader::getStartListBibMax();
+            bWidth = 1;
+            while ((bib /= 10)) bWidth++;
 
-        i = rankings.size();
-        rWidth = 1;
-        while ((i /= 10)) rWidth++;
+            i = rankings.size();
+            rWidth = 1;
+            while ((i /= 10)) rWidth++;
 
-        // compute individual general classifications (all included, sorted by bib)
-        QMap<uint, ClassEntry> rankingByBib = {};
-        for (auto timing : timings) {
+            // compute individual general classifications (all included, sorted by bib)
+            QMap<uint, ClassEntry> rankingByBib = {};
+            for (auto timing : timings) {
 
-            bib = timing.getBib();
-            QPair<QMap<uint, Competitor>::iterator, QMap<uint, Competitor>::iterator> compItPair;
-            compItPair = startList.equal_range(bib);
+                bib = timing.getBib();
+                QPair<QMap<uint, Competitor>::iterator, QMap<uint, Competitor>::iterator> compItPair;
+                compItPair = startList.equal_range(bib);
 
-            if (compItPair.first == compItPair.second) {
-                // should never happen
-                ui->infoDisplay->appendPlainText(tr("Competitor not found for bib %1").arg(bib));
-                continue;
-            }
-
-            QMap<uint, ClassEntry>::iterator classEntryIt = rankingByBib.find(bib);
-            if (classEntryIt != rankingByBib.end()) {
-                leg = classEntryIt->countTimes() + 1;
-            } else {
-                leg = 1;
-            }
-            Competitor *comp = NULL;
-            for (auto compIt = compItPair.first; compIt != compItPair.second; compIt++) {
-                if (compIt->getLeg() == leg) {
-                    comp = &(*compIt);
-                    break;
-                }
-            }
-            if (!comp)
-            {
-                ui->infoDisplay->appendPlainText(tr("Bib %1 skipped; check for possible duplicated entries").arg(bib));
-                continue;
-            }
-
-            if (classEntryIt != rankingByBib.end()) {
-                classEntryIt->setTime(comp, timing);
-            } else {
-                rankingByBib.insert(bib, ClassEntry(bib))->setTime(comp, timing);
-            }
-        }
-
-        // sort by time
-        std::list<ClassEntry*> rankingByTime;
-        std::list<ClassEntry*>::iterator c;
-        for (auto classEntry = rankingByBib.begin(); classEntry != rankingByBib.end(); classEntry++) {
-            c = rankingByTime.begin();
-            while ((c != rankingByTime.end()) && (**c < classEntry.value())) ++c;
-            rankingByTime.insert(c, &(*classEntry));
-        }
-
-        // now fill each ranking
-        k = 0;
-        for (auto ranking : rankings) {
-            k++;
-
-            if (ranking.isTeam()) {
-
-                QMap<QString, TeamClassEntry> teamRankingByTeam;
-                for (auto classEntry : rankingByTime) {
-
-                    // exclude DNS and DNF
-                    if (classEntry->isDns() || classEntry->isDnf()) {
-                        continue;
-                    }
-
-                    // exclude competitors without team
-                    if (classEntry->getTeam().isEmpty()) {
-                        continue;
-                    }
-
-                    // Sex
-                    if ((ranking.getSex() != Competitor::UNDEFINED) &&
-                        (ranking.getSex() != classEntry->getSex())) {
-                        continue;
-                    }
-
-                    // To Year
-                    if (ranking.getToYear() &&
-                        (ranking.getToYear() < classEntry->getToYear())) {
-                        continue;
-                    }
-
-                    // From Year
-                    if (ranking.getFromYear() &&
-                        (ranking.getFromYear() > classEntry->getFromYear())) {
-                        continue;
-                    }
-
-                    const QString& team = classEntry->getTeam();
-
-                    const QMap<QString, TeamClassEntry>::iterator teamRankingIt = teamRankingByTeam.find(team);
-                    if (teamRankingIt == teamRankingByTeam.end()) {
-                        teamRankingByTeam.insert(team, TeamClassEntry())->setClassEntry(classEntry);
-                    } else {
-                        teamRankingIt->setClassEntry(classEntry);
-                    }
+                if (compItPair.first == compItPair.second) {
+                    // should never happen
+                    ui->infoDisplay->appendPlainText(tr("Competitor not found for bib %1").arg(bib));
+                    continue;
                 }
 
-                // sort the team rankings
-                std::list<TeamClassEntry*> sortedTeamRanking;
-                std::list<TeamClassEntry*>::iterator c;
-                for (auto teamClassEntry = teamRankingByTeam.begin(); teamClassEntry != teamRankingByTeam.end(); teamClassEntry++) {
-                    c = sortedTeamRanking.begin();
-                    while ((c != sortedTeamRanking.end()) && (**c < teamClassEntry.value())) ++c;
-                    sortedTeamRanking.insert(c, &(*teamClassEntry));
+                QMap<uint, ClassEntry>::iterator classEntryIt = rankingByBib.find(bib);
+                if (classEntryIt != rankingByBib.end()) {
+                    leg = classEntryIt->countTimes() + 1;
+                } else {
+                    leg = 1;
                 }
-
-                // print the ranking
-                bool plainText = (CRLoader::getFormat() == CRLoader::TEXT);
-                QString outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.%3").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()).arg((plainText ? "txt" : "csv")));
-                QFile outFile(outFileName);
-                if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                    throw(ChronoRaceException(QString("Error: cannot open %1").arg(outFileName)));
-                }
-                QTextStream outStream(&outFile);
-                QFileInfo outFileInfo(outFile);
-
-                switch (CRLoader::getEncoding()) {
-                    case CRLoader::UTF8:
-                        outStream.setCodec("UTF-8");
+                Competitor *comp = NULL;
+                for (auto compIt = compItPair.first; compIt != compItPair.second; compIt++) {
+                    if (compIt->getLeg() == leg) {
+                        comp = &(*compIt);
                         break;
-                    case CRLoader::LATIN1:
-                        // no break here
-                    default:
-                        outStream.setCodec("ISO-8859-1");
-                        break;
+                    }
+                }
+                if (!comp)
+                {
+                    ui->infoDisplay->appendPlainText(tr("Bib %1 skipped; check for possible duplicated entries").arg(bib));
+                    continue;
                 }
 
-                if (plainText) {
+                if (classEntryIt != rankingByBib.end()) {
+                    classEntryIt->setTime(comp, timing);
+                } else {
+                    rankingByBib.insert(bib, ClassEntry(bib))->setTime(comp, timing);
+                }
+            }
 
-                    outStream << ranking.getFullDescription() << Qt::endl;
-                    i = 0;
-                    for (auto teamRanking : sortedTeamRanking) {
-                        for (int j = 0; j < teamRanking->getClassEntryCount(); j++) {
-                            if (j == 0) {
-                                outStream.setFieldWidth(sWidth);
+            // sort by time
+            std::list<ClassEntry*> rankingByTime;
+            std::list<ClassEntry*>::iterator c;
+            for (auto classEntry = rankingByBib.begin(); classEntry != rankingByBib.end(); classEntry++) {
+                c = rankingByTime.begin();
+                while ((c != rankingByTime.end()) && (**c < classEntry.value())) ++c;
+                rankingByTime.insert(c, &(*classEntry));
+            }
+
+            // now fill each ranking
+            k = 0;
+            for (auto ranking : rankings) {
+                k++;
+
+                if (ranking.isTeam()) {
+
+                    QMap<QString, TeamClassEntry> teamRankingByTeam;
+                    for (auto classEntry : rankingByTime) {
+
+                        // exclude DNS and DNF
+                        if (classEntry->isDns() || classEntry->isDnf()) {
+                            continue;
+                        }
+
+                        // exclude competitors without team
+                        if (classEntry->getTeam().isEmpty()) {
+                            continue;
+                        }
+
+                        // Sex
+                        if ((ranking.getSex() != Competitor::UNDEFINED) &&
+                            (ranking.getSex() != classEntry->getSex())) {
+                            continue;
+                        }
+
+                        // To Year
+                        if (ranking.getToYear() &&
+                            (ranking.getToYear() < classEntry->getToYear())) {
+                            continue;
+                        }
+
+                        // From Year
+                        if (ranking.getFromYear() &&
+                            (ranking.getFromYear() > classEntry->getFromYear())) {
+                            continue;
+                        }
+
+                        const QString& team = classEntry->getTeam();
+
+                        const QMap<QString, TeamClassEntry>::iterator teamRankingIt = teamRankingByTeam.find(team);
+                        if (teamRankingIt == teamRankingByTeam.end()) {
+                            teamRankingByTeam.insert(team, TeamClassEntry())->setClassEntry(classEntry);
+                        } else {
+                            teamRankingIt->setClassEntry(classEntry);
+                        }
+                    }
+
+                    // sort the team rankings
+                    std::list<TeamClassEntry*> sortedTeamRanking;
+                    std::list<TeamClassEntry*>::iterator c;
+                    for (auto teamClassEntry = teamRankingByTeam.begin(); teamClassEntry != teamRankingByTeam.end(); teamClassEntry++) {
+                        c = sortedTeamRanking.begin();
+                        while ((c != sortedTeamRanking.end()) && (**c < teamClassEntry.value())) ++c;
+                        sortedTeamRanking.insert(c, &(*teamClassEntry));
+                    }
+
+                    // print the ranking
+                    bool plainText = (CRLoader::getFormat() == CRLoader::TEXT);
+                    QString outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.%3").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()).arg((plainText ? "txt" : "csv")));
+                    QFile outFile(outFileName);
+                    if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                        throw(ChronoRaceException(QString("Error: cannot open %1").arg(outFileName)));
+                    }
+                    QTextStream outStream(&outFile);
+                    QFileInfo outFileInfo(outFile);
+
+                    switch (CRLoader::getEncoding()) {
+                        case CRLoader::UTF8:
+                            outStream.setCodec("UTF-8");
+                            break;
+                        case CRLoader::LATIN1:
+                            // no break here
+                        default:
+                            outStream.setCodec("ISO-8859-1");
+                            break;
+                    }
+
+                    if (plainText) {
+
+                        outStream << ranking.getFullDescription() << Qt::endl;
+                        i = 0;
+                        for (auto teamRanking : sortedTeamRanking) {
+                            for (int j = 0; j < teamRanking->getClassEntryCount(); j++) {
+                                if (j == 0) {
+                                    outStream.setFieldWidth(sWidth);
+                                    outStream.setFieldAlignment(QTextStream::AlignRight);
+                                    outStream << ++i;
+                                    outStream.setFieldWidth(0);
+                                    outStream << " - ";
+                                } else {
+                                    outStream.setFieldWidth(sWidth + 3);
+                                    outStream << "";
+                                }
+                                outStream.setFieldWidth(bWidth);
                                 outStream.setFieldAlignment(QTextStream::AlignRight);
-                                outStream << ++i;
+                                outStream << teamRanking->getClassEntry(j)->getBib();
                                 outStream.setFieldWidth(0);
                                 outStream << " - ";
-                            } else {
-                                outStream.setFieldWidth(sWidth + 3);
-                                outStream << "";
+                                outStream << teamRanking->getClassEntry(j)->getNamesTxt();
+                                outStream << " - ";
+                                if (CRLoader::getStartListLegs() > 1)
+                                    outStream << teamRanking->getClassEntry(j)->getTimesTxt(sWidth) << " - ";
+                                outStream << teamRanking->getClassEntry(j)->getTotalTimeTxt() << Qt::endl;
                             }
-                            outStream.setFieldWidth(bWidth);
-                            outStream.setFieldAlignment(QTextStream::AlignRight);
-                            outStream << teamRanking->getClassEntry(j)->getBib();
-                            outStream.setFieldWidth(0);
-                            outStream << " - ";
-                            outStream << teamRanking->getClassEntry(j)->getNamesTxt();
-                            outStream << " - ";
-                            if (CRLoader::getStartListLegs() > 1)
-                                outStream << teamRanking->getClassEntry(j)->getTimesTxt(sWidth) << " - ";
-                            outStream << teamRanking->getClassEntry(j)->getTotalTimeTxt() << Qt::endl;
+                            outStream << Qt::endl;
+                        }
+                        outStream << Qt::endl;
+                    } else {
+                        outStream << ranking.getShortDescription() << Qt::endl;
+                        i = 0;
+                        for (auto teamRanking : sortedTeamRanking) {
+                            i++;
+                            for (int j = 0; j < teamRanking->getClassEntryCount(); j++) {
+                                outStream << i << ",";
+                                outStream << teamRanking->getClassEntry(j)->getBib() << ",";
+                                outStream << teamRanking->getClassEntry(j)->getNamesCSV() << ",";
+                                if (CRLoader::getStartListLegs() > 1)
+                                    outStream << teamRanking->getClassEntry(j)->getTimesCSV() << ",";
+                                outStream << teamRanking->getClassEntry(j)->getTotalTimeCSV() << Qt::endl;
+                            }
                         }
                         outStream << Qt::endl;
                     }
-                    outStream << Qt::endl;
+                    ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(ranking.getFullDescription()).arg(outFileInfo.absoluteFilePath()));
+
+                    outStream.flush();
+                    outFile.close();
+
                 } else {
-                    outStream << ranking.getShortDescription() << Qt::endl;
-                    i = 0;
-                    for (auto teamRanking : sortedTeamRanking) {
-                        i++;
-                        for (int j = 0; j < teamRanking->getClassEntryCount(); j++) {
-                            outStream << i << ",";
-                            outStream << teamRanking->getClassEntry(j)->getBib() << ",";
-                            outStream << teamRanking->getClassEntry(j)->getNamesCSV() << ",";
-                            if (CRLoader::getStartListLegs() > 1)
-                                outStream << teamRanking->getClassEntry(j)->getTimesCSV() << ",";
-                            outStream << teamRanking->getClassEntry(j)->getTotalTimeCSV() << Qt::endl;
+                    QList<ClassEntry*> individualRanking;
+                    for (auto classEntry : rankingByTime) {
+
+                        // Sex
+                        if ((ranking.getSex() != Competitor::UNDEFINED) &&
+                            (ranking.getSex() != classEntry->getSex())) {
+                            continue;
+                        }
+
+                        // To Year
+                        if (ranking.getToYear() &&
+                            (ranking.getToYear() < classEntry->getToYear())) {
+                            continue;
+                        }
+
+                        // From Year
+                        if (ranking.getFromYear() &&
+                            (ranking.getFromYear() > classEntry->getFromYear())) {
+                            continue;
+                        }
+
+                        individualRanking.push_back(classEntry);
+                    }
+
+                    // do the sorting of the single leg times
+                    for (leg = 0; leg < CRLoader::getStartListLegs(); leg++) {
+                        QMultiMap<uint, ClassEntry*> sortedLegClassification;
+                        for (auto classEntry : individualRanking) {
+                            sortedLegClassification.insert(classEntry->getTime(leg), classEntry);
+                        }
+                        i = 0;
+                        for (auto classEntry : sortedLegClassification) {
+                            classEntry->setLegRanking(++i);
                         }
                     }
-                    outStream << Qt::endl;
+
+                    // print the ranking
+                    bool plainText = (CRLoader::getFormat() == CRLoader::TEXT);
+                    QString outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.%3").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()).arg((plainText ? "txt" : "csv")));
+                    QFile outFile(outFileName);
+                    if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                        throw(ChronoRaceException(tr("Error: cannot open %1").arg(outFileName)));
+                    }
+                    QTextStream outStream(&outFile);
+                    QFileInfo outFileInfo(outFile);
+
+                    switch (CRLoader::getEncoding()) {
+                        case CRLoader::UTF8:
+                            outStream.setCodec("UTF-8");
+                            break;
+                        case CRLoader::LATIN1:
+                            // no break here
+                        default:
+                            outStream.setCodec("ISO-8859-1");
+                            break;
+                    }
+
+                    if (plainText) {
+
+                        outStream << ranking.getFullDescription() << Qt::endl;
+                        i = 1;
+                        for (auto c : individualRanking) {
+                            outStream.setFieldWidth(sWidth);
+                            outStream.setFieldAlignment(QTextStream::AlignRight);
+                            outStream << i++;
+                            outStream.setFieldWidth(0);
+                            outStream << " - ";
+                            outStream.setFieldWidth(bWidth);
+                            outStream.setFieldAlignment(QTextStream::AlignRight);
+                            outStream << c->getBib();
+                            outStream.setFieldWidth(0);
+                            outStream << " - ";
+                            outStream << c->getNamesTxt();
+                            outStream << " - ";
+                            if (CRLoader::getStartListLegs() > 1)
+                                outStream << c->getTimesTxt(sWidth) << " - ";
+                            outStream << c->getTotalTimeTxt() << Qt::endl;
+                        }
+                        outStream << Qt::endl;
+                    } else {
+                        i = 1;
+                        for (auto c : individualRanking) {
+                            outStream << i++ << ",";
+                            outStream << c->getBib() << ",";
+                            outStream << c->getNamesCSV() << ",";
+                            if (CRLoader::getStartListLegs() > 1)
+                                outStream << c->getTimesCSV() << ",";
+                            outStream << c->getTotalTimeTxt() << Qt::endl;
+                        }
+                        outStream << Qt::endl;
+                    }
+                    ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(ranking.getFullDescription()).arg(outFileInfo.absoluteFilePath()));
+
+                    outStream.flush();
+                    outFile.close();
                 }
-                ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(ranking.getFullDescription()).arg(outFileInfo.absoluteFilePath()));
-
-                outStream.flush();
-                outFile.close();
-
-            } else {
-                QList<ClassEntry*> individualRanking;
-                for (auto classEntry : rankingByTime) {
-
-                    // Sex
-                    if ((ranking.getSex() != Competitor::UNDEFINED) &&
-                        (ranking.getSex() != classEntry->getSex())) {
-                        continue;
-                    }
-
-                    // To Year
-                    if (ranking.getToYear() &&
-                        (ranking.getToYear() < classEntry->getToYear())) {
-                        continue;
-                    }
-
-                    // From Year
-                    if (ranking.getFromYear() &&
-                        (ranking.getFromYear() > classEntry->getFromYear())) {
-                        continue;
-                    }
-
-                    individualRanking.push_back(classEntry);
-                }
-
-                // do the sorting of the single leg times
-                for (leg = 0; leg < CRLoader::getStartListLegs(); leg++) {
-                    QMultiMap<uint, ClassEntry*> sortedLegClassification;
-                    for (auto classEntry : individualRanking) {
-                        sortedLegClassification.insert(classEntry->getTime(leg), classEntry);
-                    }
-                    i = 0;
-                    for (auto classEntry : sortedLegClassification) {
-                        classEntry->setLegRanking(++i);
-                    }
-                }
-
-                // print the ranking
-                bool plainText = (CRLoader::getFormat() == CRLoader::TEXT);
-                QString outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.%3").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()).arg((plainText ? "txt" : "csv")));
-                QFile outFile(outFileName);
-                if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                    throw(ChronoRaceException(tr("Error: cannot open %1").arg(outFileName)));
-                }
-                QTextStream outStream(&outFile);
-                QFileInfo outFileInfo(outFile);
-
-                switch (CRLoader::getEncoding()) {
-                    case CRLoader::UTF8:
-                        outStream.setCodec("UTF-8");
-                        break;
-                    case CRLoader::LATIN1:
-                        // no break here
-                    default:
-                        outStream.setCodec("ISO-8859-1");
-                        break;
-                }
-
-                if (plainText) {
-
-                    outStream << ranking.getFullDescription() << Qt::endl;
-                    i = 1;
-                    for (auto c : individualRanking) {
-                        outStream.setFieldWidth(sWidth);
-                        outStream.setFieldAlignment(QTextStream::AlignRight);
-                        outStream << i++;
-                        outStream.setFieldWidth(0);
-                        outStream << " - ";
-                        outStream.setFieldWidth(bWidth);
-                        outStream.setFieldAlignment(QTextStream::AlignRight);
-                        outStream << c->getBib();
-                        outStream.setFieldWidth(0);
-                        outStream << " - ";
-                        outStream << c->getNamesTxt();
-                        outStream << " - ";
-                        if (CRLoader::getStartListLegs() > 1)
-                            outStream << c->getTimesTxt(sWidth) << " - ";
-                        outStream << c->getTotalTimeTxt() << Qt::endl;
-                    }
-                    outStream << Qt::endl;
-                } else {
-                    i = 1;
-                    for (auto c : individualRanking) {
-                        outStream << i++ << ",";
-                        outStream << c->getBib() << ",";
-                        outStream << c->getNamesCSV() << ",";
-                        if (CRLoader::getStartListLegs() > 1)
-                            outStream << c->getTimesCSV() << ",";
-                        outStream << c->getTotalTimeTxt() << Qt::endl;
-                    }
-                    outStream << Qt::endl;
-                }
-                ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(ranking.getFullDescription()).arg(outFileInfo.absoluteFilePath()));
-
-                outStream.flush();
-                outFile.close();
             }
         }
     } catch (ChronoRaceException& e) {
