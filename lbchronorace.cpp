@@ -54,6 +54,10 @@ LBChronoRace::~LBChronoRace() {
     delete ui;
 }
 
+void LBChronoRace::retranslateUi() {
+    ui->retranslateUi(this);
+}
+
 void LBChronoRace::on_loadStartList_clicked() {
     startListFileName = QFileDialog::getOpenFileName(this,
         tr("Select Start List"), lastSelectedPath.filePath(QFileInfo(startListFileName).baseName()), tr("CSV (*.csv)"));

@@ -185,12 +185,21 @@
         <property name="text">
          <string>Encoding</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QComboBox" name="selectorEncoding">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;File Encoding: ISO-8859-1 (Latin1) or UTF-8&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>File Encoding: ISO-8859-1 (Latin1) or UTF-8</string>
         </property>
         <item>
          <property name="text">
@@ -209,12 +218,21 @@
         <property name="text">
          <string>Rankings format</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QComboBox" name="selectorFormat">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rankings Format&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Rankings Format: CSV or plain text</string>
         </property>
         <item>
          <property name="text">
@@ -260,7 +278,10 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>Fi&amp;le</string>
+     <string>&amp;File</string>
+    </property>
+    <property name="toolTipsVisible">
+     <bool>false</bool>
     </property>
     <addaction name="actionSave"/>
     <addaction name="actionQuit"/>
@@ -276,7 +297,7 @@
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>&amp;Help</string>
     </property>
     <addaction name="actionAbout"/>
     <addaction name="actionAboutQt"/>
@@ -318,7 +339,7 @@
   </action>
   <action name="actionTeamsView">
    <property name="text">
-    <string>Teams</string>
+    <string>Te&amp;ams</string>
    </property>
   </action>
   <action name="actionAbout">

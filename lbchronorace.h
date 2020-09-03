@@ -27,6 +27,7 @@ class LBChronoRace : public QMainWindow
 public:
     explicit LBChronoRace(QWidget *parent = 0);
     ~LBChronoRace();
+    void retranslateUi();
 
 private slots:
     void on_loadStartList_clicked();
