@@ -454,24 +454,40 @@ void LBChronoRace::set_counterTimings(int count) {
 }
 
 void LBChronoRace::save_startList() {
-    CRLoader::saveStartList(startListFileName);
-    ui->infoDisplay->appendPlainText(tr("Start List File saved: %1").arg(startListFileName));
+    try {
+        CRLoader::saveStartList(startListFileName);
+        ui->infoDisplay->appendPlainText(tr("Start List File saved: %1").arg(startListFileName));
+    }  catch (ChronoRaceException& e) {
+        ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+    }
 }
 
 void LBChronoRace::save_teamList() {
     teamsFileName = lastSelectedPath.filePath(QFileInfo(teamsFileName).baseName());
-    CRLoader::saveTeams(teamsFileName);
-    ui->infoDisplay->appendPlainText(tr("Teams File saved: %1").arg(teamsFileName));
+    try {
+        CRLoader::saveTeams(teamsFileName);
+        ui->infoDisplay->appendPlainText(tr("Teams File saved: %1").arg(teamsFileName));
+    }  catch (ChronoRaceException& e) {
+        ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+    }
 }
 
 void LBChronoRace::save_categoriesList() {
-    CRLoader::saveCategories(categoriesFileName);
-    ui->infoDisplay->appendPlainText(tr("Categories File saved: %1").arg(categoriesFileName));
+    try {
+        CRLoader::saveCategories(categoriesFileName);
+        ui->infoDisplay->appendPlainText(tr("Categories File saved: %1").arg(categoriesFileName));
+    }  catch (ChronoRaceException& e) {
+        ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+    }
 }
 
 void LBChronoRace::save_timingsList() {
-    CRLoader::saveTimings(timingsFileName);
-    ui->infoDisplay->appendPlainText(tr("Timings File saved: %1").arg(timingsFileName));
+    try {
+        CRLoader::saveTimings(timingsFileName);
+        ui->infoDisplay->appendPlainText(tr("Timings File saved: %1").arg(timingsFileName));
+    }  catch (ChronoRaceException& e) {
+        ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+    }
 }
 
 //void LBChronoRace::enable_makeRankings() {
