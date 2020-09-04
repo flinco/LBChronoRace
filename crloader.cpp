@@ -268,11 +268,11 @@ QMultiMap<uint, Competitor>& CRLoader::getStartList(QStringList& messages) {
                             teamNameWidthMax = element->getTeam().length();
                     }
                     break;
-            case Competitor::CMF_OFFSET:
-                {
-                    element->setOffset(Competitor::toOffset(value.toString()));
-                }
-                break;
+                case Competitor::CMF_OFFSET:
+                    {
+                        element->setOffset(Competitor::toOffset(value.toString()));
+                    }
+                    break;
                 default:
                     {
                         throw(ChronoRaceException(tr("Field enumeration value not managed!")));
@@ -343,9 +343,14 @@ QVector<Timing>& CRLoader::getTimings(QStringList& messages) {
                         timings.push_back(Timing(value.toUInt()));
                     }
                     break;
+                case Timing::TMF_LEG:
+                    {
+                        timings.last().setLeg(value.toUInt());
+                    }
+                    break;
                 case Timing::TMF_TIME:
                     {
-                        timings.back().setTiming(value.toString());
+                        timings.last().setTiming(value.toString());
                     }
                     break;
                 default:

@@ -25,13 +25,15 @@ public:
         {
             TMF_FIRST = 0,
             TMF_BIB   = 0,
-            TMF_TIME  = 1,
-            TMF_LAST  = 1,
-            TMF_COUNT = 2
+            TMF_LEG   = 1,
+            TMF_TIME  = 2,
+            TMF_LAST  = 2,
+            TMF_COUNT = 3
         };
 
 private:
     uint   bib;
+    uint   leg;
     uint   seconds;
     Status status;
 
@@ -40,6 +42,8 @@ public:
     Timing(const uint bib);
     uint getBib() const;
     void setBib(uint bib);
+    uint getLeg() const;
+    void setLeg(uint leg);
     bool isDnf() const;
     bool isDns() const;
     Status getStatus() const;

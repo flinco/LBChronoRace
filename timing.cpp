@@ -23,6 +23,14 @@ void Timing::setBib(uint bib) {
     this->bib = bib;
 }
 
+uint Timing::getLeg() const {
+    return leg;
+}
+
+void Timing::setLeg(uint leg) {
+    this->leg = leg;
+}
+
 bool Timing::isDnf() const {
     return (status == DNF);
 }

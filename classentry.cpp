@@ -50,15 +50,27 @@ const QString ClassEntry::getNamesTxt() const {
 
     QString retString;
     bool skip, first = true;
+    bool destroy = false;
     uint i = 0, j;
     for (auto c : this->competitors) {
+        if (c == nullptr) {
+            c = new Competitor();
+            c->setName("*UNKNOWN*");
+            destroy = true;
+        }
+
         // avoid duplicates
-        for (j = 0, skip = false; !skip && (j < i); j++) {
+        for (j = 0, skip = false; c && !skip && (j < i); j++) {
             skip = (this->competitors[j]->getName().compare(c->getName()) == 0);
         }
         if (!skip) {
             retString += QString("%1%2 (%3,%4)").arg(first ? "" : " - ").arg(c->getName(), -CRLoader::getStartListNameWidthMax()).arg(Competitor::toSexString(c->getSex())).arg(c->getYear());
             first = false;
+        }
+
+        if (destroy) {
+            delete c;
+            destroy = false;
         }
         i++;
     }
@@ -115,28 +127,38 @@ uint ClassEntry::countTimes() const {
 void ClassEntry::setTime(Competitor* comp, const Timing& timing) {
 
     Q_ASSERT(comp);
-    this->competitors.push_back(comp);
 
-    this->states.push_back(timing.getStatus());
-    if (isDns()) {
+    uint legHint  = timing.getLeg();
+    int  legIndex = (legHint > 0) ? (int) (legHint - 1) : this->times.size();
+    int  offset   = comp->getOffset();
+
+    while (this->competitors.size() <= legIndex) {
+        // add slots to the competitors vector
+        this->competitors.push_back(nullptr);
+        // add slots to the states vector
+        this->states.push_back(Timing::CLASSIFIED);
+        // add slots to the times vector
         this->times.push_back(0);
+    }
+
+    this->competitors[legIndex] = comp;
+    this->states[legIndex] = timing.getStatus();
+    if (isDns()) {
         this->totalTime = UINT_MAX;
     } else if (isDnf()) {
-        this->times.push_back(0);
         this->totalTime = UINT_MAX - 1;
     } else {
-        int offset = comp->getOffset();
         if (offset < 0) {
             // no offset; use standard timing logic
             // good for both individual and relay races
-            this->times.push_back(timing.getSeconds() - this->totalTime);
+            this->times[legIndex] = timing.getSeconds() - this->totalTime;
             this->totalTime = timing.getSeconds();
         } else {
             // competitor with offset; maybe individual
             // race without mass start or relay race with
             // timings sum
             uint seconds = timing.getSeconds() - (uint) offset;
-            this->times.push_back(seconds);
+            this->times[legIndex] = seconds;
             this->totalTime += seconds;
         }
     }

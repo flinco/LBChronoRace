@@ -225,7 +225,7 @@
     </message>
     <message>
         <location filename="chronorace.ui" line="244"/>
-        <location filename="lbchronorace.cpp" line="512"/>
+        <location filename="lbchronorace.cpp" line="514"/>
         <source>Plain Text</source>
         <translation>Testo</translation>
     </message>
@@ -246,7 +246,7 @@
     </message>
     <message>
         <location filename="chronorace.ui" line="211"/>
-        <location filename="lbchronorace.cpp" line="503"/>
+        <location filename="lbchronorace.cpp" line="505"/>
         <source>UTF-8</source>
         <translation>UTF-8</translation>
     </message>
@@ -305,7 +305,7 @@
     <message>
         <location filename="chronorace.ui" line="355"/>
         <location filename="chronorace.ui" line="358"/>
-        <location filename="lbchronorace.cpp" line="541"/>
+        <location filename="lbchronorace.cpp" line="543"/>
         <source>About &amp;Qt</source>
         <translation>Informazioni su &amp;Qt</translation>
     </message>
@@ -397,7 +397,7 @@
         <location filename="lbchronorace.cpp" line="74"/>
         <location filename="lbchronorace.cpp" line="94"/>
         <location filename="lbchronorace.cpp" line="113"/>
-        <location filename="lbchronorace.cpp" line="428"/>
+        <location filename="lbchronorace.cpp" line="430"/>
         <source>Error: %1</source>
         <translation>Errore: %1</translation>
     </message>
@@ -448,33 +448,33 @@
         <translation>Seleziona Cartella Destinazione Classifiche</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="161"/>
+        <location filename="lbchronorace.cpp" line="162"/>
         <source>Competitor not found for bib %1</source>
         <translation>Concorrente non trovato per il pettorale %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="180"/>
+        <location filename="lbchronorace.cpp" line="181"/>
         <source>Bib %1 skipped; check for possible duplicated entries</source>
         <translation>Pettorale %1 non inserito; posibile duplicazione nella lista tempi</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="324"/>
-        <location filename="lbchronorace.cpp" line="421"/>
+        <location filename="lbchronorace.cpp" line="325"/>
+        <location filename="lbchronorace.cpp" line="422"/>
         <source>Generated Ranking &apos;%1&apos;: %2</source>
         <translation>Generata Classifica &apos;%1&apos;: %2</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="371"/>
+        <location filename="lbchronorace.cpp" line="372"/>
         <source>Error: cannot open %1</source>
         <translation>Errore: impossibile aprire %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="537"/>
+        <location filename="lbchronorace.cpp" line="539"/>
         <source>Informations</source>
         <translation>Informazioni</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="537"/>
+        <location filename="lbchronorace.cpp" line="539"/>
         <source>
 %1
 
@@ -506,32 +506,32 @@ Versione: %2
         <translation>Lista Tempi</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="451"/>
+        <location filename="lbchronorace.cpp" line="453"/>
         <source>Start List File saved: %1</source>
         <translation>File Ordine di Partenza salvato: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="457"/>
+        <location filename="lbchronorace.cpp" line="459"/>
         <source>Teams File saved: %1</source>
         <translation>File Squadre salvato: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="462"/>
+        <location filename="lbchronorace.cpp" line="464"/>
         <source>Categories File saved: %1</source>
         <translation>File Categorie salvato: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="467"/>
+        <location filename="lbchronorace.cpp" line="469"/>
         <source>Timings File saved: %1</source>
         <translation>File Tempi salvato: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="508"/>
+        <location filename="lbchronorace.cpp" line="510"/>
         <source>Selected encoding: %1</source>
         <translation>Codifica selezionata: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="517"/>
+        <location filename="lbchronorace.cpp" line="519"/>
         <source>Output mode: %1</source>
         <translation>Tipo file generati: %1</translation>
     </message>
@@ -623,17 +623,17 @@ Versione: %2
 <context>
     <name>Timing</name>
     <message>
-        <location filename="timing.cpp" line="56"/>
+        <location filename="timing.cpp" line="64"/>
         <source>Illegal timing value &apos;%1&apos;</source>
         <translation>Valore cronometrico &apos;%1&apos; non valido</translation>
     </message>
     <message>
-        <location filename="timing.cpp" line="71"/>
+        <location filename="timing.cpp" line="79"/>
         <source>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
         <translation>Valore cronometrico &apos;%1&apos; non valido per il pettorale &apos;%2&apos;</translation>
     </message>
     <message>
-        <location filename="timing.cpp" line="102"/>
+        <location filename="timing.cpp" line="110"/>
         <source>Invalid status value %1</source>
         <translation>Valore di stato %1 non valido</translation>
     </message>
@@ -641,22 +641,32 @@ Versione: %2
 <context>
     <name>TimingsModel</name>
     <message>
-        <location filename="timingsmodel.cpp" line="39"/>
+        <location filename="timingsmodel.cpp" line="41"/>
         <source>Bib number (not 0)</source>
         <translation>Numero pettorale (non 0)</translation>
     </message>
     <message>
-        <location filename="timingsmodel.cpp" line="41"/>
+        <location filename="timingsmodel.cpp" line="43"/>
+        <source>Leg number (0 for automatic detection)</source>
+        <translation>Frazione (0 per rilevamento automatico)</translation>
+    </message>
+    <message>
+        <location filename="timingsmodel.cpp" line="45"/>
         <source>Timing (i.e. 0:45:23) or DNF or DNS</source>
         <translation>Tempo (es. 0:45:23), DNF (non classificato) o DNS (non partito)</translation>
     </message>
     <message>
-        <location filename="timingsmodel.cpp" line="87"/>
+        <location filename="timingsmodel.cpp" line="95"/>
         <source>Bib</source>
         <translation>Pettorale</translation>
     </message>
     <message>
-        <location filename="timingsmodel.cpp" line="89"/>
+        <location filename="timingsmodel.cpp" line="97"/>
+        <source>Leg</source>
+        <translation>Frazione</translation>
+    </message>
+    <message>
+        <location filename="timingsmodel.cpp" line="99"/>
         <source>Timing</source>
         <translation>Tempo</translation>
     </message>

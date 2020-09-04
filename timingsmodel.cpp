@@ -28,6 +28,8 @@ QVariant TimingsModel::data(const QModelIndex &index, int role) const {
         switch (index.column()) {
         case Timing::TMF_BIB:
             return QVariant(timings.at(index.row()).getBib());
+        case Timing::TMF_LEG:
+            return QVariant(timings.at(index.row()).getLeg());
         case Timing::TMF_TIME:
             return QVariant(timings.at(index.row()).getTiming());
         default:
@@ -37,6 +39,8 @@ QVariant TimingsModel::data(const QModelIndex &index, int role) const {
         switch (index.column()) {
         case Timing::TMF_BIB:
             return QVariant(tr("Bib number (not 0)"));
+        case Timing::TMF_LEG:
+            return QVariant(tr("Leg number (0 for automatic detection)"));
         case Timing::TMF_TIME:
             return QVariant(tr("Timing (i.e. 0:45:23) or DNF or DNS"));
         default:
@@ -59,6 +63,11 @@ bool TimingsModel::setData(const QModelIndex &index, const QVariant &value, int 
                 timings[index.row()].setBib(uval);
             else
                 retval = false;
+            break;
+        case Timing::TMF_LEG:
+            uval = value.toUInt(&retval);
+            if (retval)
+                timings[index.row()].setLeg(uval);
             break;
         case Timing::TMF_TIME:
             try {
@@ -85,6 +94,8 @@ QVariant TimingsModel::headerData(int section, Qt::Orientation orientation, int 
         switch (section) {
         case Timing::TMF_BIB:
             return QString("%1").arg(tr("Bib"));
+        case Timing::TMF_LEG:
+            return QString("%1").arg(tr("Leg"));
         case Timing::TMF_TIME:
             return QString("%1").arg(tr("Timing"));
         default:

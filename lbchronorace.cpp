@@ -154,6 +154,7 @@ void LBChronoRace::on_makeRankings_clicked() {
             for (auto timing : timings) {
 
                 bib = timing.getBib();
+                leg = timing.getLeg();
                 QPair<QMap<uint, Competitor>::iterator, QMap<uint, Competitor>::iterator> compItPair;
                 compItPair = startList.equal_range(bib);
 
@@ -164,11 +165,15 @@ void LBChronoRace::on_makeRankings_clicked() {
                 }
 
                 QMap<uint, ClassEntry>::iterator classEntryIt = rankingByBib.find(bib);
-                if (classEntryIt != rankingByBib.end()) {
-                    leg = classEntryIt->countTimes() + 1;
-                } else {
-                    leg = 1;
+                if (leg == 0) // perform leg auto detection only if no manual leg hint is present
+                {
+                    if (classEntryIt != rankingByBib.end()) {
+                        leg = classEntryIt->countTimes() + 1;
+                    } else {
+                        leg = 1;
+                    }
                 }
+
                 Competitor *comp = NULL;
                 for (auto compIt = compItPair.first; compIt != compItPair.second; compIt++) {
                     if (compIt->getLeg() == leg) {
