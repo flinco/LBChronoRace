@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChronoRaceData</class>
+ <widget class="QDialog" name="ChronoRaceData">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>768</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Race Information</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="4" column="4">
+    <widget class="QLabel" name="labelDate">
+     <property name="text">
+      <string>Date</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="5" rowspan="4">
+    <widget class="QLabel" name="sponsorLogo3">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>Sponsor 3 not loaded</string>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="6">
+    <widget class="QPushButton" name="loadSponsorLogo4">
+     <property name="text">
+      <string>Load 4th sponsor</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="3">
+    <widget class="QLineEdit" name="event"/>
+   </item>
+   <item row="1" column="1" colspan="3">
+    <widget class="QLineEdit" name="place"/>
+   </item>
+   <item row="0" column="7" rowspan="4">
+    <widget class="QLabel" name="rightLogo">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>Logo 2 not loaded</string>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="3" rowspan="4">
+    <widget class="QLabel" name="sponsorLogo2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>Sponsor 2 not loaded</string>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="7" rowspan="4">
+    <widget class="QLabel" name="sponsorLogo4">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>Sponsor 4 not loaded</string>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="4">
+    <widget class="QLabel" name="labelRaceType">
+     <property name="text">
+      <string>Race Type</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4">
+    <widget class="QPushButton" name="removeLeftLogo">
+     <property name="text">
+      <string>Remove 1st logo</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="6">
+    <widget class="QLabel" name="labelResults">
+     <property name="text">
+      <string>Results</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="2">
+    <widget class="QPushButton" name="removeSponsorLogo2">
+     <property name="text">
+      <string>Remove 2nd sponsor</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="labelTimekeeper1">
+     <property name="text">
+      <string>Timekeeper 1</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="5">
+    <widget class="QComboBox" name="raceType">
+     <item>
+      <property name="text">
+       <string>Mass start</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Timed race</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Relay race</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="0" column="6">
+    <widget class="QPushButton" name="loadRightLogo">
+     <property name="text">
+      <string>Load 2nd logo</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1" rowspan="4">
+    <widget class="QLabel" name="sponsorLogo1">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>Sponsor 1 not loaded</string>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="5">
+    <widget class="QDateEdit" name="date">
+     <property name="displayFormat">
+      <string>dd/MM/yyyy</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1" colspan="3">
+    <widget class="QLineEdit" name="timeKeeper3"/>
+   </item>
+   <item row="8" column="6">
+    <widget class="QPushButton" name="removeSponsorLogo4">
+     <property name="text">
+      <string>Remove 4th sponsor</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QPushButton" name="loadLeftLogo">
+     <property name="text">
+      <string>Load 1st logo</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelPlace">
+     <property name="text">
+      <string>Place</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="7">
+    <widget class="QComboBox" name="results">
+     <item>
+      <property name="text">
+       <string>Unofficial</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Official</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="7" column="4">
+    <widget class="QPushButton" name="loadSponsorLogo3">
+     <property name="text">
+      <string>Load 3rd sponsor</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="6">
+    <widget class="QLabel" name="labelStartTime">
+     <property name="text">
+      <string>Start Time</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0" colspan="8">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="labelOrganization">
+     <property name="text">
+      <string>Organization</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1" colspan="7">
+    <widget class="QTextEdit" name="organization"/>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelEvent">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Event</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="4">
+    <widget class="QPushButton" name="removeSponsorLogo3">
+     <property name="text">
+      <string>Remove 3rd sponsor</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="7">
+    <widget class="QTimeEdit" name="startTime"/>
+   </item>
+   <item row="4" column="1" colspan="3">
+    <widget class="QLineEdit" name="timeKeeper2"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="labelTimekeeper2">
+     <property name="text">
+      <string>Timekeeper 2</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="2">
+    <widget class="QPushButton" name="loadSponsorLogo2">
+     <property name="text">
+      <string>Load 2nd sponsor</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="6">
+    <widget class="QPushButton" name="removeRightLogo">
+     <property name="text">
+      <string>Remove 2nd logo</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="3">
+    <widget class="QLineEdit" name="timeKeeper1"/>
+   </item>
+   <item row="2" column="1" colspan="3">
+    <widget class="QLineEdit" name="referee"/>
+   </item>
+   <item row="8" column="0">
+    <widget class="QPushButton" name="removeSponsorLogo1">
+     <property name="text">
+      <string>Remove 1st sponsor</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QPushButton" name="loadSponsorLogo1">
+     <property name="text">
+      <string>Load 1st sponsor</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="labelReferee">
+     <property name="text">
+      <string>Referee</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="5" rowspan="4">
+    <widget class="QLabel" name="leftLogo">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="text">
+      <string>Logo 1 not loaded</string>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="labelTimekeeper3">
+     <property name="text">
+      <string>Timekeeper 3</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="0" colspan="8">
+    <spacer name="bottomSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="9" column="0" rowspan="2">
+    <spacer name="logosSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>event</tabstop>
+  <tabstop>place</tabstop>
+  <tabstop>loadLeftLogo</tabstop>
+  <tabstop>removeLeftLogo</tabstop>
+  <tabstop>loadRightLogo</tabstop>
+  <tabstop>removeRightLogo</tabstop>
+  <tabstop>date</tabstop>
+  <tabstop>startTime</tabstop>
+  <tabstop>raceType</tabstop>
+  <tabstop>results</tabstop>
+  <tabstop>referee</tabstop>
+  <tabstop>timeKeeper1</tabstop>
+  <tabstop>timeKeeper2</tabstop>
+  <tabstop>timeKeeper3</tabstop>
+  <tabstop>organization</tabstop>
+  <tabstop>loadSponsorLogo1</tabstop>
+  <tabstop>removeSponsorLogo1</tabstop>
+  <tabstop>loadSponsorLogo2</tabstop>
+  <tabstop>removeSponsorLogo2</tabstop>
+  <tabstop>loadSponsorLogo3</tabstop>
+  <tabstop>removeSponsorLogo3</tabstop>
+  <tabstop>loadSponsorLogo4</tabstop>
+  <tabstop>removeSponsorLogo4</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ChronoRaceData</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ChronoRaceData</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

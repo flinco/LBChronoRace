@@ -25,16 +25,17 @@ private slots:
 
     void on_rowAdd_clicked();
     void on_rowDel_clicked();
-    void on_modelSave_clicked();
-
-    void on_modelQuit_clicked();
+    void on_modelImport_clicked();
+    void on_modelExport_clicked();
+    void on_dialogQuit_clicked();
 
 public slots:
     void show();
 
 signals:
     void newRowCount(int count);
-    void modelSave();
+    void modelImport();
+    void modelExport();
 
 private:
     Ui::ChronoRaceTable *ui;

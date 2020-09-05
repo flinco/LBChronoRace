@@ -3,6 +3,7 @@
 
 #include <QCoreApplication>
 #include <QtGlobal>
+#include <QDataStream>
 #include <QString>
 
 namespace ChronoRace {
@@ -40,6 +41,10 @@ private:
 public:
     Timing();
     Timing(const uint bib);
+
+    friend QDataStream &operator<<(QDataStream &out, const Timing &timing);
+    friend QDataStream &operator>>(QDataStream &in, Timing &timing);
+
     uint getBib() const;
     void setBib(uint bib);
     uint getLeg() const;

@@ -38,116 +38,40 @@
     </property>
     <item>
      <layout class="QGridLayout" name="upperArea">
-      <item row="0" column="0">
-       <widget class="QPushButton" name="loadStartList">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="editRace">
         <property name="text">
-         <string>Load Start List</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLabel" name="labelCategories">
-        <property name="text">
-         <string>Categories</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLabel" name="labelTimings">
-        <property name="text">
-         <string>Timings</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLCDNumber" name="counterTeams"/>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLCDNumber" name="counterCategories"/>
-      </item>
-      <item row="3" column="2">
-       <widget class="QLCDNumber" name="counterTimings"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QPushButton" name="loadTimings">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>Load Timings</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="labelCompetitors">
-        <property name="text">
-         <string>Competitors</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QPushButton" name="viewTeamsList">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>View Teams List</string>
+         <string>Edit Race Information</string>
         </property>
        </widget>
       </item>
       <item row="2" column="3">
-       <widget class="QPushButton" name="viewCategories">
+       <widget class="QPushButton" name="editTeamsList">
         <property name="enabled">
          <bool>true</bool>
         </property>
         <property name="text">
-         <string>View Categories</string>
+         <string>Edit Teams List</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="3">
-       <widget class="QPushButton" name="viewTimings">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>View Timings</string>
-        </property>
-       </widget>
+      <item row="2" column="2">
+       <widget class="QLCDNumber" name="counterTeams"/>
       </item>
       <item row="2" column="0">
-       <widget class="QPushButton" name="loadCategories">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
+       <widget class="QLabel" name="labelTeams">
         <property name="text">
-         <string>Load Categories</string>
+         <string>Teams</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QPushButton" name="viewStartList">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>View Start List</string>
-        </property>
-       </widget>
+      <item row="4" column="2">
+       <widget class="QLCDNumber" name="counterTimings"/>
       </item>
-      <item row="0" column="2">
+      <item row="1" column="2">
        <widget class="QLCDNumber" name="counterCompetitors">
         <property name="frameShape">
          <enum>QFrame::Box</enum>
@@ -163,13 +87,80 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QLabel" name="labelTeams">
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelCompetitors">
         <property name="text">
-         <string>Teams</string>
+         <string>Competitors</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="labelTimings">
+        <property name="text">
+         <string>Timings</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="labelCategories">
+        <property name="text">
+         <string>Categories</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="3">
+       <widget class="QPushButton" name="editTimings">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Edit Timings</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QPushButton" name="editCategories">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Edit Categories</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLCDNumber" name="counterCategories"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="loadRace">
+        <property name="text">
+         <string>Load Race</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QPushButton" name="editStartList">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Edit Start List</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="saveRace">
+        <property name="text">
+         <string>Save Race</string>
         </property>
        </widget>
       </item>
@@ -186,7 +177,7 @@
          <string>Encoding</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -214,45 +205,35 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="labelFormat">
-        <property name="text">
-         <string>Rankings format</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="selectorFormat">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>Rankings Format: CSV or plain text</string>
-        </property>
-        <item>
-         <property name="text">
-          <string>CSV</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Plain Text</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="makeRankings">
+       <widget class="QPushButton" name="makeRankingsText">
         <property name="enabled">
          <bool>true</bool>
         </property>
+        <property name="toolTip">
+         <string>Generate rankings in plain text format</string>
+        </property>
         <property name="text">
-         <string>Make Rankings</string>
+         <string>Make Rankings Text</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="makeRankingsCSV">
+        <property name="toolTip">
+         <string>Generate rankings in CSV format</string>
+        </property>
+        <property name="text">
+         <string>Make Rankings CSV</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="makeRankingsPDF">
+        <property name="toolTip">
+         <string>Generate rankings in PDF format</string>
+        </property>
+        <property name="text">
+         <string>Make Rankings PDF</string>
         </property>
        </widget>
       </item>
@@ -283,17 +264,20 @@
     <property name="toolTipsVisible">
      <bool>false</bool>
     </property>
-    <addaction name="actionSave"/>
+    <addaction name="actionLoadRace"/>
+    <addaction name="actionSaveRace"/>
+    <addaction name="actionSaveRaceAs"/>
     <addaction name="actionQuit"/>
    </widget>
-   <widget class="QMenu" name="menuView">
+   <widget class="QMenu" name="menuEdit">
     <property name="title">
-     <string>&amp;View</string>
+     <string>&amp;Edit</string>
     </property>
-    <addaction name="actionStartListView"/>
-    <addaction name="actionTeamsView"/>
-    <addaction name="actionCategoriesView"/>
-    <addaction name="actionTimingsView"/>
+    <addaction name="actionEditRace"/>
+    <addaction name="actionEditStartList"/>
+    <addaction name="actionEditTeams"/>
+    <addaction name="actionEditCategories"/>
+    <addaction name="actionEditTimings"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -303,7 +287,7 @@
     <addaction name="actionAboutQt"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuView"/>
+   <addaction name="menuEdit"/>
    <addaction name="menuHelp"/>
   </widget>
   <action name="actionQuit">
@@ -314,32 +298,58 @@
     <string>Q</string>
    </property>
   </action>
-  <action name="actionStartListView">
+  <action name="actionEditStartList">
    <property name="text">
     <string>&amp;Start List</string>
    </property>
+   <property name="toolTip">
+    <string>Edit Start List</string>
+   </property>
   </action>
-  <action name="actionCategoriesView">
+  <action name="actionEditCategories">
    <property name="text">
     <string>&amp;Categories</string>
    </property>
+   <property name="toolTip">
+    <string>Edit Categories</string>
+   </property>
   </action>
-  <action name="actionTimingsView">
+  <action name="actionEditTimings">
    <property name="text">
     <string>&amp;Timings</string>
    </property>
+   <property name="toolTip">
+    <string>Edit Timings</string>
+   </property>
   </action>
-  <action name="actionSave">
+  <action name="actionLoadRace">
+   <property name="text">
+    <string>&amp;Load</string>
+   </property>
+   <property name="toolTip">
+    <string>Load Race</string>
+   </property>
+   <property name="shortcut">
+    <string>L</string>
+   </property>
+  </action>
+  <action name="actionSaveRace">
    <property name="text">
     <string>&amp;Save</string>
+   </property>
+   <property name="toolTip">
+    <string>Save Race</string>
    </property>
    <property name="shortcut">
     <string>S</string>
    </property>
   </action>
-  <action name="actionTeamsView">
+  <action name="actionEditTeams">
    <property name="text">
     <string>Te&amp;ams</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit Teams</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -358,16 +368,25 @@
     <string>About &amp;Qt</string>
    </property>
   </action>
+  <action name="actionEditRace">
+   <property name="text">
+    <string>&amp;Race</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit Race</string>
+   </property>
+  </action>
+  <action name="actionSaveRaceAs">
+   <property name="text">
+    <string>Save as</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>loadStartList</tabstop>
-  <tabstop>loadCategories</tabstop>
-  <tabstop>loadTimings</tabstop>
   <tabstop>infoDisplay</tabstop>
   <tabstop>selectorEncoding</tabstop>
-  <tabstop>selectorFormat</tabstop>
-  <tabstop>makeRankings</tabstop>
+  <tabstop>makeRankingsText</tabstop>
   <tabstop>quitButton</tabstop>
  </tabstops>
  <resources/>

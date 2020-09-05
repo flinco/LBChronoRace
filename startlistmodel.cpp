@@ -3,21 +3,38 @@
 #include "startlistmodel.h"
 #include "lbcrexception.h"
 
-int StartListModel::rowCount(const QModelIndex &parent) const {
+QDataStream &operator<<(QDataStream &out, const StartListModel &data)
+{
+    out << data.startList;
+
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, StartListModel &data)
+{
+    in >> data.startList;
+
+    return in;
+}
+
+int StartListModel::rowCount(const QModelIndex &parent) const
+{
 
     Q_UNUSED(parent)
 
     return startList.count();
 }
 
-int StartListModel::columnCount(const QModelIndex &parent) const {
+int StartListModel::columnCount(const QModelIndex &parent) const
+{
 
     Q_UNUSED(parent)
 
     return Competitor::CMF_COUNT;
 }
 
-QVariant StartListModel::data(const QModelIndex &index, int role) const {
+QVariant StartListModel::data(const QModelIndex &index, int role) const
+{
     if (!index.isValid())
         return QVariant();
 
@@ -62,7 +79,8 @@ QVariant StartListModel::data(const QModelIndex &index, int role) const {
     return QVariant();
 }
 
-bool StartListModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+bool StartListModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
 
     bool retval = false;
     if (index.isValid() && role == Qt::EditRole) {
@@ -111,7 +129,8 @@ bool StartListModel::setData(const QModelIndex &index, const QVariant &value, in
     return retval;
 }
 
-QVariant StartListModel::headerData(int section, Qt::Orientation orientation, int role) const {
+QVariant StartListModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
     if (role != Qt::DisplayRole)
         return QVariant();
 
@@ -136,14 +155,16 @@ QVariant StartListModel::headerData(int section, Qt::Orientation orientation, in
         return QString("%1").arg(section + 1);
 }
 
-Qt::ItemFlags StartListModel::flags(const QModelIndex &index) const {
+Qt::ItemFlags StartListModel::flags(const QModelIndex &index) const
+{
     if (!index.isValid())
         return Qt::ItemIsEnabled;
 
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool StartListModel::insertRows(int position, int rows, const QModelIndex &parent) {
+bool StartListModel::insertRows(int position, int rows, const QModelIndex &parent)
+{
 
     Q_UNUSED(parent)
 
@@ -157,7 +178,8 @@ bool StartListModel::insertRows(int position, int rows, const QModelIndex &paren
     return true;
 }
 
-bool StartListModel::removeRows(int position, int rows, const QModelIndex &parent) {
+bool StartListModel::removeRows(int position, int rows, const QModelIndex &parent)
+{
 
     Q_UNUSED(parent)
 
@@ -171,7 +193,8 @@ bool StartListModel::removeRows(int position, int rows, const QModelIndex &paren
     return true;
 }
 
-void StartListModel::sort(int column, Qt::SortOrder order) {
+void StartListModel::sort(int column, Qt::SortOrder order)
+{
 
     CompetitorSorter::setSortingField((Competitor::Field) column);
     CompetitorSorter::setSortingOrder(order);
@@ -179,7 +202,8 @@ void StartListModel::sort(int column, Qt::SortOrder order) {
     emit dataChanged(QModelIndex(), QModelIndex());
 }
 
-void StartListModel::reset() {
+void StartListModel::reset()
+{
     beginResetModel();
     startList.clear();
     endResetModel();

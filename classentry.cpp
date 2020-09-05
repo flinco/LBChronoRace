@@ -2,7 +2,8 @@
 #include "crloader.h"
 #include "lbcrexception.h"
 
-ClassEntry::ClassEntry() {
+ClassEntry::ClassEntry()
+{
     this->bib         = 0u;
     this->competitors = {};
     this->times       = {};
@@ -11,19 +12,23 @@ ClassEntry::ClassEntry() {
     this->totalTime   = 0u;
 }
 
-ClassEntry::ClassEntry(const uint bib) : ClassEntry() {
+ClassEntry::ClassEntry(const uint bib) : ClassEntry()
+{
     this->bib = bib;
 }
 
-uint ClassEntry::getBib() const {
+uint ClassEntry::getBib() const
+{
     return bib;
 }
 
-void ClassEntry::setBib(uint bib) {
+void ClassEntry::setBib(uint bib)
+{
     this->bib = bib;
 }
 
-const QString ClassEntry::getNamesCSV() const {
+const QString ClassEntry::getNamesCSV() const
+{
 
     QString retString;
     bool skip, first = true;
@@ -46,7 +51,8 @@ const QString ClassEntry::getNamesCSV() const {
     return retString;
 }
 
-const QString ClassEntry::getNamesTxt() const {
+const QString ClassEntry::getNamesTxt() const
+{
 
     QString retString;
     bool skip, first = true;
@@ -81,7 +87,8 @@ const QString ClassEntry::getNamesTxt() const {
     return retString;
 }
 
-Competitor::Sex ClassEntry::getSex() const {
+Competitor::Sex ClassEntry::getSex() const
+{
 
     Competitor::Sex sex = Competitor::Sex::UNDEFINED;
     for (auto c : competitors) {
@@ -90,7 +97,8 @@ Competitor::Sex ClassEntry::getSex() const {
     return sex;
 }
 
-const QString ClassEntry::getTimesCSV() const {
+const QString ClassEntry::getTimesCSV() const
+{
 
     QString retString;
     bool first = true;
@@ -102,7 +110,8 @@ const QString ClassEntry::getTimesCSV() const {
     return retString;
 }
 
-const QString ClassEntry::getTimesTxt(int legRankWidth) const {
+const QString ClassEntry::getTimesTxt(int legRankWidth) const
+{
 
     QString retString;
     uint i = 0;
@@ -113,18 +122,21 @@ const QString ClassEntry::getTimesTxt(int legRankWidth) const {
     return retString;
 }
 
-uint ClassEntry::getTime(uint i) const {
+uint ClassEntry::getTime(uint i) const
+{
     if ((int) i >= times.size()) {
         throw(ChronoRaceException(tr("Inconsistent leg index %1 for bib %2").arg(i).arg(this->bib)));
     }
     return this->times.at(i);
 }
 
-uint ClassEntry::countTimes() const {
+uint ClassEntry::countTimes() const
+{
     return this->times.size();
 }
 
-void ClassEntry::setTime(Competitor* comp, const Timing& timing) {
+void ClassEntry::setTime(Competitor* comp, const Timing& timing)
+{
 
     Q_ASSERT(comp);
 
@@ -164,11 +176,13 @@ void ClassEntry::setTime(Competitor* comp, const Timing& timing) {
     }
 }
 
-void ClassEntry::setLegRanking(const uint ranking) {
+void ClassEntry::setLegRanking(const uint ranking)
+{
     this->legRanking.push_back(ranking);
 }
 
-uint ClassEntry::getFromYear() const {
+uint ClassEntry::getFromYear() const
+{
 
     uint fromYear = UINT_MAX;
     for (const auto c : competitors) {
@@ -177,7 +191,8 @@ uint ClassEntry::getFromYear() const {
     return fromYear;
 }
 
-uint ClassEntry::getToYear() const {
+uint ClassEntry::getToYear() const
+{
 
     uint toYear = 0u;
     for (const auto c : competitors) {
@@ -186,11 +201,13 @@ uint ClassEntry::getToYear() const {
     return toYear;
 }
 
-const QString& ClassEntry::getTeam() const {
+const QString& ClassEntry::getTeam() const
+{
     return competitors[0]->getTeam();
 }
 
-bool ClassEntry::isDnf() const {
+bool ClassEntry::isDnf() const
+{
     for (auto it : states) {
         if (it == Timing::DNF)
             return true;
@@ -198,7 +215,8 @@ bool ClassEntry::isDnf() const {
     return false;
 }
 
-bool ClassEntry::isDns() const {
+bool ClassEntry::isDns() const
+{
     for (auto it : states) {
         if (it == Timing::DNS)
             return true;
@@ -206,15 +224,18 @@ bool ClassEntry::isDns() const {
     return false;
 }
 
-uint ClassEntry::getTotalTime() const {
+uint ClassEntry::getTotalTime() const
+{
     return totalTime;
 }
 
-const QString ClassEntry::getTotalTimeCSV() const {
+const QString ClassEntry::getTotalTimeCSV() const
+{
     return getTotalTimeTxt();
 }
 
-const QString ClassEntry::getTotalTimeTxt() const {
+const QString ClassEntry::getTotalTimeTxt() const
+{
     if (isDns()) return Timing::toTimeStr(this->totalTime, Timing::DNS);
     if (isDnf()) return Timing::toTimeStr(this->totalTime, Timing::DNF);
     return Timing::toTimeStr(this->totalTime, Timing::CLASSIFIED);

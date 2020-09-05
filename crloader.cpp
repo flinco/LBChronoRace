@@ -21,41 +21,39 @@ QVector<Category>           CRLoader::categories            = {};
 CategoriesModel             CRLoader::categoriesModel;
 QList<QVariant>             CRLoader::standardItemList;
 CRLoader::Encoding          CRLoader::encoding              = CRLoader::LATIN1;
-CRLoader::Format            CRLoader::format                = CRLoader::CSV;
 
-QAbstractTableModel* CRLoader::getStartListModel() {
+QAbstractTableModel* CRLoader::getStartListModel()
+{
     return &startListModel;
 }
 
-QAbstractTableModel* CRLoader::getTeamsListModel() {
+QAbstractTableModel* CRLoader::getTeamsListModel()
+{
     return &teamsListModel;
 }
 
-QAbstractTableModel* CRLoader::getTimingsModel() {
+QAbstractTableModel* CRLoader::getTimingsModel()
+{
     return &timingsModel;
 }
 
-QAbstractTableModel* CRLoader::getCategoriesModel() {
+QAbstractTableModel* CRLoader::getCategoriesModel()
+{
     return &categoriesModel;
 }
 
-CRLoader::Encoding CRLoader::getEncoding() {
+CRLoader::Encoding CRLoader::getEncoding()
+{
     return encoding;
 }
 
-void CRLoader::setEncoding(const Encoding &value) {
+void CRLoader::setEncoding(const Encoding &value)
+{
     encoding = value;
 }
 
-CRLoader::Format CRLoader::getFormat() {
-    return format;
-}
-
-void CRLoader::setFormat(const Format &value) {
-    format = value;
-}
-
-void CRLoader::clearStartList() {
+void CRLoader::clearStartList()
+{
     startList.clear();
     startListLegCount = 0u;
     startListBibMax = 0u;
@@ -63,16 +61,18 @@ void CRLoader::clearStartList() {
     teamNameWidthMax = 0;
 }
 
-void CRLoader::clearTimings() {
+void CRLoader::clearTimings()
+{
     timings.clear();
 }
 
-void CRLoader::clearCategories() {
+void CRLoader::clearCategories()
+{
     categories.clear();
 }
 
-void CRLoader::loadCSV(const QString& filePath, QAbstractTableModel* model) {
-
+void CRLoader::loadCSV(const QString& filePath, QAbstractTableModel* model)
+{
     QFile file (filePath);
     if (file.open(QIODevice::ReadOnly)) {
         QString data;
@@ -107,8 +107,8 @@ void CRLoader::loadCSV(const QString& filePath, QAbstractTableModel* model) {
     }
 }
 
-void CRLoader::saveCSV(const QString &filePath, const QAbstractTableModel* model) {
-
+void CRLoader::saveCSV(const QString &filePath, const QAbstractTableModel* model)
+{
     Q_ASSERT(model);
 
     QFile outFile(filePath);
@@ -143,7 +143,30 @@ void CRLoader::saveCSV(const QString &filePath, const QAbstractTableModel* model
     outFile.close();
 }
 
-QPair<int, int> CRLoader::loadStartList(const QString& path) {
+void CRLoader::saveRaceData(QDataStream &out)
+{
+    out << startListModel
+        << teamsListModel
+        << categoriesModel
+        << timingsModel;
+
+}
+
+void CRLoader::loadRaceData(QDataStream &in)
+{
+    startListModel.reset();
+    teamsListModel.reset();
+    categoriesModel.reset();
+    timingsModel.reset();
+
+    in >> startListModel
+       >> teamsListModel
+       >> categoriesModel
+       >> timingsModel;
+}
+
+QPair<int, int> CRLoader::importStartList(const QString& path)
+{
 
     startListModel.reset();
     teamsListModel.reset();
@@ -160,11 +183,13 @@ QPair<int, int> CRLoader::loadStartList(const QString& path) {
     return QPair<int, int>(rowCount, teamsListModel.rowCount());
 }
 
-void CRLoader::saveStartList(const QString& path) {
+void CRLoader::exportStartList(const QString& path)
+{
     saveCSV(path, &startListModel);
 }
 
-void CRLoader::saveTeams(const QString& path) {
+void CRLoader::exportTeams(const QString& path)
+{
 
     QFile outFile(path);
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -191,7 +216,8 @@ void CRLoader::saveTeams(const QString& path) {
     outFile.close();
 }
 
-QMultiMap<uint, Competitor>& CRLoader::getStartList(QStringList& messages) {
+QMultiMap<uint, Competitor>& CRLoader::getStartList(QStringList& messages)
+{
 
     bool legCountOk = false;
     uint lastBib = 0u;
@@ -290,23 +316,28 @@ QMultiMap<uint, Competitor>& CRLoader::getStartList(QStringList& messages) {
 }
 
 
-uint CRLoader::getStartListLegs() {
+uint CRLoader::getStartListLegs()
+{
     return startListLegCount;
 }
 
-uint CRLoader::getStartListBibMax() {
+uint CRLoader::getStartListBibMax()
+{
     return startListBibMax;
 }
 
-int CRLoader::getStartListNameWidthMax() {
+int CRLoader::getStartListNameWidthMax()
+{
     return startListNameWidthMax;
 }
 
-int CRLoader::getTeamNameWidthMax() {
+int CRLoader::getTeamNameWidthMax()
+{
     return teamNameWidthMax;
 }
 
-int CRLoader::loadTimings(const QString& path) {
+int CRLoader::importTimings(const QString& path)
+{
 
     timingsModel.reset();
 
@@ -323,11 +354,13 @@ int CRLoader::loadTimings(const QString& path) {
     return rowCount;
 }
 
-void CRLoader::saveTimings(const QString& path) {
+void CRLoader::exportTimings(const QString& path)
+{
     saveCSV(path, &timingsModel);
 }
 
-QVector<Timing>& CRLoader::getTimings(QStringList& messages) {
+QVector<Timing>& CRLoader::getTimings(QStringList& messages)
+{
 
     clearTimings();
 
@@ -369,7 +402,8 @@ QVector<Timing>& CRLoader::getTimings(QStringList& messages) {
     return timings;
 }
 
-int CRLoader::loadCategories(const QString& path) {
+int CRLoader::importCategories(const QString& path)
+{
 
     categoriesModel.reset();
 
@@ -386,11 +420,13 @@ int CRLoader::loadCategories(const QString& path) {
     return rowCount;
 }
 
-void CRLoader::saveCategories(const QString& path) {
+void CRLoader::exportCategories(const QString& path)
+{
     saveCSV(path, &categoriesModel);
 }
 
-QVector<Category>& CRLoader::getCategories(QStringList& messages) {
+QVector<Category>& CRLoader::getCategories(QStringList& messages)
+{
 
     clearCategories();
 
@@ -446,7 +482,8 @@ QVector<Category>& CRLoader::getCategories(QStringList& messages) {
     return categories;
 }
 
-void CRLoader::checkString(QAbstractTableModel* model, QString& token, QChar character) {
+void CRLoader::checkString(QAbstractTableModel* model, QString& token, QChar character)
+{
 
     Q_ASSERT(model);
 

@@ -2,6 +2,7 @@
 #define COMPETITOR_H
 
 #include <QCoreApplication>
+#include <QDataStream>
 #include <QSet>
 #include <QString>
 
@@ -49,6 +50,10 @@ private:
 public:
     Competitor();
     Competitor(const uint bib);
+
+    friend QDataStream &operator<<(QDataStream &out, const Competitor &comp);
+    friend QDataStream &operator>>(QDataStream &in, Competitor &comp);
+
     const QString& getName() const;
     const QString  getName(int width) const;
     void setName(const QString& name);

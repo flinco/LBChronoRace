@@ -5,8 +5,8 @@
 #include <QMultiMap>
 #include <QFile>
 #include <QFileInfo>
-#include <QTextStream>
 #include <QMessageBox>
+#include <QScreen>
 
 #include "lbchronorace.h"
 #include "ui_chronorace.h"
@@ -15,7 +15,11 @@
 #include "teamclassentry.h"
 #include "lbcrexception.h"
 
-LBChronoRace::LBChronoRace(QWidget *parent) : QMainWindow(parent), ui(new Ui::LBChronoRace) {
+LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication *app) :
+    QMainWindow(parent),
+    ui(new Ui::LBChronoRace),
+    raceDataFileName()
+{
     lastSelectedPath   = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
     startListFileName  = lastSelectedPath.filePath(LBCHRONORACE_STARTLIST_DEFAULT);
     timingsFileName    = lastSelectedPath.filePath(LBCHRONORACE_TIMINGS_DEFAULT);
@@ -26,14 +30,15 @@ LBChronoRace::LBChronoRace(QWidget *parent) : QMainWindow(parent), ui(new Ui::LB
 
     startListTable.setWindowTitle(tr("Start List"));
     startListTable.setModel(CRLoader::getStartListModel());
-    this->connect(&startListTable, &ChronoRaceTable::modelSave, this, &LBChronoRace::save_startList);
-    this->connect(&startListTable, &ChronoRaceTable::modelSave, this, &LBChronoRace::save_teamList);
-    this->connect(&startListTable, SIGNAL(newRowCount(int)), this, SLOT(set_counterCompetitors(int)));
+    this->connect(&startListTable, &ChronoRaceTable::modelImport, this, &LBChronoRace::importStartList);
+    this->connect(&startListTable, &ChronoRaceTable::modelExport, this, &LBChronoRace::exportStartList);
+    this->connect(&startListTable, SIGNAL(newRowCount(int)), this, SLOT(setCounterCompetitors(int)));
 
     teamsTable.disableButtons();
     teamsTable.setWindowTitle(tr("Teams List"));
     teamsTable.setModel(CRLoader::getTeamsListModel());
-    this->connect(&teamsTable, SIGNAL(newRowCount(int)), this, SLOT(set_counterTeams(int)));
+    this->connect(&teamsTable, &ChronoRaceTable::modelExport, this, &LBChronoRace::exportTeamList);
+    this->connect(&teamsTable, SIGNAL(newRowCount(int)), this, SLOT(setCounterTeams(int)));
 
     StartListModel* startListModel = (StartListModel*) CRLoader::getStartListModel();
     TeamsListModel* teamsListModel = (TeamsListModel*) CRLoader::getTeamsListModel();
@@ -41,79 +46,45 @@ LBChronoRace::LBChronoRace(QWidget *parent) : QMainWindow(parent), ui(new Ui::LB
 
     categoriesTable.setWindowTitle(tr("Categories"));
     categoriesTable.setModel(CRLoader::getCategoriesModel());
-    this->connect(&categoriesTable, &ChronoRaceTable::modelSave, this, &LBChronoRace::save_categoriesList);
-    this->connect(&categoriesTable, SIGNAL(newRowCount(int)), this, SLOT(set_counterCategories(int)));
+    this->connect(&categoriesTable, &ChronoRaceTable::modelImport, this, &LBChronoRace::importCategoriesList);
+    this->connect(&categoriesTable, &ChronoRaceTable::modelExport, this, &LBChronoRace::exportCategoriesList);
+    this->connect(&categoriesTable, SIGNAL(newRowCount(int)), this, SLOT(setCounterCategories(int)));
 
     timingsTable.setWindowTitle(tr("Timings List"));
     timingsTable.setModel(CRLoader::getTimingsModel());
-    this->connect(&timingsTable, &ChronoRaceTable::modelSave, this, &LBChronoRace::save_timingsList);
-    this->connect(&timingsTable, SIGNAL(newRowCount(int)), this, SLOT(set_counterTimings(int)));
+    this->connect(&timingsTable, &ChronoRaceTable::modelImport, this, &LBChronoRace::importTimingsList);
+    this->connect(&timingsTable, &ChronoRaceTable::modelExport, this, &LBChronoRace::exportTimingsList);
+    this->connect(&timingsTable, SIGNAL(newRowCount(int)), this, SLOT(setCounterTimings(int)));
+
+    // react to screen change and resize
+    this->connect(app, &QGuiApplication::primaryScreenChanged, this, &LBChronoRace::resizeDialogs);
+    resizeDialogs(QGuiApplication::primaryScreen());
+
+    ui->makeRankingsPDF->setEnabled(false);
 }
 
-LBChronoRace::~LBChronoRace() {
+LBChronoRace::~LBChronoRace()
+{
     delete ui;
 }
 
-void LBChronoRace::on_loadStartList_clicked() {
-    startListFileName = QFileDialog::getOpenFileName(this,
-        tr("Select Start List"), lastSelectedPath.filePath(QFileInfo(startListFileName).baseName()), tr("CSV (*.csv)"));
-    lastSelectedPath = QFileInfo(startListFileName).absoluteDir();
-
-    if (!startListFileName.isEmpty()) {
-        QPair<int, int> count(0, 0);
-        ui->infoDisplay->appendPlainText(tr("Start List File: %1").arg(startListFileName));
-        try {
-            count = CRLoader::loadStartList(startListFileName);
-            ui->infoDisplay->appendPlainText(tr("Loaded: %n competitor(s)", "", count.first));
-            ui->infoDisplay->appendPlainText(tr("Loaded: %n team(s)", "", count.second));
-        } catch (ChronoRaceException& e) {
-            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
-        }
-        set_counterCompetitors(count.first);
-        set_counterTeams(count.second);
-        //enable_makeRankings();
-    }
+void LBChronoRace::on_makeRankingsText_clicked()
+{
+    makeRankings(CRLoader::TEXT);
 }
 
-void LBChronoRace::on_loadCategories_clicked() {
-    categoriesFileName = QFileDialog::getOpenFileName(this,
-        tr("Select Categories File"), lastSelectedPath.filePath(QFileInfo(categoriesFileName).baseName()), tr("CSV (*.csv)"));
-    lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
-
-    if (!categoriesFileName.isEmpty()) {
-        int count = 0;
-        ui->infoDisplay->appendPlainText(tr("Categories File: %1").arg(categoriesFileName));
-        try {
-            count = CRLoader::loadCategories(categoriesFileName);
-            ui->infoDisplay->appendPlainText(tr("Loaded: %n category(es)", "", count));
-        } catch (ChronoRaceException& e) {
-            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
-        }
-        set_counterCategories(count);
-        //enable_makeRankings();
-    }
+void LBChronoRace::on_makeRankingsCSV_clicked()
+{
+    makeRankings(CRLoader::CSV);
 }
 
-void LBChronoRace::on_loadTimings_clicked() {
-    timingsFileName = QFileDialog::getOpenFileName(this,
-        tr("Select Timings File"), lastSelectedPath.filePath(QFileInfo(timingsFileName).baseName()), tr("CSV (*.csv)"));
-    lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
-
-    if (!timingsFileName.isEmpty()) {
-        int count = 0;
-        ui->infoDisplay->appendPlainText(tr("Timings File: %1").arg(timingsFileName));
-        try {
-            count = CRLoader::loadTimings(timingsFileName);
-            ui->infoDisplay->appendPlainText(tr("Loaded: %n timing(s)", "", count));
-        } catch (ChronoRaceException& e) {
-            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
-        }
-        set_counterTimings(count);
-        //enable_makeRankings();
-    }
+void LBChronoRace::on_makeRankingsPDF_clicked()
+{
+    makeRankings(CRLoader::PDF);
 }
 
-void LBChronoRace::on_makeRankings_clicked() {
+void LBChronoRace::makeRankings(CRLoader::Format format)
+{
 
     try {
         // Compute the classifications
@@ -123,6 +94,16 @@ void LBChronoRace::on_makeRankings_clicked() {
         QVector<Category>& rankings = CRLoader::getCategories(messages);
 
         uint bib, leg, i, bWidth, sWidth, rWidth, k;
+
+        switch (format) {
+            case CRLoader::TEXT:
+            case CRLoader::CSV:
+            case CRLoader::PDF:
+                break;
+            default:
+                throw(ChronoRaceException(tr("Error: unknown rankings format %1").arg(format)));
+                break;
+        }
 
         for (auto message : messages)
             ui->infoDisplay->appendPlainText(tr("Warning: %1").arg(message));
@@ -205,6 +186,7 @@ void LBChronoRace::on_makeRankings_clicked() {
                 k++;
 
                 if (ranking.isTeam()) {
+                    // Team ranking
 
                     QMap<QString, TeamClassEntry> teamRankingByTeam;
                     for (auto classEntry : rankingByTime) {
@@ -257,8 +239,18 @@ void LBChronoRace::on_makeRankings_clicked() {
                     }
 
                     // print the ranking
-                    bool plainText = (CRLoader::getFormat() == CRLoader::TEXT);
-                    QString outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.%3").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()).arg((plainText ? "txt" : "csv")));
+                    QString outFileName;
+                    switch (format) {
+                        case CRLoader::TEXT:
+                            outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.txt").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()));
+                            break;
+                        case CRLoader::CSV:
+                            outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.csv").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()));
+                            break;
+                        case CRLoader::PDF:
+                            outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.pdf").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()));
+                            break;
+                    }
                     QFile outFile(outFileName);
                     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
                         throw(ChronoRaceException(QString("Error: cannot open %1").arg(outFileName)));
@@ -277,58 +269,67 @@ void LBChronoRace::on_makeRankings_clicked() {
                             break;
                     }
 
-                    if (plainText) {
-
-                        outStream << ranking.getFullDescription() << Qt::endl;
-                        i = 0;
-                        for (auto teamRanking : sortedTeamRanking) {
-                            for (int j = 0; j < teamRanking->getClassEntryCount(); j++) {
-                                if (j == 0) {
-                                    outStream.setFieldWidth(sWidth);
+                    switch (format) {
+                        case CRLoader::TEXT:
+                            outStream << raceInfo << Qt::endl; // add header
+                            outStream << ranking.getFullDescription() << Qt::endl;
+                            i = 0;
+                            for (auto teamRanking : sortedTeamRanking) {
+                                for (int j = 0; j < teamRanking->getClassEntryCount(); j++) {
+                                    if (j == 0) {
+                                        outStream.setFieldWidth(sWidth);
+                                        outStream.setFieldAlignment(QTextStream::AlignRight);
+                                        outStream << ++i;
+                                        outStream.setFieldWidth(0);
+                                        outStream << " - ";
+                                    } else {
+                                        outStream.setFieldWidth(sWidth + 3);
+                                        outStream << "";
+                                    }
+                                    outStream.setFieldWidth(bWidth);
                                     outStream.setFieldAlignment(QTextStream::AlignRight);
-                                    outStream << ++i;
+                                    outStream << teamRanking->getClassEntry(j)->getBib();
                                     outStream.setFieldWidth(0);
                                     outStream << " - ";
-                                } else {
-                                    outStream.setFieldWidth(sWidth + 3);
-                                    outStream << "";
+                                    outStream << teamRanking->getClassEntry(j)->getNamesTxt();
+                                    outStream << " - ";
+                                    if (CRLoader::getStartListLegs() > 1)
+                                        outStream << teamRanking->getClassEntry(j)->getTimesTxt(sWidth) << " - ";
+                                    outStream << teamRanking->getClassEntry(j)->getTotalTimeTxt() << Qt::endl;
                                 }
-                                outStream.setFieldWidth(bWidth);
-                                outStream.setFieldAlignment(QTextStream::AlignRight);
-                                outStream << teamRanking->getClassEntry(j)->getBib();
-                                outStream.setFieldWidth(0);
-                                outStream << " - ";
-                                outStream << teamRanking->getClassEntry(j)->getNamesTxt();
-                                outStream << " - ";
-                                if (CRLoader::getStartListLegs() > 1)
-                                    outStream << teamRanking->getClassEntry(j)->getTimesTxt(sWidth) << " - ";
-                                outStream << teamRanking->getClassEntry(j)->getTotalTimeTxt() << Qt::endl;
+                                outStream << Qt::endl;
                             }
                             outStream << Qt::endl;
-                        }
-                        outStream << Qt::endl;
-                    } else {
-                        outStream << ranking.getShortDescription() << Qt::endl;
-                        i = 0;
-                        for (auto teamRanking : sortedTeamRanking) {
-                            i++;
-                            for (int j = 0; j < teamRanking->getClassEntryCount(); j++) {
-                                outStream << i << ",";
-                                outStream << teamRanking->getClassEntry(j)->getBib() << ",";
-                                outStream << teamRanking->getClassEntry(j)->getNamesCSV() << ",";
-                                if (CRLoader::getStartListLegs() > 1)
-                                    outStream << teamRanking->getClassEntry(j)->getTimesCSV() << ",";
-                                outStream << teamRanking->getClassEntry(j)->getTotalTimeCSV() << Qt::endl;
+                            break;
+                        case CRLoader::CSV:
+                            outStream << ranking.getShortDescription() << Qt::endl;
+                            i = 0;
+                            for (auto teamRanking : sortedTeamRanking) {
+                                i++;
+                                for (int j = 0; j < teamRanking->getClassEntryCount(); j++) {
+                                    outStream << i << ",";
+                                    outStream << teamRanking->getClassEntry(j)->getBib() << ",";
+                                    outStream << teamRanking->getClassEntry(j)->getNamesCSV() << ",";
+                                    if (CRLoader::getStartListLegs() > 1)
+                                        outStream << teamRanking->getClassEntry(j)->getTimesCSV() << ",";
+                                    outStream << teamRanking->getClassEntry(j)->getTotalTimeCSV() << Qt::endl;
+                                }
                             }
-                        }
-                        outStream << Qt::endl;
+                            outStream << Qt::endl;
+                            break;
+                        case CRLoader::PDF:
+                            ui->infoDisplay->appendPlainText(tr("PDF format still not supported"));
+                            break;
                     }
+
                     ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(ranking.getFullDescription()).arg(outFileInfo.absoluteFilePath()));
 
                     outStream.flush();
                     outFile.close();
 
                 } else {
+                    // Individual ranking
+
                     QList<ClassEntry*> individualRanking;
                     for (auto classEntry : rankingByTime) {
 
@@ -366,8 +367,18 @@ void LBChronoRace::on_makeRankings_clicked() {
                     }
 
                     // print the ranking
-                    bool plainText = (CRLoader::getFormat() == CRLoader::TEXT);
-                    QString outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.%3").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()).arg((plainText ? "txt" : "csv")));
+                    QString outFileName;
+                    switch (format) {
+                        case CRLoader::TEXT:
+                            outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.txt").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()));
+                            break;
+                        case CRLoader::CSV:
+                            outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.csv").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()));
+                            break;
+                        case CRLoader::PDF:
+                            outFileName = QDir(rankingsBasePath).filePath(QString("class%1_%2.pdf").arg(k, rWidth, 10, QLatin1Char('0')).arg(ranking.getShortDescription()));
+                            break;
+                    }
                     QFile outFile(outFileName);
                     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
                         throw(ChronoRaceException(tr("Error: cannot open %1").arg(outFileName)));
@@ -386,40 +397,47 @@ void LBChronoRace::on_makeRankings_clicked() {
                             break;
                     }
 
-                    if (plainText) {
-
-                        outStream << ranking.getFullDescription() << Qt::endl;
-                        i = 1;
-                        for (auto c : individualRanking) {
-                            outStream.setFieldWidth(sWidth);
-                            outStream.setFieldAlignment(QTextStream::AlignRight);
-                            outStream << i++;
-                            outStream.setFieldWidth(0);
-                            outStream << " - ";
-                            outStream.setFieldWidth(bWidth);
-                            outStream.setFieldAlignment(QTextStream::AlignRight);
-                            outStream << c->getBib();
-                            outStream.setFieldWidth(0);
-                            outStream << " - ";
-                            outStream << c->getNamesTxt();
-                            outStream << " - ";
-                            if (CRLoader::getStartListLegs() > 1)
-                                outStream << c->getTimesTxt(sWidth) << " - ";
-                            outStream << c->getTotalTimeTxt() << Qt::endl;
-                        }
-                        outStream << Qt::endl;
-                    } else {
-                        i = 1;
-                        for (auto c : individualRanking) {
-                            outStream << i++ << ",";
-                            outStream << c->getBib() << ",";
-                            outStream << c->getNamesCSV() << ",";
-                            if (CRLoader::getStartListLegs() > 1)
-                                outStream << c->getTimesCSV() << ",";
-                            outStream << c->getTotalTimeTxt() << Qt::endl;
-                        }
-                        outStream << Qt::endl;
+                    switch (format) {
+                        case CRLoader::TEXT:
+                            outStream << raceInfo << Qt::endl; // add header
+                            outStream << ranking.getFullDescription() << Qt::endl;
+                            i = 1;
+                            for (auto c : individualRanking) {
+                                outStream.setFieldWidth(sWidth);
+                                outStream.setFieldAlignment(QTextStream::AlignRight);
+                                outStream << i++;
+                                outStream.setFieldWidth(0);
+                                outStream << " - ";
+                                outStream.setFieldWidth(bWidth);
+                                outStream.setFieldAlignment(QTextStream::AlignRight);
+                                outStream << c->getBib();
+                                outStream.setFieldWidth(0);
+                                outStream << " - ";
+                                outStream << c->getNamesTxt();
+                                outStream << " - ";
+                                if (CRLoader::getStartListLegs() > 1)
+                                    outStream << c->getTimesTxt(sWidth) << " - ";
+                                outStream << c->getTotalTimeTxt() << Qt::endl;
+                            }
+                            outStream << Qt::endl;
+                            break;
+                        case CRLoader::CSV:
+                            i = 1;
+                            for (auto c : individualRanking) {
+                                outStream << i++ << ",";
+                                outStream << c->getBib() << ",";
+                                outStream << c->getNamesCSV() << ",";
+                                if (CRLoader::getStartListLegs() > 1)
+                                    outStream << c->getTimesCSV() << ",";
+                                outStream << c->getTotalTimeTxt() << Qt::endl;
+                            }
+                            outStream << Qt::endl;
+                            break;
+                        case CRLoader::PDF:
+                            ui->infoDisplay->appendPlainText(tr("PDF format still not supported"));
+                            break;
                     }
+
                     ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(ranking.getFullDescription()).arg(outFileInfo.absoluteFilePath()));
 
                     outStream.flush();
@@ -433,97 +451,299 @@ void LBChronoRace::on_makeRankings_clicked() {
 
 }
 
-void LBChronoRace::set_counterTeams(int count) {
+void LBChronoRace::setCounterTeams(int count)
+{
     ui->counterTeams->display(count);
 }
 
-void LBChronoRace::set_counterCompetitors(int count) {
+void LBChronoRace::setCounterCompetitors(int count)
+{
     ui->counterCompetitors->display(count);
 }
 
-void LBChronoRace::set_counterCategories(int count) {
+void LBChronoRace::setCounterCategories(int count)
+{
     ui->counterCategories->display(count);
 }
 
-void LBChronoRace::set_counterTimings(int count) {
+void LBChronoRace::setCounterTimings(int count)
+{
     ui->counterTimings->display(count);
 }
 
-void LBChronoRace::save_startList() {
-    try {
-        CRLoader::saveStartList(startListFileName);
-        ui->infoDisplay->appendPlainText(tr("Start List File saved: %1").arg(startListFileName));
-    }  catch (ChronoRaceException& e) {
-        ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+void LBChronoRace::importStartList()
+{
+    startListFileName = QFileDialog::getOpenFileName(this,
+        tr("Select Start List"), lastSelectedPath.filePath(QFileInfo(startListFileName).baseName()), tr("CSV (*.csv)"));
+    lastSelectedPath = QFileInfo(startListFileName).absoluteDir();
+
+    if (!startListFileName.isEmpty()) {
+        QPair<int, int> count(0, 0);
+        ui->infoDisplay->appendPlainText(tr("Start List File: %1").arg(startListFileName));
+        try {
+            count = CRLoader::importStartList(startListFileName);
+            ui->infoDisplay->appendPlainText(tr("Loaded: %n competitor(s)", "", count.first));
+            ui->infoDisplay->appendPlainText(tr("Loaded: %n team(s)", "", count.second));
+        } catch (ChronoRaceException& e) {
+            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+        }
+        setCounterCompetitors(count.first);
+        setCounterTeams(count.second);
+        //enable_makeRankings();
     }
 }
 
-void LBChronoRace::save_teamList() {
-    teamsFileName = lastSelectedPath.filePath(QFileInfo(teamsFileName).baseName());
-    try {
-        CRLoader::saveTeams(teamsFileName);
-        ui->infoDisplay->appendPlainText(tr("Teams File saved: %1").arg(teamsFileName));
-    }  catch (ChronoRaceException& e) {
-        ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+void LBChronoRace::importCategoriesList()
+{
+    categoriesFileName = QFileDialog::getOpenFileName(this,
+        tr("Select Categories File"), lastSelectedPath.filePath(QFileInfo(categoriesFileName).baseName()), tr("CSV (*.csv)"));
+    lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
+
+    if (!categoriesFileName.isEmpty()) {
+        int count = 0;
+        ui->infoDisplay->appendPlainText(tr("Categories File: %1").arg(categoriesFileName));
+        try {
+            count = CRLoader::importCategories(categoriesFileName);
+            ui->infoDisplay->appendPlainText(tr("Loaded: %n category(es)", "", count));
+        } catch (ChronoRaceException& e) {
+            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+        }
+        setCounterCategories(count);
+        //enable_makeRankings();
     }
 }
 
-void LBChronoRace::save_categoriesList() {
-    try {
-        CRLoader::saveCategories(categoriesFileName);
-        ui->infoDisplay->appendPlainText(tr("Categories File saved: %1").arg(categoriesFileName));
-    }  catch (ChronoRaceException& e) {
-        ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+void LBChronoRace::importTimingsList()
+{
+    timingsFileName = QFileDialog::getOpenFileName(this,
+        tr("Select Timings File"), lastSelectedPath.filePath(QFileInfo(timingsFileName).baseName()), tr("CSV (*.csv)"));
+    lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
+
+    if (!timingsFileName.isEmpty()) {
+        int count = 0;
+        ui->infoDisplay->appendPlainText(tr("Timings File: %1").arg(timingsFileName));
+        try {
+            count = CRLoader::importTimings(timingsFileName);
+            ui->infoDisplay->appendPlainText(tr("Loaded: %n timing(s)", "", count));
+        } catch (ChronoRaceException& e) {
+            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+        }
+        setCounterTimings(count);
+        //enable_makeRankings();
     }
 }
 
-void LBChronoRace::save_timingsList() {
-    try {
-        CRLoader::saveTimings(timingsFileName);
-        ui->infoDisplay->appendPlainText(tr("Timings File saved: %1").arg(timingsFileName));
-    }  catch (ChronoRaceException& e) {
-        ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+void LBChronoRace::exportStartList()
+{
+    startListFileName = QFileDialog::getSaveFileName(this,
+        tr("Select Start List"), lastSelectedPath.filePath(QFileInfo(startListFileName).baseName()), tr("CSV (*.csv)"));
+    lastSelectedPath = QFileInfo(startListFileName).absoluteDir();
+
+    if (!startListFileName.isEmpty()) {
+        try {
+            CRLoader::exportStartList(startListFileName);
+            ui->infoDisplay->appendPlainText(tr("Start List File saved: %1").arg(startListFileName));
+        }  catch (ChronoRaceException& e) {
+            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+        }
     }
 }
 
-//void LBChronoRace::enable_makeRankings() {
+void LBChronoRace::exportTeamList()
+{
+    teamsFileName = QFileDialog::getSaveFileName(this,
+        tr("Select Teams List"), lastSelectedPath.filePath(QFileInfo(teamsFileName).baseName()), tr("CSV (*.csv)"));
+    lastSelectedPath = QFileInfo(teamsFileName).absoluteDir();
+
+    if (!teamsFileName.isEmpty()) {
+        try {
+            CRLoader::exportTeams(teamsFileName);
+            ui->infoDisplay->appendPlainText(tr("Teams File saved: %1").arg(teamsFileName));
+        }  catch (ChronoRaceException& e) {
+            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+        }
+    }
+}
+
+void LBChronoRace::exportCategoriesList()
+{
+    categoriesFileName = QFileDialog::getSaveFileName(this,
+        tr("Select Categories File"), lastSelectedPath.filePath(QFileInfo(categoriesFileName).baseName()), tr("CSV (*.csv)"));
+    lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
+
+    if (!categoriesFileName.isEmpty()) {
+        try {
+            CRLoader::exportCategories(categoriesFileName);
+            ui->infoDisplay->appendPlainText(tr("Categories File saved: %1").arg(categoriesFileName));
+        }  catch (ChronoRaceException& e) {
+            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+        }
+    }
+}
+
+void LBChronoRace::exportTimingsList()
+{
+    timingsFileName = QFileDialog::getSaveFileName(this,
+        tr("Select Timings File"), lastSelectedPath.filePath(QFileInfo(timingsFileName).baseName()), tr("CSV (*.csv)"));
+    lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
+
+    if (!timingsFileName.isEmpty()) {
+        try {
+            CRLoader::exportTimings(timingsFileName);
+            ui->infoDisplay->appendPlainText(tr("Timings File saved: %1").arg(timingsFileName));
+        }  catch (ChronoRaceException& e) {
+            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+        }
+    }
+}
+
+//void LBChronoRace::enable_makeRankings()
+//{
 //    ui->makeRankings->setEnabled(ui->clearCategories->isEnabled() && ui->clearStartList->isEnabled() && ui->clearTimings->isEnabled());
 //}
 
+void LBChronoRace::on_actionLoadRace_triggered()
+{
+    raceDataFileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Select Race Data File"), "",
+                                                    tr("ChronoRace Data (*.crd)"));
+    if (!raceDataFileName.isEmpty()) {
+        QFile raceDataFile(raceDataFileName);
 
-void LBChronoRace::on_actionQuit_triggered() {
+        if (!raceDataFile.open(QIODevice::ReadOnly)) {
+            QMessageBox::information(this, tr("Unable to open file"), raceDataFile.errorString());
+        } else {
+            quint32 binFmt;
+
+            QDataStream in(&raceDataFile);
+            in.setVersion(QDataStream::Qt_5_15);
+            in >> binFmt;
+
+            switch (binFmt) {
+                case LBCHRONORACE_BIN_FMT_v1: {
+                    QAbstractTableModel *table;
+                    qint32 encodingIdx;
+
+                    in >> encodingIdx;
+                    ui->selectorEncoding->setCurrentIndex(encodingIdx);
+                    on_selectorEncoding_activated(ui->selectorEncoding->currentText());
+                    in >> raceInfo;
+                    CRLoader::loadRaceData(in);
+
+                    // Create the FileInfo
+                    QFileInfo raceDataFileInfo(raceDataFileName);
+
+                    // now get the fileName
+                    QString newTitle(tr(LBCHRONORACE_NAME) + " - " + raceDataFileInfo.fileName());
+
+                    // Set the Title to the fileName
+                    setWindowTitle(newTitle);
+
+                    table = CRLoader::getStartListModel();
+                    setCounterCompetitors(table->rowCount());
+                    table = CRLoader::getTeamsListModel();
+                    setCounterTeams(table->rowCount());
+                    table = CRLoader::getCategoriesModel();
+                    setCounterCategories(table->rowCount());
+                    table = CRLoader::getTimingsModel();
+                    setCounterTimings(table->rowCount());
+                }
+                break;
+                default:
+                    QMessageBox::information(this, tr("Race Data File Error"), tr("Format version %1 not supported").arg(binFmt));
+                break;
+            }
+        }
+    }
+}
+
+void LBChronoRace::on_actionSaveRace_triggered()
+{
+    if (raceDataFileName.isEmpty()) {
+        raceDataFileName = QFileDialog::getSaveFileName(this,
+                                                        tr("Select Race Data File"), "",
+                                                        tr("ChronoRace Data (*.crd)"));
+
+        if (!raceDataFileName.endsWith(".crd", Qt::CaseInsensitive))
+            raceDataFileName.append(".crd");
+    }
+
+    if (!raceDataFileName.isEmpty()) {
+        QFile raceDataFile(raceDataFileName);
+        if (!raceDataFile.open(QIODevice::WriteOnly)) {
+            QMessageBox::information(this, tr("Unable to open file"), raceDataFile.errorString());
+        } else {
+            QDataStream out(&raceDataFile);
+            out.setVersion(QDataStream::Qt_5_15);
+            out << quint32(LBCHRONORACE_BIN_FMT)
+                << qint32(ui->selectorEncoding->currentIndex())
+                << raceInfo;
+            CRLoader::saveRaceData(out);
+        }
+
+    }
+}
+
+void LBChronoRace::on_actionSaveRaceAs_triggered()
+{
+    raceDataFileName.clear();
+    on_actionSaveRace_triggered();
+}
+
+void LBChronoRace::on_actionQuit_triggered()
+{
     QApplication::quit();
 }
 
-void LBChronoRace::on_actionStartListView_triggered() {
+void LBChronoRace::on_actionEditRace_triggered()
+{
+    raceInfo.show();
+}
+
+void LBChronoRace::on_actionEditStartList_triggered()
+{
     startListTable.show();
 }
 
-void LBChronoRace::on_actionTeamsView_triggered() {
+void LBChronoRace::on_actionEditTeams_triggered()
+{
     teamsTable.show();
 }
 
-void LBChronoRace::on_actionCategoriesView_triggered() {
+void LBChronoRace::on_actionEditCategories_triggered()
+{
     categoriesTable.show();
 }
 
-void LBChronoRace::on_actionTimingsView_triggered() {
+void LBChronoRace::on_actionEditTimings_triggered()
+{
     timingsTable.show();
 }
 
-void LBChronoRace::show() {
+void LBChronoRace::show()
+{
     ui->retranslateUi(this);
     QWidget::show();
 }
 
-void LBChronoRace::on_actionSave_triggered() {
-    save_startList();
-    save_teamList();
-    save_timingsList();
-    save_categoriesList();
+void LBChronoRace::resizeDialogs(QScreen *screen)
+{
+    QRect screenGeometry = screen->geometry();
+    bool hiRes = (screenGeometry.width() > LBCHRONORACE_HIRES_WIDTH) && (screenGeometry.height() > LBCHRONORACE_HIRES_HEIGHT);
+
+    //qDebug("%s(): %i x %i", __FUNCTION__, screenGeometry.width(), screenGeometry.height());
+
+    QSize size(hiRes ? LBCHRONORACE_HIRES_WIDTH : LBCHRONORACE_LOWRES_WIDTH, hiRes ?LBCHRONORACE_HIRES_HEIGHT : LBCHRONORACE_LOWRES_HEIGHT);
+    this->setMinimumSize(size);
+    raceInfo.setMinimumSize(size);
+    startListTable.setMinimumSize(size);
+    teamsTable.setMinimumSize(size);
+    categoriesTable.setMinimumSize(size);
+    timingsTable.setMinimumSize(size);
 }
 
-void LBChronoRace::on_selectorEncoding_activated(const QString &arg1) {
+void LBChronoRace::on_selectorEncoding_activated(const QString &arg1)
+{
     if (arg1.compare(tr("UTF-8"), Qt::CaseInsensitive) == 0) {
         CRLoader::setEncoding(CRLoader::UTF8);
     } else {
@@ -532,35 +752,47 @@ void LBChronoRace::on_selectorEncoding_activated(const QString &arg1) {
     ui->infoDisplay->appendPlainText(tr("Selected encoding: %1").arg(arg1));
 }
 
-void LBChronoRace::on_selectorFormat_activated(const QString &arg1) {
-    if (arg1.compare(tr("Plain Text"), Qt::CaseInsensitive) == 0) {
-        CRLoader::setFormat(CRLoader::TEXT);
-    } else {
-        CRLoader::setFormat(CRLoader::CSV);
-    }
-    ui->infoDisplay->appendPlainText(tr("Output mode: %1").arg(arg1));
+void LBChronoRace::on_loadRace_clicked()
+{
+    on_actionLoadRace_triggered();
 }
 
-void LBChronoRace::on_viewStartList_clicked() {
-    on_actionStartListView_triggered();
+void LBChronoRace::on_saveRace_clicked()
+{
+    on_actionSaveRace_triggered();
 }
 
-void LBChronoRace::on_viewTeamsList_clicked() {
-    on_actionTeamsView_triggered();
+void LBChronoRace::on_editRace_clicked()
+{
+    on_actionEditRace_triggered();
 }
 
-void LBChronoRace::on_viewCategories_clicked() {
-    on_actionCategoriesView_triggered();
+void LBChronoRace::on_editStartList_clicked()
+{
+    on_actionEditStartList_triggered();
 }
 
-void LBChronoRace::on_viewTimings_clicked() {
-    on_actionTimingsView_triggered();
+void LBChronoRace::on_editTeamsList_clicked()
+{
+    on_actionEditTeams_triggered();
 }
 
-void LBChronoRace::on_actionAbout_triggered() {
+void LBChronoRace::on_editCategories_clicked()
+{
+    on_actionEditCategories_triggered();
+}
+
+void LBChronoRace::on_editTimings_clicked()
+{
+    on_actionEditTimings_triggered();
+}
+
+void LBChronoRace::on_actionAbout_triggered()
+{
     QMessageBox::about(this, tr("Informations"), tr("\n%1\n\nAuthor: Lorenzo Buzzi (lorenzo.buzzi@gmail.com)\n\nVersion: %2\n").arg(LBCHRONORACE_NAME).arg(LBCHRONORACE_VERSION));
 }
 
-void LBChronoRace::on_actionAboutQt_triggered() {
+void LBChronoRace::on_actionAboutQt_triggered()
+{
     QMessageBox::aboutQt(this, tr("About &Qt"));
 }

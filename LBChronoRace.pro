@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 RC_ICONS = LBChronoRace.ico
 
 SOURCES += \
+    chronoracedata.cpp \
     main.cpp \
     timing.cpp \
     classentry.cpp \
@@ -41,6 +42,7 @@ SOURCES += \
     crloader.cpp
 
 HEADERS += \
+    chronoracedata.h \
     timing.h \
     classentry.h \
     competitor.h \
@@ -57,6 +59,7 @@ HEADERS += \
 
 FORMS += \
     chronorace.ui \
+    chronoracedata.ui \
     chronoracetable.ui
 
 TRANSLATIONS += \

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QAbstractTableModel>
+#include <QDataStream>
 
 #include "competitor.h"
 
@@ -15,6 +16,9 @@ public:
         : QAbstractTableModel(parent), startList() {}
     StartListModel(const QList<Competitor>& startList, QObject *parent = nullptr)
         : QAbstractTableModel(parent), startList(startList) {}
+
+    friend QDataStream &operator<<(QDataStream &out, const StartListModel &data);
+    friend QDataStream &operator>>(QDataStream &in, StartListModel &data);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;

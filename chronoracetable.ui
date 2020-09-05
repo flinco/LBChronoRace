@@ -64,14 +64,21 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="modelSave">
+        <widget class="QPushButton" name="modelImport">
          <property name="text">
-          <string>Save</string>
+          <string>Import</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="modelQuit">
+        <widget class="QPushButton" name="modelExport">
+         <property name="text">
+          <string>Export</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="dialogQuit">
          <property name="text">
           <string>Quit</string>
          </property>

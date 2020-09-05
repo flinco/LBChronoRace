@@ -2,6 +2,7 @@
 #define CATEGORY_H
 
 #include <QCoreApplication>
+#include <QDataStream>
 
 #include "competitor.h"
 
@@ -38,6 +39,10 @@ private:
 public:
     Category();
     Category(const QString& team);
+
+    friend QDataStream &operator<<(QDataStream &out, const Category &category);
+    friend QDataStream &operator>>(QDataStream &in, Category &category);
+
     bool isTeam() const;
     void setTeam(bool team);
     uint getFromYear() const;

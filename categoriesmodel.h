@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QAbstractTableModel>
+#include <QDataStream>
 
 #include "category.h"
 
@@ -15,6 +16,9 @@ public:
         : QAbstractTableModel(parent), categories() {}
     CategoriesModel(const QList<Category>& categoriesList, QObject *parent = nullptr)
         : QAbstractTableModel(parent), categories(categoriesList) {}
+
+    friend QDataStream &operator<<(QDataStream &out, const CategoriesModel &data);
+    friend QDataStream &operator>>(QDataStream &in, CategoriesModel &data);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;

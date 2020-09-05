@@ -2,21 +2,38 @@
 
 #include "teamslistmodel.h"
 
-int TeamsListModel::rowCount(const QModelIndex &parent) const {
+QDataStream &operator<<(QDataStream &out, const TeamsListModel &data)
+{
+    out << data.teamsList;
+
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, TeamsListModel &data)
+{
+    in >> data.teamsList;
+
+    return in;
+}
+
+int TeamsListModel::rowCount(const QModelIndex &parent) const
+{
 
     Q_UNUSED(parent);
 
     return teamsList.size();
 }
 
-int TeamsListModel::columnCount(const QModelIndex &parent) const {
+int TeamsListModel::columnCount(const QModelIndex &parent) const
+{
 
     Q_UNUSED(parent);
 
     return 1;
 }
 
-QVariant TeamsListModel::data(const QModelIndex &index, int role) const {
+QVariant TeamsListModel::data(const QModelIndex &index, int role) const
+{
 
     if (!index.isValid())
         return QVariant();
@@ -33,7 +50,8 @@ QVariant TeamsListModel::data(const QModelIndex &index, int role) const {
 }
 
 
-QVariant TeamsListModel::headerData(int section, Qt::Orientation orientation, int role) const {
+QVariant TeamsListModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
 
     if (role != Qt::DisplayRole)
         return QVariant();
@@ -44,7 +62,8 @@ QVariant TeamsListModel::headerData(int section, Qt::Orientation orientation, in
         return QString("%1").arg(section + 1);
 }
 
-bool TeamsListModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+bool TeamsListModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
 
     if (index.isValid() && role == Qt::EditRole) {
 
@@ -55,14 +74,16 @@ bool TeamsListModel::setData(const QModelIndex &index, const QVariant &value, in
     return false;
 }
 
-Qt::ItemFlags TeamsListModel::flags(const QModelIndex &index) const {
+Qt::ItemFlags TeamsListModel::flags(const QModelIndex &index) const
+{
     if (!index.isValid())
         return Qt::ItemIsEnabled;
 
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool TeamsListModel::insertRows(int position, int rows, const QModelIndex &parent) {
+bool TeamsListModel::insertRows(int position, int rows, const QModelIndex &parent)
+{
 
     Q_UNUSED(parent);
 
@@ -76,7 +97,8 @@ bool TeamsListModel::insertRows(int position, int rows, const QModelIndex &paren
     return true;
 }
 
-bool TeamsListModel::removeRows(int position, int rows, const QModelIndex &parent) {
+bool TeamsListModel::removeRows(int position, int rows, const QModelIndex &parent)
+{
 
     Q_UNUSED(parent);
 
@@ -90,7 +112,8 @@ bool TeamsListModel::removeRows(int position, int rows, const QModelIndex &paren
     return true;
 }
 
-void TeamsListModel::sort(int column, Qt::SortOrder order) {
+void TeamsListModel::sort(int column, Qt::SortOrder order)
+{
 
     if (column == 0) {
         std::stable_sort(teamsList.begin(), teamsList.end());
@@ -105,7 +128,8 @@ void TeamsListModel::reset() {
     endResetModel();
 }
 
-void TeamsListModel::addTeam(const QString& team) {
+void TeamsListModel::addTeam(const QString& team)
+{
 
     if (!team.isEmpty() && !teamsList.contains(team)) {
         int rowCount = this->rowCount();

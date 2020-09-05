@@ -28,7 +28,10 @@ int main(int argc, char *argv[])
     //app.setStyle(QStyleFactory::create("WindowsVista"));
 #endif
 
-    LBChronoRace w;
+    if (!app.testAttribute(Qt::AA_EnableHighDpiScaling))
+        app.setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    LBChronoRace w(nullptr, &app);
     w.show();
     return app.exec();
 }

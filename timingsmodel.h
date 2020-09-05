@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QAbstractTableModel>
+#include <QDataStream>
 
 #include "timing.h"
 
@@ -15,6 +16,9 @@ public:
         : QAbstractTableModel(parent), timings() {}
     TimingsModel(const QList<Timing>& timingsList, QObject *parent = 0)
         : QAbstractTableModel(parent), timings(timingsList) {}
+
+    friend QDataStream &operator<<(QDataStream &out, const TimingsModel &data);
+    friend QDataStream &operator>>(QDataStream &in, TimingsModel &data);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;

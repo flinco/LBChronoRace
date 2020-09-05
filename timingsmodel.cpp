@@ -3,21 +3,38 @@
 #include "timingsmodel.h"
 #include "lbcrexception.h"
 
-int TimingsModel::rowCount(const QModelIndex &parent) const {
+QDataStream &operator<<(QDataStream &out, const TimingsModel &data)
+{
+    out << data.timings;
+
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, TimingsModel &data)
+{
+    in >> data.timings;
+
+    return in;
+}
+
+int TimingsModel::rowCount(const QModelIndex &parent) const
+{
 
     Q_UNUSED(parent);
 
     return timings.count();
 }
 
-int TimingsModel::columnCount(const QModelIndex &parent) const {
+int TimingsModel::columnCount(const QModelIndex &parent) const
+{
 
     Q_UNUSED(parent);
 
     return Timing::TMF_COUNT;
 }
 
-QVariant TimingsModel::data(const QModelIndex &index, int role) const {
+QVariant TimingsModel::data(const QModelIndex &index, int role) const
+{
     if (!index.isValid())
         return QVariant();
 
@@ -50,7 +67,8 @@ QVariant TimingsModel::data(const QModelIndex &index, int role) const {
         return QVariant();
 }
 
-bool TimingsModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+bool TimingsModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
 
     bool retval = false;
     if (index.isValid() && role == Qt::EditRole) {
@@ -86,7 +104,8 @@ bool TimingsModel::setData(const QModelIndex &index, const QVariant &value, int 
     return retval;
 }
 
-QVariant TimingsModel::headerData(int section, Qt::Orientation orientation, int role) const {
+QVariant TimingsModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
     if (role != Qt::DisplayRole)
         return QVariant();
 
@@ -105,7 +124,8 @@ QVariant TimingsModel::headerData(int section, Qt::Orientation orientation, int 
         return QString("%1").arg(section + 1);
 }
 
-Qt::ItemFlags TimingsModel::flags(const QModelIndex &index) const {
+Qt::ItemFlags TimingsModel::flags(const QModelIndex &index) const
+{
     if (!index.isValid())
         return Qt::ItemIsEnabled;
 
@@ -126,7 +146,8 @@ bool TimingsModel::insertRows(int position, int rows, const QModelIndex &parent)
     return true;
 }
 
-bool TimingsModel::removeRows(int position, int rows, const QModelIndex &parent) {
+bool TimingsModel::removeRows(int position, int rows, const QModelIndex &parent)
+{
 
     Q_UNUSED(parent);
 
@@ -140,7 +161,8 @@ bool TimingsModel::removeRows(int position, int rows, const QModelIndex &parent)
     return true;
 }
 
-void TimingsModel::sort(int column, Qt::SortOrder order) {
+void TimingsModel::sort(int column, Qt::SortOrder order)
+{
 
     TimingSorter::setSortingField((Timing::Field) column);
     TimingSorter::setSortingOrder(order);
