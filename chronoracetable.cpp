@@ -33,6 +33,7 @@ void ChronoRaceTable::disableButtons() {
 }
 
 void ChronoRaceTable::show() {
+    ui->retranslateUi(this);
     ui->tableView->resizeColumnsToContents();
     QDialog::show();
 }

@@ -10,7 +10,7 @@
 #include "chronoracetable.h"
 
 #define LBCHRONORACE_NAME "LBChronoRace"
-#define LBCHRONORACE_VERSION "0.9.2"
+#define LBCHRONORACE_VERSION "0.9.3"
 #define LBCHRONORACE_STARTLIST_DEFAULT    "startlist.csv"
 #define LBCHRONORACE_TEAMLIST_DEFAULT     "teamlist.csv"
 #define LBCHRONORACE_TIMINGS_DEFAULT      "timings.csv"
@@ -27,7 +27,6 @@ class LBChronoRace : public QMainWindow
 public:
     explicit LBChronoRace(QWidget *parent = 0);
     ~LBChronoRace();
-    void retranslateUi();
 
 private slots:
     void on_loadStartList_clicked();
@@ -51,6 +50,8 @@ private slots:
     void on_actionAboutQt_triggered();
 
 public slots:
+    void show();
+
     void on_actionSave_triggered();
 
     void set_counterTeams(int count);

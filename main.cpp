@@ -14,7 +14,6 @@ int main(int argc, char *argv[])
     QTranslator qtTranslator;
     QTranslator lbcrTranslator;
 
-    LBChronoRace w;
     QDir appDir = QDir(QCoreApplication::applicationDirPath());
     QDir translDir = QDir(appDir.path() + QDir::separator() + "translations");
 
@@ -29,7 +28,7 @@ int main(int argc, char *argv[])
     //app.setStyle(QStyleFactory::create("WindowsVista"));
 #endif
 
-    w.retranslateUi();
+    LBChronoRace w;
     w.show();
     return app.exec();
 }

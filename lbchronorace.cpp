@@ -54,10 +54,6 @@ LBChronoRace::~LBChronoRace() {
     delete ui;
 }
 
-void LBChronoRace::retranslateUi() {
-    ui->retranslateUi(this);
-}
-
 void LBChronoRace::on_loadStartList_clicked() {
     startListFileName = QFileDialog::getOpenFileName(this,
         tr("Select Start List"), lastSelectedPath.filePath(QFileInfo(startListFileName).baseName()), tr("CSV (*.csv)"));
@@ -513,6 +509,11 @@ void LBChronoRace::on_actionCategoriesView_triggered() {
 
 void LBChronoRace::on_actionTimingsView_triggered() {
     timingsTable.show();
+}
+
+void LBChronoRace::show() {
+    ui->retranslateUi(this);
+    QWidget::show();
 }
 
 void LBChronoRace::on_actionSave_triggered() {
