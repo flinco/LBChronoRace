@@ -489,7 +489,6 @@ void LBChronoRace::importStartList()
         }
         setCounterCompetitors(count.first);
         setCounterTeams(count.second);
-        //enable_makeRankings();
     }
 }
 
@@ -509,7 +508,6 @@ void LBChronoRace::importCategoriesList()
             ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
         }
         setCounterCategories(count);
-        //enable_makeRankings();
     }
 }
 
@@ -529,7 +527,6 @@ void LBChronoRace::importTimingsList()
             ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
         }
         setCounterTimings(count);
-        //enable_makeRankings();
     }
 }
 
@@ -596,11 +593,6 @@ void LBChronoRace::exportTimingsList()
         }
     }
 }
-
-//void LBChronoRace::enable_makeRankings()
-//{
-//    ui->makeRankings->setEnabled(ui->clearCategories->isEnabled() && ui->clearStartList->isEnabled() && ui->clearTimings->isEnabled());
-//}
 
 void LBChronoRace::on_actionLoadRace_triggered()
 {

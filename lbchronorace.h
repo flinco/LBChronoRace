@@ -107,8 +107,6 @@ private slots:
     void exportTeamList();
     void exportCategoriesList();
     void exportTimingsList();
-
-    //void enable_makeRankings();
 };
 
 #endif // LBCHRONORACE_H
