@@ -10,7 +10,9 @@
 
 int main(int argc, char *argv[])
 {
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
+
     QTranslator qtTranslator;
     QTranslator lbcrTranslator;
 
@@ -27,9 +29,6 @@ int main(int argc, char *argv[])
     app.setStyle(QStyleFactory::create("Fusion"));
     //app.setStyle(QStyleFactory::create("WindowsVista"));
 #endif
-
-    if (!app.testAttribute(Qt::AA_EnableHighDpiScaling))
-        app.setAttribute(Qt::AA_EnableHighDpiScaling);
 
     LBChronoRace w(nullptr, &app);
     w.show();
