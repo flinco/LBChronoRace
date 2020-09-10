@@ -606,7 +606,7 @@ void LBChronoRace::exportTimingsList()
 void LBChronoRace::on_actionLoadRace_triggered()
 {
     raceDataFileName = QFileDialog::getOpenFileName(this, tr("Select Race Data File"),
-        lastSelectedPath.absolutePath(), tr("ChronoRace Data (*.crd)"), Q_NULLPTR, QFileDialog::DontUseNativeDialog);
+        lastSelectedPath.absolutePath(), tr("ChronoRace Data (*.crd)"));
     if (!raceDataFileName.isEmpty()) {
         QFile raceDataFile(raceDataFileName);
         lastSelectedPath = QFileInfo(raceDataFileName).absoluteDir();
