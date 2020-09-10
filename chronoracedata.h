@@ -18,7 +18,7 @@ class ChronoRaceData : public QDialog
     Q_OBJECT
 
 public:
-    explicit ChronoRaceData(QWidget *parent = nullptr);
+    explicit ChronoRaceData(QWidget *parent = Q_NULLPTR);
     ~ChronoRaceData();
 
     friend QDataStream &operator<<(QDataStream &out, const ChronoRaceData &data);

@@ -12,9 +12,9 @@ class StartListModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    StartListModel(QObject *parent = nullptr)
+    StartListModel(QObject *parent = Q_NULLPTR)
         : QAbstractTableModel(parent), startList() {}
-    StartListModel(const QList<Competitor>& startList, QObject *parent = nullptr)
+    StartListModel(const QList<Competitor>& startList, QObject *parent = Q_NULLPTR)
         : QAbstractTableModel(parent), startList(startList) {}
 
     friend QDataStream &operator<<(QDataStream &out, const StartListModel &data);

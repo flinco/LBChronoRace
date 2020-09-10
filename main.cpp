@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     //app.setStyle(QStyleFactory::create("WindowsVista"));
 #endif
 
-    LBChronoRace w(nullptr, &app);
+    LBChronoRace w(Q_NULLPTR, &app);
     w.show();
     return app.exec();
 }

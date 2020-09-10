@@ -12,9 +12,9 @@ class CategoriesModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    CategoriesModel(QObject *parent = nullptr)
+    CategoriesModel(QObject *parent = Q_NULLPTR)
         : QAbstractTableModel(parent), categories() {}
-    CategoriesModel(const QList<Category>& categoriesList, QObject *parent = nullptr)
+    CategoriesModel(const QList<Category>& categoriesList, QObject *parent = Q_NULLPTR)
         : QAbstractTableModel(parent), categories(categoriesList) {}
 
     friend QDataStream &operator<<(QDataStream &out, const CategoriesModel &data);

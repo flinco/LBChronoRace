@@ -59,7 +59,7 @@ const QString ClassEntry::getNamesTxt() const
     bool destroy = false;
     uint i = 0, j;
     for (auto c : this->competitors) {
-        if (c == nullptr) {
+        if (c == Q_NULLPTR) {
             c = new Competitor();
             c->setName("*UNKNOWN*");
             destroy = true;
@@ -146,7 +146,7 @@ void ClassEntry::setTime(Competitor* comp, const Timing& timing)
 
     while (this->competitors.size() <= legIndex) {
         // add slots to the competitors vector
-        this->competitors.push_back(nullptr);
+        this->competitors.push_back(Q_NULLPTR);
         // add slots to the states vector
         this->states.push_back(Timing::CLASSIFIED);
         // add slots to the times vector

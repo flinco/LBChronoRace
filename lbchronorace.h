@@ -33,7 +33,7 @@ class LBChronoRace : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit LBChronoRace(QWidget *parent = nullptr, QGuiApplication *app = nullptr);
+    explicit LBChronoRace(QWidget *parent = Q_NULLPTR, QGuiApplication *app = Q_NULLPTR);
     ~LBChronoRace();
 
     static QDir lastSelectedPath;
