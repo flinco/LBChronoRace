@@ -36,6 +36,8 @@ public:
     explicit LBChronoRace(QWidget *parent = nullptr, QGuiApplication *app = nullptr);
     ~LBChronoRace();
 
+    static QDir lastSelectedPath;
+
 private slots:
     void on_actionLoadRace_triggered();
     void on_actionSaveRace_triggered();
@@ -77,7 +79,6 @@ private:
     Ui::LBChronoRace *ui;
 
     QString raceDataFileName;
-    QDir    lastSelectedPath;
     QString startListFileName;
     QString timingsFileName;
     QString categoriesFileName;

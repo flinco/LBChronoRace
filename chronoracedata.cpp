@@ -1,7 +1,10 @@
 #include <QFileDialog>
+#include <QFileInfo>
 
 #include "chronoracedata.h"
 #include "ui_chronoracedata.h"
+
+#include "lbchronorace.h"
 
 ChronoRaceData::ChronoRaceData(QWidget *parent) :
     QDialog(parent),
@@ -283,12 +286,13 @@ bool ChronoRaceData::loadLogo(QLabel *label)
     bool retval = false;
 
     if (label) {
-        QString logoFileName = QFileDialog::getOpenFileName(this,
-                                                            tr("Select Logo"), "",
-                                                            tr("Images (*.png *.xpm *.jpg *.gif);;All Files (*)"));
+        QString logoFileName = QFileDialog::getOpenFileName(this, tr("Select Logo"),
+            LBChronoRace::lastSelectedPath.absolutePath(), tr("Images (*.png *.xpm *.jpg *.gif);;All Files (*)"));
         if (!logoFileName.isEmpty()) {
             QPixmap newLogo = QPixmap(logoFileName);
+
             if ((retval = !newLogo.isNull())) {
+                LBChronoRace::lastSelectedPath = QFileInfo(logoFileName).absoluteDir();
                 // get label dimensions
                 //int w = label->width();
                 //int h = label->height();

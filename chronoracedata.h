@@ -2,6 +2,7 @@
 #define CHRONORACEDATA_H
 
 #include <QDialog>
+#include <QDir>
 #include <QDate>
 #include <QTime>
 #include <QLabel>

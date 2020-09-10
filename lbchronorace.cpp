@@ -15,12 +15,14 @@
 #include "teamclassentry.h"
 #include "lbcrexception.h"
 
+// static members initialization
+QDir LBChronoRace::lastSelectedPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+
 LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication *app) :
     QMainWindow(parent),
     ui(new Ui::LBChronoRace),
     raceDataFileName()
 {
-    lastSelectedPath   = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
     startListFileName  = lastSelectedPath.filePath(LBCHRONORACE_STARTLIST_DEFAULT);
     timingsFileName    = lastSelectedPath.filePath(LBCHRONORACE_TIMINGS_DEFAULT);
     categoriesFileName = lastSelectedPath.filePath(LBCHRONORACE_CATEGORIES_DEFAULT);
@@ -473,8 +475,8 @@ void LBChronoRace::setCounterTimings(int count)
 
 void LBChronoRace::importStartList()
 {
-    startListFileName = QFileDialog::getOpenFileName(this,
-        tr("Select Start List"), lastSelectedPath.filePath(QFileInfo(startListFileName).baseName()), tr("CSV (*.csv)"));
+    startListFileName = QFileDialog::getOpenFileName(this, tr("Select Start List"),
+        lastSelectedPath.filePath(QFileInfo(startListFileName).baseName()), tr("CSV (*.csv)"));
     lastSelectedPath = QFileInfo(startListFileName).absoluteDir();
 
     if (!startListFileName.isEmpty()) {
@@ -494,8 +496,8 @@ void LBChronoRace::importStartList()
 
 void LBChronoRace::importCategoriesList()
 {
-    categoriesFileName = QFileDialog::getOpenFileName(this,
-        tr("Select Categories File"), lastSelectedPath.filePath(QFileInfo(categoriesFileName).baseName()), tr("CSV (*.csv)"));
+    categoriesFileName = QFileDialog::getOpenFileName(this, tr("Select Categories File"),
+         lastSelectedPath.filePath(QFileInfo(categoriesFileName).baseName()), tr("CSV (*.csv)"));
     lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
 
     if (!categoriesFileName.isEmpty()) {
@@ -503,7 +505,7 @@ void LBChronoRace::importCategoriesList()
         ui->infoDisplay->appendPlainText(tr("Categories File: %1").arg(categoriesFileName));
         try {
             count = CRLoader::importCategories(categoriesFileName);
-            ui->infoDisplay->appendPlainText(tr("Loaded: %n category(es)", "", count));
+            ui->infoDisplay->appendPlainText((count == 1) ? tr("Loaded: %n category", "", count) : tr("Loaded: %n category", "", count));
         } catch (ChronoRaceException& e) {
             ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
         }
@@ -513,8 +515,8 @@ void LBChronoRace::importCategoriesList()
 
 void LBChronoRace::importTimingsList()
 {
-    timingsFileName = QFileDialog::getOpenFileName(this,
-        tr("Select Timings File"), lastSelectedPath.filePath(QFileInfo(timingsFileName).baseName()), tr("CSV (*.csv)"));
+    timingsFileName = QFileDialog::getOpenFileName(this, tr("Select Timings File"),
+        lastSelectedPath.filePath(QFileInfo(timingsFileName).baseName()), tr("CSV (*.csv)"));
     lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
 
     if (!timingsFileName.isEmpty()) {
@@ -532,8 +534,8 @@ void LBChronoRace::importTimingsList()
 
 void LBChronoRace::exportStartList()
 {
-    startListFileName = QFileDialog::getSaveFileName(this,
-        tr("Select Start List"), lastSelectedPath.filePath(QFileInfo(startListFileName).baseName()), tr("CSV (*.csv)"));
+    startListFileName = QFileDialog::getSaveFileName(this, tr("Select Start List"),
+        lastSelectedPath.filePath(QFileInfo(startListFileName).baseName()), tr("CSV (*.csv)"));
     lastSelectedPath = QFileInfo(startListFileName).absoluteDir();
 
     if (!startListFileName.isEmpty()) {
@@ -548,8 +550,8 @@ void LBChronoRace::exportStartList()
 
 void LBChronoRace::exportTeamList()
 {
-    teamsFileName = QFileDialog::getSaveFileName(this,
-        tr("Select Teams List"), lastSelectedPath.filePath(QFileInfo(teamsFileName).baseName()), tr("CSV (*.csv)"));
+    teamsFileName = QFileDialog::getSaveFileName(this, tr("Select Teams List"),
+        lastSelectedPath.filePath(QFileInfo(teamsFileName).baseName()), tr("CSV (*.csv)"));
     lastSelectedPath = QFileInfo(teamsFileName).absoluteDir();
 
     if (!teamsFileName.isEmpty()) {
@@ -564,8 +566,8 @@ void LBChronoRace::exportTeamList()
 
 void LBChronoRace::exportCategoriesList()
 {
-    categoriesFileName = QFileDialog::getSaveFileName(this,
-        tr("Select Categories File"), lastSelectedPath.filePath(QFileInfo(categoriesFileName).baseName()), tr("CSV (*.csv)"));
+    categoriesFileName = QFileDialog::getSaveFileName(this, tr("Select Categories File"),
+        lastSelectedPath.filePath(QFileInfo(categoriesFileName).baseName()), tr("CSV (*.csv)"));
     lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
 
     if (!categoriesFileName.isEmpty()) {
@@ -580,8 +582,8 @@ void LBChronoRace::exportCategoriesList()
 
 void LBChronoRace::exportTimingsList()
 {
-    timingsFileName = QFileDialog::getSaveFileName(this,
-        tr("Select Timings File"), lastSelectedPath.filePath(QFileInfo(timingsFileName).baseName()), tr("CSV (*.csv)"));
+    timingsFileName = QFileDialog::getSaveFileName(this, tr("Select Timings File"),
+        lastSelectedPath.filePath(QFileInfo(timingsFileName).baseName()), tr("CSV (*.csv)"));
     lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
 
     if (!timingsFileName.isEmpty()) {
@@ -596,16 +598,17 @@ void LBChronoRace::exportTimingsList()
 
 void LBChronoRace::on_actionLoadRace_triggered()
 {
-    raceDataFileName = QFileDialog::getOpenFileName(this,
-                                                    tr("Select Race Data File"), "",
-                                                    tr("ChronoRace Data (*.crd)"));
+    raceDataFileName = QFileDialog::getOpenFileName(this, tr("Select Race Data File"),
+        lastSelectedPath.absolutePath(), tr("ChronoRace Data (*.crd)"));
     if (!raceDataFileName.isEmpty()) {
         QFile raceDataFile(raceDataFileName);
+        lastSelectedPath = QFileInfo(raceDataFileName).absoluteDir();
 
         if (!raceDataFile.open(QIODevice::ReadOnly)) {
             QMessageBox::information(this, tr("Unable to open file"), raceDataFile.errorString());
         } else {
             quint32 binFmt;
+            QFileInfo raceDataFileInfo(raceDataFileName);
 
             QDataStream in(&raceDataFile);
             in.setVersion(QDataStream::Qt_5_15);
@@ -615,6 +618,7 @@ void LBChronoRace::on_actionLoadRace_triggered()
                 case LBCHRONORACE_BIN_FMT_v1: {
                     QAbstractTableModel *table;
                     qint32 encodingIdx;
+                    int tableCount;
 
                     in >> encodingIdx;
                     ui->selectorEncoding->setCurrentIndex(encodingIdx);
@@ -622,23 +626,28 @@ void LBChronoRace::on_actionLoadRace_triggered()
                     in >> raceInfo;
                     CRLoader::loadRaceData(in);
 
-                    // Create the FileInfo
-                    QFileInfo raceDataFileInfo(raceDataFileName);
-
-                    // now get the fileName
-                    QString newTitle(tr(LBCHRONORACE_NAME) + " - " + raceDataFileInfo.fileName());
-
-                    // Set the Title to the fileName
-                    setWindowTitle(newTitle);
+                    // Set useful information
+                    lastSelectedPath = raceDataFileInfo.absoluteDir();
+                    setWindowTitle(QString(tr(LBCHRONORACE_NAME) + " - " + raceDataFileInfo.fileName()));
 
                     table = CRLoader::getStartListModel();
-                    setCounterCompetitors(table->rowCount());
+                    tableCount = table->rowCount();
+                    setCounterCompetitors(tableCount);
+                    ui->infoDisplay->appendPlainText(tr("Loaded: %n competitor(s)", "", tableCount));
                     table = CRLoader::getTeamsListModel();
-                    setCounterTeams(table->rowCount());
+                    tableCount = table->rowCount();
+                    setCounterTeams(tableCount);
+                    ui->infoDisplay->appendPlainText(tr("Loaded: %n team(s)", "", tableCount));
                     table = CRLoader::getCategoriesModel();
-                    setCounterCategories(table->rowCount());
+                    tableCount = table->rowCount();
+                    setCounterCategories(tableCount);
+                    ui->infoDisplay->appendPlainText((tableCount == 1) ? tr("Loaded: %n category", "", tableCount) : tr("Loaded: %n category", "", tableCount));
                     table = CRLoader::getTimingsModel();
-                    setCounterTimings(table->rowCount());
+                    tableCount = table->rowCount();
+                    setCounterTimings(tableCount);
+                    ui->infoDisplay->appendPlainText(tr("Loaded: %n timing(s)", "", tableCount));
+
+                    ui->infoDisplay->appendPlainText(tr("Race loaded: %1").arg(raceDataFileName));
                 }
                 break;
                 default:
@@ -652,9 +661,8 @@ void LBChronoRace::on_actionLoadRace_triggered()
 void LBChronoRace::on_actionSaveRace_triggered()
 {
     if (raceDataFileName.isEmpty()) {
-        raceDataFileName = QFileDialog::getSaveFileName(this,
-                                                        tr("Select Race Data File"), "",
-                                                        tr("ChronoRace Data (*.crd)"));
+        raceDataFileName = QFileDialog::getSaveFileName(this, tr("Select Race Data File"),
+            lastSelectedPath.absolutePath(), tr("ChronoRace Data (*.crd)"));
 
         if (!raceDataFileName.endsWith(".crd", Qt::CaseInsensitive))
             raceDataFileName.append(".crd");
@@ -662,15 +670,23 @@ void LBChronoRace::on_actionSaveRace_triggered()
 
     if (!raceDataFileName.isEmpty()) {
         QFile raceDataFile(raceDataFileName);
+
         if (!raceDataFile.open(QIODevice::WriteOnly)) {
             QMessageBox::information(this, tr("Unable to open file"), raceDataFile.errorString());
         } else {
+            QFileInfo raceDataFileInfo(raceDataFileName);
             QDataStream out(&raceDataFile);
+
             out.setVersion(QDataStream::Qt_5_15);
             out << quint32(LBCHRONORACE_BIN_FMT)
                 << qint32(ui->selectorEncoding->currentIndex())
                 << raceInfo;
             CRLoader::saveRaceData(out);
+
+            // Set useful information
+            lastSelectedPath = raceDataFileInfo.absoluteDir();
+            setWindowTitle(QString(tr(LBCHRONORACE_NAME) + " - " + raceDataFileInfo.fileName()));
+            ui->infoDisplay->appendPlainText(tr("Race saved: %1").arg(raceDataFileName));
         }
 
     }
