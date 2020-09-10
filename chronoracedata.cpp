@@ -22,7 +22,6 @@ ChronoRaceData::ChronoRaceData(QWidget *parent) :
     timeKeeper2(),
     timeKeeper3(),
     organization(),
-    organizationStr(),
     sponsorLogo1(),
     sponsorLogo2(),
     sponsorLogo3(),
@@ -72,7 +71,9 @@ QDataStream &operator<<(QDataStream &out, const ChronoRaceData &data)
         << data.sponsorLogo1
         << data.sponsorLogo2
         << data.sponsorLogo3
-        << data.sponsorLogo4;
+        << data.sponsorLogo4
+        << data.length
+        << data.elevationGain;
 
     return out;
 }
@@ -100,6 +101,10 @@ QDataStream &operator>>(QDataStream &in, ChronoRaceData &data)
        >> data.sponsorLogo3
        >> data.sponsorLogo4;
 
+    if (data.binFmt == LBCHRONORACE_BIN_FMT_v2)
+        in >> data.length
+           >> data.elevationGain;
+
     data.raceTypeIdx = (int) raceTypeIdx32;
     data.resultsIdx = (int) resultsIdx32;
 
@@ -109,15 +114,12 @@ QDataStream &operator>>(QDataStream &in, ChronoRaceData &data)
     data.ui->results->setCurrentIndex(data.resultsIdx);
     data.resultsStr = data.ui->results->currentText();
 
-    data.ui->organization->setMarkdown(data.organization);
-    data.organizationStr = data.ui->organization->toPlainText();
-
     return in;
 }
 
 QTextStream &operator<<(QTextStream &out, const ChronoRaceData &data)
 {
-    QStringList organizationLines = data.organizationStr.split(QRegExp("\n|\r\n|\r"));
+    QStringList organizationLines = data.organization.split(QRegExp("\n|\r\n|\r"));
     QString headColumn = QObject::tr("Organization") + ": ";
 
     for (auto line : organizationLines) {
@@ -167,6 +169,22 @@ QTextStream &operator<<(QTextStream &out, const ChronoRaceData &data)
         out << QObject::tr("Race Type") + ": ";
         out.setFieldWidth(0);
         out << data.raceTypeStr << Qt::endl;
+    }
+
+    if (!data.length.isEmpty()) {
+        out.setFieldWidth(20);
+        out.setFieldAlignment(QTextStream::AlignLeft);
+        out << QObject::tr("Length") + ": ";
+        out.setFieldWidth(0);
+        out << data.length << Qt::endl;
+    }
+
+    if (!data.elevationGain.isEmpty()) {
+        out.setFieldWidth(20);
+        out.setFieldAlignment(QTextStream::AlignLeft);
+        out << QObject::tr("Elevation Gain") + ": ";
+        out.setFieldWidth(0);
+        out << data.elevationGain << Qt::endl;
     }
 
     if (!data.referee.isEmpty()) {
@@ -230,8 +248,9 @@ void ChronoRaceData::saveRaceData()
     this->timeKeeper1 = ui->timeKeeper1->text();
     this->timeKeeper2 = ui->timeKeeper2->text();
     this->timeKeeper3 = ui->timeKeeper3->text();
-    this->organization = ui->organization->toMarkdown(QTextDocument::MarkdownDialectCommonMark);
-    this->organizationStr = ui->organization->toPlainText();
+    this->length = ui->length->text();
+    this->elevationGain = ui->elevationGain->text();
+    this->organization = ui->organization->toPlainText();
     this->sponsorLogo1 = ui->sponsorLogo1->pixmap(Qt::ReturnByValue);
     this->sponsorLogo2 = ui->sponsorLogo2->pixmap(Qt::ReturnByValue);
     this->sponsorLogo3 = ui->sponsorLogo3->pixmap(Qt::ReturnByValue);
@@ -252,7 +271,9 @@ void ChronoRaceData::restoreRaceData()
     ui->timeKeeper1->setText(this->timeKeeper1);
     ui->timeKeeper2->setText(this->timeKeeper2);
     ui->timeKeeper3->setText(this->timeKeeper3);
-    ui->organization->setMarkdown(this->organization);
+    ui->length->setText(this->length);
+    ui->elevationGain->setText(this->elevationGain);
+    ui->organization->setPlainText(this->organization);
     ui->sponsorLogo1->setPixmap(this->sponsorLogo1);
     ui->sponsorLogo2->setPixmap(this->sponsorLogo2);
     ui->sponsorLogo3->setPixmap(this->sponsorLogo3);
@@ -279,6 +300,105 @@ void ChronoRaceData::show()
 
     //QDialog::show();
     QDialog::exec(); // modal
+}
+
+void ChronoRaceData::setBinFormat(uint binFmt)
+{
+    this->binFmt = binFmt;
+}
+
+QVector<QPixmap> ChronoRaceData::getSponsorLogos() const
+{
+    QVector<QPixmap> sponsorLogos;
+
+    if (!sponsorLogo1.isNull())
+        sponsorLogos.push_back(sponsorLogo1);
+
+    if (!sponsorLogo2.isNull())
+        sponsorLogos.push_back(sponsorLogo2);
+
+    if (!sponsorLogo3.isNull())
+        sponsorLogos.push_back(sponsorLogo3);
+
+    if (!sponsorLogo4.isNull())
+        sponsorLogos.push_back(sponsorLogo4);
+
+    return sponsorLogos;
+}
+
+QString ChronoRaceData::getElevationGain() const
+{
+    return elevationGain;
+}
+
+QString ChronoRaceData::getLength() const
+{
+    return length;
+}
+
+QString ChronoRaceData::getOrganization() const
+{
+    return organization;
+}
+
+QString ChronoRaceData::getTimeKeeper3() const
+{
+    return timeKeeper3;
+}
+
+QString ChronoRaceData::getTimeKeeper2() const
+{
+    return timeKeeper2;
+}
+
+QString ChronoRaceData::getTimeKeeper1() const
+{
+    return timeKeeper1;
+}
+
+QString ChronoRaceData::getReferee() const
+{
+    return referee;
+}
+
+QString ChronoRaceData::getResults() const
+{
+    return resultsStr;
+}
+
+QString ChronoRaceData::getRaceType() const
+{
+    return raceTypeStr;
+}
+
+QTime ChronoRaceData::getStartTime() const
+{
+    return startTime;
+}
+
+QDate ChronoRaceData::getDate() const
+{
+    return date;
+}
+
+QString ChronoRaceData::getPlace() const
+{
+    return place;
+}
+
+QPixmap ChronoRaceData::getLeftLogo() const
+{
+    return leftLogo;
+}
+
+QPixmap ChronoRaceData::getRightLogo() const
+{
+    return rightLogo;
+}
+
+QString ChronoRaceData::getEvent() const
+{
+    return event;
 }
 
 bool ChronoRaceData::loadLogo(QLabel *label)

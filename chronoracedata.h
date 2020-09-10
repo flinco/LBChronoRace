@@ -29,6 +29,25 @@ public:
     void saveRaceData();
     void restoreRaceData();
 
+    QPixmap getLeftLogo() const;
+    QPixmap getRightLogo() const;
+    QString getEvent() const;
+    QString getPlace() const;
+    QDate   getDate() const;
+    QTime   getStartTime() const;
+    QString getRaceType() const;
+    QString getResults() const;
+    QString getReferee() const;
+    QString getTimeKeeper1() const;
+    QString getTimeKeeper2() const;
+    QString getTimeKeeper3() const;
+    QString getOrganization() const;
+    QString getLength() const;
+    QString getElevationGain() const;
+    QVector<QPixmap> getSponsorLogos() const;
+
+    void setBinFormat(uint binFmt);
+
 public slots:
     void accept();
     void reject();
@@ -36,6 +55,9 @@ public slots:
 
 private:
     Ui::ChronoRaceData *ui;
+
+    // Binary format for the loader
+    uint    binFmt;
 
     QPixmap leftLogo;
     QPixmap rightLogo;
@@ -51,8 +73,9 @@ private:
     QString timeKeeper1;
     QString timeKeeper2;
     QString timeKeeper3;
+    QString length;
+    QString elevationGain;
     QString organization;
-    QString organizationStr;
     QPixmap sponsorLogo1;
     QPixmap sponsorLogo2;
     QPixmap sponsorLogo3;

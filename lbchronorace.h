@@ -8,13 +8,16 @@
 #include <QStandardPaths>
 #include <QDir>
 #include <QTextStream>
+#include <QList>
 
 #include "chronoracetable.h"
 #include "chronoracedata.h"
 #include "crloader.h"
+#include "classentry.h"
+#include "teamclassentry.h"
 
 #define LBCHRONORACE_NAME                 "LBChronoRace"
-#define LBCHRONORACE_VERSION              "1.9.0"
+#define LBCHRONORACE_VERSION              "1.9.1"
 
 #define LBCHRONORACE_STARTLIST_DEFAULT    "startlist.csv"
 #define LBCHRONORACE_TEAMLIST_DEFAULT     "teamlist.csv"
@@ -22,7 +25,8 @@
 #define LBCHRONORACE_CATEGORIES_DEFAULT   "categories.csv"
 
 #define LBCHRONORACE_BIN_FMT_v1           1
-#define LBCHRONORACE_BIN_FMT              LBCHRONORACE_BIN_FMT_v1
+#define LBCHRONORACE_BIN_FMT_v2           2
+#define LBCHRONORACE_BIN_FMT              LBCHRONORACE_BIN_FMT_v2
 
 namespace Ui {
 class LBChronoRace;
@@ -91,7 +95,24 @@ private:
     ChronoRaceTable categoriesTable;
     ChronoRaceTable timingsTable;
 
+    qreal ratioX, ratioY;
+    qreal areaWidth, areaHeight;
+
+    qreal toHdots(qreal mm);
+    qreal toVdots(qreal mm);
+    void fitRectToLogo(QRectF &rect, QPixmap const &pixmap);
+
     void makeRankings(CRLoader::Format format);
+    void makeTextRanking(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking, uint bWidth, uint sWidth);
+    void makeTextRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking, uint bWidth, uint sWidth);
+    void makeCSVRanking(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
+    void makeCSVRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking, const QString &shortDescription);
+    void makePDFRanking(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
+    void makePDFRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
+    void makePDFRankingPortrait(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
+    void makePDFRankingPortrait(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
+    void makePDFRankingLandscape(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
+    void makePDFRankingLandscape(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
 
 private slots:
     void importStartList();

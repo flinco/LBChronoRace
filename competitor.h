@@ -46,6 +46,7 @@ private:
     QString team;
     uint    leg;
     int     offset;
+    QString category;
 
 public:
     Competitor();
@@ -71,6 +72,9 @@ public:
     int getOffset() const;
     void setOffset(int offset);
     bool isValid();
+
+    const QString& getCategory() const;
+    void setCategory(const QString& category);
 
     static Sex toSex(const QString& sex, const bool strict = false);
     static QString toSexString(const Sex sex);

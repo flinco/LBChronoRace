@@ -28,8 +28,10 @@ public:
     ClassEntry(const uint bib);
     uint getBib() const;
     void setBib(uint bib);
+    const QString getName(uint legIdx) const;
     const QString getNamesCSV() const;
     const QString getNamesTxt() const;
+    uint getYear(uint legIdx) const;
     Competitor::Sex getSex() const;
     const QString getTimesCSV() const;
     const QString getTimesTxt(int legRankWidth) const;
@@ -43,8 +45,11 @@ public:
     uint getTotalTime() const;
     const QString getTotalTimeCSV() const;
     const QString getTotalTimeTxt() const;
+    const QString getDiffTimeTxt(uint referenceTime) const;
     bool isDnf() const;
     bool isDns() const;
+
+    const QString& getCategory(uint legIdx) const;
 
     static bool compare (const ClassEntry& a, const ClassEntry& b);
 

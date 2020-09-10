@@ -58,7 +58,7 @@ public:
     void setTiming(const char* timing);
     bool isValid();
 
-    static const QString toTimeStr(const uint seconds, const Timing::Status status);
+    static const QString toTimeStr(const uint seconds, const Timing::Status status, const char *prefix = Q_NULLPTR);
     static const QString toTimeStr(const Timing& timing);
 
     bool operator<  (const Timing& rhs) const;

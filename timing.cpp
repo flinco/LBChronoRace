@@ -133,10 +133,10 @@ bool Timing::isValid()
     return ((bib != 0u) && ((status == DNS) || (status == DNF) || ((status == CLASSIFIED) && (seconds != 0u))));
 }
 
-const QString Timing::toTimeStr(const uint seconds, const Timing::Status status)
+const QString Timing::toTimeStr(const uint seconds, const Timing::Status status, const char *prefix)
 {
 
-    QString retString;
+    QString retString((prefix) ? prefix : "");
     switch (status) {
         case Timing::CLASSIFIED:
             retString.append(QString("%1:%2:%3").arg(((seconds / 60) / 60)).arg(((seconds / 60) % 60), 2, 10, QLatin1Char('0')).arg((seconds % 60), 2, 10, QLatin1Char('0')));

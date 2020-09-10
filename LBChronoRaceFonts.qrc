@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/fonts">
+        <file>LiberationMono-Bold.ttf</file>
+        <file>LiberationMono-BoldItalic.ttf</file>
+        <file>LiberationMono-Italic.ttf</file>
+        <file>LiberationMono-Regular.ttf</file>
+        <file>LiberationSans-Bold.ttf</file>
+        <file>LiberationSans-BoldItalic.ttf</file>
+        <file>LiberationSans-Italic.ttf</file>
+        <file>LiberationSans-Regular.ttf</file>
+        <file>LiberationSerif-Bold.ttf</file>
+        <file>LiberationSerif-BoldItalic.ttf</file>
+        <file>LiberationSerif-Italic.ttf</file>
+        <file>LiberationSerif-Regular.ttf</file>
+    </qresource>
+</RCC>

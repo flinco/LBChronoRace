@@ -26,6 +26,10 @@ void ClassEntry::setBib(uint bib)
 {
     this->bib = bib;
 }
+const QString ClassEntry::getName(uint legIdx) const
+{
+    return this->competitors[legIdx]->getName();
+}
 
 const QString ClassEntry::getNamesCSV() const
 {
@@ -85,6 +89,11 @@ const QString ClassEntry::getNamesTxt() const
         retString += QString(" (%1)").arg(Competitor::toSexString(this->getSex()));
     }
     return retString;
+}
+
+uint ClassEntry::getYear(uint legIdx) const
+{
+    return this->competitors[legIdx]->getYear();
 }
 
 Competitor::Sex ClassEntry::getSex() const
@@ -224,6 +233,11 @@ bool ClassEntry::isDns() const
     return false;
 }
 
+const QString& ClassEntry::getCategory(uint legIdx) const
+{
+    return competitors[legIdx]->getCategory();
+}
+
 uint ClassEntry::getTotalTime() const
 {
     return totalTime;
@@ -239,6 +253,17 @@ const QString ClassEntry::getTotalTimeTxt() const
     if (isDns()) return Timing::toTimeStr(this->totalTime, Timing::DNS);
     if (isDnf()) return Timing::toTimeStr(this->totalTime, Timing::DNF);
     return Timing::toTimeStr(this->totalTime, Timing::CLASSIFIED);
+}
+
+const QString ClassEntry::getDiffTimeTxt(uint referenceTime) const
+{
+    if (isDns() || isDnf() || (this->totalTime == referenceTime))
+        return QString("");
+
+    if (this->totalTime > referenceTime)
+        return Timing::toTimeStr(this->totalTime - referenceTime, Timing::CLASSIFIED, "+");
+    else
+        return Timing::toTimeStr(referenceTime - this->totalTime, Timing::CLASSIFIED, "-");
 }
 
 bool ClassEntry::operator< (const ClassEntry& rhs) { return totalTime <  rhs.totalTime; }

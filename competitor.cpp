@@ -6,13 +6,14 @@ Qt::SortOrder     CompetitorSorter::sortingOrder = Qt::AscendingOrder;
 
 Competitor::Competitor()
 {
-    this->bib    = 0u;
-    this->name   = "";
-    this->sex    = UNDEFINED;
-    this->year   = 1900;
-    this->team   = "";
-    this->leg    = 1u;
-    this->offset = -1;
+    this->bib      = 0u;
+    this->name     = "";
+    this->sex      = UNDEFINED;
+    this->year     = 1900;
+    this->team     = "";
+    this->leg      = 1u;
+    this->offset   = -1;
+    this->category = "";
 }
 
 Competitor::Competitor(const uint bib) : Competitor()
@@ -139,6 +140,16 @@ void Competitor::setOffset(int offset)
 bool Competitor::isValid()
 {
     return ((bib != 0u) && !name.isEmpty() && (sex != UNDEFINED));
+}
+
+const QString& Competitor::getCategory() const
+{
+    return this->category;
+}
+
+void Competitor::setCategory(const QString& category)
+{
+    this->category = category;
 }
 
 Competitor::Sex Competitor::toSex(const QString& sex, const bool strict)
