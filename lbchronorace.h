@@ -88,8 +88,8 @@ private:
 
     ChronoRaceTable startListTable;
     ChronoRaceTable teamsTable;
-    ChronoRaceTable timingsTable;
     ChronoRaceTable categoriesTable;
+    ChronoRaceTable timingsTable;
 
     void makeRankings(CRLoader::Format format);
 
