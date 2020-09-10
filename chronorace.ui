@@ -13,7 +13,7 @@
   <property name="minimumSize">
    <size>
     <width>1024</width>
-    <height>768</height>
+    <height>600</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -167,7 +167,14 @@
      </layout>
     </item>
     <item>
-     <widget class="QPlainTextEdit" name="infoDisplay"/>
+     <widget class="QPlainTextEdit" name="infoDisplay">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
     </item>
     <item>
      <layout class="QHBoxLayout" name="lowerArea">
@@ -184,13 +191,16 @@
       <item>
        <widget class="QComboBox" name="selectorEncoding">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="toolTip">
          <string>File Encoding: ISO-8859-1 (Latin1) or UTF-8</string>
+        </property>
+        <property name="sizeAdjustPolicy">
+         <enum>QComboBox::AdjustToContents</enum>
         </property>
         <item>
          <property name="text">
@@ -254,7 +264,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

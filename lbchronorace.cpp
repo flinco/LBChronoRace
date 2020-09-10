@@ -720,18 +720,18 @@ void LBChronoRace::show()
 
 void LBChronoRace::resizeDialogs(QScreen *screen)
 {
-    QRect screenGeometry = screen->geometry();
-    bool hiRes = (screenGeometry.width() > LBCHRONORACE_HIRES_WIDTH) && (screenGeometry.height() > LBCHRONORACE_HIRES_HEIGHT);
+    QRect screenGeometry = screen->availableGeometry();
 
-    //qDebug("%s(): %i x %i", __FUNCTION__, screenGeometry.width(), screenGeometry.height());
-
-    QSize size(hiRes ? LBCHRONORACE_HIRES_WIDTH : LBCHRONORACE_LOWRES_WIDTH, hiRes ?LBCHRONORACE_HIRES_HEIGHT : LBCHRONORACE_LOWRES_HEIGHT);
-    this->setMinimumSize(size);
-    raceInfo.setMinimumSize(size);
-    startListTable.setMinimumSize(size);
-    teamsTable.setMinimumSize(size);
-    categoriesTable.setMinimumSize(size);
-    timingsTable.setMinimumSize(size);
+    //this->setMaximumHeight(screenGeometry.height());
+    raceInfo.setMaximumHeight(screenGeometry.height());
+    // 15/16 is about 94% of the height; this is an ugly
+    // workaround since at present time on high resolution
+    // screen Qt::AA_EnableHighDpiScaling still does not
+    // scale nicely
+    startListTable.setMaximumHeight(screenGeometry.height() * 15 / 16);
+    teamsTable.setMaximumHeight(screenGeometry.height() * 15 / 16);
+    categoriesTable.setMaximumHeight(screenGeometry.height() * 15 / 16);
+    timingsTable.setMaximumHeight(screenGeometry.height() * 15 / 16);
 }
 
 void LBChronoRace::on_selectorEncoding_activated(const QString &arg1)

@@ -24,12 +24,6 @@
 #define LBCHRONORACE_BIN_FMT_v1           1
 #define LBCHRONORACE_BIN_FMT              LBCHRONORACE_BIN_FMT_v1
 
-#define LBCHRONORACE_LOWRES_WIDTH         1024
-#define LBCHRONORACE_LOWRES_HEIGHT         768
-
-#define LBCHRONORACE_HIRES_WIDTH          1920
-#define LBCHRONORACE_HIRES_HEIGHT         1080
-
 namespace Ui {
 class LBChronoRace;
 }
