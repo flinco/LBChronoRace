@@ -53,7 +53,7 @@ QVariant StartListModel::data(const QModelIndex &index, int role) const
             return QVariant(startList.at(index.row()).getYear());
         case Competitor::CMF_TEAM:
             return QVariant(startList.at(index.row()).getTeam());
-        case Competitor::CMF_OFFSET:
+        case Competitor::CMF_OFFSET_LEG:
             return QVariant(Competitor::toOffsetString(startList.at(index.row()).getOffset()));
         default:
             return QVariant();
@@ -70,8 +70,8 @@ QVariant StartListModel::data(const QModelIndex &index, int role) const
             return QVariant(tr("Year of birth (i.e. 1982)"));
         case Competitor::CMF_TEAM:
             return QVariant(tr("Team name"));
-        case Competitor::CMF_OFFSET:
-            return QVariant(tr("Start time offset"));
+        case Competitor::CMF_OFFSET_LEG:
+            return QVariant(tr("Start time offset or leg (to set the leg put a '-' sign before the leg number)"));
         default:
             return QVariant();
         }
@@ -116,7 +116,7 @@ bool StartListModel::setData(const QModelIndex &index, const QVariant &value, in
             emit newTeam(startList[index.row()].getTeam());
             retval = true;
             break;
-        case Competitor::CMF_OFFSET:
+        case Competitor::CMF_OFFSET_LEG:
             startList[index.row()].setOffset(Competitor::toOffset(value.toString().simplified()));
             retval = true;
             break;
@@ -146,8 +146,8 @@ QVariant StartListModel::headerData(int section, Qt::Orientation orientation, in
             return QString("%1").arg(tr("Year"));
         case Competitor::CMF_TEAM:
             return QString("%1").arg(tr("Team"));
-        case Competitor::CMF_OFFSET:
-            return QString("%1").arg(tr("Start time"));
+        case Competitor::CMF_OFFSET_LEG:
+            return QString("%1").arg(tr("Start time/Leg"));
         default:
             return QString("%1").arg(section + 1);
         }
@@ -195,7 +195,6 @@ bool StartListModel::removeRows(int position, int rows, const QModelIndex &paren
 
 void StartListModel::sort(int column, Qt::SortOrder order)
 {
-
     CompetitorSorter::setSortingField((Competitor::Field) column);
     CompetitorSorter::setSortingOrder(order);
     std::stable_sort(startList.begin(), startList.end(), CompetitorSorter());

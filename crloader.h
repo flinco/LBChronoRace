@@ -34,11 +34,12 @@ public:
 
     enum Format
         {
-            CSV,
+            PDF,
             TEXT,
-            PDF
+            CSV
         };
 
+private:
     static QMultiMap<uint, Competitor> startList;
     static StartListModel              startListModel;
     static int                         startListLegCount;
@@ -52,8 +53,8 @@ public:
     static CategoriesModel             categoriesModel;
     static QList<QVariant>             standardItemList;
     static Encoding                    encoding;
+    static Format                      format;
 
-private:
     static void clearStartList();
     static void clearTimings();
     static void clearCategories();
@@ -86,6 +87,8 @@ public:
     static QAbstractTableModel* getCategoriesModel();
     static Encoding getEncoding();
     static void setEncoding(const Encoding &value);
+    static Format getFormat();
+    static void setFormat(const Format &value);
 };
 
 #endif // LBLOADER_H

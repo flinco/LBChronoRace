@@ -177,7 +177,7 @@
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="lowerArea">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QLabel" name="labelEncoding">
         <property name="text">
@@ -215,42 +215,70 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="makeRankingsText">
+       <widget class="QLabel" name="labelFormat">
+        <property name="text">
+         <string>Format</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="selectorFormat">
+        <property name="toolTip">
+         <string>Start List and Rankings file format: PDF, CSV or Plain Text</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>PDF</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Text</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>CSV</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="makeStartList">
         <property name="enabled">
          <bool>true</bool>
         </property>
         <property name="toolTip">
-         <string>Generate rankings in plain text format</string>
+         <string>Generate start list in the selected format</string>
         </property>
         <property name="text">
-         <string>Make Rankings Text</string>
+         <string>Make Start List</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="makeRankingsCSV">
+       <widget class="QPushButton" name="makeRankings">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="toolTip">
-         <string>Generate rankings in CSV format</string>
+         <string>Generate rankings in the selected format</string>
         </property>
         <property name="text">
-         <string>Make Rankings CSV</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="makeRankingsPDF">
-        <property name="toolTip">
-         <string>Generate rankings in PDF format</string>
-        </property>
-        <property name="text">
-         <string>Make Rankings PDF</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="quitButton">
-        <property name="text">
-         <string>Exit</string>
+         <string>Make Rankings</string>
         </property>
        </widget>
       </item>
@@ -264,7 +292,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>21</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -394,28 +422,19 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
+  <tabstop>loadRace</tabstop>
+  <tabstop>saveRace</tabstop>
+  <tabstop>editRace</tabstop>
+  <tabstop>editStartList</tabstop>
+  <tabstop>editTeamsList</tabstop>
+  <tabstop>editCategories</tabstop>
+  <tabstop>editTimings</tabstop>
   <tabstop>infoDisplay</tabstop>
   <tabstop>selectorEncoding</tabstop>
-  <tabstop>makeRankingsText</tabstop>
-  <tabstop>quitButton</tabstop>
+  <tabstop>selectorFormat</tabstop>
+  <tabstop>makeStartList</tabstop>
+  <tabstop>makeRankings</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>quitButton</sender>
-   <signal>clicked()</signal>
-   <receiver>LBChronoRace</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>722</x>
-     <y>466</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>854</x>
-     <y>9</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

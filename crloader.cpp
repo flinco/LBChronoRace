@@ -21,6 +21,7 @@ QVector<Category>           CRLoader::categories            = {};
 CategoriesModel             CRLoader::categoriesModel;
 QList<QVariant>             CRLoader::standardItemList;
 CRLoader::Encoding          CRLoader::encoding              = CRLoader::LATIN1;
+CRLoader::Format            CRLoader::format                = CRLoader::PDF;
 
 QAbstractTableModel* CRLoader::getStartListModel()
 {
@@ -50,6 +51,16 @@ CRLoader::Encoding CRLoader::getEncoding()
 void CRLoader::setEncoding(const Encoding &value)
 {
     encoding = value;
+}
+
+CRLoader::Format CRLoader::getFormat()
+{
+    return format;
+}
+
+void CRLoader::setFormat(const Format &value)
+{
+    format = value;
 }
 
 void CRLoader::clearStartList()
@@ -294,9 +305,12 @@ QMultiMap<uint, Competitor>& CRLoader::getStartList(QStringList& messages)
                             teamNameWidthMax = element->getTeam().length();
                     }
                     break;
-                case Competitor::CMF_OFFSET:
+                case Competitor::CMF_OFFSET_LEG:
                     {
-                        element->setOffset(Competitor::toOffset(value.toString()));
+                        int offset = Competitor::toOffset(value.toString());
+                        element->setOffset(offset);
+                        if (offset < 0)
+                            element->setLeg((uint) (-offset));
                     }
                     break;
                 default:

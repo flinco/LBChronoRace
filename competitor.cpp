@@ -191,8 +191,8 @@ int Competitor::toOffset(const QString& offset)
     QStringList list = offset.split(":");
 
     int retval = -1;
-    int h, m, s = 0;
-    bool check_h, check_m, check_s;
+    int h, m, s, l = 0;
+    bool check_h, check_m, check_s, check_l;
     switch (list.count()) {
         case 3:
             h = list[0].toInt(&check_h, 10);
@@ -207,6 +207,11 @@ int Competitor::toOffset(const QString& offset)
             if (check_m && check_s)
                 retval = (m * 60) + s;
         break;
+        case 1:
+            l = list[0].toInt(&check_l, 10);
+            if (check_l && (l < 0))
+                retval = l;
+        break;
         default:
             // do nothing
         break;
@@ -217,7 +222,10 @@ int Competitor::toOffset(const QString& offset)
 
 QString Competitor::toOffsetString(int offset)
 {
-    return (offset < 0) ? "N/A" : QString("%1:%2:%3").arg(((offset / 60) / 60)).arg(((offset / 60) % 60), 2, 10, QLatin1Char('0')).arg((offset % 60), 2, 10, QLatin1Char('0'));
+    if (offset < 0)
+        return tr("Leg %n", "", qAbs(offset));
+    else
+        return QString("%1:%2:%3").arg(((offset / 60) / 60)).arg(((offset / 60) % 60), 2, 10, QChar('0')).arg((offset % 60), 2, 10, QChar('0'));
 }
 
 bool Competitor::operator< (const Competitor& rhs) const
@@ -266,6 +274,20 @@ bool CompetitorSorter::operator() (const Competitor& lhs, const Competitor& rhs)
         default:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs < rhs) : (lhs > rhs);
     }
+}
+
+bool CompetitorSorter::operator() (const Competitor* lhs, const Competitor* rhs)
+{
+    if (!lhs)
+        return false;
+    else if (!rhs)
+        return true;
+    else if (lhs->getOffset() != rhs->getOffset())
+        return qAbs(lhs->getOffset()) < qAbs(rhs->getOffset());
+    else  if (lhs->getBib() != rhs->getBib())
+        return lhs->getBib() < rhs->getBib();
+
+    return false;
 }
 
 Qt::SortOrder CompetitorSorter::getSortingOrder()

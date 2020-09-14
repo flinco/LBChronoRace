@@ -26,15 +26,15 @@ public:
 
     enum Field
         {
-            CMF_FIRST  = 0,
-            CMF_BIB    = 0,
-            CMF_NAME   = 1,
-            CMF_SEX    = 2,
-            CMF_YEAR   = 3,
-            CMF_TEAM   = 4,
-            CMF_OFFSET = 5,
-            CMF_LAST   = 5,
-            CMF_COUNT  = 6
+            CMF_FIRST      = 0,
+            CMF_BIB        = 0,
+            CMF_NAME       = 1,
+            CMF_SEX        = 2,
+            CMF_YEAR       = 3,
+            CMF_TEAM       = 4,
+            CMF_OFFSET_LEG = 5,
+            CMF_LAST       = 5,
+            CMF_COUNT      = 6
         };
 
 private:
@@ -103,6 +103,7 @@ public:
     static void setSortingField(const Competitor::Field &value);
 
     bool operator() (const Competitor& lhs, const Competitor& rhs);
+    bool operator() (const Competitor* lhs, const Competitor* rhs);
 };
 
 #endif // COMPETITOR_H

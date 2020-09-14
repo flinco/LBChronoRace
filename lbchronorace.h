@@ -9,15 +9,17 @@
 #include <QDir>
 #include <QTextStream>
 #include <QList>
+#include <QFontDatabase>
 
 #include "chronoracetable.h"
 #include "chronoracedata.h"
 #include "crloader.h"
+#include "competitor.h"
 #include "classentry.h"
 #include "teamclassentry.h"
 
 #define LBCHRONORACE_NAME                 "LBChronoRace"
-#define LBCHRONORACE_VERSION              "1.9.2"
+#define LBCHRONORACE_VERSION              "1.9.3"
 
 #define LBCHRONORACE_STARTLIST_DEFAULT    "startlist.csv"
 #define LBCHRONORACE_TEAMLIST_DEFAULT     "teamlist.csv"
@@ -66,9 +68,9 @@ private slots:
     void on_editTimings_clicked();
 
     void on_selectorEncoding_activated(const QString &arg1);
-    void on_makeRankingsText_clicked();
-    void on_makeRankingsCSV_clicked();
-    void on_makeRankingsPDF_clicked();
+    void on_selectorFormat_activated(const QString &arg1);
+    void on_makeStartList_clicked();
+    void on_makeRankings_clicked();
 
 public slots:
     void show();
@@ -95,6 +97,7 @@ private:
     ChronoRaceTable categoriesTable;
     ChronoRaceTable timingsTable;
 
+    QFontDatabase fontDB;
     qreal ratioX, ratioY;
     qreal areaWidth, areaHeight;
 
@@ -113,6 +116,13 @@ private:
     void makePDFRankingPortrait(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
     void makePDFRankingLandscape(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
     void makePDFRankingLandscape(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
+    void drawPDFTemplatePortrait(QPainter &painter, const QString &fullDescription, int page, int pages);
+    void drawPDFTemplateLandscape(QPainter &painter, const QString &fullDescription, int page, int pages);
+
+    void makeStartList(CRLoader::Format format);
+    void makeTextStartList(const QList<const Competitor*> startList, uint bWidth, uint sWidth, uint nWidth, uint tWidth);
+    void makeCSVStartList(const QList<const Competitor*> startList);
+    void makePDFStartList(const QList<const Competitor*> startList);
 
 private slots:
     void importStartList();

@@ -433,14 +433,16 @@
   <tabstop>removeLeftLogo</tabstop>
   <tabstop>loadRightLogo</tabstop>
   <tabstop>removeRightLogo</tabstop>
-  <tabstop>date</tabstop>
-  <tabstop>startTime</tabstop>
-  <tabstop>raceType</tabstop>
-  <tabstop>results</tabstop>
   <tabstop>referee</tabstop>
   <tabstop>timeKeeper1</tabstop>
   <tabstop>timeKeeper2</tabstop>
   <tabstop>timeKeeper3</tabstop>
+  <tabstop>date</tabstop>
+  <tabstop>startTime</tabstop>
+  <tabstop>raceType</tabstop>
+  <tabstop>results</tabstop>
+  <tabstop>length</tabstop>
+  <tabstop>elevationGain</tabstop>
   <tabstop>organization</tabstop>
   <tabstop>loadSponsorLogo1</tabstop>
   <tabstop>removeSponsorLogo1</tabstop>
