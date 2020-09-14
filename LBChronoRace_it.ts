@@ -673,7 +673,7 @@
         <location filename="lbchronorace.cpp" line="794"/>
         <location filename="lbchronorace.cpp" line="1098"/>
         <source>Bib</source>
-        <translation>Pett.</translation>
+        <translation>Pett</translation>
     </message>
     <message>
         <location filename="lbchronorace.cpp" line="798"/>
@@ -715,6 +715,13 @@
         <location filename="lbchronorace.cpp" line="822"/>
         <source>Diff</source>
         <translation>Diff</translation>
+    </message>
+    <message>
+        <location filename="lbchronorace.cpp" line="738"/>
+        <location filename="lbchronorace.cpp" line="1038"/>
+        <source>%1 Ranking</source>
+        <oldsource>%1 Ranging</oldsource>
+        <translation>Classifica %1</translation>
     </message>
     <message>
         <location filename="lbchronorace.cpp" line="1259"/>
@@ -841,12 +848,6 @@ Versione: %2
         <location filename="lbchronorace.cpp" line="910"/>
         <source>Rankings</source>
         <translation>Classifiche</translation>
-    </message>
-    <message>
-        <location filename="lbchronorace.cpp" line="738"/>
-        <location filename="lbchronorace.cpp" line="1038"/>
-        <source>%1 Ranging</source>
-        <translation>Classifica %1</translation>
     </message>
     <message>
         <location filename="lbchronorace.cpp" line="744"/>

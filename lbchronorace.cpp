@@ -735,7 +735,7 @@ void LBChronoRace::makePDFRankingPortrait(const QString &outFileName, const QStr
                 painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo.getEvent() + " - " + raceInfo.getPlace() + " - " + raceInfo.getDate().toString("dd/MM/yyyy"));
                 writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(15.0)));
                 writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(25.0)));
-                painter.drawText(writeRect.toRect(), Qt::AlignCenter, tr("%1 Ranging").arg(fullDescription));
+                painter.drawText(writeRect.toRect(), Qt::AlignCenter, tr("%1 Ranking").arg(fullDescription));
             }
             // Results, page and editing timestamp
             painter.setFont(rnkFont);
@@ -1035,7 +1035,7 @@ void LBChronoRace::makePDFRankingPortrait(const QString &outFileName, const QStr
                 painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo.getEvent() + " - " + raceInfo.getPlace() + " - " + raceInfo.getDate().toString("dd/MM/yyyy"));
                 writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(15.0)));
                 writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(25.0)));
-                painter.drawText(writeRect.toRect(), Qt::AlignCenter, tr("%1 Ranging").arg(fullDescription));
+                painter.drawText(writeRect.toRect(), Qt::AlignCenter, tr("%1 Ranking").arg(fullDescription));
             }
             // Results, page and editing timestamp
             painter.setFont(rnkFont);
