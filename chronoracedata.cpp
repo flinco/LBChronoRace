@@ -295,11 +295,9 @@ void ChronoRaceData::reject()
 void ChronoRaceData::show()
 {
     ui->retranslateUi(this);
-
     restoreRaceData();
-
-    //QDialog::show();
-    QDialog::exec(); // modal
+    this->setWindowModality(Qt::WindowModal);
+    this->open();
 }
 
 void ChronoRaceData::setBinFormat(uint binFmt)

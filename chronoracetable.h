@@ -22,7 +22,6 @@ public:
     void disableButtons();
 
 private slots:
-
     void on_rowAdd_clicked();
     void on_rowDel_clicked();
     void on_modelImport_clicked();
@@ -36,6 +35,7 @@ signals:
     void newRowCount(int count);
     void modelImport();
     void modelExport();
+    void countersRefresh();
 
 private:
     Ui::ChronoRaceTable *ui;

@@ -145,19 +145,19 @@ bool CategorySorter::operator() (const Category& lhs, const Category& rhs)
 {
     switch(sortingField) {
     case Category::CTF_SEX:
-        return (sortingOrder == Qt::DescendingOrder) ? (Competitor::toSexString(lhs.getSex()) < Competitor::toSexString(rhs.getSex())) : (Competitor::toSexString(lhs.getSex()) > Competitor::toSexString(rhs.getSex()));
+        return (sortingOrder == Qt::DescendingOrder) ? (Competitor::toSexString(lhs.getSex()) > Competitor::toSexString(rhs.getSex())) : (Competitor::toSexString(lhs.getSex()) < Competitor::toSexString(rhs.getSex()));
     case Category::CTF_TO_YEAR:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getToYear() < rhs.getToYear()) : (lhs.getToYear() > rhs.getToYear());
+        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getToYear() > rhs.getToYear()) : (lhs.getToYear() < rhs.getToYear());
     case Category::CTF_FROM_YEAR:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFromYear() < rhs.getFromYear()) : (lhs.getFromYear() > rhs.getFromYear());
+        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFromYear() > rhs.getFromYear()) : (lhs.getFromYear() < rhs.getFromYear());
     case Category::CTF_FULL_DESCR:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFullDescription() < rhs.getFullDescription()) : (lhs.getFullDescription() > rhs.getFullDescription());
+        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFullDescription() > rhs.getFullDescription()) : (lhs.getFullDescription() < rhs.getFullDescription());
     case Category::CTF_SHORT_DESCR:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getShortDescription() < rhs.getShortDescription()) : (lhs.getShortDescription() > rhs.getShortDescription());
+        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getShortDescription() > rhs.getShortDescription()) : (lhs.getShortDescription() < rhs.getShortDescription());
     case Category::CTF_TEAM:
         // nobreak here
     default:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs < rhs) : (lhs > rhs);
+        return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }
 
     return false;

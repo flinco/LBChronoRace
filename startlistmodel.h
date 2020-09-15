@@ -32,11 +32,23 @@ public:
 
     void reset();
 
+    const QList<Competitor>& getStartList() const;
+
+    uint getLegCount() const;
+    uint getMaxBib() const;
+    uint getCompetitorNameMaxWidth() const;
+
+public slots:
+    void refreshCounters(int r);
+
 signals:
     void newTeam(const QString& team);
 
 private:
     QList<Competitor> startList;
+    uint              legCount;
+    uint              maxBib;
+    uint              competitorNameMaxWidth;
 };
 
 #endif // LBSTARTLISTMODEL_H

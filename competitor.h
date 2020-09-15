@@ -103,7 +103,6 @@ public:
     static void setSortingField(const Competitor::Field &value);
 
     bool operator() (const Competitor& lhs, const Competitor& rhs);
-    bool operator() (const Competitor* lhs, const Competitor* rhs);
 };
 
 #endif // COMPETITOR_H

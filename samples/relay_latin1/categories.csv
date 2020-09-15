@@ -1,6 +1,6 @@
-I,M,0,0,Relays Male,RM
-I,F,0,0,Relays Female,RF
-I,X,0,0,Relays Misc,RX
-T,U,0,0,Teams,T
-T,M,0,0,Teams M,TM
-T,F,0,0,Teams F,TF
+I,M,0,0,Staffette Maschili,RM
+I,F,0,0,Staffette Femminili,RF
+I,X,0,0,Staffette Miste,RX
+T,U,0,0,Squadre,T
+T,M,0,0,Squadre M,TM
+T,F,0,0,Squadre F,TF

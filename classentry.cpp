@@ -2,13 +2,12 @@
 #include "crloader.h"
 #include "lbcrexception.h"
 
-ClassEntry::ClassEntry()
+// Static members
+QString ClassEntry::empty("*** ??? ***");
+
+ClassEntry::ClassEntry() : entries()
 {
     this->bib         = 0u;
-    this->competitors = {};
-    this->times       = {};
-    this->states      = {};
-    this->legRanking  = {};
     this->totalTime   = 0u;
 }
 
@@ -28,197 +27,260 @@ void ClassEntry::setBib(uint bib)
 }
 const QString ClassEntry::getName(uint legIdx) const
 {
-    return this->competitors[legIdx]->getName();
+    if ((int) legIdx >= entries.size())
+        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+
+    return entries[legIdx].competitor ? entries[legIdx].competitor->getName() : ClassEntry::empty;
 }
 
 const QString ClassEntry::getNamesCSV() const
 {
-
     QString retString;
     bool skip, first = true;
-    uint i = 0, j;
-    for (auto c : this->competitors) {
+    int i, j;
+    Competitor *c;
+
+    for (i = 0; i < entries.size(); i++) {
+        c = entries[i].competitor;
+
         // avoid duplicates
-        for (j = 0, skip = false; !skip && (j < i); j++) {
-            skip = (this->competitors[j]->getName().compare(c->getName()) == 0);
+        for (j = 0, skip = false; c && !skip && (j < i); j++) {
+            skip = entries[j].competitor && (entries[j].competitor->getName().compare(c->getName()) == 0);
         }
+
         if (!skip) {
-            retString += QString("%1%2,%3,%4").arg(first ? "" : ",").arg(c->getName()).arg(Competitor::toSexString(c->getSex())).arg(c->getYear());
+            if (c)
+                retString += QString("%1%2,%3,%4").arg(first ? "" : ",").arg(c->getName()).arg(Competitor::toSexString(c->getSex())).arg(c->getYear());
+            else
+                retString += QString("%1%2,%3,%4").arg(first ? "" : ",").arg(ClassEntry::empty).arg(Competitor::toSexString(Competitor::UNDEFINED)).arg(0);
             first = false;
         }
-        i++;
     }
-    retString += QString(",%1").arg(competitors[0]->getTeam());
-    if (competitors.size() > 1) {
-        retString += QString(",%1").arg(Competitor::toSexString(this->getSex()));
+
+    for (i = 0; i < entries.size(); i++) {
+        if ((c = entries[i].competitor)) {
+            retString += QString(",%1").arg(c->getTeam());
+            break;
+        }
     }
+    if (i == entries.size())
+        retString += QString(",%1").arg(ClassEntry::empty);
+
+    if (entries.size() > 1) {
+        retString += QString(",%1").arg(Competitor::toSexString(getSex()));
+    }
+
     return retString;
 }
 
 const QString ClassEntry::getNamesTxt() const
 {
-
     QString retString;
     bool skip, first = true;
-    bool destroy = false;
-    uint i = 0, j;
-    for (auto c : this->competitors) {
-        if (c == Q_NULLPTR) {
-            c = new Competitor();
-            c->setName("*UNKNOWN*");
-            destroy = true;
-        }
+    int i, j;
+    Competitor *c;
+
+    for (i = 0; i < entries.size(); i++) {
+        c = entries[i].competitor;
 
         // avoid duplicates
         for (j = 0, skip = false; c && !skip && (j < i); j++) {
-            skip = (this->competitors[j]->getName().compare(c->getName()) == 0);
-        }
-        if (!skip) {
-            retString += QString("%1%2 (%3,%4)").arg(first ? "" : " - ").arg(c->getName(), -CRLoader::getStartListNameWidthMax()).arg(Competitor::toSexString(c->getSex())).arg(c->getYear());
-            first = false;
+            skip = entries[j].competitor && (entries[j].competitor->getName().compare(c->getName()) == 0);
         }
 
-        if (destroy) {
-            delete c;
-            destroy = false;
+        if (!skip) {
+            if (c)
+                retString += QString("%1%2 (%3,%4)").arg((first) ? "" : " - ").arg(c->getName(), -CRLoader::getStartListNameWidthMax()).arg(Competitor::toSexString(c->getSex())).arg(c->getYear());
+            else
+                retString += QString("%1%2 (%3,%4)").arg((first) ? "" : " - ").arg(ClassEntry::empty, -CRLoader::getStartListNameWidthMax()).arg(Competitor::toSexString(Competitor::UNDEFINED)).arg(0, 4);
+            first = false;
         }
-        i++;
     }
-    retString += QString(" - %1").arg(competitors[0]->getTeam(), -CRLoader::getTeamNameWidthMax());
-    if (competitors.size() > 1) {
-        retString += QString(" (%1)").arg(Competitor::toSexString(this->getSex()));
+
+    for (i = 0; i < entries.size(); i++) {
+        if ((c = entries[i].competitor)) {
+            retString += QString(" - %1").arg(c->getTeam(), -CRLoader::getTeamNameWidthMax());
+            break;
+        }
     }
+    if (i == entries.size())
+        retString += QString(" - %1").arg(ClassEntry::empty, -CRLoader::getTeamNameWidthMax());
+
+    if (entries.size() > 1) {
+        retString += QString(" (%1)").arg(Competitor::toSexString(getSex()));
+    }
+
     return retString;
 }
 
 uint ClassEntry::getYear(uint legIdx) const
 {
-    return this->competitors[legIdx]->getYear();
+    if ((int) legIdx >= entries.size())
+        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+
+    return (entries[legIdx].competitor) ? entries[legIdx].competitor->getYear() : 0;
 }
 
 Competitor::Sex ClassEntry::getSex() const
 {
-
     Competitor::Sex sex = Competitor::Sex::UNDEFINED;
-    for (auto c : competitors) {
-        sex = (sex == Competitor::Sex::UNDEFINED) ? c->getSex() : ((sex == c->getSex()) ? c->getSex() : Competitor::Sex::MISC);
+
+    for (const auto e : entries) {
+        sex = (sex == Competitor::Sex::UNDEFINED) ? e.competitor->getSex() : ((sex == e.competitor->getSex()) ? e.competitor->getSex() : Competitor::Sex::MISC);
     }
+
     return sex;
+}
+
+Competitor::Sex ClassEntry::getSex(uint legIdx) const
+{
+    if ((int) legIdx >= entries.size())
+        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+
+    return (entries[legIdx].competitor) ? entries[legIdx].competitor->getSex() : Competitor::UNDEFINED;
 }
 
 const QString ClassEntry::getTimesCSV() const
 {
-
     QString retString;
-    bool first = true;
-    uint i = 0;
-    for (const auto t : times) {
-        retString.append(QString("%1%2,%3").arg(((first) ? "" : ",")).arg(legRanking[i++]).arg(Timing::toTimeStr(t, Timing::CLASSIFIED)));
-        first = false;
-    }
+
+    for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
+        retString.append(QString("%1%2,%3").arg(((it == entries.constBegin()) ? "" : ",")).arg(it->legRanking).arg(Timing::toTimeStr(it->time, Timing::CLASSIFIED)));
+
     return retString;
 }
 
 const QString ClassEntry::getTimesTxt(int legRankWidth) const
 {
-
     QString retString;
-    uint i = 0;
-    for (const auto t : times) {
-        retString.append(QString("%1(%2) %3").arg(((i == 0) ? "" : " - ")).arg(legRanking[i], legRankWidth).arg(Timing::toTimeStr(t, states[i]), 7));
-        i++;
-    }
+
+    for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
+        retString.append(QString("%1(%2) %3").arg(((it == entries.constBegin()) ? "" : " - ")).arg(it->legRanking, legRankWidth).arg(Timing::toTimeStr(it->time, it->status), 7));
+
     return retString;
 }
 
-uint ClassEntry::getTime(uint i) const
+const QString ClassEntry::getTime(uint legIdx) const
 {
-    if ((int) i >= times.size()) {
-        throw(ChronoRaceException(tr("Inconsistent leg index %1 for bib %2").arg(i).arg(this->bib)));
-    }
-    return this->times.at(i);
+    if ((int) legIdx >= entries.size())
+        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+
+    return Timing::toTimeStr(entries[legIdx].time, entries[legIdx].status);
 }
 
-uint ClassEntry::countTimes() const
+uint ClassEntry::getTimeValue(uint legIdx) const
 {
-    return this->times.size();
+    if ((int) legIdx >= entries.size())
+        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+
+    return entries[legIdx].time;
 }
 
-void ClassEntry::setTime(Competitor* comp, const Timing& timing)
+uint ClassEntry::countEntries() const
 {
+    return (uint) entries.size();
+}
 
+void ClassEntry::setTime(Competitor* comp, const Timing& timing, QStringList &messages)
+{
     Q_ASSERT(comp);
 
     uint legHint  = timing.getLeg();
-    int  legIndex = (legHint > 0) ? (int) (legHint - 1) : this->times.size();
     int  offset   = comp->getOffset();
+    int  legIndex = (legHint > 0) ? (int) (legHint - 1) : entries.size();
 
-    while (this->competitors.size() <= legIndex) {
-        // add slots to the competitors vector
-        this->competitors.push_back(Q_NULLPTR);
-        // add slots to the states vector
-        this->states.push_back(Timing::CLASSIFIED);
-        // add slots to the times vector
-        this->times.push_back(0);
+    if ((offset < 0) && (legIndex + 1 != qAbs(offset)))
+        messages << tr("Leg mismatch for bib %1: detected %2 overriding competitor declared %3").arg(bib).arg(legIndex + 1).arg(qAbs(offset));
+
+    while (entries.size() <= legIndex) {
+        // add slots to entry vector
+        entries.push_back(ClassEntryElement());
+        entries.last().competitor = Q_NULLPTR;
+        entries.last().status = Timing::CLASSIFIED;
+        entries.last().time = 0;
+        entries.last().legRanking = 0;
     }
 
-    this->competitors[legIndex] = comp;
-    this->states[legIndex] = timing.getStatus();
+    if (entries[legIndex].competitor && (entries[legIndex].competitor != comp))
+        messages << tr("Competitor mismatch for bib %1: found %2 replaced by %3").arg(bib).arg(entries[legIndex].competitor->getName()).arg(comp->getName());
+
+    entries[legIndex].competitor = comp;
+    entries[legIndex].status = timing.getStatus();
     if (isDns()) {
-        this->totalTime = UINT_MAX;
+        totalTime = UINT_MAX;
     } else if (isDnf()) {
-        this->totalTime = UINT_MAX - 1;
+        totalTime = UINT_MAX - 1;
     } else {
         if (offset < 0) {
             // no offset; use standard timing logic
             // good for both individual and relay races
-            this->times[legIndex] = timing.getSeconds() - this->totalTime;
-            this->totalTime = timing.getSeconds();
+            entries[legIndex].time = timing.getSeconds() - totalTime;
+            totalTime = timing.getSeconds();
         } else {
             // competitor with offset; maybe individual
             // race without mass start or relay race with
             // timings sum
             uint seconds = timing.getSeconds() - (uint) offset;
-            this->times[legIndex] = seconds;
-            this->totalTime += seconds;
+            entries[legIndex].time = seconds;
+            totalTime += seconds;
         }
     }
 }
 
-void ClassEntry::setLegRanking(const uint ranking)
+uint ClassEntry::getLegRanking(uint legIdx)
 {
-    this->legRanking.push_back(ranking);
+    if ((int) legIdx >= entries.size())
+        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+
+    return entries[legIdx].legRanking;
+}
+
+void ClassEntry::setLegRanking(uint legIdx, uint ranking)
+{
+    if ((int) legIdx >= entries.size())
+        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+
+    entries[legIdx].legRanking = ranking;
 }
 
 uint ClassEntry::getFromYear() const
 {
-
     uint fromYear = UINT_MAX;
-    for (const auto c : competitors) {
-        fromYear = (fromYear > c->getYear()) ? c->getYear() : fromYear;
+
+    for (const auto it : entries) {
+        if (it.competitor)
+            fromYear = (fromYear > it.competitor->getYear()) ? it.competitor->getYear() : fromYear;
     }
+
     return fromYear;
 }
 
 uint ClassEntry::getToYear() const
 {
-
     uint toYear = 0u;
-    for (const auto c : competitors) {
-        toYear = (toYear < c->getYear()) ? c->getYear() : toYear;
+
+    for (const auto it : entries) {
+        if (it.competitor)
+            toYear = (toYear < it.competitor->getYear()) ? it.competitor->getYear() : toYear;
     }
+
     return toYear;
 }
 
 const QString& ClassEntry::getTeam() const
 {
-    return competitors[0]->getTeam();
+    for (auto it : entries) {
+        if (it.competitor)
+            return it.competitor->getTeam();
+    }
+
+    return ClassEntry::empty;
 }
 
 bool ClassEntry::isDnf() const
 {
-    for (auto it : states) {
-        if (it == Timing::DNF)
+    for (auto it : entries) {
+        if (it.status == Timing::DNF)
             return true;
     }
     return false;
@@ -226,16 +288,29 @@ bool ClassEntry::isDnf() const
 
 bool ClassEntry::isDns() const
 {
-    for (auto it : states) {
-        if (it == Timing::DNS)
+    for (auto it : entries) {
+        if (it.status == Timing::DNS)
             return true;
     }
     return false;
 }
 
+const QString& ClassEntry::getCategory() const
+{
+    return category;
+}
+
 const QString& ClassEntry::getCategory(uint legIdx) const
 {
-    return competitors[legIdx]->getCategory();
+    if ((int) legIdx >= entries.size())
+        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+
+    return (entries[legIdx].competitor) ? entries[legIdx].competitor->getCategory() : ClassEntry::empty;
+}
+
+void ClassEntry::setCategory(const QString &value)
+{
+    category = value;
 }
 
 uint ClassEntry::getTotalTime() const
@@ -250,20 +325,20 @@ const QString ClassEntry::getTotalTimeCSV() const
 
 const QString ClassEntry::getTotalTimeTxt() const
 {
-    if (isDns()) return Timing::toTimeStr(this->totalTime, Timing::DNS);
-    if (isDnf()) return Timing::toTimeStr(this->totalTime, Timing::DNF);
-    return Timing::toTimeStr(this->totalTime, Timing::CLASSIFIED);
+    if (isDns()) return Timing::toTimeStr(totalTime, Timing::DNS);
+    if (isDnf()) return Timing::toTimeStr(totalTime, Timing::DNF);
+    return Timing::toTimeStr(totalTime, Timing::CLASSIFIED);
 }
 
 const QString ClassEntry::getDiffTimeTxt(uint referenceTime) const
 {
-    if (isDns() || isDnf() || (this->totalTime == referenceTime))
+    if (isDns() || isDnf() || (totalTime == referenceTime))
         return QString("");
 
-    if (this->totalTime > referenceTime)
-        return Timing::toTimeStr(this->totalTime - referenceTime, Timing::CLASSIFIED, "+");
+    if (totalTime > referenceTime)
+        return Timing::toTimeStr(totalTime - referenceTime, Timing::CLASSIFIED, "+");
     else
-        return Timing::toTimeStr(referenceTime - this->totalTime, Timing::CLASSIFIED, "-");
+        return Timing::toTimeStr(referenceTime - totalTime, Timing::CLASSIFIED, "-");
 }
 
 bool ClassEntry::operator< (const ClassEntry& rhs) { return totalTime <  rhs.totalTime; }

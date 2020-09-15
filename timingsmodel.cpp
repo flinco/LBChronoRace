@@ -17,6 +17,11 @@ QDataStream &operator>>(QDataStream &in, TimingsModel &data)
     return in;
 }
 
+void TimingsModel::refreshCounters(int r)
+{
+    Q_UNUSED(r);
+}
+
 int TimingsModel::rowCount(const QModelIndex &parent) const
 {
 
@@ -174,4 +179,9 @@ void TimingsModel::reset() {
     beginResetModel();
     timings.clear();
     endResetModel();
+}
+
+const QList<Timing>& TimingsModel::getTimings() const
+{
+    return timings;
 }

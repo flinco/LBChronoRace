@@ -19,7 +19,7 @@
 #include "teamclassentry.h"
 
 #define LBCHRONORACE_NAME                 "LBChronoRace"
-#define LBCHRONORACE_VERSION              "1.9.3"
+#define LBCHRONORACE_VERSION              "1.9.4"
 
 #define LBCHRONORACE_STARTLIST_DEFAULT    "startlist.csv"
 #define LBCHRONORACE_TEAMLIST_DEFAULT     "teamlist.csv"
@@ -112,17 +112,18 @@ private:
     void makeCSVRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking, const QString &shortDescription);
     void makePDFRanking(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
     void makePDFRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
-    void makePDFRankingPortrait(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
-    void makePDFRankingPortrait(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
-    void makePDFRankingLandscape(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
-    void makePDFRankingLandscape(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
+    void makePDFRankingSingle(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
+    void makePDFRankingSingle(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
+    void makePDFRankingMulti(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
+    void makePDFRankingMulti(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
     void drawPDFTemplatePortrait(QPainter &painter, const QString &fullDescription, int page, int pages);
-    void drawPDFTemplateLandscape(QPainter &painter, const QString &fullDescription, int page, int pages);
+    //void drawPDFTemplateLandscape(QPainter &painter, const QString &fullDescription, int page, int pages);
+    bool initPDFPainter(QPainter &painter, const QString &outFileName);
 
     void makeStartList(CRLoader::Format format);
-    void makeTextStartList(const QList<const Competitor*> startList, uint bWidth, uint sWidth, uint nWidth, uint tWidth);
-    void makeCSVStartList(const QList<const Competitor*> startList);
-    void makePDFStartList(const QList<const Competitor*> startList);
+    void makeTextStartList(const QList<Competitor>& startList, uint bWidth, uint sWidth, uint nWidth, uint tWidth);
+    void makeCSVStartList(const QList<Competitor>& startList);
+    void makePDFStartList(const QList<Competitor>& startList);
 
 private slots:
     void importStartList();

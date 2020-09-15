@@ -15,6 +15,11 @@ QDataStream &operator>>(QDataStream &in, CategoriesModel &data)
     return in;
 }
 
+void CategoriesModel::refreshCounters(int r)
+{
+    Q_UNUSED(r);
+}
+
 int CategoriesModel::rowCount(const QModelIndex &parent) const
 {
 
@@ -199,4 +204,9 @@ void CategoriesModel::reset()
     beginResetModel();
     categories.clear();
     endResetModel();
+}
+
+const QList<Category>& CategoriesModel::getCategories() const
+{
+    return categories;
 }

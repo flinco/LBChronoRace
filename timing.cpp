@@ -182,11 +182,11 @@ bool TimingSorter::operator() (const Timing& lhs, const Timing& rhs)
 {
     switch(sortingField) {
     case Timing::TMF_BIB:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getBib() < rhs.getBib()) : (lhs.getBib() > rhs.getBib());
+        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getBib() > rhs.getBib()) : (lhs.getBib() < rhs.getBib());
     case Timing::TMF_TIME:
         // nobreak here
     default:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs < rhs) : (lhs > rhs);
+        return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }
 
     return false;

@@ -30,11 +30,17 @@ public:
 
     void reset();
 
+    const QList<QString>& getTeamsList() const;
+
+    uint getTeamNameWidthMax() const;
+
 public slots:
     void addTeam(const QString& team);
+    void refreshCounters(int r);
 
 private:
     QList<QString> teamsList;
+    uint           teamNameWidthMax;
 };
 
 #endif // LBTEAMSLISTMODEL_H

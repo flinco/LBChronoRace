@@ -5,21 +5,55 @@
 
 QDataStream &operator<<(QDataStream &out, const StartListModel &data)
 {
-    out << data.startList;
+    out << data.startList
+        << quint32(data.legCount)
+        << quint32(data.maxBib)
+        << quint32(data.competitorNameMaxWidth);
 
     return out;
 }
 
 QDataStream &operator>>(QDataStream &in, StartListModel &data)
 {
-    in >> data.startList;
+    quint32 legCount, maxBib, competitorNameMaxWidth;
+
+    in >> data.startList
+       >> legCount
+       >> maxBib
+       >> competitorNameMaxWidth;
+
+    data.legCount = (uint) legCount;
+    data.maxBib = (uint) maxBib;
+    data.competitorNameMaxWidth = (uint) competitorNameMaxWidth;
 
     return in;
 }
 
+void StartListModel::refreshCounters(int r)
+{
+    int offset;
+    uint bib, leg, nameWidth;
+
+    Q_UNUSED(r);
+
+    competitorNameMaxWidth = 0;
+    for (auto comp : startList) {
+        bib = comp.getBib();
+        offset = comp.getOffset();
+        leg = (uint) ((offset < 0) ? qAbs(offset) : 1);
+        nameWidth = (uint) comp.getName().length();
+
+        if (bib > maxBib)
+            maxBib = bib;
+        if (leg > legCount)
+            legCount = leg;
+        if (nameWidth > competitorNameMaxWidth)
+            competitorNameMaxWidth = nameWidth;
+    }
+}
+
 int StartListModel::rowCount(const QModelIndex &parent) const
 {
-
     Q_UNUSED(parent)
 
     return startList.count();
@@ -27,7 +61,6 @@ int StartListModel::rowCount(const QModelIndex &parent) const
 
 int StartListModel::columnCount(const QModelIndex &parent) const
 {
-
     Q_UNUSED(parent)
 
     return Competitor::CMF_COUNT;
@@ -81,7 +114,6 @@ QVariant StartListModel::data(const QModelIndex &index, int role) const
 
 bool StartListModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-
     bool retval = false;
     if (index.isValid() && role == Qt::EditRole) {
 
@@ -180,16 +212,14 @@ bool StartListModel::insertRows(int position, int rows, const QModelIndex &paren
 
 bool StartListModel::removeRows(int position, int rows, const QModelIndex &parent)
 {
-
     Q_UNUSED(parent)
 
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
-
     for (int row = 0; row < rows; ++row) {
         startList.removeAt(position);
     }
-
     endRemoveRows();
+
     return true;
 }
 
@@ -205,5 +235,28 @@ void StartListModel::reset()
 {
     beginResetModel();
     startList.clear();
+    legCount = 0;
+    maxBib = 0;
+    competitorNameMaxWidth = 0;
     endResetModel();
+}
+
+const QList<Competitor>& StartListModel::getStartList() const
+{
+    return startList;
+}
+
+uint StartListModel::getLegCount() const
+{
+    return legCount;
+}
+
+uint StartListModel::getMaxBib() const
+{
+    return maxBib;
+}
+
+uint StartListModel::getCompetitorNameMaxWidth() const
+{
+    return competitorNameMaxWidth;
 }

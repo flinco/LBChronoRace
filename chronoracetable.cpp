@@ -24,9 +24,9 @@ QAbstractTableModel* ChronoRaceTable::getModel() const
 
 void ChronoRaceTable::setModel(QAbstractTableModel* model)
 {
-
     ui->tableView->setModel(model);
     ui->tableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    this->connect(this, SIGNAL(finished(int)), model, SLOT(refreshCounters(int)));
 }
 
 void ChronoRaceTable::disableButtons()
@@ -42,8 +42,8 @@ void ChronoRaceTable::show()
 {
     ui->retranslateUi(this);
     ui->tableView->resizeColumnsToContents();
-    //QDialog::show();
-    QDialog::exec(); // modal
+    this->setWindowModality(Qt::WindowModal);
+    this->open();
 }
 
 void ChronoRaceTable::on_rowAdd_clicked()

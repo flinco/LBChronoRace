@@ -32,6 +32,11 @@ public:
 
     void reset();
 
+    const QList<Timing>& getTimings() const;
+
+public slots:
+    void refreshCounters(int r);
+
 private:
     QList<Timing> timings;
 };

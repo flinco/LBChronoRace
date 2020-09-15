@@ -8,16 +8,9 @@
 #include "lbcrexception.h"
 
 // Members initialization
-QMultiMap<uint, Competitor> CRLoader::startList;
 StartListModel              CRLoader::startListModel;
-int                         CRLoader::startListLegCount     = 0u;
-uint                        CRLoader::startListBibMax       = 0u;
-int                         CRLoader::startListNameWidthMax = 0;
 TeamsListModel              CRLoader::teamsListModel;
-int                         CRLoader::teamNameWidthMax      = 0;
-QVector<Timing>             CRLoader::timings               = {};
 TimingsModel                CRLoader::timingsModel;
-QVector<Category>           CRLoader::categories            = {};
 CategoriesModel             CRLoader::categoriesModel;
 QList<QVariant>             CRLoader::standardItemList;
 CRLoader::Encoding          CRLoader::encoding              = CRLoader::LATIN1;
@@ -61,25 +54,6 @@ CRLoader::Format CRLoader::getFormat()
 void CRLoader::setFormat(const Format &value)
 {
     format = value;
-}
-
-void CRLoader::clearStartList()
-{
-    startList.clear();
-    startListLegCount = 0u;
-    startListBibMax = 0u;
-    startListNameWidthMax = 0;
-    teamNameWidthMax = 0;
-}
-
-void CRLoader::clearTimings()
-{
-    timings.clear();
-}
-
-void CRLoader::clearCategories()
-{
-    categories.clear();
 }
 
 void CRLoader::loadCSV(const QString& filePath, QAbstractTableModel* model)
@@ -227,103 +201,45 @@ void CRLoader::exportTeams(const QString& path)
     outFile.close();
 }
 
-QMultiMap<uint, Competitor>& CRLoader::getStartList(QStringList& messages)
+QList<Competitor> CRLoader::getStartList()
 {
+    return QList<Competitor>(startListModel.getStartList());
+}
 
-    bool legCountOk = false;
-    uint lastBib = 0u;
-    QMultiMap<uint, Competitor>::iterator element;
+QMultiMap<uint, Competitor> CRLoader::getCompetitors(QStringList& messages)
+{
+    uint bib, mask, prevMask;
+    int offset;
+    QMultiMap<uint, Competitor> startList;
+    QMap<uint, Competitor>::const_iterator element;
+    QMap<uint, uint> legCount;
 
-    clearStartList();
-    element = startList.end();
+    for (auto comp : startListModel.getStartList()) {
+        bib = comp.getBib();
+        element = startList.find(bib);
+        if (element != startList.constEnd()) {
+            // check if there is a leg set for the competitor
+            // otherwise set it automatically
+            offset = comp.getOffset();
+            comp.setLeg((uint) ((offset < 0) ? qAbs(offset) : (startList.count(bib) + 1)));
 
-    int rowCount = startListModel.rowCount();
-    //int columnCount = model->columnCount();
-    for (int r = 0; r < rowCount; r++) {
-        for (Competitor::Field f = Competitor::CMF_FIRST; f < Competitor::CMF_COUNT; f++) {
-            QVariant value = startListModel.data(startListModel.index(r, f, QModelIndex()), Qt::EditRole);
-
-            if ((f != Competitor::CMF_BIB) && (element == startList.end())) {
-                throw(ChronoRaceException(tr("Competitor not found")));
-            }
-
-            switch(f) {
-                case Competitor::CMF_BIB:
-                    {
-                        uint startListBib = value.toUInt();
-                        if (!lastBib) {
-                            lastBib = startListBib;
-                        }
-                        if (legCountOk && (lastBib != startListBib)) {
-                            // new bib, check
-                            if (startList.count(lastBib) != startListLegCount) {
-                                throw(ChronoRaceException(tr("Wrong leg components for bib %1 - expected %2 - found %3").arg(lastBib).arg(startListLegCount).arg(startList.count(startListBib))));
-                            }
-                        }
-
-                        element = startList.insert(startListBib, Competitor(startListBib));
-                        element->setLeg(startList.count(startListBib));
-
-                        if (!legCountOk) {
-                            if (lastBib == startListBib) {
-                                // same bib, count
-                                startListLegCount++;
-                            } else {
-                                // new bib, freeze
-                                legCountOk = true;
-                            }
-                        }
-                        lastBib = startListBib;
-
-                        if (lastBib > startListBibMax) {
-                            startListBibMax = lastBib;
-                        }
-                    }
-                    break;
-                case Competitor::CMF_NAME:
-                    {
-                        element->setName(value.toString());
-                        if (startListNameWidthMax < element->getName().length())
-                            startListNameWidthMax = element->getName().length();
-                    }
-                    break;
-                case Competitor::CMF_SEX:
-                    {
-                        element->setSex(Competitor::toSex(value.toString()));
-                    }
-                    break;
-                case Competitor::CMF_YEAR:
-                    {
-                        element->setYear(value.toUInt());
-                    }
-                    break;
-                case Competitor::CMF_TEAM:
-                    {
-                        element->setTeam(value.toString());
-
-                        if (teamNameWidthMax < element->getTeam().length())
-                            teamNameWidthMax = element->getTeam().length();
-                    }
-                    break;
-                case Competitor::CMF_OFFSET_LEG:
-                    {
-                        int offset = Competitor::toOffset(value.toString());
-                        element->setOffset(offset);
-                        if (offset < 0)
-                            element->setLeg((uint) qAbs(offset));
-                    }
-                    break;
-                default:
-                    {
-                        throw(ChronoRaceException(tr("Field enumeration value not managed!")));
-                    }
-            }
+            // set a bit in the leg count array
+            mask = 0x1 << comp.getLeg();
+            if (legCount.contains(bib))
+                legCount[bib] |= mask;
+            else
+                legCount.insert(bib, mask);
         }
+        startList.insert(bib, comp);
+    }
 
-        if ((element != startList.end()) && !element->isValid()) {
-            messages << tr("Invalid competitor at row %1").arg(r + 1);
-            element = startList.erase(element);
+    prevMask = 0;
+    for (auto bib : legCount.keys()) {
+        mask = legCount.value(bib);
+        if (prevMask && (mask != prevMask)) {
+            messages << tr("Missing or extra legs for bib %1").arg(bib);
         }
+        prevMask = mask;
     }
 
     return startList;
@@ -332,22 +248,22 @@ QMultiMap<uint, Competitor>& CRLoader::getStartList(QStringList& messages)
 
 uint CRLoader::getStartListLegs()
 {
-    return startListLegCount;
+    return startListModel.getLegCount();
 }
 
 uint CRLoader::getStartListBibMax()
 {
-    return startListBibMax;
+    return startListModel.getMaxBib();
 }
 
-int CRLoader::getStartListNameWidthMax()
+uint CRLoader::getStartListNameWidthMax()
 {
-    return startListNameWidthMax;
+    return startListModel.getCompetitorNameMaxWidth();
 }
 
-int CRLoader::getTeamNameWidthMax()
+uint CRLoader::getTeamNameWidthMax()
 {
-    return teamNameWidthMax;
+    return teamsListModel.getTeamNameWidthMax();
 }
 
 int CRLoader::importTimings(const QString& path)
@@ -373,47 +289,9 @@ void CRLoader::exportTimings(const QString& path)
     saveCSV(path, &timingsModel);
 }
 
-QVector<Timing>& CRLoader::getTimings(QStringList& messages)
+QVector<Timing> CRLoader::getTimings()
 {
-
-    clearTimings();
-
-    int rowCount = timingsModel.rowCount();
-    //int columnCount = model->columnCount();
-    for (int r = 0; r < rowCount; r++) {
-        for (Timing::Field f = Timing::TMF_FIRST; f < Timing::TMF_COUNT; f++) {
-            QVariant value = timingsModel.data(timingsModel.index(r, f, QModelIndex()), Qt::DisplayRole);
-
-            switch(f) {
-                case Timing::TMF_BIB:
-                    {
-                        timings.push_back(Timing(value.toUInt()));
-                    }
-                    break;
-                case Timing::TMF_LEG:
-                    {
-                        timings.last().setLeg(value.toUInt());
-                    }
-                    break;
-                case Timing::TMF_TIME:
-                    {
-                        timings.last().setTiming(value.toString());
-                    }
-                    break;
-                default:
-                    {
-                        throw(ChronoRaceException(tr("Field enumeration value not managed!")));
-                    }
-            }
-        }
-
-        if (!timings.back().isValid()) {
-            messages << tr("Invalid timing at row %1").arg(r + 1);
-            timings.removeLast();
-        }
-    }
-
-    return timings;
+    return QVector<Timing>::fromList(timingsModel.getTimings());
 }
 
 int CRLoader::importCategories(const QString& path)
@@ -439,61 +317,9 @@ void CRLoader::exportCategories(const QString& path)
     saveCSV(path, &categoriesModel);
 }
 
-QVector<Category>& CRLoader::getCategories(QStringList& messages)
+QVector<Category> CRLoader::getCategories()
 {
-
-    clearCategories();
-
-    int rowCount = categoriesModel.rowCount();
-    //int columnCount = model->columnCount();
-    for (int r = 0; r < rowCount; r++) {
-        for (Category::Field f = Category::CTF_FIRST; f < Category::CTF_COUNT; f++) {
-            QVariant value = categoriesModel.data(categoriesModel.index(r, f, QModelIndex()), Qt::DisplayRole);
-
-            switch(f) {
-                case Category::CTF_TEAM:
-                    {
-                        categories.push_back(Category(value.toString()));
-                    }
-                    break;
-                case Category::CTF_SEX:
-                    {
-                        categories.back().setSex(Competitor::toSex(value.toString()));
-                    }
-                    break;
-                case Category::CTF_TO_YEAR:
-                    {
-                        categories.back().setToYear(value.toUInt());
-                    }
-                    break;
-                case Category::CTF_FROM_YEAR:
-                    {
-                        categories.back().setFromYear(value.toUInt());
-                    }
-                    break;
-                case Category::CTF_FULL_DESCR:
-                    {
-                        categories.back().setFullDescription(value.toString());
-                    }
-                    break;
-                case Category::CTF_SHORT_DESCR:
-                    {
-                        categories.back().setShortDescription(value.toString());
-                    }
-                    break;
-                default:
-                    {
-                        throw(ChronoRaceException(tr("Field enumeration value not managed!")));
-                    }
-            }
-        }
-
-        if (!categories.back().isValid()) {
-            messages << tr("Invalid category at row %1").arg(r + 1);
-            categories.removeLast();
-        }
-    }
-    return categories;
+    return QVector<Category>::fromList(categoriesModel.getCategories());
 }
 
 void CRLoader::checkString(QAbstractTableModel* model, QString& token, QChar character)

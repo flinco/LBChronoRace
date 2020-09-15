@@ -13,9 +13,9 @@ class CategoriesModel : public QAbstractTableModel
 
 public:
     CategoriesModel(QObject *parent = Q_NULLPTR)
-        : QAbstractTableModel(parent), categories() {}
+        : QAbstractTableModel(parent), categories() { }
     CategoriesModel(const QList<Category>& categoriesList, QObject *parent = Q_NULLPTR)
-        : QAbstractTableModel(parent), categories(categoriesList) {}
+        : QAbstractTableModel(parent), categories(categoriesList) { }
 
     friend QDataStream &operator<<(QDataStream &out, const CategoriesModel &data);
     friend QDataStream &operator>>(QDataStream &in, CategoriesModel &data);
@@ -31,6 +31,11 @@ public:
     void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
     void reset();
+
+    const QList<Category>& getCategories() const;
+
+public slots:
+    void refreshCounters(int r);
 
 private:
     QList<Category> categories;

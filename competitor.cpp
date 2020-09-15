@@ -82,7 +82,6 @@ void Competitor::setBib(uint bib)
     this->bib = bib;
 }
 
-
 Competitor::Sex Competitor::getSex() const
 {
     return sex;
@@ -154,7 +153,6 @@ void Competitor::setCategory(const QString& category)
 
 Competitor::Sex Competitor::toSex(const QString& sex, const bool strict)
 {
-
     if (sex.length() != 1) {
         throw(ChronoRaceException(tr("Illegal sex '%1'").arg(sex)));
     } else {
@@ -171,7 +169,6 @@ Competitor::Sex Competitor::toSex(const QString& sex, const bool strict)
 
 QString Competitor::toSexString(const Sex sex)
 {
-
     switch (sex) {
         case MALE:
             return "M";
@@ -208,15 +205,9 @@ int Competitor::toOffset(const QString& offset)
                 retval = (m * 60) + s;
         break;
         case 1:
-            if (list[0].contains(tr("Leg"))) {
-                l = list[0].remove(tr("Leg")).trimmed().toInt(&check_l, 10);
-                if (check_l)
-                    retval = -qAbs(l);
-            } else {
-                l = list[0].toInt(&check_l, 10);
-                if (check_l && (l < 0))
-                    retval = l;
-            }
+            l = list[0].toInt(&check_l, 10);
+            if (check_l)
+                retval = -qAbs(l);
         break;
         default:
             // do nothing
@@ -229,28 +220,44 @@ int Competitor::toOffset(const QString& offset)
 QString Competitor::toOffsetString(int offset)
 {
     if (offset < 0)
-        return tr("Leg %n", "", qAbs(offset));
+        return QString("%1").arg(qAbs(offset));
     else
         return QString("%1:%2:%3").arg(((offset / 60) / 60)).arg(((offset / 60) % 60), 2, 10, QChar('0')).arg((offset % 60), 2, 10, QChar('0'));
 }
 
 bool Competitor::operator< (const Competitor& rhs) const
 {
-    if (bib < rhs.bib) {
+    if ((offset < 0) && (offset != rhs.offset))
+        return qAbs(offset) < qAbs(rhs.offset);
+
+    if (bib < rhs.bib)
         return true;
-    } else if (bib == rhs.bib) {
-        return leg < rhs.leg;
+
+    if (bib == rhs.bib) {
+        if (offset != rhs.offset)
+            return qAbs(offset) < qAbs(rhs.offset);
+        else
+            return leg < rhs.leg;
     }
+
     return false;
 }
 
 bool Competitor::operator> (const Competitor& rhs) const
 {
-    if (bib > rhs.bib) {
+    if ((offset < 0) && (offset != rhs.offset))
+        return qAbs(offset) > qAbs(rhs.offset);
+
+    if (bib > rhs.bib)
         return true;
-    } else if (bib == rhs.bib) {
-        return leg > rhs.leg;
+
+    if (bib == rhs.bib) {
+        if (offset != rhs.offset)
+            return qAbs(offset) > qAbs(rhs.offset);
+        else
+            return leg > rhs.leg;
     }
+
     return false;
 }
 
@@ -268,32 +275,20 @@ bool CompetitorSorter::operator() (const Competitor& lhs, const Competitor& rhs)
 {
     switch(sortingField) {
         case Competitor::CMF_NAME:
-            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getName() < rhs.getName()) : (lhs.getName() > rhs.getName());
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getName() > rhs.getName()) : (lhs.getName() < rhs.getName());
         case Competitor::CMF_SEX:
-            return (sortingOrder == Qt::DescendingOrder) ? (Competitor::toSexString(lhs.getSex()) < Competitor::toSexString(rhs.getSex())) : (Competitor::toSexString(lhs.getSex()) > Competitor::toSexString(rhs.getSex()));
+            return (sortingOrder == Qt::DescendingOrder) ? (Competitor::toSexString(lhs.getSex()) > Competitor::toSexString(rhs.getSex())) : (Competitor::toSexString(lhs.getSex()) < Competitor::toSexString(rhs.getSex()));
         case Competitor::CMF_YEAR:
-            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getYear() < rhs.getYear()) : (lhs.getYear() > rhs.getYear());
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getYear() > rhs.getYear()) : (lhs.getYear() < rhs.getYear());
         case Competitor::CMF_TEAM:
-            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getTeam() < rhs.getTeam()) : (lhs.getTeam() > rhs.getTeam());
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getTeam() > rhs.getTeam()) : (lhs.getTeam() < rhs.getTeam());
         case Competitor::CMF_BIB:
             // nobreak here
+        case Competitor::CMF_OFFSET_LEG:
+            // nobreak here
         default:
-            return (sortingOrder == Qt::DescendingOrder) ? (lhs < rhs) : (lhs > rhs);
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }
-}
-
-bool CompetitorSorter::operator() (const Competitor* lhs, const Competitor* rhs)
-{
-    if (!lhs)
-        return false;
-    else if (!rhs)
-        return true;
-    else if (lhs->getOffset() != rhs->getOffset())
-        return qAbs(lhs->getOffset()) < qAbs(rhs->getOffset());
-    else  if (lhs->getBib() != rhs->getBib())
-        return lhs->getBib() < rhs->getBib();
-
-    return false;
 }
 
 Qt::SortOrder CompetitorSorter::getSortingOrder()
