@@ -310,7 +310,7 @@ QMultiMap<uint, Competitor>& CRLoader::getStartList(QStringList& messages)
                         int offset = Competitor::toOffset(value.toString());
                         element->setOffset(offset);
                         if (offset < 0)
-                            element->setLeg((uint) (-offset));
+                            element->setLeg((uint) qAbs(offset));
                     }
                     break;
                 default:

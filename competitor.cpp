@@ -208,9 +208,15 @@ int Competitor::toOffset(const QString& offset)
                 retval = (m * 60) + s;
         break;
         case 1:
-            l = list[0].toInt(&check_l, 10);
-            if (check_l && (l < 0))
-                retval = l;
+            if (list[0].contains(tr("Leg"))) {
+                l = list[0].remove(tr("Leg")).trimmed().toInt(&check_l, 10);
+                if (check_l)
+                    retval = -qAbs(l);
+            } else {
+                l = list[0].toInt(&check_l, 10);
+                if (check_l && (l < 0))
+                    retval = l;
+            }
         break;
         default:
             // do nothing

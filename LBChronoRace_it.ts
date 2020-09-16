@@ -386,8 +386,14 @@
         <source>Unexpected Sex enum value &apos;%1&apos;</source>
         <translation>Valore enumerazione Sex &apos;%1&apos; non valido</translation>
     </message>
+    <message>
+        <location filename="competitor.cpp" line="211"/>
+        <location filename="competitor.cpp" line="212"/>
+        <source>Leg</source>
+        <translation>Frazione</translation>
+    </message>
     <message numerus="yes">
-        <location filename="competitor.cpp" line="226"/>
+        <location filename="competitor.cpp" line="232"/>
         <source>Leg %n</source>
         <translation>
             <numerusform>Frazione %n</numerusform>
