@@ -296,8 +296,8 @@ void ChronoRaceData::show()
 {
     ui->retranslateUi(this);
     restoreRaceData();
-    this->setWindowModality(Qt::WindowModal);
-    this->open();
+    this->setWindowModality(Qt::ApplicationModal);
+    QDialog::show();
 }
 
 void ChronoRaceData::setBinFormat(uint binFmt)

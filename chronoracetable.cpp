@@ -42,8 +42,8 @@ void ChronoRaceTable::show()
 {
     ui->retranslateUi(this);
     ui->tableView->resizeColumnsToContents();
-    this->setWindowModality(Qt::WindowModal);
-    this->open();
+    this->setWindowModality(Qt::ApplicationModal);
+    QDialog::show();
 }
 
 void ChronoRaceTable::on_rowAdd_clicked()

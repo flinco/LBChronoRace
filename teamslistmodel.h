@@ -12,7 +12,7 @@ class TeamsListModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    TeamsListModel(QObject *parent = 0)
+    TeamsListModel(QObject *parent = Q_NULLPTR)
         : QAbstractTableModel(parent), teamsList() {}
 
     friend QDataStream &operator<<(QDataStream &out, const TeamsListModel &data);

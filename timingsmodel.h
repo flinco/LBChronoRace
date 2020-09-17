@@ -12,9 +12,9 @@ class TimingsModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    TimingsModel(QObject *parent = 0)
+    TimingsModel(QObject *parent = Q_NULLPTR)
         : QAbstractTableModel(parent), timings() {}
-    TimingsModel(const QList<Timing>& timingsList, QObject *parent = 0)
+    TimingsModel(const QList<Timing>& timingsList, QObject *parent = Q_NULLPTR)
         : QAbstractTableModel(parent), timings(timingsList) {}
 
     friend QDataStream &operator<<(QDataStream &out, const TimingsModel &data);

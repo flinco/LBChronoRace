@@ -14,7 +14,7 @@ class ChronoRaceTable : public QDialog
     Q_OBJECT
 
 public:
-    explicit ChronoRaceTable(QWidget *parent = 0);
+    explicit ChronoRaceTable(QWidget *parent = Q_NULLPTR);
     ~ChronoRaceTable();
 
     QAbstractTableModel *getModel() const;
