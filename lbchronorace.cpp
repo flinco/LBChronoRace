@@ -1782,7 +1782,8 @@ void LBChronoRace::makePDFStartList(const QList<Competitor>& startList)
 
             if (initPDFPainter(painter, outFileName)) {
                 int i, page, pages = 1;
-                int offset, rankingCount = startList.size();
+                int prevOffset, offset;
+                uint legs = CRLoader::getStartListLegs();
                 QRectF writeRect;
                 QTime startTime = raceInfo.getStartTime();
 
@@ -1799,17 +1800,27 @@ void LBChronoRace::makePDFStartList(const QList<Competitor>& startList)
                 //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBold.toString()), qUtf8Printable(rnkFontBold.family()));
 
                 // Compute the number of pages
+                QList<Competitor>::const_iterator c;
                 int availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
-                while (rankingCount--) {
+                for (c = startList.constBegin(), prevOffset = (*c).getOffset(); c < startList.constEnd(); c++) {
                     if (availableEntriesOnPage <= 0) {
                         // go to a new page
                         pages++;
                         availableEntriesOnPage = RANKING_PORTRAIT_SECOND_PAGE_LIMIT;
                     }
                     availableEntriesOnPage--;
+                    if (legs > 1) {
+                        offset = (*c).getOffset();
+                        if (offset < 0) {
+                            if (prevOffset != offset)
+                                availableEntriesOnPage--;
+                            prevOffset = offset;
+                        }
+                    }
                 }
 
-                QList<Competitor>::const_iterator c = startList.constBegin();
+                c = startList.constBegin();
+                prevOffset = (*c).getOffset();
                 availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
                 for (page = 1, i = 1; page <= pages; page++) {
                     drawPDFTemplatePortrait(painter, tr("Start List"), page, pages);
@@ -1860,6 +1871,18 @@ void LBChronoRace::makePDFStartList(const QList<Competitor>& startList)
                     writeRect.setTop(toVdots((page == 1) ? 57.0 : 34.0));
                     writeRect.setHeight(toVdots(4.0));
                     do {
+                        if (legs > 1) {
+                            offset = (*c).getOffset();
+                            if (offset < 0) {
+                                if (prevOffset != offset) {
+                                    // Move down
+                                    writeRect.translate(0.0, toVdots(4.0));
+                                    availableEntriesOnPage--;
+                                }
+                                prevOffset = offset;
+                            }
+                        }
+
                         if (availableEntriesOnPage <= 0) {
                             // add a new page
                             availableEntriesOnPage = RANKING_PORTRAIT_SECOND_PAGE_LIMIT;
