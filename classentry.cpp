@@ -227,7 +227,7 @@ void ClassEntry::setTime(Competitor* comp, const Timing& timing, QStringList &me
     }
 }
 
-uint ClassEntry::getLegRanking(uint legIdx)
+uint ClassEntry::getLegRanking(uint legIdx) const
 {
     if ((int) legIdx >= entries.size())
         throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));

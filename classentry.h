@@ -48,7 +48,7 @@ public:
     uint getTimeValue(uint legIdx) const;
     uint countEntries() const;
     void setTime(Competitor* comp, const Timing& timing, QStringList &messages);
-    uint getLegRanking(uint legIdx);
+    uint getLegRanking(uint legIdx) const;
     void setLegRanking(uint legIdx, uint ranking);
     uint getFromYear() const;
     uint getToYear() const;
