@@ -19,7 +19,7 @@
 #include "teamclassentry.h"
 
 #define LBCHRONORACE_NAME                 "LBChronoRace"
-#define LBCHRONORACE_VERSION              "1.9.8"
+#define LBCHRONORACE_VERSION              "1.9.9"
 
 #define LBCHRONORACE_STARTLIST_DEFAULT    "startlist.csv"
 #define LBCHRONORACE_TEAMLIST_DEFAULT     "teamlist.csv"

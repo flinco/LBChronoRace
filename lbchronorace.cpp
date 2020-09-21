@@ -184,6 +184,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
                     } else {
                         leg = 1;
                     }
+                    CRLoader::setStartListLegs(leg);
                 }
 
                 Competitor *comp = NULL;

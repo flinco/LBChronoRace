@@ -251,6 +251,11 @@ uint CRLoader::getStartListLegs()
     return startListModel.getLegCount();
 }
 
+void CRLoader::setStartListLegs(uint leg)
+{
+    startListModel.setLegCount(leg);
+}
+
 uint CRLoader::getStartListBibMax()
 {
     return startListModel.getMaxBib();

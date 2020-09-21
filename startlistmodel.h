@@ -35,6 +35,7 @@ public:
     const QList<Competitor>& getStartList() const;
 
     uint getLegCount() const;
+    void setLegCount(uint leg);
     uint getMaxBib() const;
     uint getCompetitorNameMaxWidth() const;
 

@@ -251,6 +251,12 @@ uint StartListModel::getLegCount() const
     return legCount;
 }
 
+void StartListModel::setLegCount(uint leg)
+{
+    if (legCount < leg)
+        legCount = leg;
+}
+
 uint StartListModel::getMaxBib() const
 {
     return maxBib;

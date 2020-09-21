@@ -62,6 +62,7 @@ public:
     static QList<Competitor> getStartList();
     static QMultiMap<uint, Competitor> getCompetitors(QStringList& messages);
     static uint getStartListLegs();
+    static void setStartListLegs(uint leg);
     static uint getStartListBibMax();
     static uint getStartListNameWidthMax();
     static uint getTeamNameWidthMax();
