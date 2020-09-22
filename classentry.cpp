@@ -28,7 +28,7 @@ void ClassEntry::setBib(uint bib)
 const QString ClassEntry::getName(uint legIdx) const
 {
     if ((int) legIdx >= entries.size())
-        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return entries[legIdx].competitor ? entries[legIdx].competitor->getName() : ClassEntry::empty;
 }
@@ -116,7 +116,7 @@ const QString ClassEntry::getNamesTxt() const
 uint ClassEntry::getYear(uint legIdx) const
 {
     if ((int) legIdx >= entries.size())
-        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return (entries[legIdx].competitor) ? entries[legIdx].competitor->getYear() : 0;
 }
@@ -135,7 +135,7 @@ Competitor::Sex ClassEntry::getSex() const
 Competitor::Sex ClassEntry::getSex(uint legIdx) const
 {
     if ((int) legIdx >= entries.size())
-        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return (entries[legIdx].competitor) ? entries[legIdx].competitor->getSex() : Competitor::UNDEFINED;
 }
@@ -163,7 +163,7 @@ const QString ClassEntry::getTimesTxt(int legRankWidth) const
 const QString ClassEntry::getTime(uint legIdx) const
 {
     if ((int) legIdx >= entries.size())
-        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return Timing::toTimeStr(entries[legIdx].time, entries[legIdx].status);
 }
@@ -171,7 +171,7 @@ const QString ClassEntry::getTime(uint legIdx) const
 uint ClassEntry::getTimeValue(uint legIdx) const
 {
     if ((int) legIdx >= entries.size())
-        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return entries[legIdx].time;
 }
@@ -230,7 +230,7 @@ void ClassEntry::setTime(Competitor* comp, const Timing& timing, QStringList &me
 uint ClassEntry::getLegRanking(uint legIdx) const
 {
     if ((int) legIdx >= entries.size())
-        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return entries[legIdx].legRanking;
 }
@@ -238,7 +238,7 @@ uint ClassEntry::getLegRanking(uint legIdx) const
 void ClassEntry::setLegRanking(uint legIdx, uint ranking)
 {
     if ((int) legIdx >= entries.size())
-        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     entries[legIdx].legRanking = ranking;
 }
@@ -303,7 +303,7 @@ const QString& ClassEntry::getCategory() const
 const QString& ClassEntry::getCategory(uint legIdx) const
 {
     if ((int) legIdx >= entries.size())
-        throw(ChronoRaceException(tr("Inconsistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return (entries[legIdx].competitor) ? entries[legIdx].competitor->getCategory() : ClassEntry::empty;
 }

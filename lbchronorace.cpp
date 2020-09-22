@@ -122,6 +122,8 @@ void LBChronoRace::fitRectToLogo(QRectF &rect, QPixmap const &pixmap)
 
 void LBChronoRace::makeRankings(CRLoader::Format format)
 {
+    ui->errorDisplay->clear();
+
     try {
         // Compute the classifications
         QStringList messages;
@@ -171,7 +173,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
 
                 if (compItPair.first == compItPair.second) {
                     // should never happen
-                    ui->infoDisplay->appendPlainText(tr("Competitor not found for bib %1").arg(bib));
+                    ui->errorDisplay->appendPlainText(tr("Competitor not found for bib %1").arg(bib));
                     continue;
                 }
 
@@ -192,7 +194,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
                     }
                 }
                 if (!comp) {
-                    ui->infoDisplay->appendPlainText(tr("Bib %1 skipped; check for possible duplicated entries").arg(bib));
+                    ui->errorDisplay->appendPlainText(tr("Bib %1 not inserted in ranking; check for possible duplicated entries").arg(bib));
                     continue;
                 } else {
                     // Set the category for the competitor (if any)
@@ -220,6 +222,9 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
                     rankingByBib.insert(bib, ClassEntry(bib))->setTime(comp, timing, messages);
                 }
             }
+
+            if (startList.size() != timings.size())
+                ui->errorDisplay->appendPlainText(tr("Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries").arg(timings.size()).arg(startList.size()));
 
             // sort by time
             QList<ClassEntry*> rankingByTime;
@@ -364,11 +369,11 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
             }
 
             for (auto message : messages)
-                ui->infoDisplay->appendPlainText(tr("Warning: %1").arg(message));
+                ui->errorDisplay->appendPlainText(tr("Warning: %1").arg(message));
             messages.clear();
         }
     } catch (ChronoRaceException& e) {
-        ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+        ui->errorDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
     }
 }
 
@@ -558,7 +563,7 @@ void LBChronoRace::makePDFRanking(const QString &outFileName, const QString &ful
 {
     switch (CRLoader::getStartListLegs()) {
         case 0:
-            ui->infoDisplay->appendPlainText(tr("Error: cannot generate ranking for 0 legs"));
+            ui->errorDisplay->appendPlainText(tr("Error: cannot generate ranking for 0 legs"));
             break;
         case 1:
             makePDFRankingSingle(outFileName, fullDescription, individualRanking);
@@ -573,7 +578,7 @@ void LBChronoRace::makePDFRanking(const QString &outFileName, const QString &ful
 {
     switch (CRLoader::getStartListLegs()) {
         case 0:
-            ui->infoDisplay->appendPlainText(tr("Error: cannot generate ranking for 0 legs"));
+            ui->errorDisplay->appendPlainText(tr("Error: cannot generate ranking for 0 legs"));
             break;
         case 1:
             makePDFRankingSingle(outFileName, fullDescription, teamRanking);
@@ -1573,6 +1578,8 @@ bool LBChronoRace::initPDFPainter(QPainter &painter, const QString &outFileName)
 
 void LBChronoRace::makeStartList(CRLoader::Format format)
 {
+    ui->errorDisplay->clear();
+
     try {
         // Compute the start list
         QStringList messages;
@@ -1606,7 +1613,7 @@ void LBChronoRace::makeStartList(CRLoader::Format format)
         std::stable_sort(sortedStartList.begin(), sortedStartList.end(), CompetitorSorter());
 
         for (auto message : messages)
-            ui->infoDisplay->appendPlainText(tr("Warning: %1").arg(message));
+            ui->errorDisplay->appendPlainText(tr("Warning: %1").arg(message));
         messages.clear();
 
         i = sortedStartList.size();
@@ -1629,7 +1636,7 @@ void LBChronoRace::makeStartList(CRLoader::Format format)
                 break;
         }
     } catch (ChronoRaceException& e) {
-        ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+        ui->errorDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
     }
 }
 
@@ -1991,7 +1998,7 @@ void LBChronoRace::importStartList()
             ui->infoDisplay->appendPlainText(tr("Loaded: %n team(s)", "", count.second));
             lastSelectedPath = QFileInfo(startListFileName).absoluteDir();
         } catch (ChronoRaceException& e) {
-            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+            ui->errorDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
         }
         setCounterCompetitors(count.first);
         setCounterTeams(count.second);
@@ -2011,7 +2018,7 @@ void LBChronoRace::importCategoriesList()
             ui->infoDisplay->appendPlainText((count == 1) ? tr("Loaded: %n category", "", count) : tr("Loaded: %n category", "", count));
             lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
         } catch (ChronoRaceException& e) {
-            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+            ui->errorDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
         }
         setCounterCategories(count);
     }
@@ -2030,7 +2037,7 @@ void LBChronoRace::importTimingsList()
             ui->infoDisplay->appendPlainText(tr("Loaded: %n timing(s)", "", count));
             lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
         } catch (ChronoRaceException& e) {
-            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+            ui->errorDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
         }
         setCounterTimings(count);
     }
@@ -2047,7 +2054,7 @@ void LBChronoRace::exportStartList()
             ui->infoDisplay->appendPlainText(tr("Start List File saved: %1").arg(startListFileName));
             lastSelectedPath = QFileInfo(startListFileName).absoluteDir();
         }  catch (ChronoRaceException& e) {
-            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+            ui->errorDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
         }
     }
 }
@@ -2063,7 +2070,7 @@ void LBChronoRace::exportTeamList()
             ui->infoDisplay->appendPlainText(tr("Teams File saved: %1").arg(teamsFileName));
             lastSelectedPath = QFileInfo(teamsFileName).absoluteDir();
         }  catch (ChronoRaceException& e) {
-            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+            ui->errorDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
         }
     }
 }
@@ -2079,7 +2086,7 @@ void LBChronoRace::exportCategoriesList()
             ui->infoDisplay->appendPlainText(tr("Categories File saved: %1").arg(categoriesFileName));
             lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
         }  catch (ChronoRaceException& e) {
-            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+            ui->errorDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
         }
     }
 }
@@ -2095,7 +2102,7 @@ void LBChronoRace::exportTimingsList()
             ui->infoDisplay->appendPlainText(tr("Timings File saved: %1").arg(timingsFileName));
             lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
         }  catch (ChronoRaceException& e) {
-            ui->infoDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
+            ui->errorDisplay->appendPlainText(tr("Error: %1").arg(e.getMessage()));
         }
     }
 }

@@ -375,8 +375,9 @@
         <location filename="classentry.cpp" line="233"/>
         <location filename="classentry.cpp" line="241"/>
         <location filename="classentry.cpp" line="306"/>
-        <source>Inconsistent leg %1 for bib %2</source>
-        <translation>Frazione %1 inconsistente per il pettorale %2</translation>
+        <source>Nonexistent leg %1 for bib %2</source>
+        <oldsource>Inconsistent leg %1 for bib %2</oldsource>
+        <translation>Frazione %1 inesistente per il pettorale %2</translation>
     </message>
     <message>
         <location filename="classentry.cpp" line="193"/>
@@ -417,19 +418,19 @@
     </message>
     <message>
         <location filename="chronorace.ui" line="126"/>
-        <location filename="chronorace.ui" line="360"/>
+        <location filename="chronorace.ui" line="396"/>
         <source>Edit Timings</source>
         <translation>Modifica Tempi</translation>
     </message>
     <message>
         <location filename="chronorace.ui" line="156"/>
-        <location filename="chronorace.ui" line="344"/>
+        <location filename="chronorace.ui" line="380"/>
         <source>Edit Start List</source>
         <translation>Modifica Ordine di Partenza</translation>
     </message>
     <message>
         <location filename="chronorace.ui" line="163"/>
-        <location filename="chronorace.ui" line="379"/>
+        <location filename="chronorace.ui" line="415"/>
         <source>Save Race</source>
         <translation>Salva Gara</translation>
     </message>
@@ -449,89 +450,89 @@
         <translation>Squadre</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="184"/>
+        <location filename="chronorace.ui" line="220"/>
         <source>Encoding</source>
         <translation>Codifica</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="207"/>
+        <location filename="chronorace.ui" line="243"/>
         <source>Latin1</source>
         <translation>Latin1</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="212"/>
-        <location filename="lbchronorace.cpp" line="2265"/>
+        <location filename="chronorace.ui" line="248"/>
+        <location filename="lbchronorace.cpp" line="2272"/>
         <source>UTF-8</source>
         <translation>UTF-8</translation>
     </message>
     <message>
         <location filename="chronorace.ui" line="136"/>
-        <location filename="chronorace.ui" line="352"/>
+        <location filename="chronorace.ui" line="388"/>
         <source>Edit Categories</source>
         <translation>Modifica Categorie</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="220"/>
+        <location filename="chronorace.ui" line="256"/>
         <source>Format</source>
         <translation>Formato</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="227"/>
+        <location filename="chronorace.ui" line="263"/>
         <source>Start List and Rankings file format: PDF, CSV or Plain Text</source>
         <translation>Formato file Ordine di Partenza e Classifiche: PDF, CSV o Testo semplice</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="231"/>
-        <location filename="lbchronorace.cpp" line="2275"/>
+        <location filename="chronorace.ui" line="267"/>
+        <location filename="lbchronorace.cpp" line="2282"/>
         <source>PDF</source>
         <translation>PDF</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="236"/>
+        <location filename="chronorace.ui" line="272"/>
         <source>Text</source>
         <translation>Testo</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="241"/>
-        <location filename="lbchronorace.cpp" line="2277"/>
+        <location filename="chronorace.ui" line="277"/>
+        <location filename="lbchronorace.cpp" line="2284"/>
         <source>CSV</source>
         <translation>CSV</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="268"/>
+        <location filename="chronorace.ui" line="304"/>
         <source>Make Start List</source>
         <translation>Genera Ordine di Partenza</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="281"/>
+        <location filename="chronorace.ui" line="317"/>
         <source>Make Rankings</source>
         <translation>Genera Classisiche</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="341"/>
+        <location filename="chronorace.ui" line="377"/>
         <source>&amp;Start List</source>
         <translation>&amp;Ordine di Partenza</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="357"/>
+        <location filename="chronorace.ui" line="393"/>
         <source>&amp;Timings</source>
         <translation>&amp;Tempi</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="387"/>
+        <location filename="chronorace.ui" line="423"/>
         <source>Te&amp;ams</source>
         <translation>Squ&amp;adre</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="395"/>
-        <location filename="chronorace.ui" line="398"/>
+        <location filename="chronorace.ui" line="431"/>
+        <location filename="chronorace.ui" line="434"/>
         <source>About LBChronoRace</source>
         <translation>Informazioni su LBChronoRace</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="403"/>
-        <location filename="chronorace.ui" line="406"/>
-        <location filename="lbchronorace.cpp" line="2337"/>
+        <location filename="chronorace.ui" line="439"/>
+        <location filename="chronorace.ui" line="442"/>
+        <location filename="lbchronorace.cpp" line="2344"/>
         <source>About &amp;Qt</source>
         <translation>Informazioni su &amp;Qt</translation>
     </message>
@@ -542,123 +543,133 @@
     </message>
     <message>
         <location filename="chronorace.ui" line="146"/>
-        <location filename="chronorace.ui" line="368"/>
+        <location filename="chronorace.ui" line="404"/>
         <source>Load Race</source>
         <translation>Carica Gara</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="200"/>
+        <location filename="chronorace.ui" line="176"/>
+        <source>Information</source>
+        <translation>Informazioni</translation>
+    </message>
+    <message>
+        <location filename="chronorace.ui" line="197"/>
+        <source>Errors</source>
+        <translation>Errori</translation>
+    </message>
+    <message>
+        <location filename="chronorace.ui" line="236"/>
         <source>File Encoding: ISO-8859-1 (Latin1) or UTF-8</source>
         <translation>Codifica File: ISO-8859-1 (Latin1) o UTF-8</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="265"/>
+        <location filename="chronorace.ui" line="301"/>
         <source>Generate start list in the selected format</source>
         <oldsource>Generate start list in plain text format</oldsource>
         <translation>Genera l&apos;ordine di partenza nel formato selezionato</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="278"/>
+        <location filename="chronorace.ui" line="314"/>
         <source>Generate rankings in the selected format</source>
         <oldsource>Generate rankings in plain text format</oldsource>
         <translation>Genera le classifiche nel formato selezionato</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="300"/>
+        <location filename="chronorace.ui" line="336"/>
         <source>&amp;File</source>
         <translation>&amp;File</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="312"/>
+        <location filename="chronorace.ui" line="348"/>
         <source>&amp;Edit</source>
         <translation>&amp;Modifica</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="322"/>
+        <location filename="chronorace.ui" line="358"/>
         <source>&amp;Help</source>
         <translation>&amp;Aiuto</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="333"/>
+        <location filename="chronorace.ui" line="369"/>
         <source>&amp;Exit</source>
         <translation>&amp;Esci</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="336"/>
+        <location filename="chronorace.ui" line="372"/>
         <source>Q</source>
         <translation>Q</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="349"/>
+        <location filename="chronorace.ui" line="385"/>
         <source>&amp;Categories</source>
         <translation>&amp;Categorie</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="365"/>
+        <location filename="chronorace.ui" line="401"/>
         <source>&amp;Load</source>
         <translation>&amp;Carica</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="371"/>
+        <location filename="chronorace.ui" line="407"/>
         <source>L</source>
         <translation>L</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="376"/>
+        <location filename="chronorace.ui" line="412"/>
         <source>&amp;Save</source>
         <translation>&amp;Salva</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="419"/>
+        <location filename="chronorace.ui" line="455"/>
         <source>Save as</source>
         <translation>Salva come</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="382"/>
+        <location filename="chronorace.ui" line="418"/>
         <source>S</source>
         <translation>S</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="390"/>
+        <location filename="chronorace.ui" line="426"/>
         <source>Edit Teams</source>
         <translation>Modifica Sqadre</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="411"/>
+        <location filename="chronorace.ui" line="447"/>
         <source>&amp;Race</source>
         <translation>Ga&amp;ra</translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="414"/>
+        <location filename="chronorace.ui" line="450"/>
         <source>Edit Race</source>
         <translation>Modifica Gara</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1982"/>
-        <location filename="lbchronorace.cpp" line="2041"/>
+        <location filename="lbchronorace.cpp" line="1989"/>
+        <location filename="lbchronorace.cpp" line="2048"/>
         <source>Select Start List</source>
         <translation>Seleziona Ordine di Partenza</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1715"/>
-        <location filename="lbchronorace.cpp" line="1983"/>
-        <location filename="lbchronorace.cpp" line="2004"/>
-        <location filename="lbchronorace.cpp" line="2023"/>
-        <location filename="lbchronorace.cpp" line="2042"/>
-        <location filename="lbchronorace.cpp" line="2058"/>
-        <location filename="lbchronorace.cpp" line="2074"/>
-        <location filename="lbchronorace.cpp" line="2090"/>
+        <location filename="lbchronorace.cpp" line="1722"/>
+        <location filename="lbchronorace.cpp" line="1990"/>
+        <location filename="lbchronorace.cpp" line="2011"/>
+        <location filename="lbchronorace.cpp" line="2030"/>
+        <location filename="lbchronorace.cpp" line="2049"/>
+        <location filename="lbchronorace.cpp" line="2065"/>
+        <location filename="lbchronorace.cpp" line="2081"/>
+        <location filename="lbchronorace.cpp" line="2097"/>
         <source>CSV (*.csv)</source>
         <translation>CSV (*.csv)</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1987"/>
+        <location filename="lbchronorace.cpp" line="1994"/>
         <source>Start List File: %1</source>
         <translation>File Ordine di Partenza: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="lbchronorace.cpp" line="1990"/>
-        <location filename="lbchronorace.cpp" line="2145"/>
+        <location filename="lbchronorace.cpp" line="1997"/>
+        <location filename="lbchronorace.cpp" line="2152"/>
         <source>Loaded: %n competitor(s)</source>
         <translation>
             <numerusform>Caricato: %n concorrente</numerusform>
@@ -666,8 +677,8 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="lbchronorace.cpp" line="1991"/>
-        <location filename="lbchronorace.cpp" line="2149"/>
+        <location filename="lbchronorace.cpp" line="1998"/>
+        <location filename="lbchronorace.cpp" line="2156"/>
         <source>Loaded: %n team(s)</source>
         <translation>
             <numerusform>Caricata: %n squadra</numerusform>
@@ -675,127 +686,127 @@
         </translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="371"/>
-        <location filename="lbchronorace.cpp" line="1632"/>
-        <location filename="lbchronorace.cpp" line="1994"/>
-        <location filename="lbchronorace.cpp" line="2014"/>
-        <location filename="lbchronorace.cpp" line="2033"/>
-        <location filename="lbchronorace.cpp" line="2050"/>
-        <location filename="lbchronorace.cpp" line="2066"/>
-        <location filename="lbchronorace.cpp" line="2082"/>
-        <location filename="lbchronorace.cpp" line="2098"/>
+        <location filename="lbchronorace.cpp" line="376"/>
+        <location filename="lbchronorace.cpp" line="1639"/>
+        <location filename="lbchronorace.cpp" line="2001"/>
+        <location filename="lbchronorace.cpp" line="2021"/>
+        <location filename="lbchronorace.cpp" line="2040"/>
+        <location filename="lbchronorace.cpp" line="2057"/>
+        <location filename="lbchronorace.cpp" line="2073"/>
+        <location filename="lbchronorace.cpp" line="2089"/>
+        <location filename="lbchronorace.cpp" line="2105"/>
         <source>Error: %1</source>
         <translation>Errore: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="621"/>
-        <location filename="lbchronorace.cpp" line="774"/>
-        <location filename="lbchronorace.cpp" line="937"/>
-        <location filename="lbchronorace.cpp" line="1126"/>
+        <location filename="lbchronorace.cpp" line="626"/>
+        <location filename="lbchronorace.cpp" line="779"/>
+        <location filename="lbchronorace.cpp" line="942"/>
+        <location filename="lbchronorace.cpp" line="1131"/>
         <source>%1 Ranking</source>
         <translation>Classifica %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="633"/>
-        <location filename="lbchronorace.cpp" line="786"/>
-        <location filename="lbchronorace.cpp" line="790"/>
-        <location filename="lbchronorace.cpp" line="950"/>
-        <location filename="lbchronorace.cpp" line="1139"/>
-        <location filename="lbchronorace.cpp" line="1143"/>
-        <location filename="lbchronorace.cpp" line="1838"/>
+        <location filename="lbchronorace.cpp" line="638"/>
+        <location filename="lbchronorace.cpp" line="791"/>
+        <location filename="lbchronorace.cpp" line="795"/>
+        <location filename="lbchronorace.cpp" line="955"/>
+        <location filename="lbchronorace.cpp" line="1144"/>
+        <location filename="lbchronorace.cpp" line="1148"/>
+        <location filename="lbchronorace.cpp" line="1845"/>
         <source>#</source>
         <translation>#</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="637"/>
-        <location filename="lbchronorace.cpp" line="794"/>
-        <location filename="lbchronorace.cpp" line="954"/>
-        <location filename="lbchronorace.cpp" line="1147"/>
-        <location filename="lbchronorace.cpp" line="1842"/>
+        <location filename="lbchronorace.cpp" line="642"/>
+        <location filename="lbchronorace.cpp" line="799"/>
+        <location filename="lbchronorace.cpp" line="959"/>
+        <location filename="lbchronorace.cpp" line="1152"/>
+        <location filename="lbchronorace.cpp" line="1849"/>
         <source>Bib</source>
         <translation>Pett</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="641"/>
-        <location filename="lbchronorace.cpp" line="798"/>
-        <location filename="lbchronorace.cpp" line="980"/>
-        <location filename="lbchronorace.cpp" line="1169"/>
-        <location filename="lbchronorace.cpp" line="1846"/>
+        <location filename="lbchronorace.cpp" line="646"/>
+        <location filename="lbchronorace.cpp" line="803"/>
+        <location filename="lbchronorace.cpp" line="985"/>
+        <location filename="lbchronorace.cpp" line="1174"/>
+        <location filename="lbchronorace.cpp" line="1853"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="645"/>
-        <location filename="lbchronorace.cpp" line="802"/>
-        <location filename="lbchronorace.cpp" line="958"/>
-        <location filename="lbchronorace.cpp" line="1151"/>
-        <location filename="lbchronorace.cpp" line="1850"/>
+        <location filename="lbchronorace.cpp" line="650"/>
+        <location filename="lbchronorace.cpp" line="807"/>
+        <location filename="lbchronorace.cpp" line="963"/>
+        <location filename="lbchronorace.cpp" line="1156"/>
+        <location filename="lbchronorace.cpp" line="1857"/>
         <source>Team</source>
         <translation>Squadra</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="649"/>
-        <location filename="lbchronorace.cpp" line="806"/>
-        <location filename="lbchronorace.cpp" line="984"/>
-        <location filename="lbchronorace.cpp" line="1173"/>
-        <location filename="lbchronorace.cpp" line="1854"/>
+        <location filename="lbchronorace.cpp" line="654"/>
+        <location filename="lbchronorace.cpp" line="811"/>
+        <location filename="lbchronorace.cpp" line="989"/>
+        <location filename="lbchronorace.cpp" line="1178"/>
+        <location filename="lbchronorace.cpp" line="1861"/>
         <source>Year</source>
         <translation>Anno</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="653"/>
-        <location filename="lbchronorace.cpp" line="810"/>
-        <location filename="lbchronorace.cpp" line="988"/>
-        <location filename="lbchronorace.cpp" line="1177"/>
-        <location filename="lbchronorace.cpp" line="1858"/>
+        <location filename="lbchronorace.cpp" line="658"/>
+        <location filename="lbchronorace.cpp" line="815"/>
+        <location filename="lbchronorace.cpp" line="993"/>
+        <location filename="lbchronorace.cpp" line="1182"/>
+        <location filename="lbchronorace.cpp" line="1865"/>
         <source>Sex</source>
         <translation>Sex</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="657"/>
-        <location filename="lbchronorace.cpp" line="814"/>
-        <location filename="lbchronorace.cpp" line="962"/>
-        <location filename="lbchronorace.cpp" line="1155"/>
-        <location filename="lbchronorace.cpp" line="1862"/>
+        <location filename="lbchronorace.cpp" line="662"/>
+        <location filename="lbchronorace.cpp" line="819"/>
+        <location filename="lbchronorace.cpp" line="967"/>
+        <location filename="lbchronorace.cpp" line="1160"/>
+        <location filename="lbchronorace.cpp" line="1869"/>
         <source>Class</source>
         <translation>Categoria</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="661"/>
-        <location filename="lbchronorace.cpp" line="818"/>
-        <location filename="lbchronorace.cpp" line="966"/>
-        <location filename="lbchronorace.cpp" line="1159"/>
+        <location filename="lbchronorace.cpp" line="666"/>
+        <location filename="lbchronorace.cpp" line="823"/>
+        <location filename="lbchronorace.cpp" line="971"/>
+        <location filename="lbchronorace.cpp" line="1164"/>
         <source>Time</source>
         <translation>Tempo</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="665"/>
-        <location filename="lbchronorace.cpp" line="970"/>
+        <location filename="lbchronorace.cpp" line="670"/>
+        <location filename="lbchronorace.cpp" line="975"/>
         <source>Diff</source>
         <translation>Diff</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="976"/>
-        <location filename="lbchronorace.cpp" line="1165"/>
+        <location filename="lbchronorace.cpp" line="981"/>
+        <location filename="lbchronorace.cpp" line="1170"/>
         <source>Leg</source>
         <comment>short label</comment>
         <translation>Fraz</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1638"/>
-        <location filename="lbchronorace.cpp" line="1714"/>
-        <location filename="lbchronorace.cpp" line="1774"/>
+        <location filename="lbchronorace.cpp" line="1645"/>
+        <location filename="lbchronorace.cpp" line="1721"/>
+        <location filename="lbchronorace.cpp" line="1781"/>
         <source>Select Start List File</source>
         <translation>Seleziona file Ordine di Partenza</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1639"/>
+        <location filename="lbchronorace.cpp" line="1646"/>
         <source>Plain Text (*.txt)</source>
         <translation>Testo (*.txt)</translation>
     </message>
     <message numerus="yes">
-        <location filename="lbchronorace.cpp" line="1698"/>
-        <location filename="lbchronorace.cpp" line="1945"/>
+        <location filename="lbchronorace.cpp" line="1705"/>
+        <location filename="lbchronorace.cpp" line="1952"/>
         <source>Leg %n</source>
         <oldsource>Leg %1</oldsource>
         <translation>
@@ -804,31 +815,31 @@
         </translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1775"/>
+        <location filename="lbchronorace.cpp" line="1782"/>
         <source>PDF (*.pdf)</source>
         <translation>PDF (*.pdf)</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1705"/>
-        <location filename="lbchronorace.cpp" line="1764"/>
-        <location filename="lbchronorace.cpp" line="1953"/>
+        <location filename="lbchronorace.cpp" line="1712"/>
+        <location filename="lbchronorace.cpp" line="1771"/>
+        <location filename="lbchronorace.cpp" line="1960"/>
         <source>Generated Start List: %1</source>
         <translation>Generato Ordine di Partenza: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2003"/>
-        <location filename="lbchronorace.cpp" line="2073"/>
+        <location filename="lbchronorace.cpp" line="2010"/>
+        <location filename="lbchronorace.cpp" line="2080"/>
         <source>Select Categories File</source>
         <translation>Seleziona File Categorie</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2008"/>
+        <location filename="lbchronorace.cpp" line="2015"/>
         <source>Categories File: %1</source>
         <translation>File Categorie: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="lbchronorace.cpp" line="2011"/>
-        <location filename="lbchronorace.cpp" line="2153"/>
+        <location filename="lbchronorace.cpp" line="2018"/>
+        <location filename="lbchronorace.cpp" line="2160"/>
         <source>Loaded: %n category</source>
         <oldsource>Loaded: %n category(es)</oldsource>
         <translation>
@@ -837,19 +848,19 @@
         </translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2022"/>
-        <location filename="lbchronorace.cpp" line="2089"/>
+        <location filename="lbchronorace.cpp" line="2029"/>
+        <location filename="lbchronorace.cpp" line="2096"/>
         <source>Select Timings File</source>
         <translation>Seleziona File Tempi</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2027"/>
+        <location filename="lbchronorace.cpp" line="2034"/>
         <source>Timings File: %1</source>
         <translation>File Tempi: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="lbchronorace.cpp" line="2030"/>
-        <location filename="lbchronorace.cpp" line="2157"/>
+        <location filename="lbchronorace.cpp" line="2037"/>
+        <location filename="lbchronorace.cpp" line="2164"/>
         <source>Loaded: %n timing(s)</source>
         <translation>
             <numerusform>Caricato: %n tempo</numerusform>
@@ -857,56 +868,57 @@
         </translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="367"/>
-        <location filename="lbchronorace.cpp" line="1609"/>
+        <location filename="lbchronorace.cpp" line="372"/>
+        <location filename="lbchronorace.cpp" line="1616"/>
         <source>Warning: %1</source>
         <translation>Attenzione: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="145"/>
+        <location filename="lbchronorace.cpp" line="147"/>
         <source>Select Rankings Destination Folder</source>
         <translation>Seleziona Cartella Destinazione Classifiche</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="174"/>
+        <location filename="lbchronorace.cpp" line="176"/>
         <source>Competitor not found for bib %1</source>
         <translation>Concorrente non trovato per il pettorale %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="195"/>
-        <source>Bib %1 skipped; check for possible duplicated entries</source>
-        <translation>Pettorale %1 non inserito; posibile duplicazione nella lista tempi</translation>
+        <location filename="lbchronorace.cpp" line="197"/>
+        <source>Bib %1 not inserted in ranking; check for possible duplicated entries</source>
+        <oldsource>Bib %1 skipped; check for possible duplicated entries</oldsource>
+        <translation>Pettorale %1 non inserito in classifica; posibile duplicazione nella lista tempi</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="417"/>
-        <location filename="lbchronorace.cpp" line="473"/>
-        <location filename="lbchronorace.cpp" line="510"/>
-        <location filename="lbchronorace.cpp" line="551"/>
-        <location filename="lbchronorace.cpp" line="733"/>
-        <location filename="lbchronorace.cpp" line="897"/>
-        <location filename="lbchronorace.cpp" line="1083"/>
-        <location filename="lbchronorace.cpp" line="1283"/>
+        <location filename="lbchronorace.cpp" line="422"/>
+        <location filename="lbchronorace.cpp" line="478"/>
+        <location filename="lbchronorace.cpp" line="515"/>
+        <location filename="lbchronorace.cpp" line="556"/>
+        <location filename="lbchronorace.cpp" line="738"/>
+        <location filename="lbchronorace.cpp" line="902"/>
+        <location filename="lbchronorace.cpp" line="1088"/>
+        <location filename="lbchronorace.cpp" line="1288"/>
         <source>Generated Ranking &apos;%1&apos;: %2</source>
         <translation>Generata Classifica &apos;%1&apos;: %2</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="379"/>
-        <location filename="lbchronorace.cpp" line="483"/>
+        <location filename="lbchronorace.cpp" line="384"/>
+        <location filename="lbchronorace.cpp" line="488"/>
         <source>Error: cannot open %1</source>
         <translation>Errore: impossibile aprire %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2282"/>
+        <location filename="lbchronorace.cpp" line="2289"/>
         <source>Selected format: %1</source>
         <translation>Formato selezionato: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2332"/>
+        <location filename="lbchronorace.cpp" line="2339"/>
         <source>Informations</source>
         <translation>Informazioni</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2332"/>
+        <location filename="lbchronorace.cpp" line="2339"/>
         <source>
 %1
 
@@ -924,9 +936,9 @@ Versione: %2
     </message>
     <message>
         <location filename="lbchronorace.cpp" line="55"/>
-        <location filename="lbchronorace.cpp" line="1671"/>
-        <location filename="lbchronorace.cpp" line="1794"/>
-        <location filename="lbchronorace.cpp" line="1826"/>
+        <location filename="lbchronorace.cpp" line="1678"/>
+        <location filename="lbchronorace.cpp" line="1801"/>
+        <location filename="lbchronorace.cpp" line="1833"/>
         <source>Start List</source>
         <translation>Ordine di Partenza</translation>
     </message>
@@ -941,33 +953,38 @@ Versione: %2
         <translation>Lista Tempi</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="561"/>
-        <location filename="lbchronorace.cpp" line="576"/>
+        <location filename="lbchronorace.cpp" line="227"/>
+        <source>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</source>
+        <translation>Attenzione: i tempi inseriti (%1) non corrispondono al numero dei partenti (%2); controllare posibili duplicazioni o mancanze nella lista tempi</translation>
+    </message>
+    <message>
+        <location filename="lbchronorace.cpp" line="566"/>
+        <location filename="lbchronorace.cpp" line="581"/>
         <source>Error: cannot generate ranking for 0 legs</source>
         <translation>Errore: impossibile generare classifiche con 0 frazioni</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="598"/>
-        <location filename="lbchronorace.cpp" line="748"/>
-        <location filename="lbchronorace.cpp" line="912"/>
-        <location filename="lbchronorace.cpp" line="1098"/>
+        <location filename="lbchronorace.cpp" line="603"/>
+        <location filename="lbchronorace.cpp" line="753"/>
+        <location filename="lbchronorace.cpp" line="917"/>
+        <location filename="lbchronorace.cpp" line="1103"/>
         <source>Rankings</source>
         <translation>Classifiche</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="992"/>
-        <location filename="lbchronorace.cpp" line="1181"/>
+        <location filename="lbchronorace.cpp" line="997"/>
+        <location filename="lbchronorace.cpp" line="1186"/>
         <source>Leg Time (and position)</source>
         <oldsource>Leg Time (Position in Leg)</oldsource>
         <translation>Tempo di Frazione (e posizione)</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1380"/>
+        <location filename="lbchronorace.cpp" line="1385"/>
         <source>Results</source>
         <translation>Risultati</translation>
     </message>
     <message numerus="yes">
-        <location filename="lbchronorace.cpp" line="1382"/>
+        <location filename="lbchronorace.cpp" line="1387"/>
         <source>Page %n</source>
         <translation>
             <numerusform>Pagina %n</numerusform>
@@ -975,7 +992,7 @@ Versione: %2
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="lbchronorace.cpp" line="1382"/>
+        <location filename="lbchronorace.cpp" line="1387"/>
         <source>of %n</source>
         <translation>
             <numerusform>di %n</numerusform>
@@ -983,128 +1000,128 @@ Versione: %2
         </translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1390"/>
+        <location filename="lbchronorace.cpp" line="1395"/>
         <source>Organization</source>
         <translation>Organizzazione</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1398"/>
+        <location filename="lbchronorace.cpp" line="1403"/>
         <source>Race Type</source>
         <translation>Tipo gara</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1398"/>
-        <location filename="lbchronorace.cpp" line="1867"/>
+        <location filename="lbchronorace.cpp" line="1403"/>
+        <location filename="lbchronorace.cpp" line="1874"/>
         <source>Start Time</source>
         <translation>Orario partenza</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1398"/>
+        <location filename="lbchronorace.cpp" line="1403"/>
         <source>Length</source>
         <translation>Lunghezza</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1398"/>
+        <location filename="lbchronorace.cpp" line="1403"/>
         <source>Elevation Gain</source>
         <translation>Dislivello</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1405"/>
+        <location filename="lbchronorace.cpp" line="1410"/>
         <source>Referee</source>
         <translation>Giudice</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1405"/>
+        <location filename="lbchronorace.cpp" line="1410"/>
         <source>Timekeeper 1</source>
         <translation>Cronometrista 1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1405"/>
+        <location filename="lbchronorace.cpp" line="1410"/>
         <source>Timekeeper 2</source>
         <translation>Cronometrista 2</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1405"/>
+        <location filename="lbchronorace.cpp" line="1410"/>
         <source>Timekeeper 3</source>
         <translation>Cronometrista 3</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="140"/>
-        <location filename="lbchronorace.cpp" line="1589"/>
+        <location filename="lbchronorace.cpp" line="142"/>
+        <location filename="lbchronorace.cpp" line="1596"/>
         <source>Error: unknown rankings format %1</source>
         <translation>Errore: formato classifiche %1 sconosciuto</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="1869"/>
+        <location filename="lbchronorace.cpp" line="1876"/>
         <source>Leg</source>
         <comment>long label</comment>
         <translation>Frazione</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2047"/>
+        <location filename="lbchronorace.cpp" line="2054"/>
         <source>Start List File saved: %1</source>
         <translation>File Ordine di Partenza salvato: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2057"/>
+        <location filename="lbchronorace.cpp" line="2064"/>
         <source>Select Teams List</source>
         <translation>Seleziona Lista Squadre</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2063"/>
+        <location filename="lbchronorace.cpp" line="2070"/>
         <source>Teams File saved: %1</source>
         <translation>File Squadre salvato: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2079"/>
+        <location filename="lbchronorace.cpp" line="2086"/>
         <source>Categories File saved: %1</source>
         <translation>File Categorie salvato: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2095"/>
+        <location filename="lbchronorace.cpp" line="2102"/>
         <source>Timings File saved: %1</source>
         <translation>File Tempi salvato: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2105"/>
-        <location filename="lbchronorace.cpp" line="2173"/>
+        <location filename="lbchronorace.cpp" line="2112"/>
+        <location filename="lbchronorace.cpp" line="2180"/>
         <source>Select Race Data File</source>
         <translation>Seleziona File Gara</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2106"/>
-        <location filename="lbchronorace.cpp" line="2174"/>
+        <location filename="lbchronorace.cpp" line="2113"/>
+        <location filename="lbchronorace.cpp" line="2181"/>
         <source>ChronoRace Data (*.crd)</source>
         <translation>ChronoRace Data (*.crd)</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2112"/>
-        <location filename="lbchronorace.cpp" line="2184"/>
+        <location filename="lbchronorace.cpp" line="2119"/>
+        <location filename="lbchronorace.cpp" line="2191"/>
         <source>Unable to open file</source>
         <translation>Impossibile aprire il file</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2159"/>
+        <location filename="lbchronorace.cpp" line="2166"/>
         <source>Race loaded: %1</source>
         <translation>Gara caricata: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2163"/>
+        <location filename="lbchronorace.cpp" line="2170"/>
         <source>Race Data File Error</source>
         <translation>Errore File Gara</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2163"/>
+        <location filename="lbchronorace.cpp" line="2170"/>
         <source>Format version %1 not supported</source>
         <translation>Formato versione %1 non supportato</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2199"/>
+        <location filename="lbchronorace.cpp" line="2206"/>
         <source>Race saved: %1</source>
         <translation>Gara salvata: %1</translation>
     </message>
     <message>
-        <location filename="lbchronorace.cpp" line="2270"/>
+        <location filename="lbchronorace.cpp" line="2277"/>
         <source>Selected encoding: %1</source>
         <translation>Codifica selezionata: %1</translation>
     </message>
@@ -1265,17 +1282,17 @@ Versione: %2
 <context>
     <name>Timing</name>
     <message>
-        <location filename="timing.cpp" line="102"/>
+        <location filename="timing.cpp" line="103"/>
         <source>Illegal timing value &apos;%1&apos;</source>
         <translation>Valore cronometrico &apos;%1&apos; non valido</translation>
     </message>
     <message>
-        <location filename="timing.cpp" line="117"/>
+        <location filename="timing.cpp" line="118"/>
         <source>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
         <translation>Valore cronometrico &apos;%1&apos; non valido per il pettorale &apos;%2&apos;</translation>
     </message>
     <message>
-        <location filename="timing.cpp" line="151"/>
+        <location filename="timing.cpp" line="152"/>
         <source>Invalid status value %1</source>
         <translation>Valore di stato %1 non valido</translation>
     </message>
