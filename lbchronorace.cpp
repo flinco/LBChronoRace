@@ -594,7 +594,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
 {
     QPainter painter;
 
-    if (!individualRanking.isEmpty() && initPDFPainter(painter, outFileName)) {
+    if (initPDFPainter(painter, outFileName)) {
         int i, page, pages = 1;
         int rankingCount = individualRanking.size();
         uint referenceTime;
@@ -622,7 +622,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
 
         QList<ClassEntry*>::const_iterator c = individualRanking.constBegin();
         availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
-        referenceTime = (*c)->getTotalTime();
+        referenceTime = (rankingCount > 0) ? (*c)->getTotalTime() : 0;
         for (page = 1, i = 1; page <= pages; page++) {
             drawPDFTemplatePortrait(painter, tr("%1 Ranking").arg(fullDescription), page, pages);
 
@@ -672,7 +672,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
 
             writeRect.setTop(toVdots((page == 1) ? 57.0 : 34.0));
             writeRect.setHeight(toVdots(4.0));
-            do {
+            for ( ; c < individualRanking.constEnd(); c++) {
                 if (availableEntriesOnPage <= 0) {
                     // add a new page
                     availableEntriesOnPage = RANKING_PORTRAIT_SECOND_PAGE_LIMIT;
@@ -732,12 +732,15 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
                 painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, (*c)->getDiffTimeTxt(referenceTime));
 
                 availableEntriesOnPage--;
-            } while ((++c < individualRanking.constEnd()));
+            }
         }
-        painter.end();
-
-        ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
+        if (!painter.end())
+            ui->errorDisplay->appendPlainText(tr("Error: cannot write to %1").arg(outFileName));
+        else
+            ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
         delete rankingPdfwriter;
+    } else {
+        ui->errorDisplay->appendPlainText(tr("Error: cannot open %1").arg(outFileName));
     }
 }
 
@@ -745,7 +748,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
 {
     QPainter painter;
 
-    if (!teamRanking.isEmpty() && initPDFPainter(painter, outFileName)) {
+    if (initPDFPainter(painter, outFileName)) {
         int i, j, page, pages = 1;
         QRectF writeRect;
         const ClassEntry *c;
@@ -825,7 +828,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
 
             writeRect.setTop(toVdots((page == 1) ? 57.0 : 34.0));
             writeRect.setHeight(toVdots(4.0));
-            do {
+            while (t < teamRanking.constEnd()) {
                 if (availableEntriesOnPage <= 0) {
                     // add a new page
                     availableEntriesOnPage = RANKING_PORTRAIT_SECOND_PAGE_LIMIT;
@@ -896,12 +899,15 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
                     writeRect.translate(0.0, toVdots(4.0));
                     availableEntriesOnPage--;
                 }
-            } while (true);
+            }
         }
-        painter.end();
-
-        ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
+        if (!painter.end())
+            ui->errorDisplay->appendPlainText(tr("Error: cannot write to %1").arg(outFileName));
+        else
+            ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
         delete rankingPdfwriter;
+    } else {
+        ui->errorDisplay->appendPlainText(tr("Error: cannot open %1").arg(outFileName));
     }
 }
 
@@ -909,7 +915,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
 {
     QPainter painter;
 
-    if (!individualRanking.isEmpty() && initPDFPainter(painter, outFileName)) {
+    if (initPDFPainter(painter, outFileName)) {
         int i, j, page, pages = 1;
         uint referenceTime;
         QRectF writeRect;
@@ -938,7 +944,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
 
         availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
         c = individualRanking.constBegin();
-        referenceTime = (*c)->getTotalTime();
+        referenceTime = (c != individualRanking.constEnd()) ? (*c)->getTotalTime() : 0;
         for (page = 1, i = 1; page <= pages; page++) {
             drawPDFTemplatePortrait(painter, tr("%1 Ranking").arg(fullDescription), page, pages);
 
@@ -999,7 +1005,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
 
             writeRect.setTop(toVdots((page == 1) ? 57.0 : 34.0));
             writeRect.setHeight(toVdots(4.0));
-            do {
+            for ( ; c < individualRanking.constEnd(); c++) {
                 if (entriesPerBlock > availableEntriesOnPage) {
                     // add a new page
                     availableEntriesOnPage = RANKING_PORTRAIT_SECOND_PAGE_LIMIT;
@@ -1082,12 +1088,15 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
                 }
 
                 availableEntriesOnPage -= entriesPerBlock;
-            } while ((++c < individualRanking.constEnd()));
+            }
         }
-        painter.end();
-
-        ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
+        if (!painter.end())
+            ui->errorDisplay->appendPlainText(tr("Error: cannot write to %1").arg(outFileName));
+        else
+            ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
         delete rankingPdfwriter;
+    } else {
+        ui->errorDisplay->appendPlainText(tr("Error: cannot open %1").arg(outFileName));
     }
 }
 
@@ -1095,7 +1104,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
 {
     QPainter painter;
 
-    if (!teamRanking.isEmpty() && initPDFPainter(painter, outFileName)) {
+    if (initPDFPainter(painter, outFileName)) {
         int i, j, page, pages = 1;
         QRectF writeRect;
         const ClassEntry *c;
@@ -1188,7 +1197,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
 
             writeRect.setTop(toVdots((page == 1) ? 57.0 : 34.0));
             writeRect.setHeight(toVdots(4.0));
-            do {
+            while (t < teamRanking.constEnd()) {
                 if (entriesPerBlock > availableEntriesOnPage) {
                     // add a new page
                     availableEntriesOnPage = RANKING_PORTRAIT_SECOND_PAGE_LIMIT;
@@ -1282,12 +1291,15 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
                     writeRect.translate(0.0, toVdots(4.0));
                     availableEntriesOnPage--;
                 }
-            } while (true);
+            }
         }
-        painter.end();
-
-        ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
+        if (!painter.end())
+            ui->errorDisplay->appendPlainText(tr("Error: cannot write to %1").arg(outFileName));
+        else
+            ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
         delete rankingPdfwriter;
+    } else {
+        ui->errorDisplay->appendPlainText(tr("Error: cannot open %1").arg(outFileName));
     }
 }
 
@@ -1572,6 +1584,8 @@ bool LBChronoRace::initPDFPainter(QPainter &painter, const QString &outFileName)
         this->areaHeight = rankingPdfwriter->height();
 
         retval = painter.begin(rankingPdfwriter);
+    } else {
+        ui->errorDisplay->appendPlainText(tr("Error: no file name"));
     }
 
     return retval;
@@ -1647,7 +1661,7 @@ void LBChronoRace::makeTextStartList(const QList<Competitor>& startList, uint bW
         lastSelectedPath.absolutePath(), tr("Plain Text (*.txt)"));
 
     //qDebug("Path: %s", qUtf8Printable(outFileName));
-    if (!outFileName.isEmpty() && !startList.isEmpty()) {
+    if (!outFileName.isEmpty()) {
 
         QTime startTime = raceInfo.getStartTime();
 
@@ -1723,7 +1737,7 @@ void LBChronoRace::makeCSVStartList(const QList<Competitor>& startList)
         lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
 
     //qDebug("Path: %s", qUtf8Printable(outFileName));
-    if (!outFileName.isEmpty() && !startList.isEmpty()) {
+    if (!outFileName.isEmpty()) {
 
         QTime startTime = raceInfo.getStartTime();
 
@@ -1778,189 +1792,191 @@ void LBChronoRace::makeCSVStartList(const QList<Competitor>& startList)
 
 void LBChronoRace::makePDFStartList(const QList<Competitor>& startList)
 {
-    if (!startList.isEmpty()) {
-        QString outFileName = QFileDialog::getSaveFileName(this, tr("Select Start List File"),
-            lastSelectedPath.absolutePath(), tr("PDF (*.pdf)"));
+    QString outFileName = QFileDialog::getSaveFileName(this, tr("Select Start List File"),
+        lastSelectedPath.absolutePath(), tr("PDF (*.pdf)"));
 
-        if (!outFileName.isEmpty()) {
-            QPainter painter;
+    if (!outFileName.isEmpty()) {
+        QPainter painter;
 
-            if (!outFileName.endsWith(".pdf", Qt::CaseInsensitive))
-                outFileName.append(".pdf");
+        if (!outFileName.endsWith(".pdf", Qt::CaseInsensitive))
+            outFileName.append(".pdf");
 
-            if (initPDFPainter(painter, outFileName)) {
-                int i, page, pages = 1;
-                int prevOffset, offset;
-                uint legs = CRLoader::getStartListLegs();
-                QRectF writeRect;
-                QTime startTime = raceInfo.getStartTime();
+        if (initPDFPainter(painter, outFileName)) {
+            int i, page, pages = 1;
+            int prevOffset, offset;
+            uint legs = CRLoader::getStartListLegs();
+            QRectF writeRect;
+            QTime startTime = raceInfo.getStartTime();
 
-                QFileInfo outFileInfo(outFileName);
-                lastSelectedPath = outFileInfo.absoluteDir();
+            QFileInfo outFileInfo(outFileName);
+            lastSelectedPath = outFileInfo.absoluteDir();
 
-                QPdfWriter *rankingPdfwriter = (QPdfWriter *) painter.device();
-                rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Start List"));
+            QPdfWriter *rankingPdfwriter = (QPdfWriter *) painter.device();
+            rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Start List"));
 
-                // Fonts
-                QFont rnkFont = fontDB.font("Liberation Sans", "Regular", 7);
-                //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFont.toString()), qUtf8Printable(rnkFont.family()));
-                QFont rnkFontBold = fontDB.font("Liberation Sans", "Bold", 18);
-                //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBold.toString()), qUtf8Printable(rnkFontBold.family()));
+            // Fonts
+            QFont rnkFont = fontDB.font("Liberation Sans", "Regular", 7);
+            //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFont.toString()), qUtf8Printable(rnkFont.family()));
+            QFont rnkFontBold = fontDB.font("Liberation Sans", "Bold", 18);
+            //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBold.toString()), qUtf8Printable(rnkFontBold.family()));
 
-                // Compute the number of pages
-                QList<Competitor>::const_iterator c;
-                int availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
-                for (c = startList.constBegin(), prevOffset = (*c).getOffset(); c < startList.constEnd(); c++) {
-                    if (availableEntriesOnPage <= 0) {
-                        // go to a new page
-                        pages++;
-                        availableEntriesOnPage = RANKING_PORTRAIT_SECOND_PAGE_LIMIT;
+            // Compute the number of pages
+            QList<Competitor>::const_iterator c;
+            int availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
+            for (c = startList.constBegin(), prevOffset = (*c).getOffset(); c < startList.constEnd(); c++) {
+                if (availableEntriesOnPage <= 0) {
+                    // go to a new page
+                    pages++;
+                    availableEntriesOnPage = RANKING_PORTRAIT_SECOND_PAGE_LIMIT;
+                }
+                availableEntriesOnPage--;
+                if (legs > 1) {
+                    offset = (*c).getOffset();
+                    if (offset < 0) {
+                        if (prevOffset != offset)
+                            availableEntriesOnPage--;
+                        prevOffset = offset;
                     }
-                    availableEntriesOnPage--;
+                }
+            }
+
+            c = startList.constBegin();
+            prevOffset = (c != startList.constEnd()) ? (*c).getOffset() : 0;
+            availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
+            for (page = 1, i = 1; page <= pages; page++) {
+                drawPDFTemplatePortrait(painter, tr("Start List"), page, pages);
+
+                // Prepare fonts
+                rnkFont.setPointSize(7);
+                rnkFontBold.setPointSize(7);
+
+                // Rankings header
+                painter.setFont(rnkFontBold);
+                writeRect.setTopLeft(QPointF(toHdots(1.0), toVdots((page == 1) ? 48.5 : 25.5)));
+                writeRect.setHeight(toVdots(8.0));
+                // Ranking placement
+                writeRect.setWidth(toHdots(5.0));
+                painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, tr("#"));
+                // Bib
+                writeRect.translate(toHdots(5.0), 0.0);
+                writeRect.setWidth(toHdots(7.0));
+                painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, tr("Bib"));
+                // Name
+                writeRect.translate(toHdots(8.0), 0.0);
+                writeRect.setWidth(toHdots(60.0));
+                painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, tr("Name"));
+                // Team
+                writeRect.translate(toHdots(60.0), 0.0);
+                writeRect.setWidth(toHdots(45.0));
+                painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, tr("Team"));
+                // Year
+                writeRect.translate(toHdots(45.0), 0.0);
+                writeRect.setWidth(toHdots(9.0));
+                painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, tr("Year"));
+                // Sex
+                writeRect.translate(toHdots(9.0), 0.0);
+                writeRect.setWidth(toHdots(6.0));
+                painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, tr("Sex"));
+                // Category
+                writeRect.translate(toHdots(6.0), 0.0);
+                writeRect.setWidth(toHdots(28.0));
+                painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, tr("Class"));
+                // Time
+                writeRect.translate(toHdots(28.0), 0.0);
+                writeRect.setWidth(toHdots(27.0));
+                if (CRLoader::getStartListLegs() == 1)
+                    painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, tr("Start Time"));
+                else
+                    painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, tr("Leg", "long label"));
+
+                writeRect.setTop(toVdots((page == 1) ? 57.0 : 34.0));
+                writeRect.setHeight(toVdots(4.0));
+                for ( ; c < startList.constEnd(); c++) {
                     if (legs > 1) {
                         offset = (*c).getOffset();
                         if (offset < 0) {
-                            if (prevOffset != offset)
+                            if (prevOffset != offset) {
+                                // Move down
+                                writeRect.translate(0.0, toVdots(4.0));
                                 availableEntriesOnPage--;
+                            }
                             prevOffset = offset;
                         }
                     }
-                }
 
-                c = startList.constBegin();
-                prevOffset = (*c).getOffset();
-                availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
-                for (page = 1, i = 1; page <= pages; page++) {
-                    drawPDFTemplatePortrait(painter, tr("Start List"), page, pages);
+                    if (availableEntriesOnPage <= 0) {
+                        // add a new page
+                        availableEntriesOnPage = RANKING_PORTRAIT_SECOND_PAGE_LIMIT;
+                        rankingPdfwriter->newPage();
+                        break;
+                    }
 
-                    // Prepare fonts
-                    rnkFont.setPointSize(7);
-                    rnkFontBold.setPointSize(7);
-
-                    // Rankings header
-                    painter.setFont(rnkFontBold);
-                    writeRect.setTopLeft(QPointF(toHdots(1.0), toVdots((page == 1) ? 48.5 : 25.5)));
-                    writeRect.setHeight(toVdots(8.0));
+                    // Move down
+                    writeRect.translate(0.0, toVdots(4.0));
+                    writeRect.setLeft(toHdots(0.0));
+                    // Set the background
+                    if ((i % 2) == 0) {
+                        writeRect.setWidth(this->areaWidth);
+                        painter.fillRect(writeRect, Qt::lightGray);
+                    }
                     // Ranking placement
+                    painter.setFont(rnkFontBold);
+                    writeRect.setLeft(toHdots(1.0));
                     writeRect.setWidth(toHdots(5.0));
-                    painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, tr("#"));
+                    painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString("%1.").arg(i++));
                     // Bib
+                    painter.setFont(rnkFont);
                     writeRect.translate(toHdots(5.0), 0.0);
                     writeRect.setWidth(toHdots(7.0));
-                    painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, tr("Bib"));
+                    painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString::number((*c).getBib()));
                     // Name
+                    painter.setFont(rnkFontBold);
                     writeRect.translate(toHdots(8.0), 0.0);
                     writeRect.setWidth(toHdots(60.0));
-                    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, tr("Name"));
+                    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c).getName(0));
                     // Team
+                    painter.setFont(rnkFont);
                     writeRect.translate(toHdots(60.0), 0.0);
                     writeRect.setWidth(toHdots(45.0));
-                    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, tr("Team"));
+                    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c).getTeam());
                     // Year
                     writeRect.translate(toHdots(45.0), 0.0);
                     writeRect.setWidth(toHdots(9.0));
-                    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, tr("Year"));
+                    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, QString::number((*c).getYear()));
                     // Sex
                     writeRect.translate(toHdots(9.0), 0.0);
                     writeRect.setWidth(toHdots(6.0));
-                    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, tr("Sex"));
+                    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, Competitor::toSexString((*c).getSex()));
                     // Category
                     writeRect.translate(toHdots(6.0), 0.0);
                     writeRect.setWidth(toHdots(28.0));
-                    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, tr("Class"));
-                    // Time
+                    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c).getCategory());
+                    // Start Time / Leg
+                    offset = (*c).getOffset();
+                    painter.setFont(rnkFontBold);
                     writeRect.translate(toHdots(28.0), 0.0);
                     writeRect.setWidth(toHdots(27.0));
-                    if (CRLoader::getStartListLegs() == 1)
-                        painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, tr("Start Time"));
-                    else
-                        painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, tr("Leg", "long label"));
+                    if (offset >= 0) {
+                        offset += (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
+                        painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, Competitor::toOffsetString(offset));
+                    } else if (CRLoader::getStartListLegs() == 1) {
+                        offset = (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
+                        painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, Competitor::toOffsetString(offset));
+                    } else {
+                        painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, tr("Leg %n", "", qAbs(offset)));
+                    }
 
-                    writeRect.setTop(toVdots((page == 1) ? 57.0 : 34.0));
-                    writeRect.setHeight(toVdots(4.0));
-                    do {
-                        if (legs > 1) {
-                            offset = (*c).getOffset();
-                            if (offset < 0) {
-                                if (prevOffset != offset) {
-                                    // Move down
-                                    writeRect.translate(0.0, toVdots(4.0));
-                                    availableEntriesOnPage--;
-                                }
-                                prevOffset = offset;
-                            }
-                        }
-
-                        if (availableEntriesOnPage <= 0) {
-                            // add a new page
-                            availableEntriesOnPage = RANKING_PORTRAIT_SECOND_PAGE_LIMIT;
-                            rankingPdfwriter->newPage();
-                            break;
-                        }
-
-                        // Move down
-                        writeRect.translate(0.0, toVdots(4.0));
-                        writeRect.setLeft(toHdots(0.0));
-                        // Set the background
-                        if ((i % 2) == 0) {
-                            writeRect.setWidth(this->areaWidth);
-                            painter.fillRect(writeRect, Qt::lightGray);
-                        }
-                        // Ranking placement
-                        painter.setFont(rnkFontBold);
-                        writeRect.setLeft(toHdots(1.0));
-                        writeRect.setWidth(toHdots(5.0));
-                        painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString("%1.").arg(i++));
-                        // Bib
-                        painter.setFont(rnkFont);
-                        writeRect.translate(toHdots(5.0), 0.0);
-                        writeRect.setWidth(toHdots(7.0));
-                        painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString::number((*c).getBib()));
-                        // Name
-                        painter.setFont(rnkFontBold);
-                        writeRect.translate(toHdots(8.0), 0.0);
-                        writeRect.setWidth(toHdots(60.0));
-                        painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c).getName(0));
-                        // Team
-                        painter.setFont(rnkFont);
-                        writeRect.translate(toHdots(60.0), 0.0);
-                        writeRect.setWidth(toHdots(45.0));
-                        painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c).getTeam());
-                        // Year
-                        writeRect.translate(toHdots(45.0), 0.0);
-                        writeRect.setWidth(toHdots(9.0));
-                        painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, QString::number((*c).getYear()));
-                        // Sex
-                        writeRect.translate(toHdots(9.0), 0.0);
-                        writeRect.setWidth(toHdots(6.0));
-                        painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, Competitor::toSexString((*c).getSex()));
-                        // Category
-                        writeRect.translate(toHdots(6.0), 0.0);
-                        writeRect.setWidth(toHdots(28.0));
-                        painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c).getCategory());
-                        // Start Time / Leg
-                        offset = (*c).getOffset();
-                        painter.setFont(rnkFontBold);
-                        writeRect.translate(toHdots(28.0), 0.0);
-                        writeRect.setWidth(toHdots(27.0));
-                        if (offset >= 0) {
-                            offset += (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
-                            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, Competitor::toOffsetString(offset));
-                        } else if (CRLoader::getStartListLegs() == 1) {
-                            offset = (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
-                            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, Competitor::toOffsetString(offset));
-                        } else {
-                            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, tr("Leg %n", "", qAbs(offset)));
-                        }
-
-                        availableEntriesOnPage--;
-                    } while ((++c < startList.constEnd()));
+                    availableEntriesOnPage--;
                 }
-                painter.end();
-
-                ui->infoDisplay->appendPlainText(tr("Generated Start List: %1").arg(outFileInfo.absoluteFilePath()));
-                delete rankingPdfwriter;
             }
+            if (!painter.end())
+                ui->errorDisplay->appendPlainText(tr("Error: cannot write to %1").arg(outFileName));
+            else
+                ui->infoDisplay->appendPlainText(tr("Generated Start List: %1").arg(outFileInfo.absoluteFilePath()));
+
+            delete rankingPdfwriter;
+        } else {
+            ui->errorDisplay->appendPlainText(tr("Error: cannot open %1").arg(outFileName));
         }
     }
 }
