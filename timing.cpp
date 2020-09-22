@@ -8,6 +8,7 @@ Qt::SortOrder TimingSorter::sortingOrder = Qt::AscendingOrder;
 Timing::Timing() {
     this->bib     = 0u;
     this->seconds = 0u;
+    this->leg     = 0u;
     this->status  = CLASSIFIED;
 }
 
