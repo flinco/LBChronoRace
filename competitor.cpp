@@ -4,90 +4,155 @@
 Competitor::Field CompetitorSorter::sortingField = Competitor::CMF_FIRST;
 Qt::SortOrder     CompetitorSorter::sortingOrder = Qt::AscendingOrder;
 
-Competitor::Competitor() {
-    this->bib    = 0u;
-    this->name   = "";
-    this->sex    = UNDEFINED;
-    this->year   = 1900;
-    this->team   = "";
-    this->leg    = 1u;
-    this->offset = -1;
+Competitor::Competitor()
+{
+    this->bib      = 0u;
+    this->name     = "";
+    this->sex      = UNDEFINED;
+    this->year     = 1900;
+    this->team     = "";
+    this->leg      = 1u;
+    this->offset   = -1;
+    this->category = "";
 }
 
-Competitor::Competitor(const uint bib) : Competitor() {
+Competitor::Competitor(const uint bib) : Competitor()
+{
     this->bib = bib;
 }
 
-const QString& Competitor::getName() const {
+QDataStream &operator<<(QDataStream &out, const Competitor &comp)
+{
+    out << quint32(comp.bib)
+        << comp.name
+        << Competitor::toSexString(comp.sex)
+        << quint32(comp.year)
+        << comp.team
+        << quint32(comp.leg)
+        << qint32(comp.offset);
+
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, Competitor &comp)
+{
+    quint32 bib32, year32, leg32;
+    qint32  offset32;
+    QString sexStr;
+
+    in >> bib32
+       >> comp.name
+       >> sexStr
+       >> year32
+       >> comp.team
+       >> leg32
+       >> offset32;
+
+    comp.bib    = (uint) bib32;
+    comp.sex    = Competitor::toSex(sexStr);
+    comp.year   = (uint) year32;
+    comp.leg    = (uint) leg32;
+    comp.offset = (int) offset32;
+
+    return in;
+}
+
+const QString& Competitor::getName() const
+{
     return name;
 }
 
-const QString  Competitor::getName(int width) const {
+const QString  Competitor::getName(int width) const
+{
     return QString("%1").arg(this->name, -width);
 }
 
-void Competitor::setName(const QString& name) {
+void Competitor::setName(const QString& name)
+{
     this->name = name;
 }
 
-uint Competitor::getBib() const {
+uint Competitor::getBib() const
+{
     return bib;
 }
 
-void Competitor::setBib(uint bib) {
+void Competitor::setBib(uint bib)
+{
     this->bib = bib;
 }
 
-
-Competitor::Sex Competitor::getSex() const {
+Competitor::Sex Competitor::getSex() const
+{
     return sex;
 }
 
-void Competitor::setSex(const Competitor::Sex sex) {
+void Competitor::setSex(const Competitor::Sex sex)
+{
     this->sex = sex;
 }
 
-const QString& Competitor::getTeam() const {
+const QString& Competitor::getTeam() const
+{
     return team;
 }
 
-const QString  Competitor::getTeam(int width) const {
+const QString  Competitor::getTeam(int width) const
+{
     return QString("%1").arg(this->team, -width);
 }
 
-void Competitor::setTeam(const QString& team) {
+void Competitor::setTeam(const QString& team)
+{
     this->team = team;
 }
 
-uint Competitor::getYear() const {
+uint Competitor::getYear() const
+{
     return year;
 }
 
-void Competitor::setYear(uint year) {
+void Competitor::setYear(uint year)
+{
     this->year = year;
 }
 
-uint Competitor::getLeg() const {
+uint Competitor::getLeg() const
+{
     return leg;
 }
 
-void Competitor::setLeg(uint leg) {
+void Competitor::setLeg(uint leg)
+{
     this->leg = leg;
 }
 
-int Competitor::getOffset() const {
+int Competitor::getOffset() const
+{
     return offset;
 }
-void Competitor::setOffset(int offset) {
+void Competitor::setOffset(int offset)
+{
     this->offset = offset;
 }
 
-bool Competitor::isValid() {
+bool Competitor::isValid()
+{
     return ((bib != 0u) && !name.isEmpty() && (sex != UNDEFINED));
 }
 
-Competitor::Sex Competitor::toSex(const QString& sex, const bool strict) {
+const QString& Competitor::getCategory() const
+{
+    return this->category;
+}
 
+void Competitor::setCategory(const QString& category)
+{
+    this->category = category;
+}
+
+Competitor::Sex Competitor::toSex(const QString& sex, const bool strict)
+{
     if (sex.length() != 1) {
         throw(ChronoRaceException(tr("Illegal sex '%1'").arg(sex)));
     } else {
@@ -102,8 +167,8 @@ Competitor::Sex Competitor::toSex(const QString& sex, const bool strict) {
     return UNDEFINED;
 }
 
-QString Competitor::toSexString(const Sex sex) {
-
+QString Competitor::toSexString(const Sex sex)
+{
     switch (sex) {
         case MALE:
             return "M";
@@ -123,8 +188,8 @@ int Competitor::toOffset(const QString& offset)
     QStringList list = offset.split(":");
 
     int retval = -1;
-    int h, m, s = 0;
-    bool check_h, check_m, check_s;
+    int h, m, s, l = 0;
+    bool check_h, check_m, check_s, check_l;
     switch (list.count()) {
         case 3:
             h = list[0].toInt(&check_h, 10);
@@ -139,6 +204,11 @@ int Competitor::toOffset(const QString& offset)
             if (check_m && check_s)
                 retval = (m * 60) + s;
         break;
+        case 1:
+            l = list[0].toInt(&check_l, 10);
+            if (check_l)
+                retval = -qAbs(l);
+        break;
         default:
             // do nothing
         break;
@@ -147,77 +217,110 @@ int Competitor::toOffset(const QString& offset)
     return retval;
 }
 
-QString Competitor::toOffsetString(int offset) {
-    return (offset < 0) ? "N/A" : QString("%1:%2:%3").arg(((offset / 60) / 60)).arg(((offset / 60) % 60), 2, 10, QLatin1Char('0')).arg((offset % 60), 2, 10, QLatin1Char('0'));
+QString Competitor::toOffsetString(int offset)
+{
+    if (offset < 0)
+        return QString("%1").arg(qAbs(offset));
+    else
+        return QString("%1:%2:%3").arg(((offset / 60) / 60)).arg(((offset / 60) % 60), 2, 10, QChar('0')).arg((offset % 60), 2, 10, QChar('0'));
 }
 
-bool Competitor::operator< (const Competitor& rhs) const {
-    if (bib < rhs.bib) {
+bool Competitor::operator< (const Competitor& rhs) const
+{
+    if ((offset < 0) && (offset != rhs.offset))
+        return qAbs(offset) < qAbs(rhs.offset);
+
+    if (bib < rhs.bib)
         return true;
-    } else if (bib == rhs.bib) {
-        return leg < rhs.leg;
+
+    if (bib == rhs.bib) {
+        if (offset != rhs.offset)
+            return qAbs(offset) < qAbs(rhs.offset);
+        else
+            return leg < rhs.leg;
     }
+
     return false;
 }
 
-bool Competitor::operator> (const Competitor& rhs) const {
-    if (bib > rhs.bib) {
+bool Competitor::operator> (const Competitor& rhs) const
+{
+    if ((offset < 0) && (offset != rhs.offset))
+        return qAbs(offset) > qAbs(rhs.offset);
+
+    if (bib > rhs.bib)
         return true;
-    } else if (bib == rhs.bib) {
-        return leg > rhs.leg;
+
+    if (bib == rhs.bib) {
+        if (offset != rhs.offset)
+            return qAbs(offset) > qAbs(rhs.offset);
+        else
+            return leg > rhs.leg;
     }
+
     return false;
 }
 
-bool Competitor::operator<=(const Competitor& rhs) const {
+bool Competitor::operator<=(const Competitor& rhs) const
+{
     return !(*this > rhs);
 }
 
-bool Competitor::operator>=(const Competitor& rhs) const {
+bool Competitor::operator>=(const Competitor& rhs) const
+{
     return !(*this < rhs);
 }
 
-bool CompetitorSorter::operator() (const Competitor& lhs, const Competitor& rhs) {
+bool CompetitorSorter::operator() (const Competitor& lhs, const Competitor& rhs)
+{
     switch(sortingField) {
         case Competitor::CMF_NAME:
-            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getName() < rhs.getName()) : (lhs.getName() > rhs.getName());
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getName() > rhs.getName()) : (lhs.getName() < rhs.getName());
         case Competitor::CMF_SEX:
-            return (sortingOrder == Qt::DescendingOrder) ? (Competitor::toSexString(lhs.getSex()) < Competitor::toSexString(rhs.getSex())) : (Competitor::toSexString(lhs.getSex()) > Competitor::toSexString(rhs.getSex()));
+            return (sortingOrder == Qt::DescendingOrder) ? (Competitor::toSexString(lhs.getSex()) > Competitor::toSexString(rhs.getSex())) : (Competitor::toSexString(lhs.getSex()) < Competitor::toSexString(rhs.getSex()));
         case Competitor::CMF_YEAR:
-            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getYear() < rhs.getYear()) : (lhs.getYear() > rhs.getYear());
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getYear() > rhs.getYear()) : (lhs.getYear() < rhs.getYear());
         case Competitor::CMF_TEAM:
-            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getTeam() < rhs.getTeam()) : (lhs.getTeam() > rhs.getTeam());
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getTeam() > rhs.getTeam()) : (lhs.getTeam() < rhs.getTeam());
         case Competitor::CMF_BIB:
             // nobreak here
+        case Competitor::CMF_OFFSET_LEG:
+            // nobreak here
         default:
-            return (sortingOrder == Qt::DescendingOrder) ? (lhs < rhs) : (lhs > rhs);
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }
 }
 
-Qt::SortOrder CompetitorSorter::getSortingOrder() {
+Qt::SortOrder CompetitorSorter::getSortingOrder()
+{
     return sortingOrder;
 }
 
-void CompetitorSorter::setSortingOrder(const Qt::SortOrder &value) {
+void CompetitorSorter::setSortingOrder(const Qt::SortOrder &value)
+{
     sortingOrder = value;
 }
 
-Competitor::Field CompetitorSorter::getSortingField() {
+Competitor::Field CompetitorSorter::getSortingField()
+{
     return sortingField;
 }
 
-void CompetitorSorter::setSortingField(const Competitor::Field &value) {
+void CompetitorSorter::setSortingField(const Competitor::Field &value)
+{
     sortingField = value;
 }
 
-Competitor::Field& operator++(Competitor::Field& field) {
+Competitor::Field& operator++(Competitor::Field& field)
+{
     field = static_cast<Competitor::Field>(static_cast<int>(field) + 1);
     //if (field == Competitor::CMF_COUNT)
     //    field = Competitor::CMF_FIRST;
     return field;
 }
 
-Competitor::Field operator++(Competitor::Field& field, int) {
+Competitor::Field operator++(Competitor::Field& field, int)
+{
     Competitor::Field tmp = field;
     ++field;
     return tmp;

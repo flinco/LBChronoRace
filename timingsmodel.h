@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QAbstractTableModel>
+#include <QDataStream>
 
 #include "timing.h"
 
@@ -11,10 +12,13 @@ class TimingsModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    TimingsModel(QObject *parent = 0)
+    TimingsModel(QObject *parent = Q_NULLPTR)
         : QAbstractTableModel(parent), timings() {}
-    TimingsModel(const QList<Timing>& timingsList, QObject *parent = 0)
+    TimingsModel(const QList<Timing>& timingsList, QObject *parent = Q_NULLPTR)
         : QAbstractTableModel(parent), timings(timingsList) {}
+
+    friend QDataStream &operator<<(QDataStream &out, const TimingsModel &data);
+    friend QDataStream &operator>>(QDataStream &in, TimingsModel &data);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
@@ -27,6 +31,11 @@ public:
     void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
     void reset();
+
+    const QList<Timing>& getTimings() const;
+
+public slots:
+    void refreshCounters(int r);
 
 private:
     QList<Timing> timings;

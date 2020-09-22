@@ -2,6 +2,7 @@
 #define COMPETITOR_H
 
 #include <QCoreApplication>
+#include <QDataStream>
 #include <QSet>
 #include <QString>
 
@@ -25,15 +26,15 @@ public:
 
     enum Field
         {
-            CMF_FIRST  = 0,
-            CMF_BIB    = 0,
-            CMF_NAME   = 1,
-            CMF_SEX    = 2,
-            CMF_YEAR   = 3,
-            CMF_TEAM   = 4,
-            CMF_OFFSET = 5,
-            CMF_LAST   = 5,
-            CMF_COUNT  = 6
+            CMF_FIRST      = 0,
+            CMF_BIB        = 0,
+            CMF_NAME       = 1,
+            CMF_SEX        = 2,
+            CMF_YEAR       = 3,
+            CMF_TEAM       = 4,
+            CMF_OFFSET_LEG = 5,
+            CMF_LAST       = 5,
+            CMF_COUNT      = 6
         };
 
 private:
@@ -45,10 +46,15 @@ private:
     QString team;
     uint    leg;
     int     offset;
+    QString category;
 
 public:
     Competitor();
     Competitor(const uint bib);
+
+    friend QDataStream &operator<<(QDataStream &out, const Competitor &comp);
+    friend QDataStream &operator>>(QDataStream &in, Competitor &comp);
+
     const QString& getName() const;
     const QString  getName(int width) const;
     void setName(const QString& name);
@@ -66,6 +72,9 @@ public:
     int getOffset() const;
     void setOffset(int offset);
     bool isValid();
+
+    const QString& getCategory() const;
+    void setCategory(const QString& category);
 
     static Sex toSex(const QString& sex, const bool strict = false);
     static QString toSexString(const Sex sex);

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QSet>
 #include <QList>
+#include <QDataStream>
 #include <QAbstractTableModel>
 
 class TeamsListModel : public QAbstractTableModel
@@ -11,8 +12,11 @@ class TeamsListModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    TeamsListModel(QObject *parent = 0)
+    TeamsListModel(QObject *parent = Q_NULLPTR)
         : QAbstractTableModel(parent), teamsList() {}
+
+    friend QDataStream &operator<<(QDataStream &out, const TeamsListModel &data);
+    friend QDataStream &operator>>(QDataStream &in, TeamsListModel &data);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
@@ -26,11 +30,17 @@ public:
 
     void reset();
 
+    const QList<QString>& getTeamsList() const;
+
+    uint getTeamNameWidthMax() const;
+
 public slots:
     void addTeam(const QString& team);
+    void refreshCounters(int r);
 
 private:
     QList<QString> teamsList;
+    uint           teamNameWidthMax;
 };
 
 #endif // LBTEAMSLISTMODEL_H

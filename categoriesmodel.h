@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QAbstractTableModel>
+#include <QDataStream>
 
 #include "category.h"
 
@@ -11,10 +12,13 @@ class CategoriesModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    CategoriesModel(QObject *parent = nullptr)
-        : QAbstractTableModel(parent), categories() {}
-    CategoriesModel(const QList<Category>& categoriesList, QObject *parent = nullptr)
-        : QAbstractTableModel(parent), categories(categoriesList) {}
+    CategoriesModel(QObject *parent = Q_NULLPTR)
+        : QAbstractTableModel(parent), categories() { }
+    CategoriesModel(const QList<Category>& categoriesList, QObject *parent = Q_NULLPTR)
+        : QAbstractTableModel(parent), categories(categoriesList) { }
+
+    friend QDataStream &operator<<(QDataStream &out, const CategoriesModel &data);
+    friend QDataStream &operator>>(QDataStream &in, CategoriesModel &data);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
@@ -27,6 +31,11 @@ public:
     void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
     void reset();
+
+    const QList<Category>& getCategories() const;
+
+public slots:
+    void refreshCounters(int r);
 
 private:
     QList<Category> categories;

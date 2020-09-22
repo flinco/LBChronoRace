@@ -3,6 +3,7 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QLibraryInfo>
+#include <QFontDatabase>
 
 #ifdef Q_OS_WIN
 #include <QStyleFactory>
@@ -10,7 +11,9 @@
 
 int main(int argc, char *argv[])
 {
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
+
     QTranslator qtTranslator;
     QTranslator lbcrTranslator;
 
@@ -28,7 +31,20 @@ int main(int argc, char *argv[])
     //app.setStyle(QStyleFactory::create("WindowsVista"));
 #endif
 
-    LBChronoRace w;
+    QFontDatabase::addApplicationFont(":/fonts/LiberationMono-Bold.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/LiberationMono-BoldItalic.ttf");
+    QFontDatabase::addApplicationFont("LiberationMono-Italic.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/LiberationMono-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/LiberationSans-Bold.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/LiberationSans-BoldItalic.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/LiberationSans-Italic.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/LiberationSans-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/LiberationSerif-Bold.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/LiberationSerif-BoldItalic.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/LiberationSerif-Italic.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/LiberationSerif-Regular.ttf");
+
+    LBChronoRace w(Q_NULLPTR, &app);
     w.show();
     return app.exec();
 }
