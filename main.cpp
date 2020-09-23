@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     if (qtTranslator.load(QLocale(), QStringLiteral("qtbase"), QStringLiteral("_"), translDir.path()))
         app.installTranslator(&qtTranslator);
 
-    if (lbcrTranslator.load(QLocale(), QStringLiteral("LBChronoRace"), QStringLiteral("_"), appDir.path()))
+    if (lbcrTranslator.load(QString(":/%1").arg(QStringLiteral(LBCHRONORACE_NAME))))
         app.installTranslator(&lbcrTranslator);
 
 #ifdef Q_OS_WIN
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 
     QFontDatabase::addApplicationFont(":/fonts/LiberationMono-Bold.ttf");
     QFontDatabase::addApplicationFont(":/fonts/LiberationMono-BoldItalic.ttf");
-    QFontDatabase::addApplicationFont("LiberationMono-Italic.ttf");
+    QFontDatabase::addApplicationFont(":/fonts/LiberationMono-Italic.ttf");
     QFontDatabase::addApplicationFont(":/fonts/LiberationMono-Regular.ttf");
     QFontDatabase::addApplicationFont(":/fonts/LiberationSans-Bold.ttf");
     QFontDatabase::addApplicationFont(":/fonts/LiberationSans-BoldItalic.ttf");

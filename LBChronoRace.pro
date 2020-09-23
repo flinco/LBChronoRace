@@ -66,4 +66,5 @@ TRANSLATIONS += \
     LBChronoRace_it.ts
 
 RESOURCES += \
-    LBChronoRaceFonts.qrc
+    fonts.qrc \
+    translations.qrc
