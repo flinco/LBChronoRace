@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     QDir appDir = QDir(QCoreApplication::applicationDirPath());
     QDir translDir = QDir(appDir.path() + QDir::separator() + "translations");
 
-    if (qtTranslator.load(QLocale(), QStringLiteral("qtbase"), QStringLiteral("_"), translDir.path()))
+    if (qtTranslator.load(QLocale(), QStringLiteral("qt"), QStringLiteral("_"), translDir.path()))
         app.installTranslator(&qtTranslator);
 
     if (lbcrTranslator.load(QString(":/%1").arg(QStringLiteral(LBCHRONORACE_NAME))))
