@@ -68,3 +68,19 @@ TRANSLATIONS += \
 RESOURCES += \
     fonts.qrc \
     translations.qrc
+
+DISTFILES += \
+    LICENSE \
+    README.md \
+    samples/README \
+    samples/mass_start/latin1/categories.csv \
+    samples/mass_start/latin1/startlist.csv \
+    samples/mass_start/latin1/timings.csv \
+    samples/mass_start/mass_start.crd \
+    samples/mass_start/utf8/categories.csv \
+    samples/mass_start/utf8/startlist.csv \
+    samples/mass_start/utf8/timings.csv \
+    samples/relay/latin1/categories.csv \
+    samples/relay/latin1/startlist.csv \
+    samples/relay/latin1/timings.csv \
+    samples/relay/relay.crd
