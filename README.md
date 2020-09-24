@@ -7,6 +7,7 @@
 Free Desktop software for producing the results of running races in different formats (PDF, CSV, plain text).
 
 <kbd><img src=".github/lbchronorace-preview.png" alt="LBChronoRace Preview" /></kbd>
+<kbd><img src=".github/lbchronorace-sample.png" alt="LBChronoRace Results Sample" /></kbd>
 
 ## Features
 
@@ -26,7 +27,7 @@ Free Desktop software for producing the results of running races in different fo
 
 ## Download
 
-Download the latest released source code from the [releases page](https://github.com/flinco/LBChronoRace/releases).
+Download the latest released source code from the [releases page](http://github.com/flinco/LBChronoRace/releases).
 
 ## Development
 
