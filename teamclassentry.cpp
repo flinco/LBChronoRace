@@ -14,7 +14,9 @@ const QString& TeamClassEntry::getTeam() const
 
 const ClassEntry* TeamClassEntry::getClassEntry(int index) const
 {
-    Q_ASSERT(index < this->entryList.size());
+    if ((int) index >= this->entryList.size())
+        throw(ChronoRaceException(tr("Requested index %1 exceeds the number of available entries %2").arg(index).arg(this->entryList.size())));
+
     return this->entryList[index];
 }
 

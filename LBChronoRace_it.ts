@@ -1268,7 +1268,12 @@ Versione: %2
 <context>
     <name>TeamClassEntry</name>
     <message>
-        <location filename="teamclassentry.cpp" line="26"/>
+        <location filename="teamclassentry.cpp" line="18"/>
+        <source>Requested index %1 exceeds the number of available entries %2</source>
+        <translation>L&apos;elemento richiesto %1 supera il numero di elementi disponibili %2</translation>
+    </message>
+    <message>
+        <location filename="teamclassentry.cpp" line="28"/>
         <source>Unexpected team: expected %1 - found %2</source>
         <translation>Squadra non valida: attesa %1 - trovata %2</translation>
     </message>
