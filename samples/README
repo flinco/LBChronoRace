@@ -1,11 +1,15 @@
-- individual_latin1
-Sample of individual race with ISO-8859-1 (Latin1) file encoding.
-Original race rankings can be found at http://www.polisportivatrattoriafriuli.com/classifiche/varie/classifiche-2016/CLASSIFICHE%20TROFEO%20SORELLE%20RAMONDA.pdf?attredirects=0&d=1
+- mass_start
+Sample of mass start race.
+ + mass_start.crd
+   The race data file.
+ + latin1/*
+   CSVs of this race exported with ISO-8859-1 (Latin1) file encoding.
+ + utf8/*
+   The same CSVs with UTF-8 encoding.
 
-- individual_utf8
-The same of individual_latin1 but with UTF-8 encoding.
-Original race rankings can be found at http://www.polisportivatrattoriafriuli.com/classifiche/varie/classifiche-2016/CLASSIFICHE%20TROFEO%20SORELLE%20RAMONDA.pdf?attredirects=0&d=1
-
-- relay_latin1
-Sample of 3-leg relay with ISO-8859-1 (Latin1) file encoding.
-Original race rankings can be found at http://www.polisportivatrattoriafriuli.com/classifiche/staffette/staffette-2016/CLASSIFICA%20STAFFETTA%20TROFEO%20PATRICK.pdf?attredirects=0&d=1
+- relay
+Sample of 3-leg relay race.
+ + relay.crd
+   The race data file.
+ + latin1/*
+   CSVs of this race exported with ISO-8859-1 (Latin1) file encoding.

@@ -1,0 +1,16 @@
+I,M,2000,1999,Junior M,JM
+I,F,2000,1999,Junior F,JF
+I,M,1998,1984,Senior M,SM
+I,F,1998,1984,Senior F,SF
+I,M,1983,1974,Amateur A M,AMA
+I,F,1983,1974,Amateur A F,AFA
+I,M,1973,1964,Amateur B M,AMB
+I,F,1973,1964,Amateur B F,AFB
+I,M,1963,1900,Veterans M,VM
+I,F,1963,1900,Veterans F,VF
+I,U,0,0,General,GEN
+I,M,0,0,General M,GEM
+I,F,0,0,General F,GEF
+T,U,0,0,Teams,T
+T,M,0,0,Teams M,TM
+T,F,0,0,Teams F,TF
