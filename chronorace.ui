@@ -311,10 +311,10 @@
          <bool>true</bool>
         </property>
         <property name="toolTip">
-         <string>Generate rankings in the selected format</string>
+         <string>Generate results in the selected format</string>
         </property>
         <property name="text">
-         <string>Make Rankings</string>
+         <string>Make Results</string>
         </property>
        </widget>
       </item>

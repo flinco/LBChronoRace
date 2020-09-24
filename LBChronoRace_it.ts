@@ -376,7 +376,6 @@
         <location filename="classentry.cpp" line="241"/>
         <location filename="classentry.cpp" line="306"/>
         <source>Nonexistent leg %1 for bib %2</source>
-        <oldsource>Inconsistent leg %1 for bib %2</oldsource>
         <translation>Frazione %1 inesistente per il pettorale %2</translation>
     </message>
     <message>
@@ -505,7 +504,7 @@
     </message>
     <message>
         <location filename="chronorace.ui" line="317"/>
-        <source>Make Rankings</source>
+        <source>Make Results</source>
         <translation>Genera Classisiche</translation>
     </message>
     <message>
@@ -565,13 +564,11 @@
     <message>
         <location filename="chronorace.ui" line="301"/>
         <source>Generate start list in the selected format</source>
-        <oldsource>Generate start list in plain text format</oldsource>
         <translation>Genera l&apos;ordine di partenza nel formato selezionato</translation>
     </message>
     <message>
         <location filename="chronorace.ui" line="314"/>
-        <source>Generate rankings in the selected format</source>
-        <oldsource>Generate rankings in plain text format</oldsource>
+        <source>Generate results in the selected format</source>
         <translation>Genera le classifiche nel formato selezionato</translation>
     </message>
     <message>
@@ -703,7 +700,7 @@
         <location filename="lbchronorace.cpp" line="783"/>
         <location filename="lbchronorace.cpp" line="949"/>
         <location filename="lbchronorace.cpp" line="1141"/>
-        <source>%1 Ranking</source>
+        <source>%1 Results</source>
         <translation>Classifica %1</translation>
     </message>
     <message>
@@ -813,7 +810,6 @@
         <location filename="lbchronorace.cpp" line="1720"/>
         <location filename="lbchronorace.cpp" line="1966"/>
         <source>Leg %n</source>
-        <oldsource>Leg %1</oldsource>
         <translation>
             <numerusform>Frazione %n</numerusform>
             <numerusform>Frazione %n</numerusform>
@@ -846,7 +842,6 @@
         <location filename="lbchronorace.cpp" line="2035"/>
         <location filename="lbchronorace.cpp" line="2177"/>
         <source>Loaded: %n category</source>
-        <oldsource>Loaded: %n category(es)</oldsource>
         <translation>
             <numerusform>Caricata: %n categoria</numerusform>
             <numerusform>Caricate: %n categorie</numerusform>
@@ -880,7 +875,7 @@
     </message>
     <message>
         <location filename="lbchronorace.cpp" line="147"/>
-        <source>Select Rankings Destination Folder</source>
+        <source>Select Results Destination Folder</source>
         <translation>Seleziona Cartella Destinazione Classifiche</translation>
     </message>
     <message>
@@ -890,8 +885,7 @@
     </message>
     <message>
         <location filename="lbchronorace.cpp" line="198"/>
-        <source>Bib %1 not inserted in ranking; check for possible duplicated entries</source>
-        <oldsource>Bib %1 skipped; check for possible duplicated entries</oldsource>
+        <source>Bib %1 not inserted in results; check for possible duplicated entries</source>
         <translation>Pettorale %1 non inserito in classifica; posibile duplicazione nella lista tempi</translation>
     </message>
     <message>
@@ -903,7 +897,7 @@
         <location filename="lbchronorace.cpp" line="907"/>
         <location filename="lbchronorace.cpp" line="1096"/>
         <location filename="lbchronorace.cpp" line="1299"/>
-        <source>Generated Ranking &apos;%1&apos;: %2</source>
+        <source>Generated Results &apos;%1&apos;: %2</source>
         <translation>Generata Classifica &apos;%1&apos;: %2</translation>
     </message>
     <message>
@@ -970,16 +964,8 @@ Versione: %2
     <message>
         <location filename="lbchronorace.cpp" line="567"/>
         <location filename="lbchronorace.cpp" line="582"/>
-        <source>Error: cannot generate ranking for 0 legs</source>
+        <source>Error: cannot generate results for 0 legs</source>
         <translation>Errore: impossibile generare classifiche con 0 frazioni</translation>
-    </message>
-    <message>
-        <location filename="lbchronorace.cpp" line="604"/>
-        <location filename="lbchronorace.cpp" line="757"/>
-        <location filename="lbchronorace.cpp" line="924"/>
-        <location filename="lbchronorace.cpp" line="1113"/>
-        <source>Rankings</source>
-        <translation>Classifiche</translation>
     </message>
     <message>
         <location filename="lbchronorace.cpp" line="738"/>
@@ -994,10 +980,13 @@ Versione: %2
         <location filename="lbchronorace.cpp" line="1004"/>
         <location filename="lbchronorace.cpp" line="1196"/>
         <source>Leg Time (and position)</source>
-        <oldsource>Leg Time (Position in Leg)</oldsource>
         <translation>Tempo di Frazione (e posizione)</translation>
     </message>
     <message>
+        <location filename="lbchronorace.cpp" line="604"/>
+        <location filename="lbchronorace.cpp" line="757"/>
+        <location filename="lbchronorace.cpp" line="924"/>
+        <location filename="lbchronorace.cpp" line="1113"/>
         <location filename="lbchronorace.cpp" line="1398"/>
         <source>Results</source>
         <translation>Risultati</translation>
@@ -1273,7 +1262,6 @@ Versione: %2
     <message>
         <location filename="startlistmodel.cpp" line="182"/>
         <source>Start time/Leg</source>
-        <oldsource>Start time</oldsource>
         <translation>Partenza/Frazione</translation>
     </message>
 </context>

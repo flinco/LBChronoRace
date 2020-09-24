@@ -144,7 +144,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
         }
 
         QString rankingsBasePath = QFileDialog::getExistingDirectory(this,
-            tr("Select Rankings Destination Folder"), lastSelectedPath.absolutePath(),
+            tr("Select Results Destination Folder"), lastSelectedPath.absolutePath(),
             QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
         if (!rankingsBasePath.isEmpty()) {
@@ -195,7 +195,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
                     }
                 }
                 if (!comp) {
-                    ui->errorDisplay->appendPlainText(tr("Bib %1 not inserted in ranking; check for possible duplicated entries").arg(bib));
+                    ui->errorDisplay->appendPlainText(tr("Bib %1 not inserted in results; check for possible duplicated entries").arg(bib));
                     continue;
                 } else {
                     // Set the category for the competitor (if any)
@@ -420,7 +420,7 @@ void LBChronoRace::makeTextRanking(const QString &outFileName, const QString &fu
     }
     outStream << Qt::endl;
 
-    ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(outFileInfo.absoluteFilePath()));
+    ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(outFileInfo.absoluteFilePath()));
 
     outStream.flush();
     outFile.close();
@@ -476,7 +476,7 @@ void LBChronoRace::makeTextRanking(const QString &outFileName, const QString &fu
     }
     outStream << Qt::endl;
 
-    ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(outFileInfo.absoluteFilePath()));
+    ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(outFileInfo.absoluteFilePath()));
 
     outStream.flush();
     outFile.close();
@@ -513,7 +513,7 @@ void LBChronoRace::makeCSVRanking(const QString &outFileName, const QString &ful
     }
     outStream << Qt::endl;
 
-    ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(outFileInfo.absoluteFilePath()));
+    ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(outFileInfo.absoluteFilePath()));
 
     outStream.flush();
     outFile.close();
@@ -554,7 +554,7 @@ void LBChronoRace::makeCSVRanking(const QString &outFileName, const QString &ful
     }
     outStream << Qt::endl;
 
-    ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(outFileInfo.absoluteFilePath()));
+    ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(outFileInfo.absoluteFilePath()));
 
     outStream.flush();
     outFile.close();
@@ -564,7 +564,7 @@ void LBChronoRace::makePDFRanking(const QString &outFileName, const QString &ful
 {
     switch (CRLoader::getStartListLegs()) {
         case 0:
-            ui->errorDisplay->appendPlainText(tr("Error: cannot generate ranking for 0 legs"));
+            ui->errorDisplay->appendPlainText(tr("Error: cannot generate results for 0 legs"));
             break;
         case 1:
             makePDFRankingSingle(outFileName, fullDescription, individualRanking);
@@ -579,7 +579,7 @@ void LBChronoRace::makePDFRanking(const QString &outFileName, const QString &ful
 {
     switch (CRLoader::getStartListLegs()) {
         case 0:
-            ui->errorDisplay->appendPlainText(tr("Error: cannot generate ranking for 0 legs"));
+            ui->errorDisplay->appendPlainText(tr("Error: cannot generate results for 0 legs"));
             break;
         case 1:
             makePDFRankingSingle(outFileName, fullDescription, teamRanking);
@@ -601,7 +601,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
         QRectF writeRect;
 
         QPdfWriter *rankingPdfwriter = (QPdfWriter *) painter.device();
-        rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Rankings") + " - " + fullDescription);
+        rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Results") + " - " + fullDescription);
 
         // Fonts
         QFont rnkFont = fontDB.font("Liberation Sans", "Regular", 7);
@@ -624,7 +624,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
         availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
         referenceTime = (rankingCount > 0) ? (*c)->getTotalTime() : 0;
         for (page = 1, i = 1; page <= pages; page++) {
-            drawPDFTemplatePortrait(painter, tr("%1 Ranking").arg(fullDescription), page, pages);
+            drawPDFTemplatePortrait(painter, tr("%1 Results").arg(fullDescription), page, pages);
 
             // Prepare fonts
             rnkFont.setPointSize(7);
@@ -737,7 +737,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
         if (!painter.end())
             ui->errorDisplay->appendPlainText(tr("Error: cannot write to %1").arg(outFileName));
         else
-            ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
+            ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
         delete rankingPdfwriter;
     } else {
         ui->errorDisplay->appendPlainText(tr("Error: cannot open %1").arg(outFileName));
@@ -754,7 +754,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
         const ClassEntry *c;
 
         QPdfWriter *rankingPdfwriter = (QPdfWriter *) painter.device();
-        rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Rankings") + " - " + fullDescription);
+        rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Results") + " - " + fullDescription);
 
         // Fonts
         QFont rnkFont = fontDB.font("Liberation Sans", "Regular", 7);
@@ -780,7 +780,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
         t = teamRanking.constBegin();
         availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
         for (page = 1, i = 1, j = 0; page <= pages; page++) {
-            drawPDFTemplatePortrait(painter, tr("%1 Ranking").arg(fullDescription), page, pages);
+            drawPDFTemplatePortrait(painter, tr("%1 Results").arg(fullDescription), page, pages);
 
             // Prepare fonts
             rnkFont.setPointSize(7);
@@ -904,7 +904,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
         if (!painter.end())
             ui->errorDisplay->appendPlainText(tr("Error: cannot write to %1").arg(outFileName));
         else
-            ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
+            ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
         delete rankingPdfwriter;
     } else {
         ui->errorDisplay->appendPlainText(tr("Error: cannot open %1").arg(outFileName));
@@ -921,7 +921,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
         QRectF writeRect;
 
         QPdfWriter *rankingPdfwriter = (QPdfWriter *) painter.device();
-        rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Rankings") + " - " + fullDescription);
+        rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Results") + " - " + fullDescription);
 
         // Fonts
         QFont rnkFont = fontDB.font("Liberation Sans", "Regular", 7);
@@ -946,7 +946,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
         c = individualRanking.constBegin();
         referenceTime = (c != individualRanking.constEnd()) ? (*c)->getTotalTime() : 0;
         for (page = 1, i = 1; page <= pages; page++) {
-            drawPDFTemplatePortrait(painter, tr("%1 Ranking").arg(fullDescription), page, pages);
+            drawPDFTemplatePortrait(painter, tr("%1 Results").arg(fullDescription), page, pages);
 
             // Prepare fonts
             rnkFont.setPointSize(7);
@@ -1093,7 +1093,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
         if (!painter.end())
             ui->errorDisplay->appendPlainText(tr("Error: cannot write to %1").arg(outFileName));
         else
-            ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
+            ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
         delete rankingPdfwriter;
     } else {
         ui->errorDisplay->appendPlainText(tr("Error: cannot open %1").arg(outFileName));
@@ -1110,7 +1110,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
         const ClassEntry *c;
 
         QPdfWriter *rankingPdfwriter = (QPdfWriter *) painter.device();
-        rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Rankings") + " - " + fullDescription);
+        rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Results") + " - " + fullDescription);
 
         // Fonts
         QFont rnkFont = fontDB.font("Liberation Sans", "Regular", 7);
@@ -1138,7 +1138,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
         t = teamRanking.constBegin();
         availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
         for (page = 1, i = 1, j = 0; page <= pages; page++) {
-            drawPDFTemplatePortrait(painter, tr("%1 Ranking").arg(fullDescription), page, pages);
+            drawPDFTemplatePortrait(painter, tr("%1 Results").arg(fullDescription), page, pages);
 
             // Prepare fonts
             rnkFont.setPointSize(7);
@@ -1296,7 +1296,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
         if (!painter.end())
             ui->errorDisplay->appendPlainText(tr("Error: cannot write to %1").arg(outFileName));
         else
-            ui->infoDisplay->appendPlainText(tr("Generated Ranking '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
+            ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
         delete rankingPdfwriter;
     } else {
         ui->errorDisplay->appendPlainText(tr("Error: cannot open %1").arg(outFileName));
@@ -1569,7 +1569,7 @@ bool LBChronoRace::initPDFPainter(QPainter &painter, const QString &outFileName)
     if (!outFileName.isEmpty()) {
         QPdfWriter *rankingPdfwriter = new QPdfWriter(outFileName);
         rankingPdfwriter->setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
-        //rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Rankings") + " - " + fullDescription);
+        //rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Results") + " - " + fullDescription);
         rankingPdfwriter->setPageSize(QPageSize(QPageSize::A4));
         rankingPdfwriter->setPageOrientation(QPageLayout::Portrait);
         rankingPdfwriter->setPageMargins(QMarginsF(RANKING_LEFT_MARGIN, RANKING_TOP_MARGIN, RANKING_RIGHT_MARGIN, RANKING_BOTTOM_MARGIN), QPageLayout::Millimeter);
