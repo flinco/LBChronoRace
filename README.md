@@ -1,7 +1,7 @@
 # LBChronoRace
 
 <!-- [![Build Status](https://travis-ci.com/flinco/LBChronoRace.svg?branch=master)](https://travis-ci.com/flinco/LBChronoRace) -->
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/frappe/books)](https://github.com/flinco/LBChronoRace/releases)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/flinco/LBChronoRace)](https://github.com/flinco/LBChronoRace/releases)
 ![](https://img.shields.io/badge/platform-windows%2C%20mac%2C%20linux-yellowgreen)
 
 Free Desktop software for producing the results of running races in different formats (PDF, CSV, plain text).
