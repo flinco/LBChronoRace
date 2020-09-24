@@ -4,7 +4,7 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/flinco/LBChronoRace)](https://github.com/flinco/LBChronoRace/releases)
 ![](https://img.shields.io/badge/platform-windows%2C%20mac%2C%20linux-yellowgreen)
 
-Free Desktop software for producing the results of running races in different formats (PDF, CSV, plain text).
+Free Desktop software for producing the results of footraces in different formats (PDF, CSV, plain text).
 
 <kbd><img src=".github/lbchronorace-preview.png" alt="LBChronoRace Preview" /></kbd>
 <kbd><img src=".github/lbchronorace-sample.png" alt="LBChronoRace Results Sample" /></kbd>
