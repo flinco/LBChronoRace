@@ -1595,8 +1595,6 @@ void LBChronoRace::makeStartList(CRLoader::Format format)
 
     try {
         // Compute the start list
-        QStringList messages;
-
         uint bib, i, bWidth, sWidth, nWidth = 0, tWidth = 0;
         uint maxBib = 0;
 
@@ -1624,10 +1622,6 @@ void LBChronoRace::makeStartList(CRLoader::Format format)
         CompetitorSorter::setSortingField(Competitor::CMF_BIB);
         CompetitorSorter::setSortingOrder(Qt::AscendingOrder);
         std::stable_sort(sortedStartList.begin(), sortedStartList.end(), CompetitorSorter());
-
-        for (const auto &message : messages)
-            ui->errorDisplay->appendPlainText(tr("Warning: %1").arg(message));
-        messages.clear();
 
         i = sortedStartList.size();
         sWidth = 1;
