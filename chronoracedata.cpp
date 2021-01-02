@@ -121,7 +121,7 @@ QTextStream &operator<<(QTextStream &out, const ChronoRaceData &data)
     QStringList organizationLines = data.organization.split(re);
     QString headColumn = QObject::tr("Organization") + ": ";
 
-    for (auto line : organizationLines) {
+    for (const auto &line : organizationLines) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << headColumn;

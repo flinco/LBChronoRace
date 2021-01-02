@@ -197,7 +197,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
                     continue;
                 } else {
                     // Set the category for the competitor (if any)
-                    for (auto ranking : rankings) {
+                    for (const auto &ranking : rankings) {
                         if (ranking.isTeam())
                             continue;
 
@@ -236,7 +236,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
 
             // now fill each ranking
             k = 0;
-            for (auto ranking : rankings) {
+            for (const auto &ranking : rankings) {
                 k++;
 
                 if (ranking.isTeam()) {
@@ -367,7 +367,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
                 }
             }
 
-            for (auto message : messages)
+            for (const auto &message : messages)
                 ui->errorDisplay->appendPlainText(tr("Warning: %1").arg(message));
             messages.clear();
         }
@@ -1612,7 +1612,7 @@ void LBChronoRace::makeStartList(CRLoader::Format format)
 
         // compute start list
         QList<Competitor> sortedStartList;
-        for (auto c : CRLoader::getStartList()) {
+        for (const auto &c : CRLoader::getStartList()) {
             sortedStartList.push_back(c);
             if ((bib = c.getBib()) > maxBib)
                 maxBib = bib;
@@ -1625,7 +1625,7 @@ void LBChronoRace::makeStartList(CRLoader::Format format)
         CompetitorSorter::setSortingOrder(Qt::AscendingOrder);
         std::stable_sort(sortedStartList.begin(), sortedStartList.end(), CompetitorSorter());
 
-        for (auto message : messages)
+        for (const auto &message : messages)
             ui->errorDisplay->appendPlainText(tr("Warning: %1").arg(message));
         messages.clear();
 
@@ -1689,7 +1689,7 @@ void LBChronoRace::makeTextStartList(const QList<Competitor>& startList, uint bW
         int offset, i = 0;
         outStream << raceInfo << Qt::endl; // add header
         outStream << tr("Start List") << Qt::endl;
-        for (auto competitor : startList) {
+        for (const auto &competitor : startList) {
             outStream.setFieldWidth(sWidth);
             outStream.setFieldAlignment(QTextStream::AlignRight);
             outStream << ++i;
@@ -1763,7 +1763,7 @@ void LBChronoRace::makeCSVStartList(const QList<Competitor>& startList)
         }
 
         int offset, i = 0;
-        for (auto competitor : startList) {
+        for (const auto &competitor : startList) {
             outStream << ++i << ",";
             outStream << competitor.getBib() << ",";
             outStream << competitor.getName() << ",";

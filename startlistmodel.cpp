@@ -37,7 +37,7 @@ void StartListModel::refreshCounters(int r)
     Q_UNUSED(r);
 
     competitorNameMaxWidth = 0;
-    for (auto comp : startList) {
+    for (const auto &comp : startList) {
         bib = comp.getBib();
         offset = comp.getOffset();
         leg = (uint) ((offset < 0) ? qAbs(offset) : 1);

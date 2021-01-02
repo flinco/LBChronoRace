@@ -352,7 +352,7 @@ void CRLoader::checkString(QAbstractTableModel* model, QString& token, QChar cha
             }
             model->insertRow(rowCount, QModelIndex());
             c = 0;
-            for (auto item : standardItemList) {
+            for (const auto &item : standardItemList) {
                 model->setData(model->index(rowCount, c++, QModelIndex()), item, Qt::EditRole);
             }
             standardItemList.clear();

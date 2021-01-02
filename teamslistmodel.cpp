@@ -29,7 +29,7 @@ void TeamsListModel::refreshCounters(int r)
     Q_UNUSED(r);
 
     teamNameWidthMax = 0;
-    for (auto team : teamsList) {
+    for (const auto &team : teamsList) {
         teamNameLength = (uint) team.length();
         if (teamNameLength > teamNameWidthMax)
             teamNameWidthMax = teamNameLength;
