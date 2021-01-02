@@ -93,10 +93,10 @@ void Timing::setTiming(const QString& timing)
 {
 
     if (timing.length() == 3) {
-        if (!timing.toUpper().compare("DNS")) {
+        if (!timing.compare("DNS", Qt::CaseInsensitive)) {
             this->status = DNS;
             this->seconds = 0u;
-        } else if (!timing.toUpper().compare("DNF")) {
+        } else if (!timing.compare("DNF", Qt::CaseInsensitive)) {
             this->status = DNF;
             this->seconds = 0u;
         } else {
@@ -114,7 +114,7 @@ void Timing::setTiming(const QString& timing)
             converted = true;
             val = token.toUInt(&converted);
             if (!converted) {
-                seconds = 0u;
+                //seconds = 0u;
                 throw(ChronoRaceException(tr("Illegal timing value '%1' for bib '%2'").arg(token).arg(this->bib)));
             } else {
                 seconds = (seconds * 60) + val;

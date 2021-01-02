@@ -19,7 +19,7 @@ Category::Category(const QString& team) : Category()
     if (team.length() != 1) {
         throw(ChronoRaceException(tr("Illegal category type - expected 'I' or 'T' - found %1").arg(team)));
     } else {
-        this->team = (team.toUpper().compare("T") == 0);
+        this->team = (team.compare("T", Qt::CaseInsensitive) == 0);
     }
 }
 
