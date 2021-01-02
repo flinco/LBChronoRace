@@ -50,9 +50,9 @@ const QString ClassEntry::getNamesCSV() const
 
         if (!skip) {
             if (c)
-                retString += QString("%1%2,%3,%4").arg(first ? "" : ",").arg(c->getName()).arg(Competitor::toSexString(c->getSex())).arg(c->getYear());
+                retString += QString("%1%2,%3,%4").arg(first ? "" : ",", c->getName(), Competitor::toSexString(c->getSex()), QString::number(c->getYear()));
             else
-                retString += QString("%1%2,%3,%4").arg(first ? "" : ",").arg(ClassEntry::empty).arg(Competitor::toSexString(Competitor::UNDEFINED)).arg(0);
+                retString += QString("%1%2,%3,%4").arg(first ? "" : ",", ClassEntry::empty, Competitor::toSexString(Competitor::UNDEFINED), QString::number(0));
             first = false;
         }
     }
@@ -202,7 +202,7 @@ void ClassEntry::setTime(Competitor* comp, const Timing& timing, QStringList &me
     }
 
     if (entries[legIndex].competitor && (entries[legIndex].competitor != comp))
-        messages << tr("Competitor mismatch for bib %1: found %2 replaced by %3").arg(bib).arg(entries[legIndex].competitor->getName()).arg(comp->getName());
+        messages << tr("Competitor mismatch for bib %1: found %2 replaced by %3").arg(QString::number(bib), entries[legIndex].competitor->getName(), comp->getName());
 
     entries[legIndex].competitor = comp;
     entries[legIndex].status = timing.getStatus();

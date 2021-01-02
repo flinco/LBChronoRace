@@ -25,7 +25,7 @@ void TeamClassEntry::setClassEntry(ClassEntry* entry)
     if (this->entryList.isEmpty()) {
         this->team = entry->getTeam();
     } else if (this->team.compare(entry->getTeam()) != 0) {
-        throw(ChronoRaceException(tr("Unexpected team: expected %1 - found %2").arg(this->team).arg(entry->getTeam())));
+        throw(ChronoRaceException(tr("Unexpected team: expected %1 - found %2").arg(this->team, entry->getTeam())));
     }
     this->entryList.push_back(entry);
 }

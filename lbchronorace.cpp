@@ -418,7 +418,7 @@ void LBChronoRace::makeTextRanking(const QString &outFileName, const QString &fu
     }
     outStream << Qt::endl;
 
-    ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(outFileInfo.absoluteFilePath()));
+    ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription, outFileInfo.absoluteFilePath()));
 
     outStream.flush();
     outFile.close();
@@ -474,7 +474,7 @@ void LBChronoRace::makeTextRanking(const QString &outFileName, const QString &fu
     }
     outStream << Qt::endl;
 
-    ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(outFileInfo.absoluteFilePath()));
+    ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription, outFileInfo.absoluteFilePath()));
 
     outStream.flush();
     outFile.close();
@@ -511,7 +511,7 @@ void LBChronoRace::makeCSVRanking(const QString &outFileName, const QString &ful
     }
     outStream << Qt::endl;
 
-    ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(outFileInfo.absoluteFilePath()));
+    ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription, outFileInfo.absoluteFilePath()));
 
     outStream.flush();
     outFile.close();
@@ -552,7 +552,7 @@ void LBChronoRace::makeCSVRanking(const QString &outFileName, const QString &ful
     }
     outStream << Qt::endl;
 
-    ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(outFileInfo.absoluteFilePath()));
+    ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription, outFileInfo.absoluteFilePath()));
 
     outStream.flush();
     outFile.close();
@@ -735,7 +735,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
         if (!painter.end())
             ui->errorDisplay->appendPlainText(tr("Error: cannot write to %1").arg(outFileName));
         else
-            ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
+            ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription, QFileInfo(outFileName).absoluteFilePath()));
         delete rankingPdfwriter;
     } else {
         ui->errorDisplay->appendPlainText(tr("Error: cannot open %1").arg(outFileName));
@@ -902,7 +902,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
         if (!painter.end())
             ui->errorDisplay->appendPlainText(tr("Error: cannot write to %1").arg(outFileName));
         else
-            ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
+            ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription, QFileInfo(outFileName).absoluteFilePath()));
         delete rankingPdfwriter;
     } else {
         ui->errorDisplay->appendPlainText(tr("Error: cannot open %1").arg(outFileName));
@@ -1091,7 +1091,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
         if (!painter.end())
             ui->errorDisplay->appendPlainText(tr("Error: cannot write to %1").arg(outFileName));
         else
-            ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
+            ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription, QFileInfo(outFileName).absoluteFilePath()));
         delete rankingPdfwriter;
     } else {
         ui->errorDisplay->appendPlainText(tr("Error: cannot open %1").arg(outFileName));
@@ -1294,7 +1294,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
         if (!painter.end())
             ui->errorDisplay->appendPlainText(tr("Error: cannot write to %1").arg(outFileName));
         else
-            ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription).arg(QFileInfo(outFileName).absoluteFilePath()));
+            ui->infoDisplay->appendPlainText(tr("Generated Results '%1': %2").arg(fullDescription, QFileInfo(outFileName).absoluteFilePath()));
         delete rankingPdfwriter;
     } else {
         ui->errorDisplay->appendPlainText(tr("Error: cannot open %1").arg(outFileName));
@@ -2351,7 +2351,7 @@ void LBChronoRace::on_makeRankings_clicked()
 
 void LBChronoRace::on_actionAbout_triggered()
 {
-    QMessageBox::about(this, tr("Informations"), tr("\n%1\n\nAuthor: Lorenzo Buzzi (lorenzo.buzzi@gmail.com)\n\nVersion: %2\n").arg(LBCHRONORACE_NAME).arg(LBCHRONORACE_VERSION));
+    QMessageBox::about(this, tr("Informations"), tr("\n%1\n\nAuthor: Lorenzo Buzzi (lorenzo.buzzi@gmail.com)\n\nVersion: %2\n").arg(LBCHRONORACE_NAME, LBCHRONORACE_VERSION));
 }
 
 void LBChronoRace::on_actionAboutQt_triggered()
