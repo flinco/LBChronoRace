@@ -17,22 +17,22 @@ QList<QVariant>             CRLoader::standardItemList;
 CRLoader::Encoding          CRLoader::encoding              = CRLoader::LATIN1;
 CRLoader::Format            CRLoader::format                = CRLoader::PDF;
 
-QAbstractTableModel* CRLoader::getStartListModel()
+CRTableModel* CRLoader::getStartListModel()
 {
     return &startListModel;
 }
 
-QAbstractTableModel* CRLoader::getTeamsListModel()
+CRTableModel* CRLoader::getTeamsListModel()
 {
     return &teamsListModel;
 }
 
-QAbstractTableModel* CRLoader::getTimingsModel()
+CRTableModel* CRLoader::getTimingsModel()
 {
     return &timingsModel;
 }
 
-QAbstractTableModel* CRLoader::getCategoriesModel()
+CRTableModel* CRLoader::getCategoriesModel()
 {
     return &categoriesModel;
 }

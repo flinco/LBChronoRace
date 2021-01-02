@@ -5,6 +5,8 @@
 #include <QDialog>
 #include <QStandardItemModel>
 
+#include "crtablemodel.h"
+
 namespace Ui {
 class ChronoRaceTable;
 }
@@ -18,7 +20,7 @@ public:
     ~ChronoRaceTable();
 
     QAbstractTableModel *getModel() const;
-    void setModel(QAbstractTableModel* model);
+    void setModel(CRTableModel* model);
     void disableButtons();
 
 private slots:

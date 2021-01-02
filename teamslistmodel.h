@@ -5,15 +5,16 @@
 #include <QSet>
 #include <QList>
 #include <QDataStream>
-#include <QAbstractTableModel>
 
-class TeamsListModel : public QAbstractTableModel
+#include "crtablemodel.h"
+
+class TeamsListModel : public CRTableModel
 {
     Q_OBJECT
 
 public:
     TeamsListModel(QObject *parent = Q_NULLPTR)
-        : QAbstractTableModel(parent), teamsList() {}
+        : CRTableModel(parent), teamsList() {}
 
     friend QDataStream &operator<<(QDataStream &out, const TeamsListModel &data);
     friend QDataStream &operator>>(QDataStream &in, TeamsListModel &data);

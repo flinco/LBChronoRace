@@ -2,20 +2,20 @@
 #define LBTIMINGSMODEL_H
 
 #include <QObject>
-#include <QAbstractTableModel>
 #include <QDataStream>
 
+#include "crtablemodel.h"
 #include "timing.h"
 
-class TimingsModel : public QAbstractTableModel
+class TimingsModel : public CRTableModel
 {
     Q_OBJECT
 
 public:
     TimingsModel(QObject *parent = Q_NULLPTR)
-        : QAbstractTableModel(parent), timings() {}
+        : CRTableModel(parent), timings() {}
     TimingsModel(const QList<Timing>& timingsList, QObject *parent = Q_NULLPTR)
-        : QAbstractTableModel(parent), timings(timingsList) {}
+        : CRTableModel(parent), timings(timingsList) {}
 
     friend QDataStream &operator<<(QDataStream &out, const TimingsModel &data);
     friend QDataStream &operator>>(QDataStream &in, TimingsModel &data);

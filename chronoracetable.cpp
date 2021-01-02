@@ -9,7 +9,7 @@ ChronoRaceTable::ChronoRaceTable(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->tableView->setSortingEnabled(true);
-    this->connect(ui->tableView->horizontalHeader(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), ui->tableView, SLOT(sortByColumn(int, Qt::SortOrder)));
+    this->connect(ui->tableView->horizontalHeader(), &QHeaderView::sortIndicatorChanged, ui->tableView, &QTableView::sortByColumn);
 }
 
 ChronoRaceTable::~ChronoRaceTable()
@@ -22,11 +22,11 @@ QAbstractTableModel* ChronoRaceTable::getModel() const
     return qobject_cast<QAbstractTableModel*>(ui->tableView->model());
 }
 
-void ChronoRaceTable::setModel(QAbstractTableModel* model)
+void ChronoRaceTable::setModel(CRTableModel* model)
 {
     ui->tableView->setModel(model);
     ui->tableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    this->connect(this, SIGNAL(finished(int)), model, SLOT(refreshCounters(int)));
+    this->connect(this, &ChronoRaceTable::finished, model, &CRTableModel::refreshCounters);
 }
 
 void ChronoRaceTable::disableButtons()

@@ -54,29 +54,29 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication *app) :
     startListTable.setModel(CRLoader::getStartListModel());
     this->connect(&startListTable, &ChronoRaceTable::modelImport, this, &LBChronoRace::importStartList);
     this->connect(&startListTable, &ChronoRaceTable::modelExport, this, &LBChronoRace::exportStartList);
-    this->connect(&startListTable, SIGNAL(newRowCount(int)), this, SLOT(setCounterCompetitors(int)));
+    this->connect(&startListTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterCompetitors);
 
     teamsTable.disableButtons();
     teamsTable.setWindowTitle(tr("Teams List"));
     teamsTable.setModel(CRLoader::getTeamsListModel());
     this->connect(&teamsTable, &ChronoRaceTable::modelExport, this, &LBChronoRace::exportTeamList);
-    this->connect(&teamsTable, SIGNAL(newRowCount(int)), this, SLOT(setCounterTeams(int)));
+    this->connect(&teamsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterTeams);
 
     StartListModel* startListModel = (StartListModel*) CRLoader::getStartListModel();
     TeamsListModel* teamsListModel = (TeamsListModel*) CRLoader::getTeamsListModel();
-    this->connect(startListModel, SIGNAL(newTeam(const QString&)), teamsListModel, SLOT(addTeam(const QString&)));
+    this->connect(startListModel, &StartListModel::newTeam, teamsListModel, &TeamsListModel::addTeam);
 
     categoriesTable.setWindowTitle(tr("Categories"));
     categoriesTable.setModel(CRLoader::getCategoriesModel());
     this->connect(&categoriesTable, &ChronoRaceTable::modelImport, this, &LBChronoRace::importCategoriesList);
     this->connect(&categoriesTable, &ChronoRaceTable::modelExport, this, &LBChronoRace::exportCategoriesList);
-    this->connect(&categoriesTable, SIGNAL(newRowCount(int)), this, SLOT(setCounterCategories(int)));
+    this->connect(&categoriesTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterCategories);
 
     timingsTable.setWindowTitle(tr("Timings List"));
     timingsTable.setModel(CRLoader::getTimingsModel());
     this->connect(&timingsTable, &ChronoRaceTable::modelImport, this, &LBChronoRace::importTimingsList);
     this->connect(&timingsTable, &ChronoRaceTable::modelExport, this, &LBChronoRace::exportTimingsList);
-    this->connect(&timingsTable, SIGNAL(newRowCount(int)), this, SLOT(setCounterTimings(int)));
+    this->connect(&timingsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterTimings);
 
     // react to screen change and resize
     this->connect(app, &QGuiApplication::primaryScreenChanged, this, &LBChronoRace::resizeDialogs);

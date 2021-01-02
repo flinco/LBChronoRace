@@ -2,20 +2,20 @@
 #define LBCATEGORIESMODEL_H
 
 #include <QObject>
-#include <QAbstractTableModel>
 #include <QDataStream>
 
+#include "crtablemodel.h"
 #include "category.h"
 
-class CategoriesModel : public QAbstractTableModel
+class CategoriesModel : public CRTableModel
 {
     Q_OBJECT
 
 public:
     CategoriesModel(QObject *parent = Q_NULLPTR)
-        : QAbstractTableModel(parent), categories() { }
+        : CRTableModel(parent), categories() { }
     CategoriesModel(const QList<Category>& categoriesList, QObject *parent = Q_NULLPTR)
-        : QAbstractTableModel(parent), categories(categoriesList) { }
+        : CRTableModel(parent), categories(categoriesList) { }
 
     friend QDataStream &operator<<(QDataStream &out, const CategoriesModel &data);
     friend QDataStream &operator>>(QDataStream &in, CategoriesModel &data);

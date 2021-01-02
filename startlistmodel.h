@@ -2,20 +2,20 @@
 #define LBSTARTLISTMODEL_H
 
 #include <QObject>
-#include <QAbstractTableModel>
 #include <QDataStream>
 
+#include "crtablemodel.h"
 #include "competitor.h"
 
-class StartListModel : public QAbstractTableModel
+class StartListModel : public CRTableModel
 {
     Q_OBJECT
 
 public:
     StartListModel(QObject *parent = Q_NULLPTR)
-        : QAbstractTableModel(parent), startList() {}
+        : CRTableModel(parent), startList() {}
     StartListModel(const QList<Competitor>& startList, QObject *parent = Q_NULLPTR)
-        : QAbstractTableModel(parent), startList(startList) {}
+        : CRTableModel(parent), startList(startList) {}
 
     friend QDataStream &operator<<(QDataStream &out, const StartListModel &data);
     friend QDataStream &operator>>(QDataStream &in, StartListModel &data);

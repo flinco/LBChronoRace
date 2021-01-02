@@ -43,6 +43,7 @@ SOURCES += \
 
 HEADERS += \
     chronoracedata.h \
+    crtablemodel.h \
     timing.h \
     classentry.h \
     competitor.h \

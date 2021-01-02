@@ -12,6 +12,7 @@
 #include "timing.h"
 #include "category.h"
 
+#include "crtablemodel.h"
 #include "startlistmodel.h"
 #include "teamslistmodel.h"
 #include "timingsmodel.h"
@@ -72,10 +73,10 @@ public:
     static int importCategories(const QString& path);
     static void exportCategories(const QString& path);
     static QVector<Category> getCategories();
-    static QAbstractTableModel* getStartListModel();
-    static QAbstractTableModel* getTeamsListModel();
-    static QAbstractTableModel* getTimingsModel();
-    static QAbstractTableModel* getCategoriesModel();
+    static CRTableModel* getStartListModel();
+    static CRTableModel* getTeamsListModel();
+    static CRTableModel* getTimingsModel();
+    static CRTableModel* getCategoriesModel();
     static Encoding getEncoding();
     static void setEncoding(const Encoding &value);
     static Format getFormat();
