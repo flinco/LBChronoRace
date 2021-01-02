@@ -227,10 +227,10 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
 
             // sort by time
             QList<ClassEntry*> rankingByTime;
-            QList<ClassEntry*>::iterator c;
+            QList<ClassEntry*>::const_iterator c;
             for (auto classEntry = rankingByBib.begin(); classEntry != rankingByBib.end(); classEntry++) {
-                c = rankingByTime.begin();
-                while ((c != rankingByTime.end()) && (**c < classEntry.value())) ++c;
+                c = rankingByTime.constBegin();
+                while ((c != rankingByTime.constEnd()) && (*(*c) < classEntry.value())) ++c;
                 rankingByTime.insert(c, &(*classEntry));
             }
 
@@ -285,10 +285,10 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
 
                     // sort the team rankings
                     QList<TeamClassEntry*> sortedTeamRanking;
-                    QList<TeamClassEntry*>::iterator c;
+                    QList<TeamClassEntry*>::const_iterator c;
                     for (auto teamClassEntry = teamRankingByTeam.begin(); teamClassEntry != teamRankingByTeam.end(); teamClassEntry++) {
-                        c = sortedTeamRanking.begin();
-                        while ((c != sortedTeamRanking.end()) && (**c < teamClassEntry.value())) ++c;
+                        c = sortedTeamRanking.constBegin();
+                        while ((c != sortedTeamRanking.constEnd()) && (*(*c) < teamClassEntry.value())) ++c;
                         sortedTeamRanking.insert(c, &(*teamClassEntry));
                     }
 

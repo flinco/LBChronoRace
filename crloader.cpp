@@ -218,7 +218,7 @@ QMultiMap<uint, Competitor> CRLoader::getCompetitors(QStringList& messages)
 
     for (auto comp : startListModel.getStartList()) {
         bib = comp.getBib();
-        element = startList.find(bib);
+        element = startList.constFind(bib);
         if (element != startList.constEnd()) {
             // check if there is a leg set for the competitor
             // otherwise set it automatically
