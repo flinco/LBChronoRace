@@ -1,7 +1,8 @@
 #include <QSet>
 #include <QFile>
 #include <QTextStream>
-#include <QTextEncoder>
+#include <QStringEncoder>
+#include <QRegularExpression>
 #include <QPushButton>
 
 #include "crloader.h"
@@ -61,6 +62,7 @@ void CRLoader::loadCSV(const QString& filePath, QAbstractTableModel* model)
     QFile file (filePath);
     if (file.open(QIODevice::ReadOnly)) {
         QString data;
+        QRegularExpression re("\r");
         switch (encoding) {
             case UTF8:
                 data = QString::fromUtf8(file.readAll());
@@ -72,7 +74,7 @@ void CRLoader::loadCSV(const QString& filePath, QAbstractTableModel* model)
                 break;
         }
         standardItemList.clear();
-        data.remove( QRegExp("\r") ); //remove all ocurrences of CR (Carriage Return)
+        data.remove(re); //remove all ocurrences of CR (Carriage Return)
         QString temp;
         QChar character;
         QTextStream textStream(&data);
@@ -104,12 +106,12 @@ void CRLoader::saveCSV(const QString &filePath, const QAbstractTableModel* model
 
     switch (CRLoader::getEncoding()) {
         case CRLoader::UTF8:
-            outStream.setCodec("UTF-8");
+            outStream.setEncoding(QStringConverter::Utf8);
             break;
         case CRLoader::LATIN1:
             // no break here
         default:
-            outStream.setCodec("ISO-8859-1");
+            outStream.setEncoding(QStringConverter::Latin1);
             break;
     }
 
@@ -184,12 +186,12 @@ void CRLoader::exportTeams(const QString& path)
 
     switch (CRLoader::getEncoding()) {
         case CRLoader::UTF8:
-            outStream.setCodec("UTF-8");
+            outStream.setEncoding(QStringConverter::Utf8);
             break;
         case CRLoader::LATIN1:
             // no break here
         default:
-            outStream.setCodec("ISO-8859-1");
+            outStream.setEncoding(QStringConverter::Latin1);
             break;
     }
 
@@ -211,7 +213,7 @@ QMultiMap<uint, Competitor> CRLoader::getCompetitors(QStringList& messages)
     uint bib, mask, prevMask;
     int offset;
     QMultiMap<uint, Competitor> startList;
-    QMap<uint, Competitor>::const_iterator element;
+    QMultiMap<uint, Competitor>::const_iterator element;
     QMap<uint, uint> legCount;
 
     for (auto comp : startListModel.getStartList()) {
@@ -336,8 +338,8 @@ void CRLoader::checkString(QAbstractTableModel* model, QString& token, QChar cha
         //if (temp.size() == 0 && character != ',') //problem with line endings
         //    return;
         if (token.startsWith( QChar('\"')) && token.endsWith( QChar('\"') ) ) {
-             token.remove( QRegExp("^\"") );
-             token.remove( QRegExp("\"$") );
+             token.remove( QRegularExpression("^\"") );
+             token.remove( QRegularExpression("\"$") );
         }
         //FIXME: will possibly fail if there are 4 or more reapeating double quotes
         token.replace("\"\"", "\"");

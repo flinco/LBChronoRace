@@ -27,8 +27,6 @@ ChronoRaceData::ChronoRaceData(QWidget *parent) :
     sponsorLogo3(),
     sponsorLogo4()
 {
-    QPalette palette;
-
     this->raceTypeIdx = 0;
     this->resultsIdx = 0;
 
@@ -119,7 +117,8 @@ QDataStream &operator>>(QDataStream &in, ChronoRaceData &data)
 
 QTextStream &operator<<(QTextStream &out, const ChronoRaceData &data)
 {
-    QStringList organizationLines = data.organization.split(QRegExp("\n|\r\n|\r"));
+    QRegularExpression re("\n|\r\n|\r");
+    QStringList organizationLines = data.organization.split(re);
     QString headColumn = QObject::tr("Organization") + ": ";
 
     for (auto line : organizationLines) {

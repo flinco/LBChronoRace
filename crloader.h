@@ -51,7 +51,7 @@ private:
     static void loadCSV(const QString& filePath, QAbstractTableModel* model);
     static void saveCSV(const QString& filePath, const QAbstractTableModel* model);
 
-    static void checkString(QAbstractTableModel* model, QString& token, QChar character = 0);
+    static void checkString(QAbstractTableModel* model, QString& token, QChar character = '\0');
 
 public:
     static void saveRaceData(QDataStream &out);

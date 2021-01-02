@@ -1,7 +1,6 @@
 #include <QString>
 #include <QFileDialog>
 #include <QVector>
-#include <QLinkedList>
 #include <QMap>
 #include <QMultiMap>
 #include <QFile>
@@ -38,12 +37,11 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication *app) :
     QMainWindow(parent),
     ui(new Ui::LBChronoRace),
     raceDataFileName(),
-    raceInfo(),
-    startListTable(),
-    teamsTable(),
-    categoriesTable(),
-    timingsTable(),
-    fontDB()
+    raceInfo(parent),
+    startListTable(parent),
+    teamsTable(parent),
+    categoriesTable(parent),
+    timingsTable(parent)
 {
     startListFileName  = lastSelectedPath.filePath(LBCHRONORACE_STARTLIST_DEFAULT);
     timingsFileName    = lastSelectedPath.filePath(LBCHRONORACE_TIMINGS_DEFAULT);
@@ -168,7 +166,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
 
                 bib = timing.getBib();
                 leg = timing.getLeg();
-                QPair<QMap<uint, Competitor>::iterator, QMap<uint, Competitor>::iterator> compItPair;
+                QPair<QMultiMap<uint, Competitor>::iterator, QMultiMap<uint, Competitor>::iterator> compItPair;
                 compItPair = startList.equal_range(bib);
 
                 if (compItPair.first == compItPair.second) {
@@ -389,12 +387,12 @@ void LBChronoRace::makeTextRanking(const QString &outFileName, const QString &fu
 
     switch (CRLoader::getEncoding()) {
         case CRLoader::UTF8:
-            outStream.setCodec("UTF-8");
+            outStream.setEncoding(QStringConverter::Utf8);
             break;
         case CRLoader::LATIN1:
             // no break here
         default:
-            outStream.setCodec("ISO-8859-1");
+            outStream.setEncoding(QStringConverter::Latin1);
             break;
     }
 
@@ -437,12 +435,12 @@ void LBChronoRace::makeTextRanking(const QString &outFileName, const QString &fu
 
     switch (CRLoader::getEncoding()) {
         case CRLoader::UTF8:
-            outStream.setCodec("UTF-8");
+            outStream.setEncoding(QStringConverter::Utf8);
             break;
         case CRLoader::LATIN1:
             // no break here
         default:
-            outStream.setCodec("ISO-8859-1");
+            outStream.setEncoding(QStringConverter::Latin1);
             break;
     }
 
@@ -493,12 +491,12 @@ void LBChronoRace::makeCSVRanking(const QString &outFileName, const QString &ful
 
     switch (CRLoader::getEncoding()) {
         case CRLoader::UTF8:
-            outStream.setCodec("UTF-8");
+            outStream.setEncoding(QStringConverter::Utf8);
             break;
         case CRLoader::LATIN1:
             // no break here
         default:
-            outStream.setCodec("ISO-8859-1");
+            outStream.setEncoding(QStringConverter::Latin1);
             break;
     }
 
@@ -530,12 +528,12 @@ void LBChronoRace::makeCSVRanking(const QString &outFileName, const QString &ful
 
     switch (CRLoader::getEncoding()) {
         case CRLoader::UTF8:
-            outStream.setCodec("UTF-8");
+            outStream.setEncoding(QStringConverter::Utf8);
             break;
         case CRLoader::LATIN1:
             // no break here
         default:
-            outStream.setCodec("ISO-8859-1");
+            outStream.setEncoding(QStringConverter::Latin1);
             break;
     }
 
@@ -604,9 +602,9 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
         rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Results") + " - " + fullDescription);
 
         // Fonts
-        QFont rnkFont = fontDB.font("Liberation Sans", "Regular", 7);
+        QFont rnkFont = QFontDatabase::font("Liberation Sans", "Regular", 7);
         //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFont.toString()), qUtf8Printable(rnkFont.family()));
-        QFont rnkFontBold = fontDB.font("Liberation Sans", "Bold", 18);
+        QFont rnkFontBold = QFontDatabase::font("Liberation Sans", "Bold", 18);
         //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBold.toString()), qUtf8Printable(rnkFontBold.family()));
 
         // Compute the number of pages
@@ -757,9 +755,9 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
         rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Results") + " - " + fullDescription);
 
         // Fonts
-        QFont rnkFont = fontDB.font("Liberation Sans", "Regular", 7);
+        QFont rnkFont = QFontDatabase::font("Liberation Sans", "Regular", 7);
         //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFont.toString()), qUtf8Printable(rnkFont.family()));
-        QFont rnkFontBold = fontDB.font("Liberation Sans", "Bold", 18);
+        QFont rnkFontBold = QFontDatabase::font("Liberation Sans", "Bold", 18);
         //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBold.toString()), qUtf8Printable(rnkFontBold.family()));
 
         // Compute the number of pages
@@ -924,9 +922,9 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
         rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Results") + " - " + fullDescription);
 
         // Fonts
-        QFont rnkFont = fontDB.font("Liberation Sans", "Regular", 7);
+        QFont rnkFont = QFontDatabase::font("Liberation Sans", "Regular", 7);
         //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFont.toString()), qUtf8Printable(rnkFont.family()));
-        QFont rnkFontBold = fontDB.font("Liberation Sans", "Bold", 18);
+        QFont rnkFontBold = QFontDatabase::font("Liberation Sans", "Bold", 18);
         //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBold.toString()), qUtf8Printable(rnkFontBold.family()));
 
         // Compute the number of pages
@@ -1113,9 +1111,9 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
         rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Results") + " - " + fullDescription);
 
         // Fonts
-        QFont rnkFont = fontDB.font("Liberation Sans", "Regular", 7);
+        QFont rnkFont = QFontDatabase::font("Liberation Sans", "Regular", 7);
         //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFont.toString()), qUtf8Printable(rnkFont.family()));
-        QFont rnkFontBold = fontDB.font("Liberation Sans", "Bold", 18);
+        QFont rnkFontBold = QFontDatabase::font("Liberation Sans", "Bold", 18);
         //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBold.toString()), qUtf8Printable(rnkFontBold.family()));
 
         // Compute the number of pages
@@ -1310,13 +1308,13 @@ void LBChronoRace::drawPDFTemplatePortrait(QPainter &painter, const QString &ful
     qreal rectWidth;
 
     // Fonts
-    QFont rnkFont = fontDB.font("Liberation Sans", "Regular", 7);
+    QFont rnkFont = QFontDatabase::font("Liberation Sans", "Regular", 7);
     //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFont.toString()), qUtf8Printable(rnkFont.family()));
-    QFont rnkFontItalic = fontDB.font("Liberation Sans", "Italic", 14);
+    QFont rnkFontItalic = QFontDatabase::font("Liberation Sans", "Italic", 14);
     //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontItalic.toString()), qUtf8Printable(rnkFontItalic.family()));
-    QFont rnkFontBold = fontDB.font("Liberation Sans", "Bold", 18);
+    QFont rnkFontBold = QFontDatabase::font("Liberation Sans", "Bold", 18);
     //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBold.toString()), qUtf8Printable(rnkFontBold.family()));
-    QFont rnkFontBoldItal = fontDB.font("Liberation Sans", "Bold Italic", 22);
+    QFont rnkFontBoldItal = QFontDatabase::font("Liberation Sans", "Bold Italic", 22);
     //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBoldItal.toString()), qUtf8Printable(rnkFontBoldItal.family()));
 
     // Text options for wrapping
@@ -1439,13 +1437,13 @@ void LBChronoRace::drawPDFTemplatePortrait(QPainter &painter, const QString &ful
 //    qreal rectWidth;
 
 //    // Fonts
-//    QFont rnkFont = fontDB.font("Liberation Sans", "Regular", 7);
+//    QFont rnkFont = QFontDatabase::font("Liberation Sans", "Regular", 7);
 //    //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFont.toString()), qUtf8Printable(rnkFont.family()));
-//    QFont rnkFontItalic = fontDB.font("Liberation Sans", "Italic", 14);
+//    QFont rnkFontItalic = QFontDatabase::font("Liberation Sans", "Italic", 14);
 //    //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontItalic.toString()), qUtf8Printable(rnkFontItalic.family()));
-//    QFont rnkFontBold = fontDB.font("Liberation Sans", "Bold", 18);
+//    QFont rnkFontBold = QFontDatabase::font("Liberation Sans", "Bold", 18);
 //    //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBold.toString()), qUtf8Printable(rnkFontBold.family()));
-//    QFont rnkFontBoldItal = fontDB.font("Liberation Sans", "Bold Italic", 22);
+//    QFont rnkFontBoldItal = QFontDatabase::font("Liberation Sans", "Bold Italic", 22);
 //    //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBoldItal.toString()), qUtf8Printable(rnkFontBoldItal.family()));
 
 //    // Text options for wrapping
@@ -1679,12 +1677,12 @@ void LBChronoRace::makeTextStartList(const QList<Competitor>& startList, uint bW
 
         switch (CRLoader::getEncoding()) {
             case CRLoader::UTF8:
-                outStream.setCodec("UTF-8");
+                outStream.setEncoding(QStringConverter::Utf8);
                 break;
             case CRLoader::LATIN1:
                 // no break here
             default:
-                outStream.setCodec("ISO-8859-1");
+                outStream.setEncoding(QStringConverter::Latin1);
                 break;
         }
 
@@ -1755,12 +1753,12 @@ void LBChronoRace::makeCSVStartList(const QList<Competitor>& startList)
 
         switch (CRLoader::getEncoding()) {
             case CRLoader::UTF8:
-                outStream.setCodec("UTF-8");
+                outStream.setEncoding(QStringConverter::Utf8);
                 break;
             case CRLoader::LATIN1:
                 // no break here
             default:
-                outStream.setCodec("ISO-8859-1");
+                outStream.setEncoding(QStringConverter::Latin1);
                 break;
         }
 
@@ -1815,9 +1813,9 @@ void LBChronoRace::makePDFStartList(const QList<Competitor>& startList)
             rankingPdfwriter->setTitle(raceInfo.getEvent() + " - " + tr("Start List"));
 
             // Fonts
-            QFont rnkFont = fontDB.font("Liberation Sans", "Regular", 7);
+            QFont rnkFont = QFontDatabase::font("Liberation Sans", "Regular", 7);
             //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFont.toString()), qUtf8Printable(rnkFont.family()));
-            QFont rnkFontBold = fontDB.font("Liberation Sans", "Bold", 18);
+            QFont rnkFontBold = QFontDatabase::font("Liberation Sans", "Bold", 18);
             //qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBold.toString()), qUtf8Printable(rnkFontBold.family()));
 
             // Compute the number of pages
@@ -2151,10 +2149,10 @@ void LBChronoRace::on_actionLoadRace_triggered()
 
                     in >> encodingIdx;
                     ui->selectorEncoding->setCurrentIndex(encodingIdx);
-                    on_selectorEncoding_activated(ui->selectorEncoding->currentText());
+                    on_selectorEncoding_currentTextChanged(ui->selectorEncoding->currentText());
                     in >> formatIdx;
                     ui->selectorFormat->setCurrentIndex(formatIdx);
-                    on_selectorFormat_activated(ui->selectorFormat->currentText());
+                    on_selectorFormat_currentTextChanged(ui->selectorFormat->currentText());
                     raceInfo.setBinFormat((uint) binFmt);
                     in >> raceInfo;
                     CRLoader::loadRaceData(in);
@@ -2284,7 +2282,7 @@ void LBChronoRace::resizeDialogs(QScreen *screen)
     timingsTable.setMaximumHeight(screenGeometry.height() * 15 / 16);
 }
 
-void LBChronoRace::on_selectorEncoding_activated(const QString &arg1)
+void LBChronoRace::on_selectorEncoding_currentTextChanged(const QString &arg1)
 {
     if (arg1.compare(tr("UTF-8"), Qt::CaseInsensitive) == 0) {
         CRLoader::setEncoding(CRLoader::UTF8);
@@ -2294,7 +2292,7 @@ void LBChronoRace::on_selectorEncoding_activated(const QString &arg1)
     ui->infoDisplay->appendPlainText(tr("Selected encoding: %1").arg(arg1));
 }
 
-void LBChronoRace::on_selectorFormat_activated(const QString &arg1)
+void LBChronoRace::on_selectorFormat_currentTextChanged(const QString &arg1)
 {
     if (arg1.compare(tr("PDF"), Qt::CaseInsensitive) == 0) {
         CRLoader::setFormat(CRLoader::PDF);

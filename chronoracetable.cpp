@@ -9,7 +9,7 @@ ChronoRaceTable::ChronoRaceTable(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->tableView->setSortingEnabled(true);
-    this->connect(ui->tableView->horizontalHeader(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), ui->tableView, SLOT(sortByColumn(int)));
+    this->connect(ui->tableView->horizontalHeader(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), ui->tableView, SLOT(sortByColumn(int, Qt::SortOrder)));
 }
 
 ChronoRaceTable::~ChronoRaceTable()

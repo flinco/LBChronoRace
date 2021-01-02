@@ -67,8 +67,8 @@ private slots:
     void on_editCategories_clicked();
     void on_editTimings_clicked();
 
-    void on_selectorEncoding_activated(const QString &arg1);
-    void on_selectorFormat_activated(const QString &arg1);
+    void on_selectorEncoding_currentTextChanged(const QString &arg1);
+    void on_selectorFormat_currentTextChanged(const QString &arg1);
     void on_makeStartList_clicked();
     void on_makeRankings_clicked();
 
@@ -97,7 +97,6 @@ private:
     ChronoRaceTable categoriesTable;
     ChronoRaceTable timingsTable;
 
-    QFontDatabase fontDB;
     qreal ratioX, ratioY;
     qreal areaWidth, areaHeight;
 
