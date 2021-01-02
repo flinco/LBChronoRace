@@ -236,10 +236,10 @@ QMultiMap<uint, Competitor> CRLoader::getCompetitors(QStringList& messages)
     }
 
     prevMask = 0;
-    for (auto bib : legCount.keys()) {
-        mask = legCount.value(bib);
+    for (QMap<uint, uint>::const_key_value_iterator i = legCount.constKeyValueBegin(); i != legCount.constKeyValueEnd(); i++) {
+        mask = i->second;
         if (prevMask && (mask != prevMask)) {
-            messages << tr("Missing or extra legs for bib %1").arg(bib);
+            messages << tr("Missing or extra legs for bib %1").arg(i->first);
         }
         prevMask = mask;
     }
