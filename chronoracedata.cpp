@@ -44,6 +44,19 @@ ChronoRaceData::ChronoRaceData(QWidget *parent) :
 
     ui->results->setCurrentIndex(this->resultsIdx);
     this->resultsStr = ui->results->currentText();
+
+    this->connect(ui->loadLeftLogo, &QPushButton::clicked, this, &ChronoRaceData::loadLeftLogo);
+    this->connect(ui->loadRightLogo, &QPushButton::clicked, this, &ChronoRaceData::loadRightLogo);
+    this->connect(ui->loadSponsorLogo1, &QPushButton::clicked, this, &ChronoRaceData::loadSponsorLogo1);
+    this->connect(ui->loadSponsorLogo2, &QPushButton::clicked, this, &ChronoRaceData::loadSponsorLogo2);
+    this->connect(ui->loadSponsorLogo3, &QPushButton::clicked, this, &ChronoRaceData::loadSponsorLogo3);
+    this->connect(ui->loadSponsorLogo4, &QPushButton::clicked, this, &ChronoRaceData::loadSponsorLogo4);
+    this->connect(ui->removeLeftLogo, &QPushButton::clicked, this, &ChronoRaceData::removeLeftLogo);
+    this->connect(ui->removeRightLogo, &QPushButton::clicked, this, &ChronoRaceData::removeRightLogo);
+    this->connect(ui->removeSponsorLogo1, &QPushButton::clicked, this, &ChronoRaceData::removeSponsorLogo1);
+    this->connect(ui->removeSponsorLogo2, &QPushButton::clicked, this, &ChronoRaceData::removeSponsorLogo2);
+    this->connect(ui->removeSponsorLogo3, &QPushButton::clicked, this, &ChronoRaceData::removeSponsorLogo3);
+    this->connect(ui->removeSponsorLogo4, &QPushButton::clicked, this, &ChronoRaceData::removeSponsorLogo4);
 }
 
 ChronoRaceData::~ChronoRaceData()
@@ -436,62 +449,62 @@ bool ChronoRaceData::deleteLogo(QLabel *label)
     return retval;
 }
 
-void ChronoRaceData::on_loadLeftLogo_clicked()
+void ChronoRaceData::loadLeftLogo()
 {
     loadLogo(ui->leftLogo);
 }
 
-void ChronoRaceData::on_loadRightLogo_clicked()
+void ChronoRaceData::loadRightLogo()
 {
     loadLogo(ui->rightLogo);
 }
 
-void ChronoRaceData::on_loadSponsorLogo1_clicked()
+void ChronoRaceData::loadSponsorLogo1()
 {
     loadLogo(ui->sponsorLogo1);
 }
 
-void ChronoRaceData::on_loadSponsorLogo2_clicked()
+void ChronoRaceData::loadSponsorLogo2()
 {
     loadLogo(ui->sponsorLogo2);
 }
 
-void ChronoRaceData::on_loadSponsorLogo3_clicked()
+void ChronoRaceData::loadSponsorLogo3()
 {
     loadLogo(ui->sponsorLogo3);
 }
 
-void ChronoRaceData::on_loadSponsorLogo4_clicked()
+void ChronoRaceData::loadSponsorLogo4()
 {
     loadLogo(ui->sponsorLogo4);
 }
 
-void ChronoRaceData::on_removeLeftLogo_clicked()
+void ChronoRaceData::removeLeftLogo()
 {
     deleteLogo(ui->leftLogo);
 }
 
-void ChronoRaceData::on_removeRightLogo_clicked()
+void ChronoRaceData::removeRightLogo()
 {
     deleteLogo(ui->rightLogo);
 }
 
-void ChronoRaceData::on_removeSponsorLogo1_clicked()
+void ChronoRaceData::removeSponsorLogo1()
 {
     deleteLogo(ui->sponsorLogo1);
 }
 
-void ChronoRaceData::on_removeSponsorLogo2_clicked()
+void ChronoRaceData::removeSponsorLogo2()
 {
     deleteLogo(ui->sponsorLogo2);
 }
 
-void ChronoRaceData::on_removeSponsorLogo3_clicked()
+void ChronoRaceData::removeSponsorLogo3()
 {
     deleteLogo(ui->sponsorLogo3);
 }
 
-void ChronoRaceData::on_removeSponsorLogo4_clicked()
+void ChronoRaceData::removeSponsorLogo4()
 {
     deleteLogo(ui->sponsorLogo4);
 }

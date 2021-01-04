@@ -52,14 +52,14 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication *app) :
 
     startListTable.setWindowTitle(tr("Start List"));
     startListTable.setModel(CRLoader::getStartListModel());
-    this->connect(&startListTable, &ChronoRaceTable::modelImport, this, &LBChronoRace::importStartList);
-    this->connect(&startListTable, &ChronoRaceTable::modelExport, this, &LBChronoRace::exportStartList);
+    this->connect(&startListTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importStartList);
+    this->connect(&startListTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportStartList);
     this->connect(&startListTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterCompetitors);
 
     teamsTable.disableButtons();
     teamsTable.setWindowTitle(tr("Teams List"));
     teamsTable.setModel(CRLoader::getTeamsListModel());
-    this->connect(&teamsTable, &ChronoRaceTable::modelExport, this, &LBChronoRace::exportTeamList);
+    this->connect(&teamsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportTeamList);
     this->connect(&teamsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterTeams);
 
     StartListModel* startListModel = (StartListModel*) CRLoader::getStartListModel();
@@ -68,14 +68,14 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication *app) :
 
     categoriesTable.setWindowTitle(tr("Categories"));
     categoriesTable.setModel(CRLoader::getCategoriesModel());
-    this->connect(&categoriesTable, &ChronoRaceTable::modelImport, this, &LBChronoRace::importCategoriesList);
-    this->connect(&categoriesTable, &ChronoRaceTable::modelExport, this, &LBChronoRace::exportCategoriesList);
+    this->connect(&categoriesTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importCategoriesList);
+    this->connect(&categoriesTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportCategoriesList);
     this->connect(&categoriesTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterCategories);
 
     timingsTable.setWindowTitle(tr("Timings List"));
     timingsTable.setModel(CRLoader::getTimingsModel());
-    this->connect(&timingsTable, &ChronoRaceTable::modelImport, this, &LBChronoRace::importTimingsList);
-    this->connect(&timingsTable, &ChronoRaceTable::modelExport, this, &LBChronoRace::exportTimingsList);
+    this->connect(&timingsTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importTimingsList);
+    this->connect(&timingsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportTimingsList);
     this->connect(&timingsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterTimings);
 
     // react to screen change and resize
@@ -83,6 +83,31 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication *app) :
     resizeDialogs(QGuiApplication::primaryScreen());
 
     //ui->makeRankingsPDF->setEnabled(false);
+
+    this->connect(ui->loadRace, &QPushButton::clicked, this, &LBChronoRace::loadRace);
+    this->connect(ui->saveRace, &QPushButton::clicked, this, &LBChronoRace::saveRace);
+    this->connect(ui->editRace, &QPushButton::clicked, this, &LBChronoRace::editRace);
+    this->connect(ui->editStartList, &QPushButton::clicked, this, &LBChronoRace::editStartList);
+    this->connect(ui->editTeamsList, &QPushButton::clicked, this, &LBChronoRace::editTeamsList);
+    this->connect(ui->editCategories, &QPushButton::clicked, this, &LBChronoRace::editCategories);
+    this->connect(ui->editTimings, &QPushButton::clicked, this, &LBChronoRace::editTimings);
+    this->connect(ui->makeStartList, &QPushButton::clicked, this, &LBChronoRace::createStartList);
+    this->connect(ui->makeRankings, &QPushButton::clicked, this, &LBChronoRace::createRankings);
+
+    this->connect(ui->actionLoadRace, &QAction::triggered, this, &LBChronoRace::actionLoadRace);
+    this->connect(ui->actionSaveRace, &QAction::triggered, this, &LBChronoRace::actionSaveRace);
+    this->connect(ui->actionSaveRaceAs, &QAction::triggered, this, &LBChronoRace::actionSaveRaceAs);
+    this->connect(ui->actionQuit, &QAction::triggered, this, &LBChronoRace::actionQuit);
+    this->connect(ui->actionEditRace, &QAction::triggered, this, &LBChronoRace::actionEditRace);
+    this->connect(ui->actionEditStartList, &QAction::triggered, this, &LBChronoRace::actionEditStartList);
+    this->connect(ui->actionEditTeams, &QAction::triggered, this, &LBChronoRace::actionEditTeams);
+    this->connect(ui->actionEditCategories, &QAction::triggered, this, &LBChronoRace::actionEditCategories);
+    this->connect(ui->actionEditTimings, &QAction::triggered, this, &LBChronoRace::actionEditTimings);
+    this->connect(ui->actionAbout, &QAction::triggered, this, &LBChronoRace::actionAbout);
+    this->connect(ui->actionAboutQt, &QAction::triggered, this, &LBChronoRace::actionAboutQt);
+
+    this->connect(ui->selectorEncoding, &QComboBox::currentTextChanged, this, &LBChronoRace::selectorEncoding);
+    this->connect(ui->selectorFormat, &QComboBox::currentTextChanged, this, &LBChronoRace::selectorFormat);
 }
 
 LBChronoRace::~LBChronoRace()
@@ -2116,7 +2141,7 @@ void LBChronoRace::exportTimingsList()
     }
 }
 
-void LBChronoRace::on_actionLoadRace_triggered()
+void LBChronoRace::actionLoadRace()
 {
     raceDataFileName = QFileDialog::getOpenFileName(this, tr("Select Race Data File"),
         lastSelectedPath.absolutePath(), tr("ChronoRace Data (*.crd)"));
@@ -2143,10 +2168,10 @@ void LBChronoRace::on_actionLoadRace_triggered()
 
                     in >> encodingIdx;
                     ui->selectorEncoding->setCurrentIndex(encodingIdx);
-                    on_selectorEncoding_currentTextChanged(ui->selectorEncoding->currentText());
+                    selectorEncoding(ui->selectorEncoding->currentText());
                     in >> formatIdx;
                     ui->selectorFormat->setCurrentIndex(formatIdx);
-                    on_selectorFormat_currentTextChanged(ui->selectorFormat->currentText());
+                    selectorFormat(ui->selectorFormat->currentText());
                     raceInfo.setBinFormat((uint) binFmt);
                     in >> raceInfo;
                     CRLoader::loadRaceData(in);
@@ -2183,7 +2208,7 @@ void LBChronoRace::on_actionLoadRace_triggered()
     }
 }
 
-void LBChronoRace::on_actionSaveRace_triggered()
+void LBChronoRace::actionSaveRace()
 {
     if (raceDataFileName.isEmpty()) {
         raceDataFileName = QFileDialog::getSaveFileName(this, tr("Select Race Data File"),
@@ -2218,38 +2243,38 @@ void LBChronoRace::on_actionSaveRace_triggered()
     }
 }
 
-void LBChronoRace::on_actionSaveRaceAs_triggered()
+void LBChronoRace::actionSaveRaceAs()
 {
     raceDataFileName.clear();
-    on_actionSaveRace_triggered();
+    actionSaveRace();
 }
 
-void LBChronoRace::on_actionQuit_triggered()
+void LBChronoRace::actionQuit()
 {
     QApplication::quit();
 }
 
-void LBChronoRace::on_actionEditRace_triggered()
+void LBChronoRace::actionEditRace()
 {
     raceInfo.show();
 }
 
-void LBChronoRace::on_actionEditStartList_triggered()
+void LBChronoRace::actionEditStartList()
 {
     startListTable.show();
 }
 
-void LBChronoRace::on_actionEditTeams_triggered()
+void LBChronoRace::actionEditTeams()
 {
     teamsTable.show();
 }
 
-void LBChronoRace::on_actionEditCategories_triggered()
+void LBChronoRace::actionEditCategories()
 {
     categoriesTable.show();
 }
 
-void LBChronoRace::on_actionEditTimings_triggered()
+void LBChronoRace::actionEditTimings()
 {
     timingsTable.show();
 }
@@ -2276,7 +2301,7 @@ void LBChronoRace::resizeDialogs(QScreen *screen)
     timingsTable.setMaximumHeight(screenGeometry.height() * 15 / 16);
 }
 
-void LBChronoRace::on_selectorEncoding_currentTextChanged(const QString &arg1)
+void LBChronoRace::selectorEncoding(const QString &arg1)
 {
     if (arg1.compare(tr("UTF-8"), Qt::CaseInsensitive) == 0) {
         CRLoader::setEncoding(CRLoader::UTF8);
@@ -2286,7 +2311,7 @@ void LBChronoRace::on_selectorEncoding_currentTextChanged(const QString &arg1)
     ui->infoDisplay->appendPlainText(tr("Selected encoding: %1").arg(arg1));
 }
 
-void LBChronoRace::on_selectorFormat_currentTextChanged(const QString &arg1)
+void LBChronoRace::selectorFormat(const QString &arg1)
 {
     if (arg1.compare(tr("PDF"), Qt::CaseInsensitive) == 0) {
         CRLoader::setFormat(CRLoader::PDF);
@@ -2298,57 +2323,57 @@ void LBChronoRace::on_selectorFormat_currentTextChanged(const QString &arg1)
     ui->infoDisplay->appendPlainText(tr("Selected format: %1").arg(arg1));
 }
 
-void LBChronoRace::on_loadRace_clicked()
+void LBChronoRace::loadRace()
 {
-    on_actionLoadRace_triggered();
+    actionLoadRace();
 }
 
-void LBChronoRace::on_saveRace_clicked()
+void LBChronoRace::saveRace()
 {
-    on_actionSaveRace_triggered();
+    actionSaveRace();
 }
 
-void LBChronoRace::on_editRace_clicked()
+void LBChronoRace::editRace()
 {
-    on_actionEditRace_triggered();
+    actionEditRace();
 }
 
-void LBChronoRace::on_editStartList_clicked()
+void LBChronoRace::editStartList()
 {
-    on_actionEditStartList_triggered();
+    actionEditStartList();
 }
 
-void LBChronoRace::on_editTeamsList_clicked()
+void LBChronoRace::editTeamsList()
 {
-    on_actionEditTeams_triggered();
+    actionEditTeams();
 }
 
-void LBChronoRace::on_editCategories_clicked()
+void LBChronoRace::editCategories()
 {
-    on_actionEditCategories_triggered();
+    actionEditCategories();
 }
 
-void LBChronoRace::on_editTimings_clicked()
+void LBChronoRace::editTimings()
 {
-    on_actionEditTimings_triggered();
+    actionEditTimings();
 }
 
-void LBChronoRace::on_makeStartList_clicked()
+void LBChronoRace::createStartList()
 {
     makeStartList(CRLoader::getFormat());
 }
 
-void LBChronoRace::on_makeRankings_clicked()
+void LBChronoRace::createRankings()
 {
     makeRankings(CRLoader::getFormat());
 }
 
-void LBChronoRace::on_actionAbout_triggered()
+void LBChronoRace::actionAbout()
 {
     QMessageBox::about(this, tr("Informations"), tr("\n%1\n\nAuthor: Lorenzo Buzzi (lorenzo.buzzi@gmail.com)\n\nVersion: %2\n").arg(LBCHRONORACE_NAME, LBCHRONORACE_VERSION));
 }
 
-void LBChronoRace::on_actionAboutQt_triggered()
+void LBChronoRace::actionAboutQt()
 {
     QMessageBox::aboutQt(this, tr("About &Qt"));
 }

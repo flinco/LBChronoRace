@@ -1,6 +1,7 @@
 #ifndef CHRONORACEDATA_H
 #define CHRONORACEDATA_H
 
+#include <QObject>
 #include <QDialog>
 #include <QDir>
 #include <QDate>
@@ -85,18 +86,18 @@ private:
     bool deleteLogo(QLabel *label);
 
 private slots:
-    void on_loadLeftLogo_clicked();
-    void on_loadRightLogo_clicked();
-    void on_loadSponsorLogo1_clicked();
-    void on_loadSponsorLogo2_clicked();
-    void on_loadSponsorLogo3_clicked();
-    void on_loadSponsorLogo4_clicked();
-    void on_removeLeftLogo_clicked();
-    void on_removeRightLogo_clicked();
-    void on_removeSponsorLogo1_clicked();
-    void on_removeSponsorLogo2_clicked();
-    void on_removeSponsorLogo3_clicked();
-    void on_removeSponsorLogo4_clicked();
+    void loadLeftLogo();
+    void loadRightLogo();
+    void loadSponsorLogo1();
+    void loadSponsorLogo2();
+    void loadSponsorLogo3();
+    void loadSponsorLogo4();
+    void removeLeftLogo();
+    void removeRightLogo();
+    void removeSponsorLogo1();
+    void removeSponsorLogo2();
+    void removeSponsorLogo3();
+    void removeSponsorLogo4();
 };
 
 #endif // CHRONORACEDATA_H

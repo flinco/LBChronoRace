@@ -24,19 +24,19 @@ public:
     void disableButtons();
 
 private slots:
-    void on_rowAdd_clicked();
-    void on_rowDel_clicked();
-    void on_modelImport_clicked();
-    void on_modelExport_clicked();
-    void on_dialogQuit_clicked();
+    void rowAdd();
+    void rowDel();
+    void modelImport();
+    void modelExport();
+    void dialogQuit();
 
 public slots:
     void show();
 
 signals:
     void newRowCount(int count);
-    void modelImport();
-    void modelExport();
+    void modelImported();
+    void modelExported();
     void countersRefresh();
 
 private:

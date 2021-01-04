@@ -45,32 +45,32 @@ public:
     static QDir lastSelectedPath;
 
 private slots:
-    void on_actionLoadRace_triggered();
-    void on_actionSaveRace_triggered();
-    void on_actionSaveRaceAs_triggered();
-    void on_actionQuit_triggered();
+    void actionLoadRace();
+    void actionSaveRace();
+    void actionSaveRaceAs();
+    void actionQuit();
 
-    void on_actionEditRace_triggered();
-    void on_actionEditStartList_triggered();
-    void on_actionEditTeams_triggered();
-    void on_actionEditCategories_triggered();
-    void on_actionEditTimings_triggered();
+    void actionEditRace();
+    void actionEditStartList();
+    void actionEditTeams();
+    void actionEditCategories();
+    void actionEditTimings();
 
-    void on_actionAbout_triggered();
-    void on_actionAboutQt_triggered();
+    void actionAbout();
+    void actionAboutQt();
 
-    void on_loadRace_clicked();
-    void on_saveRace_clicked();
-    void on_editRace_clicked();
-    void on_editStartList_clicked();
-    void on_editTeamsList_clicked();
-    void on_editCategories_clicked();
-    void on_editTimings_clicked();
+    void loadRace();
+    void saveRace();
+    void editRace();
+    void editStartList();
+    void editTeamsList();
+    void editCategories();
+    void editTimings();
 
-    void on_selectorEncoding_currentTextChanged(const QString &arg1);
-    void on_selectorFormat_currentTextChanged(const QString &arg1);
-    void on_makeStartList_clicked();
-    void on_makeRankings_clicked();
+    void selectorEncoding(const QString &arg1);
+    void selectorFormat(const QString &arg1);
+    void createStartList();
+    void createRankings();
 
 public slots:
     void show();

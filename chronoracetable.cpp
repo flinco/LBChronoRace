@@ -1,5 +1,3 @@
-#include <QPushButton>
-
 #include "chronoracetable.h"
 #include "ui_chronoracetable.h"
 
@@ -10,6 +8,11 @@ ChronoRaceTable::ChronoRaceTable(QWidget *parent) :
     ui->setupUi(this);
     ui->tableView->setSortingEnabled(true);
     this->connect(ui->tableView->horizontalHeader(), &QHeaderView::sortIndicatorChanged, ui->tableView, &QTableView::sortByColumn);
+    this->connect(ui->rowAdd, &QPushButton::clicked, this, &ChronoRaceTable::rowAdd);
+    this->connect(ui->rowDel, &QPushButton::clicked, this, &ChronoRaceTable::rowDel);
+    this->connect(ui->modelImport, &QPushButton::clicked, this, &ChronoRaceTable::modelImport);
+    this->connect(ui->modelExport, &QPushButton::clicked, this, &ChronoRaceTable::modelExport);
+    this->connect(ui->dialogQuit, &QPushButton::clicked, this, &ChronoRaceTable::dialogQuit);
 }
 
 ChronoRaceTable::~ChronoRaceTable()
@@ -46,9 +49,8 @@ void ChronoRaceTable::show()
     QDialog::show();
 }
 
-void ChronoRaceTable::on_rowAdd_clicked()
+void ChronoRaceTable::rowAdd()
 {
-
     if (ui->tableView->selectionModel()->hasSelection()) {
         int rowCount = ui->tableView->model()->rowCount();
         for (int r = rowCount - 1; r >= 0; --r) {
@@ -61,9 +63,8 @@ void ChronoRaceTable::on_rowAdd_clicked()
     }
 }
 
-void ChronoRaceTable::on_rowDel_clicked()
+void ChronoRaceTable::rowDel()
 {
-
     if (ui->tableView->selectionModel()->hasSelection()) {
         int rowCount = ui->tableView->model()->rowCount();
         for (int r = rowCount - 1; r >= 0; --r) {
@@ -74,17 +75,17 @@ void ChronoRaceTable::on_rowDel_clicked()
     }
 }
 
-void ChronoRaceTable::on_modelImport_clicked()
+void ChronoRaceTable::modelImport()
 {
-    emit modelImport();
+    emit modelImported();
 }
 
-void ChronoRaceTable::on_modelExport_clicked()
+void ChronoRaceTable::modelExport()
 {
-    emit modelExport();
+    emit modelExported();
 }
 
-void ChronoRaceTable::on_dialogQuit_clicked()
+void ChronoRaceTable::dialogQuit()
 {
     emit newRowCount(ui->tableView->model()->rowCount());
     this->close();
