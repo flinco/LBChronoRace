@@ -1,6 +1,5 @@
 #include <QString>
 #include <QFileDialog>
-#include <QVector>
 #include <QMap>
 #include <QMultiMap>
 #include <QFile>
@@ -11,6 +10,7 @@
 #include <QPainter>
 #include <QPointF>
 #include <QLineF>
+#include <QRectF>
 
 #include <QDebug>
 
@@ -1351,24 +1351,22 @@ void LBChronoRace::drawPDFTemplatePortrait(QPainter &painter, const QString &ful
     // Publishing time
     QString editingTimestamp = QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm");
 
-    // Horizontal lines definitions
-    QVector<QRectF> lines1, lines2;
-    // Page 1
-    lines1.push_back(QRectF(toHdots(0.0), toVdots(  0.0), this->areaWidth, toVdots(0.5)));
-    lines1.push_back(QRectF(toHdots(0.0), toVdots( 25.0), this->areaWidth, toVdots(0.5)));
-    lines1.push_back(QRectF(toHdots(0.0), toVdots( 39.0), this->areaWidth, toVdots(0.5)));
-    lines1.push_back(QRectF(toHdots(0.0), toVdots( 48.0), this->areaWidth, toVdots(0.5)));
-    lines1.push_back(QRectF(toHdots(0.0), toVdots( 57.0), this->areaWidth, toVdots(0.2)));
-    lines1.push_back(QRectF(toHdots(0.0), toVdots(-35.0), this->areaWidth, toVdots(0.5)));
-    // Page 2, 3, ...
-    lines2.push_back(QRectF(toHdots(0.0), toVdots(  0.0), this->areaWidth, toVdots(0.5)));
-    lines2.push_back(QRectF(toHdots(0.0), toVdots( 25.0), this->areaWidth, toVdots(0.5)));
-    lines2.push_back(QRectF(toHdots(0.0), toVdots( 34.0), this->areaWidth, toVdots(0.2)));
-    lines2.push_back(QRectF(toHdots(0.0), toVdots(-35.0), this->areaWidth, toVdots(0.5)));
-
     // Horizontal lines
-    for (auto line : (page == 1) ? lines1 : lines2)
-        painter.fillRect(line, Qt::black);
+    if (page == 1) {
+        // Page 1
+        painter.fillRect(QRectF(toHdots(0.0), toVdots(  0.0), this->areaWidth, toVdots(0.5)), Qt::black);
+        painter.fillRect(QRectF(toHdots(0.0), toVdots( 25.0), this->areaWidth, toVdots(0.5)), Qt::black);
+        painter.fillRect(QRectF(toHdots(0.0), toVdots( 39.0), this->areaWidth, toVdots(0.5)), Qt::black);
+        painter.fillRect(QRectF(toHdots(0.0), toVdots( 48.0), this->areaWidth, toVdots(0.5)), Qt::black);
+        painter.fillRect(QRectF(toHdots(0.0), toVdots( 57.0), this->areaWidth, toVdots(0.2)), Qt::black);
+        painter.fillRect(QRectF(toHdots(0.0), toVdots(-35.0), this->areaWidth, toVdots(0.5)), Qt::black);
+    } else {
+        // Page 2, 3, ...
+        painter.fillRect(QRectF(toHdots(0.0), toVdots(  0.0), this->areaWidth, toVdots(0.5)), Qt::black);
+        painter.fillRect(QRectF(toHdots(0.0), toVdots( 25.0), this->areaWidth, toVdots(0.5)), Qt::black);
+        painter.fillRect(QRectF(toHdots(0.0), toVdots( 34.0), this->areaWidth, toVdots(0.2)), Qt::black);
+        painter.fillRect(QRectF(toHdots(0.0), toVdots(-35.0), this->areaWidth, toVdots(0.5)), Qt::black);
+    }
     // Left and Right logo
     if (page == 1) {
         writeRect.setX(toHdots(0.0));
@@ -1480,24 +1478,22 @@ void LBChronoRace::drawPDFTemplatePortrait(QPainter &painter, const QString &ful
 //    // Publishing time
 //    QString editingTimestamp = QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm");
 
-//    // Horizontal lines definitions
-//    QVector<QRectF> lines1, lines2;
-//    // Page 1
-//    lines1.push_back(QRectF(toHdots(0.0), toVdots(  0.0), this->areaWidth, toVdots(0.5)));
-//    lines1.push_back(QRectF(toHdots(0.0), toVdots( 25.0), this->areaWidth, toVdots(0.5)));
-//    lines1.push_back(QRectF(toHdots(0.0), toVdots( 39.0), this->areaWidth, toVdots(0.5)));
-//    lines1.push_back(QRectF(toHdots(0.0), toVdots( 48.0), this->areaWidth, toVdots(0.5)));
-//    lines1.push_back(QRectF(toHdots(0.0), toVdots( 57.0), this->areaWidth, toVdots(0.2)));
-//    lines1.push_back(QRectF(toHdots(0.0), toVdots(-35.0), this->areaWidth, toVdots(0.5)));
-//    // Page 2, 3, ...
-//    lines2.push_back(QRectF(toHdots(0.0), toVdots(  0.0), this->areaWidth, toVdots(0.5)));
-//    lines2.push_back(QRectF(toHdots(0.0), toVdots( 25.0), this->areaWidth, toVdots(0.5)));
-//    lines2.push_back(QRectF(toHdots(0.0), toVdots( 34.0), this->areaWidth, toVdots(0.2)));
-//    lines2.push_back(QRectF(toHdots(0.0), toVdots(-35.0), this->areaWidth, toVdots(0.5)));
-
 //    // Horizontal lines
-//    for (auto line : (page == 1) ? lines1 : lines2)
-//        painter.fillRect(line, Qt::black);
+//    if (page == 1) {
+//        // Page 1
+//        painter.fillRect(QRectF(toHdots(0.0), toVdots(  0.0), this->areaWidth, toVdots(0.5)), Qt::black);
+//        painter.fillRect(QRectF(toHdots(0.0), toVdots( 25.0), this->areaWidth, toVdots(0.5)), Qt::black);
+//        painter.fillRect(QRectF(toHdots(0.0), toVdots( 39.0), this->areaWidth, toVdots(0.5)), Qt::black);
+//        painter.fillRect(QRectF(toHdots(0.0), toVdots( 48.0), this->areaWidth, toVdots(0.5)), Qt::black);
+//        painter.fillRect(QRectF(toHdots(0.0), toVdots( 57.0), this->areaWidth, toVdots(0.2)), Qt::black);
+//        painter.fillRect(QRectF(toHdots(0.0), toVdots(-35.0), this->areaWidth, toVdots(0.5)), Qt::black);
+//    } else {
+//        // Page 2, 3, ...
+//        painter.fillRect(QRectF(toHdots(0.0), toVdots(  0.0), this->areaWidth, toVdots(0.5)), Qt::black);
+//        painter.fillRect(QRectF(toHdots(0.0), toVdots( 25.0), this->areaWidth, toVdots(0.5)), Qt::black);
+//        painter.fillRect(QRectF(toHdots(0.0), toVdots( 34.0), this->areaWidth, toVdots(0.2)), Qt::black);
+//        painter.fillRect(QRectF(toHdots(0.0), toVdots(-35.0), this->areaWidth, toVdots(0.5)), Qt::black);
+//    }
 //    // Left and Right logo
 //    if (page == 1) {
 //        writeRect.setX(toHdots(0.0));
