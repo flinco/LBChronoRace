@@ -116,187 +116,187 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="26"/>
+        <location filename="chronoracedata.ui" line="30"/>
         <source>Remove 1st sponsor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="52"/>
+        <location filename="chronoracedata.ui" line="56"/>
         <source>Event</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="60"/>
+        <location filename="chronoracedata.ui" line="64"/>
         <source>Unofficial</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="65"/>
+        <location filename="chronoracedata.ui" line="69"/>
         <source>Official</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="85"/>
+        <location filename="chronoracedata.ui" line="89"/>
         <source>Sponsor 4 not loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="110"/>
+        <location filename="chronoracedata.ui" line="114"/>
         <source>Logo 1 not loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="120"/>
+        <location filename="chronoracedata.ui" line="124"/>
         <source>Load 4th sponsor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="127"/>
+        <location filename="chronoracedata.ui" line="131"/>
         <source>Remove 4th sponsor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="143"/>
+        <location filename="chronoracedata.ui" line="147"/>
         <source>Sponsor 1 not loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="153"/>
+        <location filename="chronoracedata.ui" line="157"/>
         <source>Timekeeper 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="174"/>
+        <location filename="chronoracedata.ui" line="178"/>
         <source>Mass start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="179"/>
+        <location filename="chronoracedata.ui" line="183"/>
         <source>Timed race</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="184"/>
+        <location filename="chronoracedata.ui" line="188"/>
         <source>Relay race</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="192"/>
+        <location filename="chronoracedata.ui" line="196"/>
         <source>Load 1st sponsor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="199"/>
+        <location filename="chronoracedata.ui" line="203"/>
         <source>Remove 3rd sponsor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="206"/>
+        <location filename="chronoracedata.ui" line="210"/>
         <source>Timekeeper 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="213"/>
+        <location filename="chronoracedata.ui" line="217"/>
         <source>Remove 2nd sponsor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="223"/>
+        <location filename="chronoracedata.ui" line="227"/>
         <source>dd/MM/yyyy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="230"/>
+        <location filename="chronoracedata.ui" line="234"/>
         <source>Load 3rd sponsor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="237"/>
+        <location filename="chronoracedata.ui" line="241"/>
         <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="253"/>
+        <location filename="chronoracedata.ui" line="257"/>
         <source>Sponsor 2 not loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="272"/>
+        <location filename="chronoracedata.ui" line="276"/>
         <source>Sponsor 3 not loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="291"/>
+        <location filename="chronoracedata.ui" line="295"/>
         <source>Logo 2 not loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="301"/>
+        <location filename="chronoracedata.ui" line="305"/>
         <source>Referee</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="308"/>
+        <location filename="chronoracedata.ui" line="312"/>
         <source>Organization</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="337"/>
+        <location filename="chronoracedata.ui" line="341"/>
         <source>Timekeeper 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="344"/>
+        <location filename="chronoracedata.ui" line="348"/>
         <source>Load 2nd logo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="351"/>
+        <location filename="chronoracedata.ui" line="355"/>
         <source>Load 2nd sponsor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="358"/>
+        <location filename="chronoracedata.ui" line="362"/>
         <source>Remove 1st logo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="365"/>
+        <location filename="chronoracedata.ui" line="369"/>
         <source>Place</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="372"/>
+        <location filename="chronoracedata.ui" line="376"/>
         <source>Load 1st logo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="379"/>
+        <location filename="chronoracedata.ui" line="383"/>
         <source>Remove 2nd logo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="386"/>
+        <location filename="chronoracedata.ui" line="390"/>
         <source>Lenght</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="393"/>
+        <location filename="chronoracedata.ui" line="397"/>
         <source>Race Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="400"/>
+        <location filename="chronoracedata.ui" line="404"/>
         <source>Elevation Gain</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="407"/>
+        <location filename="chronoracedata.ui" line="411"/>
         <source>Start Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracedata.ui" line="414"/>
+        <location filename="chronoracedata.ui" line="418"/>
         <source>Results</source>
         <translation type="unfinished"></translation>
     </message>
@@ -314,52 +314,52 @@
 <context>
     <name>ChronoRaceTable</name>
     <message>
-        <location filename="chronoracetable.ui" line="41"/>
+        <location filename="chronoracetable.ui" line="45"/>
         <source>Add an empty row to the table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracetable.ui" line="44"/>
+        <location filename="chronoracetable.ui" line="48"/>
         <source>Add Row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracetable.ui" line="51"/>
+        <location filename="chronoracetable.ui" line="55"/>
         <source>Delete a row from the table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracetable.ui" line="54"/>
+        <location filename="chronoracetable.ui" line="58"/>
         <source>Delete Row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracetable.ui" line="61"/>
+        <location filename="chronoracetable.ui" line="65"/>
         <source>Import data from a CSV file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracetable.ui" line="64"/>
+        <location filename="chronoracetable.ui" line="68"/>
         <source>Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracetable.ui" line="71"/>
+        <location filename="chronoracetable.ui" line="75"/>
         <source>Export data to a CSV file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracetable.ui" line="74"/>
+        <location filename="chronoracetable.ui" line="78"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracetable.ui" line="81"/>
+        <location filename="chronoracetable.ui" line="85"/>
         <source>Return to the application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronoracetable.ui" line="84"/>
+        <location filename="chronoracetable.ui" line="88"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -405,239 +405,239 @@
 <context>
     <name>LBChronoRace</name>
     <message>
-        <location filename="chronorace.ui" line="44"/>
+        <location filename="chronorace.ui" line="48"/>
         <source>Edit Race Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="54"/>
+        <location filename="chronorace.ui" line="58"/>
         <source>Edit Teams List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="64"/>
+        <location filename="chronorace.ui" line="68"/>
         <source>Teams</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="93"/>
+        <location filename="chronorace.ui" line="97"/>
         <source>Competitors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="103"/>
+        <location filename="chronorace.ui" line="107"/>
         <source>Timings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="113"/>
+        <location filename="chronorace.ui" line="117"/>
         <location filename="lbchronorace.cpp" line="69"/>
         <source>Categories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="126"/>
-        <location filename="chronorace.ui" line="396"/>
+        <location filename="chronorace.ui" line="130"/>
+        <location filename="chronorace.ui" line="400"/>
         <source>Edit Timings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="136"/>
-        <location filename="chronorace.ui" line="388"/>
+        <location filename="chronorace.ui" line="140"/>
+        <location filename="chronorace.ui" line="392"/>
         <source>Edit Categories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="146"/>
-        <location filename="chronorace.ui" line="404"/>
+        <location filename="chronorace.ui" line="150"/>
+        <location filename="chronorace.ui" line="408"/>
         <source>Load Race</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="156"/>
-        <location filename="chronorace.ui" line="380"/>
+        <location filename="chronorace.ui" line="160"/>
+        <location filename="chronorace.ui" line="384"/>
         <source>Edit Start List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="163"/>
-        <location filename="chronorace.ui" line="415"/>
+        <location filename="chronorace.ui" line="167"/>
+        <location filename="chronorace.ui" line="419"/>
         <source>Save Race</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="176"/>
+        <location filename="chronorace.ui" line="180"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="197"/>
+        <location filename="chronorace.ui" line="201"/>
         <source>Errors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="220"/>
+        <location filename="chronorace.ui" line="224"/>
         <source>Encoding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="236"/>
+        <location filename="chronorace.ui" line="240"/>
         <source>File Encoding: ISO-8859-1 (Latin1) or UTF-8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="243"/>
+        <location filename="chronorace.ui" line="247"/>
         <source>Latin1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="248"/>
+        <location filename="chronorace.ui" line="252"/>
         <location filename="lbchronorace.cpp" line="2302"/>
         <source>UTF-8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="256"/>
+        <location filename="chronorace.ui" line="260"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="263"/>
+        <location filename="chronorace.ui" line="267"/>
         <source>Start List and Rankings file format: PDF, CSV or Plain Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="267"/>
+        <location filename="chronorace.ui" line="271"/>
         <location filename="lbchronorace.cpp" line="2312"/>
         <source>PDF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="272"/>
+        <location filename="chronorace.ui" line="276"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="277"/>
+        <location filename="chronorace.ui" line="281"/>
         <location filename="lbchronorace.cpp" line="2314"/>
         <source>CSV</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="301"/>
+        <location filename="chronorace.ui" line="305"/>
         <source>Generate start list in the selected format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="304"/>
+        <location filename="chronorace.ui" line="308"/>
         <source>Make Start List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="314"/>
+        <location filename="chronorace.ui" line="318"/>
         <source>Generate results in the selected format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="317"/>
+        <location filename="chronorace.ui" line="321"/>
         <source>Make Results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="336"/>
+        <location filename="chronorace.ui" line="340"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="348"/>
+        <location filename="chronorace.ui" line="352"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="358"/>
+        <location filename="chronorace.ui" line="362"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="369"/>
+        <location filename="chronorace.ui" line="373"/>
         <source>&amp;Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="372"/>
+        <location filename="chronorace.ui" line="376"/>
         <source>Q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="377"/>
+        <location filename="chronorace.ui" line="381"/>
         <source>&amp;Start List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="385"/>
+        <location filename="chronorace.ui" line="389"/>
         <source>&amp;Categories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="393"/>
+        <location filename="chronorace.ui" line="397"/>
         <source>&amp;Timings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="401"/>
+        <location filename="chronorace.ui" line="405"/>
         <source>&amp;Load</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="407"/>
+        <location filename="chronorace.ui" line="411"/>
         <source>L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="412"/>
+        <location filename="chronorace.ui" line="416"/>
         <source>&amp;Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="418"/>
+        <location filename="chronorace.ui" line="422"/>
         <source>S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="423"/>
+        <location filename="chronorace.ui" line="427"/>
         <source>Te&amp;ams</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="426"/>
+        <location filename="chronorace.ui" line="430"/>
         <source>Edit Teams</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="431"/>
-        <location filename="chronorace.ui" line="434"/>
+        <location filename="chronorace.ui" line="435"/>
+        <location filename="chronorace.ui" line="438"/>
         <source>About LBChronoRace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="439"/>
-        <location filename="chronorace.ui" line="442"/>
+        <location filename="chronorace.ui" line="443"/>
+        <location filename="chronorace.ui" line="446"/>
         <location filename="lbchronorace.cpp" line="2374"/>
         <source>About &amp;Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="447"/>
+        <location filename="chronorace.ui" line="451"/>
         <source>&amp;Race</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="450"/>
+        <location filename="chronorace.ui" line="454"/>
         <source>Edit Race</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="chronorace.ui" line="455"/>
+        <location filename="chronorace.ui" line="459"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>

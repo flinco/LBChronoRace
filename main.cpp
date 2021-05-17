@@ -4,6 +4,8 @@
 #include <QLocale>
 #include <QLibraryInfo>
 #include <QFontDatabase>
+#include <QWindow>
+#include <QIcon>
 
 #ifdef Q_OS_WIN
 #include <QStyleFactory>
@@ -46,6 +48,11 @@ int main(int argc, char *argv[])
 
     LBChronoRace w(Q_NULLPTR, &app);
     w.show();
+
+    foreach (auto win, app.allWindows()) {
+       win->setIcon(QIcon(":/LBChronoRace.ico"));
+    }
+
     return app.exec();
 }
 

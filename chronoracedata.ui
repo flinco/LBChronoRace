@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Race Information</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/LBChronoRace.ico</normaloff>:/LBChronoRace.ico</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="9" column="0">
     <widget class="QPushButton" name="removeSponsorLogo1">
@@ -453,7 +457,10 @@
   <tabstop>loadSponsorLogo4</tabstop>
   <tabstop>removeSponsorLogo4</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+  <include location="icons.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
