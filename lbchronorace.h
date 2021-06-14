@@ -18,8 +18,12 @@
 #include "classentry.h"
 #include "teamclassentry.h"
 
-#define LBCHRONORACE_NAME                 "LBChronoRace"
-#define LBCHRONORACE_VERSION              "2.0.3"
+#ifndef LBCHRONORACE_NAME
+#error "LBCHRONORACE_NAME not set"
+#endif
+#ifndef LBCHRONORACE_VERSION
+#error "LBCHRONORACE_VERSION not set"
+#endif
 
 #define LBCHRONORACE_STARTLIST_DEFAULT    "startlist.csv"
 #define LBCHRONORACE_TEAMLIST_DEFAULT     "teamlist.csv"
