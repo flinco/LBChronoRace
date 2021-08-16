@@ -2,6 +2,7 @@
 #include <QFileDialog>
 #include <QMap>
 #include <QMultiMap>
+#include <QLocale>
 #include <QFile>
 #include <QFileInfo>
 #include <QMessageBox>
@@ -1401,7 +1402,7 @@ void LBChronoRace::drawPDFTemplatePortrait(QPainter &painter, const QString &ful
         painter.setFont(rnkFontItalic);
         writeRect.setTopLeft(QPointF(toHdots(24.0), toVdots(15.0)));
         writeRect.setBottomRight(QPointF(toHdots(-24.0), toVdots(25.0)));
-        painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo.getPlace() + " - " + raceInfo.getDate().toString("dddd dd/MM/yyyy"));
+        painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo.getPlace() + " - " + QLocale::system().toString(raceInfo.getDate(), "dddd dd/MM/yyyy"));
     } else {
         rnkFontBoldItal.setPointSize(14);
         painter.setFont(rnkFontBoldItal);
@@ -1528,7 +1529,7 @@ void LBChronoRace::drawPDFTemplatePortrait(QPainter &painter, const QString &ful
 //        painter.setFont(rnkFontItalic);
 //        writeRect.setTopLeft(QPointF(toHdots(24.0), toVdots(15.0)));
 //        writeRect.setBottomRight(QPointF(toHdots(-24.0), toVdots(25.0)));
-//        painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo.getPlace() + " - " + raceInfo.getDate().toString("dddd dd/MM/yyyy"));
+//        painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo.getPlace() + " - " + QLocale::system().toString(raceInfo.getDate(), "dddd dd/MM/yyyy"));
 //    } else {
 //        rnkFontBoldItal.setPointSize(14);
 //        painter.setFont(rnkFontBoldItal);
