@@ -645,7 +645,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
 
         QList<ClassEntry*>::const_iterator c = individualRanking.constBegin();
         availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
-        referenceTime = (rankingCount > 0) ? (*c)->getTotalTime() : 0;
+        referenceTime = (individualRanking.size() > 0) ? (*c)->getTotalTime() : 0;
         for (page = 1, i = 1; page <= pages; page++) {
             drawPDFTemplatePortrait(painter, tr("%1 Results").arg(fullDescription), page, pages);
 
@@ -967,7 +967,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
 
         availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
         c = individualRanking.constBegin();
-        referenceTime = (c != individualRanking.constEnd()) ? (*c)->getTotalTime() : 0;
+        referenceTime = (individualRanking.size() > 0) ? (*c)->getTotalTime() : 0;
         for (page = 1, i = 1; page <= pages; page++) {
             drawPDFTemplatePortrait(painter, tr("%1 Results").arg(fullDescription), page, pages);
 
