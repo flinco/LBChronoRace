@@ -141,6 +141,7 @@ void CRLoader::saveRaceData(QDataStream &out)
 
 void CRLoader::loadRaceData(QDataStream &in)
 {
+    standardItemList.clear();
     startListModel.reset();
     teamsListModel.reset();
     categoriesModel.reset();
