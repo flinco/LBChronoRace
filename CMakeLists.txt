@@ -17,6 +17,7 @@ set(CMAKE_AUTORCC ON)
 
 add_compile_definitions(LBCHRONORACE_NAME=\"${PROJECT_NAME}\")
 add_compile_definitions(LBCHRONORACE_VERSION=\"${PROJECT_VERSION}\")
+add_subdirectory(translations)
 
 set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/icons.qrc")
 
