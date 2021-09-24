@@ -226,7 +226,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
                     continue;
                 } else {
                     // Set the category for the competitor (if any)
-                    for (const auto &ranking : rankings) {
+                    for (auto const &ranking : rankings) {
                         if (ranking.isTeam())
                             continue;
 
@@ -255,8 +255,8 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
                 appendErrorMessage(tr("Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries").arg(timings.size()).arg(startList.size()));
 
             // sort by time
-            QList<ClassEntry*> rankingByTime;
-            QList<ClassEntry*>::const_iterator c;
+            QList<ClassEntry *> rankingByTime;
+            QList<ClassEntry *>::const_iterator c;
             for (auto classEntry = rankingByBib.begin(); classEntry != rankingByBib.end(); classEntry++) {
                 c = rankingByTime.constBegin();
                 while ((c != rankingByTime.constEnd()) && (*(*c) < classEntry.value())) ++c;
@@ -265,7 +265,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
 
             // now fill each ranking
             k = 0;
-            for (const auto &ranking : rankings) {
+            for (auto const &ranking : rankings) {
                 k++;
 
                 if (ranking.isTeam()) {
@@ -302,9 +302,9 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
                             continue;
                         }
 
-                        const QString& team = classEntry->getTeam();
+                        QString const &team = classEntry->getTeam();
 
-                        const QMap<QString, TeamClassEntry>::iterator teamRankingIt = teamRankingByTeam.find(team);
+                        QMap<QString, TeamClassEntry>::iterator const teamRankingIt = teamRankingByTeam.find(team);
                         if (teamRankingIt == teamRankingByTeam.end()) {
                             teamRankingByTeam.insert(team, TeamClassEntry())->setClassEntry(classEntry);
                         } else {
@@ -313,8 +313,8 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
                     }
 
                     // sort the team rankings
-                    QList<TeamClassEntry*> sortedTeamRanking;
-                    QList<TeamClassEntry*>::const_iterator t;
+                    QList<TeamClassEntry *> sortedTeamRanking;
+                    QList<TeamClassEntry *>::const_iterator t;
                     for (auto teamClassEntry = teamRankingByTeam.begin(); teamClassEntry != teamRankingByTeam.end(); teamClassEntry++) {
                         t = sortedTeamRanking.constBegin();
                         while ((t != sortedTeamRanking.constEnd()) && (*(*t) < teamClassEntry.value())) ++t;
@@ -342,7 +342,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
                     }
                 } else {
                     // Individual ranking
-                    QList<ClassEntry*> individualRanking;
+                    QList<ClassEntry *> individualRanking;
                     for (auto classEntry : rankingByTime) {
 
                         // Sex
@@ -370,7 +370,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
 
                     // do the sorting of the single leg times
                     for (uint legIdx = 0u; legIdx < CRLoader::getStartListLegs(); legIdx++) {
-                        QMultiMap<uint, ClassEntry*> sortedLegClassification;
+                        QMultiMap<uint, ClassEntry *> sortedLegClassification;
                         for (auto classEntry : individualRanking) {
                             sortedLegClassification.insert(classEntry->getTimeValue(legIdx), classEntry);
                         }
@@ -403,7 +403,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
                 }
             }
 
-            for (const auto &message : messages)
+            for (auto const &message : messages)
                 appendErrorMessage(tr("Warning: %1").arg(message));
             messages.clear();
         }
@@ -412,7 +412,7 @@ void LBChronoRace::makeRankings(CRLoader::Format format)
     }
 }
 
-void LBChronoRace::makeTextRanking(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking, uint bWidth, uint sWidth) const
+void LBChronoRace::makeTextRanking(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking, uint bWidth, uint sWidth) const
 {
     QFile outFile(outFileName);
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -455,7 +455,7 @@ void LBChronoRace::makeTextRanking(const QString &outFileName, const QString &fu
     outFile.close();
 }
 
-void LBChronoRace::makeTextRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking, uint bWidth, uint sWidth) const
+void LBChronoRace::makeTextRanking(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking, uint bWidth, uint sWidth) const
 {
     QFile outFile(outFileName);
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -506,7 +506,7 @@ void LBChronoRace::makeTextRanking(const QString &outFileName, const QString &fu
     outFile.close();
 }
 
-void LBChronoRace::makeCSVRanking(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking) const
+void LBChronoRace::makeCSVRanking(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking) const
 {
     QFile outFile(outFileName);
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -538,7 +538,7 @@ void LBChronoRace::makeCSVRanking(const QString &outFileName, const QString &ful
     outFile.close();
 }
 
-void LBChronoRace::makeCSVRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking, const QString &shortDescription) const
+void LBChronoRace::makeCSVRanking(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking, QString const &shortDescription) const
 {
     QFile outFile(outFileName);
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -573,7 +573,7 @@ void LBChronoRace::makeCSVRanking(const QString &outFileName, const QString &ful
     outFile.close();
 }
 
-void LBChronoRace::makePDFRanking(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking)
+void LBChronoRace::makePDFRanking(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking)
 {
     switch (CRLoader::getStartListLegs()) {
         case 0:
@@ -588,7 +588,7 @@ void LBChronoRace::makePDFRanking(const QString &outFileName, const QString &ful
     }
 }
 
-void LBChronoRace::makePDFRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking)
+void LBChronoRace::makePDFRanking(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking)
 {
     switch (CRLoader::getStartListLegs()) {
         case 0:
@@ -603,7 +603,7 @@ void LBChronoRace::makePDFRanking(const QString &outFileName, const QString &ful
     }
 }
 
-void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking)
+void LBChronoRace::makePDFRankingSingle(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking)
 {
     QPainter painter;
 
@@ -635,7 +635,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
             availableEntriesOnPage--;
         }
 
-        QList<ClassEntry*>::const_iterator c = individualRanking.constBegin();
+        QList<ClassEntry *>::const_iterator c = individualRanking.constBegin();
         availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
         referenceTime = (individualRanking.empty()) ? 0:  (*c)->getTotalTime();
         for (page = 1, i = 1; page <= pages; page++) {
@@ -759,7 +759,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
     }
 }
 
-void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking)
+void LBChronoRace::makePDFRankingSingle(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking)
 {
     QPainter painter;
 
@@ -781,7 +781,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
         //NOSONAR qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBold.toString()), qUtf8Printable(rnkFontBold.family()));
 
         // Compute the number of pages
-        QList<TeamClassEntry*>::const_iterator t;
+        QList<TeamClassEntry *>::const_iterator t;
         int availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
         for (t = teamRanking.constBegin(); t < teamRanking.constEnd(); t++) {
             for (j = 0; j < (*t)->getClassEntryCount(); j++) {
@@ -930,7 +930,7 @@ void LBChronoRace::makePDFRankingSingle(const QString &outFileName, const QStrin
     }
 }
 
-void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking)
+void LBChronoRace::makePDFRankingMulti(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking)
 {
     QPainter painter;
 
@@ -951,7 +951,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
         //NOSONAR qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBold.toString()), qUtf8Printable(rnkFontBold.family()));
 
         // Compute the number of pages
-        QList<ClassEntry*>::const_iterator c;
+        QList<ClassEntry *>::const_iterator c;
         int availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
         int entriesPerBlock = (int) CRLoader::getStartListLegs() + 1;
         for (c = individualRanking.constBegin(); c < individualRanking.constEnd(); c++) {
@@ -1121,7 +1121,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
     }
 }
 
-void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking)
+void LBChronoRace::makePDFRankingMulti(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking)
 {
     QPainter painter;
 
@@ -1143,7 +1143,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
         //NOSONAR qDebug("Default font: %s (%s)", qUtf8Printable(rnkFontBold.toString()), qUtf8Printable(rnkFontBold.family()));
 
         // Compute the number of pages
-        QList<TeamClassEntry*>::const_iterator t;
+        QList<TeamClassEntry *>::const_iterator t;
         int availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
         int entriesPerBlock = (int) CRLoader::getStartListLegs() + 1;
         for (t = teamRanking.constBegin(); t < teamRanking.constEnd(); t++) {
@@ -1328,7 +1328,7 @@ void LBChronoRace::makePDFRankingMulti(const QString &outFileName, const QString
     }
 }
 
-void LBChronoRace::drawPDFTemplatePortrait(QPainter &painter, const QString &fullDescription, int page, int pages) const
+void LBChronoRace::drawPDFTemplatePortrait(QPainter &painter, QString const &fullDescription, int page, int pages) const
 {
     QRect boundingRect;
     QRectF writeRect;
@@ -1455,7 +1455,7 @@ void LBChronoRace::drawPDFTemplatePortrait(QPainter &painter, const QString &ful
     }
 }
 
-//NOSONAR void LBChronoRace::drawPDFTemplateLandscape(QPainter &painter, const QString &fullDescription, int page, int pages)
+//NOSONAR void LBChronoRace::drawPDFTemplateLandscape(QPainter &painter, QString const &fullDescription, int page, int pages)
 //NOSONAR {
 //NOSONAR     QRect boundingRect;
 //NOSONAR     QRectF writeRect;
@@ -1582,7 +1582,7 @@ void LBChronoRace::drawPDFTemplatePortrait(QPainter &painter, const QString &ful
 //NOSONAR     }
 //NOSONAR }
 
-bool LBChronoRace::initPDFPainter(QPainter &painter, const QString &outFileName)
+bool LBChronoRace::initPDFPainter(QPainter &painter, QString const &outFileName)
 {
     bool retval = false;
 
@@ -1638,7 +1638,7 @@ void LBChronoRace::makeStartList(CRLoader::Format format)
 
         // compute start list
         QList<Competitor> sortedStartList;
-        for (const auto &c : CRLoader::getStartList()) {
+        for (auto const &c : CRLoader::getStartList()) {
             sortedStartList.push_back(c);
             if ((bib = c.getBib()) > maxBib)
                 maxBib = bib;
@@ -1678,7 +1678,7 @@ void LBChronoRace::makeStartList(CRLoader::Format format)
     }
 }
 
-void LBChronoRace::makeTextStartList(const QList<Competitor>& startList, uint bWidth, uint sWidth, uint nWidth, uint tWidth)
+void LBChronoRace::makeTextStartList(QList<Competitor> const &startList, uint bWidth, uint sWidth, uint nWidth, uint tWidth)
 {
     QString outFileName = QFileDialog::getSaveFileName(this, tr("Select Start List File"),
         lastSelectedPath.absolutePath(), tr("Plain Text (*.txt)"));
@@ -1709,7 +1709,7 @@ void LBChronoRace::makeTextStartList(const QList<Competitor>& startList, uint bW
         int i = 0;
         outStream << raceInfo << Qt::endl; // add header
         outStream << tr("Start List") << Qt::endl;
-        for (const auto &competitor : startList) {
+        for (auto const &competitor : startList) {
             i++;
             outStream.setFieldWidth(sWidth);
             outStream.setFieldAlignment(QTextStream::AlignRight);
@@ -1750,7 +1750,7 @@ void LBChronoRace::makeTextStartList(const QList<Competitor>& startList, uint bW
     }
 }
 
-void LBChronoRace::makeCSVStartList(const QList<Competitor>& startList)
+void LBChronoRace::makeCSVStartList(QList<Competitor> const &startList)
 {
     QString outFileName = QFileDialog::getSaveFileName(this, tr("Select Start List File"),
         lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
@@ -1779,7 +1779,7 @@ void LBChronoRace::makeCSVStartList(const QList<Competitor>& startList)
 
         int offset;
         int i = 0;
-        for (const auto &competitor : startList) {
+        for (auto const &competitor : startList) {
             i++;
             outStream << i << ",";
             outStream << competitor.getBib() << ",";
@@ -1805,7 +1805,7 @@ void LBChronoRace::makeCSVStartList(const QList<Competitor>& startList)
     }
 }
 
-void LBChronoRace::makePDFStartList(const QList<Competitor>& startList)
+void LBChronoRace::makePDFStartList(QList<Competitor> const &startList)
 {
     QString outFileName = QFileDialog::getSaveFileName(this, tr("Select Start List File"),
         lastSelectedPath.absolutePath(), tr("PDF (*.pdf)"));

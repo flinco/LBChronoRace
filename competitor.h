@@ -50,21 +50,21 @@ private:
 
 public:
     Competitor() = default;
-    explicit Competitor(const uint bib) : bib(bib) { };
+    explicit Competitor(uint const bib) : bib(bib) { };
 
-    friend QDataStream &operator<<(QDataStream &out, const Competitor &comp);
+    friend QDataStream &operator<<(QDataStream &out, Competitor const &comp);
     friend QDataStream &operator>>(QDataStream &in, Competitor &comp);
 
     QString const &getName() const;
     QString getName(int width) const;
-    void setName(const QString& newName);
+    void setName(QString const &newName);
     uint getBib() const;
     void setBib(uint newBib);
     Sex getSex() const;
-    void setSex(const Sex newSex);
+    void setSex(Sex const newSex);
     QString const &getTeam() const;
     QString getTeam(int newWidth) const;
-    void setTeam(const QString& newTeam);
+    void setTeam(QString const &newTeam);
     uint getYear() const;
     void setYear(uint newYear);
     uint getLeg() const;
@@ -73,18 +73,18 @@ public:
     void setOffset(int newOffset);
     bool isValid() const;
 
-    const QString& getCategory() const;
+    QString const &getCategory() const;
     void setCategory(QString const &newCategory);
 
-    static Sex toSex(const QString& sex, const bool strict = false);
-    static QString toSexString(const Sex sex);
-    static int toOffset(const QString& offset);
+    static Sex toSex(QString const &sex, bool const strict = false);
+    static QString toSexString(Sex const sex);
+    static int toOffset(QString const &offset);
     static QString toOffsetString(int offset);
 
-    bool operator<  (const Competitor& rhs) const;
-    bool operator>  (const Competitor& rhs) const;
-    bool operator<= (const Competitor& rhs) const;
-    bool operator>= (const Competitor& rhs) const;
+    bool operator<  (Competitor const &rhs) const;
+    bool operator>  (Competitor const &rhs) const;
+    bool operator<= (Competitor const &rhs) const;
+    bool operator>= (Competitor const &rhs) const;
 };
 
 Competitor::Field& operator++(Competitor::Field& field);
@@ -98,11 +98,11 @@ private:
 
 public:
     static Qt::SortOrder getSortingOrder();
-    static void setSortingOrder(const Qt::SortOrder &value);
+    static void setSortingOrder(Qt::SortOrder const &value);
     static Competitor::Field getSortingField();
-    static void setSortingField(const Competitor::Field &value);
+    static void setSortingField(Competitor::Field const &value);
 
-    bool operator() (const Competitor& lhs, const Competitor& rhs) const;
+    bool operator() (Competitor const &lhs, Competitor const &rhs) const;
 };
 
 #endif // COMPETITOR_H

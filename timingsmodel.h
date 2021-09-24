@@ -13,24 +13,24 @@ class TimingsModel : public CRTableModel
 
 public:
     explicit TimingsModel(QObject *parent = Q_NULLPTR) : CRTableModel(parent) { };
-    TimingsModel(const QList<Timing>& timingsList, QObject *parent = Q_NULLPTR) : CRTableModel(parent), timings(timingsList) { };
+    TimingsModel(QList<Timing> const &timingsList, QObject *parent = Q_NULLPTR) : CRTableModel(parent), timings(timingsList) { };
 
-    friend QDataStream &operator<<(QDataStream &out, const TimingsModel &data);
+    friend QDataStream &operator<<(QDataStream &out, TimingsModel const &data);
     friend QDataStream &operator>>(QDataStream &in, TimingsModel &data);
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+    int rowCount(QModelIndex const &parent = QModelIndex()) const override;
+    int columnCount(QModelIndex const &parent = QModelIndex()) const override;
+    QVariant data(QModelIndex const &index, int role) const override;
+    bool setData(QModelIndex const &index, QVariant const &value, int role = Qt::EditRole) override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-    Qt::ItemFlags flags(const QModelIndex &index) const override;
-    bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
-    bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
+    Qt::ItemFlags flags(QModelIndex const &index) const override;
+    bool insertRows(int position, int rows, QModelIndex const &index = QModelIndex()) override;
+    bool removeRows(int position, int rows, QModelIndex const &index = QModelIndex()) override;
     void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) override;
 
     void reset();
 
-    const QList<Timing>& getTimings() const;
+    QList<Timing> const &getTimings() const;
 
 public slots:
     void refreshCounters(int r) override;

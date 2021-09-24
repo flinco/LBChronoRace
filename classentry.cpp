@@ -180,7 +180,7 @@ uint ClassEntry::countEntries() const
     return (uint) entries.size();
 }
 
-void ClassEntry::setTime(Competitor* comp, const Timing& timing, QStringList &messages)
+void ClassEntry::setTime(Competitor* comp, Timing const &timing, QStringList &messages)
 {
     Q_ASSERT(comp);
 
@@ -246,7 +246,7 @@ uint ClassEntry::getFromYear() const
 {
     uint fromYear = UINT_MAX;
 
-    for (const auto &it : entries) {
+    for (auto const &it : entries) {
         if (it.competitor)
             fromYear = (fromYear > it.competitor->getYear()) ? it.competitor->getYear() : fromYear;
     }
@@ -336,7 +336,7 @@ QString ClassEntry::getDiffTimeTxt(uint referenceTime) const
         return Timing::toTimeStr(referenceTime - totalTime, Timing::Status::CLASSIFIED, "-");
 }
 
-bool ClassEntry::operator< (const ClassEntry& rhs) const { return totalTime <  rhs.totalTime; }
-bool ClassEntry::operator> (const ClassEntry& rhs) const { return totalTime >  rhs.totalTime; }
-bool ClassEntry::operator<=(const ClassEntry& rhs) const { return totalTime <= rhs.totalTime; }
-bool ClassEntry::operator>=(const ClassEntry& rhs) const { return totalTime >= rhs.totalTime; }
+bool ClassEntry::operator< (ClassEntry const &rhs) const { return totalTime <  rhs.totalTime; }
+bool ClassEntry::operator> (ClassEntry const &rhs) const { return totalTime >  rhs.totalTime; }
+bool ClassEntry::operator<=(ClassEntry const &rhs) const { return totalTime <= rhs.totalTime; }
+bool ClassEntry::operator>=(ClassEntry const &rhs) const { return totalTime >= rhs.totalTime; }

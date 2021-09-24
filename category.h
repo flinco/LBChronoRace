@@ -38,29 +38,29 @@ private:
 
 public:
     Category() = default;
-    explicit Category(const QString& team);
+    explicit Category(QString const &team);
 
-    friend QDataStream &operator<<(QDataStream &out, const Category &category);
+    friend QDataStream &operator<<(QDataStream &out, Category const &category);
     friend QDataStream &operator>>(QDataStream &in, Category &category);
 
     bool isTeam() const;
     void setTeam(bool newTeam);
     uint getFromYear() const;
     void setFromYear(uint newFromYear);
-    const QString& getFullDescription() const;
+    QString const &getFullDescription() const;
     void setFullDescription(QString const &newFullDescription);
     Competitor::Sex getSex() const;
     void setSex(Competitor::Sex const newSex);
-    const QString& getShortDescription() const;
+    QString const &getShortDescription() const;
     void setShortDescription(QString const &newShortDescription);
     uint getToYear() const;
     void setToYear(unsigned int newToYear);
     bool isValid() const;
 
-    bool operator<  (const Category& rhs) const;
-    bool operator>  (const Category& rhs) const;
-    bool operator<= (const Category& rhs) const;
-    bool operator>= (const Category& rhs) const;
+    bool operator<  (Category const &rhs) const;
+    bool operator>  (Category const &rhs) const;
+    bool operator<= (Category const &rhs) const;
+    bool operator>= (Category const &rhs) const;
 };
 
 Category::Field& operator++(Category::Field& field);

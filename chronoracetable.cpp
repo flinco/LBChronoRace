@@ -16,10 +16,10 @@ ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
 
 QAbstractTableModel* ChronoRaceTable::getModel() const
 {
-    return qobject_cast<QAbstractTableModel*>(ui->tableView->model());
+    return qobject_cast<QAbstractTableModel *>(ui->tableView->model());
 }
 
-void ChronoRaceTable::setModel(CRTableModel* model) const
+void ChronoRaceTable::setModel(CRTableModel *model) const
 {
     ui->tableView->setModel(model);
     ui->tableView->setSelectionMode(QAbstractItemView::ExtendedSelection);

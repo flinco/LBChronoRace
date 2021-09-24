@@ -40,9 +40,9 @@ private:
 
 public:
     Timing() = default;
-    explicit Timing(const uint bib) : bib(bib) {  };
+    explicit Timing(uint const bib) : bib(bib) {  };
 
-    friend QDataStream &operator<<(QDataStream &out, const Timing &timing);
+    friend QDataStream &operator<<(QDataStream &out, Timing const &timing);
     friend QDataStream &operator>>(QDataStream &in, Timing &timing);
 
     uint getBib() const;

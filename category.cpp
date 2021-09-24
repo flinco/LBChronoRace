@@ -4,7 +4,7 @@
 Category::Field CategorySorter::sortingField = Category::Field::CTF_FIRST;
 Qt::SortOrder   CategorySorter::sortingOrder = Qt::AscendingOrder;
 
-Category::Category(const QString& team)
+Category::Category(QString const &team)
 {
     if (team.length() != 1) {
         throw(ChronoRaceException(tr("Illegal category type - expected 'I' or 'T' - found %1").arg(team)));
@@ -13,7 +13,7 @@ Category::Category(const QString& team)
     }
 }
 
-QDataStream &operator<<(QDataStream &out, const Category &category)
+QDataStream &operator<<(QDataStream &out, Category const &category)
 {
     out << qint32(category.team)
         << Competitor::toSexString(category.sex)
@@ -67,7 +67,7 @@ void Category::setFromYear(uint newFromYear)
     this->fromYear = newFromYear;
 }
 
-const QString& Category::getFullDescription() const
+QString const &Category::getFullDescription() const
 {
     return fullDescription;
 }
@@ -87,12 +87,12 @@ void Category::setSex(Competitor::Sex const newSex)
     this->sex = newSex;
 }
 
-const QString& Category::getShortDescription() const
+QString const &Category::getShortDescription() const
 {
     return shortDescription;
 }
 
-void Category::setShortDescription(const QString& newShortDescription)
+void Category::setShortDescription(QString const &newShortDescription)
 {
     this->shortDescription = newShortDescription;
 }
@@ -112,22 +112,22 @@ bool Category::isValid() const
     return (!fullDescription.isEmpty() && !shortDescription.isEmpty());
 }
 
-bool Category::operator< (const Category& rhs) const
+bool Category::operator< (Category const &rhs) const
 {
     return (!this->isTeam() && rhs.isTeam());
 }
 
-bool Category::operator> (const Category& rhs) const
+bool Category::operator> (Category const &rhs) const
 {
     return (this->isTeam() && !rhs.isTeam());
 }
 
-bool Category::operator<=(const Category& rhs) const
+bool Category::operator<=(Category const &rhs) const
 {
     return !(*this > rhs);
 }
 
-bool Category::operator>=(const Category& rhs) const
+bool Category::operator>=(Category const &rhs) const
 {
     return !(*this < rhs);
 }

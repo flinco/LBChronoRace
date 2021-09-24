@@ -1,7 +1,7 @@
 #include "categoriesmodel.h"
 #include "lbcrexception.h"
 
-QDataStream &operator<<(QDataStream &out, const CategoriesModel &data)
+QDataStream &operator<<(QDataStream &out, CategoriesModel const &data)
 {
     out << data.categories;
 
@@ -20,7 +20,7 @@ void CategoriesModel::refreshCounters(int r)
     Q_UNUSED(r)
 }
 
-int CategoriesModel::rowCount(const QModelIndex &parent) const
+int CategoriesModel::rowCount(QModelIndex const &parent) const
 {
 
     Q_UNUSED(parent)
@@ -28,7 +28,7 @@ int CategoriesModel::rowCount(const QModelIndex &parent) const
     return static_cast<int>(categories.count());
 }
 
-int CategoriesModel::columnCount(const QModelIndex &parent) const
+int CategoriesModel::columnCount(QModelIndex const &parent) const
 {
 
     Q_UNUSED(parent)
@@ -36,7 +36,7 @@ int CategoriesModel::columnCount(const QModelIndex &parent) const
     return static_cast<int>(Category::Field::CTF_COUNT);
 }
 
-QVariant CategoriesModel::data(const QModelIndex &index, int role) const
+QVariant CategoriesModel::data(QModelIndex const &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -82,7 +82,7 @@ QVariant CategoriesModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool CategoriesModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool CategoriesModel::setData(QModelIndex const &index, QVariant const &value, int role)
 {
 
     bool retval = false;
@@ -154,7 +154,7 @@ QVariant CategoriesModel::headerData(int section, Qt::Orientation orientation, i
         return QString("%1").arg(section + 1);
 }
 
-Qt::ItemFlags CategoriesModel::flags(const QModelIndex &index) const
+Qt::ItemFlags CategoriesModel::flags(QModelIndex const &index) const
 {
     if (!index.isValid())
         return Qt::ItemIsEnabled;
@@ -162,7 +162,7 @@ Qt::ItemFlags CategoriesModel::flags(const QModelIndex &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool CategoriesModel::insertRows(int position, int rows, const QModelIndex &parent)
+bool CategoriesModel::insertRows(int position, int rows, QModelIndex const &parent)
 {
 
     Q_UNUSED(parent)
@@ -177,7 +177,7 @@ bool CategoriesModel::insertRows(int position, int rows, const QModelIndex &pare
     return true;
 }
 
-bool CategoriesModel::removeRows(int position, int rows, const QModelIndex &parent)
+bool CategoriesModel::removeRows(int position, int rows, QModelIndex const &parent)
 {
 
     Q_UNUSED(parent)
@@ -208,7 +208,7 @@ void CategoriesModel::reset()
     endResetModel();
 }
 
-const QList<Category>& CategoriesModel::getCategories() const
+QList<Category> const &CategoriesModel::getCategories() const
 {
     return categories;
 }

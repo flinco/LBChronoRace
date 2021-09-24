@@ -102,7 +102,7 @@ void Timing::setTiming(QString const &timing)
             sep.clear();
             sep.append(".");
         }
-        for (const auto &token : timing.split(sep, Qt::KeepEmptyParts, Qt::CaseInsensitive)) {
+        for (auto const &token : timing.split(sep, Qt::KeepEmptyParts, Qt::CaseInsensitive)) {
             converted = true;
             val = token.toUInt(&converted);
             if (!converted) {

@@ -3,7 +3,7 @@
 #include "timingsmodel.h"
 #include "lbcrexception.h"
 
-QDataStream &operator<<(QDataStream &out, const TimingsModel &data)
+QDataStream &operator<<(QDataStream &out, TimingsModel const  &data)
 {
     out << data.timings;
 
@@ -22,7 +22,7 @@ void TimingsModel::refreshCounters(int r)
     Q_UNUSED(r)
 }
 
-int TimingsModel::rowCount(const QModelIndex &parent) const
+int TimingsModel::rowCount(QModelIndex const &parent) const
 {
 
     Q_UNUSED(parent)
@@ -30,7 +30,7 @@ int TimingsModel::rowCount(const QModelIndex &parent) const
     return static_cast<int>(timings.count());
 }
 
-int TimingsModel::columnCount(const QModelIndex &parent) const
+int TimingsModel::columnCount(QModelIndex const &parent) const
 {
 
     Q_UNUSED(parent)
@@ -38,7 +38,7 @@ int TimingsModel::columnCount(const QModelIndex &parent) const
     return static_cast<int>(Timing::Field::TMF_COUNT);
 }
 
-QVariant TimingsModel::data(const QModelIndex &index, int role) const
+QVariant TimingsModel::data(QModelIndex const &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -72,7 +72,7 @@ QVariant TimingsModel::data(const QModelIndex &index, int role) const
         return QVariant();
 }
 
-bool TimingsModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool TimingsModel::setData(QModelIndex const &index, QVariant const &value, int role)
 {
 
     bool retval = false;
@@ -130,7 +130,7 @@ QVariant TimingsModel::headerData(int section, Qt::Orientation orientation, int 
         return QString("%1").arg(section + 1);
 }
 
-Qt::ItemFlags TimingsModel::flags(const QModelIndex &index) const
+Qt::ItemFlags TimingsModel::flags(QModelIndex const &index) const
 {
     if (!index.isValid())
         return Qt::ItemIsEnabled;
@@ -138,7 +138,7 @@ Qt::ItemFlags TimingsModel::flags(const QModelIndex &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool TimingsModel::insertRows(int position, int rows, const QModelIndex &parent) {
+bool TimingsModel::insertRows(int position, int rows, QModelIndex const &parent) {
 
     Q_UNUSED(parent)
 
@@ -152,7 +152,7 @@ bool TimingsModel::insertRows(int position, int rows, const QModelIndex &parent)
     return true;
 }
 
-bool TimingsModel::removeRows(int position, int rows, const QModelIndex &parent)
+bool TimingsModel::removeRows(int position, int rows, QModelIndex const &parent)
 {
 
     Q_UNUSED(parent)
@@ -182,7 +182,7 @@ void TimingsModel::reset() {
     endResetModel();
 }
 
-const QList<Timing>& TimingsModel::getTimings() const
+QList<Timing> const &TimingsModel::getTimings() const
 {
     return timings;
 }

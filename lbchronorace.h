@@ -111,24 +111,24 @@ private:
     void fitRectToLogo(QRectF &rect, QPixmap const &pixmap) const;
 
     void makeRankings(CRLoader::Format format);
-    void makeTextRanking(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking, uint bWidth, uint sWidth) const;
-    void makeTextRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking, uint bWidth, uint sWidth) const;
-    void makeCSVRanking(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking) const;
-    void makeCSVRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking, const QString &shortDescription) const;
-    void makePDFRanking(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
-    void makePDFRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
-    void makePDFRankingSingle(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
-    void makePDFRankingSingle(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
-    void makePDFRankingMulti(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
-    void makePDFRankingMulti(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
-    void drawPDFTemplatePortrait(QPainter &painter, const QString &fullDescription, int page, int pages) const;
-    //NOSONAR void drawPDFTemplateLandscape(QPainter &painter, const QString &fullDescription, int page, int pages);
-    bool initPDFPainter(QPainter &painter, const QString &outFileName);
+    void makeTextRanking(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking, uint bWidth, uint sWidth) const;
+    void makeTextRanking(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking, uint bWidth, uint sWidth) const;
+    void makeCSVRanking(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking) const;
+    void makeCSVRanking(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking, QString const &shortDescription) const;
+    void makePDFRanking(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking);
+    void makePDFRanking(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking);
+    void makePDFRankingSingle(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking);
+    void makePDFRankingSingle(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking);
+    void makePDFRankingMulti(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking);
+    void makePDFRankingMulti(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking);
+    void drawPDFTemplatePortrait(QPainter &painter, QString const &fullDescription, int page, int pages) const;
+    //NOSONAR void drawPDFTemplateLandscape(QPainter &painter, QString const &fullDescription, int page, int pages);
+    bool initPDFPainter(QPainter &painter, QString const &outFileName);
 
     void makeStartList(CRLoader::Format format);
-    void makeTextStartList(const QList<Competitor>& startList, uint bWidth, uint sWidth, uint nWidth, uint tWidth);
-    void makeCSVStartList(const QList<Competitor>& startList);
-    void makePDFStartList(const QList<Competitor>& startList);
+    void makeTextStartList(QList<Competitor> const &startList, uint bWidth, uint sWidth, uint nWidth, uint tWidth);
+    void makeCSVStartList(QList<Competitor> const &startList);
+    void makePDFStartList(QList<Competitor> const &startList);
 
 private slots:
     void importStartList();

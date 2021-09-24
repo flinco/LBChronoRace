@@ -53,7 +53,7 @@ public:
     QString getTime(uint legIdx) const;
     uint getTimeValue(uint legIdx) const;
     uint countEntries() const;
-    void setTime(Competitor* comp, const Timing& timing, QStringList &messages);
+    void setTime(Competitor* comp, Timing const &timing, QStringList &messages);
     uint getLegRanking(uint legIdx) const;
     void setLegRanking(uint legIdx, uint ranking);
     uint getFromYear() const;
@@ -70,12 +70,12 @@ public:
     QString const &getCategory(uint legIdx) const;
     void setCategory(QString const &value);
 
-    static bool compare (const ClassEntry& a, const ClassEntry& b);
+    static bool compare(ClassEntry const &a, ClassEntry const &b);
 
-    bool operator< (const ClassEntry& rhs) const;
-    bool operator> (const ClassEntry& rhs) const;
-    bool operator<=(const ClassEntry& rhs) const;
-    bool operator>=(const ClassEntry& rhs) const;
+    bool operator< (ClassEntry const &rhs) const;
+    bool operator> (ClassEntry const &rhs) const;
+    bool operator<=(ClassEntry const &rhs) const;
+    bool operator>=(ClassEntry const &rhs) const;
 };
 
 

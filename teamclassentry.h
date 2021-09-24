@@ -16,18 +16,18 @@ class TeamClassEntry
 
 private:
     QString              team { "" };
-    QVector<ClassEntry*> entryList { };
+    QVector<ClassEntry *> entryList { };
 
 public:
-    const QString& getTeam() const;
-    const ClassEntry* getClassEntry(int index) const;
+    QString const &getTeam() const;
+    ClassEntry const *getClassEntry(int index) const;
     void setClassEntry(ClassEntry* entry);
     int getClassEntryCount() const;
 
-    bool operator< (const TeamClassEntry& rhs);
-    bool operator> (const TeamClassEntry& rhs);
-    bool operator<=(const TeamClassEntry& rhs);
-    bool operator>=(const TeamClassEntry& rhs);
+    bool operator< (TeamClassEntry const &rhs);
+    bool operator> (TeamClassEntry const &rhs);
+    bool operator<=(TeamClassEntry const &rhs);
+    bool operator>=(TeamClassEntry const &rhs);
 };
 
 #endif // TEAMCLASSENTRY_H

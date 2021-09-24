@@ -52,7 +52,7 @@ QString Competitor::getName(int width) const
     return QString("%1").arg(this->name, -width);
 }
 
-void Competitor::setName(const QString& newName)
+void Competitor::setName(QString const &newName)
 {
     this->name = newName;
 }
@@ -72,7 +72,7 @@ Competitor::Sex Competitor::getSex() const
     return sex;
 }
 
-void Competitor::setSex(const Competitor::Sex newSex)
+void Competitor::setSex(Competitor::Sex const newSex)
 {
     this->sex = newSex;
 }
@@ -87,7 +87,7 @@ QString Competitor::getTeam(int newWidth) const
     return QString("%1").arg(this->team, -newWidth);
 }
 
-void Competitor::setTeam(const QString& newTeam)
+void Competitor::setTeam(QString const &newTeam)
 {
     this->team = newTeam;
 }
@@ -126,7 +126,7 @@ bool Competitor::isValid() const
     return ((bib != 0u) && !name.isEmpty() && (sex != Sex::UNDEFINED));
 }
 
-const QString& Competitor::getCategory() const
+QString const &Competitor::getCategory() const
 {
     return this->category;
 }
@@ -136,7 +136,7 @@ void Competitor::setCategory(QString const &newCategory)
     this->category = newCategory;
 }
 
-Competitor::Sex Competitor::toSex(const QString& sex, const bool strict)
+Competitor::Sex Competitor::toSex(QString  const &sex, bool const strict)
 {
     if (sex.length() != 1) {
         throw(ChronoRaceException(tr("Illegal sex '%1'").arg(sex)));
@@ -168,7 +168,7 @@ QString Competitor::toSexString(Sex const sex)
     }
 }
 
-int Competitor::toOffset(const QString& offset)
+int Competitor::toOffset(QString const &offset)
 {
     QStringList list = offset.split(":");
 
@@ -216,7 +216,7 @@ QString Competitor::toOffsetString(int offset)
         return QString("%1:%2:%3").arg(((offset / 60) / 60)).arg(((offset / 60) % 60), 2, 10, QChar('0')).arg((offset % 60), 2, 10, QChar('0'));
 }
 
-bool Competitor::operator< (const Competitor& rhs) const
+bool Competitor::operator< (Competitor const &rhs) const
 {
     if ((offset < 0) && (offset != rhs.offset))
         return qAbs(offset) < qAbs(rhs.offset);
@@ -234,7 +234,7 @@ bool Competitor::operator< (const Competitor& rhs) const
     return false;
 }
 
-bool Competitor::operator> (const Competitor& rhs) const
+bool Competitor::operator> (Competitor const &rhs) const
 {
     if ((offset < 0) && (offset != rhs.offset))
         return qAbs(offset) > qAbs(rhs.offset);
@@ -252,17 +252,17 @@ bool Competitor::operator> (const Competitor& rhs) const
     return false;
 }
 
-bool Competitor::operator<=(const Competitor& rhs) const
+bool Competitor::operator<=(Competitor const &rhs) const
 {
     return !(*this > rhs);
 }
 
-bool Competitor::operator>=(const Competitor& rhs) const
+bool Competitor::operator>=(Competitor const &rhs) const
 {
     return !(*this < rhs);
 }
 
-bool CompetitorSorter::operator() (const Competitor& lhs, const Competitor& rhs) const
+bool CompetitorSorter::operator() (Competitor const &lhs, Competitor const &rhs) const
 {
     switch(sortingField) {
         case Competitor::Field::CMF_NAME:
@@ -287,7 +287,7 @@ Qt::SortOrder CompetitorSorter::getSortingOrder()
     return sortingOrder;
 }
 
-void CompetitorSorter::setSortingOrder(const Qt::SortOrder &value)
+void CompetitorSorter::setSortingOrder(Qt::SortOrder const &value)
 {
     sortingOrder = value;
 }
@@ -297,7 +297,7 @@ Competitor::Field CompetitorSorter::getSortingField()
     return sortingField;
 }
 
-void CompetitorSorter::setSortingField(const Competitor::Field &value)
+void CompetitorSorter::setSortingField(Competitor::Field const &value)
 {
     sortingField = value;
 }
