@@ -19,14 +19,14 @@ int main(int argc, char *argv[])
     QTranslator qtTranslator;
     QTranslator lbcrTranslator;
 
-    QDir appDir = QDir(QCoreApplication::applicationDirPath());
-    QDir translDir = QDir(appDir.path() + QDir::separator() + "translations");
+    auto appDir = QDir(QCoreApplication::applicationDirPath());
 
-    if (qtTranslator.load(QLocale(), QStringLiteral("qt"), QStringLiteral("_"), translDir.path()))
-        app.installTranslator(&qtTranslator);
+    if (auto translDir = QDir(appDir.path() + QDir::separator() + "translations");
+        qtTranslator.load(QLocale(), QStringLiteral("qt"), QStringLiteral("_"), translDir.path()))
+        QApplication::installTranslator(&qtTranslator);
 
     if (lbcrTranslator.load(QString(":/%1").arg(QStringLiteral(LBCHRONORACE_NAME))))
-        app.installTranslator(&lbcrTranslator);
+        QApplication::installTranslator(&lbcrTranslator);
 
 #ifdef Q_OS_WIN
     app.setStyle(QStyleFactory::create("Fusion"));
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
        win->setIcon(QIcon(":/LBChronoRace.ico"));
     }
 
-    return app.exec();
+    return QApplication::exec();
 }
 
 

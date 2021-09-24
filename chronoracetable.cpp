@@ -1,23 +1,17 @@
 #include "chronoracetable.h"
-#include "ui_chronoracetable.h"
 
-ChronoRaceTable::ChronoRaceTable(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ChronoRaceTable)
+ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
 {
     ui->setupUi(this);
-    ui->tableView->setSortingEnabled(true);
-    this->connect(ui->tableView->horizontalHeader(), &QHeaderView::sortIndicatorChanged, ui->tableView, &QTableView::sortByColumn);
-    this->connect(ui->rowAdd, &QPushButton::clicked, this, &ChronoRaceTable::rowAdd);
-    this->connect(ui->rowDel, &QPushButton::clicked, this, &ChronoRaceTable::rowDel);
-    this->connect(ui->modelImport, &QPushButton::clicked, this, &ChronoRaceTable::modelImport);
-    this->connect(ui->modelExport, &QPushButton::clicked, this, &ChronoRaceTable::modelExport);
-    this->connect(ui->dialogQuit, &QPushButton::clicked, this, &ChronoRaceTable::dialogQuit);
-}
 
-ChronoRaceTable::~ChronoRaceTable()
-{
-    delete ui;
+    ui->tableView->setSortingEnabled(true);
+
+    QObject::connect(ui->tableView->horizontalHeader(), &QHeaderView::sortIndicatorChanged, ui->tableView, &QTableView::sortByColumn);
+    QObject::connect(ui->rowAdd, &QPushButton::clicked, this, &ChronoRaceTable::rowAdd);
+    QObject::connect(ui->rowDel, &QPushButton::clicked, this, &ChronoRaceTable::rowDel);
+    QObject::connect(ui->modelImport, &QPushButton::clicked, this, &ChronoRaceTable::modelImport);
+    QObject::connect(ui->modelExport, &QPushButton::clicked, this, &ChronoRaceTable::modelExport);
+    QObject::connect(ui->dialogQuit, &QPushButton::clicked, this, &ChronoRaceTable::dialogQuit);
 }
 
 QAbstractTableModel* ChronoRaceTable::getModel() const
@@ -25,20 +19,20 @@ QAbstractTableModel* ChronoRaceTable::getModel() const
     return qobject_cast<QAbstractTableModel*>(ui->tableView->model());
 }
 
-void ChronoRaceTable::setModel(CRTableModel* model)
+void ChronoRaceTable::setModel(CRTableModel* model) const
 {
     ui->tableView->setModel(model);
     ui->tableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    this->connect(this, &ChronoRaceTable::finished, model, &CRTableModel::refreshCounters);
+    QObject::connect(this, &ChronoRaceTable::finished, model, &CRTableModel::refreshCounters);
 }
 
-void ChronoRaceTable::disableButtons()
+void ChronoRaceTable::disableButtons() const
 {
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->rowAdd->setEnabled(false);
     ui->rowDel->setEnabled(false);
     ui->modelImport->setEnabled(false);
-    //ui->modelExport->setEnabled(false);
+    //ui->modelExport->setEnabled(false); //NOSONAR
 }
 
 void ChronoRaceTable::show()
@@ -49,7 +43,7 @@ void ChronoRaceTable::show()
     QDialog::show();
 }
 
-void ChronoRaceTable::rowAdd()
+void ChronoRaceTable::rowAdd() const
 {
     if (ui->tableView->selectionModel()->hasSelection()) {
         int rowCount = ui->tableView->model()->rowCount();
@@ -63,7 +57,7 @@ void ChronoRaceTable::rowAdd()
     }
 }
 
-void ChronoRaceTable::rowDel()
+void ChronoRaceTable::rowDel() const
 {
     if (ui->tableView->selectionModel()->hasSelection()) {
         int rowCount = ui->tableView->model()->rowCount();

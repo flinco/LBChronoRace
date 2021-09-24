@@ -2,21 +2,10 @@
 #include "classentry.h"
 #include "lbcrexception.h"
 
-Timing::Field TimingSorter::sortingField = Timing::TMF_TIME;
+Timing::Field TimingSorter::sortingField = Timing::Field::TMF_TIME;
 Qt::SortOrder TimingSorter::sortingOrder = Qt::AscendingOrder;
 
-Timing::Timing() {
-    this->bib     = 0u;
-    this->seconds = 0u;
-    this->leg     = 0u;
-    this->status  = CLASSIFIED;
-}
-
-Timing::Timing(const uint bib) : Timing() {
-    this->bib = bib;
-}
-
-QDataStream &operator<<(QDataStream &out, const Timing &timing)
+QDataStream &operator<<(QDataStream &out, Timing const &timing)
 {
     out << quint32(timing.bib)
         << quint32(timing.leg)
@@ -28,7 +17,9 @@ QDataStream &operator<<(QDataStream &out, const Timing &timing)
 
 QDataStream &operator>>(QDataStream &in, Timing &timing)
 {
-    quint32 bib32, leg32, seconds32;
+    quint32 bib32;
+    quint32 leg32;
+    quint32 seconds32;
     qint32  status32;
 
     in >> bib32
@@ -36,9 +27,9 @@ QDataStream &operator>>(QDataStream &in, Timing &timing)
        >> seconds32
        >> status32;
 
-    timing.bib     = (uint) bib32;
-    timing.leg     = (uint) leg32;
-    timing.seconds = (uint) seconds32;
+    timing.bib     = bib32;
+    timing.leg     = leg32;
+    timing.seconds = seconds32;
     timing.status  = (Timing::Status) status32;
 
     return in;
@@ -49,9 +40,9 @@ uint Timing::getBib() const
     return bib;
 }
 
-void Timing::setBib(uint bib)
+void Timing::setBib(uint newBib)
 {
-    this->bib = bib;
+    this->bib = newBib;
 }
 
 uint Timing::getLeg() const
@@ -59,19 +50,19 @@ uint Timing::getLeg() const
     return leg;
 }
 
-void Timing::setLeg(uint leg)
+void Timing::setLeg(uint newLeg)
 {
-    this->leg = leg;
+    this->leg = newLeg;
 }
 
 bool Timing::isDnf() const
 {
-    return (status == DNF);
+    return (status == Status::DNF);
 }
 
 bool Timing::isDns() const
 {
-    return (status == DNS);
+    return (status == Status::DNS);
 }
 
 uint Timing::getSeconds() const
@@ -89,21 +80,22 @@ QString Timing::getTiming() const
     return toTimeStr(this->seconds, this->status);
 }
 
-void Timing::setTiming(const QString& timing)
+void Timing::setTiming(QString const &timing)
 {
 
     if (timing.length() == 3) {
         if (!timing.compare("DNS", Qt::CaseInsensitive)) {
-            this->status = DNS;
+            this->status = Status::DNS;
             this->seconds = 0u;
         } else if (!timing.compare("DNF", Qt::CaseInsensitive)) {
-            this->status = DNF;
+            this->status = Status::DNF;
             this->seconds = 0u;
         } else {
             throw(ChronoRaceException(tr("Illegal timing value '%1'").arg(timing)));
         }
     } else {
-        uint val, seconds = 0u;
+        uint val;
+        uint secs = 0u;
         bool converted;
         QString sep(":");
         if (timing.contains(".")) {
@@ -114,77 +106,79 @@ void Timing::setTiming(const QString& timing)
             converted = true;
             val = token.toUInt(&converted);
             if (!converted) {
-                //seconds = 0u;
+                //NOSONAR seconds = 0u;
                 throw(ChronoRaceException(tr("Illegal timing value '%1' for bib '%2'").arg(token).arg(this->bib)));
             } else {
-                seconds = (seconds * 60) + val;
+                secs = (secs * 60) + val;
             }
         }
-        this->seconds = seconds;
+        this->seconds = secs;
     }
 }
 
-void Timing::setTiming(const char* timing)
+void Timing::setTiming(char const *timing)
 {
     setTiming(QString(timing));
 }
 
-bool Timing::isValid()
+bool Timing::isValid() const
 {
-    return ((bib != 0u) && ((status == DNS) || (status == DNF) || ((status == CLASSIFIED) && (seconds != 0u))));
+    return ((bib != 0u) && ((status == Status::DNS) || (status == Status::DNF) || ((status == Status::CLASSIFIED) && (seconds != 0u))));
 }
 
-const QString Timing::toTimeStr(const uint seconds, const Timing::Status status, const char *prefix)
+QString Timing::toTimeStr(uint const seconds, Timing::Status const status, char const *prefix)
 {
 
-    QString retString((prefix) ? prefix : "");
+    QString retString(prefix ? prefix : "");
     switch (status) {
-        case Timing::CLASSIFIED:
+        case Timing::Status::CLASSIFIED:
             retString.append(QString("%1:%2:%3").arg(((seconds / 60) / 60)).arg(((seconds / 60) % 60), 2, 10, QLatin1Char('0')).arg((seconds % 60), 2, 10, QLatin1Char('0')));
             break;
-        case Timing::DNF:
+        case Timing::Status::DNF:
             retString.append("DNF");
             break;
-        case Timing::DNS:
+        case Timing::Status::DNS:
             retString.append("DNS");
             break;
         default:
-            throw(ChronoRaceException(tr("Invalid status value %1").arg(status)));
+            throw(ChronoRaceException(tr("Invalid status value %1").arg(static_cast<int>(status))));
     }
     return retString;
 }
 
-const QString Timing::toTimeStr(const Timing& timing)
+QString Timing::toTimeStr(Timing const &timing)
 {
     return toTimeStr(timing.getSeconds(), timing.getStatus());
 }
 
-bool Timing::operator< (const Timing& rhs) const
+bool Timing::operator< (Timing const &rhs) const
 {
-    return (((this->status == DNF) && (rhs.status == DNS)) || ((this->status == CLASSIFIED) && ((rhs.status != CLASSIFIED) || (this->seconds < rhs.seconds))));
+    return (((this->status == Status::DNF) && (rhs.status == Status::DNS)) || ((this->status == Status::CLASSIFIED) && ((rhs.status != Status::CLASSIFIED) || (this->seconds < rhs.seconds))));
 }
 
-bool Timing::operator> (const Timing& rhs) const
+bool Timing::operator> (Timing const &rhs) const
 {
-    return (((this->status == DNS) && (rhs.status != DNS)) || ((rhs.status == CLASSIFIED) && ((this->status == DNF) || (this->seconds > rhs.seconds))));
+    return (((this->status == Status::DNS) && (rhs.status != Status::DNS)) || ((rhs.status == Status::CLASSIFIED) && ((this->status == Status::DNF) || (this->seconds > rhs.seconds))));
 }
 
-bool Timing::operator<=(const Timing& rhs) const
+bool Timing::operator<=(Timing const &rhs) const
 {
     return !(*this > rhs);
 }
 
-bool Timing::operator>=(const Timing& rhs) const
+bool Timing::operator>=(Timing const &rhs) const
 {
     return !(*this < rhs);
 }
 
-bool TimingSorter::operator() (const Timing& lhs, const Timing& rhs)
+bool TimingSorter::operator() (Timing const &lhs, Timing const &rhs) const
 {
     switch(sortingField) {
-    case Timing::TMF_BIB:
+    case Timing::Field::TMF_BIB:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getBib() > rhs.getBib()) : (lhs.getBib() < rhs.getBib());
-    case Timing::TMF_TIME:
+    case Timing::Field::TMF_LEG:
+        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getLeg() > rhs.getLeg()) : (lhs.getLeg() < rhs.getLeg());
+    case Timing::Field::TMF_TIME: //NOSONAR
         // nobreak here
     default:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
@@ -198,7 +192,7 @@ Qt::SortOrder TimingSorter::getSortingOrder()
     return sortingOrder;
 }
 
-void TimingSorter::setSortingOrder(const Qt::SortOrder &value)
+void TimingSorter::setSortingOrder(Qt::SortOrder const &value)
 {
     sortingOrder = value;
 }
@@ -208,7 +202,7 @@ Timing::Field TimingSorter::getSortingField()
     return sortingField;
 }
 
-void TimingSorter::setSortingField(const Timing::Field &value)
+void TimingSorter::setSortingField(Timing::Field const &value)
 {
     sortingField = value;
 }
@@ -216,8 +210,8 @@ void TimingSorter::setSortingField(const Timing::Field &value)
 Timing::Field& operator++(Timing::Field& field)
 {
     field = static_cast<Timing::Field>(static_cast<int>(field) + 1);
-    //if (field == Timing::TMF_COUNT)
-    //    field = Timing::TMF_FIRST;
+    //NOSONAR if (field == Timing::TMF_COUNT)
+    //NOSONAR     field = Timing::TMF_FIRST;
     return field;
 }
 

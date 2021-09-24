@@ -6,7 +6,7 @@
 #include <QSet>
 #include <QString>
 
-namespace ChronoRace {
+namespace competitor {
 class Competitor;
 class CompetitorSorter;
 }
@@ -16,65 +16,65 @@ class Competitor
     Q_DECLARE_TR_FUNCTIONS(Competitor)
 
 public:
-    enum Sex
-        {
-            UNDEFINED,
-            MALE,
-            FEMALE,
-            MISC
-        };
+    enum class Sex
+    {
+        UNDEFINED,
+        MALE,
+        FEMALE,
+        MISC
+    };
 
-    enum Field
-        {
-            CMF_FIRST      = 0,
-            CMF_BIB        = 0,
-            CMF_NAME       = 1,
-            CMF_SEX        = 2,
-            CMF_YEAR       = 3,
-            CMF_TEAM       = 4,
-            CMF_OFFSET_LEG = 5,
-            CMF_LAST       = 5,
-            CMF_COUNT      = 6
-        };
+    enum class Field
+    {
+        CMF_FIRST      = 0,
+        CMF_BIB        = 0,
+        CMF_NAME       = 1,
+        CMF_SEX        = 2,
+        CMF_YEAR       = 3,
+        CMF_TEAM       = 4,
+        CMF_OFFSET_LEG = 5,
+        CMF_LAST       = 5,
+        CMF_COUNT      = 6
+    };
 
 private:
 
-    uint    bib;
-    QString name;
-    Sex     sex;
-    uint    year;
-    QString team;
-    uint    leg;
-    int     offset;
-    QString category;
+    uint    bib { 0u };
+    QString name { "" };
+    Sex     sex { Sex::UNDEFINED };
+    uint    year { 1900 };
+    QString team { "" };
+    uint    leg { 1u };
+    int     offset { -1 };
+    QString category { "" };
 
 public:
-    Competitor();
-    Competitor(const uint bib);
+    Competitor() = default;
+    explicit Competitor(const uint bib) : bib(bib) { };
 
     friend QDataStream &operator<<(QDataStream &out, const Competitor &comp);
     friend QDataStream &operator>>(QDataStream &in, Competitor &comp);
 
-    const QString& getName() const;
-    const QString  getName(int width) const;
-    void setName(const QString& name);
+    QString const &getName() const;
+    QString getName(int width) const;
+    void setName(const QString& newName);
     uint getBib() const;
-    void setBib(uint bib);
+    void setBib(uint newBib);
     Sex getSex() const;
-    void setSex(const Sex sex);
-    const QString& getTeam() const;
-    const QString  getTeam(int width) const;
-    void setTeam(const QString& team);
+    void setSex(const Sex newSex);
+    QString const &getTeam() const;
+    QString getTeam(int newWidth) const;
+    void setTeam(const QString& newTeam);
     uint getYear() const;
-    void setYear(uint year);
+    void setYear(uint newYear);
     uint getLeg() const;
-    void setLeg(uint leg);
+    void setLeg(uint newLeg);
     int getOffset() const;
-    void setOffset(int offset);
-    bool isValid();
+    void setOffset(int newOffset);
+    bool isValid() const;
 
     const QString& getCategory() const;
-    void setCategory(const QString& category);
+    void setCategory(QString const &newCategory);
 
     static Sex toSex(const QString& sex, const bool strict = false);
     static QString toSexString(const Sex sex);
@@ -102,7 +102,7 @@ public:
     static Competitor::Field getSortingField();
     static void setSortingField(const Competitor::Field &value);
 
-    bool operator() (const Competitor& lhs, const Competitor& rhs);
+    bool operator() (const Competitor& lhs, const Competitor& rhs) const;
 };
 
 #endif // COMPETITOR_H

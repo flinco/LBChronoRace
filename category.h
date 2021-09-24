@@ -6,7 +6,7 @@
 
 #include "competitor.h"
 
-namespace ChronoRace {
+namespace category {
 class Category;
 class CategorySorter;
 }
@@ -15,47 +15,47 @@ class Category {
     Q_DECLARE_TR_FUNCTIONS(Category)
 
 public:
-    enum Field
-        {
-            CTF_FIRST       = 0,
-            CTF_TEAM        = 0,
-            CTF_SEX         = 1,
-            CTF_TO_YEAR     = 2,
-            CTF_FROM_YEAR   = 3,
-            CTF_FULL_DESCR  = 4,
-            CTF_SHORT_DESCR = 5,
-            CTF_LAST        = 5,
-            CTF_COUNT       = 6
-        };
+    enum class Field
+    {
+        CTF_FIRST       = 0,
+        CTF_TEAM        = 0,
+        CTF_SEX         = 1,
+        CTF_TO_YEAR     = 2,
+        CTF_FROM_YEAR   = 3,
+        CTF_FULL_DESCR  = 4,
+        CTF_SHORT_DESCR = 5,
+        CTF_LAST        = 5,
+        CTF_COUNT       = 6
+    };
 
 private:
-    bool            team;
-    Competitor::Sex sex;
-    uint            toYear;
-    uint            fromYear;
-    QString         fullDescription;
-    QString         shortDescription;
+    bool team { false };
+    Competitor::Sex sex { Competitor::Sex::UNDEFINED };
+    uint toYear { 0u };
+    uint fromYear { 0u };
+    QString fullDescription { "" };
+    QString shortDescription { "" };
 
 public:
-    Category();
-    Category(const QString& team);
+    Category() = default;
+    explicit Category(const QString& team);
 
     friend QDataStream &operator<<(QDataStream &out, const Category &category);
     friend QDataStream &operator>>(QDataStream &in, Category &category);
 
     bool isTeam() const;
-    void setTeam(bool team);
+    void setTeam(bool newTeam);
     uint getFromYear() const;
-    void setFromYear(uint fromYear);
+    void setFromYear(uint newFromYear);
     const QString& getFullDescription() const;
-    void setFullDescription(const QString& fullDescription);
+    void setFullDescription(QString const &newFullDescription);
     Competitor::Sex getSex() const;
-    void setSex(const Competitor::Sex sex);
+    void setSex(Competitor::Sex const newSex);
     const QString& getShortDescription() const;
-    void setShortDescription(const QString& shortDescription);
+    void setShortDescription(QString const &newShortDescription);
     uint getToYear() const;
-    void setToYear(unsigned int toYear);
-    bool isValid();
+    void setToYear(unsigned int newToYear);
+    bool isValid() const;
 
     bool operator<  (const Category& rhs) const;
     bool operator>  (const Category& rhs) const;
@@ -74,11 +74,11 @@ private:
 
 public:
     static Qt::SortOrder getSortingOrder();
-    static void setSortingOrder(const Qt::SortOrder &value);
+    static void setSortingOrder(Qt::SortOrder const &value);
     static Category::Field getSortingField();
-    static void setSortingField(const Category::Field &value);
+    static void setSortingField(Category::Field const &value);
 
-    bool operator() (const Category& lhs, const Category& rhs);
+    bool operator() (Category const &lhs, Category const &rhs) const;
 };
 
 #endif // CATEGORY_H

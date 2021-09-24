@@ -17,7 +17,7 @@ QDataStream &operator>>(QDataStream &in, TeamsListModel &data)
     in >> data.teamsList
        >> teamNameWidthMax;
 
-    data.teamNameWidthMax = (uint) teamNameWidthMax;
+    data.teamNameWidthMax = teamNameWidthMax;
 
     return in;
 }
@@ -26,7 +26,7 @@ void TeamsListModel::refreshCounters(int r)
 {
     uint teamNameLength;
 
-    Q_UNUSED(r);
+    Q_UNUSED(r)
 
     teamNameWidthMax = 0;
     for (const auto &team : teamsList) {
@@ -38,14 +38,14 @@ void TeamsListModel::refreshCounters(int r)
 
 int TeamsListModel::rowCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
-    return teamsList.size();
+    return static_cast<int>(teamsList.size());
 }
 
 int TeamsListModel::columnCount(const QModelIndex &parent) const
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     return 1;
 }
@@ -99,7 +99,7 @@ Qt::ItemFlags TeamsListModel::flags(const QModelIndex &index) const
 bool TeamsListModel::insertRows(int position, int rows, const QModelIndex &parent)
 {
 
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
     for (int row = 0; row < rows; ++row) {
@@ -112,7 +112,7 @@ bool TeamsListModel::insertRows(int position, int rows, const QModelIndex &paren
 
 bool TeamsListModel::removeRows(int position, int rows, const QModelIndex &parent)
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
     for (int row = 0; row < rows; ++row) {
@@ -128,7 +128,8 @@ void TeamsListModel::sort(int column, Qt::SortOrder order)
 
     if (column == 0) {
         std::stable_sort(teamsList.begin(), teamsList.end());
-        if (order == Qt::DescendingOrder) std::reverse(teamsList.begin(), teamsList.end());
+        if (order == Qt::DescendingOrder)
+            std::reverse(teamsList.begin(), teamsList.end());
         emit dataChanged(QModelIndex(), QModelIndex());
     }
 }

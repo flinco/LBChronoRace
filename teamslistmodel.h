@@ -13,21 +13,20 @@ class TeamsListModel : public CRTableModel
     Q_OBJECT
 
 public:
-    TeamsListModel(QObject *parent = Q_NULLPTR)
-        : CRTableModel(parent), teamsList() {}
+    explicit TeamsListModel(QObject *parent = Q_NULLPTR) : CRTableModel(parent) { };
 
     friend QDataStream &operator<<(QDataStream &out, const TeamsListModel &data);
     friend QDataStream &operator>>(QDataStream &in, TeamsListModel &data);
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex());
-    bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex());
-    void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+    bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
+    bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
+    void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) override;
 
     void reset();
 
@@ -37,7 +36,7 @@ public:
 
 public slots:
     void addTeam(const QString& team);
-    void refreshCounters(int r);
+    void refreshCounters(int r) override;
 
 private:
     QList<QString> teamsList;

@@ -6,7 +6,7 @@
 #include <QDataStream>
 #include <QString>
 
-namespace ChronoRace {
+namespace timing {
 class Timing;
 class TimingSorter;
 }
@@ -15,56 +15,56 @@ class Timing {
     Q_DECLARE_TR_FUNCTIONS(Timing)
 
 public:
-    enum Status
-        {
-            DNS,
-            DNF,
-            CLASSIFIED
-        };
+    enum class Status
+    {
+        DNS,
+        DNF,
+        CLASSIFIED
+    };
 
-    enum Field
-        {
-            TMF_FIRST = 0,
-            TMF_BIB   = 0,
-            TMF_LEG   = 1,
-            TMF_TIME  = 2,
-            TMF_LAST  = 2,
-            TMF_COUNT = 3
-        };
+    enum class Field
+    {
+        TMF_FIRST = 0,
+        TMF_BIB   = 0,
+        TMF_LEG   = 1,
+        TMF_TIME  = 2,
+        TMF_LAST  = 2,
+        TMF_COUNT = 3
+    };
 
 private:
-    uint   bib;
-    uint   leg;
-    uint   seconds;
-    Status status;
+    uint   bib { 0u };
+    uint   leg { 0u };
+    uint   seconds { 0u };
+    Status status { Status::CLASSIFIED};
 
 public:
-    Timing();
-    Timing(const uint bib);
+    Timing() = default;
+    explicit Timing(const uint bib) : bib(bib) {  };
 
     friend QDataStream &operator<<(QDataStream &out, const Timing &timing);
     friend QDataStream &operator>>(QDataStream &in, Timing &timing);
 
     uint getBib() const;
-    void setBib(uint bib);
+    void setBib(uint newBib);
     uint getLeg() const;
-    void setLeg(uint leg);
+    void setLeg(uint newLeg);
     bool isDnf() const;
     bool isDns() const;
     Status getStatus() const;
     uint getSeconds() const;
     QString getTiming() const;
-    void setTiming(const QString& timing);
-    void setTiming(const char* timing);
-    bool isValid();
+    void setTiming(QString const &timing);
+    void setTiming(char const *timing);
+    bool isValid() const;
 
-    static const QString toTimeStr(const uint seconds, const Timing::Status status, const char *prefix = Q_NULLPTR);
-    static const QString toTimeStr(const Timing& timing);
+    static QString toTimeStr(uint const seconds, Timing::Status const status, char const *prefix = Q_NULLPTR);
+    static QString toTimeStr(Timing const &timing);
 
-    bool operator<  (const Timing& rhs) const;
-    bool operator>  (const Timing& rhs) const;
-    bool operator<= (const Timing& rhs) const;
-    bool operator>= (const Timing& rhs) const;
+    bool operator<  (Timing const &rhs) const;
+    bool operator>  (Timing const &rhs) const;
+    bool operator<= (Timing const &rhs) const;
+    bool operator>= (Timing const &rhs) const;
 };
 
 Timing::Field& operator++(Timing::Field& field);
@@ -78,11 +78,11 @@ private:
 
 public:
     static Qt::SortOrder getSortingOrder();
-    static void setSortingOrder(const Qt::SortOrder &value);
+    static void setSortingOrder(Qt::SortOrder const &value);
     static Timing::Field getSortingField();
-    static void setSortingField(const Timing::Field &value);
+    static void setSortingField(Timing::Field const &value);
 
-    bool operator() (const Timing& lhs, const Timing& rhs);
+    bool operator() (Timing const &lhs, Timing const &rhs) const;
 };
 
 #endif // TIMING_H

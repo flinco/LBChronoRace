@@ -1,19 +1,21 @@
-cmake_minimum_required(VERSION 3.8)
+# Created by and for Qt Creator This file was created for editing the project sources only.
+# You may attempt to use it for building too, by modifying this file here.
 
+cmake_minimum_required(VERSION 3.8)
 project(LBChronoRace
     VERSION 2.0.4
     DESCRIPTION "Timings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
 
-find_package(Qt6 COMPONENTS Widgets LinguistTools REQUIRED)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+find_package(Qt6 COMPONENTS Core Gui Widgets LinguistTools REQUIRED)
 
 add_compile_definitions(LBCHRONORACE_NAME=\"${PROJECT_NAME}\")
 add_compile_definitions(LBCHRONORACE_VERSION=\"${PROJECT_VERSION}\")
@@ -31,6 +33,8 @@ set(PROJECT_SOURCES
     chronoracedata.cpp
     chronoracedata.h
     chronoracedata.ui
+    chronoracelogo.cpp
+    chronoracelogo.h
     chronoracetable.cpp
     chronoracetable.h
     chronoracetable.ui
@@ -94,11 +98,11 @@ set(PROJECT_RESOURCES
     distfiles.qrc
 )
 
-qt_add_executable(LBChronoRace
+qt_add_executable(${CMAKE_PROJECT_NAME}
     ${PROJECT_SOURCES}
     ${PROJECT_RESOURCES}
     ${QM_FILES}
     ${APP_ICON_RESOURCE_WINDOWS}
 )
 
-target_link_libraries(LBChronoRace PRIVATE Qt6::Widgets)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)

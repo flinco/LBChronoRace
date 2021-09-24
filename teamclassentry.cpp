@@ -1,12 +1,6 @@
 #include "teamclassentry.h"
 #include "lbcrexception.h"
 
-TeamClassEntry::TeamClassEntry()
-{
-    this->team = "";
-    this->entryList = {};
-}
-
 const QString& TeamClassEntry::getTeam() const
 {
     return team;
@@ -14,7 +8,7 @@ const QString& TeamClassEntry::getTeam() const
 
 const ClassEntry* TeamClassEntry::getClassEntry(int index) const
 {
-    if ((int) index >= this->entryList.size())
+    if (index >= this->entryList.size())
         throw(ChronoRaceException(tr("Requested index %1 exceeds the number of available entries %2").arg(index).arg(this->entryList.size())));
 
     return this->entryList[index];
@@ -30,14 +24,14 @@ void TeamClassEntry::setClassEntry(ClassEntry* entry)
     this->entryList.push_back(entry);
 }
 
-int TeamClassEntry::getClassEntryCount()
+int TeamClassEntry::getClassEntryCount() const
 {
-    return this->entryList.size();
+    return static_cast<int>(this->entryList.size());
 }
 
 bool TeamClassEntry::operator< (const TeamClassEntry& rhs)
 {
-    int size = this->entryList.size();
+    auto size = this->entryList.size();
     if (size == rhs.entryList.size()) {
         for (int i = 0; i < size; i++) {
             if (*this->entryList[i] < *rhs.entryList.at(i)) return true;
@@ -49,7 +43,7 @@ bool TeamClassEntry::operator< (const TeamClassEntry& rhs)
 
 bool TeamClassEntry::operator> (const TeamClassEntry& rhs)
 {
-    int size = this->entryList.size();
+    auto size = this->entryList.size();
     if (size == rhs.entryList.size()) {
         for (int i = 0; i < size; i++) {
             if (*this->entryList[i] > *rhs.entryList.at(i)) return true;

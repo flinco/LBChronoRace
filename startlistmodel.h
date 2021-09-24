@@ -12,23 +12,21 @@ class StartListModel : public CRTableModel
     Q_OBJECT
 
 public:
-    StartListModel(QObject *parent = Q_NULLPTR)
-        : CRTableModel(parent), startList() {}
-    StartListModel(const QList<Competitor>& startList, QObject *parent = Q_NULLPTR)
-        : CRTableModel(parent), startList(startList) {}
+    explicit StartListModel(QObject *parent = Q_NULLPTR) : CRTableModel(parent) { };
+    StartListModel(const QList<Competitor>& startList, QObject *parent = Q_NULLPTR) : CRTableModel(parent), startList(startList) { };
 
     friend QDataStream &operator<<(QDataStream &out, const StartListModel &data);
     friend QDataStream &operator>>(QDataStream &in, StartListModel &data);
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
-    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex());
-    bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex());
-    void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+    bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
+    bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
+    void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) override;
 
     void reset();
 
@@ -40,10 +38,11 @@ public:
     uint getCompetitorNameMaxWidth() const;
 
 public slots:
-    void refreshCounters(int r);
+    void refreshCounters(int r) override;
 
 signals:
-    void newTeam(const QString& team);
+    void newTeam(QString const &team);
+    void error(QString const &message);
 
 private:
     QList<Competitor> startList;

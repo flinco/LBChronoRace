@@ -6,10 +6,7 @@
 class CRTableModel : public QAbstractTableModel
 {
     Q_OBJECT
-
-public:
-    CRTableModel(QObject *parent = Q_NULLPTR)
-        : QAbstractTableModel(parent) {}
+    using QAbstractTableModel::QAbstractTableModel;
 
 public slots:
     virtual void refreshCounters(int r) = 0;

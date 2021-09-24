@@ -5,11 +5,8 @@
 #include <QDialog>
 #include <QStandardItemModel>
 
+#include "ui_chronoracetable.h"
 #include "crtablemodel.h"
-
-namespace Ui {
-class ChronoRaceTable;
-}
 
 class ChronoRaceTable : public QDialog
 {
@@ -17,21 +14,20 @@ class ChronoRaceTable : public QDialog
 
 public:
     explicit ChronoRaceTable(QWidget *parent = Q_NULLPTR);
-    ~ChronoRaceTable();
 
     QAbstractTableModel *getModel() const;
-    void setModel(CRTableModel* model);
-    void disableButtons();
+    void setModel(CRTableModel* model) const;
+    void disableButtons() const;
 
 private slots:
-    void rowAdd();
-    void rowDel();
+    void rowAdd() const;
+    void rowDel() const;
     void modelImport();
     void modelExport();
     void dialogQuit();
 
 public slots:
-    void show();
+    void show(); //NOSONAR
 
 signals:
     void newRowCount(int count);
@@ -40,7 +36,7 @@ signals:
     void countersRefresh();
 
 private:
-    Ui::ChronoRaceTable *ui;
+    QScopedPointer<Ui::ChronoRaceTable> ui { new Ui::ChronoRaceTable };
 };
 
 #endif // CHRONORACETABLE_H
