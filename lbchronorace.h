@@ -46,22 +46,14 @@ public:
     static QDir lastSelectedPath;
 
 private slots:
-    void actionLoadRace();
-    void actionSaveRace();
-    void actionSaveRaceAs();
     void actionQuit() const;
-
-    void actionEditRace();
-    void actionEditStartList();
-    void actionEditTeams();
-    void actionEditCategories();
-    void actionEditTimings();
 
     void actionAbout();
     void actionAboutQt();
 
     void loadRace();
     void saveRace();
+    void saveRaceAs();
     void editRace();
     void editStartList();
     void editTeamsList();
@@ -70,8 +62,8 @@ private slots:
 
     void selectorEncoding(QString const &arg1) const;
     void selectorFormat(QString const &arg1) const;
-    void createStartList();
-    void createRankings();
+    void makeStartList();
+    void makeRankings();
 
 public slots:
     void show(); //NOSONAR
@@ -100,35 +92,6 @@ private:
     ChronoRaceTable teamsTable;
     ChronoRaceTable categoriesTable;
     ChronoRaceTable timingsTable;
-
-    qreal ratioX;
-    qreal ratioY;
-    qreal areaWidth;
-    qreal areaHeight;
-
-    qreal toHdots(qreal mm) const;
-    qreal toVdots(qreal mm) const;
-    void fitRectToLogo(QRectF &rect, QPixmap const &pixmap) const;
-
-    void makeRankings(CRLoader::Format format);
-    void makeTextRanking(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking, uint bWidth, uint sWidth) const;
-    void makeTextRanking(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking, uint bWidth, uint sWidth) const;
-    void makeCSVRanking(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking) const;
-    void makeCSVRanking(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking, QString const &shortDescription) const;
-    void makePDFRanking(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking);
-    void makePDFRanking(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking);
-    void makePDFRankingSingle(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking);
-    void makePDFRankingSingle(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking);
-    void makePDFRankingMulti(QString const &outFileName, QString const &fullDescription, QList<ClassEntry *> const individualRanking);
-    void makePDFRankingMulti(QString const &outFileName, QString const &fullDescription, QList<TeamClassEntry *> const teamRanking);
-    void drawPDFTemplatePortrait(QPainter &painter, QString const &fullDescription, int page, int pages) const;
-    //NOSONAR void drawPDFTemplateLandscape(QPainter &painter, QString const &fullDescription, int page, int pages);
-    bool initPDFPainter(QPainter &painter, QString const &outFileName);
-
-    void makeStartList(CRLoader::Format format);
-    void makeTextStartList(QList<Competitor> const &startList, uint bWidth, uint sWidth, uint nWidth, uint tWidth);
-    void makeCSVStartList(QList<Competitor> const &startList);
-    void makePDFStartList(QList<Competitor> const &startList);
 
 private slots:
     void importStartList();

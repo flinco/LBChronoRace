@@ -87,8 +87,8 @@ public:
     bool operator>= (Competitor const &rhs) const;
 };
 
-Competitor::Field& operator++(Competitor::Field& field);
-Competitor::Field  operator++(Competitor::Field& field, int);
+Competitor::Field &operator++(Competitor::Field &field);
+Competitor::Field  operator++(Competitor::Field &field, int);
 
 class CompetitorSorter {
 

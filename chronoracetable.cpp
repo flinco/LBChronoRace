@@ -14,7 +14,7 @@ ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
     QObject::connect(ui->dialogQuit, &QPushButton::clicked, this, &ChronoRaceTable::dialogQuit);
 }
 
-QAbstractTableModel* ChronoRaceTable::getModel() const
+QAbstractTableModel *ChronoRaceTable::getModel() const
 {
     return qobject_cast<QAbstractTableModel *>(ui->tableView->model());
 }

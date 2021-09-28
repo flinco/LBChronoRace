@@ -67,8 +67,8 @@ public:
     bool operator>= (Timing const &rhs) const;
 };
 
-Timing::Field& operator++(Timing::Field& field);
-Timing::Field  operator++(Timing::Field& field, int);
+Timing::Field &operator++(Timing::Field &field);
+Timing::Field  operator++(Timing::Field &field, int);
 
 class TimingSorter {
 

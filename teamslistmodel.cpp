@@ -30,7 +30,7 @@ void TeamsListModel::refreshCounters(int r)
 
     teamNameWidthMax = 0;
     for (auto const &team : teamsList) {
-        teamNameLength = (uint) team.length();
+        teamNameLength = static_cast<uint>(team.length());
         if (teamNameLength > teamNameWidthMax)
             teamNameWidthMax = teamNameLength;
     }
@@ -147,6 +147,10 @@ void TeamsListModel::addTeam(QString const &team)
         int rowCount = this->rowCount();
         this->insertRow(rowCount, QModelIndex());
         this->setData(this->index(rowCount, 0, QModelIndex()), QVariant(team), Qt::EditRole);
+
+        auto teamNameLength = static_cast<uint>(team.length());
+        if (teamNameLength > teamNameWidthMax)
+            teamNameWidthMax = teamNameLength;
     }
 }
 

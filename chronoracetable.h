@@ -16,7 +16,7 @@ public:
     explicit ChronoRaceTable(QWidget *parent = Q_NULLPTR);
 
     QAbstractTableModel *getModel() const;
-    void setModel(CRTableModel* model) const;
+    void setModel(CRTableModel *model) const;
     void disableButtons() const;
 
 private slots:

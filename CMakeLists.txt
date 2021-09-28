@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.8)
 project(LBChronoRace
-    VERSION 2.0.4
+    VERSION 2.0.5
     DESCRIPTION "Timings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
@@ -45,10 +45,18 @@ set(PROJECT_SOURCES
     crloader.cpp
     crloader.h
     crtablemodel.h
+    csvrankingprinter.h
+    csvrankingprinter.cpp
     lbchronorace.cpp
     lbchronorace.h
     lbcrexception.cpp
     lbcrexception.h
+    pdfrankingprinter.h
+    pdfrankingprinter.cpp
+    rankingsbuilder.cpp
+    rankingsbuilder.h
+    rankingprinter.h
+    rankingprinter.cpp
     startlistmodel.cpp
     startlistmodel.h
     teamclassentry.cpp
@@ -59,6 +67,8 @@ set(PROJECT_SOURCES
     timing.h
     timingsmodel.cpp
     timingsmodel.h
+    txtrankingprinter.h
+    txtrankingprinter.cpp
 )
 
 set(TS_FILES

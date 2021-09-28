@@ -302,7 +302,7 @@ void CompetitorSorter::setSortingField(Competitor::Field const &value)
     sortingField = value;
 }
 
-Competitor::Field& operator++(Competitor::Field& field)
+Competitor::Field &operator++(Competitor::Field &field)
 {
     field = static_cast<Competitor::Field>(static_cast<int>(field) + 1);
     //NOSONAR if (field == Competitor::Field::CMF_COUNT)
@@ -310,7 +310,7 @@ Competitor::Field& operator++(Competitor::Field& field)
     return field;
 }
 
-Competitor::Field operator++(Competitor::Field& field, int)
+Competitor::Field operator++(Competitor::Field &field, int)
 {
     Competitor::Field tmp = field;
     ++field;

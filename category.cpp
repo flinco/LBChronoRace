@@ -174,7 +174,7 @@ void CategorySorter::setSortingField(Category::Field const &value)
     sortingField = value;
 }
 
-Category::Field& operator++(Category::Field& field)
+Category::Field &operator++(Category::Field &field)
 {
     field = static_cast<Category::Field>(static_cast<int>(field) + 1);
     //NOSONAR if (field == Category::CTF_COUNT)
@@ -182,7 +182,7 @@ Category::Field& operator++(Category::Field& field)
     return field;
 }
 
-Category::Field  operator++(Category::Field& field, int)
+Category::Field operator++(Category::Field &field, int)
 {
     Category::Field tmp = field;
     ++field;

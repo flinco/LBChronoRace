@@ -17,22 +17,22 @@ QList<QVariant>             CRLoader::standardItemList;
 CRLoader::Encoding          CRLoader::encoding              = CRLoader::Encoding::LATIN1;
 CRLoader::Format            CRLoader::format                = CRLoader::Format::PDF;
 
-CRTableModel* CRLoader::getStartListModel()
+CRTableModel *CRLoader::getStartListModel()
 {
     return &startListModel;
 }
 
-CRTableModel* CRLoader::getTeamsListModel()
+CRTableModel *CRLoader::getTeamsListModel()
 {
     return &teamsListModel;
 }
 
-CRTableModel* CRLoader::getTimingsModel()
+CRTableModel *CRLoader::getTimingsModel()
 {
     return &timingsModel;
 }
 
-CRTableModel* CRLoader::getCategoriesModel()
+CRTableModel *CRLoader::getCategoriesModel()
 {
     return &categoriesModel;
 }
@@ -57,7 +57,7 @@ void CRLoader::setFormat(Format const &value)
     format = value;
 }
 
-void CRLoader::loadCSV(QString const &filePath, QAbstractTableModel* model)
+void CRLoader::loadCSV(QString const &filePath, QAbstractTableModel *model)
 {
     QFile file (filePath);
     if (file.open(QIODevice::ReadOnly)) {
@@ -190,48 +190,6 @@ QList<Competitor> CRLoader::getStartList()
     return QList<Competitor>(startListModel.getStartList());
 }
 
-QMultiMap<uint, Competitor> CRLoader::getCompetitors(QStringList& messages)
-{
-    uint bib;
-    uint mask;
-    uint prevMask;
-    int offset;
-    QMultiMap<uint, Competitor> startList;
-    QMultiMap<uint, Competitor>::const_iterator element;
-    QMap<uint, uint> legCount;
-
-    for (auto comp : startListModel.getStartList()) {
-        bib = comp.getBib();
-        element = startList.constFind(bib);
-        if (element != startList.constEnd()) {
-            // check if there is a leg set for the competitor
-            // otherwise set it automatically
-            offset = comp.getOffset();
-            comp.setLeg((uint) ((offset < 0) ? qAbs(offset) : (startList.count(bib) + 1)));
-
-            // set a bit in the leg count array
-            mask = 0x1 << comp.getLeg();
-            if (legCount.contains(bib))
-                legCount[bib] |= mask;
-            else
-                legCount.insert(bib, mask);
-        }
-        startList.insert(bib, comp);
-    }
-
-    prevMask = 0;
-    for (QMap<uint, uint>::const_key_value_iterator i = legCount.constKeyValueBegin(); i != legCount.constKeyValueEnd(); i++) {
-        mask = i->second;
-        if (prevMask && (mask != prevMask)) {
-            messages << tr("Missing or extra legs for bib %1").arg(i->first);
-        }
-        prevMask = mask;
-    }
-
-    return startList;
-}
-
-
 uint CRLoader::getStartListLegs()
 {
     return startListModel.getLegCount();
@@ -311,7 +269,7 @@ QVector<Category> CRLoader::getCategories()
     return QVector<Category>::fromList(categoriesModel.getCategories());
 }
 
-void CRLoader::checkString(QAbstractTableModel* model, QString& token, QChar character)
+void CRLoader::checkString(QAbstractTableModel *model, QString &token, QChar character)
 {
 
     Q_ASSERT(model);

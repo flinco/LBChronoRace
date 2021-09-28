@@ -15,10 +15,10 @@ class ClassEntry;
 
 class ClassEntryElement {
 public:
-    Competitor*    competitor;
-    uint           time;
-    Timing::Status status;
-    uint           legRanking;
+    Competitor const *competitor { Q_NULLPTR };
+    uint           time { 0u };
+    Timing::Status status { Timing::Status::CLASSIFIED };
+    uint           legRanking { 0u };
 
     QString formatNameCSV(bool first, QString const &name, QString const &sex, QString const &year) const;
     QString formatNameTxt(bool first, QString const &name, QString const &sex, QString const &year) const;
@@ -29,11 +29,12 @@ class ClassEntry {
     Q_DECLARE_TR_FUNCTIONS(ClassEntry)
 
 private:
-    uint                       bib = 0u;
-    QVector<ClassEntryElement> entries;
-    uint                       totalTime = 0u;
-    QString                    category;
     static QString             empty;
+
+    uint                       bib { 0u };
+    QVector<ClassEntryElement> entries { };
+    uint                       totalTime { 0u };
+    QString                    category { "" };
 
     QString getNamesCommon(bool csvFormat) const;
 
@@ -53,7 +54,7 @@ public:
     QString getTime(uint legIdx) const;
     uint getTimeValue(uint legIdx) const;
     uint countEntries() const;
-    void setTime(Competitor* comp, Timing const &timing, QStringList &messages);
+    void setTime(Competitor const *comp, Timing const &timing, QStringList &messages);
     uint getLegRanking(uint legIdx) const;
     void setLegRanking(uint legIdx, uint ranking);
     uint getFromYear() const;

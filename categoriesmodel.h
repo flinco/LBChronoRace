@@ -29,9 +29,9 @@ public:
     bool removeRows(int position, int rows, QModelIndex const &index = QModelIndex()) override;
     void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) override;
 
-    void reset();
-
     QList<Category> const &getCategories() const;
+
+    void reset();
 
 public slots:
     void refreshCounters(int r) override;

@@ -42,8 +42,8 @@ void StartListModel::refreshCounters(int r)
     for (auto const &comp : startList) {
         bib = comp.getBib();
         offset = comp.getOffset();
-        leg = (uint) ((offset < 0) ? qAbs(offset) : 1);
-        nameWidth = (uint) comp.getName().length();
+        leg = static_cast<uint>((offset < 0) ? qAbs(offset) : 1);
+        nameWidth = static_cast<uint>(comp.getName().length());
 
         if (bib > maxBib)
             maxBib = bib;

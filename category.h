@@ -63,8 +63,8 @@ public:
     bool operator>= (Category const &rhs) const;
 };
 
-Category::Field& operator++(Category::Field& field);
-Category::Field  operator++(Category::Field& field, int);
+Category::Field &operator++(Category::Field &field);
+Category::Field  operator++(Category::Field &field, int);
 
 class CategorySorter {
 

@@ -41,7 +41,7 @@ void ClassEntry::setBib(uint newBib)
 }
 QString ClassEntry::getName(uint legIdx) const
 {
-    if ((int) legIdx >= entries.size())
+    if (static_cast<qsizetype>(legIdx) >= entries.size())
         throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return entries[legIdx].competitor ? entries[legIdx].competitor->getName() : ClassEntry::empty;
@@ -111,7 +111,7 @@ QString ClassEntry::getNamesTxt() const
 
 uint ClassEntry::getYear(uint legIdx) const
 {
-    if ((int) legIdx >= entries.size())
+    if (static_cast<qsizetype>(legIdx) >= entries.size())
         throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return (entries[legIdx].competitor) ? entries[legIdx].competitor->getYear() : 0;
@@ -133,7 +133,7 @@ Competitor::Sex ClassEntry::getSex() const
 
 Competitor::Sex ClassEntry::getSex(uint legIdx) const
 {
-    if ((int) legIdx >= entries.size())
+    if (static_cast<qsizetype>(legIdx) >= entries.size())
         throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return (entries[legIdx].competitor) ? entries[legIdx].competitor->getSex() : Competitor::Sex::UNDEFINED;
@@ -161,7 +161,7 @@ QString ClassEntry::getTimesTxt(int legRankWidth) const
 
 QString ClassEntry::getTime(uint legIdx) const
 {
-    if ((int) legIdx >= entries.size())
+    if (static_cast<qsizetype>(legIdx) >= entries.size())
         throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return Timing::toTimeStr(entries[legIdx].time, entries[legIdx].status);
@@ -169,7 +169,7 @@ QString ClassEntry::getTime(uint legIdx) const
 
 uint ClassEntry::getTimeValue(uint legIdx) const
 {
-    if ((int) legIdx >= entries.size())
+    if (static_cast<qsizetype>(legIdx) >= entries.size())
         throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return entries[legIdx].time;
@@ -177,27 +177,23 @@ uint ClassEntry::getTimeValue(uint legIdx) const
 
 uint ClassEntry::countEntries() const
 {
-    return (uint) entries.size();
+    return static_cast<uint>(entries.size());
 }
 
-void ClassEntry::setTime(Competitor* comp, Timing const &timing, QStringList &messages)
+void ClassEntry::setTime(Competitor const *comp, Timing const &timing, QStringList &messages)
 {
     Q_ASSERT(comp);
 
     uint legHint  = timing.getLeg();
     int  offset   = comp->getOffset();
-    auto legIndex = (int) ((legHint > 0) ? (legHint - 1) : entries.size());
+    auto legIndex = static_cast<int>((legHint > 0) ? (legHint - 1) : entries.size());
 
     if ((offset < 0) && (legIndex + 1 != qAbs(offset)))
         messages << tr("Leg mismatch for bib %1: detected %2 overriding competitor declared %3").arg(bib).arg(legIndex + 1).arg(qAbs(offset));
 
     while (entries.size() <= legIndex) {
         // add slots to entry vector
-        entries.push_back(ClassEntryElement());
-        entries.last().competitor = Q_NULLPTR;
-        entries.last().status = Timing::Status::CLASSIFIED;
-        entries.last().time = 0;
-        entries.last().legRanking = 0;
+        entries.emplaceBack();
     }
 
     if (entries[legIndex].competitor && (entries[legIndex].competitor != comp))
@@ -219,7 +215,7 @@ void ClassEntry::setTime(Competitor* comp, Timing const &timing, QStringList &me
             // competitor with offset; maybe individual
             // race without mass start or relay race with
             // timings sum
-            uint seconds = timing.getSeconds() - (uint) offset;
+            uint seconds = timing.getSeconds() - static_cast<uint>(offset);
             entries[legIndex].time = seconds;
             totalTime += seconds;
         }
@@ -228,7 +224,7 @@ void ClassEntry::setTime(Competitor* comp, Timing const &timing, QStringList &me
 
 uint ClassEntry::getLegRanking(uint legIdx) const
 {
-    if ((int) legIdx >= entries.size())
+    if (static_cast<qsizetype>(legIdx) >= entries.size())
         throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return entries[legIdx].legRanking;
@@ -236,7 +232,7 @@ uint ClassEntry::getLegRanking(uint legIdx) const
 
 void ClassEntry::setLegRanking(uint legIdx, uint ranking)
 {
-    if ((int) legIdx >= entries.size())
+    if (static_cast<qsizetype>(legIdx) >= entries.size())
         throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     entries[legIdx].legRanking = ranking;
@@ -297,7 +293,7 @@ QString const &ClassEntry::getCategory() const
 
 QString const &ClassEntry::getCategory(uint legIdx) const
 {
-    if ((int) legIdx >= entries.size())
+    if (static_cast<qsizetype>(legIdx) >= entries.size())
         throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     return (entries[legIdx].competitor) ? entries[legIdx].competitor->getCategory() : ClassEntry::empty;

@@ -207,7 +207,7 @@ void TimingSorter::setSortingField(Timing::Field const &value)
     sortingField = value;
 }
 
-Timing::Field& operator++(Timing::Field& field)
+Timing::Field &operator++(Timing::Field &field)
 {
     field = static_cast<Timing::Field>(static_cast<int>(field) + 1);
     //NOSONAR if (field == Timing::TMF_COUNT)
@@ -215,7 +215,7 @@ Timing::Field& operator++(Timing::Field& field)
     return field;
 }
 
-Timing::Field  operator++(Timing::Field& field, int)
+Timing::Field operator++(Timing::Field &field, int)
 {
     Timing::Field tmp = field;
     ++field;

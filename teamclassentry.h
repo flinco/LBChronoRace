@@ -21,7 +21,7 @@ private:
 public:
     QString const &getTeam() const;
     ClassEntry const *getClassEntry(int index) const;
-    void setClassEntry(ClassEntry* entry);
+    void setClassEntry(ClassEntry *entry);
     int getClassEntryCount() const;
 
     bool operator< (TeamClassEntry const &rhs);

@@ -49,10 +49,10 @@ private:
     static Encoding                    encoding;
     static Format                      format;
 
-    static void loadCSV(QString const &filePath, QAbstractTableModel* model);
+    static void loadCSV(QString const &filePath, QAbstractTableModel *model);
     static void saveCSV(QString const &filePath, QAbstractTableModel const *model);
 
-    static void checkString(QAbstractTableModel* model, QString& token, QChar character = '\0');
+    static void checkString(QAbstractTableModel *model, QString &token, QChar character = '\0');
 
 public:
     static void saveRaceData(QDataStream &out);
@@ -61,7 +61,6 @@ public:
     static void exportStartList(QString const &path);
     static void exportTeams(QString const &path);
     static QList<Competitor> getStartList();
-    static QMultiMap<uint, Competitor> getCompetitors(QStringList& messages);
     static uint getStartListLegs();
     static void setStartListLegs(uint leg);
     static uint getStartListBibMax();
@@ -73,10 +72,10 @@ public:
     static int importCategories(QString const &path);
     static void exportCategories(QString const &path);
     static QVector<Category> getCategories();
-    static CRTableModel* getStartListModel();
-    static CRTableModel* getTeamsListModel();
-    static CRTableModel* getTimingsModel();
-    static CRTableModel* getCategoriesModel();
+    static CRTableModel *getStartListModel();
+    static CRTableModel *getTeamsListModel();
+    static CRTableModel *getTimingsModel();
+    static CRTableModel *getCategoriesModel();
     static Encoding getEncoding();
     static void setEncoding(Encoding const &value);
     static Format getFormat();

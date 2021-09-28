@@ -16,7 +16,7 @@ public:
     ChronoRaceException *clone() const override;
 
     void setMessage(QString const &newMessage);
-    QString& getMessage();
+    QString &getMessage();
 };
 
 #endif // LBEXCEPTION_H

@@ -14,7 +14,7 @@ ClassEntry const *TeamClassEntry::getClassEntry(int index) const
     return this->entryList[index];
 }
 
-void TeamClassEntry::setClassEntry(ClassEntry* entry)
+void TeamClassEntry::setClassEntry(ClassEntry *entry)
 {
     if (this->entryList.isEmpty()) {
         this->team = entry->getTeam();
