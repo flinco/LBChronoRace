@@ -6,6 +6,7 @@
 #include <QFontDatabase>
 #include <QWindow>
 #include <QIcon>
+#include <QTimer>
 
 #ifdef Q_OS_WIN
 #include <QStyleFactory>
@@ -47,6 +48,7 @@ int main(int argc, char *argv[])
     QFontDatabase::addApplicationFont(":/fonts/LiberationSerif-Regular.ttf");
 
     LBChronoRace w(Q_NULLPTR, &app);
+    QTimer::singleShot(0, &w, &LBChronoRace::initialize);
     w.show();
 
     foreach (auto win, app.allWindows()) {

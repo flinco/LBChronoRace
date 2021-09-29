@@ -45,27 +45,8 @@ public:
 
     static QDir lastSelectedPath;
 
-private slots:
-    void actionQuit() const;
-
-    void actionAbout();
-    void actionAboutQt();
-
-    void loadRace();
-    void saveRace();
-    void saveRaceAs();
-    void editRace();
-    void editStartList();
-    void editTeamsList();
-    void editCategories();
-    void editTimings();
-
-    void selectorEncoding(QString const &arg1) const;
-    void selectorFormat(QString const &arg1) const;
-    void makeStartList();
-    void makeRankings();
-
 public slots:
+    void initialize();
     void show(); //NOSONAR
     void resizeDialogs(QScreen const *screen);
 
@@ -94,6 +75,23 @@ private:
     ChronoRaceTable timingsTable;
 
 private slots:
+    void actionAbout();
+    void actionAboutQt();
+
+    void loadRace();
+    void saveRace();
+    void saveRaceAs();
+    void editRace();
+    void editStartList();
+    void editTeamsList();
+    void editCategories();
+    void editTimings();
+
+    void selectorEncoding(QString const &arg1) const;
+    void selectorFormat(QString const &arg1) const;
+    void makeStartList();
+    void makeRankings();
+
     void importStartList();
     void importCategoriesList();
     void importTimingsList();

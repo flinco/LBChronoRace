@@ -84,7 +84,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionLoadRace, &QAction::triggered, this, &LBChronoRace::loadRace);
     QObject::connect(ui->actionSaveRace, &QAction::triggered, this, &LBChronoRace::saveRace);
     QObject::connect(ui->actionSaveRaceAs, &QAction::triggered, this, &LBChronoRace::saveRaceAs);
-    QObject::connect(ui->actionQuit, &QAction::triggered, this, &LBChronoRace::actionQuit);
+    QObject::connect(ui->actionQuit, &QAction::triggered, this, &QApplication::quit);
     QObject::connect(ui->actionEditRace, &QAction::triggered, this, &LBChronoRace::editRace);
     QObject::connect(ui->actionEditStartList, &QAction::triggered, this, &LBChronoRace::editStartList);
     QObject::connect(ui->actionEditTeams, &QAction::triggered, this, &LBChronoRace::editTeamsList);
@@ -266,9 +266,16 @@ void LBChronoRace::exportTimingsList()
     }
 }
 
-void LBChronoRace::actionQuit() const
-{
-    QApplication::quit();
+void LBChronoRace::initialize() {
+    QStringList arguments = QCoreApplication::arguments();
+
+    auto argument = arguments.constBegin();
+    if (++argument != arguments.constEnd()) {
+        raceDataFileName = *argument;
+        while (++argument != arguments.constEnd())
+            appendErrorMessage(tr("Warning: skipping file %1").arg(*argument));
+        loadRace();
+    }
 }
 
 void LBChronoRace::show()
@@ -317,8 +324,11 @@ void LBChronoRace::selectorFormat(QString const &arg1) const
 
 void LBChronoRace::loadRace()
 {
-    raceDataFileName = QFileDialog::getOpenFileName(this, tr("Select Race Data File"),
-        lastSelectedPath.absolutePath(), tr("ChronoRace Data (*.crd)"));
+    if (raceDataFileName.isEmpty()) {
+        raceDataFileName = QFileDialog::getOpenFileName(this, tr("Select Race Data File"),
+            lastSelectedPath.absolutePath(), tr("ChronoRace Data (*.crd)"));
+    }
+
     if (!raceDataFileName.isEmpty()) {
         QFile raceDataFile(raceDataFileName);
         lastSelectedPath = QFileInfo(raceDataFileName).absoluteDir();
@@ -379,6 +389,7 @@ void LBChronoRace::loadRace()
                 break;
             }
         }
+        raceDataFileName.clear();
     }
 }
 
