@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.8)
 project(LBChronoRace
-    VERSION 2.0.5
+    VERSION 2.0.6
     DESCRIPTION "Timings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
@@ -108,11 +108,20 @@ set(PROJECT_RESOURCES
     distfiles.qrc
 )
 
-qt_add_executable(${CMAKE_PROJECT_NAME}
-    ${PROJECT_SOURCES}
-    ${PROJECT_RESOURCES}
-    ${QM_FILES}
-    ${APP_ICON_RESOURCE_WINDOWS}
-)
+if(WIN32)
+    qt_add_executable(${CMAKE_PROJECT_NAME} WIN32
+        ${PROJECT_SOURCES}
+        ${PROJECT_RESOURCES}
+        ${QM_FILES}
+        ${APP_ICON_RESOURCE_WINDOWS}
+    )
+else()
+    qt_add_executable(${CMAKE_PROJECT_NAME}
+        ${PROJECT_SOURCES}
+        ${PROJECT_RESOURCES}
+        ${QM_FILES}
+        ${APP_ICON_RESOURCE_WINDOWS}
+    )
+endif()
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
