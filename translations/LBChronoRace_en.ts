@@ -646,7 +646,7 @@
     <message>
         <location filename="../chronorace.ui" line="443"/>
         <location filename="../chronorace.ui" line="446"/>
-        <location filename="../lbchronorace.cpp" line="560"/>
+        <location filename="../lbchronorace.cpp" line="535"/>
         <source>About &amp;Qt</source>
         <translation>About &amp;Qt</translation>
     </message>
@@ -681,7 +681,7 @@
         <translation>Timings List</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="501"/>
+        <location filename="../lbchronorace.cpp" line="476"/>
         <source>Select Results Destination Folder</source>
         <translation>Select Results Destination Folder</translation>
     </message>
@@ -693,13 +693,13 @@
         <location filename="../lbchronorace.cpp" line="224"/>
         <location filename="../lbchronorace.cpp" line="244"/>
         <location filename="../lbchronorace.cpp" line="264"/>
-        <location filename="../lbchronorace.cpp" line="489"/>
-        <location filename="../lbchronorace.cpp" line="549"/>
+        <location filename="../lbchronorace.cpp" line="464"/>
+        <location filename="../lbchronorace.cpp" line="524"/>
         <source>Error: %1</source>
         <translation>Error: %1</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="505"/>
+        <location filename="../lbchronorace.cpp" line="480"/>
         <source>Warning: please select a destination folder</source>
         <translation>Warning: please select a destination folder</translation>
     </message>
@@ -862,12 +862,12 @@
         <translation>Selected format: %1</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="555"/>
+        <location filename="../lbchronorace.cpp" line="530"/>
         <source>Informations</source>
         <translation>Informations</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="555"/>
+        <location filename="../lbchronorace.cpp" line="530"/>
         <source>
 %1
 

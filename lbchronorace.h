@@ -81,11 +81,6 @@ private slots:
     void loadRace();
     void saveRace();
     void saveRaceAs();
-    void editRace();
-    void editStartList();
-    void editTeamsList();
-    void editCategories();
-    void editTimings();
 
     void selectorEncoding(QString const &arg1) const;
     void selectorFormat(QString const &arg1) const;

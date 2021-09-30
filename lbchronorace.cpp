@@ -73,11 +73,11 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
 
     QObject::connect(ui->loadRace, &QPushButton::clicked, this, &LBChronoRace::loadRace);
     QObject::connect(ui->saveRace, &QPushButton::clicked, this, &LBChronoRace::saveRace);
-    QObject::connect(ui->editRace, &QPushButton::clicked, this, &LBChronoRace::editRace);
-    QObject::connect(ui->editStartList, &QPushButton::clicked, this, &LBChronoRace::editStartList);
-    QObject::connect(ui->editTeamsList, &QPushButton::clicked, this, &LBChronoRace::editTeamsList);
-    QObject::connect(ui->editCategories, &QPushButton::clicked, this, &LBChronoRace::editCategories);
-    QObject::connect(ui->editTimings, &QPushButton::clicked, this, &LBChronoRace::editTimings);
+    QObject::connect(ui->editRace, &QPushButton::clicked, &raceInfo, &ChronoRaceData::show);
+    QObject::connect(ui->editStartList, &QPushButton::clicked, &startListTable, &ChronoRaceTable::show);
+    QObject::connect(ui->editTeamsList, &QPushButton::clicked, &teamsTable, &ChronoRaceTable::show);
+    QObject::connect(ui->editCategories, &QPushButton::clicked, &categoriesTable, &ChronoRaceTable::show);
+    QObject::connect(ui->editTimings, &QPushButton::clicked, &timingsTable, &ChronoRaceTable::show);
     QObject::connect(ui->makeStartList, &QPushButton::clicked, this, &LBChronoRace::makeStartList);
     QObject::connect(ui->makeRankings, &QPushButton::clicked, this, &LBChronoRace::makeRankings);
 
@@ -85,11 +85,11 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionSaveRace, &QAction::triggered, this, &LBChronoRace::saveRace);
     QObject::connect(ui->actionSaveRaceAs, &QAction::triggered, this, &LBChronoRace::saveRaceAs);
     QObject::connect(ui->actionQuit, &QAction::triggered, this, &QApplication::quit);
-    QObject::connect(ui->actionEditRace, &QAction::triggered, this, &LBChronoRace::editRace);
-    QObject::connect(ui->actionEditStartList, &QAction::triggered, this, &LBChronoRace::editStartList);
-    QObject::connect(ui->actionEditTeams, &QAction::triggered, this, &LBChronoRace::editTeamsList);
-    QObject::connect(ui->actionEditCategories, &QAction::triggered, this, &LBChronoRace::editCategories);
-    QObject::connect(ui->actionEditTimings, &QAction::triggered, this, &LBChronoRace::editTimings);
+    QObject::connect(ui->actionEditRace, &QAction::triggered, &raceInfo, &ChronoRaceData::show);
+    QObject::connect(ui->actionEditStartList, &QAction::triggered, &startListTable, &ChronoRaceTable::show);
+    QObject::connect(ui->actionEditTeams, &QAction::triggered, &teamsTable, &ChronoRaceTable::show);
+    QObject::connect(ui->actionEditCategories, &QAction::triggered, &categoriesTable, &ChronoRaceTable::show);
+    QObject::connect(ui->actionEditTimings, &QAction::triggered, &timingsTable, &ChronoRaceTable::show);
     QObject::connect(ui->actionAbout, &QAction::triggered, this, &LBChronoRace::actionAbout);
     QObject::connect(ui->actionAboutQt, &QAction::triggered, this, &LBChronoRace::actionAboutQt);
 
@@ -432,31 +432,6 @@ void LBChronoRace::saveRaceAs()
 {
     raceDataFileName.clear();
     saveRace();
-}
-
-void LBChronoRace::editRace()
-{
-    raceInfo.show();
-}
-
-void LBChronoRace::editStartList()
-{
-    startListTable.show();
-}
-
-void LBChronoRace::editTeamsList()
-{
-    teamsTable.show();
-}
-
-void LBChronoRace::editCategories()
-{
-    categoriesTable.show();
-}
-
-void LBChronoRace::editTimings()
-{
-    timingsTable.show();
 }
 
 void LBChronoRace::makeStartList()
