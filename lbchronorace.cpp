@@ -449,16 +449,16 @@ void LBChronoRace::makeStartList()
 
         // get a ranking printer
         QScopedPointer<RankingPrinter> printer = RankingPrinter::getRankingPrinter(format, sWidth, bWidth);
-        QObject::connect(printer.data(), &RankingPrinter::info, this, &LBChronoRace::appendInfoMessage);
-        QObject::connect(printer.data(), &RankingPrinter::error, this, &LBChronoRace::appendErrorMessage);
+        auto const &infoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &LBChronoRace::appendInfoMessage);
+        auto const &errorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &LBChronoRace::appendErrorMessage);
         printer->setRaceInfo(&raceInfo);
 
         // print the startlist
         printer->printStartList(startList, this, lastSelectedPath);
 
         // cleanup
-        QObject::disconnect(printer.data(), &RankingPrinter::info, this, &LBChronoRace::appendInfoMessage);
-        QObject::disconnect(printer.data(), &RankingPrinter::error, this, &LBChronoRace::appendErrorMessage);
+        QObject::disconnect(infoMessages);
+        QObject::disconnect(errorMessages);
 
     } catch (ChronoRaceException &e) {
         appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
@@ -482,7 +482,7 @@ void LBChronoRace::makeRankings()
         QVector<Category> categories = CRLoader::getCategories();
 
         RankingsBuilder rankingsBuilder;
-        QObject::connect(&rankingsBuilder, &RankingsBuilder::error, this, &LBChronoRace::appendErrorMessage);
+        auto const &builderErrorMessages = QObject::connect(&rankingsBuilder, &RankingsBuilder::error, this, &LBChronoRace::appendErrorMessage);
 
         lastSelectedPath.setPath(rankingsBasePath);
 
@@ -496,8 +496,8 @@ void LBChronoRace::makeRankings()
 
         // get a ranking printer
         QScopedPointer<RankingPrinter> printer = RankingPrinter::getRankingPrinter(format, sWidth, bWidth);
-        QObject::connect(printer.data(), &RankingPrinter::info, this, &LBChronoRace::appendInfoMessage);
-        QObject::connect(printer.data(), &RankingPrinter::error, this, &LBChronoRace::appendErrorMessage);
+        auto const &printerInfoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &LBChronoRace::appendInfoMessage);
+        auto const &printerErrorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &LBChronoRace::appendErrorMessage);
         printer->setRaceInfo(&raceInfo);
 
         // now print each ranking
@@ -517,9 +517,9 @@ void LBChronoRace::makeRankings()
             }
         }
 
-        QObject::disconnect(&rankingsBuilder, &RankingsBuilder::error, this, &LBChronoRace::appendErrorMessage);
-        QObject::disconnect(printer.data(), &RankingPrinter::info, this, &LBChronoRace::appendInfoMessage);
-        QObject::disconnect(printer.data(), &RankingPrinter::error, this, &LBChronoRace::appendErrorMessage);
+        QObject::disconnect(printerErrorMessages);
+        QObject::disconnect(printerInfoMessages);
+        QObject::disconnect(builderErrorMessages);
     } catch (ChronoRaceException &e) {
         appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
     }
