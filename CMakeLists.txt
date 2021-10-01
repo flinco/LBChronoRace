@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.8)
 project(LBChronoRace
-    VERSION 2.0.6
+    VERSION 2.0.7
     DESCRIPTION "Timings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
@@ -20,8 +20,6 @@ find_package(Qt6 COMPONENTS Core Gui Widgets LinguistTools REQUIRED)
 add_compile_definitions(LBCHRONORACE_NAME=\"${PROJECT_NAME}\")
 add_compile_definitions(LBCHRONORACE_VERSION=\"${PROJECT_VERSION}\")
 add_subdirectory(translations)
-
-set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/icons.qrc")
 
 set(PROJECT_SOURCES
     main.cpp
@@ -109,6 +107,7 @@ set(PROJECT_RESOURCES
 )
 
 if(WIN32)
+    set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.rc")
     qt_add_executable(${CMAKE_PROJECT_NAME} WIN32
         ${PROJECT_SOURCES}
         ${PROJECT_RESOURCES}
@@ -120,7 +119,6 @@ else()
         ${PROJECT_SOURCES}
         ${PROJECT_RESOURCES}
         ${QM_FILES}
-        ${APP_ICON_RESOURCE_WINDOWS}
     )
 endif()
 

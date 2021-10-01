@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     w.show();
 
     foreach (auto win, app.allWindows()) {
-       win->setIcon(QIcon(":/LBChronoRace.ico"));
+       win->setIcon(QIcon(":/icons/LBChronoRace.ico"));
     }
 
     return QApplication::exec();

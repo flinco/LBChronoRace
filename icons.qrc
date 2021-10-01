@@ -1,5 +1,6 @@
 <RCC>
-    <qresource prefix="/">
-        <file>LBChronoRace.ico</file>
+    <qresource prefix="/icons">
+        <file alias="LBChronoRace.ico">icons/LBChronoRace.ico</file>
+        <file alias="LBChronoRaceCRD.ico">icons/LBChronoRaceCRD.ico</file>
     </qresource>
 </RCC>
