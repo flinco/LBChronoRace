@@ -25,7 +25,7 @@ uint RankingsBuilder::loadData()
 
         bib = timing.getBib();
         leg = timing.getLeg();
-        auto const &[firstComp, lastComp] = startList.equal_range(bib);
+        auto [firstComp, lastComp] = startList.equal_range(bib);
 
         if (firstComp == lastComp) {
             // should never happen
@@ -39,7 +39,7 @@ uint RankingsBuilder::loadData()
             CRLoader::setStartListLegs(leg);
         }
 
-        Competitor const *comp = Q_NULLPTR;
+        Competitor *comp = Q_NULLPTR;
         for (auto compIt = firstComp; compIt != lastComp; compIt++) {
             if (compIt.value().getLeg() == leg) {
                 comp = &compIt.value();
@@ -49,25 +49,25 @@ uint RankingsBuilder::loadData()
         if (!comp) {
             emit error(tr("Bib %1 not inserted in results; check for possible duplicated entries").arg(bib));
             continue;
-        } //NOSONAR else {
-        //NOSONAR     // Set the category for the competitor (if any)
-        //NOSONAR     for (auto const &ranking : rankings) {
-        //NOSONAR         if (ranking.isTeam())
-        //NOSONAR             continue;
-        //NOSONAR
-        //NOSONAR         if (comp->getSex() != ranking.getSex())
-        //NOSONAR             continue;
-        //NOSONAR
-        //NOSONAR         if (comp->getYear() < ranking.getFromYear())
-        //NOSONAR             continue;
-        //NOSONAR
-        //NOSONAR         if (comp->getYear() > ranking.getToYear())
-        //NOSONAR             continue;
-        //NOSONAR
-        //NOSONAR         comp->setCategory(ranking.getFullDescription());
-        //NOSONAR         break;
-        //NOSONAR     }
-        //NOSONAR }
+        } else {
+            // Set the category for the competitor (if any)
+            for (auto const &catogory : CRLoader::getCategories()) {
+                if (catogory.isTeam())
+                    continue;
+
+                if (comp->getSex() != catogory.getSex())
+                    continue;
+
+                if (comp->getYear() < catogory.getFromYear())
+                    continue;
+
+                if (comp->getYear() > catogory.getToYear())
+                    continue;
+
+                comp->setCategory(catogory.getFullDescription());
+                break;
+            }
+        }
 
         if (classEntryIt != rankingByBib.end()) {
             classEntryIt.value().setTime(comp, timing, messages);
@@ -235,7 +235,7 @@ void RankingsBuilder::fillStartList()
     int offset;
 
     rankingByTime.clear();
-    QMultiMap<uint, Competitor const>::const_iterator element;
+    QMultiMap<uint, Competitor>::const_iterator element;
     for (auto comp : CRLoader::getStartList()) {
         bib = comp.getBib();
         element = startList.constFind(bib);

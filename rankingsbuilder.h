@@ -26,7 +26,7 @@ public:
 private:
     void fillStartList();
 
-    QMultiMap<uint, Competitor const> startList { };
+    QMultiMap<uint, Competitor> startList { };
     QMap<uint, ClassEntry> rankingByBib { };
     QList<ClassEntry *> rankingByTime { };
     QMap<QString, TeamClassEntry> rankingByTeam { };
