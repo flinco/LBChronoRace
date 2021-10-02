@@ -45,7 +45,7 @@ void CSVRankingPrinter::printStartList(QList<Competitor> const &startList, QWidg
                 offset += (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
                 outStream << Competitor::toOffsetString(offset);
             } else {
-                outStream << offset;
+                outStream << qAbs(offset);
             }
             outStream << Qt::endl;
         }
