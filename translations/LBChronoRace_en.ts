@@ -1388,4 +1388,23 @@ Version: %2
         <translation>Timing</translation>
     </message>
 </context>
+<context>
+    <name>installscript</name>
+    <message>
+        <location filename="../installer/packages/pro.buzzi.lbchronorace/meta/installscript.qs" line="34"/>
+        <source>Form</source>
+        <translation>From</translation>
+    </message>
+    <message>
+        <location filename="../installer/packages/pro.buzzi.lbchronorace/meta/installscript.qs" line="35"/>
+        <source>Register ChronoRace Data file extension: </source>
+        <translation>Register ChronoRace Data file extension: </translation>
+    </message>
+    <message>
+        <location filename="../installer/packages/pro.buzzi.lbchronorace/meta/installscript.qs" line="62"/>
+        <location filename="../installer/packages/pro.buzzi.lbchronorace/meta/installscript.qs" line="66"/>
+        <source>Start LBChronoRace</source>
+        <translation>Start LBChronoRace</translation>
+    </message>
+</context>
 </TS>
