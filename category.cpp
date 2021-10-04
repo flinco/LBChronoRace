@@ -1,29 +1,19 @@
 #include "category.h"
 #include "lbcrexception.h"
 
-Category::Field CategorySorter::sortingField = Category::CTF_FIRST;
+Category::Field CategorySorter::sortingField = Category::Field::CTF_FIRST;
 Qt::SortOrder   CategorySorter::sortingOrder = Qt::AscendingOrder;
 
-Category::Category()
-{
-    this->team             = false;
-    this->sex              = Competitor::UNDEFINED;
-    this->toYear           = 0u;
-    this->fromYear         = 0u;
-    this->fullDescription  = "";
-    this->shortDescription = "";
-}
-
-Category::Category(const QString& team) : Category()
+Category::Category(QString const &team)
 {
     if (team.length() != 1) {
         throw(ChronoRaceException(tr("Illegal category type - expected 'I' or 'T' - found %1").arg(team)));
     } else {
-        this->team = (team.toUpper().compare("T") == 0);
+        this->team = (team.compare("T", Qt::CaseInsensitive) == 0);
     }
 }
 
-QDataStream &operator<<(QDataStream &out, const Category &category)
+QDataStream &operator<<(QDataStream &out, Category const &category)
 {
     out << qint32(category.team)
         << Competitor::toSexString(category.sex)
@@ -37,7 +27,8 @@ QDataStream &operator<<(QDataStream &out, const Category &category)
 
 QDataStream &operator>>(QDataStream &in, Category &category)
 {
-    quint32 toYear32, fromYear32;
+    quint32 toYear32;
+    quint32 fromYear32;
     qint32  team32;
     QString sexStr;
 
@@ -50,8 +41,8 @@ QDataStream &operator>>(QDataStream &in, Category &category)
 
     category.team     = (bool) team32;
     category.sex      = Competitor::toSex(sexStr);
-    category.toYear   = (uint) toYear32;
-    category.fromYear = (uint) fromYear32;
+    category.toYear   = toYear32;
+    category.fromYear = fromYear32;
 
     return in;
 }
@@ -61,9 +52,9 @@ bool Category::isTeam() const
     return team;
 }
 
-void Category::setTeam(bool team)
+void Category::setTeam(bool newTeam)
 {
-    this->team = team;
+    this->team = newTeam;
 }
 
 uint Category::getFromYear() const
@@ -71,19 +62,19 @@ uint Category::getFromYear() const
     return fromYear;
 }
 
-void Category::setFromYear(uint fromYear)
+void Category::setFromYear(uint newFromYear)
 {
-    this->fromYear = fromYear;
+    this->fromYear = newFromYear;
 }
 
-const QString& Category::getFullDescription() const
+QString const &Category::getFullDescription() const
 {
     return fullDescription;
 }
 
-void Category::setFullDescription(const QString& fullDescription)
+void Category::setFullDescription(QString const &newFullDescription)
 {
-    this->fullDescription = fullDescription;
+    this->fullDescription = newFullDescription;
 }
 
 Competitor::Sex Category::getSex() const
@@ -91,19 +82,19 @@ Competitor::Sex Category::getSex() const
     return sex;
 }
 
-void Category::setSex(const Competitor::Sex sex)
+void Category::setSex(Competitor::Sex const newSex)
 {
-    this->sex = sex;
+    this->sex = newSex;
 }
 
-const QString& Category::getShortDescription() const
+QString const &Category::getShortDescription() const
 {
     return shortDescription;
 }
 
-void Category::setShortDescription(const QString& shortDescription)
+void Category::setShortDescription(QString const &newShortDescription)
 {
-    this->shortDescription = shortDescription;
+    this->shortDescription = newShortDescription;
 }
 
 uint Category::getToYear() const
@@ -111,51 +102,59 @@ uint Category::getToYear() const
     return toYear;
 }
 
-void Category::setToYear(uint toYear)
+void Category::setToYear(uint newToYear)
 {
-    this->toYear = toYear;
+    this->toYear = newToYear;
 }
 
-bool Category::isValid()
+bool Category::isValid() const
 {
     return (!fullDescription.isEmpty() && !shortDescription.isEmpty());
 }
 
-bool Category::operator< (const Category& rhs) const
+bool Category::includes(Competitor const *competitor) const
+{
+    return (competitor && !this->isTeam() &&
+            (competitor->getSex() == this->getSex()) &&
+            (competitor->getYear() >= this->getFromYear()) &&
+            (competitor->getYear() <= this->getToYear()));
+}
+
+bool Category::operator< (Category const &rhs) const
 {
     return (!this->isTeam() && rhs.isTeam());
 }
 
-bool Category::operator> (const Category& rhs) const
+bool Category::operator> (Category const &rhs) const
 {
     return (this->isTeam() && !rhs.isTeam());
 }
 
-bool Category::operator<=(const Category& rhs) const
+bool Category::operator<=(Category const &rhs) const
 {
     return !(*this > rhs);
 }
 
-bool Category::operator>=(const Category& rhs) const
+bool Category::operator>=(Category const &rhs) const
 {
     return !(*this < rhs);
 }
 
-bool CategorySorter::operator() (const Category& lhs, const Category& rhs)
+bool CategorySorter::operator() (Category const &lhs, Category const &rhs) const
 {
     switch(sortingField) {
-    case Category::CTF_SEX:
+    case Category::Field::CTF_SEX:
         return (sortingOrder == Qt::DescendingOrder) ? (Competitor::toSexString(lhs.getSex()) > Competitor::toSexString(rhs.getSex())) : (Competitor::toSexString(lhs.getSex()) < Competitor::toSexString(rhs.getSex()));
-    case Category::CTF_TO_YEAR:
+    case Category::Field::CTF_TO_YEAR:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getToYear() > rhs.getToYear()) : (lhs.getToYear() < rhs.getToYear());
-    case Category::CTF_FROM_YEAR:
+    case Category::Field::CTF_FROM_YEAR:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFromYear() > rhs.getFromYear()) : (lhs.getFromYear() < rhs.getFromYear());
-    case Category::CTF_FULL_DESCR:
+    case Category::Field::CTF_FULL_DESCR:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFullDescription() > rhs.getFullDescription()) : (lhs.getFullDescription() < rhs.getFullDescription());
-    case Category::CTF_SHORT_DESCR:
+    case Category::Field::CTF_SHORT_DESCR:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getShortDescription() > rhs.getShortDescription()) : (lhs.getShortDescription() < rhs.getShortDescription());
-    case Category::CTF_TEAM:
-        // nobreak here
+    case Category::Field::CTF_TEAM: //NOSONAR
+        // no break here
     default:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }
@@ -168,7 +167,7 @@ Qt::SortOrder CategorySorter::getSortingOrder()
     return sortingOrder;
 }
 
-void CategorySorter::setSortingOrder(const Qt::SortOrder &value)
+void CategorySorter::setSortingOrder(Qt::SortOrder const &value)
 {
     sortingOrder = value;
 }
@@ -178,20 +177,20 @@ Category::Field CategorySorter::getSortingField()
     return sortingField;
 }
 
-void CategorySorter::setSortingField(const Category::Field &value)
+void CategorySorter::setSortingField(Category::Field const &value)
 {
     sortingField = value;
 }
 
-Category::Field& operator++(Category::Field& field)
+Category::Field &operator++(Category::Field &field)
 {
     field = static_cast<Category::Field>(static_cast<int>(field) + 1);
-    //if (field == Category::CTF_COUNT)
-    //    field = Category::CTF_FIRST;
+    //NOSONAR if (field == Category::CTF_COUNT)
+    //NOSONAR    field = Category::CTF_FIRST;
     return field;
 }
 
-Category::Field  operator++(Category::Field& field, int)
+Category::Field operator++(Category::Field &field, int)
 {
     Category::Field tmp = field;
     ++field;

@@ -2,7 +2,7 @@
 
 #include "teamslistmodel.h"
 
-QDataStream &operator<<(QDataStream &out, const TeamsListModel &data)
+QDataStream &operator<<(QDataStream &out, TeamsListModel const &data)
 {
     out << data.teamsList
         << quint32(data.teamNameWidthMax);
@@ -17,7 +17,7 @@ QDataStream &operator>>(QDataStream &in, TeamsListModel &data)
     in >> data.teamsList
        >> teamNameWidthMax;
 
-    data.teamNameWidthMax = (uint) teamNameWidthMax;
+    data.teamNameWidthMax = teamNameWidthMax;
 
     return in;
 }
@@ -26,31 +26,31 @@ void TeamsListModel::refreshCounters(int r)
 {
     uint teamNameLength;
 
-    Q_UNUSED(r);
+    Q_UNUSED(r)
 
     teamNameWidthMax = 0;
-    for (auto team : teamsList) {
-        teamNameLength = (uint) team.length();
+    for (auto const &team : teamsList) {
+        teamNameLength = static_cast<uint>(team.length());
         if (teamNameLength > teamNameWidthMax)
             teamNameWidthMax = teamNameLength;
     }
 }
 
-int TeamsListModel::rowCount(const QModelIndex &parent) const
+int TeamsListModel::rowCount(QModelIndex const &parent) const
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
-    return teamsList.size();
+    return static_cast<int>(teamsList.size());
 }
 
-int TeamsListModel::columnCount(const QModelIndex &parent) const
+int TeamsListModel::columnCount(QModelIndex const &parent) const
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     return 1;
 }
 
-QVariant TeamsListModel::data(const QModelIndex &index, int role) const
+QVariant TeamsListModel::data(QModelIndex const &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -78,7 +78,7 @@ QVariant TeamsListModel::headerData(int section, Qt::Orientation orientation, in
         return QString("%1").arg(section + 1);
 }
 
-bool TeamsListModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool TeamsListModel::setData(QModelIndex const &index, QVariant const &value, int role)
 {
     if (index.isValid() && role == Qt::EditRole) {
         teamsList[index.row()] = value.toString().simplified();
@@ -88,7 +88,7 @@ bool TeamsListModel::setData(const QModelIndex &index, const QVariant &value, in
     return false;
 }
 
-Qt::ItemFlags TeamsListModel::flags(const QModelIndex &index) const
+Qt::ItemFlags TeamsListModel::flags(QModelIndex const &index) const
 {
     if (!index.isValid())
         return Qt::ItemIsEnabled;
@@ -96,10 +96,10 @@ Qt::ItemFlags TeamsListModel::flags(const QModelIndex &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool TeamsListModel::insertRows(int position, int rows, const QModelIndex &parent)
+bool TeamsListModel::insertRows(int position, int rows, QModelIndex const &parent)
 {
 
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
     for (int row = 0; row < rows; ++row) {
@@ -110,9 +110,9 @@ bool TeamsListModel::insertRows(int position, int rows, const QModelIndex &paren
     return true;
 }
 
-bool TeamsListModel::removeRows(int position, int rows, const QModelIndex &parent)
+bool TeamsListModel::removeRows(int position, int rows, QModelIndex const &parent)
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
     for (int row = 0; row < rows; ++row) {
@@ -128,7 +128,8 @@ void TeamsListModel::sort(int column, Qt::SortOrder order)
 
     if (column == 0) {
         std::stable_sort(teamsList.begin(), teamsList.end());
-        if (order == Qt::DescendingOrder) std::reverse(teamsList.begin(), teamsList.end());
+        if (order == Qt::DescendingOrder)
+            std::reverse(teamsList.begin(), teamsList.end());
         emit dataChanged(QModelIndex(), QModelIndex());
     }
 }
@@ -140,12 +141,16 @@ void TeamsListModel::reset() {
     endResetModel();
 }
 
-void TeamsListModel::addTeam(const QString& team)
+void TeamsListModel::addTeam(QString const &team)
 {
     if (!team.isEmpty() && !teamsList.contains(team)) {
         int rowCount = this->rowCount();
         this->insertRow(rowCount, QModelIndex());
         this->setData(this->index(rowCount, 0, QModelIndex()), QVariant(team), Qt::EditRole);
+
+        auto teamNameLength = static_cast<uint>(team.length());
+        if (teamNameLength > teamNameWidthMax)
+            teamNameWidthMax = teamNameLength;
     }
 }
 
@@ -154,7 +159,7 @@ uint TeamsListModel::getTeamNameWidthMax() const
     return teamNameWidthMax;
 }
 
-const QList<QString>& TeamsListModel::getTeamsList() const
+QList<QString> const &TeamsListModel::getTeamsList() const
 {
     return teamsList;
 }

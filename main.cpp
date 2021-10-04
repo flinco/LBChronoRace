@@ -4,6 +4,9 @@
 #include <QLocale>
 #include <QLibraryInfo>
 #include <QFontDatabase>
+#include <QWindow>
+#include <QIcon>
+#include <QTimer>
 
 #ifdef Q_OS_WIN
 #include <QStyleFactory>
@@ -11,20 +14,20 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // Deprecated and always enabled in Qt6
     QApplication app(argc, argv);
 
     QTranslator qtTranslator;
     QTranslator lbcrTranslator;
 
-    QDir appDir = QDir(QCoreApplication::applicationDirPath());
-    QDir translDir = QDir(appDir.path() + QDir::separator() + "translations");
+    auto appDir = QDir(QCoreApplication::applicationDirPath());
 
-    if (qtTranslator.load(QLocale(), QStringLiteral("qt"), QStringLiteral("_"), translDir.path()))
-        app.installTranslator(&qtTranslator);
+    if (auto translDir = QDir(appDir.path() + QDir::separator() + "translations");
+        qtTranslator.load(QLocale(), QStringLiteral("qt"), QStringLiteral("_"), translDir.path()))
+        QApplication::installTranslator(&qtTranslator);
 
     if (lbcrTranslator.load(QString(":/%1").arg(QStringLiteral(LBCHRONORACE_NAME))))
-        app.installTranslator(&lbcrTranslator);
+        QApplication::installTranslator(&lbcrTranslator);
 
 #ifdef Q_OS_WIN
     app.setStyle(QStyleFactory::create("Fusion"));
@@ -45,8 +48,14 @@ int main(int argc, char *argv[])
     QFontDatabase::addApplicationFont(":/fonts/LiberationSerif-Regular.ttf");
 
     LBChronoRace w(Q_NULLPTR, &app);
+    QTimer::singleShot(0, &w, &LBChronoRace::initialize);
     w.show();
-    return app.exec();
+
+    foreach (auto win, app.allWindows()) {
+       win->setIcon(QIcon(":/icons/LBChronoRace.ico"));
+    }
+
+    return QApplication::exec();
 }
 
 

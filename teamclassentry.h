@@ -6,7 +6,7 @@
 
 #include "classentry.h"
 
-namespace ChronoRace {
+namespace placement {
 class TeamClassEntry;
 }
 
@@ -15,20 +15,19 @@ class TeamClassEntry
     Q_DECLARE_TR_FUNCTIONS(TeamClassEntry)
 
 private:
-    QString              team;
-    QVector<ClassEntry*> entryList;
+    QString              team { "" };
+    QVector<ClassEntry *> entryList { };
 
 public:
-    TeamClassEntry();
-    const QString& getTeam() const;
-    const ClassEntry* getClassEntry(int index) const;
-    void setClassEntry(ClassEntry* entry);
-    int getClassEntryCount();
+    QString const &getTeam() const;
+    ClassEntry const *getClassEntry(int index) const;
+    void setClassEntry(ClassEntry *entry);
+    int getClassEntryCount() const;
 
-    bool operator< (const TeamClassEntry& rhs);
-    bool operator> (const TeamClassEntry& rhs);
-    bool operator<=(const TeamClassEntry& rhs);
-    bool operator>=(const TeamClassEntry& rhs);
+    bool operator< (TeamClassEntry const &rhs);
+    bool operator> (TeamClassEntry const &rhs);
+    bool operator<=(TeamClassEntry const &rhs);
+    bool operator>=(TeamClassEntry const &rhs);
 };
 
 #endif // TEAMCLASSENTRY_H

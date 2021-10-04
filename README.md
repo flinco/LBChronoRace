@@ -46,7 +46,7 @@ cd LBChronoRace
 git checkout master
 ```
 
-import the project file `LBChronoRace.pro` in [Qt Creator](http://www.qt.io/product/development-tools), build it and run the application.
+import the project file `CMakeLists.txt` in [Qt Creator](http://www.qt.io/product/development-tools) (Qt 6.0 or newer is required), build it and run the application.
 
 ### Developing with LBChronoRace
 
@@ -61,7 +61,7 @@ cd LBChronoRace
 git checkout develop
 ```
 
-and import the project file `LBChronoRace.pro` in [Qt Creator](http://www.qt.io/product/development-tools).
+and import the project file `CMakeLists.txt` in [Qt Creator](http://www.qt.io/product/development-tools) (Qt 6.0 or newer is required).
 
 ## License
 

@@ -1,26 +1,11 @@
 #include "lbcrexception.h"
 
-ChronoRaceException::ChronoRaceException()
+void ChronoRaceException::setMessage(QString const &newMessage)
 {
-    this->message = "No message";
+    this->message = newMessage;
 }
 
-ChronoRaceException::ChronoRaceException(const QString& message)
-{
-    this->message = message;
-}
-
-ChronoRaceException::ChronoRaceException(const char* message)
-{
-    this->message = message;
-}
-
-void ChronoRaceException::setMessage(const QString& message)
-{
-    this->message = message;
-}
-
-QString& ChronoRaceException::getMessage() {
+QString &ChronoRaceException::getMessage() {
     return this->message;
 }
 void ChronoRaceException::raise() const
@@ -28,7 +13,7 @@ void ChronoRaceException::raise() const
     throw *this;
 }
 
-ChronoRaceException* ChronoRaceException::clone() const
+ChronoRaceException *ChronoRaceException::clone() const
 {
-    return new ChronoRaceException(*this);
+    return new ChronoRaceException(*this); //NOSONAR
 }

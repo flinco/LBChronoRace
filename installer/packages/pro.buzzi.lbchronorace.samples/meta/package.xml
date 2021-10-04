@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>Data samples</DisplayName>
+    <DisplayName xml:lang="it_IT">Esempi</DisplayName>
+    <Description>Ranking data samples.</Description>
+    <Description xml:lang="it_IT">Dati di esempio.</Description>
+    <Version inheritVersionFrom="pro.buzzi.lbchronorace">1.0.0</Version>
+    <ReleaseDate>2021-09-30</ReleaseDate>
+    <Name>pro.buzzi.lbchronorace.samples</Name>
+    <Dependencies>pro.buzzi.lbchronorace</Dependencies>
+    <Licenses>
+        <License name="GNU GPLv3" file="license.txt" />
+    </Licenses>
+    <Default>true</Default>
+    <ForcedInstallation>false</ForcedInstallation>
+    <Essential>false</Essential>
+</Package>
+

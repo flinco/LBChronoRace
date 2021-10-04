@@ -22,6 +22,10 @@
   <property name="windowTitle">
    <string notr="true">Dialog</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/LBChronoRace.ico</normaloff>:/LBChronoRace.ico</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTableView" name="tableView">
@@ -89,6 +93,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -1,5 +1,8 @@
 <RCC>
-    <qresource lang="it">
+    <qresource lang="en" prefix="/">
+        <file alias="LBChronoRace.qm">LBChronoRace_en.qm</file>
+    </qresource>
+    <qresource lang="it" prefix="/">
         <file alias="LBChronoRace.qm">LBChronoRace_it.qm</file>
     </qresource>
 </RCC>

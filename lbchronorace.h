@@ -11,6 +11,8 @@
 #include <QList>
 #include <QFontDatabase>
 
+#include "ui_chronorace.h"
+
 #include "chronoracetable.h"
 #include "chronoracedata.h"
 #include "crloader.h"
@@ -18,73 +20,48 @@
 #include "classentry.h"
 #include "teamclassentry.h"
 
-#define LBCHRONORACE_NAME                 "LBChronoRace"
-#define LBCHRONORACE_VERSION              "2.0.3"
+#ifndef LBCHRONORACE_NAME
+#error "LBCHRONORACE_NAME not set"
+#endif
+#ifndef LBCHRONORACE_VERSION
+#error "LBCHRONORACE_VERSION not set"
+#endif
 
-#define LBCHRONORACE_STARTLIST_DEFAULT    "startlist.csv"
-#define LBCHRONORACE_TEAMLIST_DEFAULT     "teamlist.csv"
-#define LBCHRONORACE_TIMINGS_DEFAULT      "timings.csv"
-#define LBCHRONORACE_CATEGORIES_DEFAULT   "categories.csv"
+constexpr char LBCHRONORACE_STARTLIST_DEFAULT[]  = "startlist.csv";
+constexpr char LBCHRONORACE_TEAMLIST_DEFAULT[]   = "teamlist.csv";
+constexpr char LBCHRONORACE_TIMINGS_DEFAULT[]    = "timings.csv";
+constexpr char LBCHRONORACE_CATEGORIES_DEFAULT[] = "categories.csv";
 
-#define LBCHRONORACE_BIN_FMT_v1           1
-#define LBCHRONORACE_BIN_FMT_v2           2
-#define LBCHRONORACE_BIN_FMT              LBCHRONORACE_BIN_FMT_v2
-
-namespace Ui {
-class LBChronoRace;
-}
+constexpr int LBCHRONORACE_BIN_FMT_v1 = 1;
+constexpr int LBCHRONORACE_BIN_FMT_v2 = 2;
+#define LBCHRONORACE_BIN_FMT LBCHRONORACE_BIN_FMT_v2
 
 class LBChronoRace : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit LBChronoRace(QWidget *parent = Q_NULLPTR, QGuiApplication *app = Q_NULLPTR);
-    ~LBChronoRace();
+    explicit LBChronoRace(QWidget *parent = Q_NULLPTR, QGuiApplication const *app = Q_NULLPTR);
 
     static QDir lastSelectedPath;
 
-private slots:
-    void on_actionLoadRace_triggered();
-    void on_actionSaveRace_triggered();
-    void on_actionSaveRaceAs_triggered();
-    void on_actionQuit_triggered();
-
-    void on_actionEditRace_triggered();
-    void on_actionEditStartList_triggered();
-    void on_actionEditTeams_triggered();
-    void on_actionEditCategories_triggered();
-    void on_actionEditTimings_triggered();
-
-    void on_actionAbout_triggered();
-    void on_actionAboutQt_triggered();
-
-    void on_loadRace_clicked();
-    void on_saveRace_clicked();
-    void on_editRace_clicked();
-    void on_editStartList_clicked();
-    void on_editTeamsList_clicked();
-    void on_editCategories_clicked();
-    void on_editTimings_clicked();
-
-    void on_selectorEncoding_activated(const QString &arg1);
-    void on_selectorFormat_activated(const QString &arg1);
-    void on_makeStartList_clicked();
-    void on_makeRankings_clicked();
-
 public slots:
-    void show();
-    void resizeDialogs(QScreen *screen);
+    void initialize();
+    void show(); //NOSONAR
+    void resizeDialogs(QScreen const *screen);
 
-    void setCounterTeams(int count);
-    void setCounterCompetitors(int count);
-    void setCounterCategories(int count);
-    void setCounterTimings(int count);
+    void setCounterTeams(int count) const;
+    void setCounterCompetitors(int count) const;
+    void setCounterCategories(int count) const;
+    void setCounterTimings(int count) const;
+
+    void appendInfoMessage(QString const &message) const;
+    void appendErrorMessage(QString const &message) const;
 
 private:
-    Ui::LBChronoRace *ui;
+    QScopedPointer<Ui::LBChronoRace> ui { new Ui::LBChronoRace };
 
-    QString raceDataFileName;
+    QString raceDataFileName { "" };
     QString startListFileName;
     QString timingsFileName;
     QString categoriesFileName;
@@ -97,35 +74,19 @@ private:
     ChronoRaceTable categoriesTable;
     ChronoRaceTable timingsTable;
 
-    QFontDatabase fontDB;
-    qreal ratioX, ratioY;
-    qreal areaWidth, areaHeight;
-
-    qreal toHdots(qreal mm);
-    qreal toVdots(qreal mm);
-    void fitRectToLogo(QRectF &rect, QPixmap const &pixmap);
-
-    void makeRankings(CRLoader::Format format);
-    void makeTextRanking(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking, uint bWidth, uint sWidth);
-    void makeTextRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking, uint bWidth, uint sWidth);
-    void makeCSVRanking(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
-    void makeCSVRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking, const QString &shortDescription);
-    void makePDFRanking(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
-    void makePDFRanking(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
-    void makePDFRankingSingle(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
-    void makePDFRankingSingle(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
-    void makePDFRankingMulti(const QString &outFileName, const QString &fullDescription, const QList<ClassEntry*> individualRanking);
-    void makePDFRankingMulti(const QString &outFileName, const QString &fullDescription, const QList<TeamClassEntry*> teamRanking);
-    void drawPDFTemplatePortrait(QPainter &painter, const QString &fullDescription, int page, int pages);
-    //void drawPDFTemplateLandscape(QPainter &painter, const QString &fullDescription, int page, int pages);
-    bool initPDFPainter(QPainter &painter, const QString &outFileName);
-
-    void makeStartList(CRLoader::Format format);
-    void makeTextStartList(const QList<Competitor>& startList, uint bWidth, uint sWidth, uint nWidth, uint tWidth);
-    void makeCSVStartList(const QList<Competitor>& startList);
-    void makePDFStartList(const QList<Competitor>& startList);
-
 private slots:
+    void actionAbout();
+    void actionAboutQt();
+
+    void loadRace();
+    void saveRace();
+    void saveRaceAs();
+
+    void selectorEncoding(QString const &arg1) const;
+    void selectorFormat(QString const &arg1) const;
+    void makeStartList();
+    void makeRankings();
+
     void importStartList();
     void importCategoriesList();
     void importTimingsList();

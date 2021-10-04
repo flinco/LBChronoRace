@@ -6,7 +6,7 @@
 #include <QSet>
 #include <QString>
 
-namespace ChronoRace {
+namespace competitor {
 class Competitor;
 class CompetitorSorter;
 }
@@ -16,79 +16,79 @@ class Competitor
     Q_DECLARE_TR_FUNCTIONS(Competitor)
 
 public:
-    enum Sex
-        {
-            UNDEFINED,
-            MALE,
-            FEMALE,
-            MISC
-        };
+    enum class Sex
+    {
+        UNDEFINED,
+        MALE,
+        FEMALE,
+        MISC
+    };
 
-    enum Field
-        {
-            CMF_FIRST      = 0,
-            CMF_BIB        = 0,
-            CMF_NAME       = 1,
-            CMF_SEX        = 2,
-            CMF_YEAR       = 3,
-            CMF_TEAM       = 4,
-            CMF_OFFSET_LEG = 5,
-            CMF_LAST       = 5,
-            CMF_COUNT      = 6
-        };
+    enum class Field
+    {
+        CMF_FIRST      = 0,
+        CMF_BIB        = 0,
+        CMF_NAME       = 1,
+        CMF_SEX        = 2,
+        CMF_YEAR       = 3,
+        CMF_TEAM       = 4,
+        CMF_OFFSET_LEG = 5,
+        CMF_LAST       = 5,
+        CMF_COUNT      = 6
+    };
 
 private:
 
-    uint    bib;
-    QString name;
-    Sex     sex;
-    uint    year;
-    QString team;
-    uint    leg;
-    int     offset;
-    QString category;
+    uint    bib { 0u };
+    QString name { "" };
+    Sex     sex { Sex::UNDEFINED };
+    uint    year { 1900 };
+    QString team { "" };
+    uint    leg { 1u };
+    int     offset { -1 };
+    QString category { "" };
 
 public:
-    Competitor();
-    Competitor(const uint bib);
+    Competitor() = default;
+    explicit Competitor(uint const bib) : bib(bib) { };
 
-    friend QDataStream &operator<<(QDataStream &out, const Competitor &comp);
+    friend QDataStream &operator<<(QDataStream &out, Competitor const &comp);
     friend QDataStream &operator>>(QDataStream &in, Competitor &comp);
 
-    const QString& getName() const;
-    const QString  getName(int width) const;
-    void setName(const QString& name);
+    QString const &getName() const;
+    QString getName(int width) const;
+    void setName(QString const &newName);
     uint getBib() const;
-    void setBib(uint bib);
+    void setBib(uint newBib);
     Sex getSex() const;
-    void setSex(const Sex sex);
-    const QString& getTeam() const;
-    const QString  getTeam(int width) const;
-    void setTeam(const QString& team);
+    void setSex(Sex const newSex);
+    QString const &getTeam() const;
+    QString getTeam(int newWidth) const;
+    void setTeam(QString const &newTeam);
     uint getYear() const;
-    void setYear(uint year);
+    void setYear(uint newYear);
     uint getLeg() const;
-    void setLeg(uint leg);
+    void setLeg(uint newLeg);
     int getOffset() const;
-    void setOffset(int offset);
-    bool isValid();
+    void setOffset(int newOffset);
+    bool isValid() const;
 
-    const QString& getCategory() const;
-    void setCategory(const QString& category);
+    QString const &getCategory() const;
+    void setCategory(QString const &newCategory);
 
-    static Sex toSex(const QString& sex, const bool strict = false);
-    static QString toSexString(const Sex sex);
-    static int toOffset(const QString& offset);
+    static Sex toSex(QString const &sex, bool const strict = false);
+    static QString toSexString(Sex const sex);
+    static int toOffset(QString const &offset);
     static QString toOffsetString(int offset);
 
-    bool operator<  (const Competitor& rhs) const;
-    bool operator>  (const Competitor& rhs) const;
-    bool operator<= (const Competitor& rhs) const;
-    bool operator>= (const Competitor& rhs) const;
+    bool operator<  (Competitor const &rhs) const;
+    bool operator>  (Competitor const &rhs) const;
+    bool operator<= (Competitor const &rhs) const;
+    bool operator>= (Competitor const &rhs) const;
 };
 
-Competitor::Field& operator++(Competitor::Field& field);
-Competitor::Field  operator++(Competitor::Field& field, int);
+Competitor::Field &operator++(Competitor::Field &field);
+Competitor::Field  operator++(Competitor::Field &field, int);
 
 class CompetitorSorter {
 
@@ -98,11 +98,11 @@ private:
 
 public:
     static Qt::SortOrder getSortingOrder();
-    static void setSortingOrder(const Qt::SortOrder &value);
+    static void setSortingOrder(Qt::SortOrder const &value);
     static Competitor::Field getSortingField();
-    static void setSortingField(const Competitor::Field &value);
+    static void setSortingField(Competitor::Field const &value);
 
-    bool operator() (const Competitor& lhs, const Competitor& rhs);
+    bool operator() (Competitor const &lhs, Competitor const &rhs) const;
 };
 
 #endif // COMPETITOR_H

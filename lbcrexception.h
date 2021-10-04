@@ -7,17 +7,16 @@
 class ChronoRaceException : public QException
 {
 private:
-    QString message;
+    QString message { "No message" };
 public:
-    ChronoRaceException();
-    ChronoRaceException(const QString& message);
-    ChronoRaceException(const char* message);
+    explicit ChronoRaceException(QString const &message) : message(message) { };
+    explicit ChronoRaceException(char const *message) : message(message) { };
 
-    void raise() const;
-    ChronoRaceException *clone() const;
+    void raise() const override;
+    ChronoRaceException *clone() const override;
 
-    void setMessage(const QString& message);
-    QString& getMessage();
+    void setMessage(QString const &newMessage);
+    QString &getMessage();
 };
 
 #endif // LBEXCEPTION_H

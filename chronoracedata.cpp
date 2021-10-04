@@ -1,36 +1,12 @@
 #include <QFileDialog>
 #include <QFileInfo>
 
-#include "chronoracedata.h"
-#include "ui_chronoracedata.h"
-
 #include "lbchronorace.h"
+#include "chronoracedata.h"
 
-ChronoRaceData::ChronoRaceData(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ChronoRaceData),
-    leftLogo(),
-    rightLogo(),
-    event(),
-    place(),
-    date(QDate::currentDate()),
-    startTime(0, 0),
-    raceTypeStr(),
-    resultsStr(),
-    referee(),
-    timeKeeper1(),
-    timeKeeper2(),
-    timeKeeper3(),
-    organization(),
-    sponsorLogo1(),
-    sponsorLogo2(),
-    sponsorLogo3(),
-    sponsorLogo4()
-{
-    QPalette palette;
+ChronoRaceData::ChronoRaceData(QWidget *parent) : QDialog(parent) {
 
-    this->raceTypeIdx = 0;
-    this->resultsIdx = 0;
+    this->stringFields.resize(static_cast<int>(StringField::NUM_OF_FIELDS));
 
     ui->setupUi(this);
 
@@ -42,38 +18,64 @@ ChronoRaceData::ChronoRaceData(QWidget *parent) :
     ui->sponsorLogo4->setStyleSheet("QLabel { background-color : white; }");
 
     ui->raceType->setCurrentIndex(this->raceTypeIdx);
-    this->raceTypeStr = ui->raceType->currentText();
+    this->stringFields[static_cast<int>(StringField::RACE_TYPE)] = ui->raceType->currentText();
 
     ui->results->setCurrentIndex(this->resultsIdx);
-    this->resultsStr = ui->results->currentText();
+    this->stringFields[static_cast<int>(StringField::RESULTS)] = ui->results->currentText();
+
+    this->leftLogo.uiElement = ui->leftLogo;
+    this->rightLogo.uiElement = ui->rightLogo;
+    this->sponsorLogo1.uiElement = ui->sponsorLogo1;
+    this->sponsorLogo2.uiElement = ui->sponsorLogo2;
+    this->sponsorLogo3.uiElement = ui->sponsorLogo3;
+    this->sponsorLogo4.uiElement = ui->sponsorLogo4;
+
+    QObject::connect(ui->loadLeftLogo, &QPushButton::clicked, &this->leftLogo, &ChronoRaceLogo::loadLogo);
+    QObject::connect(ui->removeLeftLogo, &QPushButton::clicked, &this->leftLogo, &ChronoRaceLogo::removeLogo);
+    QObject::connect(&this->leftLogo, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
+
+    QObject::connect(ui->loadRightLogo, &QPushButton::clicked, &this->rightLogo, &ChronoRaceLogo::loadLogo);
+    QObject::connect(ui->removeRightLogo, &QPushButton::clicked, &this->rightLogo, &ChronoRaceLogo::removeLogo);
+    QObject::connect(&this->rightLogo, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
+
+    QObject::connect(ui->loadSponsorLogo1, &QPushButton::clicked, &this->sponsorLogo1, &ChronoRaceLogo::loadLogo);
+    QObject::connect(ui->removeSponsorLogo1, &QPushButton::clicked, &this->sponsorLogo1, &ChronoRaceLogo::removeLogo);
+    QObject::connect(&this->sponsorLogo1, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
+
+    QObject::connect(ui->loadSponsorLogo2, &QPushButton::clicked, &this->sponsorLogo2, &ChronoRaceLogo::loadLogo);
+    QObject::connect(ui->removeSponsorLogo2, &QPushButton::clicked, &this->sponsorLogo2, &ChronoRaceLogo::removeLogo);
+    QObject::connect(&this->sponsorLogo2, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
+
+    QObject::connect(ui->loadSponsorLogo3, &QPushButton::clicked, &this->sponsorLogo3, &ChronoRaceLogo::loadLogo);
+    QObject::connect(ui->removeSponsorLogo3, &QPushButton::clicked, &this->sponsorLogo3, &ChronoRaceLogo::removeLogo);
+    QObject::connect(&this->sponsorLogo3, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
+
+    QObject::connect(ui->loadSponsorLogo4, &QPushButton::clicked, &this->sponsorLogo4, &ChronoRaceLogo::loadLogo);
+    QObject::connect(ui->removeSponsorLogo4, &QPushButton::clicked, &this->sponsorLogo4, &ChronoRaceLogo::removeLogo);
+    QObject::connect(&this->sponsorLogo4, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
 }
 
-ChronoRaceData::~ChronoRaceData()
+QDataStream &operator<<(QDataStream &out, ChronoRaceData const &data)
 {
-    delete ui;
-}
-
-QDataStream &operator<<(QDataStream &out, const ChronoRaceData &data)
-{
-    out << data.leftLogo
-        << data.rightLogo
-        << data.event
-        << data.place
+    out << data.leftLogo.pixmap
+        << data.rightLogo.pixmap
+        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::EVENT)]
+        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::PLACE)]
         << data.date
         << data.startTime
         << qint32(data.raceTypeIdx)
         << qint32(data.resultsIdx)
-        << data.referee
-        << data.timeKeeper1
-        << data.timeKeeper2
-        << data.timeKeeper3
-        << data.organization
-        << data.sponsorLogo1
-        << data.sponsorLogo2
-        << data.sponsorLogo3
-        << data.sponsorLogo4
-        << data.length
-        << data.elevationGain;
+        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::REFEREE)]
+        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_1)]
+        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_2)]
+        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_3)]
+        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::ORGANIZATION)]
+        << data.sponsorLogo1.pixmap
+        << data.sponsorLogo2.pixmap
+        << data.sponsorLogo3.pixmap
+        << data.sponsorLogo4.pixmap
+        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)]
+        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)];
 
     return out;
 }
@@ -83,46 +85,47 @@ QDataStream &operator>>(QDataStream &in, ChronoRaceData &data)
     qint32 raceTypeIdx32;
     qint32 resultsIdx32;
 
-    in >> data.leftLogo
-       >> data.rightLogo
-       >> data.event
-       >> data.place
+    in >> data.leftLogo.pixmap
+       >> data.rightLogo.pixmap
+       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::EVENT)]
+       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::PLACE)]
        >> data.date
        >> data.startTime
        >> raceTypeIdx32
        >> resultsIdx32
-       >> data.referee
-       >> data.timeKeeper1
-       >> data.timeKeeper2
-       >> data.timeKeeper3
-       >> data.organization
-       >> data.sponsorLogo1
-       >> data.sponsorLogo2
-       >> data.sponsorLogo3
-       >> data.sponsorLogo4;
+       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::REFEREE)]
+       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_1)]
+       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_2)]
+       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_3)]
+       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::ORGANIZATION)]
+       >> data.sponsorLogo1.pixmap
+       >> data.sponsorLogo2.pixmap
+       >> data.sponsorLogo3.pixmap
+       >> data.sponsorLogo4.pixmap;
 
     if (data.binFmt == LBCHRONORACE_BIN_FMT_v2)
-        in >> data.length
-           >> data.elevationGain;
+        in >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)]
+           >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)];
 
-    data.raceTypeIdx = (int) raceTypeIdx32;
-    data.resultsIdx = (int) resultsIdx32;
+    data.raceTypeIdx = raceTypeIdx32;
+    data.resultsIdx = resultsIdx32;
 
     data.ui->raceType->setCurrentIndex(data.raceTypeIdx);
-    data.raceTypeStr = data.ui->raceType->currentText();
+    data.stringFields[static_cast<int>(ChronoRaceData::StringField::RACE_TYPE)] = data.ui->raceType->currentText();
 
     data.ui->results->setCurrentIndex(data.resultsIdx);
-    data.resultsStr = data.ui->results->currentText();
+    data.stringFields[static_cast<int>(ChronoRaceData::StringField::RESULTS)] = data.ui->results->currentText();
 
     return in;
 }
 
-QTextStream &operator<<(QTextStream &out, const ChronoRaceData &data)
+QTextStream &operator<<(QTextStream &out, ChronoRaceData const &data)
 {
-    QStringList organizationLines = data.organization.split(QRegExp("\n|\r\n|\r"));
+    QRegularExpression re("\n|\r\n|\r");
+    QStringList organizationLines = data.stringFields[static_cast<int>(ChronoRaceData::StringField::ORGANIZATION)].split(re);
     QString headColumn = QObject::tr("Organization") + ": ";
 
-    for (auto line : organizationLines) {
+    for (auto const &line : organizationLines) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << headColumn;
@@ -131,20 +134,20 @@ QTextStream &operator<<(QTextStream &out, const ChronoRaceData &data)
         headColumn.fill(' ');
     }
 
-    if (!data.event.isEmpty()) {
+    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::EVENT)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Event") + ": ";
         out.setFieldWidth(0);
-        out << data.event << Qt::endl;
+        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::EVENT)] << Qt::endl;
     }
 
-    if (!data.place.isEmpty()) {
+    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::PLACE)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Place") + ": ";
         out.setFieldWidth(0);
-        out << data.place << Qt::endl;
+        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::PLACE)] << Qt::endl;
     }
 
     if (data.date.isValid()) {
@@ -163,70 +166,70 @@ QTextStream &operator<<(QTextStream &out, const ChronoRaceData &data)
         out << data.startTime.toString("H:mm") << Qt::endl;
     }
 
-    if (!data.raceTypeStr.isEmpty()) {
+    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::RACE_TYPE)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Race Type") + ": ";
         out.setFieldWidth(0);
-        out << data.raceTypeStr << Qt::endl;
+        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::RACE_TYPE)] << Qt::endl;
     }
 
-    if (!data.length.isEmpty()) {
+    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Length") + ": ";
         out.setFieldWidth(0);
-        out << data.length << Qt::endl;
+        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)] << Qt::endl;
     }
 
-    if (!data.elevationGain.isEmpty()) {
+    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Elevation Gain") + ": ";
         out.setFieldWidth(0);
-        out << data.elevationGain << Qt::endl;
+        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)] << Qt::endl;
     }
 
-    if (!data.referee.isEmpty()) {
+    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::REFEREE)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Referee") + ": ";
         out.setFieldWidth(0);
-        out << data.referee << Qt::endl;
+        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::REFEREE)] << Qt::endl;
     }
 
-    if (!data.timeKeeper1.isEmpty()) {
+    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_1)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Timekeeper 1") + ": ";
         out.setFieldWidth(0);
-        out << data.timeKeeper1 << Qt::endl;
+        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_1)] << Qt::endl;
     }
 
-    if (!data.timeKeeper2.isEmpty()) {
+    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_2)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Timekeeper 2") + ": ";
         out.setFieldWidth(0);
-        out << data.timeKeeper2 << Qt::endl;
+        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_2)] << Qt::endl;
     }
 
-    if (!data.timeKeeper3.isEmpty()) {
+    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_3)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Timekeeper 3") + ": ";
         out.setFieldWidth(0);
-        out << data.timeKeeper3 << Qt::endl;
+        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_3)] << Qt::endl;
     }
 
     out << Qt::endl;
 
-    if (!data.resultsStr.isEmpty()) {
+    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::RESULTS)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Results") + ": ";
         out.setFieldWidth(0);
-        out << data.resultsStr << Qt::endl;
+        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::RESULTS)] << Qt::endl;
     }
 
     return out;
@@ -234,50 +237,50 @@ QTextStream &operator<<(QTextStream &out, const ChronoRaceData &data)
 
 void ChronoRaceData::saveRaceData()
 {
-    this->leftLogo = ui->leftLogo->pixmap(Qt::ReturnByValue);
-    this->rightLogo = ui->rightLogo->pixmap(Qt::ReturnByValue);
-    this->event = ui->event->text();
-    this->place = ui->place->text();
+    this->leftLogo.pixmap = ui->leftLogo->pixmap();
+    this->leftLogo.pixmap = ui->rightLogo->pixmap();
+    this->stringFields[static_cast<int>(StringField::EVENT)] = ui->event->text();
+    this->stringFields[static_cast<int>(StringField::PLACE)] = ui->place->text();
     this->date = ui->date->date();
     this->startTime = ui->startTime->time();
     this->raceTypeIdx = ui->raceType->currentIndex();
-    this->raceTypeStr = ui->raceType->currentText();
+    this->stringFields[static_cast<int>(StringField::RACE_TYPE)] = ui->raceType->currentText();
     this->resultsIdx = ui->results->currentIndex();
-    this->resultsStr = ui->results->currentText();
-    this->referee = ui->referee->text();
-    this->timeKeeper1 = ui->timeKeeper1->text();
-    this->timeKeeper2 = ui->timeKeeper2->text();
-    this->timeKeeper3 = ui->timeKeeper3->text();
-    this->length = ui->length->text();
-    this->elevationGain = ui->elevationGain->text();
-    this->organization = ui->organization->toPlainText();
-    this->sponsorLogo1 = ui->sponsorLogo1->pixmap(Qt::ReturnByValue);
-    this->sponsorLogo2 = ui->sponsorLogo2->pixmap(Qt::ReturnByValue);
-    this->sponsorLogo3 = ui->sponsorLogo3->pixmap(Qt::ReturnByValue);
-    this->sponsorLogo4 = ui->sponsorLogo4->pixmap(Qt::ReturnByValue);
+    this->stringFields[static_cast<int>(StringField::RESULTS)] = ui->results->currentText();
+    this->stringFields[static_cast<int>(StringField::REFEREE)] = ui->referee->text();
+    this->stringFields[static_cast<int>(StringField::TIMEKEEPER_1)] = ui->timeKeeper1->text();
+    this->stringFields[static_cast<int>(StringField::TIMEKEEPER_2)] = ui->timeKeeper2->text();
+    this->stringFields[static_cast<int>(StringField::TIMEKEEPER_3)] = ui->timeKeeper3->text();
+    this->stringFields[static_cast<int>(StringField::LENGTH)] = ui->length->text();
+    this->stringFields[static_cast<int>(StringField::ELEVATION_GAIN)] = ui->elevationGain->text();
+    this->stringFields[static_cast<int>(StringField::ORGANIZATION)] = ui->organization->toPlainText();
+    this->sponsorLogo1.pixmap = ui->sponsorLogo1->pixmap();
+    this->sponsorLogo2.pixmap = ui->sponsorLogo2->pixmap();
+    this->sponsorLogo3.pixmap = ui->sponsorLogo3->pixmap();
+    this->sponsorLogo4.pixmap = ui->sponsorLogo4->pixmap();
 }
 
-void ChronoRaceData::restoreRaceData()
+void ChronoRaceData::restoreRaceData() const
 {
-    ui->leftLogo->setPixmap(this->leftLogo);
-    ui->rightLogo->setPixmap(this->rightLogo);
-    ui->event->setText(this->event);
-    ui->place->setText(this->place);
+    ui->leftLogo->setPixmap(this->leftLogo.pixmap);
+    ui->rightLogo->setPixmap(this->rightLogo.pixmap);
+    ui->event->setText(this->stringFields[static_cast<int>(StringField::EVENT)]);
+    ui->place->setText(this->stringFields[static_cast<int>(StringField::PLACE)]);
     ui->date->setDate(this->date);
     ui->startTime->setTime(this->startTime);
     ui->raceType->setCurrentIndex(this->raceTypeIdx);
     ui->results->setCurrentIndex(this->resultsIdx);
-    ui->referee->setText(this->referee);
-    ui->timeKeeper1->setText(this->timeKeeper1);
-    ui->timeKeeper2->setText(this->timeKeeper2);
-    ui->timeKeeper3->setText(this->timeKeeper3);
-    ui->length->setText(this->length);
-    ui->elevationGain->setText(this->elevationGain);
-    ui->organization->setPlainText(this->organization);
-    ui->sponsorLogo1->setPixmap(this->sponsorLogo1);
-    ui->sponsorLogo2->setPixmap(this->sponsorLogo2);
-    ui->sponsorLogo3->setPixmap(this->sponsorLogo3);
-    ui->sponsorLogo4->setPixmap(this->sponsorLogo4);
+    ui->referee->setText(this->stringFields[static_cast<int>(StringField::REFEREE)]);
+    ui->timeKeeper1->setText(this->stringFields[static_cast<int>(StringField::TIMEKEEPER_1)]);
+    ui->timeKeeper2->setText(this->stringFields[static_cast<int>(StringField::TIMEKEEPER_2)]);
+    ui->timeKeeper3->setText(this->stringFields[static_cast<int>(StringField::TIMEKEEPER_3)]);
+    ui->length->setText(this->stringFields[static_cast<int>(StringField::LENGTH)]);
+    ui->elevationGain->setText(this->stringFields[static_cast<int>(StringField::ELEVATION_GAIN)]);
+    ui->organization->setPlainText(this->stringFields[static_cast<int>(StringField::ORGANIZATION)]);
+    ui->sponsorLogo1->setPixmap(this->sponsorLogo1.pixmap);
+    ui->sponsorLogo2->setPixmap(this->sponsorLogo2.pixmap);
+    ui->sponsorLogo3->setPixmap(this->sponsorLogo3.pixmap);
+    ui->sponsorLogo4->setPixmap(this->sponsorLogo4.pixmap);
 }
 
 void ChronoRaceData::accept()
@@ -300,73 +303,102 @@ void ChronoRaceData::show()
     QDialog::show();
 }
 
-void ChronoRaceData::setBinFormat(uint binFmt)
+void ChronoRaceData::setBinFormat(uint format)
 {
-    this->binFmt = binFmt;
+    this->binFmt = format;
+}
+
+void ChronoRaceData::loadLogo(QLabel *label)
+{
+    if (label) {
+        QString logoFileName = QFileDialog::getOpenFileName(this, tr("Select Logo"),
+            LBChronoRace::lastSelectedPath.absolutePath(), tr("Images (*.png *.xpm *.jpg *.gif);;All Files (*)"));
+        if (!logoFileName.isEmpty()) {
+            auto newLogo = QPixmap(logoFileName);
+
+            if (!newLogo.isNull()) {
+                LBChronoRace::lastSelectedPath = QFileInfo(logoFileName).absoluteDir();
+                // get label dimensions
+                //int w = label->width(); //NOSONAR
+                //int h = label->height(); //NOSONAR
+
+                label->setPixmap(newLogo);
+                // set a scaled pixmap to a w x h window keeping its aspect ratio
+                //label->setPixmap(newLogo.scaled(w, h, Qt::KeepAspectRatio)); //NOSONAR
+            }
+        }
+    }
+}
+
+void ChronoRaceData::deleteLogo(QLabel *label) const
+{
+    if (label) {
+        label->setPixmap(QPixmap());
+    }
 }
 
 QVector<QPixmap> ChronoRaceData::getSponsorLogos() const
 {
     QVector<QPixmap> sponsorLogos;
 
-    if (!sponsorLogo1.isNull())
-        sponsorLogos.push_back(sponsorLogo1);
+    if (!this->sponsorLogo1.pixmap.isNull())
+        sponsorLogos.push_back(this->sponsorLogo1.pixmap);
 
-    if (!sponsorLogo2.isNull())
-        sponsorLogos.push_back(sponsorLogo2);
+    if (!this->sponsorLogo2.pixmap.isNull())
+        sponsorLogos.push_back(this->sponsorLogo2.pixmap);
 
-    if (!sponsorLogo3.isNull())
-        sponsorLogos.push_back(sponsorLogo3);
+    if (!this->sponsorLogo3.pixmap.isNull())
+        sponsorLogos.push_back(this->sponsorLogo3.pixmap);
 
-    if (!sponsorLogo4.isNull())
-        sponsorLogos.push_back(sponsorLogo4);
+    if (!this->sponsorLogo4.pixmap.isNull())
+        sponsorLogos.push_back(this->sponsorLogo4.pixmap);
 
     return sponsorLogos;
 }
 
 QString ChronoRaceData::getElevationGain() const
 {
-    return elevationGain;
+    return this->stringFields[static_cast<int>(StringField::ELEVATION_GAIN)];
 }
 
 QString ChronoRaceData::getLength() const
 {
-    return length;
+    return this->stringFields[static_cast<int>(StringField::LENGTH)];
 }
 
 QString ChronoRaceData::getOrganization() const
 {
-    return organization;
+    return this->stringFields[static_cast<int>(StringField::ORGANIZATION)];
 }
 
-QString ChronoRaceData::getTimeKeeper3() const
+QString ChronoRaceData::getTimeKeeper(uint idx) const
 {
-    return timeKeeper3;
-}
-
-QString ChronoRaceData::getTimeKeeper2() const
-{
-    return timeKeeper2;
-}
-
-QString ChronoRaceData::getTimeKeeper1() const
-{
-    return timeKeeper1;
+    switch (idx)
+    {
+        case 0:
+            return this->stringFields[static_cast<int>(StringField::TIMEKEEPER_1)];
+        case 1:
+            return this->stringFields[static_cast<int>(StringField::TIMEKEEPER_2)];
+        case 2:
+            return this->stringFields[static_cast<int>(StringField::TIMEKEEPER_3)];
+        default:
+            return QString();
+    }
 }
 
 QString ChronoRaceData::getReferee() const
 {
-    return referee;
+    return this->stringFields[static_cast<int>(StringField::REFEREE)];
 }
 
 QString ChronoRaceData::getResults() const
 {
-    return resultsStr;
+    return this->stringFields[static_cast<int>(StringField::RESULTS)];
 }
 
 QString ChronoRaceData::getRaceType() const
 {
-    return raceTypeStr;
+    return this->stringFields[static_cast<int>(StringField::RACE_TYPE)];
 }
 
 QTime ChronoRaceData::getStartTime() const
@@ -381,118 +413,20 @@ QDate ChronoRaceData::getDate() const
 
 QString ChronoRaceData::getPlace() const
 {
-    return place;
+    return this->stringFields[static_cast<int>(StringField::PLACE)];
 }
 
 QPixmap ChronoRaceData::getLeftLogo() const
 {
-    return leftLogo;
+    return this->leftLogo.pixmap;
 }
 
 QPixmap ChronoRaceData::getRightLogo() const
 {
-    return rightLogo;
+    return this->rightLogo.pixmap;
 }
 
 QString ChronoRaceData::getEvent() const
 {
-    return event;
-}
-
-bool ChronoRaceData::loadLogo(QLabel *label)
-{
-    bool retval = false;
-
-    if (label) {
-        QString logoFileName = QFileDialog::getOpenFileName(this, tr("Select Logo"),
-            LBChronoRace::lastSelectedPath.absolutePath(), tr("Images (*.png *.xpm *.jpg *.gif);;All Files (*)"));
-        if (!logoFileName.isEmpty()) {
-            QPixmap newLogo = QPixmap(logoFileName);
-
-            if ((retval = !newLogo.isNull())) {
-                LBChronoRace::lastSelectedPath = QFileInfo(logoFileName).absoluteDir();
-                // get label dimensions
-                //int w = label->width();
-                //int h = label->height();
-
-                label->setPixmap(newLogo);
-                // set a scaled pixmap to a w x h window keeping its aspect ratio
-                //label->setPixmap(newLogo.scaled(w, h, Qt::KeepAspectRatio));
-            }
-        }
-    }
-
-    return retval;
-}
-
-bool ChronoRaceData::deleteLogo(QLabel *label)
-{
-    bool retval = false;
-
-    if (label) {
-        label->setPixmap(QPixmap());
-        retval = true;
-    }
-
-    return retval;
-}
-
-void ChronoRaceData::on_loadLeftLogo_clicked()
-{
-    loadLogo(ui->leftLogo);
-}
-
-void ChronoRaceData::on_loadRightLogo_clicked()
-{
-    loadLogo(ui->rightLogo);
-}
-
-void ChronoRaceData::on_loadSponsorLogo1_clicked()
-{
-    loadLogo(ui->sponsorLogo1);
-}
-
-void ChronoRaceData::on_loadSponsorLogo2_clicked()
-{
-    loadLogo(ui->sponsorLogo2);
-}
-
-void ChronoRaceData::on_loadSponsorLogo3_clicked()
-{
-    loadLogo(ui->sponsorLogo3);
-}
-
-void ChronoRaceData::on_loadSponsorLogo4_clicked()
-{
-    loadLogo(ui->sponsorLogo4);
-}
-
-void ChronoRaceData::on_removeLeftLogo_clicked()
-{
-    deleteLogo(ui->leftLogo);
-}
-
-void ChronoRaceData::on_removeRightLogo_clicked()
-{
-    deleteLogo(ui->rightLogo);
-}
-
-void ChronoRaceData::on_removeSponsorLogo1_clicked()
-{
-    deleteLogo(ui->sponsorLogo1);
-}
-
-void ChronoRaceData::on_removeSponsorLogo2_clicked()
-{
-    deleteLogo(ui->sponsorLogo2);
-}
-
-void ChronoRaceData::on_removeSponsorLogo3_clicked()
-{
-    deleteLogo(ui->sponsorLogo3);
-}
-
-void ChronoRaceData::on_removeSponsorLogo4_clicked()
-{
-    deleteLogo(ui->sponsorLogo4);
+    return this->stringFields[static_cast<int>(StringField::EVENT)];
 }

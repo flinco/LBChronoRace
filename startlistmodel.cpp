@@ -1,9 +1,7 @@
-#include <algorithm>
-
 #include "startlistmodel.h"
 #include "lbcrexception.h"
 
-QDataStream &operator<<(QDataStream &out, const StartListModel &data)
+QDataStream &operator<<(QDataStream &out, StartListModel const &data)
 {
     out << data.startList
         << quint32(data.legCount)
@@ -15,16 +13,18 @@ QDataStream &operator<<(QDataStream &out, const StartListModel &data)
 
 QDataStream &operator>>(QDataStream &in, StartListModel &data)
 {
-    quint32 legCount, maxBib, competitorNameMaxWidth;
+    quint32 legCount;
+    quint32 maxBib;
+    quint32 competitorNameMaxWidth;
 
     in >> data.startList
        >> legCount
        >> maxBib
        >> competitorNameMaxWidth;
 
-    data.legCount = (uint) legCount;
-    data.maxBib = (uint) maxBib;
-    data.competitorNameMaxWidth = (uint) competitorNameMaxWidth;
+    data.legCount = legCount;
+    data.maxBib = maxBib;
+    data.competitorNameMaxWidth = competitorNameMaxWidth;
 
     return in;
 }
@@ -32,16 +32,18 @@ QDataStream &operator>>(QDataStream &in, StartListModel &data)
 void StartListModel::refreshCounters(int r)
 {
     int offset;
-    uint bib, leg, nameWidth;
+    uint bib;
+    uint leg;
+    uint nameWidth;
 
-    Q_UNUSED(r);
+    Q_UNUSED(r)
 
     competitorNameMaxWidth = 0;
-    for (auto comp : startList) {
+    for (auto const &comp : startList) {
         bib = comp.getBib();
         offset = comp.getOffset();
-        leg = (uint) ((offset < 0) ? qAbs(offset) : 1);
-        nameWidth = (uint) comp.getName().length();
+        leg = static_cast<uint>((offset < 0) ? qAbs(offset) : 1);
+        nameWidth = static_cast<uint>(comp.getName().length());
 
         if (bib > maxBib)
             maxBib = bib;
@@ -52,21 +54,21 @@ void StartListModel::refreshCounters(int r)
     }
 }
 
-int StartListModel::rowCount(const QModelIndex &parent) const
+int StartListModel::rowCount(QModelIndex const &parent) const
 {
     Q_UNUSED(parent)
 
-    return startList.count();
+    return static_cast<int>(startList.count());
 }
 
-int StartListModel::columnCount(const QModelIndex &parent) const
+int StartListModel::columnCount(QModelIndex const &parent) const
 {
     Q_UNUSED(parent)
 
-    return Competitor::CMF_COUNT;
+    return static_cast<int>(Competitor::Field::CMF_COUNT);
 }
 
-QVariant StartListModel::data(const QModelIndex &index, int role) const
+QVariant StartListModel::data(QModelIndex const &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -76,34 +78,34 @@ QVariant StartListModel::data(const QModelIndex &index, int role) const
 
     if ((role == Qt::DisplayRole) || (role == Qt::EditRole))
         switch (index.column()) {
-        case Competitor::CMF_BIB:
+        case static_cast<int>(Competitor::Field::CMF_BIB):
             return QVariant(startList.at(index.row()).getBib());
-        case Competitor::CMF_NAME:
+        case static_cast<int>(Competitor::Field::CMF_NAME):
             return QVariant(startList.at(index.row()).getName());
-        case Competitor::CMF_SEX:
+        case static_cast<int>(Competitor::Field::CMF_SEX):
             return QVariant(Competitor::toSexString(startList.at(index.row()).getSex()));
-        case Competitor::CMF_YEAR:
+        case static_cast<int>(Competitor::Field::CMF_YEAR):
             return QVariant(startList.at(index.row()).getYear());
-        case Competitor::CMF_TEAM:
+        case static_cast<int>(Competitor::Field::CMF_TEAM):
             return QVariant(startList.at(index.row()).getTeam());
-        case Competitor::CMF_OFFSET_LEG:
+        case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
             return QVariant(Competitor::toOffsetString(startList.at(index.row()).getOffset()));
         default:
             return QVariant();
         }
     else if (role == Qt::ToolTipRole)
         switch (index.column()) {
-        case Competitor::CMF_BIB:
+        case static_cast<int>(Competitor::Field::CMF_BIB):
             return QVariant(tr("Bib number (not 0)"));
-        case Competitor::CMF_NAME:
+        case static_cast<int>(Competitor::Field::CMF_NAME):
             return QVariant(tr("Competitor name"));
-        case Competitor::CMF_SEX:
+        case static_cast<int>(Competitor::Field::CMF_SEX):
             return QVariant(tr("Male (M) or Female (F)"));
-        case Competitor::CMF_YEAR:
+        case static_cast<int>(Competitor::Field::CMF_YEAR):
             return QVariant(tr("Year of birth (i.e. 1982)"));
-        case Competitor::CMF_TEAM:
+        case static_cast<int>(Competitor::Field::CMF_TEAM):
             return QVariant(tr("Team name"));
-        case Competitor::CMF_OFFSET_LEG:
+        case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
             return QVariant(tr("Start time offset or leg (to set the leg put a '-' sign before the leg number)"));
         default:
             return QVariant();
@@ -112,43 +114,44 @@ QVariant StartListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool StartListModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool StartListModel::setData(QModelIndex const &index, QVariant const &value, int role)
 {
     bool retval = false;
     if (index.isValid() && role == Qt::EditRole) {
 
         uint uval;
         switch (index.column()) {
-        case Competitor::CMF_BIB:
+        case static_cast<int>(Competitor::Field::CMF_BIB):
             uval = value.toUInt(&retval);
             if (retval && uval)
                 startList[index.row()].setBib(uval);
             else
                 retval = false;
             break;
-        case Competitor::CMF_NAME:
+        case static_cast<int>(Competitor::Field::CMF_NAME):
             startList[index.row()].setName(value.toString().simplified());
             retval = true;
             break;
-        case Competitor::CMF_SEX:
+        case static_cast<int>(Competitor::Field::CMF_SEX):
             try {
                 Competitor::Sex sex = Competitor::toSex(value.toString().trimmed(), true);
-                retval = (sex != Competitor::UNDEFINED);
+                retval = (sex != Competitor::Sex::UNDEFINED);
                 if (retval) startList[index.row()].setSex(sex);
             } catch (ChronoRaceException &ex) {
+                emit error(ex.getMessage());
                 retval = false;
             }
             break;
-        case Competitor::CMF_YEAR:
+        case static_cast<int>(Competitor::Field::CMF_YEAR):
             uval = value.toUInt(&retval);
             if (retval) startList[index.row()].setYear(uval);
             break;
-        case Competitor::CMF_TEAM:
+        case static_cast<int>(Competitor::Field::CMF_TEAM):
             startList[index.row()].setTeam(value.toString().simplified());
             emit newTeam(startList[index.row()].getTeam());
             retval = true;
             break;
-        case Competitor::CMF_OFFSET_LEG:
+        case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
             startList[index.row()].setOffset(Competitor::toOffset(value.toString().simplified()));
             retval = true;
             break;
@@ -168,17 +171,17 @@ QVariant StartListModel::headerData(int section, Qt::Orientation orientation, in
 
     if (orientation == Qt::Horizontal)
         switch (section) {
-        case Competitor::CMF_BIB:
+        case static_cast<int>(Competitor::Field::CMF_BIB):
             return QString("%1").arg(tr("Bib"));
-        case Competitor::CMF_NAME:
+        case static_cast<int>(Competitor::Field::CMF_NAME):
             return QString("%1").arg(tr("Competitor"));
-        case Competitor::CMF_SEX:
+        case static_cast<int>(Competitor::Field::CMF_SEX):
             return QString("%1").arg(tr("Sex"));
-        case Competitor::CMF_YEAR:
+        case static_cast<int>(Competitor::Field::CMF_YEAR):
             return QString("%1").arg(tr("Year"));
-        case Competitor::CMF_TEAM:
+        case static_cast<int>(Competitor::Field::CMF_TEAM):
             return QString("%1").arg(tr("Team"));
-        case Competitor::CMF_OFFSET_LEG:
+        case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
             return QString("%1").arg(tr("Start time/Leg"));
         default:
             return QString("%1").arg(section + 1);
@@ -187,7 +190,7 @@ QVariant StartListModel::headerData(int section, Qt::Orientation orientation, in
         return QString("%1").arg(section + 1);
 }
 
-Qt::ItemFlags StartListModel::flags(const QModelIndex &index) const
+Qt::ItemFlags StartListModel::flags(QModelIndex const &index) const
 {
     if (!index.isValid())
         return Qt::ItemIsEnabled;
@@ -195,7 +198,7 @@ Qt::ItemFlags StartListModel::flags(const QModelIndex &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool StartListModel::insertRows(int position, int rows, const QModelIndex &parent)
+bool StartListModel::insertRows(int position, int rows, QModelIndex const &parent)
 {
 
     Q_UNUSED(parent)
@@ -210,7 +213,7 @@ bool StartListModel::insertRows(int position, int rows, const QModelIndex &paren
     return true;
 }
 
-bool StartListModel::removeRows(int position, int rows, const QModelIndex &parent)
+bool StartListModel::removeRows(int position, int rows, QModelIndex const &parent)
 {
     Q_UNUSED(parent)
 
@@ -241,7 +244,7 @@ void StartListModel::reset()
     endResetModel();
 }
 
-const QList<Competitor>& StartListModel::getStartList() const
+QList<Competitor> const &StartListModel::getStartList() const
 {
     return startList;
 }
