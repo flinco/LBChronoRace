@@ -57,6 +57,8 @@ public:
     void setToYear(unsigned int newToYear);
     bool isValid() const;
 
+    bool includes(Competitor const *competitor) const;
+
     bool operator<  (Category const &rhs) const;
     bool operator>  (Category const &rhs) const;
     bool operator<= (Category const &rhs) const;

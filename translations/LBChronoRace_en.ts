@@ -1181,27 +1181,27 @@ Version: %2
 <context>
     <name>RankingsBuilder</name>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="262"/>
+        <location filename="../rankingsbuilder.cpp" line="248"/>
         <source>Warning: missing or extra legs for bib %1</source>
         <translation>Warning: missing or extra legs for bib %1</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="32"/>
+        <location filename="../rankingsbuilder.cpp" line="33"/>
         <source>Competitor not found for bib %1</source>
         <translation>Competitor not found for bib %1</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="50"/>
+        <location filename="../rankingsbuilder.cpp" line="51"/>
         <source>Bib %1 not inserted in results; check for possible duplicated entries</source>
         <translation>Bib %1 not inserted in results; check for possible duplicated entries</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="80"/>
+        <location filename="../rankingsbuilder.cpp" line="66"/>
         <source>Warning: %1</source>
         <translation>Warning: %1</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="84"/>
+        <location filename="../rankingsbuilder.cpp" line="70"/>
         <source>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</source>
         <translation>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</translation>
     </message>

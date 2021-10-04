@@ -9,6 +9,7 @@ uint RankingsBuilder::loadData()
 {
     QStringList messages;
     QVector<Timing> timings = CRLoader::getTimings();
+    QVector<Category> categories = CRLoader::getCategories();
 
     uint bib;
     uint leg;
@@ -51,22 +52,7 @@ uint RankingsBuilder::loadData()
             continue;
         } else {
             // Set the category for the competitor (if any)
-            for (auto const &catogory : CRLoader::getCategories()) {
-                if (catogory.isTeam())
-                    continue;
-
-                if (comp->getSex() != catogory.getSex())
-                    continue;
-
-                if (comp->getYear() < catogory.getFromYear())
-                    continue;
-
-                if (comp->getYear() > catogory.getToYear())
-                    continue;
-
-                comp->setCategory(catogory.getFullDescription());
-                break;
-            }
+            setCompetitorCategory(categories, comp);
         }
 
         if (classEntryIt != rankingByBib.end()) {
@@ -262,5 +248,15 @@ void RankingsBuilder::fillStartList()
             emit error(tr("Warning: missing or extra legs for bib %1").arg(i->first));
         }
         prevMask = mask;
+    }
+}
+
+void RankingsBuilder::setCompetitorCategory(QVector<Category> const &categories, Competitor *competitor) const
+{
+    for (auto const &category : categories) {
+        if (category.includes(competitor)) {
+            competitor->setCategory(category.getFullDescription());
+            break;
+        }
     }
 }

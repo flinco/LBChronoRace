@@ -112,6 +112,14 @@ bool Category::isValid() const
     return (!fullDescription.isEmpty() && !shortDescription.isEmpty());
 }
 
+bool Category::includes(Competitor const *competitor) const
+{
+    return (competitor && !this->isTeam() &&
+            (competitor->getSex() == this->getSex()) &&
+            (competitor->getYear() >= this->getFromYear()) &&
+            (competitor->getYear() <= this->getToYear()));
+}
+
 bool Category::operator< (Category const &rhs) const
 {
     return (!this->isTeam() && rhs.isTeam());

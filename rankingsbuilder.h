@@ -25,12 +25,12 @@ public:
 
 private:
     void fillStartList();
+    void setCompetitorCategory(QVector<Category> const &categories, Competitor *competitor) const;
 
     QMultiMap<uint, Competitor> startList { };
     QMap<uint, ClassEntry> rankingByBib { };
     QList<ClassEntry *> rankingByTime { };
     QMap<QString, TeamClassEntry> rankingByTeam { };
-
 
 signals:
     void error(QString const &message);

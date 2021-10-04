@@ -11,6 +11,7 @@
 
 #include "timing.h"
 #include "category.h"
+#include "competitor.h"
 
 #include "crtablemodel.h"
 #include "startlistmodel.h"
