@@ -646,9 +646,13 @@
     <message>
         <location filename="../chronorace.ui" line="443"/>
         <location filename="../chronorace.ui" line="446"/>
-        <location filename="../lbchronorace.cpp" line="535"/>
         <source>About &amp;Qt</source>
         <translation>Informazioni su &amp;Qt</translation>
+    </message>
+    <message>
+        <location filename="../lbchronorace.cpp" line="551"/>
+        <source>About Qt</source>
+        <translation>Informazioni su Qt</translation>
     </message>
     <message>
         <location filename="../chronorace.ui" line="451"/>
@@ -852,6 +856,11 @@
         <translation>Gara salvata: %1</translation>
     </message>
     <message>
+        <location filename="../lbchronorace.cpp" line="540"/>
+        <source>About %1</source>
+        <translation>Informazioni su %1</translation>
+    </message>
+    <message>
         <location filename="../lbchronorace.cpp" line="310"/>
         <source>Selected encoding: %1</source>
         <translation>Codifica selezionata: %1</translation>
@@ -860,28 +869,6 @@
         <location filename="../lbchronorace.cpp" line="322"/>
         <source>Selected format: %1</source>
         <translation>Formato selezionato: %1</translation>
-    </message>
-    <message>
-        <location filename="../lbchronorace.cpp" line="530"/>
-        <source>Informations</source>
-        <translation>Informazioni</translation>
-    </message>
-    <message>
-        <location filename="../lbchronorace.cpp" line="530"/>
-        <source>
-%1
-
-Author: Lorenzo Buzzi (lorenzo.buzzi@gmail.com)
-
-Version: %2
-</source>
-        <translation>
-%1
-
-Autore: Lorenzo Buzzi (lorenzo.buzzi@gmail.com)
-
-Versione: %2
-</translation>
     </message>
 </context>
 <context>
@@ -1106,6 +1093,31 @@ Versione: %2
         <location filename="../pdfrankingprinter.cpp" line="1092"/>
         <source>Error: cannot start drawing</source>
         <translation>Errore: scrittura su PDF inpossibile</translation>
+    </message>
+</context>
+<context>
+    <name>QMessageBox</name>
+    <message>
+        <location filename="../lbchronorace.cpp" line="530"/>
+        <source>&lt;h3&gt;About %1&lt;/h3&gt;&lt;p&gt;Software for producing the results of footraces.&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Informazioni su %1&lt;/h3&gt;&lt;p&gt;Software per produrre classifiche di corse podistiche.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../lbchronorace.cpp" line="534"/>
+        <source>&lt;p&gt;Version: %1 (&lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Versione: %1 (&lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Autore: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Sito: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>About Qt</source>
+        <translation>Informazioni su Qt</translation>
+    </message>
+    <message>
+        <source>&lt;h3&gt;About Qt&lt;/h3&gt;&lt;p&gt;This program uses Qt version %1.&lt;/p&gt;</source>
+        <translation>&lt;h3&gt;Informazioni su Qt&lt;/h3&gt;&lt;p&gt;Questo programma usa la versione %1 di Qt.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.&lt;/p&gt;&lt;p&gt;Qt is available under multiple licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Qt licensed under GNU (L)GPL is appropriate for the development of Qt&amp;nbsp;applications provided you can comply with the terms and conditions of the respective licenses.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;http://%2/&quot;&gt;%2&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) %1 The Qt Company Ltd and other contributors.&lt;/p&gt;&lt;p&gt;Qt and the Qt logo are trademarks of The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt is The Qt Company Ltd product developed as an open source project. See &lt;a href=&quot;http://%3/&quot;&gt;%3&lt;/a&gt; for more information.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Qt è un insieme di strumenti per lo sviluppo di applicazioni C++ multi piattaforma.&lt;/p&gt;&lt;p&gt;Qt permette la portabilità dei singoli sorgenti su tutti i sistemi operativi desktop più diffusi. Supporta inoltre Linux embedded e altri sistemi operativi embedded e cellulari.&lt;/p&gt;&lt;p&gt;Qt è disponibile con diversi tipi di licenza, ognuna adatta alle necessità di diverse tipologie di utenti.&lt;/p&gt;&lt;p&gt;La licenza commerciale di Qt è adatta per lo sviluppo di software proprietari/commerciali per i queli non si vuole condividere il codice sorgente con terze parti e quindi non essere conformi con le condizioni imposte dalle licenze GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Le licenze GNU (L)GPL sono idonee allo sviluppo di applicazioni&amp;nbsp;Qt purché ne siano rispettati i termini e le condizioni.&lt;/p&gt;&lt;p&gt;Si veda &lt;a href=&quot;http://%2/&quot;&gt;%2&lt;/a&gt; per ulteriori informazioni sulle licenze Qt.&lt;/p&gt;&lt;p&gt;Copyright (C) %1 The Qt Company Ltd e altri collaboratori.&lt;/p&gt;&lt;p&gt;Qt e il logo&amp;nbsp;Qt sonno marchi registrati da The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt è il prodotto sviluppato come progetto open source da The Qt Company Ltd. Si veda &lt;a href=&quot;http://%3/&quot;&gt;%3&lt;/a&gt; per ulteriori informazioni.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>

@@ -527,10 +527,26 @@ void LBChronoRace::makeRankings()
 
 void LBChronoRace::actionAbout()
 {
-    QMessageBox::about(this, tr("Informations"), tr("\n%1\n\nAuthor: Lorenzo Buzzi (lorenzo.buzzi@gmail.com)\n\nVersion: %2\n").arg(LBCHRONORACE_NAME, LBCHRONORACE_VERSION));
+    QString const translatedTextAboutQtCaption = QMessageBox::tr(
+        "<h3>About %1</h3>"
+        "<p>Software for producing the results of footraces.</p>"
+        ).arg(QStringLiteral(LBCHRONORACE_NAME));
+    QString const translatedTextAboutQtText = QMessageBox::tr(
+        "<p>Version: %1 (<a href=\"http://github.com/flinco/LBChronoRace\">GitHub</a>)</p>"
+        "<p>Author: Lorenzo Buzzi (<a href=\"mailto:lorenzo@buzzi.pro\">lorenzo@buzzi.pro</a>)</p>"
+        "<p>Site: <a href=\"http://www.buzzi.pro/\">http://www.buzzi.pro/</a></p>"
+        ).arg(QStringLiteral(LBCHRONORACE_VERSION));
+    QMessageBox msgBox(this);
+    msgBox.setWindowTitle(tr("About %1").arg(QStringLiteral(LBCHRONORACE_NAME)));
+    msgBox.setText(translatedTextAboutQtCaption);
+    msgBox.setInformativeText(translatedTextAboutQtText);
+    if (QPixmap pm(QStringLiteral(":/icons/LBChronoRace.png")); !pm.isNull()) {
+        msgBox.setIconPixmap(pm);
+    }
+    msgBox.exec();
 }
 
 void LBChronoRace::actionAboutQt()
 {
-    QMessageBox::aboutQt(this, tr("About &Qt"));
+    QMessageBox::aboutQt(this, tr("About Qt"));
 }

@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.8)
 project(LBChronoRace
-    VERSION 3.0.0
+    VERSION 3.0.1
     DESCRIPTION "Timings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
     <Name>LBChronoRace</Name>
-    <Version>3.0.0</Version>
+    <Version>3.0.1</Version>
     <Title>LBChronoRace</Title>
     <Publisher>Lorenzo Buzzi</Publisher>
     <ProductUrl>http://github.com/flinco/LBChronoRace</ProductUrl>
