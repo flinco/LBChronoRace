@@ -103,7 +103,6 @@ set(PROJECT_RESOURCES
     icons.qrc
     fonts.qrc
     ${CMAKE_BINARY_DIR}/translations.qrc
-    distfiles.qrc
 )
 
 if(WIN32)
