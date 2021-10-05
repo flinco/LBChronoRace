@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.8)
 project(LBChronoRace
-    VERSION 3.0.1
+    VERSION 3.0.2
     DESCRIPTION "Timings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
@@ -103,7 +103,6 @@ set(PROJECT_RESOURCES
     icons.qrc
     fonts.qrc
     ${CMAKE_BINARY_DIR}/translations.qrc
-    distfiles.qrc
 )
 
 if(WIN32)

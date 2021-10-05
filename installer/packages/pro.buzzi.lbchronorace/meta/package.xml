@@ -4,7 +4,7 @@
     <DisplayName xml:lang="it_IT">Applicazione base</DisplayName>
     <Description>Race rankings software.</Description>
     <Description xml:lang="it_IT">Software per classifiche.</Description>
-    <Version>3.0.1</Version>
+    <Version>3.0.2</Version>
     <ReleaseDate>2021-10-05</ReleaseDate>
     <Name>pro.buzzi.lbchronorace</Name>
     <!--<Dependencies>com.vendor.root.component1</Dependencies>-->
