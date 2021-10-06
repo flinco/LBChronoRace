@@ -4,8 +4,8 @@
     <DisplayName xml:lang="it_IT">Applicazione base</DisplayName>
     <Description>Race rankings software.</Description>
     <Description xml:lang="it_IT">Software per classifiche.</Description>
-    <Version>3.0.2</Version>
-    <ReleaseDate>2021-10-05</ReleaseDate>
+    <Version>@PROJECT_VERSION@</Version>
+    <ReleaseDate>@BUILD_DATE@</ReleaseDate>
     <Name>pro.buzzi.lbchronorace</Name>
     <!--<Dependencies>com.vendor.root.component1</Dependencies>-->
     <!--<Virtual>false</Virtual>-->
@@ -33,15 +33,15 @@
     <Replaces>com.vendor.root.component2old</Replaces>
     <Operations>
         <Operation name="AppendFile">
-            <Argument>@TargetDir@/A.txt</Argument>
+            <Argument>${TargetDir}/A.txt</Argument>
             <Argument>lorem ipsum</Argument>
         </Operation>
         <Operation name="Extract">
-            <Argument>@TargetDir@/Folder1</Argument>
+            <Argument>${TargetDir}/Folder1</Argument>
             <Argument>content.7z</Argument>
         </Operation>
         <Operation name="Extract">
-            <Argument>@TargetDir@/Folder2</Argument>
+            <Argument>${TargetDir}/Folder2</Argument>
         </Operation>
     </Operations>
     <TreeName>com.vendor.subcomponent</TreeName>
