@@ -116,7 +116,10 @@ if(WIN32)
         ${QM_FILES}
         ${APP_ICON_RESOURCE_WINDOWS})
 
-    add_subdirectory(installer)
+    # Create the installer tree (in Release mode only)
+    if("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
+        add_subdirectory(installer)
+    endif()
 else()
     qt_add_executable(${CMAKE_PROJECT_NAME}
         ${PROJECT_SOURCES}

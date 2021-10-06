@@ -1,6 +1,6 @@
 include(CMakePrintHelpers)
 
-add_custom_target(LBChronoRaceInstaller ALL
+add_custom_target("${CMAKE_PROJECT_NAME}Installer" ALL
                   COMMENT "Setting up the tree for the Qt Installer Framework")
 
 #set(WIN_DEPLOY_DIR "${CMAKE_CURRENT_BINARY_DIR}/installer")
@@ -32,7 +32,7 @@ set(WIN_DEPLOY_TS_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/packages/pro.buzzi.lbchronorace/meta/it.ts")
 set_source_files_properties(${WIN_DEPLOY_TS_FILES}
     PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/meta")
-qt_add_translations(LBChronoRaceInstaller
+qt_add_translations("${CMAKE_PROJECT_NAME}Installer"
                     TS_FILES ${WIN_DEPLOY_TS_FILES}
                     QM_FILES_OUTPUT_VARIABLE WIN_DEPLOY_QM_FILES
                     "${CMAKE_CURRENT_SOURCE_DIR}/packages/pro.buzzi.lbchronorace/meta/installscript.qs")
@@ -72,5 +72,7 @@ foreach(SAMPLE_CONTENT ${WIN_DEPLOY_SAMPLES_CONTENTS})
     endif()
 endforeach()
 
-# Install the main executable
-install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION ${WIN_DEPLOY_TARGET_DIR})
+add_custom_command(TARGET "${CMAKE_PROJECT_NAME}Installer" POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>" ${WIN_DEPLOY_TARGET_DIR}
+    DEPENDS "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>"
+    COMMENT "Copy executable into the installer directory")
