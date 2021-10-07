@@ -1,4 +1,4 @@
-include(CMakePrintHelpers)
+#include(CMakePrintHelpers)
 
 add_custom_target("${CMAKE_PROJECT_NAME}Installer" ALL #togliere all
     COMMENT "Setting up the tree for the Qt Installer Framework")
