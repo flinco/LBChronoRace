@@ -5,6 +5,25 @@
     <Title>LBChronoRace</Title>
     <Publisher>Lorenzo Buzzi</Publisher>
     <ProductUrl>http://github.com/flinco/LBChronoRace</ProductUrl>
+    <InstallerWindowIcon>LBChronoRace.png</InstallerWindowIcon>
+    <!--<InstallerApplicationIcon>installericon</InstallerApplicationIcon>-->
+    <Logo>LBChronoRace.png</Logo>
+    <!--<Watermark>watermark.png</Watermark>-->
+    <RunProgram>@TargetDir@/LBChronoRace</RunProgram>
+    <!--<RunProgramArguments>
+        <Argument>Argument 1</Argument>
+        <Argument>Argument 2</Argument>
+    </RunProgramArguments>-->
+    <!--<RunProgramDescription>My nice application</RunProgramDescription>-->
     <StartMenuDir>LBChronoRace</StartMenuDir>
+    <!--<MaintenanceToolName>SDKMaintenanceTool</MaintenanceToolName>-->
+    <!--<AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>-->
+    <!--<Background>background.png</Background>-->
     <TargetDir>${ApplicationsDirX64}/LBChronoRace</TargetDir>
+    <!--<AdminTargetDir>@RootDir@/testinstall</AdminTargetDir>-->
+    <!--<RemoteRepositories>
+        <Repository>
+            <Url>http://www.your-repo-location/packages/</Url>
+        </Repository>
+    </RemoteRepositories>-->
 </Installer>
