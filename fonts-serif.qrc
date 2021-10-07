@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/fonts">
+        <file alias="LiberationSerif-Bold.ttf">fonts/LiberationSerif-Bold.ttf</file>
+        <file alias="LiberationSerif-BoldItalic.ttf">fonts/LiberationSerif-BoldItalic.ttf</file>
+        <file alias="LiberationSerif-Italic.ttf">fonts/LiberationSerif-Italic.ttf</file>
+        <file alias="LiberationSerif-Regular.ttf">fonts/LiberationSerif-Regular.ttf</file>
+    </qresource>
+</RCC>

@@ -101,7 +101,9 @@ configure_file(translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
 # updated.
 set(PROJECT_RESOURCES
     icons.qrc
-    fonts.qrc
+    fonts-mono.qrc
+    fonts-sans.qrc
+    fonts-serif.qrc
     ${CMAKE_BINARY_DIR}/translations.qrc
 )
 
