@@ -4,20 +4,20 @@
 <context>
     <name>CRLoader</name>
     <message>
-        <location filename="../crloader.cpp" line="97"/>
-        <location filename="../crloader.cpp" line="171"/>
+        <location filename="../crloader.cpp" line="114"/>
+        <location filename="../crloader.cpp" line="188"/>
         <source>Error: cannot open %1</source>
         <translation>Errore: impossibile aprire %1</translation>
     </message>
     <message>
-        <location filename="../crloader.cpp" line="155"/>
-        <location filename="../crloader.cpp" line="229"/>
-        <location filename="../crloader.cpp" line="256"/>
+        <location filename="../crloader.cpp" line="172"/>
+        <location filename="../crloader.cpp" line="246"/>
+        <location filename="../crloader.cpp" line="273"/>
         <source>Wrong number of columns; expected %1 - found %2</source>
         <translation>Numero colonne errato - atteso %1 - trovato %2</translation>
     </message>
     <message>
-        <location filename="../crloader.cpp" line="291"/>
+        <location filename="../crloader.cpp" line="308"/>
         <source>Wrong number of elements in CSV row; expected %1 - found %2</source>
         <translation>Numero elementi errato nel CSV row; atteso %1 - trovato %2</translation>
     </message>
@@ -25,28 +25,28 @@
 <context>
     <name>CSVRankingPrinter</name>
     <message>
-        <location filename="../csvrankingprinter.cpp" line="12"/>
+        <location filename="../csvrankingprinter.cpp" line="29"/>
         <source>Select Start List File</source>
         <translation>Seleziona file Ordine di Partenza</translation>
     </message>
     <message>
-        <location filename="../csvrankingprinter.cpp" line="13"/>
+        <location filename="../csvrankingprinter.cpp" line="30"/>
         <source>CSV (*.csv)</source>
         <translation>CSV (*.csv)</translation>
     </message>
     <message>
-        <location filename="../csvrankingprinter.cpp" line="55"/>
+        <location filename="../csvrankingprinter.cpp" line="72"/>
         <source>Generated Start List: %1</source>
         <translation>Generato Ordine di Partenza: %1</translation>
     </message>
     <message>
-        <location filename="../csvrankingprinter.cpp" line="68"/>
+        <location filename="../csvrankingprinter.cpp" line="85"/>
         <source>Error: cannot open %1</source>
         <translation>Errore: impossibile aprire %1</translation>
     </message>
     <message>
-        <location filename="../csvrankingprinter.cpp" line="80"/>
-        <location filename="../csvrankingprinter.cpp" line="103"/>
+        <location filename="../csvrankingprinter.cpp" line="97"/>
+        <location filename="../csvrankingprinter.cpp" line="120"/>
         <source>Generated Results &apos;%1&apos;: %2</source>
         <translation>Generata Classifica &apos;%1&apos;: %2</translation>
     </message>
@@ -54,72 +54,72 @@
 <context>
     <name>CategoriesModel</name>
     <message>
-        <location filename="../categoriesmodel.cpp" line="50"/>
+        <location filename="../categoriesmodel.cpp" line="67"/>
         <source>T</source>
         <translation>T</translation>
     </message>
     <message>
-        <location filename="../categoriesmodel.cpp" line="50"/>
+        <location filename="../categoriesmodel.cpp" line="67"/>
         <source>I</source>
         <translation>I</translation>
     </message>
     <message>
-        <location filename="../categoriesmodel.cpp" line="67"/>
+        <location filename="../categoriesmodel.cpp" line="84"/>
         <source>Individual (I) or Team (T)</source>
         <translation>Individuale (I) o Squadra (T)</translation>
     </message>
     <message>
-        <location filename="../categoriesmodel.cpp" line="69"/>
+        <location filename="../categoriesmodel.cpp" line="86"/>
         <source>Male (M), Female (F), Misc (X) or Unspecified (U)</source>
         <translation>Maschile (M), Femminile (F), Mista (X) o Non specificato (U)</translation>
     </message>
     <message>
-        <location filename="../categoriesmodel.cpp" line="71"/>
+        <location filename="../categoriesmodel.cpp" line="88"/>
         <source>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</source>
         <translation>La categoria include concorrenti nati fino a quest&apos;anno incluso (es. 2000); 0 per disabilitare</translation>
     </message>
     <message>
-        <location filename="../categoriesmodel.cpp" line="73"/>
+        <location filename="../categoriesmodel.cpp" line="90"/>
         <source>The category will include competitors born from this year (i.e. 1982); to disable</source>
         <translation>La categoria include concorrenti nati da quest&apos;anno incluso (es. 1982); 0 per disabilitare</translation>
     </message>
     <message>
-        <location filename="../categoriesmodel.cpp" line="75"/>
+        <location filename="../categoriesmodel.cpp" line="92"/>
         <source>Full category name</source>
         <translation>Nome categoria</translation>
     </message>
     <message>
-        <location filename="../categoriesmodel.cpp" line="77"/>
+        <location filename="../categoriesmodel.cpp" line="94"/>
         <source>Short category name</source>
         <translation>Abbreviazione categoria</translation>
     </message>
     <message>
-        <location filename="../categoriesmodel.cpp" line="139"/>
+        <location filename="../categoriesmodel.cpp" line="156"/>
         <source>Individual/Team</source>
         <translation>Individuale/Squarda</translation>
     </message>
     <message>
-        <location filename="../categoriesmodel.cpp" line="141"/>
+        <location filename="../categoriesmodel.cpp" line="158"/>
         <source>Sex</source>
         <translation>Sesso</translation>
     </message>
     <message>
-        <location filename="../categoriesmodel.cpp" line="143"/>
+        <location filename="../categoriesmodel.cpp" line="160"/>
         <source>Up to</source>
         <translation>Fino al</translation>
     </message>
     <message>
-        <location filename="../categoriesmodel.cpp" line="145"/>
+        <location filename="../categoriesmodel.cpp" line="162"/>
         <source>From</source>
         <translation>Dal</translation>
     </message>
     <message>
-        <location filename="../categoriesmodel.cpp" line="147"/>
+        <location filename="../categoriesmodel.cpp" line="164"/>
         <source>Category Full Name</source>
         <translation>Nome Categoria</translation>
     </message>
     <message>
-        <location filename="../categoriesmodel.cpp" line="149"/>
+        <location filename="../categoriesmodel.cpp" line="166"/>
         <source>Category Short Name</source>
         <translation>Abbreviazione Categoria</translation>
     </message>
@@ -127,7 +127,7 @@
 <context>
     <name>Category</name>
     <message>
-        <location filename="../category.cpp" line="10"/>
+        <location filename="../category.cpp" line="27"/>
         <source>Illegal category type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
         <translation>Categoria errata - valori ammessi &apos;I&apos; o &apos;T&apos; - trovato %1</translation>
     </message>
@@ -325,12 +325,12 @@
         <translation>Risultati</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="314"/>
+        <location filename="../chronoracedata.cpp" line="331"/>
         <source>Select Logo</source>
         <translation>Seleziona Logo</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="315"/>
+        <location filename="../chronoracedata.cpp" line="332"/>
         <source>Images (*.png *.xpm *.jpg *.gif);;All Files (*)</source>
         <translation>Immagini (*.png *.xpm *.jpg *.gif);;Tutti i file (*)</translation>
     </message>
@@ -391,24 +391,24 @@
 <context>
     <name>ClassEntry</name>
     <message>
-        <location filename="../classentry.cpp" line="45"/>
-        <location filename="../classentry.cpp" line="115"/>
-        <location filename="../classentry.cpp" line="137"/>
-        <location filename="../classentry.cpp" line="165"/>
-        <location filename="../classentry.cpp" line="173"/>
-        <location filename="../classentry.cpp" line="228"/>
-        <location filename="../classentry.cpp" line="236"/>
-        <location filename="../classentry.cpp" line="297"/>
+        <location filename="../classentry.cpp" line="62"/>
+        <location filename="../classentry.cpp" line="132"/>
+        <location filename="../classentry.cpp" line="154"/>
+        <location filename="../classentry.cpp" line="182"/>
+        <location filename="../classentry.cpp" line="190"/>
+        <location filename="../classentry.cpp" line="245"/>
+        <location filename="../classentry.cpp" line="253"/>
+        <location filename="../classentry.cpp" line="314"/>
         <source>Nonexistent leg %1 for bib %2</source>
         <translation>Frazione %1 inesistente per il pettorale %2</translation>
     </message>
     <message>
-        <location filename="../classentry.cpp" line="192"/>
+        <location filename="../classentry.cpp" line="209"/>
         <source>Leg mismatch for bib %1: detected %2 overriding competitor declared %3</source>
         <translation>Frazione incompatibile per il pettorale %1: il valor riscontrato %2 sarà usato al posto di quello dichiarato nel concorrente %3</translation>
     </message>
     <message>
-        <location filename="../classentry.cpp" line="200"/>
+        <location filename="../classentry.cpp" line="217"/>
         <source>Competitor mismatch for bib %1: found %2 replaced by %3</source>
         <translation>Concorrente incompatibile per il pettorale %1: quello riscontrato %2 sarà rimpiazzato da %3</translation>
     </message>
@@ -416,12 +416,12 @@
 <context>
     <name>Competitor</name>
     <message>
-        <location filename="../competitor.cpp" line="142"/>
+        <location filename="../competitor.cpp" line="159"/>
         <source>Illegal sex &apos;%1&apos;</source>
         <translation>Sesso non valido &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../competitor.cpp" line="167"/>
+        <location filename="../competitor.cpp" line="184"/>
         <source>Unexpected Sex enum value &apos;%1&apos;</source>
         <translation>Valore enumerazione Sex &apos;%1&apos; non valido</translation>
     </message>
@@ -455,7 +455,7 @@
     </message>
     <message>
         <location filename="../chronorace.ui" line="117"/>
-        <location filename="../lbchronorace.cpp" line="53"/>
+        <location filename="../lbchronorace.cpp" line="70"/>
         <source>Categories</source>
         <translation>Categorie</translation>
     </message>
@@ -516,7 +516,7 @@
     </message>
     <message>
         <location filename="../chronorace.ui" line="252"/>
-        <location filename="../lbchronorace.cpp" line="305"/>
+        <location filename="../lbchronorace.cpp" line="322"/>
         <source>UTF-8</source>
         <translation>UTF-8</translation>
     </message>
@@ -532,7 +532,7 @@
     </message>
     <message>
         <location filename="../chronorace.ui" line="271"/>
-        <location filename="../lbchronorace.cpp" line="315"/>
+        <location filename="../lbchronorace.cpp" line="332"/>
         <source>PDF</source>
         <translation>PDF</translation>
     </message>
@@ -543,7 +543,7 @@
     </message>
     <message>
         <location filename="../chronorace.ui" line="281"/>
-        <location filename="../lbchronorace.cpp" line="317"/>
+        <location filename="../lbchronorace.cpp" line="334"/>
         <source>CSV</source>
         <translation>CSV</translation>
     </message>
@@ -650,7 +650,7 @@
         <translation>Informazioni su &amp;Qt</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="551"/>
+        <location filename="../lbchronorace.cpp" line="568"/>
         <source>About Qt</source>
         <translation>Informazioni su Qt</translation>
     </message>
@@ -670,68 +670,68 @@
         <translation>Salva come</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="35"/>
+        <location filename="../lbchronorace.cpp" line="52"/>
         <source>Start List</source>
         <translation>Ordine di Partenza</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="42"/>
+        <location filename="../lbchronorace.cpp" line="59"/>
         <source>Teams List</source>
         <translation>Lista Squadre</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="61"/>
+        <location filename="../lbchronorace.cpp" line="78"/>
         <source>Timings List</source>
         <translation>Lista Tempi</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="476"/>
+        <location filename="../lbchronorace.cpp" line="493"/>
         <source>Select Results Destination Folder</source>
         <translation>Seleziona Cartella Destinazione Classifiche</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="144"/>
-        <location filename="../lbchronorace.cpp" line="164"/>
-        <location filename="../lbchronorace.cpp" line="183"/>
-        <location filename="../lbchronorace.cpp" line="204"/>
-        <location filename="../lbchronorace.cpp" line="224"/>
-        <location filename="../lbchronorace.cpp" line="244"/>
-        <location filename="../lbchronorace.cpp" line="264"/>
-        <location filename="../lbchronorace.cpp" line="464"/>
-        <location filename="../lbchronorace.cpp" line="524"/>
+        <location filename="../lbchronorace.cpp" line="161"/>
+        <location filename="../lbchronorace.cpp" line="181"/>
+        <location filename="../lbchronorace.cpp" line="200"/>
+        <location filename="../lbchronorace.cpp" line="221"/>
+        <location filename="../lbchronorace.cpp" line="241"/>
+        <location filename="../lbchronorace.cpp" line="261"/>
+        <location filename="../lbchronorace.cpp" line="281"/>
+        <location filename="../lbchronorace.cpp" line="481"/>
+        <location filename="../lbchronorace.cpp" line="541"/>
         <source>Error: %1</source>
         <translation>Errore: %1</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="480"/>
+        <location filename="../lbchronorace.cpp" line="497"/>
         <source>Warning: please select a destination folder</source>
         <translation>Attenzione: è necessario selezionare una cartella</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="133"/>
-        <location filename="../lbchronorace.cpp" line="154"/>
-        <location filename="../lbchronorace.cpp" line="173"/>
-        <location filename="../lbchronorace.cpp" line="192"/>
-        <location filename="../lbchronorace.cpp" line="212"/>
-        <location filename="../lbchronorace.cpp" line="232"/>
-        <location filename="../lbchronorace.cpp" line="252"/>
+        <location filename="../lbchronorace.cpp" line="150"/>
+        <location filename="../lbchronorace.cpp" line="171"/>
+        <location filename="../lbchronorace.cpp" line="190"/>
+        <location filename="../lbchronorace.cpp" line="209"/>
+        <location filename="../lbchronorace.cpp" line="229"/>
+        <location filename="../lbchronorace.cpp" line="249"/>
+        <location filename="../lbchronorace.cpp" line="269"/>
         <source>CSV (*.csv)</source>
         <translation>CSV (*.csv)</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="132"/>
-        <location filename="../lbchronorace.cpp" line="191"/>
+        <location filename="../lbchronorace.cpp" line="149"/>
+        <location filename="../lbchronorace.cpp" line="208"/>
         <source>Select Start List</source>
         <translation>Seleziona Ordine di Partenza</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="137"/>
+        <location filename="../lbchronorace.cpp" line="154"/>
         <source>Start List File: %1</source>
         <translation>File Ordine di Partenza: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="../lbchronorace.cpp" line="140"/>
-        <location filename="../lbchronorace.cpp" line="371"/>
+        <location filename="../lbchronorace.cpp" line="157"/>
+        <location filename="../lbchronorace.cpp" line="388"/>
         <source>Loaded: %n competitor(s)</source>
         <translation>
             <numerusform>Caricato: %n concorrente</numerusform>
@@ -739,8 +739,8 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../lbchronorace.cpp" line="141"/>
-        <location filename="../lbchronorace.cpp" line="375"/>
+        <location filename="../lbchronorace.cpp" line="158"/>
+        <location filename="../lbchronorace.cpp" line="392"/>
         <source>Loaded: %n team(s)</source>
         <translation>
             <numerusform>Caricata: %n squadra</numerusform>
@@ -748,19 +748,19 @@
         </translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="153"/>
-        <location filename="../lbchronorace.cpp" line="231"/>
+        <location filename="../lbchronorace.cpp" line="170"/>
+        <location filename="../lbchronorace.cpp" line="248"/>
         <source>Select Categories File</source>
         <translation>Seleziona File Categorie</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="158"/>
+        <location filename="../lbchronorace.cpp" line="175"/>
         <source>Categories File: %1</source>
         <translation>File Categorie: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="../lbchronorace.cpp" line="161"/>
-        <location filename="../lbchronorace.cpp" line="379"/>
+        <location filename="../lbchronorace.cpp" line="178"/>
+        <location filename="../lbchronorace.cpp" line="396"/>
         <source>Loaded: %n category</source>
         <translation>
             <numerusform>Caricata: %n categoria</numerusform>
@@ -768,19 +768,19 @@
         </translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="172"/>
-        <location filename="../lbchronorace.cpp" line="251"/>
+        <location filename="../lbchronorace.cpp" line="189"/>
+        <location filename="../lbchronorace.cpp" line="268"/>
         <source>Select Timings File</source>
         <translation>Seleziona File Tempi</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="177"/>
+        <location filename="../lbchronorace.cpp" line="194"/>
         <source>Timings File: %1</source>
         <translation>File Tempi: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="../lbchronorace.cpp" line="180"/>
-        <location filename="../lbchronorace.cpp" line="383"/>
+        <location filename="../lbchronorace.cpp" line="197"/>
+        <location filename="../lbchronorace.cpp" line="400"/>
         <source>Loaded: %n timing(s)</source>
         <translation>
             <numerusform>Caricato: %n tempo</numerusform>
@@ -788,85 +788,85 @@
         </translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="201"/>
+        <location filename="../lbchronorace.cpp" line="218"/>
         <source>Start List File saved: %1</source>
         <translation>File Ordine di Partenza salvato: %1</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="211"/>
+        <location filename="../lbchronorace.cpp" line="228"/>
         <source>Select Teams List</source>
         <translation>Seleziona Lista Squadre</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="221"/>
+        <location filename="../lbchronorace.cpp" line="238"/>
         <source>Teams File saved: %1</source>
         <translation>File Squadre salvato: %1</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="241"/>
+        <location filename="../lbchronorace.cpp" line="258"/>
         <source>Categories File saved: %1</source>
         <translation>File Categorie salvato: %1</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="261"/>
+        <location filename="../lbchronorace.cpp" line="278"/>
         <source>Timings File saved: %1</source>
         <translation>File Tempi salvato: %1</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="276"/>
+        <location filename="../lbchronorace.cpp" line="293"/>
         <source>Warning: skipping file %1</source>
         <translation>Attenzione: file %1 ignorato</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="328"/>
-        <location filename="../lbchronorace.cpp" line="399"/>
+        <location filename="../lbchronorace.cpp" line="345"/>
+        <location filename="../lbchronorace.cpp" line="416"/>
         <source>Select Race Data File</source>
         <translation>Seleziona File Gara</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="329"/>
-        <location filename="../lbchronorace.cpp" line="400"/>
+        <location filename="../lbchronorace.cpp" line="346"/>
+        <location filename="../lbchronorace.cpp" line="417"/>
         <source>ChronoRace Data (*.crd)</source>
         <translation>ChronoRace Data (*.crd)</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="337"/>
-        <location filename="../lbchronorace.cpp" line="410"/>
+        <location filename="../lbchronorace.cpp" line="354"/>
+        <location filename="../lbchronorace.cpp" line="427"/>
         <source>Unable to open file</source>
         <translation>Impossibile aprire il file</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="385"/>
+        <location filename="../lbchronorace.cpp" line="402"/>
         <source>Race loaded: %1</source>
         <translation>Gara caricata: %1</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="388"/>
+        <location filename="../lbchronorace.cpp" line="405"/>
         <source>Race Data File Error</source>
         <translation>Errore File Gara</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="388"/>
+        <location filename="../lbchronorace.cpp" line="405"/>
         <source>Format version %1 not supported</source>
         <translation>Formato versione %1 non supportato</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="425"/>
+        <location filename="../lbchronorace.cpp" line="442"/>
         <source>Race saved: %1</source>
         <translation>Gara salvata: %1</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="540"/>
+        <location filename="../lbchronorace.cpp" line="557"/>
         <source>About %1</source>
         <translation>Informazioni su %1</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="310"/>
+        <location filename="../lbchronorace.cpp" line="327"/>
         <source>Selected encoding: %1</source>
         <translation>Codifica selezionata: %1</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="322"/>
+        <location filename="../lbchronorace.cpp" line="339"/>
         <source>Selected format: %1</source>
         <translation>Formato selezionato: %1</translation>
     </message>
@@ -874,92 +874,92 @@
 <context>
     <name>PDFRankingPrinter</name>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="64"/>
-        <location filename="../pdfrankingprinter.cpp" line="88"/>
+        <location filename="../pdfrankingprinter.cpp" line="81"/>
+        <location filename="../pdfrankingprinter.cpp" line="105"/>
         <source>Error: cannot generate results for 0 legs</source>
         <translation>Errore: impossibile generare classifiche con 0 frazioni</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="759"/>
-        <location filename="../pdfrankingprinter.cpp" line="802"/>
-        <location filename="../pdfrankingprinter.cpp" line="923"/>
+        <location filename="../pdfrankingprinter.cpp" line="776"/>
+        <location filename="../pdfrankingprinter.cpp" line="819"/>
+        <location filename="../pdfrankingprinter.cpp" line="940"/>
         <source>Results</source>
         <translation>Risultati</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="773"/>
-        <location filename="../pdfrankingprinter.cpp" line="814"/>
+        <location filename="../pdfrankingprinter.cpp" line="790"/>
+        <location filename="../pdfrankingprinter.cpp" line="831"/>
         <source>%1 Results</source>
         <translation>Classifica %1</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="313"/>
-        <location filename="../pdfrankingprinter.cpp" line="318"/>
-        <location filename="../pdfrankingprinter.cpp" line="375"/>
-        <location filename="../pdfrankingprinter.cpp" line="380"/>
+        <location filename="../pdfrankingprinter.cpp" line="330"/>
+        <location filename="../pdfrankingprinter.cpp" line="335"/>
+        <location filename="../pdfrankingprinter.cpp" line="392"/>
+        <location filename="../pdfrankingprinter.cpp" line="397"/>
         <source>#</source>
         <translation>#</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="33"/>
+        <location filename="../pdfrankingprinter.cpp" line="50"/>
         <source>Select Start List File</source>
         <translation>Seleziona file Ordine di Partenza</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="34"/>
+        <location filename="../pdfrankingprinter.cpp" line="51"/>
         <source>PDF (*.pdf)</source>
         <translation>PDF (*.pdf)</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="660"/>
-        <location filename="../pdfrankingprinter.cpp" line="673"/>
+        <location filename="../pdfrankingprinter.cpp" line="677"/>
+        <location filename="../pdfrankingprinter.cpp" line="690"/>
         <source>Start List</source>
         <translation>Ordine di Partenza</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="323"/>
-        <location filename="../pdfrankingprinter.cpp" line="385"/>
+        <location filename="../pdfrankingprinter.cpp" line="340"/>
+        <location filename="../pdfrankingprinter.cpp" line="402"/>
         <source>Bib</source>
         <translation>Pett</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="327"/>
-        <location filename="../pdfrankingprinter.cpp" line="414"/>
+        <location filename="../pdfrankingprinter.cpp" line="344"/>
+        <location filename="../pdfrankingprinter.cpp" line="431"/>
         <source>Name</source>
         <translation>Nome</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="331"/>
-        <location filename="../pdfrankingprinter.cpp" line="389"/>
+        <location filename="../pdfrankingprinter.cpp" line="348"/>
+        <location filename="../pdfrankingprinter.cpp" line="406"/>
         <source>Team</source>
         <translation>Squadra</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="335"/>
-        <location filename="../pdfrankingprinter.cpp" line="418"/>
+        <location filename="../pdfrankingprinter.cpp" line="352"/>
+        <location filename="../pdfrankingprinter.cpp" line="435"/>
         <source>Year</source>
         <translation>Anno</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="339"/>
-        <location filename="../pdfrankingprinter.cpp" line="422"/>
+        <location filename="../pdfrankingprinter.cpp" line="356"/>
+        <location filename="../pdfrankingprinter.cpp" line="439"/>
         <source>Sex</source>
         <translation>Sex</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="343"/>
-        <location filename="../pdfrankingprinter.cpp" line="393"/>
+        <location filename="../pdfrankingprinter.cpp" line="360"/>
+        <location filename="../pdfrankingprinter.cpp" line="410"/>
         <source>Class</source>
         <translation>Categoria</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="348"/>
+        <location filename="../pdfrankingprinter.cpp" line="365"/>
         <source>Leg</source>
         <comment>long label</comment>
         <translation>Frazione</translation>
     </message>
     <message numerus="yes">
-        <location filename="../pdfrankingprinter.cpp" line="746"/>
+        <location filename="../pdfrankingprinter.cpp" line="763"/>
         <source>Leg %n</source>
         <translation>
             <numerusform>Frazione %n</numerusform>
@@ -967,55 +967,55 @@
         </translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="50"/>
+        <location filename="../pdfrankingprinter.cpp" line="67"/>
         <source>Generated Start List: %1</source>
         <translation>Generato Ordine di Partenza: %1</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="350"/>
-        <location filename="../pdfrankingprinter.cpp" line="397"/>
+        <location filename="../pdfrankingprinter.cpp" line="367"/>
+        <location filename="../pdfrankingprinter.cpp" line="414"/>
         <source>Time</source>
         <translation>Tempo</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="356"/>
-        <location filename="../pdfrankingprinter.cpp" line="402"/>
+        <location filename="../pdfrankingprinter.cpp" line="373"/>
+        <location filename="../pdfrankingprinter.cpp" line="419"/>
         <source>Diff</source>
         <translation>Diff</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="47"/>
-        <location filename="../pdfrankingprinter.cpp" line="76"/>
-        <location filename="../pdfrankingprinter.cpp" line="100"/>
+        <location filename="../pdfrankingprinter.cpp" line="64"/>
+        <location filename="../pdfrankingprinter.cpp" line="93"/>
+        <location filename="../pdfrankingprinter.cpp" line="117"/>
         <source>Error: cannot write to %1</source>
         <translation>Errore: impossibile scrivere su %1</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="78"/>
-        <location filename="../pdfrankingprinter.cpp" line="102"/>
+        <location filename="../pdfrankingprinter.cpp" line="95"/>
+        <location filename="../pdfrankingprinter.cpp" line="119"/>
         <source>Generated Results &apos;%1&apos;: %2</source>
         <translation>Generata Classifica &apos;%1&apos;: %2</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="54"/>
-        <location filename="../pdfrankingprinter.cpp" line="72"/>
-        <location filename="../pdfrankingprinter.cpp" line="96"/>
+        <location filename="../pdfrankingprinter.cpp" line="71"/>
+        <location filename="../pdfrankingprinter.cpp" line="89"/>
+        <location filename="../pdfrankingprinter.cpp" line="113"/>
         <source>Error: cannot open %1</source>
         <translation>Errore: impossibile aprire %1</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="410"/>
+        <location filename="../pdfrankingprinter.cpp" line="427"/>
         <source>Leg</source>
         <comment>short label</comment>
         <translation>Fraz</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="426"/>
+        <location filename="../pdfrankingprinter.cpp" line="443"/>
         <source>Leg Time (and position)</source>
         <translation>Tempo di Frazione (e posizione)</translation>
     </message>
     <message numerus="yes">
-        <location filename="../pdfrankingprinter.cpp" line="925"/>
+        <location filename="../pdfrankingprinter.cpp" line="942"/>
         <source>Page %n</source>
         <translation>
             <numerusform>Pagina %n</numerusform>
@@ -1023,7 +1023,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../pdfrankingprinter.cpp" line="925"/>
+        <location filename="../pdfrankingprinter.cpp" line="942"/>
         <source>of %n</source>
         <translation>
             <numerusform>di %n</numerusform>
@@ -1031,66 +1031,66 @@
         </translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="933"/>
+        <location filename="../pdfrankingprinter.cpp" line="950"/>
         <source>Organization</source>
         <translation>Organizzazione</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="941"/>
+        <location filename="../pdfrankingprinter.cpp" line="958"/>
         <source>Race Type</source>
         <translation>Tipo gara</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="348"/>
-        <location filename="../pdfrankingprinter.cpp" line="941"/>
+        <location filename="../pdfrankingprinter.cpp" line="365"/>
+        <location filename="../pdfrankingprinter.cpp" line="958"/>
         <source>Start Time</source>
         <translation>Orario partenza</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="360"/>
-        <location filename="../pdfrankingprinter.cpp" line="429"/>
-        <location filename="../pdfrankingprinter.cpp" line="505"/>
-        <location filename="../pdfrankingprinter.cpp" line="625"/>
+        <location filename="../pdfrankingprinter.cpp" line="377"/>
+        <location filename="../pdfrankingprinter.cpp" line="446"/>
+        <location filename="../pdfrankingprinter.cpp" line="522"/>
+        <location filename="../pdfrankingprinter.cpp" line="642"/>
         <source>Error: ranking type not allowed</source>
         <translation>Errore: tipologia di classifica non consentito</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="941"/>
+        <location filename="../pdfrankingprinter.cpp" line="958"/>
         <source>Length</source>
         <translation>Lunghezza</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="941"/>
+        <location filename="../pdfrankingprinter.cpp" line="958"/>
         <source>Elevation Gain</source>
         <translation>Dislivello</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="948"/>
+        <location filename="../pdfrankingprinter.cpp" line="965"/>
         <source>Referee</source>
         <translation>Giudice</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="948"/>
+        <location filename="../pdfrankingprinter.cpp" line="965"/>
         <source>Timekeeper 1</source>
         <translation>Cronometrista 1</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="948"/>
+        <location filename="../pdfrankingprinter.cpp" line="965"/>
         <source>Timekeeper 2</source>
         <translation>Cronometrista 2</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="948"/>
+        <location filename="../pdfrankingprinter.cpp" line="965"/>
         <source>Timekeeper 3</source>
         <translation>Cronometrista 3</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="1090"/>
+        <location filename="../pdfrankingprinter.cpp" line="1107"/>
         <source>Error: no file name</source>
         <translation>Errore: nome file mancante</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="1092"/>
+        <location filename="../pdfrankingprinter.cpp" line="1109"/>
         <source>Error: cannot start drawing</source>
         <translation>Errore: scrittura su PDF inpossibile</translation>
     </message>
@@ -1098,12 +1098,12 @@
 <context>
     <name>QMessageBox</name>
     <message>
-        <location filename="../lbchronorace.cpp" line="530"/>
+        <location filename="../lbchronorace.cpp" line="547"/>
         <source>&lt;h3&gt;About %1&lt;/h3&gt;&lt;p&gt;Software for producing the results of footraces.&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Informazioni su %1&lt;/h3&gt;&lt;p&gt;Software per produrre classifiche di corse podistiche.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="534"/>
+        <location filename="../lbchronorace.cpp" line="551"/>
         <source>&lt;p&gt;Version: %1 (&lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;Versione: %1 (&lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Autore: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Sito: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;</translation>
     </message>
@@ -1123,67 +1123,67 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../chronoracedata.cpp" line="126"/>
+        <location filename="../chronoracedata.cpp" line="143"/>
         <source>Organization</source>
         <translation>Organizzazione</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="140"/>
+        <location filename="../chronoracedata.cpp" line="157"/>
         <source>Event</source>
         <translation>Evento</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="148"/>
+        <location filename="../chronoracedata.cpp" line="165"/>
         <source>Place</source>
         <translation>Luogo</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="156"/>
+        <location filename="../chronoracedata.cpp" line="173"/>
         <source>Date</source>
         <translation>Data</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="164"/>
+        <location filename="../chronoracedata.cpp" line="181"/>
         <source>Start Time</source>
         <translation>Orario partenza</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="172"/>
+        <location filename="../chronoracedata.cpp" line="189"/>
         <source>Race Type</source>
         <translation>Tipo gara</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="180"/>
+        <location filename="../chronoracedata.cpp" line="197"/>
         <source>Length</source>
         <translation>Lunghezza</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="188"/>
+        <location filename="../chronoracedata.cpp" line="205"/>
         <source>Elevation Gain</source>
         <translation>Dislivello</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="196"/>
+        <location filename="../chronoracedata.cpp" line="213"/>
         <source>Referee</source>
         <translation>Giudice</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="204"/>
+        <location filename="../chronoracedata.cpp" line="221"/>
         <source>Timekeeper 1</source>
         <translation>Cronometrista 1</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="212"/>
+        <location filename="../chronoracedata.cpp" line="229"/>
         <source>Timekeeper 2</source>
         <translation>Cronometrista 2</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="220"/>
+        <location filename="../chronoracedata.cpp" line="237"/>
         <source>Timekeeper 3</source>
         <translation>Cronometrista 3</translation>
     </message>
     <message>
-        <location filename="../chronoracedata.cpp" line="230"/>
+        <location filename="../chronoracedata.cpp" line="247"/>
         <source>Results</source>
         <translation>Risultati</translation>
     </message>
@@ -1191,7 +1191,7 @@
 <context>
     <name>RankingPrinter</name>
     <message>
-        <location filename="../rankingprinter.cpp" line="20"/>
+        <location filename="../rankingprinter.cpp" line="37"/>
         <source>Error: unknown rankings format %1</source>
         <translation>Errore: formato classifiche %1 sconosciuto</translation>
     </message>
@@ -1199,27 +1199,27 @@
 <context>
     <name>RankingsBuilder</name>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="248"/>
+        <location filename="../rankingsbuilder.cpp" line="265"/>
         <source>Warning: missing or extra legs for bib %1</source>
         <translation>Frazione extra o mancante per il pettorale %1</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="33"/>
+        <location filename="../rankingsbuilder.cpp" line="50"/>
         <source>Competitor not found for bib %1</source>
         <translation>Concorrente non trovato per il pettorale %1</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="51"/>
+        <location filename="../rankingsbuilder.cpp" line="68"/>
         <source>Bib %1 not inserted in results; check for possible duplicated entries</source>
         <translation>Pettorale %1 non inserito in classifica; possibile duplicazione nella lista tempi</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="66"/>
+        <location filename="../rankingsbuilder.cpp" line="83"/>
         <source>Warning: %1</source>
         <translation>Attenzione: %1</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="70"/>
+        <location filename="../rankingsbuilder.cpp" line="87"/>
         <source>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</source>
         <translation>Attenzione: i tempi inseriti (%1) non corrispondono al numero dei partenti (%2); controllare possibili duplicazioni o mancanze nella lista tempi</translation>
     </message>
@@ -1227,62 +1227,62 @@
 <context>
     <name>StartListModel</name>
     <message>
-        <location filename="../startlistmodel.cpp" line="99"/>
+        <location filename="../startlistmodel.cpp" line="116"/>
         <source>Bib number (not 0)</source>
         <translation>Pettorale (non 0)</translation>
     </message>
     <message>
-        <location filename="../startlistmodel.cpp" line="101"/>
+        <location filename="../startlistmodel.cpp" line="118"/>
         <source>Competitor name</source>
         <translation>Nome concorrente</translation>
     </message>
     <message>
-        <location filename="../startlistmodel.cpp" line="103"/>
+        <location filename="../startlistmodel.cpp" line="120"/>
         <source>Male (M) or Female (F)</source>
         <translation>Maschio (M) o Femmina (F)</translation>
     </message>
     <message>
-        <location filename="../startlistmodel.cpp" line="105"/>
+        <location filename="../startlistmodel.cpp" line="122"/>
         <source>Year of birth (i.e. 1982)</source>
         <translation>Anno di nascita (es. 1982)</translation>
     </message>
     <message>
-        <location filename="../startlistmodel.cpp" line="107"/>
+        <location filename="../startlistmodel.cpp" line="124"/>
         <source>Team name</source>
         <translation>Nome squadra</translation>
     </message>
     <message>
-        <location filename="../startlistmodel.cpp" line="109"/>
+        <location filename="../startlistmodel.cpp" line="126"/>
         <source>Start time offset or leg (to set the leg put a &apos;-&apos; sign before the leg number)</source>
         <translation>Ritardo partenza o frazione (per impostare la frazione usare il segno meno &apos;-&apos;)</translation>
     </message>
     <message>
-        <location filename="../startlistmodel.cpp" line="175"/>
+        <location filename="../startlistmodel.cpp" line="192"/>
         <source>Bib</source>
         <translation>Pettorale</translation>
     </message>
     <message>
-        <location filename="../startlistmodel.cpp" line="177"/>
+        <location filename="../startlistmodel.cpp" line="194"/>
         <source>Competitor</source>
         <translation>Concorrente</translation>
     </message>
     <message>
-        <location filename="../startlistmodel.cpp" line="179"/>
+        <location filename="../startlistmodel.cpp" line="196"/>
         <source>Sex</source>
         <translation>Sesso</translation>
     </message>
     <message>
-        <location filename="../startlistmodel.cpp" line="181"/>
+        <location filename="../startlistmodel.cpp" line="198"/>
         <source>Year</source>
         <translation>Anno</translation>
     </message>
     <message>
-        <location filename="../startlistmodel.cpp" line="183"/>
+        <location filename="../startlistmodel.cpp" line="200"/>
         <source>Team</source>
         <translation>Squadra</translation>
     </message>
     <message>
-        <location filename="../startlistmodel.cpp" line="185"/>
+        <location filename="../startlistmodel.cpp" line="202"/>
         <source>Start time/Leg</source>
         <translation>Partenza/Frazione</translation>
     </message>
@@ -1290,22 +1290,22 @@
 <context>
     <name>TXTRankingPrinter</name>
     <message>
-        <location filename="../txtrankingprinter.cpp" line="11"/>
+        <location filename="../txtrankingprinter.cpp" line="28"/>
         <source>Select Start List File</source>
         <translation>Seleziona file Ordine di Partenza</translation>
     </message>
     <message>
-        <location filename="../txtrankingprinter.cpp" line="12"/>
+        <location filename="../txtrankingprinter.cpp" line="29"/>
         <source>Plain Text (*.txt)</source>
         <translation>Testo (*.txt)</translation>
     </message>
     <message>
-        <location filename="../txtrankingprinter.cpp" line="39"/>
+        <location filename="../txtrankingprinter.cpp" line="56"/>
         <source>Start List</source>
         <translation>Ordine di Partenza</translation>
     </message>
     <message numerus="yes">
-        <location filename="../txtrankingprinter.cpp" line="70"/>
+        <location filename="../txtrankingprinter.cpp" line="87"/>
         <source>Leg %n</source>
         <translation>
             <numerusform>Frazione %n</numerusform>
@@ -1313,18 +1313,18 @@
         </translation>
     </message>
     <message>
-        <location filename="../txtrankingprinter.cpp" line="78"/>
+        <location filename="../txtrankingprinter.cpp" line="95"/>
         <source>Generated Start List: %1</source>
         <translation>Generato Ordine di Partenza: %1</translation>
     </message>
     <message>
-        <location filename="../txtrankingprinter.cpp" line="91"/>
+        <location filename="../txtrankingprinter.cpp" line="108"/>
         <source>Error: cannot open %1</source>
         <translation>Errore: impossibile aprire %1</translation>
     </message>
     <message>
-        <location filename="../txtrankingprinter.cpp" line="103"/>
-        <location filename="../txtrankingprinter.cpp" line="127"/>
+        <location filename="../txtrankingprinter.cpp" line="120"/>
+        <location filename="../txtrankingprinter.cpp" line="144"/>
         <source>Generated Results &apos;%1&apos;: %2</source>
         <translation>Generata Classifica &apos;%1&apos;: %2</translation>
     </message>
@@ -1332,12 +1332,12 @@
 <context>
     <name>TeamClassEntry</name>
     <message>
-        <location filename="../teamclassentry.cpp" line="12"/>
+        <location filename="../teamclassentry.cpp" line="29"/>
         <source>Requested index %1 exceeds the number of available entries %2</source>
         <translation>L&apos;elemento richiesto %1 supera il numero di elementi disponibili %2</translation>
     </message>
     <message>
-        <location filename="../teamclassentry.cpp" line="22"/>
+        <location filename="../teamclassentry.cpp" line="39"/>
         <source>Unexpected team: expected %1 - found %2</source>
         <translation>Squadra non valida: attesa %1 - trovata %2</translation>
     </message>
@@ -1345,12 +1345,12 @@
 <context>
     <name>TeamsListModel</name>
     <message>
-        <location filename="../teamslistmodel.cpp" line="64"/>
+        <location filename="../teamslistmodel.cpp" line="81"/>
         <source>Team name</source>
         <translation>Nome squadra</translation>
     </message>
     <message>
-        <location filename="../teamslistmodel.cpp" line="76"/>
+        <location filename="../teamslistmodel.cpp" line="93"/>
         <source>Team Name</source>
         <translation>Nome Squadra</translation>
     </message>
@@ -1358,17 +1358,17 @@
 <context>
     <name>Timing</name>
     <message>
-        <location filename="../timing.cpp" line="94"/>
+        <location filename="../timing.cpp" line="111"/>
         <source>Illegal timing value &apos;%1&apos;</source>
         <translation>Valore cronometrico &apos;%1&apos; non valido</translation>
     </message>
     <message>
-        <location filename="../timing.cpp" line="110"/>
+        <location filename="../timing.cpp" line="127"/>
         <source>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
         <translation>Valore cronometrico &apos;%1&apos; non valido per il pettorale &apos;%2&apos;</translation>
     </message>
     <message>
-        <location filename="../timing.cpp" line="144"/>
+        <location filename="../timing.cpp" line="161"/>
         <source>Invalid status value %1</source>
         <translation>Valore di stato %1 non valido</translation>
     </message>
@@ -1376,32 +1376,32 @@
 <context>
     <name>TimingsModel</name>
     <message>
-        <location filename="../timingsmodel.cpp" line="63"/>
+        <location filename="../timingsmodel.cpp" line="80"/>
         <source>Bib number (not 0)</source>
         <translation>Numero pettorale (non 0)</translation>
     </message>
     <message>
-        <location filename="../timingsmodel.cpp" line="65"/>
+        <location filename="../timingsmodel.cpp" line="82"/>
         <source>Leg number (0 for automatic detection)</source>
         <translation>Frazione (0 per rilevamento automatico)</translation>
     </message>
     <message>
-        <location filename="../timingsmodel.cpp" line="67"/>
+        <location filename="../timingsmodel.cpp" line="84"/>
         <source>Timing (i.e. 0:45:23) or DNF or DNS</source>
         <translation>Tempo (es. 0:45:23), DNF (non classificato) o DNS (non partito)</translation>
     </message>
     <message>
-        <location filename="../timingsmodel.cpp" line="121"/>
+        <location filename="../timingsmodel.cpp" line="138"/>
         <source>Bib</source>
         <translation>Pettorale</translation>
     </message>
     <message>
-        <location filename="../timingsmodel.cpp" line="123"/>
+        <location filename="../timingsmodel.cpp" line="140"/>
         <source>Leg</source>
         <translation>Frazione</translation>
     </message>
     <message>
-        <location filename="../timingsmodel.cpp" line="125"/>
+        <location filename="../timingsmodel.cpp" line="142"/>
         <source>Timing</source>
         <translation>Tempo</translation>
     </message>

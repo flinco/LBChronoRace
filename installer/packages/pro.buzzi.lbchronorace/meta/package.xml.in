@@ -11,6 +11,7 @@
     <!--<Virtual>false</Virtual>-->
     <Licenses>
         <License name="GNU GPLv3" file="license.txt" />
+        <License name="GNU GPLv3" file="license_it.txt" />
     </Licenses>
     <Script>installscript.qs</Script>
     <UserInterfaces>

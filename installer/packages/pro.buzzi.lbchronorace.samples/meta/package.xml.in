@@ -8,9 +8,6 @@
     <ReleaseDate>2021-10-05</ReleaseDate>
     <Name>pro.buzzi.lbchronorace.samples</Name>
     <Dependencies>pro.buzzi.lbchronorace</Dependencies>
-    <Licenses>
-        <License name="GNU GPLv3" file="license.txt" />
-    </Licenses>
     <Default>true</Default>
     <ForcedInstallation>false</ForcedInstallation>
     <Essential>false</Essential>

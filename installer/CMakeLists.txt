@@ -37,10 +37,15 @@ qt_add_translations("${CMAKE_PROJECT_NAME}Installer"
                     QM_FILES_OUTPUT_VARIABLE WIN_DEPLOY_QM_FILES
                     "${CMAKE_CURRENT_SOURCE_DIR}/packages/pro.buzzi.lbchronorace/meta/installscript.qs")
 
-
-file(MAKE_DIRECTORY "${WIN_DEPLOY_TARGET_DIR}/licenses")
-file(GENERATE OUTPUT "${WIN_DEPLOY_TARGET_DIR}/licenses/license.txt"
-     INPUT "${CMAKE_SOURCE_DIR}/licenses/license.txt"
+# License files
+file(GENERATE OUTPUT "${WIN_DEPLOY_TARGET_DIR}/GPLv3.txt"
+     INPUT "${CMAKE_SOURCE_DIR}/licenses/gpl-3.0.txt"
+     NEWLINE_STYLE WIN32)
+file(GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/meta/license.txt"
+     INPUT "${CMAKE_SOURCE_DIR}/licenses/gpl-3.0.txt"
+     NEWLINE_STYLE WIN32)
+file(GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/meta/license_it.txt"
+     INPUT "${CMAKE_SOURCE_DIR}/licenses/gpl-3.0_it.txt"
      NEWLINE_STYLE WIN32)
 
 file(GLOB WIN_DEPLOY_ICONS
