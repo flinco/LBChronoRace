@@ -123,11 +123,13 @@ foreach(SAMPLE_CONTENT ${WIN_DEPLOY_SAMPLES_CONTENTS})
     endif()
 endforeach()
 
+# Copy the executable into the installer tree
 add_custom_command(TARGET "${CMAKE_PROJECT_NAME}Installer" PRE_BUILD
     COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>" ${WIN_DEPLOY_TARGET_DIR}
     DEPENDS "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>"
     COMMENT "Copy executable into the installer directory")
 
+# Populate the installer tree with the runtime dependancies
 if(CMAKE_BUILD_TYPE_UPPER STREQUAL "DEBUG")
     set(WINDEPLOYQT_ARGS "--debug")
 else()
@@ -143,3 +145,12 @@ add_custom_command(TARGET "${CMAKE_PROJECT_NAME}Installer" POST_BUILD
         --dir ${WIN_DEPLOY_TARGET_DIR}
         "${WIN_DEPLOY_TARGET_DIR}/$<TARGET_FILE_NAME:${CMAKE_PROJECT_NAME}>"
     COMMENT "Deploying ${CMAKE_PROJECT_NAME}...")
+
+# Build the installer
+add_custom_command(TARGET "${CMAKE_PROJECT_NAME}Installer" POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E
+        env ${QTIFW_BINARYCREATOR_EXECUTABLE}
+        -c "config/config.xml"
+        -p "packages"
+        -v "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}-${PROJECT_VERSION}${CMAKE_EXECUTABLE_SUFFIX}"
+    COMMENT "Crearting ${CMAKE_PROJECT_NAME} installer")
