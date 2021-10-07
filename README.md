@@ -6,8 +6,8 @@
 
 Free Desktop software for producing the results of footraces in different formats (PDF, CSV, plain text).
 
-<kbd><img src=".github/lbchronorace-preview.png" alt="LBChronoRace Preview" /></kbd>
-<kbd><img src=".github/lbchronorace-sample.png" alt="LBChronoRace Results Sample" /></kbd>
+<kbd><img src="images/lbchronorace-preview.png" alt="LBChronoRace Preview" /></kbd>
+<kbd><img src="images/lbchronorace-sample.png" alt="LBChronoRace Results Sample" /></kbd>
 
 ## Features
 

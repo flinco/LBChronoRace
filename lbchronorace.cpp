@@ -1,3 +1,20 @@
+/*****************************************************************************
+ * Copyright (C) 2021 by Lorenzo Buzzi (lorenzo@buzzi.pro)                   *
+ *                                                                           *
+ * This program is free software: you can redistribute it and/or modify      *
+ * it under the terms of the GNU General Public License as published by      *
+ * the Free Software Foundation, either version 3 of the License, or         *
+ * (at your option) any later version.                                       *
+ *                                                                           *
+ * This program is distributed in the hope that it will be useful,           *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the              *
+ * GNU General Public License for more details.                              *
+ *                                                                           *
+ * You should have received a copy of the GNU General Public License         *
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
+ *****************************************************************************/
+
 #include <QString>
 #include <QFile>
 #include <QFileInfo>
@@ -532,10 +549,19 @@ void LBChronoRace::actionAbout()
         "<p>Software for producing the results of footraces.</p>"
         ).arg(QStringLiteral(LBCHRONORACE_NAME));
     QString const translatedTextAboutQtText = QMessageBox::tr(
-        "<p>Version: %1 (<a href=\"http://github.com/flinco/LBChronoRace\">GitHub</a>)</p>"
+        "<p>Copyright&copy; 2021-2022</p>"
+        "<p>Version: %1 (source code on <a href=\"http://github.com/flinco/LBChronoRace\">GitHub</a>)</p>"
         "<p>Author: Lorenzo Buzzi (<a href=\"mailto:lorenzo@buzzi.pro\">lorenzo@buzzi.pro</a>)</p>"
         "<p>Site: <a href=\"http://www.buzzi.pro/\">http://www.buzzi.pro/</a></p>"
-        ).arg(QStringLiteral(LBCHRONORACE_VERSION));
+        "<p>%2 is free software: you can redistribute it and/or modify it under the terms of "
+        "the GNU General Public License as published by the Free Software Foundation; either "
+        "version 3 of the License, or (at your option) any later version.</p>"
+        "<p>%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; "
+        "without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. "
+        "See the GNU General Public License for more details.</p>"
+        "<p>You should have received a copy of the GNU General Public License along with %2. "
+        "If not, see: <a href=\"https://www.gnu.org/licenses/\">https://www.gnu.org/licenses/</a></p>"
+        ).arg(QStringLiteral(LBCHRONORACE_VERSION), QStringLiteral(LBCHRONORACE_NAME));
     QMessageBox msgBox(this);
     msgBox.setWindowTitle(tr("About %1").arg(QStringLiteral(LBCHRONORACE_NAME)));
     msgBox.setText(translatedTextAboutQtCaption);

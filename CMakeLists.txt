@@ -1,13 +1,14 @@
 # Created by and for Qt Creator This file was created for editing the project sources only.
 # You may attempt to use it for building too, by modifying this file here.
 
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.20)
 project(LBChronoRace
-    VERSION 3.0.2
+    VERSION 3.0.3
     DESCRIPTION "Timings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
 
+string(TIMESTAMP BUILD_DATE "%Y-%m-%d" UTC)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
@@ -101,7 +102,9 @@ configure_file(translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
 # updated.
 set(PROJECT_RESOURCES
     icons.qrc
-    fonts.qrc
+    fonts-mono.qrc
+    fonts-sans.qrc
+    fonts-serif.qrc
     ${CMAKE_BINARY_DIR}/translations.qrc
 )
 
@@ -111,14 +114,16 @@ if(WIN32)
         ${PROJECT_SOURCES}
         ${PROJECT_RESOURCES}
         ${QM_FILES}
-        ${APP_ICON_RESOURCE_WINDOWS}
-    )
+        ${APP_ICON_RESOURCE_WINDOWS})
+
+    # Create the installer tree
+    add_subdirectory(installer)
 else()
     qt_add_executable(${CMAKE_PROJECT_NAME}
         ${PROJECT_SOURCES}
         ${PROJECT_RESOURCES}
-        ${QM_FILES}
-    )
+        ${QM_FILES})
 endif()
+
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
