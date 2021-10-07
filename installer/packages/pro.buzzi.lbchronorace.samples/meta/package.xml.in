@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
     <DisplayName>Data samples</DisplayName>
-    <DisplayName xml:lang="it_IT">Esempi</DisplayName>
+    <DisplayName xml:lang="it">Esempi</DisplayName>
     <Description>Ranking data samples.</Description>
-    <Description xml:lang="it_IT">Dati di esempio.</Description>
+    <Description xml:lang="it">Dati di esempio.</Description>
     <Version inheritVersionFrom="pro.buzzi.lbchronorace">1.0.1</Version>
     <ReleaseDate>2021-10-05</ReleaseDate>
     <Name>pro.buzzi.lbchronorace.samples</Name>

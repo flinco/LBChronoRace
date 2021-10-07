@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
     <DisplayName>Core application</DisplayName>
-    <DisplayName xml:lang="it_IT">Applicazione base</DisplayName>
+    <DisplayName xml:lang="it">Applicazione base</DisplayName>
     <Description>Race rankings software.</Description>
-    <Description xml:lang="it_IT">Software per classifiche.</Description>
+    <Description xml:lang="it">Software per classifiche.</Description>
     <Version>@PROJECT_VERSION@</Version>
     <ReleaseDate>@BUILD_DATE@</ReleaseDate>
     <Name>pro.buzzi.lbchronorace</Name>

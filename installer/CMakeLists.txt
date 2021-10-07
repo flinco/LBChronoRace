@@ -15,6 +15,9 @@ file(COPY ${WIN_DEPLOY_DIRS} DESTINATION "."
      PATTERN "*.in" EXCLUDE
      PATTERN "*.ts" EXCLUDE)
 
+set(TargetDir          "@TargetDir@")
+set(ApplicationsDirX64 "@ApplicationsDirX64@")
+set(RootDir            "@RootDir@")
 file(GLOB_RECURSE WIN_DEPLOY_CONFIG_XML
      RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
      "*.xml.in")
@@ -22,7 +25,6 @@ foreach(WIN_DEPLOY_CONFIG_XML_IN ${WIN_DEPLOY_CONFIG_XML})
     cmake_path(REMOVE_EXTENSION WIN_DEPLOY_CONFIG_XML_IN LAST_ONLY
                OUTPUT_VARIABLE WIN_DEPLOY_CONFIG_XML_OUT)
     configure_file(${WIN_DEPLOY_CONFIG_XML_IN} ${WIN_DEPLOY_CONFIG_XML_OUT}
-                   @ONLY
                    NEWLINE_STYLE WIN32)
 endforeach()
 
