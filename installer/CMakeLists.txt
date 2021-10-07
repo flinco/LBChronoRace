@@ -29,7 +29,12 @@ foreach(WIN_DEPLOY_CONFIG_XML_IN ${WIN_DEPLOY_CONFIG_XML})
 endforeach()
 
 # Installer images
-file(COPY_FILE "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-64.png" "${CMAKE_CURRENT_BINARY_DIR}/config/LBChronoRace.png")
+file(COPY "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.ico" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
+file(COPY "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-32.png" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
+file(COPY "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-64.png" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
+file(COPY "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-128.png" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
+file(COPY "${CMAKE_SOURCE_DIR}/images/lbchronorace-preview.png" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
+file(COPY "${CMAKE_SOURCE_DIR}/images/lbchronorace-sample.png" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
 
 # Installer translations
 set(WIN_DEPLOY_TS_FILES

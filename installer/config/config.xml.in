@@ -5,10 +5,19 @@
     <Title>LBChronoRace</Title>
     <Publisher>Lorenzo Buzzi</Publisher>
     <ProductUrl>http://github.com/flinco/LBChronoRace</ProductUrl>
-    <InstallerWindowIcon>LBChronoRace.png</InstallerWindowIcon>
-    <!--<InstallerApplicationIcon>installericon</InstallerApplicationIcon>-->
-    <Logo>LBChronoRace.png</Logo>
+    <InstallerWindowIcon>LBChronoRace-128.png</InstallerWindowIcon>
+    <InstallerApplicationIcon>LBChronoRace</InstallerApplicationIcon>
+    <!--<WizardStyle>Modern</WizardStyle>-->
+    <!-- Logo is not displayed if the Wizard Style is Aero (the default) -->
+    <Logo>LBChronoRace-64.png</Logo>
+    <!-- TODO: prepare something wide and short that fits this area  -->
+    <!--<PageListPixmap>LBChronoRace-32.png</PageListPixmap>-->
     <!--<Watermark>watermark.png</Watermark>-->
+    <!--<Background>background.png</Background>-->
+    <ProductImages>
+        <Image>lbchronorace-sample.png</Image>
+        <Image>lbchronorace-preview.png</Image>
+    </ProductImages>
     <RunProgram>${TargetDir}/LBChronoRace</RunProgram>
     <!--<RunProgramArguments>
         <Argument>Argument 1</Argument>
@@ -18,7 +27,6 @@
     <StartMenuDir>LBChronoRace</StartMenuDir>
     <!--<MaintenanceToolName>SDKMaintenanceTool</MaintenanceToolName>-->
     <!--<AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>-->
-    <!--<Background>background.png</Background>-->
     <TargetDir>${ApplicationsDirX64}/LBChronoRace</TargetDir>
     <!--<AdminTargetDir>${RootDir}/testinstall</AdminTargetDir>-->
     <!--<RemoteRepositories>
@@ -26,4 +34,5 @@
             <Url>http://www.your-repo-location/packages/</Url>
         </Repository>
     </RemoteRepositories>-->
+    <InstallActionColumnVisible>true</InstallActionColumnVisible>
 </Installer>
