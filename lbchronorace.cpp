@@ -560,7 +560,7 @@ void LBChronoRace::actionAbout()
         "without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. "
         "See the GNU General Public License for more details.</p>"
         "<p>You should have received a copy of the GNU General Public License along with %2. "
-        "If not, see: <a href=\"https://www.gnu.org/licenses/\">https://www.gnu.org/licenses/</a></p>"
+        "If not, see: <a href=\"https://www.gnu.org/licenses/\">https://www.gnu.org/licenses/</a>.</p>"
         ).arg(QStringLiteral(LBCHRONORACE_VERSION), QStringLiteral(LBCHRONORACE_NAME));
     QMessageBox msgBox(this);
     msgBox.setWindowTitle(tr("About %1").arg(QStringLiteral(LBCHRONORACE_NAME)));
