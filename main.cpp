@@ -34,16 +34,14 @@ int main(int argc, char *argv[])
     //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // Deprecated and always enabled in Qt6
     QApplication app(argc, argv);
 
+    QLocale lbcrLocale;
     QTranslator qtTranslator;
     QTranslator lbcrTranslator;
 
-    auto appDir = QDir(QCoreApplication::applicationDirPath());
-
-    if (auto translDir = QDir(appDir.path() + QDir::separator() + "translations");
-        qtTranslator.load(QLocale(), QStringLiteral("qt"), QStringLiteral("_"), translDir.path()))
+    if (qtTranslator.load(lbcrLocale, QStringLiteral("qt"), QStringLiteral("_"), QCoreApplication::applicationDirPath() + QDir::separator() + "translations"))
         QApplication::installTranslator(&qtTranslator);
 
-    if (lbcrTranslator.load(QString(":/%1").arg(QStringLiteral(LBCHRONORACE_NAME))))
+    if (lbcrTranslator.load(lbcrLocale, QStringLiteral(LBCHRONORACE_NAME), QStringLiteral("_"), QStringLiteral(":/i18n")))
         QApplication::installTranslator(&lbcrTranslator);
 
 #ifdef Q_OS_WIN
