@@ -95,9 +95,25 @@ set(TS_FILES
     translations/${CMAKE_PROJECT_NAME}_it.ts)
 
 # Fonts (as big resources)
+set(FONT_FILES
+    fonts/LiberationMono-Regular.ttf
+    fonts/LiberationSans-Italic.ttf
+    fonts/LiberationMono-Bold.ttf
+    fonts/LiberationMono-Italic.ttf
+    fonts/LiberationMono-BoldItalic.ttf
+    fonts/LiberationSans-Bold.ttf
+    fonts/LiberationSerif-Bold.ttf
+    fonts/LiberationSerif-BoldItalic.ttf
+    fonts/LiberationSans-Regular.ttf
+    fonts/LiberationSerif-Regular.ttf
+    fonts/LiberationSerif-Italic.ttf
+    fonts/LiberationSans-BoldItalic.ttf)
 qt_add_big_resources(PROJECT_FONTS fonts-mono.qrc fonts-sans.qrc fonts-serif.qrc)
 
 # Icons (as big resources)
+set(ICON_FILES
+    icons/LBChronoRace.ico
+    icons/LBChronoRaceCRD.ico)
 qt_add_big_resources(PROJECT_ICONS icons.qrc)
 
 if(WIN32)
@@ -106,7 +122,9 @@ if(WIN32)
         ${PROJECT_SOURCES}
         ${APP_ICON_RESOURCE_WINDOWS}
         ${TS_FILES}
+        ${FONT_FILES}
         ${PROJECT_FONTS}
+        ${ICON_FILES}
         ${PROJECT_ICONS})
 
     # Create the installer tree
@@ -115,7 +133,9 @@ else()
     qt_add_executable(${CMAKE_PROJECT_NAME}
         ${PROJECT_SOURCES}
         ${TS_FILES}
+        ${FONT_FILES}
         ${PROJECT_FONTS}
+        ${ICON_FILES}
         ${PROJECT_ICONS})
 endif()
 
