@@ -67,13 +67,11 @@ set(PROJECT_SOURCES
     timingsmodel.cpp
     timingsmodel.h
     txtrankingprinter.h
-    txtrankingprinter.cpp
-)
+    txtrankingprinter.cpp)
 
 set(TS_FILES
     translations/LBChronoRace_en.ts
-    translations/LBChronoRace_it.ts
-)
+    translations/LBChronoRace_it.ts)
 
 # Only call lrelease on each translation files to create qm files.
 # This command assumes that the ts files already exists (manually created).
@@ -101,12 +99,7 @@ configure_file(translations.qrc ${CMAKE_BINARY_DIR} COPYONLY)
 # create a dependency that will force rebuild in case the translation are
 # updated.
 set(PROJECT_RESOURCES
-    icons.qrc
-    fonts-mono.qrc
-    fonts-sans.qrc
-    fonts-serif.qrc
-    ${CMAKE_BINARY_DIR}/translations.qrc
-)
+    ${CMAKE_BINARY_DIR}/translations.qrc)
 
 if(WIN32)
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.rc")
@@ -125,5 +118,10 @@ else()
         ${QM_FILES})
 endif()
 
+qt_add_big_resources(PROJECT_FONTS fonts-mono.qrc fonts-sans.qrc fonts-serif.qrc)
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${PROJECT_FONTS})
+
+qt_add_big_resources(PROJECT_ICONS icons.qrc)
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${PROJECT_ICONS})
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)

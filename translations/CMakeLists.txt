@@ -1,2 +1,3 @@
+# Translations subdirectory
 
 set_directory_properties(PROPERTIES CLEAN_NO_CUSTOM TRUE)
