@@ -72,9 +72,7 @@ file(COPY ${WIN_DEPLOY_DIRS} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}"
     PATTERN "*.ts" EXCLUDE)
 
 # Copy the XMLs: replacing the version and date placeholders but preserve other ones
-set(TargetDir          "@TargetDir@"          CACHE STRING "QTIFW config. placeholder for TargetDir")
-set(ApplicationsDirX64 "@ApplicationsDirX64@" CACHE STRING "QTIFW config. placeholder for ApplicationsDirX64")
-set(RootDir            "@RootDir@"            CACHE STRING "QTIFW config. placeholder for RootDir")
+set(at "@" CACHE STRING "QTIFW @ placeholder")
 file(GLOB_RECURSE WIN_DEPLOY_CONFIG_XML
     RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     "*.xml.in")
@@ -84,9 +82,7 @@ foreach(WIN_DEPLOY_CONFIG_XML_IN ${WIN_DEPLOY_CONFIG_XML})
     configure_file(${WIN_DEPLOY_CONFIG_XML_IN} ${WIN_DEPLOY_CONFIG_XML_OUT}
         NEWLINE_STYLE WIN32)
 endforeach()
-unset(TargetDir          CACHE)
-unset(ApplicationsDirX64 CACHE)
-unset(RootDir            CACHE)
+unset(at CACHE)
 
 # Installer images and icons
 file(COPY "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.ico" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
