@@ -61,4 +61,23 @@ signals:
     void info(QString const &message);
 };
 
+class Position
+{
+public:
+    int getCurrentPositionNumber(int posIndex, QString const &currTime);
+    QString getCurrentPositionString(int posIndex, QString const &currTime);
+private:
+    int position { 0 };
+    QString time { };
+};
+
+class PositionNumber
+{
+public:
+    uint getCurrentPosition(uint posIndex, uint currTime);
+private:
+    uint position { 0u };
+    uint time { 0u };
+};
+
 #endif // RANKINGPRINTER_H

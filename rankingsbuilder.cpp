@@ -19,6 +19,7 @@
 
 #include "crloader.h"
 #include "rankingsbuilder.h"
+#include "rankingprinter.h"
 
 #include "lbcrexception.h"
 
@@ -130,6 +131,7 @@ QList<ClassEntry const *> &RankingsBuilder::fillRanking(QList<ClassEntry const *
 
     // do the sorting of the single leg times
     uint i;
+    PositionNumber position;
     for (uint legIdx = 0u; legIdx < CRLoader::getStartListLegs(); legIdx++) {
         QMultiMap<uint, ClassEntry *> sortedLegClassification;
         for (auto classEntry : tmpRanking) {
@@ -138,7 +140,7 @@ QList<ClassEntry const *> &RankingsBuilder::fillRanking(QList<ClassEntry const *
         i = 0;
         for (auto classEntry : sortedLegClassification) {
             i++;
-            classEntry->setLegRanking(legIdx, i);
+            classEntry->setLegRanking(legIdx, position.getCurrentPosition(i, classEntry->getTimeValue(legIdx)));
         }
     }
 

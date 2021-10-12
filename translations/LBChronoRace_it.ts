@@ -880,15 +880,15 @@
         <translation>Errore: impossibile generare classifiche con 0 frazioni</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="776"/>
-        <location filename="../pdfrankingprinter.cpp" line="819"/>
-        <location filename="../pdfrankingprinter.cpp" line="940"/>
+        <location filename="../pdfrankingprinter.cpp" line="787"/>
+        <location filename="../pdfrankingprinter.cpp" line="830"/>
+        <location filename="../pdfrankingprinter.cpp" line="951"/>
         <source>Results</source>
         <translation>Risultati</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="790"/>
-        <location filename="../pdfrankingprinter.cpp" line="831"/>
+        <location filename="../pdfrankingprinter.cpp" line="801"/>
+        <location filename="../pdfrankingprinter.cpp" line="842"/>
         <source>%1 Results</source>
         <translation>Classifica %1</translation>
     </message>
@@ -911,8 +911,8 @@
         <translation>PDF (*.pdf)</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="677"/>
-        <location filename="../pdfrankingprinter.cpp" line="690"/>
+        <location filename="../pdfrankingprinter.cpp" line="688"/>
+        <location filename="../pdfrankingprinter.cpp" line="701"/>
         <source>Start List</source>
         <translation>Ordine di Partenza</translation>
     </message>
@@ -959,7 +959,7 @@
         <translation>Frazione</translation>
     </message>
     <message numerus="yes">
-        <location filename="../pdfrankingprinter.cpp" line="763"/>
+        <location filename="../pdfrankingprinter.cpp" line="774"/>
         <source>Leg %n</source>
         <translation>
             <numerusform>Frazione %n</numerusform>
@@ -1015,7 +1015,7 @@
         <translation>Tempo di Frazione (e posizione)</translation>
     </message>
     <message numerus="yes">
-        <location filename="../pdfrankingprinter.cpp" line="942"/>
+        <location filename="../pdfrankingprinter.cpp" line="953"/>
         <source>Page %n</source>
         <translation>
             <numerusform>Pagina %n</numerusform>
@@ -1023,7 +1023,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../pdfrankingprinter.cpp" line="942"/>
+        <location filename="../pdfrankingprinter.cpp" line="953"/>
         <source>of %n</source>
         <translation>
             <numerusform>di %n</numerusform>
@@ -1031,66 +1031,66 @@
         </translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="950"/>
+        <location filename="../pdfrankingprinter.cpp" line="961"/>
         <source>Organization</source>
         <translation>Organizzazione</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="958"/>
+        <location filename="../pdfrankingprinter.cpp" line="969"/>
         <source>Race Type</source>
         <translation>Tipo gara</translation>
     </message>
     <message>
         <location filename="../pdfrankingprinter.cpp" line="365"/>
-        <location filename="../pdfrankingprinter.cpp" line="958"/>
+        <location filename="../pdfrankingprinter.cpp" line="969"/>
         <source>Start Time</source>
         <translation>Orario partenza</translation>
     </message>
     <message>
         <location filename="../pdfrankingprinter.cpp" line="377"/>
         <location filename="../pdfrankingprinter.cpp" line="446"/>
-        <location filename="../pdfrankingprinter.cpp" line="522"/>
-        <location filename="../pdfrankingprinter.cpp" line="642"/>
+        <location filename="../pdfrankingprinter.cpp" line="524"/>
+        <location filename="../pdfrankingprinter.cpp" line="650"/>
         <source>Error: ranking type not allowed</source>
         <translation>Errore: tipologia di classifica non consentito</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="958"/>
+        <location filename="../pdfrankingprinter.cpp" line="969"/>
         <source>Length</source>
         <translation>Lunghezza</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="958"/>
+        <location filename="../pdfrankingprinter.cpp" line="969"/>
         <source>Elevation Gain</source>
         <translation>Dislivello</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="965"/>
+        <location filename="../pdfrankingprinter.cpp" line="976"/>
         <source>Referee</source>
         <translation>Giudice</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="965"/>
+        <location filename="../pdfrankingprinter.cpp" line="976"/>
         <source>Timekeeper 1</source>
         <translation>Cronometrista 1</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="965"/>
+        <location filename="../pdfrankingprinter.cpp" line="976"/>
         <source>Timekeeper 2</source>
         <translation>Cronometrista 2</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="965"/>
+        <location filename="../pdfrankingprinter.cpp" line="976"/>
         <source>Timekeeper 3</source>
         <translation>Cronometrista 3</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="1107"/>
+        <location filename="../pdfrankingprinter.cpp" line="1118"/>
         <source>Error: no file name</source>
         <translation>Errore: nome file mancante</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="1109"/>
+        <location filename="../pdfrankingprinter.cpp" line="1120"/>
         <source>Error: cannot start drawing</source>
         <translation>Errore: scrittura su PDF inpossibile</translation>
     </message>
@@ -1199,27 +1199,27 @@
 <context>
     <name>RankingsBuilder</name>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="265"/>
+        <location filename="../rankingsbuilder.cpp" line="267"/>
         <source>Warning: missing or extra legs for bib %1</source>
         <translation>Frazione extra o mancante per il pettorale %1</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="50"/>
+        <location filename="../rankingsbuilder.cpp" line="51"/>
         <source>Competitor not found for bib %1</source>
         <translation>Concorrente non trovato per il pettorale %1</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="68"/>
+        <location filename="../rankingsbuilder.cpp" line="69"/>
         <source>Bib %1 not inserted in results; check for possible duplicated entries</source>
         <translation>Pettorale %1 non inserito in classifica; possibile duplicazione nella lista tempi</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="83"/>
+        <location filename="../rankingsbuilder.cpp" line="84"/>
         <source>Warning: %1</source>
         <translation>Attenzione: %1</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="87"/>
+        <location filename="../rankingsbuilder.cpp" line="88"/>
         <source>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</source>
         <translation>Attenzione: i tempi inseriti (%1) non corrispondono al numero dei partenti (%2); controllare possibili duplicazioni o mancanze nella lista tempi</translation>
     </message>
