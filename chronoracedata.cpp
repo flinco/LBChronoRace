@@ -138,7 +138,8 @@ QDataStream &operator>>(QDataStream &in, ChronoRaceData &data)
 
 QTextStream &operator<<(QTextStream &out, ChronoRaceData const &data)
 {
-    QRegularExpression re("\n|\r\n|\r");
+    static QRegularExpression re("\n|\r\n|\r");
+
     QStringList organizationLines = data.stringFields[static_cast<int>(ChronoRaceData::StringField::ORGANIZATION)].split(re);
     QString headColumn = QObject::tr("Organization") + ": ";
 
