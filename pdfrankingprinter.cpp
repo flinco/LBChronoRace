@@ -54,9 +54,11 @@ void PDFRankingPrinter::printStartList(QList<Competitor> const &startList, QWidg
 
         if (!outFileName.endsWith(".pdf", Qt::CaseInsensitive))
             outFileName.append(".pdf");
+        //NOSONAR qDebug("Path: %s", qUtf8Printable(outFileName));
 
         QPainter painter;
-        if (initPainter(painter, outFileName)) {
+        QPdfWriter writer(outFileName);
+        if (initPainter(painter, &writer)) {
 
             makeStartList(painter, startList);
 
@@ -81,9 +83,11 @@ void PDFRankingPrinter::printRanking(const Category &category, QList<ClassEntry 
         emit error(tr("Error: cannot generate results for 0 legs"));
     } else {
         QString const &individualRankingFileName = buildOutFileName(outFileBaseName);
+        //NOSONAR qDebug("Path: %s", qUtf8Printable(individualRankingFileName));
 
         QPainter painter;
-        if (initPainter(painter, individualRankingFileName)) {
+        QPdfWriter writer(individualRankingFileName);
+        if (initPainter(painter, &writer)) {
             makeRanking(painter, category.getFullDescription(), ranking, (individualLegs != 1));
         } else {
             emit error(tr("Error: cannot open %1").arg(individualRankingFileName));
@@ -105,9 +109,11 @@ void PDFRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
         emit error(tr("Error: cannot generate results for 0 legs"));
     } else{
         QString const &teamRankingFileName = buildOutFileName(outFileBaseName);
+        //NOSONAR qDebug("Path: %s", qUtf8Printable(individualRankingFileName));
 
         QPainter painter;
-        if (initPainter(painter, teamRankingFileName)) {
+        QPdfWriter writer(teamRankingFileName);
+        if (initPainter(painter, &writer)) {
             makeRanking(painter, category.getFullDescription(), ranking, (teamLegs != 1));
         } else {
             emit error(tr("Error: cannot open %1").arg(teamRankingFileName));
@@ -1109,32 +1115,29 @@ void PDFRankingPrinter::drawTemplatePortrait(QPainter &painter, QString const &f
 //NOSONAR     }
 //NOSONAR }
 
-bool PDFRankingPrinter::initPainter(QPainter &painter, QString const &outFileName)
+bool PDFRankingPrinter::initPainter(QPainter &painter, QPdfWriter *device)
 {
     bool retval = false;
 
-    //NOSONAR qDebug("Path: %s", qUtf8Printable(outFileName));
-    if (outFileName.isEmpty()) {
-        emit error(tr("Error: no file name"));
-    } else if (!(retval = painter.begin(new QPdfWriter(outFileName)))) {
+    Q_ASSERT(device);
+
+    device->setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
+    //NOSONAR device->setTitle(raceInfo->getEvent() + " - " + tr("Results") + " - " + fullDescription);
+    device->setPageSize(QPageSize::A4);
+    device->setPageOrientation(QPageLayout::Portrait);
+    device->setPageMargins(QMarginsF(RANKING_LEFT_MARGIN, RANKING_TOP_MARGIN, RANKING_RIGHT_MARGIN, RANKING_BOTTOM_MARGIN), QPageLayout::Millimeter);
+    device->setCreator(LBCHRONORACE_NAME);
+
+    // Set global values to convert from mm to dots
+    this->ratioX = device->logicalDpiX() / 25.4;
+    this->ratioY = device->logicalDpiY() / 25.4;
+    //NOSONAR this->ratioX = device->physicalDpiX() / 25.4;
+    //NOSONAR this->ratioY = device->physicalDpiY() / 25.4;
+    this->areaWidth = device->width();
+    this->areaHeight = device->height();
+
+    if (!(retval = painter.begin(device))) {
         emit error(tr("Error: cannot start drawing"));
-    } else {
-        auto pdfWriter = (QPdfWriter *) painter.device();
-
-        pdfWriter->setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
-        //NOSONAR pdfWriter->setTitle(raceInfo->getEvent() + " - " + tr("Results") + " - " + fullDescription);
-        pdfWriter->setPageSize(QPageSize(QPageSize::A4));
-        pdfWriter->setPageOrientation(QPageLayout::Portrait);
-        pdfWriter->setPageMargins(QMarginsF(RANKING_LEFT_MARGIN, RANKING_TOP_MARGIN, RANKING_RIGHT_MARGIN, RANKING_BOTTOM_MARGIN), QPageLayout::Millimeter);
-        pdfWriter->setCreator(LBCHRONORACE_NAME);
-
-        // Set global values to convert from mm to dots
-        this->ratioX = pdfWriter->logicalDpiX() / 25.4;
-        this->ratioY = pdfWriter->logicalDpiY() / 25.4;
-        //NOSONAR this->ratioX = pdfWriter->physicalDpiX() / 25.4;
-        //NOSONAR this->ratioY = pdfWriter->physicalDpiY() / 25.4;
-        this->areaWidth = pdfWriter->width();
-        this->areaHeight = pdfWriter->height();
     }
 
     return retval;

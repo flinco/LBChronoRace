@@ -82,7 +82,7 @@ private:
     void drawTemplatePortrait(QPainter &painter, QString const &fullDescription, int page, int pages);
     //NOSONAR void drawTemplateLandscape(QPainter &painter, QString const &fullDescription, int page, int pages);
 
-    bool initPainter(QPainter &painter, QString const &outFileName);
+    bool initPainter(QPainter &painter, QPdfWriter *device);
 
     qreal ratioX;
     qreal ratioY;
