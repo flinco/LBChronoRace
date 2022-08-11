@@ -15,8 +15,12 @@
     <!--<Watermark>watermark.png</Watermark>-->
     <!--<Background>background.png</Background>-->
     <ProductImages>
-        <Image>lbchronorace-sample.png</Image>
-        <Image>lbchronorace-preview.png</Image>
+        <ProductImage>
+            <Image>lbchronorace-sample.png</Image>
+        </ProductImage>
+        <ProductImage>
+            <Image>lbchronorace-preview.png</Image>
+        </ProductImage>
     </ProductImages>
     <RunProgram>@at@TargetDir@at@/LBChronoRace</RunProgram>
     <!--<RunProgramArguments>

@@ -46,7 +46,8 @@ set(_QTIFW_SUFFIXES
   "4.0/bin"
   "4.1/bin"
   "4.2/bin"
-  "4.3/bin")
+  "4.3/bin"
+  "4.4/bin")
 find_program(QTIFW_BINARYCREATOR_EXECUTABLE
   NAMES binarycreator
   PATHS ${_QTIFW_PATHS}
