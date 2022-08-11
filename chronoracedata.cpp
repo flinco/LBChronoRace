@@ -50,26 +50,32 @@ ChronoRaceData::ChronoRaceData(QWidget *parent) : QDialog(parent) {
     QObject::connect(ui->loadLeftLogo, &QPushButton::clicked, &this->leftLogo, &ChronoRaceLogo::loadLogo);
     QObject::connect(ui->removeLeftLogo, &QPushButton::clicked, &this->leftLogo, &ChronoRaceLogo::removeLogo);
     QObject::connect(&this->leftLogo, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
+    QObject::connect(&this->leftLogo, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::deleteLogo);
 
     QObject::connect(ui->loadRightLogo, &QPushButton::clicked, &this->rightLogo, &ChronoRaceLogo::loadLogo);
     QObject::connect(ui->removeRightLogo, &QPushButton::clicked, &this->rightLogo, &ChronoRaceLogo::removeLogo);
     QObject::connect(&this->rightLogo, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
+    QObject::connect(&this->rightLogo, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::deleteLogo);
 
     QObject::connect(ui->loadSponsorLogo1, &QPushButton::clicked, &this->sponsorLogo1, &ChronoRaceLogo::loadLogo);
     QObject::connect(ui->removeSponsorLogo1, &QPushButton::clicked, &this->sponsorLogo1, &ChronoRaceLogo::removeLogo);
     QObject::connect(&this->sponsorLogo1, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
+    QObject::connect(&this->sponsorLogo1, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::deleteLogo);
 
     QObject::connect(ui->loadSponsorLogo2, &QPushButton::clicked, &this->sponsorLogo2, &ChronoRaceLogo::loadLogo);
     QObject::connect(ui->removeSponsorLogo2, &QPushButton::clicked, &this->sponsorLogo2, &ChronoRaceLogo::removeLogo);
     QObject::connect(&this->sponsorLogo2, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
+    QObject::connect(&this->sponsorLogo2, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::deleteLogo);
 
     QObject::connect(ui->loadSponsorLogo3, &QPushButton::clicked, &this->sponsorLogo3, &ChronoRaceLogo::loadLogo);
     QObject::connect(ui->removeSponsorLogo3, &QPushButton::clicked, &this->sponsorLogo3, &ChronoRaceLogo::removeLogo);
     QObject::connect(&this->sponsorLogo3, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
+    QObject::connect(&this->sponsorLogo3, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::deleteLogo);
 
     QObject::connect(ui->loadSponsorLogo4, &QPushButton::clicked, &this->sponsorLogo4, &ChronoRaceLogo::loadLogo);
     QObject::connect(ui->removeSponsorLogo4, &QPushButton::clicked, &this->sponsorLogo4, &ChronoRaceLogo::removeLogo);
     QObject::connect(&this->sponsorLogo4, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
+    QObject::connect(&this->sponsorLogo4, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::deleteLogo);
 }
 
 QDataStream &operator<<(QDataStream &out, ChronoRaceData const &data)
@@ -256,7 +262,7 @@ QTextStream &operator<<(QTextStream &out, ChronoRaceData const &data)
 void ChronoRaceData::saveRaceData()
 {
     this->leftLogo.pixmap = ui->leftLogo->pixmap();
-    this->leftLogo.pixmap = ui->rightLogo->pixmap();
+    this->rightLogo.pixmap = ui->rightLogo->pixmap();
     this->stringFields[static_cast<int>(StringField::EVENT)] = ui->event->text();
     this->stringFields[static_cast<int>(StringField::PLACE)] = ui->place->text();
     this->date = ui->date->date();
