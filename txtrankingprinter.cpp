@@ -149,15 +149,19 @@ void TXTRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
 
 void TXTRankingPrinter::printTxtRanking(QList<ClassEntry const *> const &ranking, QString const &description, QTextStream &outStream) const
 {
+    static Position position;
+
     int i = 0;
+    QString currTime;
     ChronoRaceData const *raceInfo = getRaceInfo();
     outStream << *raceInfo << Qt::endl; // add header
     outStream << description << Qt::endl;
     for (auto const c : ranking) {
         i++;
+        currTime = c->getTotalTimeTxt();
         outStream.setFieldWidth(getIndexFieldWidth());
         outStream.setFieldAlignment(QTextStream::AlignRight);
-        outStream << i;
+        outStream << position.getCurrentPositionNumber(i, currTime);
         outStream.setFieldWidth(0);
         outStream << " - ";
         outStream.setFieldWidth(getBibFieldWidth());
@@ -169,7 +173,7 @@ void TXTRankingPrinter::printTxtRanking(QList<ClassEntry const *> const &ranking
         outStream << " - ";
         if (CRLoader::getStartListLegs() > 1)
             outStream << c->getTimesTxt(getIndexFieldWidth()) << " - ";
-        outStream << c->getTotalTimeTxt() << Qt::endl;
+        outStream << currTime << Qt::endl;
     }
     outStream << Qt::endl;
 }
@@ -181,9 +185,9 @@ void TXTRankingPrinter::printTxtRanking(QList<TeamClassEntry const *> const &ran
     outStream << *raceInfo << Qt::endl; // add header
     outStream << description << Qt::endl;
     for (auto const r : ranking) {
+        i++;
         for (int j = 0; j < r->getClassEntryCount(); j++) {
             if (j == 0) {
-                i++;
                 outStream.setFieldWidth(getIndexFieldWidth());
                 outStream.setFieldAlignment(QTextStream::AlignRight);
                 outStream << i;

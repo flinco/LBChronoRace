@@ -880,15 +880,15 @@
         <translation>Error: cannot generate results for 0 legs</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="776"/>
-        <location filename="../pdfrankingprinter.cpp" line="819"/>
-        <location filename="../pdfrankingprinter.cpp" line="940"/>
+        <location filename="../pdfrankingprinter.cpp" line="787"/>
+        <location filename="../pdfrankingprinter.cpp" line="830"/>
+        <location filename="../pdfrankingprinter.cpp" line="951"/>
         <source>Results</source>
         <translation>Results</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="790"/>
-        <location filename="../pdfrankingprinter.cpp" line="831"/>
+        <location filename="../pdfrankingprinter.cpp" line="801"/>
+        <location filename="../pdfrankingprinter.cpp" line="842"/>
         <source>%1 Results</source>
         <translation>%1 Results</translation>
     </message>
@@ -911,8 +911,8 @@
         <translation>PDF (*.pdf)</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="677"/>
-        <location filename="../pdfrankingprinter.cpp" line="690"/>
+        <location filename="../pdfrankingprinter.cpp" line="688"/>
+        <location filename="../pdfrankingprinter.cpp" line="701"/>
         <source>Start List</source>
         <translation>Start List</translation>
     </message>
@@ -959,7 +959,7 @@
         <translation>Leg</translation>
     </message>
     <message numerus="yes">
-        <location filename="../pdfrankingprinter.cpp" line="763"/>
+        <location filename="../pdfrankingprinter.cpp" line="774"/>
         <source>Leg %n</source>
         <translation>
             <numerusform>Leg %n</numerusform>
@@ -1015,7 +1015,7 @@
         <translation>Leg Time (and position)</translation>
     </message>
     <message numerus="yes">
-        <location filename="../pdfrankingprinter.cpp" line="942"/>
+        <location filename="../pdfrankingprinter.cpp" line="953"/>
         <source>Page %n</source>
         <translation>
             <numerusform>Page %n</numerusform>
@@ -1023,7 +1023,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../pdfrankingprinter.cpp" line="942"/>
+        <location filename="../pdfrankingprinter.cpp" line="953"/>
         <source>of %n</source>
         <translation>
             <numerusform>of %n</numerusform>
@@ -1031,66 +1031,66 @@
         </translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="950"/>
+        <location filename="../pdfrankingprinter.cpp" line="961"/>
         <source>Organization</source>
         <translation>Organization</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="958"/>
+        <location filename="../pdfrankingprinter.cpp" line="969"/>
         <source>Race Type</source>
         <translation>Race Type</translation>
     </message>
     <message>
         <location filename="../pdfrankingprinter.cpp" line="365"/>
-        <location filename="../pdfrankingprinter.cpp" line="958"/>
+        <location filename="../pdfrankingprinter.cpp" line="969"/>
         <source>Start Time</source>
         <translation>Start Time</translation>
     </message>
     <message>
         <location filename="../pdfrankingprinter.cpp" line="377"/>
         <location filename="../pdfrankingprinter.cpp" line="446"/>
-        <location filename="../pdfrankingprinter.cpp" line="522"/>
-        <location filename="../pdfrankingprinter.cpp" line="642"/>
+        <location filename="../pdfrankingprinter.cpp" line="524"/>
+        <location filename="../pdfrankingprinter.cpp" line="650"/>
         <source>Error: ranking type not allowed</source>
         <translation>Error: ranking type not allowed</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="958"/>
+        <location filename="../pdfrankingprinter.cpp" line="969"/>
         <source>Length</source>
         <translation>Length</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="958"/>
+        <location filename="../pdfrankingprinter.cpp" line="969"/>
         <source>Elevation Gain</source>
         <translation>Elevation Gain</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="965"/>
+        <location filename="../pdfrankingprinter.cpp" line="976"/>
         <source>Referee</source>
         <translation>Referee</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="965"/>
+        <location filename="../pdfrankingprinter.cpp" line="976"/>
         <source>Timekeeper 1</source>
         <translation>Timekeeper 1</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="965"/>
+        <location filename="../pdfrankingprinter.cpp" line="976"/>
         <source>Timekeeper 2</source>
         <translation>Timekeeper 2</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="965"/>
+        <location filename="../pdfrankingprinter.cpp" line="976"/>
         <source>Timekeeper 3</source>
         <translation>Timekeeper 3</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="1107"/>
+        <location filename="../pdfrankingprinter.cpp" line="1118"/>
         <source>Error: no file name</source>
         <translation>Error: no file name</translation>
     </message>
     <message>
-        <location filename="../pdfrankingprinter.cpp" line="1109"/>
+        <location filename="../pdfrankingprinter.cpp" line="1120"/>
         <source>Error: cannot start drawing</source>
         <translation>Error: cannot start drawing PDF</translation>
     </message>
@@ -1104,8 +1104,8 @@
     </message>
     <message>
         <location filename="../lbchronorace.cpp" line="551"/>
-        <source>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>About Qt</source>
@@ -1199,27 +1199,27 @@
 <context>
     <name>RankingsBuilder</name>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="265"/>
+        <location filename="../rankingsbuilder.cpp" line="267"/>
         <source>Warning: missing or extra legs for bib %1</source>
         <translation>Warning: missing or extra legs for bib %1</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="50"/>
+        <location filename="../rankingsbuilder.cpp" line="51"/>
         <source>Competitor not found for bib %1</source>
         <translation>Competitor not found for bib %1</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="68"/>
+        <location filename="../rankingsbuilder.cpp" line="69"/>
         <source>Bib %1 not inserted in results; check for possible duplicated entries</source>
         <translation>Bib %1 not inserted in results; check for possible duplicated entries</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="83"/>
+        <location filename="../rankingsbuilder.cpp" line="84"/>
         <source>Warning: %1</source>
         <translation>Warning: %1</translation>
     </message>
     <message>
-        <location filename="../rankingsbuilder.cpp" line="87"/>
+        <location filename="../rankingsbuilder.cpp" line="88"/>
         <source>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</source>
         <translation>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</translation>
     </message>
@@ -1404,25 +1404,6 @@
         <location filename="../timingsmodel.cpp" line="142"/>
         <source>Timing</source>
         <translation>Timing</translation>
-    </message>
-</context>
-<context>
-    <name>installscript</name>
-    <message>
-        <location filename="../installer/packages/pro.buzzi.lbchronorace/meta/installscript.qs" line="34"/>
-        <source>Form</source>
-        <translation>From</translation>
-    </message>
-    <message>
-        <location filename="../installer/packages/pro.buzzi.lbchronorace/meta/installscript.qs" line="35"/>
-        <source>Register ChronoRace Data file extension: </source>
-        <translation>Register ChronoRace Data file extension: </translation>
-    </message>
-    <message>
-        <location filename="../installer/packages/pro.buzzi.lbchronorace/meta/installscript.qs" line="62"/>
-        <location filename="../installer/packages/pro.buzzi.lbchronorace/meta/installscript.qs" line="66"/>
-        <source>Start LBChronoRace</source>
-        <translation>Start LBChronoRace</translation>
     </message>
 </context>
 </TS>

@@ -15,10 +15,14 @@
     <!--<Watermark>watermark.png</Watermark>-->
     <!--<Background>background.png</Background>-->
     <ProductImages>
-        <Image>lbchronorace-sample.png</Image>
-        <Image>lbchronorace-preview.png</Image>
+        <ProductImage>
+            <Image>lbchronorace-sample.png</Image>
+        </ProductImage>
+        <ProductImage>
+            <Image>lbchronorace-preview.png</Image>
+        </ProductImage>
     </ProductImages>
-    <RunProgram>${TargetDir}/LBChronoRace</RunProgram>
+    <RunProgram>@at@TargetDir@at@/LBChronoRace</RunProgram>
     <!--<RunProgramArguments>
         <Argument>Argument 1</Argument>
         <Argument>Argument 2</Argument>
@@ -27,8 +31,8 @@
     <StartMenuDir>LBChronoRace</StartMenuDir>
     <!--<MaintenanceToolName>SDKMaintenanceTool</MaintenanceToolName>-->
     <!--<AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>-->
-    <TargetDir>${ApplicationsDirX64}/LBChronoRace</TargetDir>
-    <!--<AdminTargetDir>${RootDir}/testinstall</AdminTargetDir>-->
+    <TargetDir>@at@ApplicationsDirX64@at@/LBChronoRace</TargetDir>
+    <!--<AdminTargetDir>@at@RootDir@at@/testinstall</AdminTargetDir>-->
     <!--<RemoteRepositories>
         <Repository>
             <Url>http://www.your-repo-location/packages/</Url>

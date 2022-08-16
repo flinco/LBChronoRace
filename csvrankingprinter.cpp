@@ -125,15 +125,19 @@ void CSVRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
 
 void CSVRankingPrinter::printCSVRanking(QList<ClassEntry const *> const &ranking, QTextStream &outStream) const
 {
+    static Position position;
+
     int i = 0;
+    QString currTime;
     for (auto const c : ranking) {
         i++;
-        outStream << i << ",";
+        currTime = c->getTotalTimeTxt();
+        outStream << position.getCurrentPositionNumber(i, currTime) << ",";
         outStream << c->getBib() << ",";
         outStream << c->getNamesCSV() << ",";
         if (CRLoader::getStartListLegs() > 1)
             outStream << c->getTimesCSV() << ",";
-        outStream << c->getTotalTimeTxt() << Qt::endl;
+        outStream << currTime << Qt::endl;
     }
     outStream << Qt::endl;
 }

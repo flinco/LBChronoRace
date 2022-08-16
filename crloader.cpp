@@ -76,10 +76,11 @@ void CRLoader::setFormat(Format const &value)
 
 void CRLoader::loadCSV(QString const &filePath, QAbstractTableModel *model)
 {
+    static QRegularExpression re("\r");
+
     QFile file (filePath);
     if (file.open(QIODevice::ReadOnly)) {
         QString data;
-        QRegularExpression re("\r");
         if (encoding == Encoding::UTF8)
             data = QString::fromUtf8(file.readAll());
         else /* if (encoding == Encoding::LATIN1) */ //NOSONAR
@@ -288,6 +289,8 @@ QVector<Category> CRLoader::getCategories()
 
 void CRLoader::checkString(QAbstractTableModel *model, QString &token, QChar character)
 {
+    static QRegularExpression re1("^\"");
+    static QRegularExpression re2("\"$");
 
     Q_ASSERT(model);
 
@@ -295,8 +298,8 @@ void CRLoader::checkString(QAbstractTableModel *model, QString &token, QChar cha
         //NOSONAR if (temp.size() == 0 && character != ',') //problem with line endings
         //NOSONAR     return;
         if (token.startsWith( QChar('\"')) && token.endsWith( QChar('\"') ) ) {
-             token.remove( QRegularExpression("^\"") );
-             token.remove( QRegularExpression("\"$") );
+             token.remove(re1);
+             token.remove(re2);
         }
         /* FIXME: will possibly fail if there are 4 or more reapeating double quotes */
         token.replace("\"\"", "\"");

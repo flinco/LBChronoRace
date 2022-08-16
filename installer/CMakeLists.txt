@@ -1,3 +1,22 @@
+##############################################################################
+# Copyright (C) 2021 by Lorenzo Buzzi (lorenzo@buzzi.pro)                    #
+#                                                                            #
+# This program is free software: you can redistribute it and/or modify       #
+# it under the terms of the GNU General Public License as published by       #
+# the Free Software Foundation, either version 3 of the License, or          #
+# (at your option) any later version.                                        #
+#                                                                            #
+# This program is distributed in the hope that it will be useful,            #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of             #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the               #
+# GNU General Public License for more details.                               #
+#                                                                            #
+# You should have received a copy of the GNU General Public License          #
+# along with this program. If not, see <https://www.gnu.org/licenses/>.      #
+##############################################################################
+
+# Windows installer creation (with Qt Installer Framework)
+
 #include(CMakePrintHelpers)
 
 add_custom_target("${CMAKE_PROJECT_NAME}Installer"
@@ -10,7 +29,8 @@ get_filename_component(_QT_BIN_DIR ${QMAKE_EXECUTABLE} DIRECTORY)
 find_program(WINDEPLOYQT_EXECUTABLE
     NAMES windeployqt
     HINTS "${_QT_BIN_DIR}"
-    REQUIRED)
+    REQUIRED
+    DOC "The Windows deployment tool")
 # Look for 'binarycreator'
 set(_QTIFW_PATHS
   "${QTIFWDIR}"
@@ -24,36 +44,38 @@ set(_QTIFW_PATHS
 set(_QTIFW_SUFFIXES
   "bin"
   "4.0/bin"
-  "4.1/bin")
+  "4.1/bin"
+  "4.2/bin"
+  "4.3/bin"
+  "4.4/bin")
 find_program(QTIFW_BINARYCREATOR_EXECUTABLE
   NAMES binarycreator
   PATHS ${_QTIFW_PATHS}
   PATH_SUFFIXES ${_QTIFW_SUFFIXES}
   REQUIRED
-  DOC "QtIFW binarycreator command line client")
+  DOC "Qt Installer Framework command line client")
 mark_as_advanced(WINDEPLOYQT_EXECUTABLE QTIFW_BINARYCREATOR_EXECUTABLE)
 
+# Convenience path variables
 #set(WIN_DEPLOY_DIR "${CMAKE_CURRENT_BINARY_DIR}/installer")
 set(WIN_DEPLOY_TARGET_DIR "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/data")
 set(WIN_DEPLOY_SAMPLES_DIR "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace.samples/data")
-
-
 set(WIN_DEPLOY_DIRS
     "config"
     "packages")
+
 # Cleanup
 foreach(WIN_DEPLOY_DIR ${WIN_DEPLOY_DIRS})
     file(REMOVE_RECURSE "${CMAKE_CURRENT_BINARY_DIR}/${WIN_DEPLOY_DIR}")
 endforeach()
 
-# Create the tree
+# Create the basic tree
 file(COPY ${WIN_DEPLOY_DIRS} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}"
     PATTERN "*.in" EXCLUDE
     PATTERN "*.ts" EXCLUDE)
 
-set(TargetDir          "@TargetDir@")
-set(ApplicationsDirX64 "@ApplicationsDirX64@")
-set(RootDir            "@RootDir@")
+# Copy the XMLs: replacing the version and date placeholders but preserve other ones
+set(at "@" CACHE STRING "QTIFW @ placeholder")
 file(GLOB_RECURSE WIN_DEPLOY_CONFIG_XML
     RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     "*.xml.in")
@@ -63,8 +85,9 @@ foreach(WIN_DEPLOY_CONFIG_XML_IN ${WIN_DEPLOY_CONFIG_XML})
     configure_file(${WIN_DEPLOY_CONFIG_XML_IN} ${WIN_DEPLOY_CONFIG_XML_OUT}
         NEWLINE_STYLE WIN32)
 endforeach()
+unset(at CACHE)
 
-# Installer images
+# Installer images and icons
 file(COPY "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.ico" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
 file(COPY "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-32.png" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
 file(COPY "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-64.png" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
@@ -83,10 +106,7 @@ qt_add_translations("${CMAKE_PROJECT_NAME}Installer"
     QM_FILES_OUTPUT_VARIABLE WIN_DEPLOY_QM_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/packages/pro.buzzi.lbchronorace/meta/installscript.qs")
 
-# License files
-file(GENERATE OUTPUT "${WIN_DEPLOY_TARGET_DIR}/GPLv3.txt"
-    INPUT "${CMAKE_SOURCE_DIR}/licenses/gpl-3.0.txt"
-    NEWLINE_STYLE WIN32)
+# Installer license files (moving to Windows newline style)
 file(GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/meta/license.txt"
     INPUT "${CMAKE_SOURCE_DIR}/licenses/gpl-3.0.txt"
     NEWLINE_STYLE WIN32)
@@ -94,12 +114,18 @@ file(GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorac
     INPUT "${CMAKE_SOURCE_DIR}/licenses/gpl-3.0_it.txt"
     NEWLINE_STYLE WIN32)
 
+# Application license file (moving to Windows newline style)
+file(GENERATE OUTPUT "${WIN_DEPLOY_TARGET_DIR}/GPLv3.txt"
+    INPUT "${CMAKE_SOURCE_DIR}/licenses/gpl-3.0.txt"
+    NEWLINE_STYLE WIN32)
+
+# Application icons
 file(GLOB WIN_DEPLOY_ICONS
     LIST_DIRECTORIES false
     "${CMAKE_SOURCE_DIR}/icons/*.ico")
 file(COPY ${WIN_DEPLOY_ICONS} DESTINATION ${WIN_DEPLOY_TARGET_DIR})
 
-# Copy samples (moving to Windows newline style)
+# Data samples (moving to Windows newline style)
 file(MAKE_DIRECTORY "${WIN_DEPLOY_SAMPLES_DIR}/samples")
 file(GLOB_RECURSE WIN_DEPLOY_SAMPLES_CONTENTS
     LIST_DIRECTORIES true RELATIVE "${CMAKE_SOURCE_DIR}/samples"
@@ -123,7 +149,7 @@ foreach(SAMPLE_CONTENT ${WIN_DEPLOY_SAMPLES_CONTENTS})
     endif()
 endforeach()
 
-# Copy the executable into the installer tree
+# Application executable (copy)
 add_custom_command(TARGET "${CMAKE_PROJECT_NAME}Installer" PRE_BUILD
     COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>" ${WIN_DEPLOY_TARGET_DIR}
     DEPENDS "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>"
@@ -135,7 +161,6 @@ if(CMAKE_BUILD_TYPE_UPPER STREQUAL "DEBUG")
 else()
     set(WINDEPLOYQT_ARGS "--release")
 endif()
-
 cmake_path(GET CMAKE_CXX_COMPILER PARENT_PATH _GXX_BIN_DIR)
 add_custom_command(TARGET "${CMAKE_PROJECT_NAME}Installer" POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E

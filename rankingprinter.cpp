@@ -58,3 +58,40 @@ void RankingPrinter::setRaceInfo(ChronoRaceData const *newRaceInfo)
 {
     raceInfo = newRaceInfo;
 }
+
+int Position::getCurrentPositionNumber(int posIndex, QString const &currTime)
+{
+    int returnedPosition = 0;
+
+    // Return 0 if the position has not changed
+    if ((posIndex == 1) || (time.compare(currTime) != 0)) {
+        // First entry or Different time
+        time = currTime;
+        returnedPosition = position = posIndex;
+    }
+
+    return returnedPosition;
+}
+
+QString Position::getCurrentPositionString(int posIndex, QString const &currTime)
+{
+    QString returnedPosition;
+
+    if (int currPos = getCurrentPositionNumber(posIndex, currTime); currPos != 0) {
+        returnedPosition = QString::number(currPos).append(".");
+    }
+
+    return returnedPosition;
+}
+
+uint PositionNumber::getCurrentPosition(uint posIndex, uint currTime)
+{
+    // Always return the position value
+    if ((posIndex == 1u) || (time != currTime)) {
+        // First entry or Different time
+        position = posIndex;
+        time = currTime;
+    }
+
+    return position;
+}
