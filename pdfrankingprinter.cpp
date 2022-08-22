@@ -86,17 +86,15 @@ void PDFRankingPrinter::printRanking(const Category &category, QList<ClassEntry 
         //NOSONAR qDebug("Path: %s", qUtf8Printable(individualRankingFileName));
 
         QPainter painter;
-        QPdfWriter writer(individualRankingFileName);
-        if (initPainter(painter, &writer)) {
+        if (QPdfWriter writer(individualRankingFileName); initPainter(painter, &writer)) {
             makeRanking(painter, category.getFullDescription(), ranking, (individualLegs != 1));
+            if (painter.end()) {
+                emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QFileInfo(individualRankingFileName).absoluteFilePath()));
+            } else {
+                emit error(tr("Error: cannot write to %1").arg(individualRankingFileName));
+            }
         } else {
             emit error(tr("Error: cannot open %1").arg(individualRankingFileName));
-        }
-
-        if (!painter.end()) {
-            emit error(tr("Error: cannot write to %1").arg(individualRankingFileName));
-        } else {
-            emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QFileInfo(individualRankingFileName).absoluteFilePath()));
         }
     }
 }
@@ -112,17 +110,15 @@ void PDFRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
         //NOSONAR qDebug("Path: %s", qUtf8Printable(individualRankingFileName));
 
         QPainter painter;
-        QPdfWriter writer(teamRankingFileName);
-        if (initPainter(painter, &writer)) {
+        if (QPdfWriter writer(teamRankingFileName); initPainter(painter, &writer)) {
             makeRanking(painter, category.getFullDescription(), ranking, (teamLegs != 1));
+            if (painter.end()) {
+                emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QFileInfo(teamRankingFileName).absoluteFilePath()));
+            } else {
+                emit error(tr("Error: cannot write to %1").arg(teamRankingFileName));
+            }
         } else {
             emit error(tr("Error: cannot open %1").arg(teamRankingFileName));
-        }
-
-        if (!painter.end()) {
-            emit error(tr("Error: cannot write to %1").arg(teamRankingFileName));
-        } else {
-            emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QFileInfo(teamRankingFileName).absoluteFilePath()));
         }
     }
 }
