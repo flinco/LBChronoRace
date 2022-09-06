@@ -146,7 +146,7 @@ QList<ClassEntry const *> &RankingsBuilder::fillRanking(QList<ClassEntry const *
 
     ranking.clear();
     ranking.reserve(tmpRanking.size());
-    for (auto const classEntry : tmpRanking) {
+    for (ClassEntry const *classEntry : tmpRanking) {
         ranking.append(classEntry);
     }
 
@@ -213,7 +213,7 @@ QList<TeamClassEntry const *> &RankingsBuilder::fillRanking(QList<TeamClassEntry
     // copy and return the team rankings
     ranking.clear();
     ranking.reserve(sortedTeamRanking.size());
-    for (auto const teamClassEntry : sortedTeamRanking) {
+    for (TeamClassEntry const *teamClassEntry : sortedTeamRanking) {
         ranking.append(teamClassEntry);
     }
 

@@ -175,7 +175,7 @@ void LBChronoRace::importCategoriesList()
         appendInfoMessage(tr("Categories File: %1").arg(categoriesFileName));
         try {
             count = CRLoader::importCategories(categoriesFileName);
-            appendInfoMessage((count == 1) ? tr("Loaded: %n category", "", count) : tr("Loaded: %n category", "", count));
+            appendInfoMessage(tr("Loaded: %n category(s)", "", count));
             lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
         } catch (ChronoRaceException &e) {
             appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
@@ -390,7 +390,7 @@ void LBChronoRace::loadRace()
                 table = CRLoader::getCategoriesModel();
                 tableCount = table->rowCount();
                 setCounterCategories(tableCount);
-                appendInfoMessage((tableCount == 1) ? tr("Loaded: %n category", "", tableCount) : tr("Loaded: %n category", "", tableCount));
+                appendInfoMessage(tr("Loaded: %n category(s)", "", tableCount));
                 table = CRLoader::getTimingsModel();
                 tableCount = table->rowCount();
                 setCounterTimings(tableCount);
