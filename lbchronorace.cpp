@@ -341,18 +341,15 @@ void LBChronoRace::selectorFormat(QString const &arg1) const
 
 void LBChronoRace::loadRace()
 {
-    if (raceDataFileName.isEmpty()) {
-        raceDataFileName = QFileDialog::getOpenFileName(this, tr("Select Race Data File"),
-            lastSelectedPath.absolutePath(), tr("ChronoRace Data (*.crd)"));
-    }
+    raceDataFileName.clear();
+    raceDataFileName = QFileDialog::getOpenFileName(this, tr("Select Race Data File"),
+        lastSelectedPath.absolutePath(), tr("ChronoRace Data (*.crd)"));
 
     if (!raceDataFileName.isEmpty()) {
         QFile raceDataFile(raceDataFileName);
         lastSelectedPath = QFileInfo(raceDataFileName).absoluteDir();
 
-        if (!raceDataFile.open(QIODevice::ReadOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"), raceDataFile.errorString());
-        } else {
+        if (raceDataFile.open(QIODevice::ReadOnly)) {
             quint32 binFmt;
             QFileInfo raceDataFileInfo(raceDataFileName);
 
@@ -405,8 +402,10 @@ void LBChronoRace::loadRace()
                 QMessageBox::information(this, tr("Race Data File Error"), tr("Format version %1 not supported").arg(binFmt));
                 break;
             }
+        } else {
+            QMessageBox::information(this, tr("Unable to open file"), raceDataFile.errorString());
+            raceDataFileName.clear();
         }
-        raceDataFileName.clear();
     }
 }
 
@@ -416,16 +415,14 @@ void LBChronoRace::saveRace()
         raceDataFileName = QFileDialog::getSaveFileName(this, tr("Select Race Data File"),
             lastSelectedPath.absolutePath(), tr("ChronoRace Data (*.crd)"));
 
-        if (!raceDataFileName.endsWith(".crd", Qt::CaseInsensitive))
+        if (!raceDataFileName.isEmpty() && !raceDataFileName.endsWith(".crd", Qt::CaseInsensitive))
             raceDataFileName.append(".crd");
     }
 
     if (!raceDataFileName.isEmpty()) {
         QFile raceDataFile(raceDataFileName);
 
-        if (!raceDataFile.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"), raceDataFile.errorString());
-        } else {
+        if (raceDataFile.open(QIODevice::WriteOnly)) {
             QFileInfo raceDataFileInfo(raceDataFileName);
             QDataStream out(&raceDataFile);
 
@@ -440,15 +437,22 @@ void LBChronoRace::saveRace()
             lastSelectedPath = raceDataFileInfo.absoluteDir();
             setWindowTitle(QString(tr(LBCHRONORACE_NAME) + " - " + raceDataFileInfo.fileName()));
             appendInfoMessage(tr("Race saved: %1").arg(raceDataFileName));
+        } else {
+            QMessageBox::information(this, tr("Unable to open file"), raceDataFile.errorString());
+            raceDataFileName.clear();
         }
-
     }
 }
 
 void LBChronoRace::saveRaceAs()
 {
+    QString oldRaceDataFileName(raceDataFileName);
+
     raceDataFileName.clear();
     saveRace();
+
+    if (raceDataFileName.isEmpty())
+        raceDataFileName = oldRaceDataFileName;
 }
 
 void LBChronoRace::makeStartList()
