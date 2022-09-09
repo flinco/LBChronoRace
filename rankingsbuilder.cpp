@@ -21,8 +21,6 @@
 #include "rankingsbuilder.h"
 #include "rankingprinter.h"
 
-#include "lbcrexception.h"
-
 uint RankingsBuilder::loadData()
 {
     QStringList messages;
