@@ -157,6 +157,11 @@ void CRLoader::loadRaceData(QDataStream &in)
        >> teamsListModel
        >> categoriesModel
        >> timingsModel;
+
+    startListModel.refreshCounters(0);
+    teamsListModel.refreshCounters(0);
+    categoriesModel.refreshCounters(0);
+    timingsModel.refreshCounters(0);
 }
 
 QPair<int, int> CRLoader::importStartList(QString const &path)

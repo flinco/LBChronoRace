@@ -761,7 +761,7 @@
     <message numerus="yes">
         <location filename="../lbchronorace.cpp" line="178"/>
         <location filename="../lbchronorace.cpp" line="396"/>
-        <source>Loaded: %n category</source>
+        <source>Loaded: %n category(s)</source>
         <translation>
             <numerusform>Loaded: %n category</numerusform>
             <numerusform>Loaded: %n categories</numerusform>

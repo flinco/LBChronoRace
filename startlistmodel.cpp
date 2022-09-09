@@ -55,6 +55,8 @@ void StartListModel::refreshCounters(int r)
 
     Q_UNUSED(r)
 
+    legCount = 0;
+    maxBib = 0;
     competitorNameMaxWidth = 0;
     for (auto const &comp : startList) {
         bib = comp.getBib();
