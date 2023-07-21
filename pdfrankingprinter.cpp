@@ -28,7 +28,7 @@
 static constexpr qreal RANKING_TOP_MARGIN    = 10.0;
 static constexpr qreal RANKING_LEFT_MARGIN   = 10.0;
 static constexpr qreal RANKING_RIGHT_MARGIN  = 10.0;
-static constexpr qreal RANKING_BOTTOM_MARGIN = 12.0;
+static constexpr qreal RANKING_BOTTOM_MARGIN =  6.0;
 
 static constexpr int RANKING_PORTRAIT_FIRST_PAGE_LIMIT  = 44;
 static constexpr int RANKING_PORTRAIT_SECOND_PAGE_LIMIT = 50;
@@ -883,6 +883,11 @@ void PDFRankingPrinter::drawTemplatePortrait(QPainter &painter, QString const &f
     // Publishing time
     QString editingTimestamp = QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm");
 
+    // Created with
+    QString createdWith = QString("Created with %1 %2")
+                              .arg(QStringLiteral(LBCHRONORACE_NAME),
+                                   QStringLiteral(LBCHRONORACE_VERSION));
+
     // Horizontal lines
     if (page == 1) {
         // Page 1
@@ -891,13 +896,13 @@ void PDFRankingPrinter::drawTemplatePortrait(QPainter &painter, QString const &f
         painter.fillRect(QRectF(toHdots(0.0), toVdots( 39.0), this->areaWidth, toVdots(0.5)), Qt::black);
         painter.fillRect(QRectF(toHdots(0.0), toVdots( 48.0), this->areaWidth, toVdots(0.5)), Qt::black);
         painter.fillRect(QRectF(toHdots(0.0), toVdots( 57.0), this->areaWidth, toVdots(0.2)), Qt::black);
-        painter.fillRect(QRectF(toHdots(0.0), toVdots(-35.0), this->areaWidth, toVdots(0.5)), Qt::black);
+        painter.fillRect(QRectF(toHdots(0.0), toVdots(-41.0), this->areaWidth, toVdots(0.5)), Qt::black);
     } else {
         // Page 2, 3, ...
         painter.fillRect(QRectF(toHdots(0.0), toVdots(  0.0), this->areaWidth, toVdots(0.5)), Qt::black);
         painter.fillRect(QRectF(toHdots(0.0), toVdots( 25.0), this->areaWidth, toVdots(0.5)), Qt::black);
         painter.fillRect(QRectF(toHdots(0.0), toVdots( 34.0), this->areaWidth, toVdots(0.2)), Qt::black);
-        painter.fillRect(QRectF(toHdots(0.0), toVdots(-35.0), this->areaWidth, toVdots(0.5)), Qt::black);
+        painter.fillRect(QRectF(toHdots(0.0), toVdots(-41.0), this->areaWidth, toVdots(0.5)), Qt::black);
     }
     // Left and Right logo
     if (page == 1) {
@@ -919,12 +924,18 @@ void PDFRankingPrinter::drawTemplatePortrait(QPainter &painter, QString const &f
     rectWidth = this->areaWidth / static_cast<qreal>(sponsors.size());
     for (auto const &sponsor : sponsors) {
         writeRect.setX((rectWidth * l++) + toHdots(1.0));
-        writeRect.setY(toVdots(-29.0));
+        writeRect.setY(toVdots(-35.0));
         writeRect.setWidth(rectWidth  - toHdots(2.0));
         writeRect.setHeight(toVdots(29.0));
         this->fitRectToLogo(writeRect, sponsor);
         painter.drawPixmap(writeRect.toRect(), sponsor);
     }
+    // Created with
+    rnkFont.setPointSize(6);
+    painter.setFont(rnkFont);
+    writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(-6.0)));
+    writeRect.setBottomRight(QPointF(this->areaWidth, this->areaHeight));
+    painter.drawText(writeRect.toRect(), Qt::AlignCenter, createdWith);
     // Title and subtitle
     if (page == 1) {
         rnkFontBoldItal.setPointSize(22);
@@ -948,13 +959,13 @@ void PDFRankingPrinter::drawTemplatePortrait(QPainter &painter, QString const &f
     }
     // Results, page and editing timestamp
     painter.setFont(rnkFont);
-    writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(-34.5)));
-    writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-29.0)));
+    writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(-40.5)));
+    writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-35.0)));
     painter.drawText(writeRect.toRect(), Qt::AlignHCenter | Qt::AlignTop, tr("Results") + ":\u00a0" + raceInfo->getResults());
-    writeRect.setBottomRight(QPointF(toHdots(30.0), toVdots(-29.0)));
+    writeRect.setBottomRight(QPointF(toHdots(30.0), toVdots(-35.0)));
     painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, tr("Page %n", "", page) + " " + tr("of %n", "", pages));
-    writeRect.setTopLeft(QPointF(toHdots(-30.0), toVdots(-34.5)));
-    writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-29.0)));
+    writeRect.setTopLeft(QPointF(toHdots(-30.0), toVdots(-40.5)));
+    writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-35.0)));
     painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignTop, editingTimestamp);
     if (page == 1) {
         // Organization
@@ -1007,6 +1018,11 @@ void PDFRankingPrinter::drawTemplatePortrait(QPainter &painter, QString const &f
 //NOSONAR     // Publishing time
 //NOSONAR     QString editingTimestamp = QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm");
 
+//NOSONAR     // Created with
+//NOSONAR     QString createdWith = QString("Created with %1 %2")
+//NOSONAR                               .arg(QStringLiteral(LBCHRONORACE_NAME),
+//NOSONAR                                    QStringLiteral(LBCHRONORACE_VERSION));
+
 //NOSONAR     // Horizontal lines
 //NOSONAR     if (page == 1) {
 //NOSONAR         // Page 1
@@ -1015,13 +1031,13 @@ void PDFRankingPrinter::drawTemplatePortrait(QPainter &painter, QString const &f
 //NOSONAR         painter.fillRect(QRectF(toHdots(0.0), toVdots( 39.0), this->areaWidth, toVdots(0.5)), Qt::black);
 //NOSONAR         painter.fillRect(QRectF(toHdots(0.0), toVdots( 48.0), this->areaWidth, toVdots(0.5)), Qt::black);
 //NOSONAR         painter.fillRect(QRectF(toHdots(0.0), toVdots( 57.0), this->areaWidth, toVdots(0.2)), Qt::black);
-//NOSONAR         painter.fillRect(QRectF(toHdots(0.0), toVdots(-35.0), this->areaWidth, toVdots(0.5)), Qt::black);
+//NOSONAR         painter.fillRect(QRectF(toHdots(0.0), toVdots(-41.0), this->areaWidth, toVdots(0.5)), Qt::black);
 //NOSONAR     } else {
 //NOSONAR         // Page 2, 3, ...
 //NOSONAR         painter.fillRect(QRectF(toHdots(0.0), toVdots(  0.0), this->areaWidth, toVdots(0.5)), Qt::black);
 //NOSONAR         painter.fillRect(QRectF(toHdots(0.0), toVdots( 25.0), this->areaWidth, toVdots(0.5)), Qt::black);
 //NOSONAR         painter.fillRect(QRectF(toHdots(0.0), toVdots( 34.0), this->areaWidth, toVdots(0.2)), Qt::black);
-//NOSONAR         painter.fillRect(QRectF(toHdots(0.0), toVdots(-35.0), this->areaWidth, toVdots(0.5)), Qt::black);
+//NOSONAR         painter.fillRect(QRectF(toHdots(0.0), toVdots(-41.0), this->areaWidth, toVdots(0.5)), Qt::black);
 //NOSONAR     }
 //NOSONAR     // Left and Right logo
 //NOSONAR     if (page == 1) {
@@ -1042,12 +1058,18 @@ void PDFRankingPrinter::drawTemplatePortrait(QPainter &painter, QString const &f
 //NOSONAR     rectWidth = this->areaWidth / sponsors.size();
 //NOSONAR     for (int l = 0; l < sponsors.size(); l++) {
 //NOSONAR         writeRect.setX((rectWidth * l) + toHdots(1.0));
-//NOSONAR         writeRect.setY(toVdots(-29.0));
+//NOSONAR         writeRect.setY(toVdots(-35.0));
 //NOSONAR         writeRect.setWidth(rectWidth  - toHdots(2.0));
 //NOSONAR         writeRect.setHeight(toVdots(29.0));
 //NOSONAR         this->fitRectToLogo(writeRect, sponsors[l]);
 //NOSONAR         painter.drawPixmap(writeRect.toRect(), sponsors[l]);
 //NOSONAR     }
+//NOSONAR     // Created with
+//NOSONAR     rnkFont.setPointSize(6);
+//NOSONAR     painter.setFont(rnkFont);
+//NOSONAR     writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(-6.0)));
+//NOSONAR     writeRect.setBottomRight(QPointF(this->areaWidth, this->areaHeight));
+//NOSONAR     painter.drawText(writeRect.toRect(), Qt::AlignCenter, createdWith);
 //NOSONAR     // Title and subtitle
 //NOSONAR     if (page == 1) {
 //NOSONAR         rnkFontBoldItal.setPointSize(22);
@@ -1071,13 +1093,13 @@ void PDFRankingPrinter::drawTemplatePortrait(QPainter &painter, QString const &f
 //NOSONAR     }
 //NOSONAR     // Results, page and editing timestamp
 //NOSONAR     painter.setFont(rnkFont);
-//NOSONAR     writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(-34.5)));
-//NOSONAR     writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-29.0)));
+//NOSONAR     writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(-40.5)));
+//NOSONAR     writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-35.0)));
 //NOSONAR     painter.drawText(writeRect.toRect(), Qt::AlignHCenter | Qt::AlignTop, tr("Results") + ":\u00a0" + raceInfo->getResults());
-//NOSONAR     writeRect.setBottomRight(QPointF(toHdots(30.0), toVdots(-29.0)));
+//NOSONAR     writeRect.setBottomRight(QPointF(toHdots(30.0), toVdots(-35.0)));
 //NOSONAR     painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, tr("Page %n", "", page) + " " + tr("of %n", "", pages));
-//NOSONAR     writeRect.setTopLeft(QPointF(toHdots(-30.0), toVdots(-34.5)));
-//NOSONAR     writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-29.0)));
+//NOSONAR     writeRect.setTopLeft(QPointF(toHdots(-30.0), toVdots(-40.5)));
+//NOSONAR     writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-35.0)));
 //NOSONAR     painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignTop, editingTimestamp);
 //NOSONAR     if (page == 1) {
 //NOSONAR         // Organization
