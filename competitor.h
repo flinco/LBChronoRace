@@ -82,6 +82,7 @@ public:
     QString const &getTeam() const;
     QString getTeam(int newWidth) const;
     void setTeam(QString const &newTeam);
+    void setTeam(QString const *newTeam);
     uint getYear() const;
     void setYear(uint newYear);
     uint getLeg() const;

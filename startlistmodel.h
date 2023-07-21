@@ -66,6 +66,9 @@ private:
     uint              legCount;
     uint              maxBib;
     uint              competitorNameMaxWidth;
+
+    QString const *getTeam(uint bib);
+    void setTeam(uint bib, QString const &team);
 };
 
 #endif // LBSTARTLISTMODEL_H
