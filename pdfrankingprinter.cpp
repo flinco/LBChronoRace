@@ -66,7 +66,7 @@ void PDFRankingPrinter::printStartList(QList<Competitor> const &startList, QWidg
                 emit error(tr("Error: cannot write to %1").arg(outFileName));
             } else {
                 QFileInfo outFileInfo(outFileName);
-                emit info(tr("Generated Start List: %1").arg(outFileInfo.absoluteFilePath()));
+                emit info(tr("Generated Start List: %1").arg(QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
                 lastSelectedPath = outFileInfo.absoluteDir();
             }
         } else {
@@ -89,7 +89,7 @@ void PDFRankingPrinter::printRanking(const Category &category, QList<ClassEntry 
         if (QPdfWriter writer(individualRankingFileName); initPainter(painter, &writer)) {
             makeRanking(painter, category.getFullDescription(), ranking, (individualLegs != 1));
             if (painter.end()) {
-                emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QFileInfo(individualRankingFileName).absoluteFilePath()));
+                emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QDir::toNativeSeparators(QFileInfo(individualRankingFileName).absoluteFilePath())));
             } else {
                 emit error(tr("Error: cannot write to %1").arg(individualRankingFileName));
             }
@@ -113,7 +113,7 @@ void PDFRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
         if (QPdfWriter writer(teamRankingFileName); initPainter(painter, &writer)) {
             makeRanking(painter, category.getFullDescription(), ranking, (teamLegs != 1));
             if (painter.end()) {
-                emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QFileInfo(teamRankingFileName).absoluteFilePath()));
+                emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QDir::toNativeSeparators(QFileInfo(teamRankingFileName).absoluteFilePath())));
             } else {
                 emit error(tr("Error: cannot write to %1").arg(teamRankingFileName));
             }
