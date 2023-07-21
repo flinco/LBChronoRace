@@ -91,6 +91,8 @@ private:
     ChronoRaceTable categoriesTable;
     ChronoRaceTable timingsTable;
 
+    bool loadRaceFile(QString const &fileName);
+
 private slots:
     void actionAbout();
     void actionAboutQt();
