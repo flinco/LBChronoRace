@@ -342,13 +342,13 @@ void ChronoRaceData::loadLogo(QLabel *label)
 
             if (!newLogo.isNull()) {
                 LBChronoRace::lastSelectedPath = QFileInfo(logoFileName).absoluteDir();
-                // get label dimensions
-                //int w = label->width(); //NOSONAR
-                //int h = label->height(); //NOSONAR
+                /* get label dimensions */
+                //NOSONAR int w = label->width();
+                //NOSONAR int h = label->height();
 
                 label->setPixmap(newLogo);
-                // set a scaled pixmap to a w x h window keeping its aspect ratio
-                //label->setPixmap(newLogo.scaled(w, h, Qt::KeepAspectRatio)); //NOSONAR
+                /* set a scaled pixmap to a w x h window keeping its aspect ratio */
+                //NOSONAR label->setPixmap(newLogo.scaled(w, h, Qt::KeepAspectRatio));
             }
         }
     }
