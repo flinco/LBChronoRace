@@ -142,10 +142,12 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
         switch (index.column()) {
         case static_cast<int>(Competitor::Field::CMF_BIB):
             uval = value.toUInt(&retval);
-            if (retval && uval)
+            if (retval && uval) {
                 startList[index.row()].setBib(uval);
-            else
+                startList[index.row()].setTeam(this->getTeam(uval));
+            } else {
                 retval = false;
+            }
             break;
         case static_cast<int>(Competitor::Field::CMF_NAME):
             startList[index.row()].setName(value.toString().simplified());
@@ -166,7 +168,12 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
             if (retval) startList[index.row()].setYear(uval);
             break;
         case static_cast<int>(Competitor::Field::CMF_TEAM):
-            startList[index.row()].setTeam(value.toString().simplified());
+            uval = startList[index.row()].getBib();
+            if (uval == 0) {
+                startList[index.row()].setTeam(value.toString().simplified());
+            } else {
+                this->setTeam(uval, value.toString().simplified());
+            }
             emit newTeam(startList[index.row()].getTeam());
             retval = true;
             break;
@@ -287,4 +294,20 @@ uint StartListModel::getMaxBib() const
 uint StartListModel::getCompetitorNameMaxWidth() const
 {
     return competitorNameMaxWidth;
+}
+
+QString const *StartListModel::getTeam(uint bib)
+{
+    for (qsizetype row = 0; row < startList.count(); row++)
+        if (startList[row].getBib() == bib)
+            return &startList[row].getTeam();
+
+    return Q_NULLPTR;
+}
+
+void StartListModel::setTeam(uint bib, QString const &team)
+{
+    for (qsizetype row = 0; row < startList.count(); row++)
+        if (startList[row].getBib() == bib)
+            startList[row].setTeam(team);
 }

@@ -288,10 +288,10 @@ void LBChronoRace::initialize() {
 
     auto argument = arguments.constBegin();
     if (++argument != arguments.constEnd()) {
-        raceDataFileName = *argument;
+        if (loadRaceFile(*argument))
+            raceDataFileName = *argument;
         while (++argument != arguments.constEnd())
             appendErrorMessage(tr("Warning: skipping file %1").arg(*argument));
-        loadRace();
     }
 }
 
@@ -339,19 +339,17 @@ void LBChronoRace::selectorFormat(QString const &arg1) const
     appendInfoMessage(tr("Selected format: %1").arg(arg1));
 }
 
-void LBChronoRace::loadRace()
+bool LBChronoRace::loadRaceFile(QString const &fileName)
 {
-    raceDataFileName.clear();
-    raceDataFileName = QFileDialog::getOpenFileName(this, tr("Select Race Data File"),
-        lastSelectedPath.absolutePath(), tr("ChronoRace Data (*.crd)"));
+    bool retval = false;
 
-    if (!raceDataFileName.isEmpty()) {
-        QFile raceDataFile(raceDataFileName);
-        lastSelectedPath = QFileInfo(raceDataFileName).absoluteDir();
+    if (!fileName.isEmpty()) {
+        QFile raceDataFile(fileName);
+        lastSelectedPath = QFileInfo(fileName).absoluteDir();
 
         if (raceDataFile.open(QIODevice::ReadOnly)) {
             quint32 binFmt;
-            QFileInfo raceDataFileInfo(raceDataFileName);
+            QFileInfo raceDataFileInfo(fileName);
 
             QDataStream in(&raceDataFile);
             in.setVersion(QDataStream::Qt_5_15);
@@ -396,7 +394,8 @@ void LBChronoRace::loadRace()
                 setCounterTimings(tableCount);
                 appendInfoMessage(tr("Loaded: %n timing(s)", "", tableCount));
 
-                appendInfoMessage(tr("Race loaded: %1").arg(raceDataFileName));
+                appendInfoMessage(tr("Race loaded: %1").arg(fileName));
+                retval = true;
                 break;
             default:
                 QMessageBox::information(this, tr("Race Data File Error"), tr("Format version %1 not supported").arg(binFmt));
@@ -404,9 +403,20 @@ void LBChronoRace::loadRace()
             }
         } else {
             QMessageBox::information(this, tr("Unable to open file"), raceDataFile.errorString());
-            raceDataFileName.clear();
         }
     }
+
+    return retval;
+}
+
+void LBChronoRace::loadRace()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Race Data File"),
+                                                    lastSelectedPath.absolutePath(),
+                                                    tr("ChronoRace Data (*.crd)"));
+
+    if (loadRaceFile(fileName))
+        raceDataFileName = fileName;
 }
 
 void LBChronoRace::saveRace()

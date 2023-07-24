@@ -92,7 +92,7 @@ void TXTRankingPrinter::printStartList(QList<Competitor> const &startList, QWidg
         outStream << Qt::endl;
 
         QFileInfo outFileInfo(textFileName);
-        emit info(tr("Generated Start List: %1").arg(outFileInfo.absoluteFilePath()));
+        emit info(tr("Generated Start List: %1").arg(QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
         lastSelectedPath = outFileInfo.absoluteDir();
 
         outStream.flush();
@@ -117,7 +117,7 @@ void TXTRankingPrinter::printRanking(const Category &category, QList<ClassEntry 
     printTxtRanking(ranking, category.getFullDescription(), outStream);
 
     QFileInfo outFileInfo(outFile);
-    emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), outFileInfo.absoluteFilePath()));
+    emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
 
     outStream.flush();
     outFile.close();
@@ -141,7 +141,7 @@ void TXTRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
     printTxtRanking(ranking, category.getFullDescription(), outStream);
 
     QFileInfo outFileInfo(outFile);
-    emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), outFileInfo.absoluteFilePath()));
+    emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
 
     outStream.flush();
     outFile.close();

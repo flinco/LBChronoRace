@@ -109,6 +109,12 @@ void Competitor::setTeam(QString const &newTeam)
     this->team = newTeam;
 }
 
+void Competitor::setTeam(QString const *newTeam)
+{
+    if (newTeam)
+        this->team = *newTeam;
+}
+
 uint Competitor::getYear() const
 {
     return year;

@@ -69,7 +69,7 @@ void CSVRankingPrinter::printStartList(QList<Competitor> const &startList, QWidg
         outStream << Qt::endl;
 
         QFileInfo outFileInfo(cvsFileName);
-        emit info(tr("Generated Start List: %1").arg(outFileInfo.absoluteFilePath()));
+        emit info(tr("Generated Start List: %1").arg(QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
         lastSelectedPath = outFileInfo.absoluteDir();
 
         outStream.flush();
@@ -94,7 +94,7 @@ void CSVRankingPrinter::printRanking(const Category &category, QList<ClassEntry 
     printCSVRanking(ranking, outStream);
 
     QFileInfo outFileInfo(outFile);
-    emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), outFileInfo.absoluteFilePath()));
+    emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
 
     outStream.flush();
     outFile.close();
@@ -117,7 +117,7 @@ void CSVRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
     printCSVRanking(ranking, category.getShortDescription(), outStream);
 
     QFileInfo outFileInfo(outFile);
-    emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), outFileInfo.absoluteFilePath()));
+    emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
 
     outStream.flush();
     outFile.close();
