@@ -136,15 +136,22 @@ QVariant StartListModel::data(QModelIndex const &index, int role) const
 bool StartListModel::setData(QModelIndex const &index, QVariant const &value, int role)
 {
     bool retval = false;
-    if (index.isValid() && role == Qt::EditRole) {
+    uint uval;
 
-        uint uval;
-        switch (index.column()) {
+    if (!index.isValid())
+        return retval;
+
+    if (role != Qt::EditRole)
+        return retval;
+
+    switch (index.column()) {
         case static_cast<int>(Competitor::Field::CMF_BIB):
             uval = value.toUInt(&retval);
             if (retval && uval) {
+                int maxLeg = this->getMaxLeg(uval, index.row());
                 startList[index.row()].setBib(uval);
                 startList[index.row()].setTeam(this->getTeam(uval));
+                startList[index.row()].setOffset((maxLeg < 0) ? &maxLeg : Q_NULLPTR);
             } else {
                 retval = false;
             }
@@ -183,10 +190,11 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
             break;
         default:
             break;
-        }
-
-        if (retval) emit dataChanged(index, index);
     }
+
+    if (retval)
+        emit dataChanged(index, index);
+
     return retval;
 }
 
@@ -310,4 +318,34 @@ void StartListModel::setTeam(uint bib, QString const &team)
     for (qsizetype row = 0; row < startList.count(); row++)
         if (startList[row].getBib() == bib)
             startList[row].setTeam(team);
+}
+
+int StartListModel::getMaxLeg(uint bib, int skip)
+{
+    int retval = 0;
+    uint legs = 0;
+    int offset;
+
+    for (qsizetype row = 0; row < startList.count(); row++) {
+        if (row == skip)
+            continue;
+
+        if (startList[row].getBib() != bib)
+            continue;
+
+        offset = startList[row].getOffset();
+        if (offset >= 0)
+            continue;
+        legs |= 1 << (-1 - offset);
+    }
+
+    if (legs) {
+        offset = startList[skip].getOffset();
+        if (legs & (1 << (-1 - offset))) {
+            for (retval = -1; legs & 1; legs >>= 1)
+                retval--;
+        }
+    }
+
+    return (retval < 0) ? retval : 0;
 }

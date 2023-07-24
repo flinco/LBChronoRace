@@ -89,6 +89,7 @@ public:
     void setLeg(uint newLeg);
     int getOffset() const;
     void setOffset(int newOffset);
+    void setOffset(int const *newOffset);
     bool isValid() const;
 
     QString const &getCategory() const;
