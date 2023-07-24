@@ -139,9 +139,16 @@ int Competitor::getOffset() const
 {
     return offset;
 }
+
 void Competitor::setOffset(int newOffset)
 {
     this->offset = newOffset;
+}
+
+void Competitor::setOffset(int const *newOffset)
+{
+    if (newOffset)
+        this->offset = *newOffset;
 }
 
 bool Competitor::isValid() const

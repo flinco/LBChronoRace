@@ -69,6 +69,7 @@ private:
 
     QString const *getTeam(uint bib);
     void setTeam(uint bib, QString const &team);
+    int getMaxLeg(uint bib, int skip);
 };
 
 #endif // LBSTARTLISTMODEL_H
