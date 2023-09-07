@@ -36,7 +36,7 @@ void TXTRankingPrinter::printStartList(QList<Competitor> const &startList, QWidg
 
         QFile outFile(textFileName);
         if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            throw(ChronoRaceException(QString("Error: cannot open %1").arg(textFileName)));
+            throw(ChronoRaceException(tr("Error: cannot open %1").arg(textFileName)));
         }
         QTextStream outStream(&outFile);
 
@@ -121,7 +121,6 @@ void TXTRankingPrinter::printRanking(const Category &category, QList<ClassEntry 
 
     outStream.flush();
     outFile.close();
-
 }
 
 void TXTRankingPrinter::printRanking(const Category &category, QList<TeamClassEntry const *> const &ranking, QString &outFileBaseName)
@@ -129,7 +128,7 @@ void TXTRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
     QString const &teamRankingFileName = buildOutFileName(outFileBaseName);
     QFile outFile(teamRankingFileName);
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        throw(ChronoRaceException(QString("Error: cannot open %1").arg(teamRankingFileName)));
+        throw(ChronoRaceException(tr("Error: cannot open %1").arg(teamRankingFileName)));
     }
     QTextStream outStream(&outFile);
 
@@ -138,7 +137,7 @@ void TXTRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
     else //NOSONAR if (CRLoader::getEncoding() == CRLoader::Encoding::LATIN1)
         outStream.setEncoding(QStringConverter::Latin1);
 
-    printTxtRanking(ranking, category.getFullDescription(), outStream);
+    printTxtTeamRanking(ranking, category.getFullDescription(), outStream);
 
     QFileInfo outFileInfo(outFile);
     emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
@@ -178,7 +177,7 @@ void TXTRankingPrinter::printTxtRanking(QList<ClassEntry const *> const &ranking
     outStream << Qt::endl;
 }
 
-void TXTRankingPrinter::printTxtRanking(QList<TeamClassEntry const *> const &ranking, QString const &description, QTextStream &outStream) const
+void TXTRankingPrinter::printTxtTeamRanking(QList<TeamClassEntry const *> const &ranking, QString const &description, QTextStream &outStream) const
 {
     int i = 0;
     ChronoRaceData const *raceInfo = getRaceInfo();

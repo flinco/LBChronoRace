@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
+ <author>Lorenzo Buzzi</author>
+ <comment/>
+ <exportmacro/>
  <class>ChronoRaceTable</class>
  <widget class="QDialog" name="ChronoRaceTable">
   <property name="enabled">

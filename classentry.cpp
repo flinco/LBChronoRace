@@ -56,6 +56,7 @@ void ClassEntry::setBib(uint newBib)
 {
     this->bib = newBib;
 }
+
 QString ClassEntry::getName(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())

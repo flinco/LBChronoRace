@@ -34,7 +34,7 @@ public:
 
 private:
     void printTxtRanking(QList<ClassEntry const *> const &ranking, QString const &description, QTextStream &outStream) const;
-    void printTxtRanking(QList<TeamClassEntry const *> const &ranking, QString const &description, QTextStream &outStream) const;
+    void printTxtTeamRanking(QList<TeamClassEntry const *> const &ranking, QString const &description, QTextStream &outStream) const;
 
     QString &buildOutFileName(QString &outFileBaseName) override;
     QString &checkOutFileNameExtension(QString &outFileBaseName) override;

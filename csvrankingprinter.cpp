@@ -37,7 +37,7 @@ void CSVRankingPrinter::printStartList(QList<Competitor> const &startList, QWidg
 
         QFile outFile(cvsFileName);
         if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            throw(ChronoRaceException(QString("Error: cannot open %1").arg(cvsFileName)));
+            throw(ChronoRaceException(tr("Error: cannot open %1").arg(cvsFileName)));
         }
         QTextStream outStream(&outFile);
 
@@ -105,7 +105,7 @@ void CSVRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
     QString const &teamRankingFileName = buildOutFileName(outFileBaseName);
     QFile outFile(teamRankingFileName);
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        throw(ChronoRaceException(QString("Error: cannot open %1").arg(teamRankingFileName)));
+        throw(ChronoRaceException(tr("Error: cannot open %1").arg(teamRankingFileName)));
     }
     QTextStream outStream(&outFile);
 
@@ -114,7 +114,7 @@ void CSVRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
     else //NOSONAR if (CRLoader::getEncoding() == CRLoader::Encoding::LATIN1)
         outStream.setEncoding(QStringConverter::Latin1);
 
-    printCSVRanking(ranking, category.getShortDescription(), outStream);
+    printCSVTeamRanking(ranking, category.getShortDescription(), outStream);
 
     QFileInfo outFileInfo(outFile);
     emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
@@ -142,7 +142,7 @@ void CSVRankingPrinter::printCSVRanking(QList<ClassEntry const *> const &ranking
     outStream << Qt::endl;
 }
 
-void CSVRankingPrinter::printCSVRanking(QList<TeamClassEntry const *> const &ranking, QString const &description, QTextStream &outStream) const
+void CSVRankingPrinter::printCSVTeamRanking(QList<TeamClassEntry const *> const &ranking, QString const &description, QTextStream &outStream) const
 {
     int i = 0;
     outStream << description << Qt::endl;

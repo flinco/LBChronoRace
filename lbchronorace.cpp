@@ -27,6 +27,10 @@
 
 #include "lbchronorace.h"
 #include "crloader.h"
+#include "competitor.h"
+#include "classentry.h"
+#include "teamclassentry.h"
+#include "crloader.h"
 #include "rankingsbuilder.h"
 #include "rankingprinter.h"
 #include "lbcrexception.h"
@@ -82,6 +86,8 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(&timingsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterTimings);
     QObject::connect(timingsModel, &TimingsModel::error, this, &LBChronoRace::appendErrorMessage);
 
+    QObject::connect(&timings, &ChronoRaceTimings::newTimingsCount, this, &LBChronoRace::setCounterTimings);
+
     // react to screen change and resize
     QObject::connect(app, &QGuiApplication::primaryScreenChanged, this, &LBChronoRace::resizeDialogs);
     resizeDialogs(QGuiApplication::primaryScreen());
@@ -96,6 +102,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->editCategories, &QPushButton::clicked, &categoriesTable, &ChronoRaceTable::show);
     QObject::connect(ui->editTimings, &QPushButton::clicked, &timingsTable, &ChronoRaceTable::show);
     QObject::connect(ui->makeStartList, &QPushButton::clicked, this, &LBChronoRace::makeStartList);
+    QObject::connect(ui->collectTimings, &QPushButton::clicked, &timings, &ChronoRaceTimings::show);
     QObject::connect(ui->makeRankings, &QPushButton::clicked, this, &LBChronoRace::makeRankings);
 
     QObject::connect(ui->actionLoadRace, &QAction::triggered, this, &LBChronoRace::loadRace);

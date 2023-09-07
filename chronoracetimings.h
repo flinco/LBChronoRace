@@ -15,36 +15,60 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef TEAMCLASSENTRY_H
-#define TEAMCLASSENTRY_H
+#ifndef CHRONORACETIMINGS_H
+#define CHRONORACETIMINGS_H
 
-#include <QCoreApplication>
-#include <QVector>
+#include <QDialog>
+#include <QKeyEvent>
+#include <QElapsedTimer>
+#include <QTimer>
 
-#include "classentry.h"
+#include "ui_chronoracetimings.h"
 
-namespace placement {
-class TeamClassEntry;
-}
-
-class TeamClassEntry
+class ChronoRaceTimings : public QDialog
 {
-    Q_DECLARE_TR_FUNCTIONS(TeamClassEntry)
-
-private:
-    QString               team { "" };
-    QVector<ClassEntry *> entryList { };
+    Q_OBJECT
 
 public:
-    QString const &getTeam() const;
-    ClassEntry const *getClassEntry(int index) const;
-    void setClassEntry(ClassEntry *entry);
-    int getClassEntryCount() const;
+    explicit ChronoRaceTimings(QWidget *parent = Q_NULLPTR);
 
-    bool operator< (TeamClassEntry const &rhs);
-    bool operator> (TeamClassEntry const &rhs);
-    bool operator<=(TeamClassEntry const &rhs);
-    bool operator>=(TeamClassEntry const &rhs);
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
+public slots:
+    void accept() override;
+    void reject() override;
+    void show(); //NOSONAR
+
+signals:
+    void newTimingsCount(int count);
+
+private:
+    QScopedPointer<Ui::ChronoRaceTimings> ui { new Ui::ChronoRaceTimings };
+
+    int           timingRowCount { 0 };
+    int           bibRowCount    { 0 };
+    QString       bibBuffer      { "" };
+
+    QTimer        clock;
+    QElapsedTimer timer;
+
+    uint          saveToDiskFlag { 0u };
+
+    void recordTiming(qint64 seconds);
+    void deleteTiming();
+    void recordBib(QString const &key);
+    void deleteBib();
+
+    void saveTimings();
+
+private slots:
+    void start();
+    void stop();
+    void reset();
+    void update();
+    void saveToDisk();
+    void lock(bool checked);
 };
 
-#endif // TEAMCLASSENTRY_H
+#endif // CHRONORACETIMINGS_H
