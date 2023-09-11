@@ -26,6 +26,27 @@
 
 constexpr uint TIMES_PER_SECOND = 5u;
 
+void TimingsWorker::writeToDisk(QString const &buffer) {
+    QString outPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    outPath.append("/lbchronorace.csv");
+    QFile outFile(outPath);
+    if (!outFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
+        throw(ChronoRaceException(tr("Error: cannot open %1").arg(outFile.fileName())));
+    }
+    QTextStream outStream(&outFile);
+
+    if (CRLoader::getEncoding() == CRLoader::Encoding::UTF8)
+        outStream.setEncoding(QStringConverter::Utf8);
+    else //NOSONAR if (CRLoader::getEncoding() == CRLoader::Encoding::LATIN1)
+        outStream.setEncoding(QStringConverter::Latin1);
+
+    outStream << buffer;
+    outStream.flush();
+    outFile.close();
+
+    emit writeDone();
+};
+
 ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent) {
 
     QString startDisplay = "0:00:00";
@@ -46,9 +67,13 @@ ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent) {
 
     QObject::connect(ui->lockBox, &QCheckBox::clicked, this, &ChronoRaceTimings::lock);
 
-    QObject::connect(&clock, &QTimer::timeout, this, &ChronoRaceTimings::update    );
-    QObject::connect(&clock, &QTimer::timeout, this, &ChronoRaceTimings::saveToDisk);
+    QObject::connect(&clock, &QTimer::timeout, this, &ChronoRaceTimings::update);
+    QObject::connect(&clock, &QTimer::timeout, this, &ChronoRaceTimings::backup);
     this->clock.setTimerType(Qt::PreciseTimer);
+
+    saveToDiskWorker.moveToThread(&saveToDiskThread);
+    connect(this, &ChronoRaceTimings::saveToDisk, &saveToDiskWorker, &TimingsWorker::writeToDisk);
+    connect(&saveToDiskWorker, &TimingsWorker::writeDone, this, &ChronoRaceTimings::clearDiskBuffer);
 
     ui->stopButton->setEnabled(false);
 }
@@ -132,6 +157,11 @@ void ChronoRaceTimings::show()
     QDialog::show();
 }
 
+void ChronoRaceTimings::clearDiskBuffer() {
+    if (!saveToDiskQueue.isEmpty())
+        saveToDiskQueue.removeFirst();
+}
+
 void ChronoRaceTimings::recordTiming(qint64 seconds)
 {
     auto newTiming = QString("%1:%2:%3").arg(seconds / 3600).arg(seconds / 60, 2, 10, QChar('0')).arg(seconds % 60, 2, 10, QChar('0'));
@@ -194,6 +224,8 @@ void ChronoRaceTimings::saveTimings()
 
 void ChronoRaceTimings::start()
 {
+    saveToDiskThread.start();
+
     this->timer.start();
     this->clock.start(1000 / TIMES_PER_SECOND);
     ui->startButton->setEnabled(false);
@@ -206,6 +238,9 @@ void ChronoRaceTimings::start()
 
 void ChronoRaceTimings::stop()
 {
+    saveToDiskThread.quit();
+    saveToDiskThread.wait();
+
     this->clock.stop();
     ui->startButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
@@ -240,22 +275,11 @@ void ChronoRaceTimings::update()
     ui->timer->display(QString("%1:%2:%3").arg(elapsed / 3600).arg(elapsed / 60, 2, 10, QChar('0')).arg(elapsed % 60, 2, 10, QChar('0')));
 }
 
-void ChronoRaceTimings::saveToDisk()
+void ChronoRaceTimings::backup()
 {
     if (++saveToDiskFlag == TIMES_PER_SECOND) {
-        QString outPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-        outPath.append("/lbchronorace.csv");
-        QFile outFile(outPath);
-        if (!outFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
-            throw(ChronoRaceException(tr("Error: cannot open %1").arg(outFile.fileName())));
-        }
-        QTextStream outStream(&outFile);
-
-        if (CRLoader::getEncoding() == CRLoader::Encoding::UTF8)
-            outStream.setEncoding(QStringConverter::Utf8);
-        else //NOSONAR if (CRLoader::getEncoding() == CRLoader::Encoding::LATIN1)
-            outStream.setEncoding(QStringConverter::Latin1);
-
+        QString buffer;
+        QTextStream outStream(&buffer);
         QTableWidgetItem const *item0;
         QTableWidgetItem const *item1;
         for (int r = 0; r < ui->dataArea->rowCount(); r++) {
@@ -265,8 +289,10 @@ void ChronoRaceTimings::saveToDisk()
             outStream.flush();
         }
 
-        outFile.close();
+        saveToDiskQueue.append(buffer);
         saveToDiskFlag = 0u;
+
+        emit saveToDisk(saveToDiskQueue.constLast());
     }
 }
 

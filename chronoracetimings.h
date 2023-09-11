@@ -22,8 +22,20 @@
 #include <QKeyEvent>
 #include <QElapsedTimer>
 #include <QTimer>
+#include <QThread>
 
 #include "ui_chronoracetimings.h"
+
+class TimingsWorker : public QObject
+{
+    Q_OBJECT
+
+public slots:
+    void writeToDisk(QString const &buffer);
+
+signals:
+    void writeDone();
+};
 
 class ChronoRaceTimings : public QDialog
 {
@@ -40,20 +52,26 @@ public slots:
     void reject() override;
     void show(); //NOSONAR
 
+    void clearDiskBuffer();
+
 signals:
     void newTimingsCount(int count);
+    void saveToDisk(QString const &buffer);
 
 private:
     QScopedPointer<Ui::ChronoRaceTimings> ui { new Ui::ChronoRaceTimings };
 
-    int           timingRowCount { 0 };
-    int           bibRowCount    { 0 };
-    QString       bibBuffer      { "" };
+    int            timingRowCount { 0 };
+    int            bibRowCount    { 0 };
+    QString        bibBuffer      { "" };
 
-    QTimer        clock;
-    QElapsedTimer timer;
+    QTimer         clock;
+    QElapsedTimer  timer;
 
-    uint          saveToDiskFlag { 0u };
+    uint           saveToDiskFlag { 0u };
+    QList<QString> saveToDiskQueue;
+    QThread        saveToDiskThread;
+    TimingsWorker  saveToDiskWorker;
 
     void recordTiming(qint64 seconds);
     void deleteTiming();
@@ -67,7 +85,7 @@ private slots:
     void stop();
     void reset();
     void update();
-    void saveToDisk();
+    void backup();
     void lock(bool checked);
 };
 
