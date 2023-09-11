@@ -16,6 +16,7 @@
  *****************************************************************************/
 
 #include <QFile>
+#include <QTemporaryFile>
 #include <QTextStream>
 #include <QStandardPaths>
 #include <QMessageBox>
@@ -26,10 +27,21 @@
 
 constexpr uint TIMES_PER_SECOND = 5u;
 
-void TimingsWorker::writeToDisk(QString const &buffer) {
+TimingsWorker::TimingsWorker() {
+
     QString outPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-    outPath.append("/lbchronorace.csv");
-    QFile outFile(outPath);
+    outPath.append("/lbchronorace_XXXXXX.csv");
+
+    QTemporaryFile outFile(outPath);
+    if (outFile.open()) {
+        timingsFilePath.append(outFile.fileName());
+    } else {
+        throw(ChronoRaceException(tr("Error: cannot open %1").arg(outFile.fileName())));
+    }
+}
+
+void TimingsWorker::writeToDisk(QString const &buffer) {
+    QFile outFile(timingsFilePath);
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
         throw(ChronoRaceException(tr("Error: cannot open %1").arg(outFile.fileName())));
     }
@@ -46,6 +58,7 @@ void TimingsWorker::writeToDisk(QString const &buffer) {
 
     emit writeDone();
 };
+
 
 ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent) {
 

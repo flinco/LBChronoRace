@@ -29,12 +29,17 @@
 class TimingsWorker : public QObject
 {
     Q_OBJECT
+public:
+    explicit TimingsWorker();
 
 public slots:
     void writeToDisk(QString const &buffer);
 
 signals:
     void writeDone();
+
+private:
+    QString timingsFilePath { "" };
 };
 
 class ChronoRaceTimings : public QDialog
