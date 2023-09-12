@@ -25,8 +25,6 @@
 #include "crloader.h"
 #include "lbcrexception.h"
 
-constexpr uint TIMES_PER_SECOND = 5u;
-
 TimingsWorker::TimingsWorker() {
 
     QString outPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
@@ -80,10 +78,6 @@ ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent) {
 
     QObject::connect(ui->lockBox, &QCheckBox::clicked, this, &ChronoRaceTimings::lock);
 
-    QObject::connect(&clock, &QTimer::timeout, this, &ChronoRaceTimings::update);
-    QObject::connect(&clock, &QTimer::timeout, this, &ChronoRaceTimings::backup);
-    this->clock.setTimerType(Qt::PreciseTimer);
-
     saveToDiskWorker.moveToThread(&saveToDiskThread);
     connect(this, &ChronoRaceTimings::saveToDisk, &saveToDiskWorker, &TimingsWorker::writeToDisk);
     connect(&saveToDiskWorker, &TimingsWorker::writeDone, this, &ChronoRaceTimings::clearDiskBuffer);
@@ -98,7 +92,7 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
         auto const keyEvent = static_cast<QKeyEvent *>(event);
         switch (keyEvent->key()) {
         case Qt::Key_Space:
-            if (this->clock.isActive())
+            if (updateTimerId != 0)
                 recordTiming(this->timer.elapsed() / 1000);
             break;
         case Qt::Key_Return:
@@ -134,6 +128,14 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
     return retval;
 }
 
+void ChronoRaceTimings::timerEvent(QTimerEvent *event) {
+    if (event->timerId() == backupTimerId)
+        backup();
+    else if (event->timerId() == updateTimerId)
+        update();
+}
+
+
 void ChronoRaceTimings::accept()
 {
     if (QMessageBox::information(this, tr("Save Timings List"),
@@ -142,8 +144,14 @@ void ChronoRaceTimings::accept()
                                         "Do you want to save the recorded timings?"),
                                      QMessageBox::Save | QMessageBox::Cancel, QMessageBox::Save) == QMessageBox::Save) {
         // Save was clicked
-        if (this->clock.isActive())
-            this->clock.stop();
+        if (updateTimerId != 0) {
+            killTimer(updateTimerId);
+            updateTimerId = 0;
+        }
+        if (backupTimerId != 0) {
+            killTimer(backupTimerId);
+            backupTimerId = 0;
+        }
         saveTimings();
         QDialog::accept();
     }
@@ -157,8 +165,14 @@ void ChronoRaceTimings::reject()
                                     "Do you want to discard the recorded timings?"),
                                  QMessageBox::Discard | QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Discard) {
         // Discard was clicked
-        if (this->clock.isActive())
-            this->clock.stop();
+        if (updateTimerId != 0) {
+            killTimer(updateTimerId);
+            updateTimerId = 0;
+        }
+        if (backupTimerId != 0) {
+            killTimer(backupTimerId);
+            backupTimerId = 0;
+        }
         QDialog::reject();
     }
 }
@@ -240,7 +254,11 @@ void ChronoRaceTimings::start()
     saveToDiskThread.start();
 
     this->timer.start();
-    this->clock.start(1000 / TIMES_PER_SECOND);
+    if (updateTimerId == 0)
+        updateTimerId = startTimer(100);
+    if (backupTimerId == 0)
+        backupTimerId = startTimer(1000);
+
     ui->startButton->setEnabled(false);
     ui->stopButton->setEnabled(true);
     ui->resetButton->setEnabled(false);
@@ -254,7 +272,15 @@ void ChronoRaceTimings::stop()
     saveToDiskThread.quit();
     saveToDiskThread.wait();
 
-    this->clock.stop();
+    if (updateTimerId != 0) {
+        killTimer(updateTimerId);
+        updateTimerId = 0;
+    }
+    if (backupTimerId != 0) {
+        killTimer(backupTimerId);
+        backupTimerId = 0;
+    }
+
     ui->startButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
     ui->resetButton->setEnabled(true);
@@ -290,23 +316,20 @@ void ChronoRaceTimings::update()
 
 void ChronoRaceTimings::backup()
 {
-    if (++saveToDiskFlag == TIMES_PER_SECOND) {
-        QString buffer;
-        QTextStream outStream(&buffer);
-        QTableWidgetItem const *item0;
-        QTableWidgetItem const *item1;
-        for (int r = 0; r < ui->dataArea->rowCount(); r++) {
-            item0 = ui->dataArea->item(r, 0);
-            item1 = ui->dataArea->item(r, 1);
-            outStream << (item0 ? item0->text() : "XXXX") << ",0," << (item1 ? item1->text() : "-:--:--") << Qt::endl;
-            outStream.flush();
-        }
-
-        saveToDiskQueue.append(buffer);
-        saveToDiskFlag = 0u;
-
-        emit saveToDisk(saveToDiskQueue.constLast());
+    QString buffer;
+    QTextStream outStream(&buffer);
+    QTableWidgetItem const *item0;
+    QTableWidgetItem const *item1;
+    for (int r = 0; r < ui->dataArea->rowCount(); r++) {
+        item0 = ui->dataArea->item(r, 0);
+        item1 = ui->dataArea->item(r, 1);
+        outStream << (item0 ? item0->text() : "XXXX") << ",0," << (item1 ? item1->text() : "-:--:--") << Qt::endl;
+        outStream.flush();
     }
+
+    saveToDiskQueue.append(buffer);
+
+    emit saveToDisk(saveToDiskQueue.constLast());
 }
 
 void ChronoRaceTimings::lock(bool checked)
@@ -320,9 +343,9 @@ void ChronoRaceTimings::lock(bool checked)
         ui->buttonBox->setEnabled(false);
         flags &= ~Qt::WindowCloseButtonHint;
     } else {
-        ui->startButton->setEnabled(!this->clock.isActive());
-        ui->stopButton->setEnabled(this->clock.isActive());
-        ui->resetButton->setEnabled(!this->clock.isActive());
+        ui->startButton->setEnabled(updateTimerId == 0);
+        ui->stopButton->setEnabled(updateTimerId != 0);
+        ui->resetButton->setEnabled(updateTimerId == 0);
         ui->buttonBox->setEnabled(true);
         flags |= Qt::WindowCloseButtonHint;
     }

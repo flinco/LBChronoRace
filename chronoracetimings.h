@@ -20,8 +20,8 @@
 
 #include <QDialog>
 #include <QKeyEvent>
+#include <QTimerEvent>
 #include <QElapsedTimer>
-#include <QTimer>
 #include <QThread>
 
 #include "ui_chronoracetimings.h"
@@ -51,6 +51,7 @@ public:
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
+    void timerEvent(QTimerEvent *event) override;
 
 public slots:
     void accept() override;
@@ -70,10 +71,10 @@ private:
     int            bibRowCount    { 0 };
     QString        bibBuffer      { "" };
 
-    QTimer         clock;
+    int            updateTimerId  { 0 };
+    int            backupTimerId  { 0 };
     QElapsedTimer  timer;
 
-    uint           saveToDiskFlag { 0u };
     QList<QString> saveToDiskQueue;
     QThread        saveToDiskThread;
     TimingsWorker  saveToDiskWorker;
