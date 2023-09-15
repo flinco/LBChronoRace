@@ -90,8 +90,6 @@ private slots:
     void start();
     void stop();
     void reset();
-    void update();
-    void backup();
     void lock(bool checked);
 };
 

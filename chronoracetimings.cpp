@@ -129,12 +129,28 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
 }
 
 void ChronoRaceTimings::timerEvent(QTimerEvent *event) {
-    if (event->timerId() == backupTimerId)
-        backup();
-    else if (event->timerId() == updateTimerId)
-        update();
-}
 
+    if (event->timerId() == backupTimerId) {
+        QString buffer;
+        QTextStream outStream(&buffer);
+        QTableWidgetItem const *item0;
+        QTableWidgetItem const *item1;
+        for (int r = 0; r < ui->dataArea->rowCount(); r++) {
+            item0 = ui->dataArea->item(r, 0);
+            item1 = ui->dataArea->item(r, 1);
+            outStream << (item0 ? item0->text() : "XXXX") << ",0," << (item1 ? item1->text() : "-:--:--") << Qt::endl;
+            outStream.flush();
+        }
+
+        saveToDiskQueue.append(buffer);
+
+        emit saveToDisk(saveToDiskQueue.constLast());
+    } else if (event->timerId() == updateTimerId) {
+        qint64 elapsed = this->timer.elapsed() / 1000;
+
+        ui->timer->display(QString("%1:%2:%3").arg(elapsed / 3600).arg(elapsed / 60, 2, 10, QChar('0')).arg(elapsed % 60, 2, 10, QChar('0')));
+    }
+}
 
 void ChronoRaceTimings::accept()
 {
@@ -305,31 +321,6 @@ void ChronoRaceTimings::reset()
         ui->dataArea->clearContents();
         ui->dataArea->setRowCount(0);
     }
-}
-
-void ChronoRaceTimings::update()
-{
-    qint64 elapsed = this->timer.elapsed() / 1000;
-
-    ui->timer->display(QString("%1:%2:%3").arg(elapsed / 3600).arg(elapsed / 60, 2, 10, QChar('0')).arg(elapsed % 60, 2, 10, QChar('0')));
-}
-
-void ChronoRaceTimings::backup()
-{
-    QString buffer;
-    QTextStream outStream(&buffer);
-    QTableWidgetItem const *item0;
-    QTableWidgetItem const *item1;
-    for (int r = 0; r < ui->dataArea->rowCount(); r++) {
-        item0 = ui->dataArea->item(r, 0);
-        item1 = ui->dataArea->item(r, 1);
-        outStream << (item0 ? item0->text() : "XXXX") << ",0," << (item1 ? item1->text() : "-:--:--") << Qt::endl;
-        outStream.flush();
-    }
-
-    saveToDiskQueue.append(buffer);
-
-    emit saveToDisk(saveToDiskQueue.constLast());
 }
 
 void ChronoRaceTimings::lock(bool checked)
