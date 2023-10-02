@@ -24,8 +24,8 @@
 
 cmake_minimum_required(VERSION 3.20)
 project(LBChronoRace
-    VERSION 3.1.1
-    DESCRIPTION "Timings for Races"
+    VERSION 4.0.0
+    DESCRIPTION "Timings and Rankings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
 
@@ -57,6 +57,9 @@ set(PROJECT_SOURCES
     chronoracetable.cpp
     chronoracetable.h
     chronoracetable.ui
+    chronoracetimings.cpp
+    chronoracetimings.h
+    chronoracetimings.ui
     classentry.cpp
     classentry.h
     competitor.cpp

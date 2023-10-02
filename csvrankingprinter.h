@@ -20,7 +20,7 @@
 
 #include "rankingprinter.h"
 
-class CSVRankingPrinter final  : public RankingPrinter
+class CSVRankingPrinter final : public RankingPrinter
 {
     Q_OBJECT
     using RankingPrinter::RankingPrinter;
@@ -32,7 +32,7 @@ public:
 
 private:
     void printCSVRanking(QList<ClassEntry const *> const &ranking, QTextStream &outStream) const;
-    void printCSVRanking(QList<TeamClassEntry const *> const &ranking, QString const &description, QTextStream &outStream) const;
+    void printCSVTeamRanking(QList<TeamClassEntry const *> const &ranking, QString const &description, QTextStream &outStream) const;
 
     QString &buildOutFileName(QString &outFileBaseName) override;
     QString &checkOutFileNameExtension(QString &outFileBaseName) override;

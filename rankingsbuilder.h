@@ -23,7 +23,6 @@
 #include <QMap>
 #include <QString>
 
-#include "lbchronorace.h"
 #include "classentry.h"
 #include "teamclassentry.h"
 #include "category.h"

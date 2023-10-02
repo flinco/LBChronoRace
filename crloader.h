@@ -86,6 +86,8 @@ public:
     static uint getTeamNameWidthMax();
     static int importTimings(QString const &path);
     static void exportTimings(QString const &path);
+    static void clearTimings();
+    static void addTiming(QString const &bib, QString const &timing);
     static QVector<Timing> getTimings();
     static int importCategories(QString const &path);
     static void exportCategories(QString const &path);

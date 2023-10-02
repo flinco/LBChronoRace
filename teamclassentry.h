@@ -32,7 +32,7 @@ class TeamClassEntry
     Q_DECLARE_TR_FUNCTIONS(TeamClassEntry)
 
 private:
-    QString              team { "" };
+    QString               team { "" };
     QVector<ClassEntry *> entryList { };
 
 public:

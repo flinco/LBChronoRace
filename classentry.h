@@ -33,9 +33,9 @@ class ClassEntry;
 class ClassEntryElement {
 public:
     Competitor const *competitor { Q_NULLPTR };
-    uint           time { 0u };
-    Timing::Status status { Timing::Status::CLASSIFIED };
-    uint           legRanking { 0u };
+    uint              time { 0u };
+    Timing::Status    status { Timing::Status::CLASSIFIED };
+    uint              legRanking { 0u };
 
     QString formatNameCSV(bool first, QString const &name, QString const &sex, QString const &year) const;
     QString formatNameTxt(bool first, QString const &name, QString const &sex, QString const &year) const;

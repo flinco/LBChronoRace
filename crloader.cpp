@@ -260,6 +260,23 @@ void CRLoader::exportTimings(QString const &path)
     saveCSV(path, &timingsModel);
 }
 
+void CRLoader::clearTimings()
+{
+    timingsModel.reset();
+}
+
+void CRLoader::addTiming(QString const &bib, QString const &timing)
+{
+    QString temp;
+
+    temp = bib;
+    checkString(&timingsModel, temp, ',');
+    temp = "0";
+    checkString(&timingsModel, temp, ',');
+    temp = timing;
+    checkString(&timingsModel, temp);
+}
+
 QVector<Timing> CRLoader::getTimings()
 {
     return QVector<Timing>::fromList(timingsModel.getTimings());

@@ -32,10 +32,7 @@
 
 #include "chronoracetable.h"
 #include "chronoracedata.h"
-#include "crloader.h"
-#include "competitor.h"
-#include "classentry.h"
-#include "teamclassentry.h"
+#include "chronoracetimings.h"
 
 #ifndef LBCHRONORACE_NAME
 #error "LBCHRONORACE_NAME not set"
@@ -90,6 +87,8 @@ private:
     ChronoRaceTable teamsTable;
     ChronoRaceTable categoriesTable;
     ChronoRaceTable timingsTable;
+
+    ChronoRaceTimings timings;
 
     bool loadRaceFile(QString const &fileName);
 
