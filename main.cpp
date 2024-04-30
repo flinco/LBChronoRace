@@ -37,10 +37,16 @@ int main(int argc, char *argv[])
 
     QLocale lbcrLocale;
     QTranslator qtTranslator;
+    QTranslator qtbaseTranslator;
     QTranslator lbcrTranslator;
 
-    if (qtTranslator.load(lbcrLocale, QStringLiteral("qt"), QStringLiteral("_"), QCoreApplication::applicationDirPath() + QDir::separator() + "translations"))
+    QString translationsDir = QCoreApplication::applicationDirPath() + QDir::separator() + QStringLiteral("translations");
+
+    if (qtTranslator.load(lbcrLocale, QStringLiteral("qt"), QStringLiteral("_"), translationsDir))
         QApplication::installTranslator(&qtTranslator);
+
+    if (qtbaseTranslator.load(lbcrLocale, QStringLiteral("qtbase"), QStringLiteral("_"), translationsDir))
+        QApplication::installTranslator(&qtbaseTranslator);
 
     if (lbcrTranslator.load(lbcrLocale, QStringLiteral(LBCHRONORACE_NAME), QStringLiteral("_"), QStringLiteral(":/i18n")))
         QApplication::installTranslator(&lbcrTranslator);

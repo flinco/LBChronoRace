@@ -68,7 +68,7 @@
     <message>
         <location filename="../categoriesmodel.cpp" line="84"/>
         <source>Individual (I) or Team (T)</source>
-        <translation>Individuale (I) o Squadra (T)</translation>
+        <translation>Individuale (I) o Società (T)</translation>
     </message>
     <message>
         <location filename="../categoriesmodel.cpp" line="86"/>
@@ -98,7 +98,7 @@
     <message>
         <location filename="../categoriesmodel.cpp" line="156"/>
         <source>Individual/Team</source>
-        <translation>Individuale/Squarda</translation>
+        <translation>Individuale/Società</translation>
     </message>
     <message>
         <location filename="../categoriesmodel.cpp" line="158"/>
@@ -463,12 +463,12 @@
         <translation>Tempo</translation>
     </message>
     <message>
-        <location filename="../chronoracetimings.cpp" line="101"/>
+        <location filename="../chronoracetimings.cpp" line="157"/>
         <source>Save Timings List</source>
         <translation>Salva Lista Tempi</translation>
     </message>
     <message>
-        <location filename="../chronoracetimings.cpp" line="102"/>
+        <location filename="../chronoracetimings.cpp" line="158"/>
         <source>The timings list will be replaced by the current data.
 Any previously recorded timing will be lost.
 Do you want to save the recorded timings?</source>
@@ -477,12 +477,12 @@ Tutti i tempi registrati in precedenza saranno persi.
 Procedere con il salvataggio?</translation>
     </message>
     <message>
-        <location filename="../chronoracetimings.cpp" line="116"/>
+        <location filename="../chronoracetimings.cpp" line="178"/>
         <source>Discard Timings List</source>
         <translation>Scarta Lista Tempi</translation>
     </message>
     <message>
-        <location filename="../chronoracetimings.cpp" line="117"/>
+        <location filename="../chronoracetimings.cpp" line="179"/>
         <source>The current data will be discarded.
 The previously recorded timings list will be preserved.
 Do you want to discard the recorded timings?</source>
@@ -491,23 +491,18 @@ La lista tempi precedente non sarà sovrascritta.
 Eliminare i tempi registrati?</translation>
     </message>
     <message>
-        <location filename="../chronoracetimings.cpp" line="220"/>
+        <location filename="../chronoracetimings.cpp" line="310"/>
         <source>Reset Timings List</source>
         <translation>Azzera Lista Tempi</translation>
     </message>
     <message>
-        <location filename="../chronoracetimings.cpp" line="221"/>
+        <location filename="../chronoracetimings.cpp" line="311"/>
         <source>The bibs and timings list will be cleared.
 All recorded timings and bibs will be deleted.
 Continue?</source>
         <translation>La lista pettorali e tempi sarà azzerata.
 Tutti i tempi registrati e i pettorali saranno cancellati.
 Continuare?</translation>
-    </message>
-    <message>
-        <location filename="../chronoracetimings.cpp" line="250"/>
-        <source>Error: cannot open %1</source>
-        <translation>Errore: impossibile aprire %1</translation>
     </message>
 </context>
 <context>
@@ -782,7 +777,7 @@ Continuare?</translation>
         <translation>Informazioni su &amp;Qt</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="598"/>
+        <location filename="../lbchronorace.cpp" line="618"/>
         <source>About Qt</source>
         <translation>Informazioni su Qt</translation>
     </message>
@@ -988,7 +983,7 @@ Continuare?</translation>
         <translation>Gara salvata: %1</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="587"/>
+        <location filename="../lbchronorace.cpp" line="607"/>
         <source>About %1</source>
         <translation>Informazioni su %1</translation>
     </message>
@@ -1225,26 +1220,19 @@ Continuare?</translation>
 <context>
     <name>QMessageBox</name>
     <message>
-        <location filename="../lbchronorace.cpp" line="568"/>
+        <location filename="../lbchronorace.cpp" line="570"/>
+        <source>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.&lt;/p&gt;&lt;p&gt;Qt is available under multiple licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Qt licensed under GNU (L)GPL is appropriate for the development of Qt&amp;nbsp;applications provided you can comply with the terms and conditions of the respective licenses.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;http://%2/&quot;&gt;%2&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) %1 The Qt Company Ltd and other contributors.&lt;/p&gt;&lt;p&gt;Qt and the Qt logo are trademarks of The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt is The Qt Company Ltd product developed as an open source project. See &lt;a href=&quot;http://%3/&quot;&gt;%3&lt;/a&gt; for more information.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Qt è un insieme di strumenti per lo sviluppo di applicazioni C++ multi piattaforma.&lt;/p&gt;&lt;p&gt;Qt permette la portabilità dei singoli sorgenti su tutti i sistemi operativi desktop più diffusi. Supporta inoltre Linux embedded e altri sistemi operativi embedded e cellulari.&lt;/p&gt;&lt;p&gt;Qt è disponibile con diversi tipi di licenza, ognuna adatta alle necessità di diverse tipologie di utenti.&lt;/p&gt;&lt;p&gt;La licenza commerciale di Qt è adatta per lo sviluppo di software proprietari/commerciali per i queli non si vuole condividere il codice sorgente con terze parti e quindi non essere conformi con le condizioni imposte dalle licenze GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Le licenze GNU (L)GPL sono idonee allo sviluppo di applicazioni&amp;nbsp;Qt purché ne siano rispettati i termini e le condizioni.&lt;/p&gt;&lt;p&gt;Si veda &lt;a href=&quot;http://%2/&quot;&gt;%2&lt;/a&gt; per ulteriori informazioni sulle licenze Qt.&lt;/p&gt;&lt;p&gt;Copyright (C) %1 The Qt Company Ltd e altri collaboratori.&lt;/p&gt;&lt;p&gt;Qt e il logo&amp;nbsp;Qt sonno marchi registrati da The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt è il prodotto sviluppato come progetto open source da The Qt Company Ltd. Si veda &lt;a href=&quot;http://%3/&quot;&gt;%3&lt;/a&gt; per ulteriori informazioni.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../lbchronorace.cpp" line="588"/>
         <source>&lt;h3&gt;About %1&lt;/h3&gt;&lt;p&gt;Software for producing the results of footraces.&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Informazioni su %1&lt;/h3&gt;&lt;p&gt;Software per produrre classifiche di corse podistiche.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../lbchronorace.cpp" line="572"/>
+        <location filename="../lbchronorace.cpp" line="592"/>
         <source>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Versione: %1 (codice sorgente su &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Autore: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Sito: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 è software libero; ne è consentita la redistribuzione e/o modifica entro i termini della GNU General Public License, come pubblicata dalla Free Software Foundation, versione 3 o successiva.&lt;/p&gt;&lt;p&gt;%2 è distribuito sperando sia utile, ma SENZA ALCUNA GARANZIA, espressa o implicita, di COMMERCIABILITÀ o di IDONEITÀ AD UNO SCOPO PARTICOLARE. Si veda la GNU General Public License per ulteriori dettagli.&lt;/p&gt;&lt;p&gt;Se non di dovesse aver ricevuto una copia della GNU General Public License insieme a %2, si veda &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>About Qt</source>
-        <translation>Informazioni su Qt</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;About Qt&lt;/h3&gt;&lt;p&gt;This program uses Qt version %1.&lt;/p&gt;</source>
-        <translation>&lt;h3&gt;Informazioni su Qt&lt;/h3&gt;&lt;p&gt;Questo programma usa la versione %1 di Qt.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.&lt;/p&gt;&lt;p&gt;Qt is available under multiple licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Qt licensed under GNU (L)GPL is appropriate for the development of Qt&amp;nbsp;applications provided you can comply with the terms and conditions of the respective licenses.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;http://%2/&quot;&gt;%2&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) %1 The Qt Company Ltd and other contributors.&lt;/p&gt;&lt;p&gt;Qt and the Qt logo are trademarks of The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt is The Qt Company Ltd product developed as an open source project. See &lt;a href=&quot;http://%3/&quot;&gt;%3&lt;/a&gt; for more information.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Qt è un insieme di strumenti per lo sviluppo di applicazioni C++ multi piattaforma.&lt;/p&gt;&lt;p&gt;Qt permette la portabilità dei singoli sorgenti su tutti i sistemi operativi desktop più diffusi. Supporta inoltre Linux embedded e altri sistemi operativi embedded e cellulari.&lt;/p&gt;&lt;p&gt;Qt è disponibile con diversi tipi di licenza, ognuna adatta alle necessità di diverse tipologie di utenti.&lt;/p&gt;&lt;p&gt;La licenza commerciale di Qt è adatta per lo sviluppo di software proprietari/commerciali per i queli non si vuole condividere il codice sorgente con terze parti e quindi non essere conformi con le condizioni imposte dalle licenze GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Le licenze GNU (L)GPL sono idonee allo sviluppo di applicazioni&amp;nbsp;Qt purché ne siano rispettati i termini e le condizioni.&lt;/p&gt;&lt;p&gt;Si veda &lt;a href=&quot;http://%2/&quot;&gt;%2&lt;/a&gt; per ulteriori informazioni sulle licenze Qt.&lt;/p&gt;&lt;p&gt;Copyright (C) %1 The Qt Company Ltd e altri collaboratori.&lt;/p&gt;&lt;p&gt;Qt e il logo&amp;nbsp;Qt sonno marchi registrati da The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt è il prodotto sviluppato come progetto open source da The Qt Company Ltd. Si veda &lt;a href=&quot;http://%3/&quot;&gt;%3&lt;/a&gt; per ulteriori informazioni.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1447,13 +1435,13 @@ Continuare?</translation>
     <message>
         <location filename="../txtrankingprinter.cpp" line="39"/>
         <location filename="../txtrankingprinter.cpp" line="108"/>
-        <location filename="../txtrankingprinter.cpp" line="132"/>
+        <location filename="../txtrankingprinter.cpp" line="131"/>
         <source>Error: cannot open %1</source>
         <translation>Errore: impossibile aprire %1</translation>
     </message>
     <message>
         <location filename="../txtrankingprinter.cpp" line="120"/>
-        <location filename="../txtrankingprinter.cpp" line="144"/>
+        <location filename="../txtrankingprinter.cpp" line="143"/>
         <source>Generated Results &apos;%1&apos;: %2</source>
         <translation>Generata Classifica &apos;%1&apos;: %2</translation>
     </message>
@@ -1533,6 +1521,15 @@ Continuare?</translation>
         <location filename="../timingsmodel.cpp" line="142"/>
         <source>Timing</source>
         <translation>Tempo</translation>
+    </message>
+</context>
+<context>
+    <name>TimingsWorker</name>
+    <message>
+        <location filename="../chronoracetimings.cpp" line="37"/>
+        <location filename="../chronoracetimings.cpp" line="44"/>
+        <source>Error: cannot open %1</source>
+        <translation>Errore: impossibile aprire %1</translation>
     </message>
 </context>
 </TS>
