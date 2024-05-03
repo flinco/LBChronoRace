@@ -35,12 +35,12 @@ public:
     enum class Field
     {
         CTF_FIRST       = 0,
-        CTF_TEAM        = 0,
-        CTF_SEX         = 1,
-        CTF_TO_YEAR     = 2,
+        CTF_FULL_DESCR  = 0,
+        CTF_SHORT_DESCR = 1,
+        CTF_SEX         = 2,
         CTF_FROM_YEAR   = 3,
-        CTF_FULL_DESCR  = 4,
-        CTF_SHORT_DESCR = 5,
+        CTF_TO_YEAR     = 4,
+        CTF_TEAM        = 5,
         CTF_LAST        = 5,
         CTF_COUNT       = 6
     };
