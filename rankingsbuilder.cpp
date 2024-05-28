@@ -129,11 +129,13 @@ QList<ClassEntry const *> &RankingsBuilder::fillRanking(QList<ClassEntry const *
 
     // do the sorting of the single leg times
     uint i;
+    uint legs = CRLoader::getStartListLegs();
     PositionNumber position;
-    for (uint legIdx = 0u; legIdx < CRLoader::getStartListLegs(); legIdx++) {
+    for (uint legIdx = 0u; legIdx < legs; legIdx++) {
         QMultiMap<uint, ClassEntry *> sortedLegClassification;
         for (auto classEntry : tmpRanking) {
-            sortedLegClassification.insert(classEntry->getTimeValue(legIdx), classEntry);
+            if (classEntry->countEntries() == legs)
+                sortedLegClassification.insert(classEntry->getTimeValue(legIdx), classEntry);
         }
         i = 0;
         for (auto classEntry : sortedLegClassification) {
