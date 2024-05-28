@@ -63,6 +63,7 @@ public slots:
 signals:
     void newTimingsCount(int count);
     void saveToDisk(QString const &buffer);
+    void error(QString const &message);
 
 private:
     QScopedPointer<Ui::ChronoRaceTimings> ui { new Ui::ChronoRaceTimings };

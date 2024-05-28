@@ -257,12 +257,20 @@ void ChronoRaceTimings::deleteBib()
 void ChronoRaceTimings::saveTimings()
 {
     int r;
+    int c;
 
     CRLoader::clearTimings();
-    for (r = 0; r < ui->dataArea->rowCount(); r++)
-        CRLoader::addTiming(ui->dataArea->item(r, 0)->text(), ui->dataArea->item(r, 1)->text());
+    for (r = 0, c = 0; r < ui->dataArea->rowCount(); r++)
+        if (ui->dataArea->item(r, 0) && ui->dataArea->item(r, 1)) {
+            CRLoader::addTiming(ui->dataArea->item(r, 0)->text(), ui->dataArea->item(r, 1)->text());
+            c++;
+        } else if (ui->dataArea->item(r, 0)) {
+            emit error(tr("Droped bib %1 due to missing time").arg(ui->dataArea->item(r, 0)->text()));
+        } else if (ui->dataArea->item(r, 1)) {
+            emit error(tr("Dropped time %1 due to missing bib").arg(ui->dataArea->item(r, 1)->text()));
+        }
 
-    emit newTimingsCount(r);
+    emit newTimingsCount(c);
 }
 
 void ChronoRaceTimings::start()

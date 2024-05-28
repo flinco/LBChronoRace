@@ -87,6 +87,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(timingsModel, &TimingsModel::error, this, &LBChronoRace::appendErrorMessage);
 
     QObject::connect(&timings, &ChronoRaceTimings::newTimingsCount, this, &LBChronoRace::setCounterTimings);
+    QObject::connect(&timings, &ChronoRaceTimings::error, this, &LBChronoRace::appendErrorMessage);
 
     // react to screen change and resize
     QObject::connect(app, &QGuiApplication::primaryScreenChanged, this, &LBChronoRace::resizeDialogs);
