@@ -24,7 +24,7 @@
 
 cmake_minimum_required(VERSION 3.20)
 project(LBChronoRace
-    VERSION 4.0.0
+    VERSION 5.0.0
     DESCRIPTION "Timings and Rankings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)

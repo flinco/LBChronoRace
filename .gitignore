@@ -1,3 +1,4 @@
 installer/packages/pro.buzzi.lbchronorace/meta/*.ts
 CMakeLists.txt.user
 sonar*
+build

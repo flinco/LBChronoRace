@@ -1,16 +1,16 @@
-I,M,2000,1999,Junior M,JM
-I,F,2000,1999,Junior F,JF
-I,M,1998,1984,Senior M,SM
-I,F,1998,1984,Senior F,SF
-I,M,1983,1974,Amateur A M,AMA
-I,F,1983,1974,Amateur A F,AFA
-I,M,1973,1964,Amateur B M,AMB
-I,F,1973,1964,Amateur B F,AFB
-I,M,1963,1900,Veterans M,VM
-I,F,1963,1900,Veterans F,VF
-I,U,0,0,General,GEN
-I,M,0,0,General M,GEM
-I,F,0,0,General F,GEF
-T,U,0,0,Teams,T
-T,M,0,0,Teams M,TM
-T,F,0,0,Teams F,TF
+Junior M,JM,M,1999,2000,I
+Junior F,JF,F,1999,2000,I
+Senior M,SM,M,1984,1998,I
+Senior F,SF,F,1984,1998,I
+Amateur A M,AMA,M,1974,1983,I
+Amateur A F,AFA,F,1974,1983,I
+Amateur B M,AMB,M,1964,1973,I
+Amateur B F,AFB,F,1964,1973,I
+Veterans M,VM,M,1900,1963,I
+Veterans F,VF,F,1900,1963,I
+General,GEN,U,0,0,I
+General M,GEM,M,0,0,I
+General F,GEF,F,0,0,I
+Teams,T,U,0,0,T
+Teams M,TM,M,0,0,T
+Teams F,TF,F,0,0,T

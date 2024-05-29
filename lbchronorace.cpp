@@ -87,6 +87,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(timingsModel, &TimingsModel::error, this, &LBChronoRace::appendErrorMessage);
 
     QObject::connect(&timings, &ChronoRaceTimings::newTimingsCount, this, &LBChronoRace::setCounterTimings);
+    QObject::connect(&timings, &ChronoRaceTimings::error, this, &LBChronoRace::appendErrorMessage);
 
     // react to screen change and resize
     QObject::connect(app, &QGuiApplication::primaryScreenChanged, this, &LBChronoRace::resizeDialogs);
@@ -565,6 +566,26 @@ void LBChronoRace::makeRankings()
 
 void LBChronoRace::actionAbout()
 {
+    /* The purpose of the following object is to prevent the "About Qt"  *
+     * translation from being removed from the .tr files when refreshed. */
+    QString const translatedTextAboutQtMessage = QMessageBox::tr(
+        "<p>Qt is a C++ toolkit for cross-platform application development.</p>"
+        "<p>Qt provides single-source portability across all major desktop operating systems. "
+        "It is also available for embedded Linux and other embedded and mobile operating systems.</p>"
+        "<p>Qt is available under multiple licensing options designed to accommodate the needs of our various users.</p>"
+        "<p>Qt licensed under our commercial license agreement is appropriate for development of "
+        "proprietary/commercial software where you do not want to share any source code with "
+        "third parties or otherwise cannot comply with the terms of GNU (L)GPL.</p>"
+        "<p>Qt licensed under GNU (L)GPL is appropriate for the development of Qt&nbsp;applications "
+        "provided you can comply with the terms and conditions of the respective licenses.</p>"
+        "<p>Please see <a href=\"http://%2/\">%2</a> for an overview of Qt licensing.</p>"
+        "<p>Copyright (C) %1 The Qt Company Ltd and other contributors.</p>"
+        "<p>Qt and the Qt logo are trademarks of The Qt Company Ltd.</p>"
+        "<p>Qt is The Qt Company Ltd product developed as an open source project. "
+        "See <a href=\"http://%3/\">%3</a> for more information.</p>"
+        );
+    std::ignore = translatedTextAboutQtMessage;
+
     QString const translatedTextAboutQtCaption = QMessageBox::tr(
         "<h3>About %1</h3>"
         "<p>Software for producing the results of footraces.</p>"
