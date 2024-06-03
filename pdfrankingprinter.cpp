@@ -261,7 +261,6 @@ QList<QList<ClassEntry const *>> PDFRankingPrinter::splitIndividualRankingMultiL
     }
 
     return pages;
-
 }
 
 QList<QList<TeamClassEntry const *>> PDFRankingPrinter::splitTeamRanking(QList<TeamClassEntry const *> const ranking) const
@@ -471,10 +470,15 @@ void PDFRankingPrinter::printEntrySingleLeg(QRectF &writeRect, QPainter &painter
         painter.setFont(rnkFontBold);
         writeRect.setLeft(toHdots(1.0));
         writeRect.setWidth(toHdots(5.0));
-        if (type == RankingType::INDIVIDUAL_SINGLE)
+        if (type == RankingType::INDIVIDUAL_SINGLE) {
             painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString("%1").arg(position.getCurrentPositionString(posIndex, currTime)));
-        else
-            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, (cIndex == 1) ? QString("%1.").arg(posIndex) : "");
+            // Increment the position index
+            posIndex++;
+        } else if (cIndex == 1) {
+            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString("%1.").arg(posIndex));
+            // Increment the position index
+            posIndex++;
+        }
         // Team placement
         if (type == RankingType::TEAM_SINGLE) {
             painter.setFont(rnkFont);
@@ -526,9 +530,6 @@ void PDFRankingPrinter::printEntrySingleLeg(QRectF &writeRect, QPainter &painter
         throw(ChronoRaceException(tr("Error: ranking type not allowed")));
         break;
     }
-
-    // Increment the position index
-    posIndex++;
 }
 
 void PDFRankingPrinter::printPageSingleLeg(QRectF &writeRect, QPainter &painter, QList<ClassEntry const *> const &page, int &posIndex, uint referenceTime) const
@@ -539,6 +540,9 @@ void PDFRankingPrinter::printPageSingleLeg(QRectF &writeRect, QPainter &painter,
 
 void PDFRankingPrinter::printPageSingleLeg(QRectF &writeRect, QPainter &painter, QList<TeamClassEntry const *> const &page, int &posIndex) const
 {
+    static TeamClassEntry const *lastTeam = Q_NULLPTR;
+    static int j = 0;
+
     for (auto t = page.constBegin(); t < page.constEnd(); t++) {
 
         if (*t == Q_NULLPTR) { // separator
@@ -547,8 +551,14 @@ void PDFRankingPrinter::printPageSingleLeg(QRectF &writeRect, QPainter &painter,
             continue;
         }
 
-        for (int j = 0; j < (*t)->getClassEntryCount(); j++)
-            printEntrySingleLeg(writeRect, painter, (*t)->getClassEntry(j), posIndex, j + 1, 0, RankingType::TEAM_SINGLE);
+        if (*t == lastTeam) {
+            j++;
+        } else {
+            lastTeam = *t;
+            j = 0;
+        }
+
+        printEntrySingleLeg(writeRect, painter, (*t)->getClassEntry(j), posIndex, j + 1, 0, RankingType::TEAM_SINGLE);
     }
 }
 
@@ -577,10 +587,15 @@ void PDFRankingPrinter::printEntryMultiLeg(QRectF &writeRect, QPainter &painter,
         painter.setFont(rnkFontBold);
         writeRect.setLeft(toHdots(1.0));
         writeRect.setWidth(toHdots(5.0));
-        if (type == RankingType::INDIVIDUAL_MULTI)
+        if (type == RankingType::INDIVIDUAL_MULTI) {
             painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString("%1").arg(position.getCurrentPositionString(posIndex, currTime)));
-        else
-            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, (rIndex == 1) ? QString("%1.").arg(posIndex) : "");
+            // Increment the position index
+            posIndex++;
+        } else if (rIndex == 1) {
+            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString("%1.").arg(posIndex));
+            // Increment the position index
+            posIndex++;
+        }
         // Team placement
         if (type == RankingType::TEAM_MULTI) {
             painter.setFont(rnkFont);
@@ -652,9 +667,6 @@ void PDFRankingPrinter::printEntryMultiLeg(QRectF &writeRect, QPainter &painter,
         throw(ChronoRaceException(tr("Error: ranking type not allowed")));
         break;
     }
-
-    // Increment the position index
-    posIndex++;
 }
 
 void PDFRankingPrinter::printPageMultiLeg(QRectF &writeRect, QPainter &painter, QList<ClassEntry const *> const &page, int &posIndex, uint referenceTime) const
@@ -665,6 +677,9 @@ void PDFRankingPrinter::printPageMultiLeg(QRectF &writeRect, QPainter &painter, 
 
 void PDFRankingPrinter::printPageMultiLeg(QRectF &writeRect, QPainter &painter, QList<TeamClassEntry const *> const &page, int &posIndex) const
 {
+    static TeamClassEntry const *lastTeam = Q_NULLPTR;
+    static int j = 0;
+
     for (auto t = page.constBegin(); t < page.constEnd(); t++) {
 
         if (*t == Q_NULLPTR) { // separator
@@ -673,8 +688,14 @@ void PDFRankingPrinter::printPageMultiLeg(QRectF &writeRect, QPainter &painter, 
             continue;
         }
 
-        for (int j = 0; j < (*t)->getClassEntryCount(); j++)
-            printEntryMultiLeg(writeRect, painter, (*t)->getClassEntry(j), posIndex, j + 1, 0, RankingType::TEAM_MULTI);
+        if (*t == lastTeam) {
+            j++;
+        } else {
+            lastTeam = *t;
+            j = 0;
+        }
+
+        printEntryMultiLeg(writeRect, painter, (*t)->getClassEntry(j), posIndex, j + 1, 0, RankingType::TEAM_MULTI);
     }
 
 }
