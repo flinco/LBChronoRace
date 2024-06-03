@@ -16,24 +16,20 @@
  *****************************************************************************/
 
 #include <QString>
+#include <QStandardPaths>
 #include <QFile>
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QScreen>
-#include <QScopedPointer>
 
-#include <QDebug>
+//NOSONAR #include <QDebug>
 
 #include "lbchronorace.h"
 #include "crloader.h"
-#include "competitor.h"
-#include "classentry.h"
-#include "teamclassentry.h"
 #include "crloader.h"
-#include "rankingsbuilder.h"
-#include "rankingprinter.h"
 #include "lbcrexception.h"
+#include "rankingswizard.h"
 
 // static members initialization
 QDir LBChronoRace::lastSelectedPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
@@ -117,9 +113,6 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionEditTimings, &QAction::triggered, &timingsTable, &ChronoRaceTable::show);
     QObject::connect(ui->actionAbout, &QAction::triggered, this, &LBChronoRace::actionAbout);
     QObject::connect(ui->actionAboutQt, &QAction::triggered, this, &LBChronoRace::actionAboutQt);
-
-    QObject::connect(ui->selectorEncoding, &QComboBox::currentTextChanged, this, &LBChronoRace::selectorEncoding);
-    QObject::connect(ui->selectorFormat, &QComboBox::currentTextChanged, this, &LBChronoRace::selectorFormat);
 }
 
 void LBChronoRace::setCounterTeams(int count) const
@@ -325,26 +318,41 @@ void LBChronoRace::resizeDialogs(QScreen const *screen)
     timingsTable.setMaximumHeight(screenGeometry.height() * 15 / 16);
 }
 
-void LBChronoRace::selectorEncoding(QString const &arg1) const
+void LBChronoRace::encodingSelector(int idx) const
 {
-    if (arg1.compare(tr("UTF-8"), Qt::CaseInsensitive) == 0) {
-        CRLoader::setEncoding(CRLoader::Encoding::UTF8);
-    } else {
+    switch (idx) {
+    case static_cast<int>(CRLoader::Encoding::LATIN1):
         CRLoader::setEncoding(CRLoader::Encoding::LATIN1);
+        break;
+    case static_cast<int>(CRLoader::Encoding::UTF8):
+        CRLoader::setEncoding(CRLoader::Encoding::UTF8);
+        break;
+    default:
+        CRLoader::setEncoding(CRLoader::Encoding::UTF8);
+        break;
     }
-    appendInfoMessage(tr("Selected encoding: %1").arg(arg1));
+
+    appendInfoMessage(tr("Selected encoding: %1").arg(CRLoader::encodingToLabel(CRLoader::getEncoding())));
 }
 
-void LBChronoRace::selectorFormat(QString const &arg1) const
+void LBChronoRace::formatSelector(int idx) const
 {
-    if (arg1.compare(tr("PDF"), Qt::CaseInsensitive) == 0) {
+    switch (idx) {
+    case static_cast<int>(CRLoader::Format::PDF):
         CRLoader::setFormat(CRLoader::Format::PDF);
-    } else if (arg1.compare(tr("CSV"), Qt::CaseInsensitive) == 0) {
-        CRLoader::setFormat(CRLoader::Format::CSV);
-    } else {
+        break;
+    case static_cast<int>(CRLoader::Format::TEXT):
         CRLoader::setFormat(CRLoader::Format::TEXT);
+        break;
+    case static_cast<int>(CRLoader::Format::CSV):
+        CRLoader::setFormat(CRLoader::Format::CSV);
+        break;
+    default:
+        CRLoader::setFormat(CRLoader::Format::PDF);
+        break;
     }
-    appendInfoMessage(tr("Selected format: %1").arg(arg1));
+
+    appendInfoMessage(tr("Selected format: %1").arg(CRLoader::formatToLabel(CRLoader::getFormat())));
 }
 
 bool LBChronoRace::loadRaceFile(QString const &fileName)
@@ -372,11 +380,9 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
                 int tableCount;
 
                 in >> encodingIdx;
-                ui->selectorEncoding->setCurrentIndex(encodingIdx);
-                selectorEncoding(ui->selectorEncoding->currentText());
+                encodingSelector(encodingIdx);
                 in >> formatIdx;
-                ui->selectorFormat->setCurrentIndex(formatIdx);
-                selectorFormat(ui->selectorFormat->currentText());
+                formatSelector(formatIdx);
                 raceInfo.setBinFormat(binFmt);
                 in >> raceInfo;
                 CRLoader::loadRaceData(in);
@@ -419,9 +425,10 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
 
 void LBChronoRace::loadRace()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Race Data File"),
-                                                    lastSelectedPath.absolutePath(),
-                                                    tr("ChronoRace Data (*.crd)"));
+    QString fileName = QDir::toNativeSeparators(
+        QFileDialog::getOpenFileName(this, tr("Select Race Data File"),
+                                     lastSelectedPath.absolutePath(),
+                                     tr("ChronoRace Data (*.crd)")));
 
     if (loadRaceFile(fileName))
         raceDataFileName = fileName;
@@ -446,8 +453,8 @@ void LBChronoRace::saveRace()
 
             out.setVersion(QDataStream::Qt_5_15);
             out << quint32(LBCHRONORACE_BIN_FMT)
-                << qint16(ui->selectorEncoding->currentIndex())
-                << qint16(ui->selectorFormat->currentIndex())
+                << qint16(CRLoader::getEncoding())
+                << qint16(CRLoader::getFormat())
                 << raceInfo;
             CRLoader::saveRaceData(out);
 
@@ -478,26 +485,15 @@ void LBChronoRace::makeStartList()
     //NOSONAR ui->errorDisplay->clear();
 
     try {
-        CRLoader::Format format = CRLoader::getFormat();
+        RankingsWizard wizard(&raceInfo, &lastSelectedPath, RankingsWizard::RankingsWizardTarget::StartList);
 
-        // compute start list
-        QList<Competitor> startList = RankingsBuilder::makeStartList();
+        auto const &wizardInfoMessages = QObject::connect(&wizard, &RankingsWizard::info, this, &LBChronoRace::appendInfoMessage);
+        auto const &wizardErrorMessages = QObject::connect(&wizard, &RankingsWizard::error, this, &LBChronoRace::appendErrorMessage);
 
-        auto sWidth = static_cast<uint>(QString::number(startList.size()).size());
-        auto bWidth = static_cast<uint>(QString::number(CRLoader::getStartListBibMax()).size());
+        wizard.exec();
 
-        // get a ranking printer
-        QScopedPointer<RankingPrinter> printer = RankingPrinter::getRankingPrinter(format, sWidth, bWidth);
-        auto const &infoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &LBChronoRace::appendInfoMessage);
-        auto const &errorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &LBChronoRace::appendErrorMessage);
-        printer->setRaceInfo(&raceInfo);
-
-        // print the startlist
-        printer->printStartList(startList, this, lastSelectedPath);
-
-        // cleanup
-        QObject::disconnect(infoMessages);
-        QObject::disconnect(errorMessages);
+        QObject::disconnect(wizardErrorMessages);
+        QObject::disconnect(wizardInfoMessages);
 
     } catch (ChronoRaceException &e) {
         appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
@@ -509,56 +505,16 @@ void LBChronoRace::makeRankings()
     //NOSONAR ui->errorDisplay->clear();
 
     try {
-        CRLoader::Format format = CRLoader::getFormat();
+        RankingsWizard wizard(&raceInfo, &lastSelectedPath, RankingsWizard::RankingsWizardTarget::Rankings);
 
-        QString rankingsBasePath = QFileDialog::getExistingDirectory(this,
-            tr("Select Results Destination Folder"), lastSelectedPath.absolutePath(),
-            QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+        auto const &wizardInfoMessages = QObject::connect(&wizard, &RankingsWizard::info, this, &LBChronoRace::appendInfoMessage);
+        auto const &wizardErrorMessages = QObject::connect(&wizard, &RankingsWizard::error, this, &LBChronoRace::appendErrorMessage);
 
-        if (rankingsBasePath.isEmpty())
-            throw(ChronoRaceException(tr("Warning: please select a destination folder")));
+        wizard.exec();
 
-        QVector<Category> categories = CRLoader::getCategories();
+        QObject::disconnect(wizardErrorMessages);
+        QObject::disconnect(wizardInfoMessages);
 
-        RankingsBuilder rankingsBuilder;
-        auto const &builderErrorMessages = QObject::connect(&rankingsBuilder, &RankingsBuilder::error, this, &LBChronoRace::appendErrorMessage);
-
-        lastSelectedPath.setPath(rankingsBasePath);
-
-        // compute individual general classifications (all included, sorted by bib)
-        uint numberOfCompetitors = rankingsBuilder.loadData();
-
-        // this call can be done only after the rankingsBuilder.loadData() call
-        auto sWidth = static_cast<uint>(QString::number(numberOfCompetitors).size());
-        auto rWidth = static_cast<uint>(QString::number(categories.size()).size());
-        auto bWidth = static_cast<uint>(QString::number(CRLoader::getStartListBibMax()).size());
-
-        // get a ranking printer
-        QScopedPointer<RankingPrinter> printer = RankingPrinter::getRankingPrinter(format, sWidth, bWidth);
-        auto const &printerInfoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &LBChronoRace::appendInfoMessage);
-        auto const &printerErrorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &LBChronoRace::appendErrorMessage);
-        printer->setRaceInfo(&raceInfo);
-
-        // now print each ranking
-        uint k = 0;
-        QString outFileBaseName;
-        for (auto const &category : categories) {
-            k++;
-            outFileBaseName = QDir(rankingsBasePath).filePath(QString("class%1_%2").arg(k, rWidth, 10, QChar('0')).arg(category.getShortDescription()));
-            if (category.isTeam()) {
-                // make and print the team ranking
-                QList<TeamClassEntry const *> ranking;
-                printer->printRanking(category, rankingsBuilder.fillRanking(ranking, category), outFileBaseName);
-            } else {
-                // make and print the individual ranking
-                QList<ClassEntry const *> ranking;
-                printer->printRanking(category, rankingsBuilder.fillRanking(ranking, category), outFileBaseName);
-            }
-        }
-
-        QObject::disconnect(printerErrorMessages);
-        QObject::disconnect(printerInfoMessages);
-        QObject::disconnect(builderErrorMessages);
     } catch (ChronoRaceException &e) {
         appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
     }

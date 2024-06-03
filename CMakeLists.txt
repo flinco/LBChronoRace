@@ -67,18 +67,26 @@ set(PROJECT_SOURCES
     crloader.cpp
     crloader.h
     crtablemodel.h
-    csvrankingprinter.h
     csvrankingprinter.cpp
+    csvrankingprinter.h
     lbchronorace.cpp
     lbchronorace.h
     lbcrexception.cpp
     lbcrexception.h
-    pdfrankingprinter.h
     pdfrankingprinter.cpp
+    pdfrankingprinter.h
     rankingsbuilder.cpp
     rankingsbuilder.h
-    rankingprinter.h
     rankingprinter.cpp
+    rankingprinter.h
+    rankingswizard.cpp
+    rankingswizard.h
+    rankingswizardformat.cpp
+    rankingswizardformat.h
+    rankingswizardmode.cpp
+    rankingswizardmode.h
+    rankingswizardselection.cpp
+    rankingswizardselection.h
     startlistmodel.cpp
     startlistmodel.h
     teamclassentry.cpp

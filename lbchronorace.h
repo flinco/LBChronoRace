@@ -20,13 +20,8 @@
 
 #include <QGuiApplication>
 #include <QMainWindow>
-#include <QTranslator>
-#include <QAbstractButton>
-#include <QStandardPaths>
 #include <QDir>
-#include <QTextStream>
-#include <QList>
-#include <QFontDatabase>
+#include <QScopedPointer>
 
 #include "ui_chronorace.h"
 
@@ -100,8 +95,8 @@ private slots:
     void saveRace();
     void saveRaceAs();
 
-    void selectorEncoding(QString const &arg1) const;
-    void selectorFormat(QString const &arg1) const;
+    void encodingSelector(int idx) const;
+    void formatSelector(int idx) const;
     void makeStartList();
     void makeRankings();
 

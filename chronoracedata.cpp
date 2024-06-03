@@ -397,8 +397,7 @@ QString ChronoRaceData::getOrganization() const
 
 QString ChronoRaceData::getTimeKeeper(uint idx) const
 {
-    switch (idx)
-    {
+    switch (idx) {
         case 0:
             return this->stringFields[static_cast<int>(StringField::TIMEKEEPER_1)];
         case 1:

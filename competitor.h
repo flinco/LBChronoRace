@@ -20,7 +20,6 @@
 
 #include <QCoreApplication>
 #include <QDataStream>
-#include <QSet>
 #include <QString>
 
 namespace competitor {

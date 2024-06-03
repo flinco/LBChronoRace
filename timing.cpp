@@ -16,7 +16,6 @@
  *****************************************************************************/
 
 #include "timing.h"
-#include "classentry.h"
 #include "lbcrexception.h"
 
 Timing::Field TimingSorter::sortingField = Timing::Field::TMF_TIME;

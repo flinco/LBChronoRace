@@ -18,7 +18,6 @@
 #ifndef CLASSENTRY_H
 #define CLASSENTRY_H
 
-#include <QCoreApplication>
 #include <QVector>
 #include <QString>
 

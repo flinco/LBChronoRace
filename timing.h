@@ -19,7 +19,6 @@
 #define TIMING_H
 
 #include <QCoreApplication>
-#include <QtGlobal>
 #include <QDataStream>
 #include <QString>
 

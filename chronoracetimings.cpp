@@ -19,6 +19,7 @@
 #include <QTemporaryFile>
 #include <QTextStream>
 #include <QStandardPaths>
+#include <QKeyEvent>
 #include <QMessageBox>
 
 #include "chronoracetimings.h"

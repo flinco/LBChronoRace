@@ -15,28 +15,52 @@
         <source>Wrong number of elements in CSV row; expected %1 - found %2</source>
         <translation>Numero elementi errato nel CSV row; atteso %1 - trovato %2</translation>
     </message>
+    <message>
+        <source>UTF-8</source>
+        <translation>UTF-8</translation>
+    </message>
+    <message>
+        <source>ISO-8859-1 (Latin-1)</source>
+        <translation>ISO-8859-1 (Latin-1)</translation>
+    </message>
+    <message>
+        <source>PDF</source>
+        <translation>PDF</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>Testo</translation>
+    </message>
+    <message>
+        <source>CSV</source>
+        <translation>CSV</translation>
+    </message>
+    <message>
+        <source>Unknown encoding %1</source>
+        <translation>Codifica sconosciuta %1</translation>
+    </message>
+    <message>
+        <source>Unknown format %1</source>
+        <translation>Formato sconosciuto %1</translation>
+    </message>
 </context>
 <context>
     <name>CSVRankingPrinter</name>
     <message>
-        <source>Select Start List File</source>
-        <translation>Seleziona file Ordine di Partenza</translation>
-    </message>
-    <message>
         <source>CSV (*.csv)</source>
         <translation>CSV (*.csv)</translation>
-    </message>
-    <message>
-        <source>Generated Start List: %1</source>
-        <translation>Generato Ordine di Partenza: %1</translation>
     </message>
     <message>
         <source>Error: cannot open %1</source>
         <translation>Errore: impossibile aprire %1</translation>
     </message>
     <message>
-        <source>Generated Results &apos;%1&apos;: %2</source>
-        <translation>Generata Classifica &apos;%1&apos;: %2</translation>
+        <source>Error: no file name supplied</source>
+        <translation>Errore: nessun nome file</translation>
+    </message>
+    <message>
+        <source>Error: writing attempt on closed file</source>
+        <translation>Errore: tentativo di scrittura su file non aperto</translation>
     </message>
 </context>
 <context>
@@ -495,42 +519,6 @@ Continuare?</translation>
         <translation>Errori</translation>
     </message>
     <message>
-        <source>Encoding</source>
-        <translation>Codifica</translation>
-    </message>
-    <message>
-        <source>File Encoding: ISO-8859-1 (Latin1) or UTF-8</source>
-        <translation>Codifica File: ISO-8859-1 (Latin1) o UTF-8</translation>
-    </message>
-    <message>
-        <source>Latin1</source>
-        <translation>Latin1</translation>
-    </message>
-    <message>
-        <source>UTF-8</source>
-        <translation>UTF-8</translation>
-    </message>
-    <message>
-        <source>Format</source>
-        <translation>Formato</translation>
-    </message>
-    <message>
-        <source>Start List and Rankings file format: PDF, CSV or Plain Text</source>
-        <translation>Formato file Ordine di Partenza e Classifiche: PDF, CSV o Testo semplice</translation>
-    </message>
-    <message>
-        <source>PDF</source>
-        <translation>PDF</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation>Testo</translation>
-    </message>
-    <message>
-        <source>CSV</source>
-        <translation>CSV</translation>
-    </message>
-    <message>
         <source>Generate start list in the selected format</source>
         <translation>Genera l&apos;ordine di partenza nel formato selezionato</translation>
     </message>
@@ -647,16 +635,8 @@ Continuare?</translation>
         <translation>Lista Tempi</translation>
     </message>
     <message>
-        <source>Select Results Destination Folder</source>
-        <translation>Seleziona Cartella Destinazione Classifiche</translation>
-    </message>
-    <message>
         <source>Error: %1</source>
         <translation>Errore: %1</translation>
-    </message>
-    <message>
-        <source>Warning: please select a destination folder</source>
-        <translation>Attenzione: è necessario selezionare una cartella</translation>
     </message>
     <message>
         <source>CSV (*.csv)</source>
@@ -798,10 +778,6 @@ Continuare?</translation>
         <translation>#</translation>
     </message>
     <message>
-        <source>Select Start List File</source>
-        <translation>Seleziona file Ordine di Partenza</translation>
-    </message>
-    <message>
         <source>PDF (*.pdf)</source>
         <translation>PDF (*.pdf)</translation>
     </message>
@@ -846,28 +822,12 @@ Continuare?</translation>
         </translation>
     </message>
     <message>
-        <source>Generated Start List: %1</source>
-        <translation>Generato Ordine di Partenza: %1</translation>
-    </message>
-    <message>
         <source>Time</source>
         <translation>Tempo</translation>
     </message>
     <message>
         <source>Diff</source>
         <translation>Diff</translation>
-    </message>
-    <message>
-        <source>Error: cannot write to %1</source>
-        <translation>Errore: impossibile scrivere su %1</translation>
-    </message>
-    <message>
-        <source>Generated Results &apos;%1&apos;: %2</source>
-        <translation>Generata Classifica &apos;%1&apos;: %2</translation>
-    </message>
-    <message>
-        <source>Error: cannot open %1</source>
-        <translation>Errore: impossibile aprire %1</translation>
     </message>
     <message>
         <source>Leg</source>
@@ -935,6 +895,18 @@ Continuare?</translation>
     <message>
         <source>Error: cannot start drawing</source>
         <translation>Errore: scrittura su PDF inpossibile</translation>
+    </message>
+    <message>
+        <source>Error: no file name supplied</source>
+        <translation>Errore: nessun nome file</translation>
+    </message>
+    <message>
+        <source>Error: drawing attempt on inactive painter</source>
+        <translation>Errore: tentativo d&apos;uso di painter non attivo</translation>
+    </message>
+    <message>
+        <source>Error: cannot write to PDF</source>
+        <translation>Error: impossibile scrivere su PDF</translation>
     </message>
 </context>
 <context>
@@ -1038,6 +1010,94 @@ Continuare?</translation>
     </message>
 </context>
 <context>
+    <name>RankingsWizard</name>
+    <message>
+        <source>Rankings Wizard</source>
+        <translation>Procedura guidata classifiche</translation>
+    </message>
+    <message>
+        <source>Select Start List File</source>
+        <translation>Seleziona file Ordine di Partenza</translation>
+    </message>
+    <message>
+        <source>Generated Start List: %1</source>
+        <translation>Generato Ordine di Partenza: %1</translation>
+    </message>
+    <message>
+        <source>Error: %1</source>
+        <translation>Errore: %1</translation>
+    </message>
+    <message>
+        <source>Select Results Destination Folder</source>
+        <translation>Seleziona Cartella Destinazione Classifiche</translation>
+    </message>
+    <message>
+        <source>Warning: please select a destination folder</source>
+        <translation>Attenzione: è necessario selezionare una cartella</translation>
+    </message>
+    <message>
+        <source>Generated Results &apos;%1&apos;: %2</source>
+        <translation>Generata Classifica &apos;%1&apos;: %2</translation>
+    </message>
+    <message>
+        <source>Select Results Destination File</source>
+        <translation>Seleziona File Destinazione Classifiche</translation>
+    </message>
+    <message>
+        <source>Generated Results: %1</source>
+        <translation>Generato Classifiche: %1</translation>
+    </message>
+    <message>
+        <source>Start List</source>
+        <translation>Ordine di Partenza</translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation>Risultati</translation>
+    </message>
+</context>
+<context>
+    <name>RankingsWizardFormat</name>
+    <message>
+        <source>File format</source>
+        <translation>Formato file</translation>
+    </message>
+    <message>
+        <source>File encoding</source>
+        <translation>Codifica file</translation>
+    </message>
+    <message>
+        <source>Start List file format</source>
+        <translation>Formato file Ordine di Partenza</translation>
+    </message>
+    <message>
+        <source>Rankings file format</source>
+        <translation>Formato file Classifica</translation>
+    </message>
+</context>
+<context>
+    <name>RankingsWizardMode</name>
+    <message>
+        <source>Single/multiple files</source>
+        <translation>File singolo/multiplo</translation>
+    </message>
+    <message>
+        <source>One single file containing all rankings</source>
+        <translation>Un singolo file contenente tutte le classifiche</translation>
+    </message>
+    <message>
+        <source>A separate file for each ranking</source>
+        <translation>Un file separato per ogni classifica</translation>
+    </message>
+</context>
+<context>
+    <name>RankingsWizardSelection</name>
+    <message>
+        <source>Rankings</source>
+        <translation>Classifiche</translation>
+    </message>
+</context>
+<context>
     <name>StartListModel</name>
     <message>
         <source>Bib number (not 0)</source>
@@ -1091,10 +1151,6 @@ Continuare?</translation>
 <context>
     <name>TXTRankingPrinter</name>
     <message>
-        <source>Select Start List File</source>
-        <translation>Seleziona file Ordine di Partenza</translation>
-    </message>
-    <message>
         <source>Plain Text (*.txt)</source>
         <translation>Testo (*.txt)</translation>
     </message>
@@ -1110,16 +1166,16 @@ Continuare?</translation>
         </translation>
     </message>
     <message>
-        <source>Generated Start List: %1</source>
-        <translation>Generato Ordine di Partenza: %1</translation>
-    </message>
-    <message>
         <source>Error: cannot open %1</source>
         <translation>Errore: impossibile aprire %1</translation>
     </message>
     <message>
-        <source>Generated Results &apos;%1&apos;: %2</source>
-        <translation>Generata Classifica &apos;%1&apos;: %2</translation>
+        <source>Error: no file name supplied</source>
+        <translation>Error: nessun nome file</translation>
+    </message>
+    <message>
+        <source>Error: writing attempt on closed file</source>
+        <translation>Errore: tentativo di scrittura su file non aperto</translation>
     </message>
 </context>
 <context>

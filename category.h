@@ -18,7 +18,6 @@
 #ifndef CATEGORY_H
 #define CATEGORY_H
 
-#include <QCoreApplication>
 #include <QDataStream>
 
 #include "competitor.h"

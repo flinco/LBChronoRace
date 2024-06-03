@@ -15,36 +15,35 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef TXTRANKINGPRINTER_H
-#define TXTRANKINGPRINTER_H
+#include "rankingswizard.h"
+#include "rankingswizardmode.h"
 
-#include <QTextStream>
-#include <QFile>
-
-#include "rankingprinter.h"
-
-class TXTRankingPrinter final : public RankingPrinter
+RankingsWizardMode::RankingsWizardMode(QWidget *parent) :
+    QWizardPage(parent),
+    singleFile(parent),
+    multiFile(parent)
 {
-    Q_OBJECT
-    using RankingPrinter::RankingPrinter;
+    setTitle(tr("Single/multiple files"));
+    setSubTitle("How many PDFs do you want?");
 
-public:
-    void init(QString *outFileName, QString const &title) override;
+    singleFile.setText(tr("One single file containing all rankings"));
+    singleFile.setChecked(true);
+    layout.addWidget(&singleFile);
 
-    void printStartList(QList<Competitor> const &startList) override;
-    void printRanking(Category const &category, QList<ClassEntry const *> const &ranking) override;
-    void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking) override;
+    multiFile.setText(tr("A separate file for each ranking"));
+    multiFile.setChecked(false);
+    layout.addWidget(&multiFile);
 
-    bool finalize() override;
+    setLayout(&layout);
 
-    QString getFileFilter() override;
+    QObject::connect(&singleFile, &QRadioButton::toggled, this, &RankingsWizardMode::toggleSingleMode);
+}
 
-private:
-    QTextStream txtStream;
-    QFile txtFile;
+void RankingsWizardMode::toggleSingleMode(bool checked) const
+{
+    RankingsWizard *parentWizard;
 
-    QString &buildOutFileName(QString &outFileBaseName) override;
-    QString &checkOutFileNameExtension(QString &outFileBaseName) override;
-};
-
-#endif // TXTRANKINGPRINTER_H
+    if ((parentWizard = qobject_cast<RankingsWizard *>(wizard()))) {
+        parentWizard->setPdfSingleMode(checked);
+    }
+}

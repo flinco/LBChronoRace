@@ -15,36 +15,31 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef TXTRANKINGPRINTER_H
-#define TXTRANKINGPRINTER_H
+#ifndef RANKINGSWIZARDMODE_H
+#define RANKINGSWIZARDMODE_H
 
-#include <QTextStream>
-#include <QFile>
+#include <QWizardPage>
+#include <QVBoxLayout>
+#include <QRadioButton>
 
-#include "rankingprinter.h"
-
-class TXTRankingPrinter final : public RankingPrinter
+class RankingsWizardMode : public QWizardPage
 {
     Q_OBJECT
-    using RankingPrinter::RankingPrinter;
 
 public:
-    void init(QString *outFileName, QString const &title) override;
-
-    void printStartList(QList<Competitor> const &startList) override;
-    void printRanking(Category const &category, QList<ClassEntry const *> const &ranking) override;
-    void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking) override;
-
-    bool finalize() override;
-
-    QString getFileFilter() override;
+    explicit RankingsWizardMode(QWidget *parent = Q_NULLPTR);
 
 private:
-    QTextStream txtStream;
-    QFile txtFile;
+    QVBoxLayout layout;
 
-    QString &buildOutFileName(QString &outFileBaseName) override;
-    QString &checkOutFileNameExtension(QString &outFileBaseName) override;
+    QRadioButton singleFile;
+    QRadioButton multiFile;
+
+private slots:
+    void toggleSingleMode(bool checked) const;
+
+signals:
+    void error(QString const &message);
 };
 
-#endif // TXTRANKINGPRINTER_H
+#endif // RANKINGSWIZARDMODE_H

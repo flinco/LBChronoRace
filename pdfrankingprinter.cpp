@@ -16,8 +16,6 @@
  *****************************************************************************/
 
 #include <QLocale>
-#include <QFileDialog>
-#include <QFileInfo>
 #include <QPointF>
 #include <QFontDatabase>
 
@@ -45,82 +43,269 @@ PDFRankingPrinter::PDFRankingPrinter(uint indexFieldWidth, uint bibFieldWidth) :
     this->rnkFontBoldItal = QFontDatabase::font("Liberation Sans", "Bold Italic", 22);
 }
 
-void PDFRankingPrinter::printStartList(QList<Competitor> const &startList, QWidget *parent, QDir &lastSelectedPath)
+
+void PDFRankingPrinter::init(QString *outFileName, QString const &title)
 {
-    QString outFileName = QFileDialog::getSaveFileName(parent, tr("Select Start List File"),
-        lastSelectedPath.absolutePath(), tr("PDF (*.pdf)"));
+    QPdfWriter *w;
 
-    if (!outFileName.isEmpty()) {
+    Q_ASSERT(!painter.isActive());
 
-        if (!outFileName.endsWith(".pdf", Qt::CaseInsensitive))
-            outFileName.append(".pdf");
-        //NOSONAR qDebug("Path: %s", qUtf8Printable(outFileName));
+    if (outFileName == Q_NULLPTR) {
+        throw(ChronoRaceException(tr("Error: no file name supplied")));
+    }
 
-        QPainter painter;
-        QPdfWriter writer(outFileName);
-        if (initPainter(painter, &writer)) {
+    // append the .pdf extension if missing
+    checkOutFileNameExtension(*outFileName);
 
-            makeStartList(painter, startList);
+    if (writer.isNull())
+        writer.reset(new QPdfWriter(*outFileName));
 
-            if (!painter.end()) {
-                emit error(tr("Error: cannot write to %1").arg(outFileName));
-            } else {
-                QFileInfo outFileInfo(outFileName);
-                emit info(tr("Generated Start List: %1").arg(QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
-                lastSelectedPath = outFileInfo.absoluteDir();
+    w = writer.data();
+    w->setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
+    w->setPageSize(QPageSize::A4);
+    w->setPageOrientation(QPageLayout::Portrait);
+    w->setPageMargins(QMarginsF(RANKING_LEFT_MARGIN, RANKING_TOP_MARGIN, RANKING_RIGHT_MARGIN, RANKING_BOTTOM_MARGIN), QPageLayout::Millimeter);
+    w->setTitle(title);
+    w->setCreator(LBCHRONORACE_NAME);
+
+    // Set global values to convert from mm to dots
+    this->ratioX = w->logicalDpiX() / 25.4;
+    this->ratioY = w->logicalDpiY() / 25.4;
+    //NOSONAR this->ratioX = w->physicalDpiX() / 25.4;
+    //NOSONAR this->ratioY = w->physicalDpiY() / 25.4;
+    this->areaWidth = w->width();
+    this->areaHeight = w->height();
+
+    currentPage = 0;
+    if (!painter.begin(w)) {
+        throw(ChronoRaceException(tr("Error: cannot start drawing")));
+    }
+}
+
+void PDFRankingPrinter::printStartList(QList<Competitor> const &startList)
+{
+    if (!painter.isActive()) {
+        throw(ChronoRaceException(tr("Error: drawing attempt on inactive painter")));
+    }
+
+    QRectF writeRect;
+
+    ChronoRaceData const *raceInfo = getRaceInfo();
+    QTime startTime = raceInfo->getStartTime();
+
+    auto pdfWriter = static_cast<QPdfWriter *>(painter.device());
+
+    // Split the list into pages
+    QList<QList<Competitor const *>> pages = splitStartList(startList);
+    int offset;
+    int i = 1;
+    int p = 1;
+    auto pp = static_cast<int>(pages.size());
+    for (auto page = pages.constBegin(); page < pages.constEnd(); page++, p++) {
+
+        if (currentPage++) // this is not the first loop, add a new pages
+            pdfWriter->newPage();
+
+        drawTemplatePortrait(tr("Start List"), p, pp);
+
+        // Prepare fonts
+        rnkFont.setPointSize(7);
+        rnkFontBold.setPointSize(7);
+        painter.setFont(rnkFontBold);
+
+        // Rankings header
+        printHeaderSingleLeg(writeRect, p, RankingType::START_LIST);
+
+        writeRect.setTop(toVdots((p == 1) ? 57.0 : 34.0));
+        writeRect.setHeight(toVdots(4.0));
+        for (auto c = (*page).constBegin(); c < (*page).constEnd(); c++) {
+
+            if (*c == Q_NULLPTR) {// separator
+                // move down and go to the next competitor
+                writeRect.translate(0.0, toVdots(4.0));
+                continue;
             }
-        } else {
-            emit error(tr("Error: cannot open %1").arg(outFileName));
+
+            // Move down
+            writeRect.translate(0.0, toVdots(4.0));
+            writeRect.setLeft(toHdots(0.0));
+            // Set the background
+            if ((i % 2) == 0) {
+                writeRect.setWidth(this->areaWidth);
+                painter.fillRect(writeRect, Qt::lightGray);
+            }
+            // Ranking placement
+            painter.setFont(rnkFontBold);
+            writeRect.setLeft(toHdots(1.0));
+            writeRect.setWidth(toHdots(5.0));
+            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString("%1.").arg(i));
+            i++;
+            // Bib
+            painter.setFont(rnkFont);
+            writeRect.translate(toHdots(5.0), 0.0);
+            writeRect.setWidth(toHdots(7.0));
+            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString::number((*c)->getBib()));
+            // Name
+            painter.setFont(rnkFontBold);
+            writeRect.translate(toHdots(8.0), 0.0);
+            writeRect.setWidth(toHdots(60.0));
+            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c)->getName(0));
+            // Team
+            painter.setFont(rnkFont);
+            writeRect.translate(toHdots(60.0), 0.0);
+            writeRect.setWidth(toHdots(45.0));
+            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c)->getTeam());
+            // Year
+            writeRect.translate(toHdots(45.0), 0.0);
+            writeRect.setWidth(toHdots(9.0));
+            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, QString::number((*c)->getYear()));
+            // Sex
+            writeRect.translate(toHdots(9.0), 0.0);
+            writeRect.setWidth(toHdots(6.0));
+            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, Competitor::toSexString((*c)->getSex()));
+            // Category
+            writeRect.translate(toHdots(6.0), 0.0);
+            writeRect.setWidth(toHdots(28.0));
+            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c)->getCategory());
+            // Start Time / Leg
+            offset = (*c)->getOffset();
+            painter.setFont(rnkFontBold);
+            writeRect.translate(toHdots(28.0), 0.0);
+            writeRect.setWidth(toHdots(27.0));
+            if (offset >= 0) {
+                offset += (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
+                painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, Competitor::toOffsetString(offset));
+            } else if (CRLoader::getStartListLegs() == 1) {
+                offset = (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
+                painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, Competitor::toOffsetString(offset));
+            } else {
+                painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, tr("Leg %n", "", qAbs(offset)));
+            }
         }
     }
 }
 
-void PDFRankingPrinter::printRanking(const Category &category, QList<ClassEntry const *> const &ranking, QString &outFileBaseName)
+void PDFRankingPrinter::printRanking(const Category &category, QList<ClassEntry const *> const &ranking)
 {
+    if (!painter.isActive()) {
+        throw(ChronoRaceException(tr("Error: drawing attempt on inactive painter")));
+    }
+
     uint individualLegs = CRLoader::getStartListLegs();
 
     if (individualLegs == 0) {
-        emit error(tr("Error: cannot generate results for 0 legs"));
-    } else {
-        QString const &individualRankingFileName = buildOutFileName(outFileBaseName);
-        //NOSONAR qDebug("Path: %s", qUtf8Printable(individualRankingFileName));
+        throw(ChronoRaceException(tr("Error: cannot generate results for 0 legs")));
+    }
 
-        QPainter painter;
-        if (QPdfWriter writer(individualRankingFileName); initPainter(painter, &writer)) {
-            makeRanking(painter, category.getFullDescription(), ranking, (individualLegs != 1));
-            if (painter.end()) {
-                emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QDir::toNativeSeparators(QFileInfo(individualRankingFileName).absoluteFilePath())));
-            } else {
-                emit error(tr("Error: cannot write to %1").arg(individualRankingFileName));
-            }
-        } else {
-            emit error(tr("Error: cannot open %1").arg(individualRankingFileName));
-        }
+    uint referenceTime = 0u;
+    QRectF writeRect;
+
+    auto pdfWriter = static_cast<QPdfWriter *>(painter.device());
+
+    // Split the list into pages
+    QList<QList<ClassEntry const *>> pages = splitIndividualRanking(ranking);
+    int i = 1;
+    int p = 1;
+    auto pp = static_cast<int>(pages.size());
+    for (auto page = pages.constBegin(); page < pages.constEnd(); page++, p++) {
+
+        if (currentPage++) // this is not the first loop, add a new pages
+            pdfWriter->newPage();
+        else if (!page->empty()) // init the reference time
+            referenceTime = page->at(0)->getTotalTime();
+
+        drawTemplatePortrait(tr("%1 Results").arg(category.getFullDescription()), p, pp);
+
+        // Prepare fonts
+        rnkFont.setPointSize(7);
+        rnkFontBold.setPointSize(7);
+        painter.setFont(rnkFontBold);
+
+        // Rankings header
+        if (individualLegs != 1) // multileg
+            printHeaderMultiLeg(writeRect, p, RankingType::INDIVIDUAL_MULTI);
+        else
+            printHeaderSingleLeg(writeRect, p, RankingType::INDIVIDUAL_SINGLE);
+
+        // Page content
+        writeRect.setTop(toVdots((p == 1) ? 57.0 : 34.0));
+        writeRect.setHeight(toVdots(4.0));
+        if (individualLegs != 1) // multileg
+            printPageMultiLeg(writeRect, *page, i, referenceTime);
+        else
+            printPageSingleLeg(writeRect, *page, i, referenceTime);
     }
 }
 
-void PDFRankingPrinter::printRanking(const Category &category, QList<TeamClassEntry const *> const &ranking, QString &outFileBaseName)
+void PDFRankingPrinter::printRanking(const Category &category, QList<TeamClassEntry const *> const &ranking)
 {
+    if (!painter.isActive()) {
+        throw(ChronoRaceException(tr("Error: drawing attempt on inactive painter")));
+    }
+
     uint teamLegs = CRLoader::getStartListLegs();
 
     if (teamLegs == 0) {
-        emit error(tr("Error: cannot generate results for 0 legs"));
-    } else{
-        QString const &teamRankingFileName = buildOutFileName(outFileBaseName);
-        //NOSONAR qDebug("Path: %s", qUtf8Printable(individualRankingFileName));
-
-        QPainter painter;
-        if (QPdfWriter writer(teamRankingFileName); initPainter(painter, &writer)) {
-            makeRanking(painter, category.getFullDescription(), ranking, (teamLegs != 1));
-            if (painter.end()) {
-                emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QDir::toNativeSeparators(QFileInfo(teamRankingFileName).absoluteFilePath())));
-            } else {
-                emit error(tr("Error: cannot write to %1").arg(teamRankingFileName));
-            }
-        } else {
-            emit error(tr("Error: cannot open %1").arg(teamRankingFileName));
-        }
+        throw(ChronoRaceException(tr("Error: cannot generate results for 0 legs")));
     }
+
+    QRectF writeRect;
+
+    auto pdfWriter = static_cast<QPdfWriter *>(painter.device());
+
+    // Split the list into pages
+    QList<QList<TeamClassEntry const *>> pages = splitTeamRanking(ranking);
+    int i = 1;
+    int p = 1;
+    auto pp = static_cast<int>(pages.size());
+    for (auto page = pages.constBegin(); page < pages.constEnd(); page++, p++) {
+
+        if (currentPage++) // this is not the first loop, add a new pages
+            pdfWriter->newPage();
+
+        drawTemplatePortrait(tr("%1 Results").arg(category.getFullDescription()), p, pp);
+
+        // Prepare fonts
+        rnkFont.setPointSize(7);
+        rnkFontBold.setPointSize(7);
+        painter.setFont(rnkFontBold);
+
+        // Rankings header
+        if (teamLegs != 1) // multileg
+            printHeaderMultiLeg(writeRect, p, RankingType::TEAM_MULTI);
+        else
+            printHeaderSingleLeg(writeRect, p, RankingType::TEAM_SINGLE);
+
+        // Page content
+        writeRect.setTop(toVdots((p == 1) ? 57.0 : 34.0));
+        writeRect.setHeight(toVdots(4.0));
+        if (teamLegs != 1) // multileg
+            printPageMultiLeg(writeRect, *page, i);
+        else
+            printPageSingleLeg(writeRect, *page, i);
+    }
+}
+
+bool PDFRankingPrinter::finalize()
+{
+    bool result = false;
+
+    if (!painter.isActive())
+        result = true;
+    else if (painter.end())
+        result = true;
+    else
+        emit error(tr("Error: cannot write to PDF"));
+
+    if (!writer.isNull())
+        writer.reset(Q_NULLPTR);
+
+    return result;
+}
+
+QString PDFRankingPrinter::getFileFilter()
+{
+    return tr("PDF (*.pdf)");
 }
 
 QString &PDFRankingPrinter::buildOutFileName(QString &outFileBaseName)
@@ -317,7 +502,7 @@ QList<QList<TeamClassEntry const *>> PDFRankingPrinter::splitTeamRankingMultiLeg
     return pages;
 }
 
-void PDFRankingPrinter::printHeaderSingleLeg(QRectF &writeRect, QPainter &painter, int page, RankingType type) const
+void PDFRankingPrinter::printHeaderSingleLeg(QRectF &writeRect, int page, RankingType type)
 {
     switch (type) {
     case RankingType::START_LIST:
@@ -380,7 +565,7 @@ void PDFRankingPrinter::printHeaderSingleLeg(QRectF &writeRect, QPainter &painte
     }
 }
 
-void PDFRankingPrinter::printHeaderMultiLeg(QRectF &writeRect, QPainter &painter, int page, RankingType type) const
+void PDFRankingPrinter::printHeaderMultiLeg(QRectF &writeRect, int page, RankingType type)
 {
     switch (type) {
     case RankingType::INDIVIDUAL_MULTI:
@@ -449,7 +634,7 @@ void PDFRankingPrinter::printHeaderMultiLeg(QRectF &writeRect, QPainter &painter
     }
 }
 
-void PDFRankingPrinter::printEntrySingleLeg(QRectF &writeRect, QPainter &painter, ClassEntry const *c, int &posIndex, int cIndex, uint referenceTime, RankingType type) const
+void PDFRankingPrinter::printEntrySingleLeg(QRectF &writeRect, ClassEntry const *c, int &posIndex, int cIndex, uint referenceTime, RankingType type)
 {
     static Position position;
 
@@ -532,13 +717,13 @@ void PDFRankingPrinter::printEntrySingleLeg(QRectF &writeRect, QPainter &painter
     }
 }
 
-void PDFRankingPrinter::printPageSingleLeg(QRectF &writeRect, QPainter &painter, QList<ClassEntry const *> const &page, int &posIndex, uint referenceTime) const
+void PDFRankingPrinter::printPageSingleLeg(QRectF &writeRect, QList<ClassEntry const *> const &page, int &posIndex, uint referenceTime)
 {
     for (auto c = page.constBegin(); c < page.constEnd(); c++)
-        printEntrySingleLeg(writeRect, painter, *c, posIndex, -1, referenceTime, RankingType::INDIVIDUAL_SINGLE);
+        printEntrySingleLeg(writeRect, *c, posIndex, -1, referenceTime, RankingType::INDIVIDUAL_SINGLE);
 }
 
-void PDFRankingPrinter::printPageSingleLeg(QRectF &writeRect, QPainter &painter, QList<TeamClassEntry const *> const &page, int &posIndex) const
+void PDFRankingPrinter::printPageSingleLeg(QRectF &writeRect, QList<TeamClassEntry const *> const &page, int &posIndex)
 {
     static TeamClassEntry const *lastTeam = Q_NULLPTR;
     static int j = 0;
@@ -558,11 +743,11 @@ void PDFRankingPrinter::printPageSingleLeg(QRectF &writeRect, QPainter &painter,
             j = 0;
         }
 
-        printEntrySingleLeg(writeRect, painter, (*t)->getClassEntry(j), posIndex, j + 1, 0, RankingType::TEAM_SINGLE);
+        printEntrySingleLeg(writeRect, (*t)->getClassEntry(j), posIndex, j + 1, 0, RankingType::TEAM_SINGLE);
     }
 }
 
-void PDFRankingPrinter::printEntryMultiLeg(QRectF &writeRect, QPainter &painter, ClassEntry const *r, int &posIndex, int rIndex, uint referenceTime, RankingType type) const
+void PDFRankingPrinter::printEntryMultiLeg(QRectF &writeRect, ClassEntry const *r, int &posIndex, int rIndex, uint referenceTime, RankingType type)
 {
     static Position position;
 
@@ -669,13 +854,13 @@ void PDFRankingPrinter::printEntryMultiLeg(QRectF &writeRect, QPainter &painter,
     }
 }
 
-void PDFRankingPrinter::printPageMultiLeg(QRectF &writeRect, QPainter &painter, QList<ClassEntry const *> const &page, int &posIndex, uint referenceTime) const
+void PDFRankingPrinter::printPageMultiLeg(QRectF &writeRect, QList<ClassEntry const *> const &page, int &posIndex, uint referenceTime)
 {
     for (auto c = page.constBegin(); c < page.constEnd(); c++)
-        printEntryMultiLeg(writeRect, painter, *c, posIndex, -1, referenceTime, RankingType::INDIVIDUAL_MULTI);
+        printEntryMultiLeg(writeRect, *c, posIndex, -1, referenceTime, RankingType::INDIVIDUAL_MULTI);
 }
 
-void PDFRankingPrinter::printPageMultiLeg(QRectF &writeRect, QPainter &painter, QList<TeamClassEntry const *> const &page, int &posIndex) const
+void PDFRankingPrinter::printPageMultiLeg(QRectF &writeRect, QList<TeamClassEntry const *> const &page, int &posIndex)
 {
     static TeamClassEntry const *lastTeam = Q_NULLPTR;
     static int j = 0;
@@ -695,197 +880,12 @@ void PDFRankingPrinter::printPageMultiLeg(QRectF &writeRect, QPainter &painter, 
             j = 0;
         }
 
-        printEntryMultiLeg(writeRect, painter, (*t)->getClassEntry(j), posIndex, j + 1, 0, RankingType::TEAM_MULTI);
+        printEntryMultiLeg(writeRect, (*t)->getClassEntry(j), posIndex, j + 1, 0, RankingType::TEAM_MULTI);
     }
 
 }
 
-void PDFRankingPrinter::makeStartList(QPainter &painter, QList<Competitor> const &startList)
-{
-    QRectF writeRect;
-
-    ChronoRaceData const *raceInfo = getRaceInfo();
-    QTime startTime = raceInfo->getStartTime();
-
-    auto pdfWriter = (QPdfWriter *) painter.device();
-    pdfWriter->setTitle(raceInfo->getEvent() + " - " + tr("Start List"));
-
-    // Split the list into pages
-    QList<QList<Competitor const *>> pages = splitStartList(startList);
-    int offset;
-    int i = 1;
-    int p = 0;
-    auto pp = static_cast<int>(pages.size());
-    for (auto page = pages.constBegin(); page < pages.constEnd(); page++) {
-
-        if (p++) // this is not the first loop, add a new pages
-            pdfWriter->newPage();
-
-        drawTemplatePortrait(painter, tr("Start List"), p, pp);
-
-        // Prepare fonts
-        rnkFont.setPointSize(7);
-        rnkFontBold.setPointSize(7);
-        painter.setFont(rnkFontBold);
-
-        // Rankings header
-        printHeaderSingleLeg(writeRect, painter, p, RankingType::START_LIST);
-
-        writeRect.setTop(toVdots((p == 1) ? 57.0 : 34.0));
-        writeRect.setHeight(toVdots(4.0));
-        for (auto c = (*page).constBegin(); c < (*page).constEnd(); c++) {
-
-            if (*c == Q_NULLPTR) {// separator
-                // move down and go to the next competitor
-                writeRect.translate(0.0, toVdots(4.0));
-                continue;
-            }
-
-            // Move down
-            writeRect.translate(0.0, toVdots(4.0));
-            writeRect.setLeft(toHdots(0.0));
-            // Set the background
-            if ((i % 2) == 0) {
-                writeRect.setWidth(this->areaWidth);
-                painter.fillRect(writeRect, Qt::lightGray);
-            }
-            // Ranking placement
-            painter.setFont(rnkFontBold);
-            writeRect.setLeft(toHdots(1.0));
-            writeRect.setWidth(toHdots(5.0));
-            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString("%1.").arg(i));
-            i++;
-            // Bib
-            painter.setFont(rnkFont);
-            writeRect.translate(toHdots(5.0), 0.0);
-            writeRect.setWidth(toHdots(7.0));
-            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString::number((*c)->getBib()));
-            // Name
-            painter.setFont(rnkFontBold);
-            writeRect.translate(toHdots(8.0), 0.0);
-            writeRect.setWidth(toHdots(60.0));
-            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c)->getName(0));
-            // Team
-            painter.setFont(rnkFont);
-            writeRect.translate(toHdots(60.0), 0.0);
-            writeRect.setWidth(toHdots(45.0));
-            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c)->getTeam());
-            // Year
-            writeRect.translate(toHdots(45.0), 0.0);
-            writeRect.setWidth(toHdots(9.0));
-            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, QString::number((*c)->getYear()));
-            // Sex
-            writeRect.translate(toHdots(9.0), 0.0);
-            writeRect.setWidth(toHdots(6.0));
-            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, Competitor::toSexString((*c)->getSex()));
-            // Category
-            writeRect.translate(toHdots(6.0), 0.0);
-            writeRect.setWidth(toHdots(28.0));
-            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c)->getCategory());
-            // Start Time / Leg
-            offset = (*c)->getOffset();
-            painter.setFont(rnkFontBold);
-            writeRect.translate(toHdots(28.0), 0.0);
-            writeRect.setWidth(toHdots(27.0));
-            if (offset >= 0) {
-                offset += (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
-                painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, Competitor::toOffsetString(offset));
-            } else if (CRLoader::getStartListLegs() == 1) {
-                offset = (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
-                painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, Competitor::toOffsetString(offset));
-            } else {
-                painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, tr("Leg %n", "", qAbs(offset)));
-            }
-        }
-    }
-}
-
-void PDFRankingPrinter::makeRanking(QPainter &painter, QString const &fullDescription, QList<ClassEntry const *> const &ranking, bool multiLeg)
-{
-    uint referenceTime = 0u;
-    QRectF writeRect;
-
-    auto pdfWriter = (QPdfWriter *) painter.device();
-    ChronoRaceData const *raceInfo = getRaceInfo();
-    pdfWriter->setTitle(raceInfo->getEvent() + " - " + tr("Results") + " - " + fullDescription);
-
-    // Split the list into pages
-    QList<QList<ClassEntry const *>> pages = splitIndividualRanking(ranking);
-    int i = 1;
-    int p = 0;
-    auto pp = static_cast<int>(pages.size());
-    for (auto page = pages.constBegin(); page < pages.constEnd(); page++) {
-
-        if (p++) // this is not the first loop, add a new pages
-            pdfWriter->newPage();
-        else if (!page->empty()) // init the reference time
-            referenceTime = page->at(0)->getTotalTime();
-
-        drawTemplatePortrait(painter, tr("%1 Results").arg(fullDescription), p, pp);
-
-        // Prepare fonts
-        rnkFont.setPointSize(7);
-        rnkFontBold.setPointSize(7);
-        painter.setFont(rnkFontBold);
-
-        // Rankings header
-        if (multiLeg)
-            printHeaderMultiLeg(writeRect, painter, p, RankingType::INDIVIDUAL_MULTI);
-        else
-            printHeaderSingleLeg(writeRect, painter, p, RankingType::INDIVIDUAL_SINGLE);
-
-        // Page content
-        writeRect.setTop(toVdots((p == 1) ? 57.0 : 34.0));
-        writeRect.setHeight(toVdots(4.0));
-        if (multiLeg)
-            printPageMultiLeg(writeRect, painter, *page, i, referenceTime);
-        else
-            printPageSingleLeg(writeRect, painter, *page, i, referenceTime);
-    }
-}
-
-void PDFRankingPrinter::makeRanking(QPainter &painter, QString const &fullDescription, QList<TeamClassEntry const *> const &ranking, bool multiLeg)
-{
-    QRectF writeRect;
-
-    auto pdfWriter = (QPdfWriter *) painter.device();
-    ChronoRaceData const *raceInfo = getRaceInfo();
-    pdfWriter->setTitle(raceInfo->getEvent() + " - " + tr("Results") + " - " + fullDescription);
-
-    // Split the list into pages
-    QList<QList<TeamClassEntry const *>> pages = splitTeamRanking(ranking);
-    int i = 1;
-    int p = 0;
-    auto pp = static_cast<int>(pages.size());
-    for (auto page = pages.constBegin(); page < pages.constEnd(); page++) {
-
-        if (p++) // this is not the first loop, add a new pages
-            pdfWriter->newPage();
-
-        drawTemplatePortrait(painter, tr("%1 Results").arg(fullDescription), p, pp);
-
-        // Prepare fonts
-        rnkFont.setPointSize(7);
-        rnkFontBold.setPointSize(7);
-        painter.setFont(rnkFontBold);
-
-        // Rankings header
-        if (multiLeg)
-            printHeaderMultiLeg(writeRect, painter, p, RankingType::TEAM_MULTI);
-        else
-            printHeaderSingleLeg(writeRect, painter, p, RankingType::TEAM_SINGLE);
-
-        // Page content
-        writeRect.setTop(toVdots((p == 1) ? 57.0 : 34.0));
-        writeRect.setHeight(toVdots(4.0));
-        if (multiLeg)
-            printPageMultiLeg(writeRect, painter, *page, i);
-        else
-            printPageSingleLeg(writeRect, painter, *page, i);
-    }
-}
-
-void PDFRankingPrinter::drawTemplatePortrait(QPainter &painter, QString const &fullDescription, int page, int pages)
+void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int page, int pages)
 {
     QRect boundingRect;
     QRectF writeRect;
@@ -1020,7 +1020,7 @@ void PDFRankingPrinter::drawTemplatePortrait(QPainter &painter, QString const &f
     }
 }
 
-//NOSONAR void PDFRankingPrinter::drawTemplateLandscape(QPainter &painter, QString const &fullDescription, int page, int pages)
+//NOSONAR void PDFRankingPrinter::drawTemplateLandscape(QString const &fullDescription, int page, int pages)
 //NOSONAR {
 //NOSONAR     QRect boundingRect;
 //NOSONAR     QRectF writeRect;
@@ -1153,31 +1153,3 @@ void PDFRankingPrinter::drawTemplatePortrait(QPainter &painter, QString const &f
 //NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignCenter, fullDescription.toUpper());
 //NOSONAR     }
 //NOSONAR }
-
-bool PDFRankingPrinter::initPainter(QPainter &painter, QPdfWriter *device)
-{
-    bool retval = false;
-
-    Q_ASSERT(device);
-
-    device->setPdfVersion(QPagedPaintDevice::PdfVersion_A1b);
-    //NOSONAR device->setTitle(raceInfo->getEvent() + " - " + tr("Results") + " - " + fullDescription);
-    device->setPageSize(QPageSize::A4);
-    device->setPageOrientation(QPageLayout::Portrait);
-    device->setPageMargins(QMarginsF(RANKING_LEFT_MARGIN, RANKING_TOP_MARGIN, RANKING_RIGHT_MARGIN, RANKING_BOTTOM_MARGIN), QPageLayout::Millimeter);
-    device->setCreator(LBCHRONORACE_NAME);
-
-    // Set global values to convert from mm to dots
-    this->ratioX = device->logicalDpiX() / 25.4;
-    this->ratioY = device->logicalDpiY() / 25.4;
-    //NOSONAR this->ratioX = device->physicalDpiX() / 25.4;
-    //NOSONAR this->ratioY = device->physicalDpiY() / 25.4;
-    this->areaWidth = device->width();
-    this->areaHeight = device->height();
-
-    if (!(retval = painter.begin(device))) {
-        emit error(tr("Error: cannot start drawing"));
-    }
-
-    return retval;
-}

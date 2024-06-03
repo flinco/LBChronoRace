@@ -15,36 +15,35 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef TXTRANKINGPRINTER_H
-#define TXTRANKINGPRINTER_H
+#ifndef RANKINGSWIZARDFORMAT_H
+#define RANKINGSWIZARDFORMAT_H
 
-#include <QTextStream>
-#include <QFile>
+#include <QWizardPage>
+#include <QFormLayout>
+#include <QComboBox>
 
-#include "rankingprinter.h"
-
-class TXTRankingPrinter final : public RankingPrinter
+class RankingsWizardFormat : public QWizardPage
 {
     Q_OBJECT
-    using RankingPrinter::RankingPrinter;
 
 public:
-    void init(QString *outFileName, QString const &title) override;
+    explicit RankingsWizardFormat(QWidget *parent = Q_NULLPTR);
 
-    void printStartList(QList<Competitor> const &startList) override;
-    void printRanking(Category const &category, QList<ClassEntry const *> const &ranking) override;
-    void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking) override;
-
-    bool finalize() override;
-
-    QString getFileFilter() override;
+    void initializePage() override;
+    int nextId() const override;
 
 private:
-    QTextStream txtStream;
-    QFile txtFile;
+    QFormLayout layout;
 
-    QString &buildOutFileName(QString &outFileBaseName) override;
-    QString &checkOutFileNameExtension(QString &outFileBaseName) override;
+    QComboBox fileFormat;
+    QComboBox fileEncoding;
+
+private slots:
+    void formatChange(int index);
+    void encodingChange(int index) const;
+
+signals:
+    void error(QString const &message);
 };
 
-#endif // TXTRANKINGPRINTER_H
+#endif // RANKINGSWIZARDFORMAT_H

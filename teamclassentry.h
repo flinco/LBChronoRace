@@ -18,7 +18,6 @@
 #ifndef TEAMCLASSENTRY_H
 #define TEAMCLASSENTRY_H
 
-#include <QCoreApplication>
 #include <QVector>
 
 #include "classentry.h"
