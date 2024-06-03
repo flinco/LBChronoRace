@@ -151,6 +151,8 @@ void TXTRankingPrinter::printTxtRanking(QList<ClassEntry const *> const &ranking
     static Position position;
 
     int i = 0;
+    int prevPosNumber = 0;
+    int currPosNumber = 0;
     QString currTime;
     ChronoRaceData const *raceInfo = getRaceInfo();
     outStream << *raceInfo << Qt::endl; // add header
@@ -158,9 +160,13 @@ void TXTRankingPrinter::printTxtRanking(QList<ClassEntry const *> const &ranking
     for (auto const c : ranking) {
         i++;
         currTime = c->getTotalTimeTxt();
+        if ((currPosNumber = position.getCurrentPositionNumber(i, currTime)) == 0)
+            currPosNumber = prevPosNumber;
+        else
+            prevPosNumber = currPosNumber;
         outStream.setFieldWidth(getIndexFieldWidth());
         outStream.setFieldAlignment(QTextStream::AlignRight);
-        outStream << position.getCurrentPositionNumber(i, currTime);
+        outStream << currPosNumber;
         outStream.setFieldWidth(0);
         outStream << " - ";
         outStream.setFieldWidth(getBibFieldWidth());

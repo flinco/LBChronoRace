@@ -128,11 +128,17 @@ void CSVRankingPrinter::printCSVRanking(QList<ClassEntry const *> const &ranking
     static Position position;
 
     int i = 0;
+    int prevPosNumber = 0;
+    int currPosNumber = 0;
     QString currTime;
     for (auto const c : ranking) {
         i++;
         currTime = c->getTotalTimeTxt();
-        outStream << position.getCurrentPositionNumber(i, currTime) << ",";
+        if ((currPosNumber = position.getCurrentPositionNumber(i, currTime)) == 0)
+            currPosNumber = prevPosNumber;
+        else
+            prevPosNumber = currPosNumber;
+        outStream << currPosNumber << ",";
         outStream << c->getBib() << ",";
         outStream << c->getNamesCSV() << ",";
         if (CRLoader::getStartListLegs() > 1)
