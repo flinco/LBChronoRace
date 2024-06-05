@@ -291,6 +291,126 @@
         <source>Images (*.png *.xpm *.jpg *.gif);;All Files (*)</source>
         <translation>Images (*.png *.xpm *.jpg *.gif);;All Files (*)</translation>
     </message>
+    <message>
+        <source>Remove the first sponsor logo (from the bottom of the PDF)</source>
+        <translation>Remove the first sponsor logo (from the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>A small label at the bottom of the rankings</source>
+        <translation>A small label at the bottom of the rankings</translation>
+    </message>
+    <message>
+        <source>The name of the third timekeeper (optional)</source>
+        <translation>The name of the third timekeeper (optional)</translation>
+    </message>
+    <message>
+        <source>Fourth sponsor logo (at the bottom of the PDF)</source>
+        <translation>Fourth sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>The name of the first timekeeper (optional)</source>
+        <translation>The name of the first timekeeper (optional)</translation>
+    </message>
+    <message>
+        <source>The name of the second timekeeper (optional)</source>
+        <translation>The name of the second timekeeper (optional)</translation>
+    </message>
+    <message>
+        <source>The logo in the upper left corner of the PDF</source>
+        <translation>The logo in the upper left corner of the PDF</translation>
+    </message>
+    <message>
+        <source>Add the fourth sponsor logo (at the bottom of the PDF)</source>
+        <translation>Add the fourth sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the fourth sponsor logo (from the bottom of the PDF)</source>
+        <translation>Remove the fourth sponsor logo (from the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>First sponsor logo (at the bottom of the PDF)</source>
+        <translation>First sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Where the event takes place, used as subtitle in the rankings</source>
+        <translation>Where the event takes place, used as subtitle in the rankings</translation>
+    </message>
+    <message>
+        <source>The type of race (important because it affects the calculation of rankings)</source>
+        <translation>The type of race (important because it affects the calculation of rankings)</translation>
+    </message>
+    <message>
+        <source>Add the first sponsor logo (at the bottom of the PDF)</source>
+        <translation>Add the first sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the third sponsor logo (from the bottom of the PDF)</source>
+        <translation>Remove the third sponsor logo (from the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the second sponsor logo (from the bottom of the PDF)</source>
+        <translation>Remove the second sponsor logo (from the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>What time the event starts (important if Race Type is set to &apos;Timed race&apos;)</source>
+        <translation>What time the event starts (important if Race Type is set to &apos;Timed race&apos;)</translation>
+    </message>
+    <message>
+        <source>When the event takes place</source>
+        <translation>When the event takes place</translation>
+    </message>
+    <message>
+        <source>Add the third sponsor logo (at the bottom of the PDF)</source>
+        <translation>Add the third sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Second sponsor logo (at the bottom of the PDF)</source>
+        <translation>Second sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Third sponsor logo (at the bottom of the PDF)</source>
+        <translation>Third sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>The logo in the upper right corner of the PDF</source>
+        <translation>The logo in the upper right corner of the PDF</translation>
+    </message>
+    <message>
+        <source>The name of the race referee (optional)</source>
+        <translation>The name of the race referee (optional)</translation>
+    </message>
+    <message>
+        <source>The event name, used as title in the rankings</source>
+        <translation>The event name, used as title in the rankings</translation>
+    </message>
+    <message>
+        <source>Add the logo in the upper right corner of the PDF</source>
+        <translation>Add the logo in the upper right corner of the PDF</translation>
+    </message>
+    <message>
+        <source>Add the second sponsor logo (at the bottom of the PDF)</source>
+        <translation>Add the second sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Removes the logo from the upper left corner of the PDF</source>
+        <translation>Removes the logo from the upper left corner of the PDF</translation>
+    </message>
+    <message>
+        <source>Add a logo in the upper left corner of the PDF</source>
+        <translation>Add a logo in the upper left corner of the PDF</translation>
+    </message>
+    <message>
+        <source>Removes the logo from the upper right corner of the PDF</source>
+        <translation>Removes the logo from the upper right corner of the PDF</translation>
+    </message>
+    <message>
+        <source>The length of the race (optional)</source>
+        <translation>The length of the race (optional)</translation>
+    </message>
+    <message>
+        <source>The elevation gain of the race course (optional)</source>
+        <translation>The elevation gain of the race course (optional)</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTable</name>
@@ -519,10 +639,6 @@ Continue?</translation>
         <translation>Errors</translation>
     </message>
     <message>
-        <source>Generate start list in the selected format</source>
-        <translation>Generate start list in the selected format</translation>
-    </message>
-    <message>
         <source>Make Start List</source>
         <translation>Make Start List</translation>
     </message>
@@ -533,10 +649,6 @@ Continue?</translation>
     <message>
         <source>Collect Timings</source>
         <translation>Collect Timings</translation>
-    </message>
-    <message>
-        <source>Generate results in the selected format</source>
-        <translation>Generate results in the selected format</translation>
     </message>
     <message>
         <source>Make Results</source>
@@ -595,10 +707,6 @@ Continue?</translation>
         <translation>Te&amp;ams</translation>
     </message>
     <message>
-        <source>Edit Teams</source>
-        <translation>Edit Teams</translation>
-    </message>
-    <message>
         <source>About LBChronoRace</source>
         <translation>About LBChronoRace</translation>
     </message>
@@ -613,10 +721,6 @@ Continue?</translation>
     <message>
         <source>&amp;Race</source>
         <translation>&amp;Race</translation>
-    </message>
-    <message>
-        <source>Edit Race</source>
-        <translation>Edit Race</translation>
     </message>
     <message>
         <source>Save as</source>
@@ -757,6 +861,58 @@ Continue?</translation>
     <message>
         <source>Selected format: %1</source>
         <translation>Selected format: %1</translation>
+    </message>
+    <message>
+        <source>Edit race information, including logos</source>
+        <translation>Edit race information, including logos</translation>
+    </message>
+    <message>
+        <source>See the list of the teams (that cannot be changed)</source>
+        <translation>See the list of the teams (that cannot be changed)</translation>
+    </message>
+    <message>
+        <source>Add, remove, and change the race timings</source>
+        <translation>Add, remove, and change the race timings</translation>
+    </message>
+    <message>
+        <source>Add, remove, and change the definition of the categories</source>
+        <translation>Add, remove, and change the definition of the categories</translation>
+    </message>
+    <message>
+        <source>Add, remove, and change competitors</source>
+        <translation>Add, remove, and change competitors</translation>
+    </message>
+    <message>
+        <source>General information messages generated by the application</source>
+        <translation>General information messages generated by the application</translation>
+    </message>
+    <message>
+        <source>Error messages generated by the application</source>
+        <translation>Error messages generated by the application</translation>
+    </message>
+    <message>
+        <source>Tools</source>
+        <translation>Tools</translation>
+    </message>
+    <message>
+        <source>Generate start list</source>
+        <translation>Generate start list</translation>
+    </message>
+    <message>
+        <source>Generate results</source>
+        <translation>Generate results</translation>
+    </message>
+    <message>
+        <source>Load race data from a file</source>
+        <translation>Load race data from a file</translation>
+    </message>
+    <message>
+        <source>Save current race data to file</source>
+        <translation>Save current race data to file</translation>
+    </message>
+    <message>
+        <source>Save current race data to a new file</source>
+        <translation>Save current race data to a new file</translation>
     </message>
 </context>
 <context>

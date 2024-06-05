@@ -291,6 +291,126 @@
         <source>Images (*.png *.xpm *.jpg *.gif);;All Files (*)</source>
         <translation>Immagini (*.png *.xpm *.jpg *.gif);;Tutti i file (*)</translation>
     </message>
+    <message>
+        <source>Remove the first sponsor logo (from the bottom of the PDF)</source>
+        <translation>Elimina il logo del primo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>A small label at the bottom of the rankings</source>
+        <translation>Piccola etichetta in fondo alle classifiche</translation>
+    </message>
+    <message>
+        <source>The name of the third timekeeper (optional)</source>
+        <translation>Il nome del terzo cronometrista (opzionale)</translation>
+    </message>
+    <message>
+        <source>Fourth sponsor logo (at the bottom of the PDF)</source>
+        <translation>Il logo del quarto sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>The name of the first timekeeper (optional)</source>
+        <translation>Il nome del primo cronometrista (opzionale)</translation>
+    </message>
+    <message>
+        <source>The name of the second timekeeper (optional)</source>
+        <translation>Il nome del secondo cronometrista (opzionale)</translation>
+    </message>
+    <message>
+        <source>The logo in the upper left corner of the PDF</source>
+        <translation>Il logo nell&apos;angolo superiore sinistro del PDF</translation>
+    </message>
+    <message>
+        <source>Add the fourth sponsor logo (at the bottom of the PDF)</source>
+        <translation>Aggiunge il logo del quarto sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the fourth sponsor logo (from the bottom of the PDF)</source>
+        <translation>Elimina il logo del quarto sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>First sponsor logo (at the bottom of the PDF)</source>
+        <translation>Il logo del primo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Where the event takes place, used as subtitle in the rankings</source>
+        <translation>Il luogo in cui si svolge l&apos;evento, utilizzato come sottotitolo nelle classifiche</translation>
+    </message>
+    <message>
+        <source>The type of race (important because it affects the calculation of rankings)</source>
+        <translation>Il tipo di gara (importante perché determina come saranno calcolate le classifiche)</translation>
+    </message>
+    <message>
+        <source>Add the first sponsor logo (at the bottom of the PDF)</source>
+        <translation>Aggiunge il logo del primo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the third sponsor logo (from the bottom of the PDF)</source>
+        <translation>Elimina il logo del terzo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the second sponsor logo (from the bottom of the PDF)</source>
+        <translation>Elimina il logo del secondo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>What time the event starts (important if Race Type is set to &apos;Timed race&apos;)</source>
+        <translation>A che ora inizia l&apos;evento (importante se il Tipo gara è impostato su &apos;A cronometro&apos;)</translation>
+    </message>
+    <message>
+        <source>When the event takes place</source>
+        <translation>Quando si svolge l&apos;evento</translation>
+    </message>
+    <message>
+        <source>Add the third sponsor logo (at the bottom of the PDF)</source>
+        <translation>Aggiunge il logo del terzo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Second sponsor logo (at the bottom of the PDF)</source>
+        <translation>Il logo del secondo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Third sponsor logo (at the bottom of the PDF)</source>
+        <translation>Il logo del terzo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>The logo in the upper right corner of the PDF</source>
+        <translation>Il logo nell&apos;angolo superiore destro del PDF</translation>
+    </message>
+    <message>
+        <source>The name of the race referee (optional)</source>
+        <translation>Il nome del giudice di gara (opzionale)</translation>
+    </message>
+    <message>
+        <source>The event name, used as title in the rankings</source>
+        <translation>Il nome dell&apos;evento, usato come titolo nelle classifiche</translation>
+    </message>
+    <message>
+        <source>Add the logo in the upper right corner of the PDF</source>
+        <translation>Aggiunge il logo nell&apos;angolo superiore destro del PDF</translation>
+    </message>
+    <message>
+        <source>Add the second sponsor logo (at the bottom of the PDF)</source>
+        <translation>Aggiunge il logo del secondo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Removes the logo from the upper left corner of the PDF</source>
+        <translation>Elimina il logo dall&apos;angolo superiore sinistro del PDF</translation>
+    </message>
+    <message>
+        <source>Add a logo in the upper left corner of the PDF</source>
+        <translation>Aggiunge il logo nell&apos;angolo superiore sinistro del PDF</translation>
+    </message>
+    <message>
+        <source>Removes the logo from the upper right corner of the PDF</source>
+        <translation>Elimina il logo dall&apos;angolo superiore destro del PDF</translation>
+    </message>
+    <message>
+        <source>The length of the race (optional)</source>
+        <translation>La lunghezza della gara (opzionale)</translation>
+    </message>
+    <message>
+        <source>The elevation gain of the race course (optional)</source>
+        <translation>Il dislivello del percorso di gara (opzionale)</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTable</name>
@@ -519,10 +639,6 @@ Continuare?</translation>
         <translation>Errori</translation>
     </message>
     <message>
-        <source>Generate start list in the selected format</source>
-        <translation>Genera l&apos;ordine di partenza nel formato selezionato</translation>
-    </message>
-    <message>
         <source>Make Start List</source>
         <translation>Genera Ordine di Partenza</translation>
     </message>
@@ -533,10 +649,6 @@ Continuare?</translation>
     <message>
         <source>Collect Timings</source>
         <translation>Registra Tempi</translation>
-    </message>
-    <message>
-        <source>Generate results in the selected format</source>
-        <translation>Genera le classifiche nel formato selezionato</translation>
     </message>
     <message>
         <source>Make Results</source>
@@ -595,10 +707,6 @@ Continuare?</translation>
         <translation>Squ&amp;adre</translation>
     </message>
     <message>
-        <source>Edit Teams</source>
-        <translation>Modifica Squadre</translation>
-    </message>
-    <message>
         <source>About LBChronoRace</source>
         <translation>Informazioni su LBChronoRace</translation>
     </message>
@@ -613,10 +721,6 @@ Continuare?</translation>
     <message>
         <source>&amp;Race</source>
         <translation>Ga&amp;ra</translation>
-    </message>
-    <message>
-        <source>Edit Race</source>
-        <translation>Modifica Gara</translation>
     </message>
     <message>
         <source>Save as</source>
@@ -757,6 +861,58 @@ Continuare?</translation>
     <message>
         <source>Selected format: %1</source>
         <translation>Formato selezionato: %1</translation>
+    </message>
+    <message>
+        <source>Edit race information, including logos</source>
+        <translation>Modifica le informazioni sulla gara, compresi i loghi</translation>
+    </message>
+    <message>
+        <source>See the list of the teams (that cannot be changed)</source>
+        <translation>Visualizza l&apos;elenco delle squadre (che non può essere modificato)</translation>
+    </message>
+    <message>
+        <source>Add, remove, and change the race timings</source>
+        <translation>Aggiunge, rimuove e modifica i tempi di gara</translation>
+    </message>
+    <message>
+        <source>Add, remove, and change the definition of the categories</source>
+        <translation>Aggiunge, rimuove e modifica la definizione delle categorie</translation>
+    </message>
+    <message>
+        <source>Add, remove, and change competitors</source>
+        <translation>Aggiunge, rimuove e modifica i concorrenti</translation>
+    </message>
+    <message>
+        <source>General information messages generated by the application</source>
+        <translation>Messaggi informativi generici generati dall&apos;applicazione</translation>
+    </message>
+    <message>
+        <source>Error messages generated by the application</source>
+        <translation>Messaggi di errore generati dall&apos;applicazione</translation>
+    </message>
+    <message>
+        <source>Tools</source>
+        <translation>Strumenti</translation>
+    </message>
+    <message>
+        <source>Generate start list</source>
+        <translation>Genera l&apos;ordine di partenza</translation>
+    </message>
+    <message>
+        <source>Generate results</source>
+        <translation>Genera le classifiche</translation>
+    </message>
+    <message>
+        <source>Load race data from a file</source>
+        <translation>Carica i dati di gara da un file</translation>
+    </message>
+    <message>
+        <source>Save current race data to file</source>
+        <translation>Salva i dati di gara in un file</translation>
+    </message>
+    <message>
+        <source>Save current race data to a new file</source>
+        <translation>Salva i dati di gara in un nuovo file</translation>
     </message>
 </context>
 <context>

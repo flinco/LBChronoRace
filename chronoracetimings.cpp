@@ -73,9 +73,9 @@ ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent) {
     QObject::connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &ChronoRaceTimings::accept);
     QObject::connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &ChronoRaceTimings::reject);
 
-    QObject::connect(ui->startButton, &QPushButton::clicked, this, &ChronoRaceTimings::start);
-    QObject::connect(ui->stopButton,  &QPushButton::clicked, this, &ChronoRaceTimings::stop );
-    QObject::connect(ui->resetButton, &QPushButton::clicked, this, &ChronoRaceTimings::reset);
+    QObject::connect(ui->startButton, &QToolButton::clicked, this, &ChronoRaceTimings::start);
+    QObject::connect(ui->stopButton,  &QToolButton::clicked, this, &ChronoRaceTimings::stop );
+    QObject::connect(ui->resetButton, &QToolButton::clicked, this, &ChronoRaceTimings::reset);
 
     QObject::connect(ui->lockBox, &QCheckBox::clicked, this, &ChronoRaceTimings::lock);
 
@@ -288,7 +288,7 @@ void ChronoRaceTimings::start()
     ui->stopButton->setEnabled(true);
     ui->resetButton->setEnabled(false);
     ui->buttonBox->setEnabled(false);
-    this->setWindowFlags(this->windowFlags() & ~Qt::WindowCloseButtonHint);
+    this->setWindowFlag(Qt::WindowCloseButtonHint, false);
     this->show();
 }
 
@@ -310,7 +310,7 @@ void ChronoRaceTimings::stop()
     ui->stopButton->setEnabled(false);
     ui->resetButton->setEnabled(true);
     ui->buttonBox->setEnabled(true);
-    this->setWindowFlags(this->windowFlags() | Qt::WindowCloseButtonHint);
+    this->setWindowFlag(Qt::WindowCloseButtonHint, true);
     this->show();
 }
 
@@ -334,22 +334,20 @@ void ChronoRaceTimings::reset()
 
 void ChronoRaceTimings::lock(bool checked)
 {
-    Qt::WindowFlags flags = this->windowFlags();
-
     if (checked) {
         ui->startButton->setEnabled(false);
         ui->stopButton->setEnabled(false);
         ui->resetButton->setEnabled(false);
         ui->buttonBox->setEnabled(false);
-        flags &= ~Qt::WindowCloseButtonHint;
+        ui->lockBox->setIcon(QIcon(":/material/icons/lock.svg"));
+
     } else {
         ui->startButton->setEnabled(updateTimerId == 0);
         ui->stopButton->setEnabled(updateTimerId != 0);
         ui->resetButton->setEnabled(updateTimerId == 0);
         ui->buttonBox->setEnabled(true);
-        flags |= Qt::WindowCloseButtonHint;
+        ui->lockBox->setIcon(QIcon(":/material/icons/lock_open.svg"));
     }
-
-    this->setWindowFlags(flags);
+    this->setWindowFlag(Qt::WindowCloseButtonHint, !checked);
     this->show();
 }

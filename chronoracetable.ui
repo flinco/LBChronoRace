@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <author>Lorenzo Buzzi</author>
- <comment/>
- <exportmacro/>
  <class>ChronoRaceTable</class>
  <widget class="QDialog" name="ChronoRaceTable">
   <property name="enabled">
@@ -26,7 +24,7 @@
    <string notr="true">Dialog</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="icons.qrc">
+   <iconset>
     <normaloff>:/LBChronoRace.ico</normaloff>:/LBChronoRace.ico</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -50,6 +48,10 @@
        <property name="text">
         <string>Add Row</string>
        </property>
+       <property name="icon">
+        <iconset resource="materialicons.qrc">
+         <normaloff>:/material/icons/playlist_add.svg</normaloff>:/material/icons/playlist_add.svg</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -59,6 +61,10 @@
        </property>
        <property name="text">
         <string>Delete Row</string>
+       </property>
+       <property name="icon">
+        <iconset resource="materialicons.qrc">
+         <normaloff>:/material/icons/playlist_remove.svg</normaloff>:/material/icons/playlist_remove.svg</iconset>
        </property>
       </widget>
      </item>
@@ -70,6 +76,10 @@
        <property name="text">
         <string>Import</string>
        </property>
+       <property name="icon">
+        <iconset resource="materialicons.qrc">
+         <normaloff>:/material/icons/download.svg</normaloff>:/material/icons/download.svg</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -79,6 +89,10 @@
        </property>
        <property name="text">
         <string>Export</string>
+       </property>
+       <property name="icon">
+        <iconset resource="materialicons.qrc">
+         <normaloff>:/material/icons/upload.svg</normaloff>:/material/icons/upload.svg</iconset>
        </property>
       </widget>
      </item>
@@ -90,6 +104,10 @@
        <property name="text">
         <string>Quit</string>
        </property>
+       <property name="icon">
+        <iconset resource="materialicons.qrc">
+         <normaloff>:/material/icons/exit_to_app.svg</normaloff>:/material/icons/exit_to_app.svg</iconset>
+       </property>
       </widget>
      </item>
     </layout>
@@ -97,8 +115,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="icons.qrc"/>
-  <include location="icons.qrc"/>
+  <include location="materialicons.qrc"/>
  </resources>
  <connections/>
 </ui>

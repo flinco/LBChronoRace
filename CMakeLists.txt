@@ -121,11 +121,24 @@ set(FONT_FILES
     fonts/LiberationSans-BoldItalic.ttf)
 qt_add_big_resources(PROJECT_FONTS fonts-mono.qrc fonts-sans.qrc fonts-serif.qrc)
 
-# Icons (as big resources)
+# Have fonts-mono.qrc, fonts-sans.qrc, and fonts-serif.qrc treated as a source file by Qt Creator
+list(APPEND PROJECT_SOURCES fonts-mono.qrc fonts-sans.qrc fonts-serif.qrc)
+set_property(SOURCE fonts-mono.qrc PROPERTY SKIP_AUTORCC ON)
+set_property(SOURCE fonts-sans.qrc PROPERTY SKIP_AUTORCC ON)
+set_property(SOURCE fonts-serif.qrc PROPERTY SKIP_AUTORCC ON)
+
+# Icons (as big resource)
 set(ICON_FILES
     icons/LBChronoRace.ico
     icons/LBChronoRaceCRD.ico)
 qt_add_big_resources(PROJECT_ICONS icons.qrc)
+
+# Have icons.qrc treated as a source file by Qt Creator
+list(APPEND PROJECT_SOURCES icons.qrc)
+set_property(SOURCE icons.qrc PROPERTY SKIP_AUTORCC ON)
+
+# Google Material Icons (as standard resource)
+list(APPEND PROJECT_SOURCES materialicons.qrc)
 
 if(WIN32)
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.rc")
