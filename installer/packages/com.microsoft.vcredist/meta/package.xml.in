@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>Microsoft Visual C++ 2022 Redistributable (x64)</DisplayName>
+    <Description>Microsoft Visual C++ 2022 64-bit redistributable installation package</Description>
+    <Version>14.40.33810.0</Version>
+    <ReleaseDate>2024-05-27</ReleaseDate>
+    <Virtual>true</Virtual>
+    <ForcedInstallation>true</ForcedInstallation>
+    <Operations>
+        <Operation name="Execute">
+            <Argument>{0,1602,1638,3010,5100}</Argument>
+            <Argument>@at@TargetDir@at@\vc_redist.x64.exe</Argument>
+            <Argument>/quiet</Argument>
+            <Argument>/norestart</Argument>
+            <!-- Return value 1602 means that the installation of Redistributable Package is cancelled -->
+            <!-- Return value 1638 means that another version of the Redistributable Package is already installed -->
+            <!-- Return value 3010 means it need a reboot, but in most cases it is not needed for running Qt application -->
+            <!-- Return value 5100 means there's a newer version of the runtime already installed -->
+            <Argument>UNDOEXECUTE</Argument>
+        </Operation>
+        <Operation name="Delete">
+            <Argument>@at@TargetDir@at@\vc_redist.x64.exe</Argument>
+            <Argument>UNDOOPERATION</Argument>
+        </Operation>
+    </Operations>
+</Package>
