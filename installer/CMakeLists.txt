@@ -182,5 +182,5 @@ add_custom_command(TARGET "${CMAKE_PROJECT_NAME}Installer" POST_BUILD
         env ${QTIFW_BINARYCREATOR_EXECUTABLE}
         -c "config/config.xml"
         -p "packages"
-        -v "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer-${PROJECT_VERSION}${CMAKE_EXECUTABLE_SUFFIX}"
+        -v "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer-${PROJECT_VERSION}u${PROJECT_UPDATE}${CMAKE_EXECUTABLE_SUFFIX}"
     COMMENT "Crearting ${CMAKE_PROJECT_NAME} installer")

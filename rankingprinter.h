@@ -36,9 +36,15 @@ public:
 
     static QScopedPointer<RankingPrinter> getRankingPrinter(CRLoader::Format format, uint indexFieldWidth, uint bibFieldWidth);
 
-    virtual void printStartList(QList<Competitor> const &startList, QWidget *parent, QDir &lastSelectedPath) = 0;
-    virtual void printRanking(Category const &category, QList<ClassEntry const *> const &ranking, QString &outFileBaseName) = 0;
-    virtual void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking, QString &outFileBaseName) = 0;
+    virtual void init(QString *outFileName, QString const &title) = 0;
+
+    virtual void printStartList(QList<Competitor> const &startList) = 0;
+    virtual void printRanking(Category const &category, QList<ClassEntry const *> const &ranking) = 0;
+    virtual void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking) = 0;
+
+    virtual bool finalize() = 0;
+
+    virtual QString getFileFilter() = 0;
 
     uint getIndexFieldWidth() const;
     uint getBibFieldWidth() const;

@@ -157,8 +157,8 @@ QList<TeamClassEntry const *> &RankingsBuilder::fillRanking(QList<TeamClassEntry
 {
     Q_ASSERT(category.isTeam());
 
-    // reset previous data (if any)
-    rankingByTeam.clear();
+    rankingsByTeam.emplaceBack();
+    auto &rankingByTeam = rankingsByTeam.last();
 
     for (auto classEntry : rankingByTime) {
 
@@ -203,11 +203,11 @@ QList<TeamClassEntry const *> &RankingsBuilder::fillRanking(QList<TeamClassEntry
     // sort the team rankings
     QList<TeamClassEntry *> sortedTeamRanking;
     QList<TeamClassEntry *>::const_iterator t;
-    for (auto teamClassEntry = rankingByTeam.begin(); teamClassEntry != rankingByTeam.end(); teamClassEntry++) {
+    for (auto &teamClassEntry : rankingByTeam) {
         t = sortedTeamRanking.constBegin();
-        while ((t != sortedTeamRanking.constEnd()) && (*(*t) < teamClassEntry.value()))
+        while ((t != sortedTeamRanking.constEnd()) && (*(*t) < teamClassEntry))
             ++t;
-        sortedTeamRanking.insert(t, &teamClassEntry.value());
+        sortedTeamRanking.insert(t, &teamClassEntry);
     }
 
     // copy and return the team rankings

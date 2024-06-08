@@ -18,7 +18,6 @@
 #ifndef CHRONORACELOGO_H
 #define CHRONORACELOGO_H
 
-#include <QCoreApplication>
 #include <QPixmap>
 #include <QLabel>
 

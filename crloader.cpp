@@ -15,12 +15,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include <QSet>
 #include <QFile>
 #include <QTextStream>
-#include <QStringEncoder>
 #include <QRegularExpression>
-#include <QPushButton>
 
 #include "crloader.h"
 #include "lbcrexception.h"
@@ -31,7 +28,7 @@ TeamsListModel              CRLoader::teamsListModel;
 TimingsModel                CRLoader::timingsModel;
 CategoriesModel             CRLoader::categoriesModel;
 QList<QVariant>             CRLoader::standardItemList;
-CRLoader::Encoding          CRLoader::encoding              = CRLoader::Encoding::LATIN1;
+CRLoader::Encoding          CRLoader::encoding              = CRLoader::Encoding::UTF8;
 CRLoader::Format            CRLoader::format                = CRLoader::Format::PDF;
 
 CRTableModel *CRLoader::getStartListModel()
@@ -64,6 +61,18 @@ void CRLoader::setEncoding(Encoding const &value)
     encoding = value;
 }
 
+QString CRLoader::encodingToLabel(Encoding const &value)
+{
+    switch (value) {
+    case CRLoader::Encoding::UTF8:
+        return tr("UTF-8");
+    case CRLoader::Encoding::LATIN1:
+        return tr("ISO-8859-1 (Latin-1)");
+    default:
+        return tr("Unknown encoding %1").arg(static_cast<int>(value));
+    }
+}
+
 CRLoader::Format CRLoader::getFormat()
 {
     return format;
@@ -72,6 +81,20 @@ CRLoader::Format CRLoader::getFormat()
 void CRLoader::setFormat(Format const &value)
 {
     format = value;
+}
+
+QString CRLoader::formatToLabel(Format const &value)
+{
+    switch (value) {
+    case CRLoader::Format::PDF:
+        return tr("PDF");
+    case CRLoader::Format::TEXT:
+        return tr("Text");
+    case CRLoader::Format::CSV:
+        return tr("CSV");
+    default:
+        return tr("Unknown format %1").arg(static_cast<int>(value));
+    }
 }
 
 void CRLoader::loadCSV(QString const &filePath, QAbstractTableModel *model)

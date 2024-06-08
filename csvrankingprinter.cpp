@@ -15,149 +15,142 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include <QTextStream>
-#include <QFile>
-#include <QFileInfo>
-#include <QFileDialog>
+#include <QIODevice>
 
 #include "csvrankingprinter.h"
-#include "chronoracedata.h"
 #include "lbcrexception.h"
 
-void CSVRankingPrinter::printStartList(QList<Competitor> const &startList, QWidget *parent, QDir &lastSelectedPath)
+void CSVRankingPrinter::init(QString *outFileName, [[maybe_unused]] QString const &title)
 {
-    QString cvsFileName = QFileDialog::getSaveFileName(parent, tr("Select Start List File"),
-        lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
+    Q_ASSERT(!csvFile.isOpen());
 
-    //NOSONAR qDebug("Path: %s", qUtf8Printable(outFileName));
-    if (!cvsFileName.isEmpty()) {
+    if (outFileName == Q_NULLPTR) {
+        throw(ChronoRaceException(tr("Error: no file name supplied")));
+    }
 
-        // append the .csv extension if missing
-        checkOutFileNameExtension(cvsFileName);
+    // append the .csv extension if missing
+    checkOutFileNameExtension(*outFileName);
 
-        QFile outFile(cvsFileName);
-        if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            throw(ChronoRaceException(tr("Error: cannot open %1").arg(cvsFileName)));
+    csvFile.setFileName(*outFileName);
+    if (!csvFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        throw(ChronoRaceException(tr("Error: cannot open %1").arg(*outFileName)));
+    }
+    csvStream.setDevice(&csvFile);
+
+    switch (CRLoader::getEncoding()) {
+    case CRLoader::Encoding::UTF8:
+        csvStream.setEncoding(QStringConverter::Utf8);
+        break;
+    case CRLoader::Encoding::LATIN1:
+        csvStream.setEncoding(QStringConverter::Latin1);
+        break;
+    default:
+        Q_UNREACHABLE();
+        break;
+    }
+}
+
+void CSVRankingPrinter::printStartList(QList<Competitor> const &startList)
+{
+    if (!csvFile.isOpen()) {
+        throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
+    }
+
+    int offset;
+    int i = 0;
+    QTime startTime = getRaceInfo()->getStartTime();
+    for (auto const &competitor : startList) {
+        i++;
+        csvStream << i << ",";
+        csvStream << competitor.getBib() << ",";
+        csvStream << competitor.getName() << ",";
+        csvStream << competitor.getTeam() << ",";
+        csvStream << competitor.getYear() << ",";
+        csvStream << Competitor::toSexString(competitor.getSex()) << ",";
+        offset = competitor.getOffset();
+        if (offset >= 0) {
+            offset += (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
+            csvStream << Competitor::toOffsetString(offset);
+        } else if (CRLoader::getStartListLegs() == 1) {
+            offset = (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
+            csvStream << Competitor::toOffsetString(offset);
+        } else {
+            csvStream << qAbs(offset);
         }
-        QTextStream outStream(&outFile);
-
-        if (CRLoader::getEncoding() == CRLoader::Encoding::UTF8)
-            outStream.setEncoding(QStringConverter::Utf8);
-        else //NOSONAR if (CRLoader::getEncoding() == CRLoader::Encoding::LATIN1)
-            outStream.setEncoding(QStringConverter::Latin1);
-
-        int offset;
-        int i = 0;
-        QTime startTime = getRaceInfo()->getStartTime();
-        for (auto const &competitor : startList) {
-            i++;
-            outStream << i << ",";
-            outStream << competitor.getBib() << ",";
-            outStream << competitor.getName() << ",";
-            outStream << competitor.getTeam() << ",";
-            outStream << competitor.getYear() << ",";
-            outStream << Competitor::toSexString(competitor.getSex()) << ",";
-            offset = competitor.getOffset();
-            if (offset >= 0) {
-                offset += (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
-                outStream << Competitor::toOffsetString(offset);
-            } else {
-                outStream << qAbs(offset);
-            }
-            outStream << Qt::endl;
-        }
-        outStream << Qt::endl;
-
-        QFileInfo outFileInfo(cvsFileName);
-        emit info(tr("Generated Start List: %1").arg(QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
-        lastSelectedPath = outFileInfo.absoluteDir();
-
-        outStream.flush();
-        outFile.close();
+        csvStream << Qt::endl;
     }
+    csvStream << Qt::endl;
 }
 
-void CSVRankingPrinter::printRanking(const Category &category, QList<ClassEntry const *> const &ranking, QString &outFileBaseName)
-{
-    QString const &individualRankingFileName = buildOutFileName(outFileBaseName);
-    QFile outFile(individualRankingFileName);
-    if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        throw(ChronoRaceException(tr("Error: cannot open %1").arg(individualRankingFileName)));
-    }
-    QTextStream outStream(&outFile);
-
-    if (CRLoader::getEncoding() == CRLoader::Encoding::UTF8)
-        outStream.setEncoding(QStringConverter::Utf8);
-    else //NOSONAR if (CRLoader::getEncoding() == CRLoader::Encoding::LATIN1)
-        outStream.setEncoding(QStringConverter::Latin1);
-
-    printCSVRanking(ranking, outStream);
-
-    QFileInfo outFileInfo(outFile);
-    emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
-
-    outStream.flush();
-    outFile.close();
-}
-
-void CSVRankingPrinter::printRanking(const Category &category, QList<TeamClassEntry const *> const &ranking, QString &outFileBaseName)
-{
-    QString const &teamRankingFileName = buildOutFileName(outFileBaseName);
-    QFile outFile(teamRankingFileName);
-    if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        throw(ChronoRaceException(tr("Error: cannot open %1").arg(teamRankingFileName)));
-    }
-    QTextStream outStream(&outFile);
-
-    if (CRLoader::getEncoding() == CRLoader::Encoding::UTF8)
-        outStream.setEncoding(QStringConverter::Utf8);
-    else //NOSONAR if (CRLoader::getEncoding() == CRLoader::Encoding::LATIN1)
-        outStream.setEncoding(QStringConverter::Latin1);
-
-    printCSVTeamRanking(ranking, category.getShortDescription(), outStream);
-
-    QFileInfo outFileInfo(outFile);
-    emit info(tr("Generated Results '%1': %2").arg(category.getFullDescription(), QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
-
-    outStream.flush();
-    outFile.close();
-}
-
-void CSVRankingPrinter::printCSVRanking(QList<ClassEntry const *> const &ranking, QTextStream &outStream) const
+void CSVRankingPrinter::printRanking(const Category &category, QList<ClassEntry const *> const &ranking)
 {
     static Position position;
 
+    if (!csvFile.isOpen()) {
+        throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
+    }
+
     int i = 0;
+    int prevPosNumber = 0;
+    int currPosNumber = 0;
     QString currTime;
+    csvStream << category.getShortDescription() << Qt::endl;
     for (auto const c : ranking) {
         i++;
         currTime = c->getTotalTimeTxt();
-        outStream << position.getCurrentPositionNumber(i, currTime) << ",";
-        outStream << c->getBib() << ",";
-        outStream << c->getNamesCSV() << ",";
+        if ((currPosNumber = position.getCurrentPositionNumber(i, currTime)) == 0)
+            currPosNumber = prevPosNumber;
+        else
+            prevPosNumber = currPosNumber;
+        csvStream << currPosNumber << ",";
+        csvStream << c->getBib() << ",";
+        csvStream << c->getNamesCSV() << ",";
         if (CRLoader::getStartListLegs() > 1)
-            outStream << c->getTimesCSV() << ",";
-        outStream << currTime << Qt::endl;
+            csvStream << c->getTimesCSV() << ",";
+        csvStream << currTime << Qt::endl;
     }
-    outStream << Qt::endl;
+    csvStream << Qt::endl;
 }
 
-void CSVRankingPrinter::printCSVTeamRanking(QList<TeamClassEntry const *> const &ranking, QString const &description, QTextStream &outStream) const
+void CSVRankingPrinter::printRanking(const Category &category, QList<TeamClassEntry const *> const &ranking)
 {
+    if (!csvFile.isOpen()) {
+        throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
+    }
+
     int i = 0;
-    outStream << description << Qt::endl;
+    csvStream << category.getShortDescription() << Qt::endl;
     for (auto const r : ranking) {
         i++;
         for (int j = 0; j < r->getClassEntryCount(); j++) {
-            outStream << i << ",";
-            outStream << r->getClassEntry(j)->getBib() << ",";
-            outStream << r->getClassEntry(j)->getNamesCSV() << ",";
+            csvStream << i << ",";
+            csvStream << r->getClassEntry(j)->getBib() << ",";
+            csvStream << r->getClassEntry(j)->getNamesCSV() << ",";
             if (CRLoader::getStartListLegs() > 1)
-                outStream << r->getClassEntry(j)->getTimesCSV() << ",";
-            outStream << r->getClassEntry(j)->getTotalTimeCSV() << Qt::endl;
+                csvStream << r->getClassEntry(j)->getTimesCSV() << ",";
+            csvStream << r->getClassEntry(j)->getTotalTimeCSV() << Qt::endl;
         }
     }
-    outStream << Qt::endl;
+    csvStream << Qt::endl;
+}
+
+bool CSVRankingPrinter::finalize()
+{
+    bool result = true;
+
+    if (QIODevice *device = csvStream.device(); device != Q_NULLPTR) {
+        csvStream.flush();
+        device->close();
+    } else {
+        result = false;
+    }
+
+    return result;
+}
+
+QString CSVRankingPrinter::getFileFilter()
+{
+    return tr("CSV (*.csv)");
 }
 
 QString &CSVRankingPrinter::buildOutFileName(QString &outFileBaseName)

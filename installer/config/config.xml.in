@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
     <Name>LBChronoRace</Name>
-    <Version>@PROJECT_VERSION@</Version>
+    <Version>@PROJECT_VERSION@.@PROJECT_UPDATE@</Version>
     <Title>LBChronoRace</Title>
     <Publisher>Lorenzo Buzzi</Publisher>
     <ProductUrl>http://github.com/flinco/LBChronoRace</ProductUrl>
@@ -23,20 +23,7 @@
         </ProductImage>
     </ProductImages>
     <RunProgram>@at@TargetDir@at@/LBChronoRace</RunProgram>
-    <!--<RunProgramArguments>
-        <Argument>Argument 1</Argument>
-        <Argument>Argument 2</Argument>
-    </RunProgramArguments>-->
-    <!--<RunProgramDescription>My nice application</RunProgramDescription>-->
     <StartMenuDir>LBChronoRace</StartMenuDir>
-    <!--<MaintenanceToolName>SDKMaintenanceTool</MaintenanceToolName>-->
-    <!--<AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>-->
     <TargetDir>@at@ApplicationsDirX64@at@/LBChronoRace</TargetDir>
-    <!--<AdminTargetDir>@at@RootDir@at@/testinstall</AdminTargetDir>-->
-    <!--<RemoteRepositories>
-        <Repository>
-            <Url>http://www.your-repo-location/packages/</Url>
-        </Repository>
-    </RemoteRepositories>-->
     <InstallActionColumnVisible>true</InstallActionColumnVisible>
 </Installer>

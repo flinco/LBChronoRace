@@ -15,28 +15,52 @@
         <source>Wrong number of elements in CSV row; expected %1 - found %2</source>
         <translation>Wrong number of elements in CSV row; expected %1 - found %2</translation>
     </message>
+    <message>
+        <source>UTF-8</source>
+        <translation>UTF-8</translation>
+    </message>
+    <message>
+        <source>ISO-8859-1 (Latin-1)</source>
+        <translation>ISO-8859-1 (Latin-1)</translation>
+    </message>
+    <message>
+        <source>PDF</source>
+        <translation>PDF</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation>Text</translation>
+    </message>
+    <message>
+        <source>CSV</source>
+        <translation>CSV</translation>
+    </message>
+    <message>
+        <source>Unknown encoding %1</source>
+        <translation>Unknown encoding %1</translation>
+    </message>
+    <message>
+        <source>Unknown format %1</source>
+        <translation>Unknown format %1</translation>
+    </message>
 </context>
 <context>
     <name>CSVRankingPrinter</name>
     <message>
-        <source>Select Start List File</source>
-        <translation>Select Start List File</translation>
-    </message>
-    <message>
         <source>CSV (*.csv)</source>
         <translation>CSV (*.csv)</translation>
-    </message>
-    <message>
-        <source>Generated Start List: %1</source>
-        <translation>Generated Start List: %1</translation>
     </message>
     <message>
         <source>Error: cannot open %1</source>
         <translation>Error: cannot open %1</translation>
     </message>
     <message>
-        <source>Generated Results &apos;%1&apos;: %2</source>
-        <translation>Generated Results &apos;%1&apos;: %2</translation>
+        <source>Error: no file name supplied</source>
+        <translation>Error: no file name supplied</translation>
+    </message>
+    <message>
+        <source>Error: writing attempt on closed file</source>
+        <translation>Error: writing attempt on closed file</translation>
     </message>
 </context>
 <context>
@@ -267,6 +291,126 @@
         <source>Images (*.png *.xpm *.jpg *.gif);;All Files (*)</source>
         <translation>Images (*.png *.xpm *.jpg *.gif);;All Files (*)</translation>
     </message>
+    <message>
+        <source>Remove the first sponsor logo (from the bottom of the PDF)</source>
+        <translation>Remove the first sponsor logo (from the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>A small label at the bottom of the rankings</source>
+        <translation>A small label at the bottom of the rankings</translation>
+    </message>
+    <message>
+        <source>The name of the third timekeeper (optional)</source>
+        <translation>The name of the third timekeeper (optional)</translation>
+    </message>
+    <message>
+        <source>Fourth sponsor logo (at the bottom of the PDF)</source>
+        <translation>Fourth sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>The name of the first timekeeper (optional)</source>
+        <translation>The name of the first timekeeper (optional)</translation>
+    </message>
+    <message>
+        <source>The name of the second timekeeper (optional)</source>
+        <translation>The name of the second timekeeper (optional)</translation>
+    </message>
+    <message>
+        <source>The logo in the upper left corner of the PDF</source>
+        <translation>The logo in the upper left corner of the PDF</translation>
+    </message>
+    <message>
+        <source>Add the fourth sponsor logo (at the bottom of the PDF)</source>
+        <translation>Add the fourth sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the fourth sponsor logo (from the bottom of the PDF)</source>
+        <translation>Remove the fourth sponsor logo (from the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>First sponsor logo (at the bottom of the PDF)</source>
+        <translation>First sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Where the event takes place, used as subtitle in the rankings</source>
+        <translation>Where the event takes place, used as subtitle in the rankings</translation>
+    </message>
+    <message>
+        <source>The type of race (important because it affects the calculation of rankings)</source>
+        <translation>The type of race (important because it affects the calculation of rankings)</translation>
+    </message>
+    <message>
+        <source>Add the first sponsor logo (at the bottom of the PDF)</source>
+        <translation>Add the first sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the third sponsor logo (from the bottom of the PDF)</source>
+        <translation>Remove the third sponsor logo (from the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the second sponsor logo (from the bottom of the PDF)</source>
+        <translation>Remove the second sponsor logo (from the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>What time the event starts (important if Race Type is set to &apos;Timed race&apos;)</source>
+        <translation>What time the event starts (important if Race Type is set to &apos;Timed race&apos;)</translation>
+    </message>
+    <message>
+        <source>When the event takes place</source>
+        <translation>When the event takes place</translation>
+    </message>
+    <message>
+        <source>Add the third sponsor logo (at the bottom of the PDF)</source>
+        <translation>Add the third sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Second sponsor logo (at the bottom of the PDF)</source>
+        <translation>Second sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Third sponsor logo (at the bottom of the PDF)</source>
+        <translation>Third sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>The logo in the upper right corner of the PDF</source>
+        <translation>The logo in the upper right corner of the PDF</translation>
+    </message>
+    <message>
+        <source>The name of the race referee (optional)</source>
+        <translation>The name of the race referee (optional)</translation>
+    </message>
+    <message>
+        <source>The event name, used as title in the rankings</source>
+        <translation>The event name, used as title in the rankings</translation>
+    </message>
+    <message>
+        <source>Add the logo in the upper right corner of the PDF</source>
+        <translation>Add the logo in the upper right corner of the PDF</translation>
+    </message>
+    <message>
+        <source>Add the second sponsor logo (at the bottom of the PDF)</source>
+        <translation>Add the second sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Removes the logo from the upper left corner of the PDF</source>
+        <translation>Removes the logo from the upper left corner of the PDF</translation>
+    </message>
+    <message>
+        <source>Add a logo in the upper left corner of the PDF</source>
+        <translation>Add a logo in the upper left corner of the PDF</translation>
+    </message>
+    <message>
+        <source>Removes the logo from the upper right corner of the PDF</source>
+        <translation>Removes the logo from the upper right corner of the PDF</translation>
+    </message>
+    <message>
+        <source>The length of the race (optional)</source>
+        <translation>The length of the race (optional)</translation>
+    </message>
+    <message>
+        <source>The elevation gain of the race course (optional)</source>
+        <translation>The elevation gain of the race course (optional)</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTable</name>
@@ -495,46 +639,6 @@ Continue?</translation>
         <translation>Errors</translation>
     </message>
     <message>
-        <source>Encoding</source>
-        <translation>Encoding</translation>
-    </message>
-    <message>
-        <source>File Encoding: ISO-8859-1 (Latin1) or UTF-8</source>
-        <translation>File Encoding: ISO-8859-1 (Latin1) or UTF-8</translation>
-    </message>
-    <message>
-        <source>Latin1</source>
-        <translation>Latin1</translation>
-    </message>
-    <message>
-        <source>UTF-8</source>
-        <translation>UTF-8</translation>
-    </message>
-    <message>
-        <source>Format</source>
-        <translation>Format</translation>
-    </message>
-    <message>
-        <source>Start List and Rankings file format: PDF, CSV or Plain Text</source>
-        <translation>Start List and Rankings file format: PDF, CSV or Plain Text</translation>
-    </message>
-    <message>
-        <source>PDF</source>
-        <translation>PDF</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation>Text</translation>
-    </message>
-    <message>
-        <source>CSV</source>
-        <translation>CSV</translation>
-    </message>
-    <message>
-        <source>Generate start list in the selected format</source>
-        <translation>Generate start list in the selected format</translation>
-    </message>
-    <message>
         <source>Make Start List</source>
         <translation>Make Start List</translation>
     </message>
@@ -545,10 +649,6 @@ Continue?</translation>
     <message>
         <source>Collect Timings</source>
         <translation>Collect Timings</translation>
-    </message>
-    <message>
-        <source>Generate results in the selected format</source>
-        <translation>Generate results in the selected format</translation>
     </message>
     <message>
         <source>Make Results</source>
@@ -607,10 +707,6 @@ Continue?</translation>
         <translation>Te&amp;ams</translation>
     </message>
     <message>
-        <source>Edit Teams</source>
-        <translation>Edit Teams</translation>
-    </message>
-    <message>
         <source>About LBChronoRace</source>
         <translation>About LBChronoRace</translation>
     </message>
@@ -625,10 +721,6 @@ Continue?</translation>
     <message>
         <source>&amp;Race</source>
         <translation>&amp;Race</translation>
-    </message>
-    <message>
-        <source>Edit Race</source>
-        <translation>Edit Race</translation>
     </message>
     <message>
         <source>Save as</source>
@@ -647,16 +739,8 @@ Continue?</translation>
         <translation>Timings List</translation>
     </message>
     <message>
-        <source>Select Results Destination Folder</source>
-        <translation>Select Results Destination Folder</translation>
-    </message>
-    <message>
         <source>Error: %1</source>
         <translation>Error: %1</translation>
-    </message>
-    <message>
-        <source>Warning: please select a destination folder</source>
-        <translation>Warning: please select a destination folder</translation>
     </message>
     <message>
         <source>CSV (*.csv)</source>
@@ -778,6 +862,58 @@ Continue?</translation>
         <source>Selected format: %1</source>
         <translation>Selected format: %1</translation>
     </message>
+    <message>
+        <source>Edit race information, including logos</source>
+        <translation>Edit race information, including logos</translation>
+    </message>
+    <message>
+        <source>See the list of the teams (that cannot be changed)</source>
+        <translation>See the list of the teams (that cannot be changed)</translation>
+    </message>
+    <message>
+        <source>Add, remove, and change the race timings</source>
+        <translation>Add, remove, and change the race timings</translation>
+    </message>
+    <message>
+        <source>Add, remove, and change the definition of the categories</source>
+        <translation>Add, remove, and change the definition of the categories</translation>
+    </message>
+    <message>
+        <source>Add, remove, and change competitors</source>
+        <translation>Add, remove, and change competitors</translation>
+    </message>
+    <message>
+        <source>General information messages generated by the application</source>
+        <translation>General information messages generated by the application</translation>
+    </message>
+    <message>
+        <source>Error messages generated by the application</source>
+        <translation>Error messages generated by the application</translation>
+    </message>
+    <message>
+        <source>Tools</source>
+        <translation>Tools</translation>
+    </message>
+    <message>
+        <source>Generate start list</source>
+        <translation>Generate start list</translation>
+    </message>
+    <message>
+        <source>Generate results</source>
+        <translation>Generate results</translation>
+    </message>
+    <message>
+        <source>Load race data from a file</source>
+        <translation>Load race data from a file</translation>
+    </message>
+    <message>
+        <source>Save current race data to file</source>
+        <translation>Save current race data to file</translation>
+    </message>
+    <message>
+        <source>Save current race data to a new file</source>
+        <translation>Save current race data to a new file</translation>
+    </message>
 </context>
 <context>
     <name>PDFRankingPrinter</name>
@@ -796,10 +932,6 @@ Continue?</translation>
     <message>
         <source>#</source>
         <translation>#</translation>
-    </message>
-    <message>
-        <source>Select Start List File</source>
-        <translation>Select Start List File</translation>
     </message>
     <message>
         <source>PDF (*.pdf)</source>
@@ -846,28 +978,12 @@ Continue?</translation>
         </translation>
     </message>
     <message>
-        <source>Generated Start List: %1</source>
-        <translation>Generated Start List: %1</translation>
-    </message>
-    <message>
         <source>Time</source>
         <translation>Time</translation>
     </message>
     <message>
         <source>Diff</source>
         <translation>Diff</translation>
-    </message>
-    <message>
-        <source>Error: cannot write to %1</source>
-        <translation>Error: cannot write to %1</translation>
-    </message>
-    <message>
-        <source>Generated Results &apos;%1&apos;: %2</source>
-        <translation>Generated Results &apos;%1&apos;: %2</translation>
-    </message>
-    <message>
-        <source>Error: cannot open %1</source>
-        <translation>Error: cannot open %1</translation>
     </message>
     <message>
         <source>Leg</source>
@@ -935,6 +1051,18 @@ Continue?</translation>
     <message>
         <source>Error: cannot start drawing</source>
         <translation>Error: cannot start drawing PDF</translation>
+    </message>
+    <message>
+        <source>Error: no file name supplied</source>
+        <translation>Error: no file name supplied</translation>
+    </message>
+    <message>
+        <source>Error: drawing attempt on inactive painter</source>
+        <translation>Error: drawing attempt on inactive painter</translation>
+    </message>
+    <message>
+        <source>Error: cannot write to PDF</source>
+        <translation>Error: cannot write to PDF</translation>
     </message>
 </context>
 <context>
@@ -1038,6 +1166,94 @@ Continue?</translation>
     </message>
 </context>
 <context>
+    <name>RankingsWizard</name>
+    <message>
+        <source>Rankings Wizard</source>
+        <translation>Rankings Wizard</translation>
+    </message>
+    <message>
+        <source>Select Start List File</source>
+        <translation>Select Start List File</translation>
+    </message>
+    <message>
+        <source>Generated Start List: %1</source>
+        <translation>Generated Start List: %1</translation>
+    </message>
+    <message>
+        <source>Error: %1</source>
+        <translation>Error: %1</translation>
+    </message>
+    <message>
+        <source>Select Results Destination Folder</source>
+        <translation>Select Results Destination Folder</translation>
+    </message>
+    <message>
+        <source>Warning: please select a destination folder</source>
+        <translation>Warning: please select a destination folder</translation>
+    </message>
+    <message>
+        <source>Generated Results &apos;%1&apos;: %2</source>
+        <translation>Generated Results &apos;%1&apos;: %2</translation>
+    </message>
+    <message>
+        <source>Select Results Destination File</source>
+        <translation>Select Results Destination File</translation>
+    </message>
+    <message>
+        <source>Generated Results: %1</source>
+        <translation>Generated Results: %1</translation>
+    </message>
+    <message>
+        <source>Start List</source>
+        <translation>Start List</translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation>Results</translation>
+    </message>
+</context>
+<context>
+    <name>RankingsWizardFormat</name>
+    <message>
+        <source>File format</source>
+        <translation>File format</translation>
+    </message>
+    <message>
+        <source>File encoding</source>
+        <translation>File encoding</translation>
+    </message>
+    <message>
+        <source>Start List file format</source>
+        <translation>Start List file format</translation>
+    </message>
+    <message>
+        <source>Rankings file format</source>
+        <translation>Rankings file format</translation>
+    </message>
+</context>
+<context>
+    <name>RankingsWizardMode</name>
+    <message>
+        <source>Single/multiple files</source>
+        <translation>Single/multiple files</translation>
+    </message>
+    <message>
+        <source>One single file containing all rankings</source>
+        <translation>One single file containing all rankings</translation>
+    </message>
+    <message>
+        <source>A separate file for each ranking</source>
+        <translation>A separate file for each ranking</translation>
+    </message>
+</context>
+<context>
+    <name>RankingsWizardSelection</name>
+    <message>
+        <source>Rankings</source>
+        <translation>Rankings</translation>
+    </message>
+</context>
+<context>
     <name>StartListModel</name>
     <message>
         <source>Bib number (not 0)</source>
@@ -1091,10 +1307,6 @@ Continue?</translation>
 <context>
     <name>TXTRankingPrinter</name>
     <message>
-        <source>Select Start List File</source>
-        <translation>Select Start List File</translation>
-    </message>
-    <message>
         <source>Plain Text (*.txt)</source>
         <translation>Plain Text (*.txt)</translation>
     </message>
@@ -1110,16 +1322,16 @@ Continue?</translation>
         </translation>
     </message>
     <message>
-        <source>Generated Start List: %1</source>
-        <translation>Generated Start List: %1</translation>
-    </message>
-    <message>
         <source>Error: cannot open %1</source>
         <translation>Error: cannot open %1</translation>
     </message>
     <message>
-        <source>Generated Results &apos;%1&apos;: %2</source>
-        <translation>Generated Results &apos;%1&apos;: %2</translation>
+        <source>Error: no file name supplied</source>
+        <translation>Error: no file name supplied</translation>
+    </message>
+    <message>
+        <source>Error: writing attempt on closed file</source>
+        <translation>Error: writing attempt on closed file</translation>
     </message>
 </context>
 <context>

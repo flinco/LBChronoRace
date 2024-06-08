@@ -19,7 +19,6 @@
 #define CHRONORACETIMINGS_H
 
 #include <QDialog>
-#include <QKeyEvent>
 #include <QTimerEvent>
 #include <QElapsedTimer>
 #include <QThread>

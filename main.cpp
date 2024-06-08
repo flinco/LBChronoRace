@@ -19,7 +19,6 @@
 #include <QApplication>
 #include <QTranslator>
 #include <QLocale>
-#include <QLibraryInfo>
 #include <QFontDatabase>
 #include <QWindow>
 #include <QIcon>

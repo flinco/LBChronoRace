@@ -24,11 +24,11 @@
 
 cmake_minimum_required(VERSION 3.20)
 project(LBChronoRace
-    VERSION 5.0.0
+    VERSION 2024
     DESCRIPTION "Timings and Rankings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
-
+set(PROJECT_UPDATE 0)
 string(TIMESTAMP BUILD_DATE "%Y-%m-%d" UTC)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -40,7 +40,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 COMPONENTS Core Gui Widgets LinguistTools REQUIRED)
 
 add_compile_definitions(LBCHRONORACE_NAME=\"${PROJECT_NAME}\")
-add_compile_definitions(LBCHRONORACE_VERSION=\"${PROJECT_VERSION}\")
+if(${PROJECT_UPDATE} EQUAL 0)
+    add_compile_definitions(LBCHRONORACE_VERSION=\"${PROJECT_VERSION}\")
+else()
+    add_compile_definitions(LBCHRONORACE_VERSION=\"${PROJECT_VERSION}\ update\ ${PROJECT_UPDATE}\")
+endif()
+
 
 set(PROJECT_SOURCES
     main.cpp
@@ -67,18 +72,26 @@ set(PROJECT_SOURCES
     crloader.cpp
     crloader.h
     crtablemodel.h
-    csvrankingprinter.h
     csvrankingprinter.cpp
+    csvrankingprinter.h
     lbchronorace.cpp
     lbchronorace.h
     lbcrexception.cpp
     lbcrexception.h
-    pdfrankingprinter.h
     pdfrankingprinter.cpp
+    pdfrankingprinter.h
     rankingsbuilder.cpp
     rankingsbuilder.h
-    rankingprinter.h
     rankingprinter.cpp
+    rankingprinter.h
+    rankingswizard.cpp
+    rankingswizard.h
+    rankingswizardformat.cpp
+    rankingswizardformat.h
+    rankingswizardmode.cpp
+    rankingswizardmode.h
+    rankingswizardselection.cpp
+    rankingswizardselection.h
     startlistmodel.cpp
     startlistmodel.h
     teamclassentry.cpp
@@ -113,11 +126,24 @@ set(FONT_FILES
     fonts/LiberationSans-BoldItalic.ttf)
 qt_add_big_resources(PROJECT_FONTS fonts-mono.qrc fonts-sans.qrc fonts-serif.qrc)
 
-# Icons (as big resources)
+# Have fonts-mono.qrc, fonts-sans.qrc, and fonts-serif.qrc treated as a source file by Qt Creator
+list(APPEND PROJECT_SOURCES fonts-mono.qrc fonts-sans.qrc fonts-serif.qrc)
+set_property(SOURCE fonts-mono.qrc PROPERTY SKIP_AUTORCC ON)
+set_property(SOURCE fonts-sans.qrc PROPERTY SKIP_AUTORCC ON)
+set_property(SOURCE fonts-serif.qrc PROPERTY SKIP_AUTORCC ON)
+
+# Icons (as big resource)
 set(ICON_FILES
     icons/LBChronoRace.ico
     icons/LBChronoRaceCRD.ico)
 qt_add_big_resources(PROJECT_ICONS icons.qrc)
+
+# Have icons.qrc treated as a source file by Qt Creator
+list(APPEND PROJECT_SOURCES icons.qrc)
+set_property(SOURCE icons.qrc PROPERTY SKIP_AUTORCC ON)
+
+# Google Material Icons (as standard resource)
+list(APPEND PROJECT_SOURCES materialicons.qrc)
 
 if(WIN32)
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.rc")

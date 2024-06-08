@@ -19,7 +19,6 @@
 #define LBTEAMSLISTMODEL_H
 
 #include <QObject>
-#include <QSet>
 #include <QList>
 #include <QDataStream>
 

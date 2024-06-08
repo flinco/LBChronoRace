@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/material">
+        <file>icons/add_photo_alternate.svg</file>
+        <file>icons/counter_0_big.svg</file>
+        <file>icons/download.svg</file>
+        <file>icons/edit_document.svg</file>
+        <file>icons/exit_to_app.svg</file>
+        <file>icons/file_open.svg</file>
+        <file>icons/format_list_bulleted.svg</file>
+        <file>icons/format_list_bulleted_add.svg</file>
+        <file>icons/format_list_numbered.svg</file>
+        <file>icons/format_list_numbered_rtl.svg</file>
+        <file>icons/hide_image.svg</file>
+        <file>icons/image.svg</file>
+        <file>icons/lock.svg</file>
+        <file>icons/lock_open.svg</file>
+        <file>icons/logout.svg</file>
+        <file>icons/playlist_add.svg</file>
+        <file>icons/playlist_remove.svg</file>
+        <file>icons/save.svg</file>
+        <file>icons/save_as.svg</file>
+        <file>icons/sports.svg</file>
+        <file>icons/sports_score.svg</file>
+        <file>icons/timer_pause_big.svg</file>
+        <file>icons/timer_play.svg</file>
+        <file>icons/timer_play_big.svg</file>
+        <file>icons/upload.svg</file>
+    </qresource>
+</RCC>

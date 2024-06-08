@@ -18,9 +18,7 @@
 #ifndef CHRONORACETABLE_H
 #define CHRONORACETABLE_H
 
-#include <QObject>
 #include <QDialog>
-#include <QStandardItemModel>
 
 #include "ui_chronoracetable.h"
 #include "crtablemodel.h"

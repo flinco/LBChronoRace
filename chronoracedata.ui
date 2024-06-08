@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <author>Lorenzo Buzzi</author>
- <comment/>
- <exportmacro/>
  <class>ChronoRaceData</class>
  <widget class="QDialog" name="ChronoRaceData">
   <property name="geometry">
@@ -23,14 +21,21 @@
    <string>Race Information</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="icons.qrc">
+   <iconset>
     <normaloff>:/LBChronoRace.ico</normaloff>:/LBChronoRace.ico</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="9" column="0">
     <widget class="QPushButton" name="removeSponsorLogo1">
+     <property name="toolTip">
+      <string>Remove the first sponsor logo (from the bottom of the PDF)</string>
+     </property>
      <property name="text">
       <string>Remove 1st sponsor</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
      </property>
     </widget>
    </item>
@@ -62,6 +67,9 @@
    </item>
    <item row="5" column="7">
     <widget class="QComboBox" name="results">
+     <property name="toolTip">
+      <string>A small label at the bottom of the rankings</string>
+     </property>
      <item>
       <property name="text">
        <string>Unofficial</string>
@@ -75,7 +83,11 @@
     </widget>
    </item>
    <item row="5" column="1" colspan="3">
-    <widget class="QLineEdit" name="timeKeeper3"/>
+    <widget class="QLineEdit" name="timeKeeper3">
+     <property name="toolTip">
+      <string>The name of the third timekeeper (optional)</string>
+     </property>
+    </widget>
    </item>
    <item row="8" column="7" rowspan="4">
     <widget class="QLabel" name="sponsorLogo4">
@@ -84,6 +96,9 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>Fourth sponsor logo (at the bottom of the PDF)</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::Box</enum>
@@ -97,10 +112,18 @@
     </widget>
    </item>
    <item row="3" column="1" colspan="3">
-    <widget class="QLineEdit" name="timeKeeper1"/>
+    <widget class="QLineEdit" name="timeKeeper1">
+     <property name="toolTip">
+      <string>The name of the first timekeeper (optional)</string>
+     </property>
+    </widget>
    </item>
    <item row="4" column="1" colspan="3">
-    <widget class="QLineEdit" name="timeKeeper2"/>
+    <widget class="QLineEdit" name="timeKeeper2">
+     <property name="toolTip">
+      <string>The name of the second timekeeper (optional)</string>
+     </property>
+    </widget>
    </item>
    <item row="0" column="5" rowspan="4">
     <widget class="QLabel" name="leftLogo">
@@ -109,6 +132,9 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>The logo in the upper left corner of the PDF</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::Box</enum>
@@ -123,15 +149,29 @@
    </item>
    <item row="8" column="6">
     <widget class="QPushButton" name="loadSponsorLogo4">
+     <property name="toolTip">
+      <string>Add the fourth sponsor logo (at the bottom of the PDF)</string>
+     </property>
      <property name="text">
       <string>Load 4th sponsor</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
      </property>
     </widget>
    </item>
    <item row="9" column="6">
     <widget class="QPushButton" name="removeSponsorLogo4">
+     <property name="toolTip">
+      <string>Remove the fourth sponsor logo (from the bottom of the PDF)</string>
+     </property>
      <property name="text">
       <string>Remove 4th sponsor</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
      </property>
     </widget>
    </item>
@@ -142,6 +182,9 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>First sponsor logo (at the bottom of the PDF)</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::Box</enum>
@@ -172,10 +215,17 @@
     </widget>
    </item>
    <item row="1" column="1" colspan="3">
-    <widget class="QLineEdit" name="place"/>
+    <widget class="QLineEdit" name="place">
+     <property name="toolTip">
+      <string>Where the event takes place, used as subtitle in the rankings</string>
+     </property>
+    </widget>
    </item>
    <item row="5" column="5">
     <widget class="QComboBox" name="raceType">
+     <property name="toolTip">
+      <string>The type of race (important because it affects the calculation of rankings)</string>
+     </property>
      <item>
       <property name="text">
        <string>Mass start</string>
@@ -195,15 +245,29 @@
    </item>
    <item row="8" column="0">
     <widget class="QPushButton" name="loadSponsorLogo1">
+     <property name="toolTip">
+      <string>Add the first sponsor logo (at the bottom of the PDF)</string>
+     </property>
      <property name="text">
       <string>Load 1st sponsor</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
      </property>
     </widget>
    </item>
    <item row="9" column="4">
     <widget class="QPushButton" name="removeSponsorLogo3">
+     <property name="toolTip">
+      <string>Remove the third sponsor logo (from the bottom of the PDF)</string>
+     </property>
      <property name="text">
       <string>Remove 3rd sponsor</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
      </property>
     </widget>
    </item>
@@ -216,16 +280,30 @@
    </item>
    <item row="9" column="2">
     <widget class="QPushButton" name="removeSponsorLogo2">
+     <property name="toolTip">
+      <string>Remove the second sponsor logo (from the bottom of the PDF)</string>
+     </property>
      <property name="text">
       <string>Remove 2nd sponsor</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
      </property>
     </widget>
    </item>
    <item row="4" column="7">
-    <widget class="QTimeEdit" name="startTime"/>
+    <widget class="QTimeEdit" name="startTime">
+     <property name="toolTip">
+      <string>What time the event starts (important if Race Type is set to 'Timed race')</string>
+     </property>
+    </widget>
    </item>
    <item row="4" column="5">
     <widget class="QDateEdit" name="date">
+     <property name="toolTip">
+      <string>When the event takes place</string>
+     </property>
      <property name="displayFormat">
       <string>dd/MM/yyyy</string>
      </property>
@@ -233,8 +311,15 @@
    </item>
    <item row="8" column="4">
     <widget class="QPushButton" name="loadSponsorLogo3">
+     <property name="toolTip">
+      <string>Add the third sponsor logo (at the bottom of the PDF)</string>
+     </property>
      <property name="text">
       <string>Load 3rd sponsor</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
      </property>
     </widget>
    </item>
@@ -252,6 +337,9 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>Second sponsor logo (at the bottom of the PDF)</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::Box</enum>
@@ -272,6 +360,9 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="toolTip">
+      <string>Third sponsor logo (at the bottom of the PDF)</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::Box</enum>
      </property>
@@ -290,6 +381,9 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>The logo in the upper right corner of the PDF</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::Box</enum>
@@ -320,10 +414,18 @@
     </widget>
    </item>
    <item row="2" column="1" colspan="3">
-    <widget class="QLineEdit" name="referee"/>
+    <widget class="QLineEdit" name="referee">
+     <property name="toolTip">
+      <string>The name of the race referee (optional)</string>
+     </property>
+    </widget>
    </item>
    <item row="0" column="1" colspan="3">
-    <widget class="QLineEdit" name="event"/>
+    <widget class="QLineEdit" name="event">
+     <property name="toolTip">
+      <string>The event name, used as title in the rankings</string>
+     </property>
+    </widget>
    </item>
    <item row="12" column="0" colspan="8">
     <spacer name="bottomSpacer">
@@ -347,22 +449,43 @@
    </item>
    <item row="0" column="6">
     <widget class="QPushButton" name="loadRightLogo">
+     <property name="toolTip">
+      <string>Add the logo in the upper right corner of the PDF</string>
+     </property>
      <property name="text">
       <string>Load 2nd logo</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
      </property>
     </widget>
    </item>
    <item row="8" column="2">
     <widget class="QPushButton" name="loadSponsorLogo2">
+     <property name="toolTip">
+      <string>Add the second sponsor logo (at the bottom of the PDF)</string>
+     </property>
      <property name="text">
       <string>Load 2nd sponsor</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
      </property>
     </widget>
    </item>
    <item row="1" column="4">
     <widget class="QPushButton" name="removeLeftLogo">
+     <property name="toolTip">
+      <string>Removes the logo from the upper left corner of the PDF</string>
+     </property>
      <property name="text">
       <string>Remove 1st logo</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
      </property>
     </widget>
    </item>
@@ -375,15 +498,29 @@
    </item>
    <item row="0" column="4">
     <widget class="QPushButton" name="loadLeftLogo">
+     <property name="toolTip">
+      <string>Add a logo in the upper left corner of the PDF</string>
+     </property>
      <property name="text">
       <string>Load 1st logo</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
      </property>
     </widget>
    </item>
    <item row="1" column="6">
     <widget class="QPushButton" name="removeRightLogo">
+     <property name="toolTip">
+      <string>Removes the logo from the upper right corner of the PDF</string>
+     </property>
      <property name="text">
       <string>Remove 2nd logo</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
      </property>
     </widget>
    </item>
@@ -423,13 +560,25 @@
     </widget>
    </item>
    <item row="7" column="1" colspan="7">
-    <widget class="QPlainTextEdit" name="organization"/>
+    <widget class="QPlainTextEdit" name="organization">
+     <property name="toolTip">
+      <string comment="Free text added to the rankings"/>
+     </property>
+    </widget>
    </item>
    <item row="6" column="1" colspan="3">
-    <widget class="QLineEdit" name="length"/>
+    <widget class="QLineEdit" name="length">
+     <property name="toolTip">
+      <string>The length of the race (optional)</string>
+     </property>
+    </widget>
    </item>
    <item row="6" column="5" colspan="3">
-    <widget class="QLineEdit" name="elevationGain"/>
+    <widget class="QLineEdit" name="elevationGain">
+     <property name="toolTip">
+      <string>The elevation gain of the race course (optional)</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -461,8 +610,7 @@
   <tabstop>removeSponsorLogo4</tabstop>
  </tabstops>
  <resources>
-  <include location="icons.qrc"/>
-  <include location="icons.qrc"/>
+  <include location="materialicons.qrc"/>
  </resources>
  <connections>
   <connection>

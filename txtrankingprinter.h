@@ -19,6 +19,7 @@
 #define TXTRANKINGPRINTER_H
 
 #include <QTextStream>
+#include <QFile>
 
 #include "rankingprinter.h"
 
@@ -28,13 +29,19 @@ class TXTRankingPrinter final : public RankingPrinter
     using RankingPrinter::RankingPrinter;
 
 public:
-    void printStartList(QList<Competitor> const &startList, QWidget *parent, QDir &lastSelectedPath) override;
-    void printRanking(Category const &category, QList<ClassEntry const *> const &ranking, QString &outFileBaseName) override;
-    void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking, QString &outFileBaseName) override;
+    void init(QString *outFileName, QString const &title) override;
+
+    void printStartList(QList<Competitor> const &startList) override;
+    void printRanking(Category const &category, QList<ClassEntry const *> const &ranking) override;
+    void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking) override;
+
+    bool finalize() override;
+
+    QString getFileFilter() override;
 
 private:
-    void printTxtRanking(QList<ClassEntry const *> const &ranking, QString const &description, QTextStream &outStream) const;
-    void printTxtTeamRanking(QList<TeamClassEntry const *> const &ranking, QString const &description, QTextStream &outStream) const;
+    QTextStream txtStream;
+    QFile txtFile;
 
     QString &buildOutFileName(QString &outFileBaseName) override;
     QString &checkOutFileNameExtension(QString &outFileBaseName) override;

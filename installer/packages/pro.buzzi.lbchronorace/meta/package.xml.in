@@ -4,10 +4,10 @@
     <DisplayName xml:lang="it">Applicazione base</DisplayName>
     <Description>Race rankings software.</Description>
     <Description xml:lang="it">Software per classifiche.</Description>
-    <Version>@PROJECT_VERSION@</Version>
+    <Version>@PROJECT_VERSION@ update @PROJECT_UPDATE@</Version>
     <ReleaseDate>@BUILD_DATE@</ReleaseDate>
     <Name>pro.buzzi.lbchronorace</Name>
-    <!--<Dependencies>com.vendor.root.component1</Dependencies>-->
+    <Dependencies>com.microsoft.vcredist</Dependencies>
     <!--<Virtual>false</Virtual>-->
     <Licenses>
         <License name="GNU GPLv3" file="license.txt" />

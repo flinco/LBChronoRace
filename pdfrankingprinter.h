@@ -35,18 +35,29 @@ class PDFRankingPrinter final : public RankingPrinter
 public:
     explicit PDFRankingPrinter(uint indexFieldWidth, uint bibFieldWidth);
 
-    void printStartList(QList<Competitor> const &startList, QWidget *parent, QDir &lastSelectedPath) override;
-    void printRanking(Category const &category, QList<ClassEntry const *> const &ranking, QString &outFileBaseName) override;
-    void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking, QString &outFileBaseName) override;
+    void init(QString *outFileName, QString const &title) override;
+
+    void printStartList(QList<Competitor> const &startList) override;
+    void printRanking(Category const &category, QList<ClassEntry const *> const &ranking) override;
+    void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking) override;
+
+    bool finalize() override;
+
+    QString getFileFilter() override;
 
 private:
-    enum class RankingType {
+    enum class RankingType
+    {
         START_LIST,
         INDIVIDUAL_SINGLE,
         INDIVIDUAL_MULTI,
         TEAM_SINGLE,
         TEAM_MULTI
     };
+
+    uint currentPage { 0 };
+    QPainter painter;
+    QScopedPointer<QPdfWriter> writer { Q_NULLPTR };
 
     QString &buildOutFileName(QString &outFileBaseName) override;
     QString &checkOutFileNameExtension(QString &outFileBaseName) override;
@@ -65,24 +76,18 @@ private:
     QList<QList<TeamClassEntry const *>> splitTeamRankingSingleLeg(QList<TeamClassEntry const *> const ranking) const;
     QList<QList<TeamClassEntry const *>> splitTeamRankingMultiLeg(QList<TeamClassEntry const *> const ranking) const;
 
-    void printHeaderSingleLeg(QRectF &writeRect, QPainter &painter, int page, RankingType type) const;
-    void printHeaderMultiLeg(QRectF &writeRect, QPainter &painter, int page, RankingType type) const;
+    void printHeaderSingleLeg(QRectF &writeRect, int page, RankingType type);
+    void printHeaderMultiLeg(QRectF &writeRect, int page, RankingType type);
 
-    void printEntrySingleLeg(QRectF &writeRect, QPainter &painter, ClassEntry const *c, int &posIndex, int cIndex, uint referenceTime, RankingType type) const;
-    void printPageSingleLeg(QRectF &writeRect, QPainter &painter, QList<ClassEntry const *> const &page, int &posIndex, uint referenceTime) const;
-    void printPageSingleLeg(QRectF &writeRect, QPainter &painter, QList<TeamClassEntry const *> const &page, int &posIndex) const;
-    void printEntryMultiLeg(QRectF &writeRect, QPainter &painter, ClassEntry const *r, int &posIndex, int rIndex, uint referenceTime, RankingType type) const;
-    void printPageMultiLeg(QRectF &writeRect, QPainter &painter, QList<ClassEntry const *> const &page, int &posIndex, uint referenceTime) const;
-    void printPageMultiLeg(QRectF &writeRect, QPainter &painter, QList<TeamClassEntry const *> const &page, int &posIndex) const;
+    void printEntrySingleLeg(QRectF &writeRect, ClassEntry const *c, int &posIndex, int cIndex, uint referenceTime, RankingType type);
+    void printPageSingleLeg(QRectF &writeRect, QList<ClassEntry const *> const &page, int &posIndex, uint referenceTime);
+    void printPageSingleLeg(QRectF &writeRect, QList<TeamClassEntry const *> const &page, int &posIndex);
+    void printEntryMultiLeg(QRectF &writeRect, ClassEntry const *r, int &posIndex, int rIndex, uint referenceTime, RankingType type);
+    void printPageMultiLeg(QRectF &writeRect, QList<ClassEntry const *> const &page, int &posIndex, uint referenceTime);
+    void printPageMultiLeg(QRectF &writeRect, QList<TeamClassEntry const *> const &page, int &posIndex);
 
-    void makeStartList(QPainter &painter, QList<Competitor> const &startList);
-    void makeRanking(QPainter &painter, QString const &fullDescription, QList<ClassEntry const *> const &ranking, bool multiLeg);
-    void makeRanking(QPainter &painter, QString const &fullDescription, QList<TeamClassEntry  const*> const &ranking, bool multiLeg);
-
-    void drawTemplatePortrait(QPainter &painter, QString const &fullDescription, int page, int pages);
-    //NOSONAR void drawTemplateLandscape(QPainter &painter, QString const &fullDescription, int page, int pages);
-
-    bool initPainter(QPainter &painter, QPdfWriter *device);
+    void drawTemplatePortrait(QString const &fullDescription, int page, int pages);
+    //NOSONAR void drawTemplateLandscape(QString const &fullDescription, int page, int pages);
 
     qreal ratioX;
     qreal ratioY;

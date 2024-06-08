@@ -46,7 +46,7 @@ private:
     QMultiMap<uint, Competitor> startList { };
     QMap<uint, ClassEntry> rankingByBib { };
     QList<ClassEntry *> rankingByTime { };
-    QMap<QString, TeamClassEntry> rankingByTeam { };
+    QList<QMap<QString, TeamClassEntry>> rankingsByTeam { };
 
 signals:
     void error(QString const &message);

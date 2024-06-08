@@ -18,12 +18,8 @@
 #ifndef LBLOADER_H
 #define LBLOADER_H
 
-#include <QCoreApplication>
 #include <QString>
 #include <QVector>
-#include <QMap>
-#include <QMultiMap>
-#include <QStandardItem>
 #include <QDataStream>
 
 #include "timing.h"
@@ -47,15 +43,15 @@ class CRLoader
 public:
     enum class Encoding
     {
-        LATIN1,
-        UTF8
+        LATIN1 = 0,
+        UTF8 = 1
     };
 
     enum class Format
     {
-        PDF,
-        TEXT,
-        CSV
+        PDF = 0,
+        TEXT = 1,
+        CSV = 2
     };
 
 private:
@@ -98,8 +94,10 @@ public:
     static CRTableModel *getCategoriesModel();
     static Encoding getEncoding();
     static void setEncoding(Encoding const &value);
+    static QString encodingToLabel(Encoding const &value);
     static Format getFormat();
     static void setFormat(Format const &value);
+    static QString formatToLabel(Format const &value);
 };
 
 #endif // LBLOADER_H
