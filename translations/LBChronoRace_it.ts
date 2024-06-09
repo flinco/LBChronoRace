@@ -1215,20 +1215,24 @@ Continuare?</translation>
 <context>
     <name>RankingsWizardFormat</name>
     <message>
-        <source>File format</source>
-        <translation>Formato file</translation>
-    </message>
-    <message>
-        <source>File encoding</source>
-        <translation>Codifica file</translation>
-    </message>
-    <message>
         <source>Start List file format</source>
         <translation>Formato file Ordine di Partenza</translation>
     </message>
     <message>
         <source>Rankings file format</source>
         <translation>Formato file Classifica</translation>
+    </message>
+    <message>
+        <source>Please select a file format and, if required, an encoding type.</source>
+        <translation>Selezionare un formato file e, se richiesto, una codifica.</translation>
+    </message>
+    <message>
+        <source>Format</source>
+        <translation>Formato</translation>
+    </message>
+    <message>
+        <source>Encoding</source>
+        <translation>Codifica</translation>
     </message>
 </context>
 <context>
@@ -1245,12 +1249,20 @@ Continuare?</translation>
         <source>A separate file for each ranking</source>
         <translation>Un file separato per ogni classifica</translation>
     </message>
+    <message>
+        <source>How many PDFs do you want?</source>
+        <translation>Quanti PDF desideri?</translation>
+    </message>
 </context>
 <context>
     <name>RankingsWizardSelection</name>
     <message>
         <source>Rankings</source>
         <translation>Classifiche</translation>
+    </message>
+    <message>
+        <source>You can exclude some categories from the generated rankings.</source>
+        <translation>Puoi escludere alcune categorie dalle classifiche generate.</translation>
     </message>
 </context>
 <context>

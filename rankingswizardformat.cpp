@@ -34,13 +34,13 @@ RankingsWizardFormat::RankingsWizardFormat(QWidget *parent) :
     fileFormat.insertItem(static_cast<int>(CRLoader::Format::TEXT), CRLoader::formatToLabel(CRLoader::Format::TEXT));
     fileFormat.insertItem(static_cast<int>(CRLoader::Format::CSV), CRLoader::formatToLabel(CRLoader::Format::CSV));
     fileFormat.setCurrentIndex(formatIdx);
-    layout.addRow(new QLabel(tr("File format")), &fileFormat);
+    layout.addRow(new QLabel(tr("Format")), &fileFormat);
 
     encodingIdx = static_cast<int>(CRLoader::getEncoding());
     fileEncoding.insertItem(static_cast<int>(CRLoader::Encoding::UTF8), CRLoader::encodingToLabel(CRLoader::Encoding::UTF8));
     fileEncoding.insertItem(static_cast<int>(CRLoader::Encoding::LATIN1), CRLoader::encodingToLabel(CRLoader::Encoding::LATIN1));
     fileEncoding.setCurrentIndex(encodingIdx);
-    layout.addRow(new QLabel(tr("File encoding")), &fileEncoding);
+    layout.addRow(new QLabel(tr("Encoding")), &fileEncoding);
 
     formatChange(formatIdx);
     connect(&fileFormat, &QComboBox::currentIndexChanged, this, &RankingsWizardFormat::formatChange);
@@ -57,7 +57,7 @@ void RankingsWizardFormat::initializePage()
     else
         setTitle(tr("Rankings file format"));
 
-    setSubTitle("Please select a file format and, if required, an encoding type.");
+    setSubTitle(tr("Please select a file format and, if required, an encoding type."));
 }
 
 int RankingsWizardFormat::nextId() const

@@ -24,7 +24,7 @@ RankingsWizardMode::RankingsWizardMode(QWidget *parent) :
     multiFile(parent)
 {
     setTitle(tr("Single/multiple files"));
-    setSubTitle("How many PDFs do you want?");
+    setSubTitle(tr("How many PDFs do you want?"));
 
     singleFile.setText(tr("One single file containing all rankings"));
     singleFile.setChecked(true);

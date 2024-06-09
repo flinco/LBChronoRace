@@ -30,7 +30,7 @@ RankingsWizardSelection::RankingsWizardSelection(QWidget *parent) :
     QVector<Category> categories = CRLoader::getCategories();
 
     setTitle(tr("Rankings"));
-    setSubTitle("You can exclude some categories from the generated rankings.");
+    setSubTitle(tr("You can exclude some categories from the generated rankings."));
 
     for (auto const &category : categories) {
         categoriesList.addItem(category.getFullDescription());
