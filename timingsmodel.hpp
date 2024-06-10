@@ -21,8 +21,8 @@
 #include <QObject>
 #include <QDataStream>
 
-#include "crtablemodel.h"
-#include "timing.h"
+#include "crtablemodel.hpp"
+#include "timing.hpp"
 
 class TimingsModel : public CRTableModel
 {

@@ -15,9 +15,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "classentry.h"
-#include "crloader.h"
-#include "lbcrexception.h"
+#include "classentry.hpp"
+#include "crloader.hpp"
+#include "lbcrexception.hpp"
 
 // Static members
 QString ClassEntry::empty("*** ??? ***");

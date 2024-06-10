@@ -15,9 +15,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "crloader.h"
-#include "rankingswizard.h"
-#include "rankingswizardselection.h"
+#include "crloader.hpp"
+#include "rankingswizard.hpp"
+#include "rankingswizardselection.hpp"
 
 RankingsWizardSelection::RankingsWizardSelection(QWidget *parent) :
     QWizardPage(parent),

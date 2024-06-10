@@ -25,11 +25,11 @@
 
 //NOSONAR #include <QDebug>
 
-#include "lbchronorace.h"
-#include "crloader.h"
-#include "crloader.h"
-#include "lbcrexception.h"
-#include "rankingswizard.h"
+#include "lbchronorace.hpp"
+#include "crloader.hpp"
+#include "crloader.hpp"
+#include "lbcrexception.hpp"
+#include "rankingswizard.hpp"
 
 // static members initialization
 QDir LBChronoRace::lastSelectedPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));

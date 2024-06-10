@@ -22,9 +22,9 @@
 #include <QKeyEvent>
 #include <QMessageBox>
 
-#include "chronoracetimings.h"
-#include "crloader.h"
-#include "lbcrexception.h"
+#include "chronoracetimings.hpp"
+#include "crloader.hpp"
+#include "lbcrexception.hpp"
 
 TimingsWorker::TimingsWorker() {
 

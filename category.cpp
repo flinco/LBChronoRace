@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "category.h"
-#include "lbcrexception.h"
+#include "category.hpp"
+#include "lbcrexception.hpp"
 
 Category::Field CategorySorter::sortingField = Category::Field::CTF_FIRST;
 Qt::SortOrder   CategorySorter::sortingOrder = Qt::AscendingOrder;

@@ -18,11 +18,11 @@
 #include <QVector>
 #include <QFileDialog>
 
-#include "crloader.h"
-#include "category.h"
-#include "lbcrexception.h"
-#include "rankingswizard.h"
-#include "rankingprinter.h"
+#include "crloader.hpp"
+#include "category.hpp"
+#include "lbcrexception.hpp"
+#include "rankingswizard.hpp"
+#include "rankingprinter.hpp"
 
 RankingsWizard::RankingsWizard(ChronoRaceData *data, QDir *path, RankingsWizardTarget target) :
     QWizard(Q_NULLPTR),

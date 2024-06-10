@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "lbcrexception.h"
+#include "lbcrexception.hpp"
 
 void ChronoRaceException::setMessage(QString const &newMessage)
 {

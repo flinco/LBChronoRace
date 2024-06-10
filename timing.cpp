@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "timing.h"
-#include "lbcrexception.h"
+#include "timing.hpp"
+#include "lbcrexception.hpp"
 
 Timing::Field TimingSorter::sortingField = Timing::Field::TMF_TIME;
 Qt::SortOrder TimingSorter::sortingOrder = Qt::AscendingOrder;

@@ -19,8 +19,8 @@
 #include <QTextStream>
 #include <QRegularExpression>
 
-#include "crloader.h"
-#include "lbcrexception.h"
+#include "crloader.hpp"
+#include "lbcrexception.hpp"
 
 // Members initialization
 StartListModel              CRLoader::startListModel;

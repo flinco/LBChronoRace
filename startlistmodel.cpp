@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "startlistmodel.h"
-#include "lbcrexception.h"
+#include "startlistmodel.hpp"
+#include "lbcrexception.hpp"
 
 QDataStream &operator<<(QDataStream &out, StartListModel const &data)
 {

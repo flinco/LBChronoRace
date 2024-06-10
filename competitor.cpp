@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "competitor.h"
-#include "lbcrexception.h"
+#include "competitor.hpp"
+#include "lbcrexception.hpp"
 
 Competitor::Field CompetitorSorter::sortingField = Competitor::Field::CMF_FIRST;
 Qt::SortOrder     CompetitorSorter::sortingOrder = Qt::AscendingOrder;

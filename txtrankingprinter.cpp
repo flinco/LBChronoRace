@@ -17,9 +17,9 @@
 
 #include <QIODevice>
 
-#include "txtrankingprinter.h"
-#include "chronoracedata.h"
-#include "lbcrexception.h"
+#include "txtrankingprinter.hpp"
+#include "chronoracedata.hpp"
+#include "lbcrexception.hpp"
 
 void TXTRankingPrinter::init(QString *outFileName, [[maybe_unused]] QString const &title)
 {

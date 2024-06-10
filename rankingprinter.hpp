@@ -22,11 +22,11 @@
 #include <QScopedPointer>
 #include <QString>
 
-#include "crloader.h"
-#include "chronoracedata.h"
-#include "category.h"
-#include "classentry.h"
-#include "teamclassentry.h"
+#include "crloader.hpp"
+#include "chronoracedata.hpp"
+#include "category.hpp"
+#include "classentry.hpp"
+#include "teamclassentry.hpp"
 
 class RankingPrinter : public QObject
 {

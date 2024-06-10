@@ -22,7 +22,7 @@
 #include <QList>
 #include <QDataStream>
 
-#include "crtablemodel.h"
+#include "crtablemodel.hpp"
 
 class TeamsListModel : public CRTableModel
 {

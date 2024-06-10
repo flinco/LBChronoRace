@@ -25,9 +25,9 @@
 
 #include "ui_chronorace.h"
 
-#include "chronoracetable.h"
-#include "chronoracedata.h"
-#include "chronoracetimings.h"
+#include "chronoracetable.hpp"
+#include "chronoracedata.hpp"
+#include "chronoracetimings.hpp"
 
 #ifndef LBCHRONORACE_NAME
 #error "LBCHRONORACE_NAME not set"

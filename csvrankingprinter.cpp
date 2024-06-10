@@ -17,8 +17,8 @@
 
 #include <QIODevice>
 
-#include "csvrankingprinter.h"
-#include "lbcrexception.h"
+#include "csvrankingprinter.hpp"
+#include "lbcrexception.hpp"
 
 void CSVRankingPrinter::init(QString *outFileName, [[maybe_unused]] QString const &title)
 {

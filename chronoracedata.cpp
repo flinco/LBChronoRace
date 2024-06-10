@@ -18,8 +18,8 @@
 #include <QFileDialog>
 #include <QFileInfo>
 
-#include "lbchronorace.h"
-#include "chronoracedata.h"
+#include "lbchronorace.hpp"
+#include "chronoracedata.hpp"
 
 ChronoRaceData::ChronoRaceData(QWidget *parent) : QDialog(parent) {
 

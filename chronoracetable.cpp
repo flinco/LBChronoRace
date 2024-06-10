@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "chronoracetable.h"
+#include "chronoracetable.hpp"
 
 ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
 {

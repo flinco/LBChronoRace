@@ -17,8 +17,8 @@
 
 #include <algorithm>
 
-#include "timingsmodel.h"
-#include "lbcrexception.h"
+#include "timingsmodel.hpp"
+#include "lbcrexception.hpp"
 
 QDataStream &operator<<(QDataStream &out, TimingsModel const  &data)
 {

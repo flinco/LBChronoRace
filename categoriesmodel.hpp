@@ -21,8 +21,8 @@
 #include <QObject>
 #include <QDataStream>
 
-#include "crtablemodel.h"
-#include "category.h"
+#include "crtablemodel.hpp"
+#include "category.hpp"
 
 class CategoriesModel : public CRTableModel
 {

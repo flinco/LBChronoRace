@@ -21,8 +21,8 @@
 #include <QObject>
 #include <QDataStream>
 
-#include "crtablemodel.h"
-#include "competitor.h"
+#include "crtablemodel.hpp"
+#include "competitor.hpp"
 
 class StartListModel : public CRTableModel
 {

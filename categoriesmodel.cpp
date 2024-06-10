@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "categoriesmodel.h"
-#include "lbcrexception.h"
+#include "categoriesmodel.hpp"
+#include "lbcrexception.hpp"
 
 QDataStream &operator<<(QDataStream &out, CategoriesModel const &data)
 {

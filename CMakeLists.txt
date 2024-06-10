@@ -50,60 +50,60 @@ endif()
 set(PROJECT_SOURCES
     main.cpp
     categoriesmodel.cpp
-    categoriesmodel.h
+    categoriesmodel.hpp
     category.cpp
-    category.h
+    category.hpp
     chronorace.ui
     chronoracedata.cpp
-    chronoracedata.h
+    chronoracedata.hpp
     chronoracedata.ui
     chronoracelogo.cpp
-    chronoracelogo.h
+    chronoracelogo.hpp
     chronoracetable.cpp
-    chronoracetable.h
+    chronoracetable.hpp
     chronoracetable.ui
     chronoracetimings.cpp
-    chronoracetimings.h
+    chronoracetimings.hpp
     chronoracetimings.ui
     classentry.cpp
-    classentry.h
+    classentry.hpp
     competitor.cpp
-    competitor.h
+    competitor.hpp
     crloader.cpp
-    crloader.h
-    crtablemodel.h
+    crloader.hpp
+    crtablemodel.hpp
     csvrankingprinter.cpp
-    csvrankingprinter.h
+    csvrankingprinter.hpp
     lbchronorace.cpp
-    lbchronorace.h
+    lbchronorace.hpp
     lbcrexception.cpp
-    lbcrexception.h
+    lbcrexception.hpp
     pdfrankingprinter.cpp
-    pdfrankingprinter.h
+    pdfrankingprinter.hpp
     rankingsbuilder.cpp
-    rankingsbuilder.h
+    rankingsbuilder.hpp
     rankingprinter.cpp
-    rankingprinter.h
+    rankingprinter.hpp
     rankingswizard.cpp
-    rankingswizard.h
+    rankingswizard.hpp
     rankingswizardformat.cpp
-    rankingswizardformat.h
+    rankingswizardformat.hpp
     rankingswizardmode.cpp
-    rankingswizardmode.h
+    rankingswizardmode.hpp
     rankingswizardselection.cpp
-    rankingswizardselection.h
+    rankingswizardselection.hpp
     startlistmodel.cpp
-    startlistmodel.h
+    startlistmodel.hpp
     teamclassentry.cpp
-    teamclassentry.h
+    teamclassentry.hpp
     teamslistmodel.cpp
-    teamslistmodel.h
+    teamslistmodel.hpp
     timing.cpp
-    timing.h
+    timing.hpp
     timingsmodel.cpp
-    timingsmodel.h
-    txtrankingprinter.h
-    txtrankingprinter.cpp)
+    timingsmodel.hpp
+    txtrankingprinter.cpp
+    txtrankingprinter.hpp)
 
 # Translations
 set(TS_FILES
