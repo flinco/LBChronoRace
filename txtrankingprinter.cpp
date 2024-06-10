@@ -62,12 +62,28 @@ void TXTRankingPrinter::printStartList(QList<Competitor> const &startList)
 
     int offset;
     int i = 0;
+    QString lastColumnValue;
     ChronoRaceData const *raceInfo = getRaceInfo();
     QTime startTime = raceInfo->getStartTime();
     txtStream << *raceInfo << Qt::endl; // add header
     txtStream << tr("Start List") << Qt::endl;
     for (auto const &competitor : startList) {
         i++;
+
+        offset = competitor.getOffset();
+        if (offset >= 0) {
+            offset += (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
+            lastColumnValue = Competitor::toOffsetString(offset);
+        } else if (CRLoader::getStartListLegs() == 1) {
+            offset = (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
+            lastColumnValue = Competitor::toOffsetString(offset);
+        } else {
+            QString legValue = tr("Leg %n", "", qAbs(offset));
+            if (!lastColumnValue.isEmpty() && (legValue != lastColumnValue))
+                txtStream << Qt::endl;
+            lastColumnValue = legValue;
+        }
+
         txtStream.setFieldWidth(getIndexFieldWidth());
         txtStream.setFieldAlignment(QTextStream::AlignRight);
         txtStream << i;
@@ -88,16 +104,7 @@ void TXTRankingPrinter::printStartList(QList<Competitor> const &startList)
         txtStream << " - ";
         txtStream.setFieldWidth(15);
         txtStream.setFieldAlignment(QTextStream::AlignRight);
-        offset = competitor.getOffset();
-        if (offset >= 0) {
-            offset += (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
-            txtStream << Competitor::toOffsetString(offset);
-        } else if (CRLoader::getStartListLegs() == 1) {
-            offset = (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
-            txtStream << Competitor::toOffsetString(offset);
-        } else {
-            txtStream << tr("Leg %n", "", qAbs(offset));
-        }
+        txtStream << lastColumnValue;
         txtStream.setFieldWidth(0);
         txtStream << Qt::endl;
     }

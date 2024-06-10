@@ -30,7 +30,7 @@ QString ClassEntryElement::formatNameCSV(bool first, QString const &name, QStrin
 
 QString ClassEntryElement::formatNameTxt(bool first, QString const &name, QString const &sex, QString const &year) const
 {
-    return QString("%1%2 (%3,%4)").arg(first ? "" : ",", name, sex, year);
+    return QString("%1%2 (%3,%4)").arg(first ? "" : ", ", name, sex, year);
 }
 
 void ClassEntryElement::addNames(bool csvFormat, bool first, QString &entryString, QString const &emptyName) const
