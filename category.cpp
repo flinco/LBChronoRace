@@ -170,8 +170,8 @@ bool CategorySorter::operator() (Category const &lhs, Category const &rhs) const
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFullDescription() > rhs.getFullDescription()) : (lhs.getFullDescription() < rhs.getFullDescription());
     case Category::Field::CTF_SHORT_DESCR:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getShortDescription() > rhs.getShortDescription()) : (lhs.getShortDescription() < rhs.getShortDescription());
-    case Category::Field::CTF_TEAM: //NOSONAR
-        // no break here
+    case Category::Field::CTF_TEAM:
+        [[fallthrough]];
     default:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }

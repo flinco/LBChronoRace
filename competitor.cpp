@@ -191,7 +191,7 @@ QString Competitor::toSexString(Sex const sex)
             return "F";
         case Sex::MISC:
             return "X";
-        case Sex::UNDEFINED: // NOSONAR
+        case Sex::UNDEFINED:
             return "U";
         default:
             throw(ChronoRaceException(tr("Unexpected Sex enum value '%1'").arg(static_cast<int>(sex))));
@@ -303,10 +303,10 @@ bool CompetitorSorter::operator() (Competitor const &lhs, Competitor const &rhs)
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getYear() > rhs.getYear()) : (lhs.getYear() < rhs.getYear());
         case Competitor::Field::CMF_TEAM:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getTeam() > rhs.getTeam()) : (lhs.getTeam() < rhs.getTeam());
-        case Competitor::Field::CMF_BIB: // NOSONAR
-            // nobreak here
-        case Competitor::Field::CMF_OFFSET_LEG: // NOSONAR
-            // nobreak here
+        case Competitor::Field::CMF_BIB:
+            [[fallthrough]];
+        case Competitor::Field::CMF_OFFSET_LEG:
+            [[fallthrough]];
         default:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }

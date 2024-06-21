@@ -194,8 +194,8 @@ bool TimingSorter::operator() (Timing const &lhs, Timing const &rhs) const
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getBib() > rhs.getBib()) : (lhs.getBib() < rhs.getBib());
     case Timing::Field::TMF_LEG:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getLeg() > rhs.getLeg()) : (lhs.getLeg() < rhs.getLeg());
-    case Timing::Field::TMF_TIME: //NOSONAR
-        // nobreak here
+    case Timing::Field::TMF_TIME:
+        [[fallthrough]];
     default:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }
