@@ -441,8 +441,10 @@ void LBChronoRace::loadRace()
 void LBChronoRace::saveRace()
 {
     if (raceDataFileName.isEmpty()) {
-        raceDataFileName = QFileDialog::getSaveFileName(this, tr("Select Race Data File"),
-            lastSelectedPath.absolutePath(), tr("ChronoRace Data (*.crd)"));
+        raceDataFileName = QDir::toNativeSeparators(
+            QFileDialog::getSaveFileName(this, tr("Select Race Data File"),
+                                         lastSelectedPath.absolutePath(),
+                                         tr("ChronoRace Data (*.crd)")));
 
         if (!raceDataFileName.isEmpty() && !raceDataFileName.endsWith(".crd", Qt::CaseInsensitive))
             raceDataFileName.append(".crd");
