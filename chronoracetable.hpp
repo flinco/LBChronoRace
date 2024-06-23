@@ -21,7 +21,7 @@
 #include <QDialog>
 
 #include "ui_chronoracetable.h"
-#include "crtablemodel.h"
+#include "crtablemodel.hpp"
 
 class ChronoRaceTable : public QDialog
 {

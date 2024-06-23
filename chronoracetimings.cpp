@@ -22,9 +22,9 @@
 #include <QKeyEvent>
 #include <QMessageBox>
 
-#include "chronoracetimings.h"
-#include "crloader.h"
-#include "lbcrexception.h"
+#include "chronoracetimings.hpp"
+#include "crloader.hpp"
+#include "lbcrexception.hpp"
 
 TimingsWorker::TimingsWorker() {
 
@@ -78,11 +78,13 @@ ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent) {
     QObject::connect(ui->resetButton, &QToolButton::clicked, this, &ChronoRaceTimings::reset);
 
     QObject::connect(ui->lockBox, &QCheckBox::clicked, this, &ChronoRaceTimings::lock);
+    QObject::connect(ui->unlockBox, &QCheckBox::clicked, this, &ChronoRaceTimings::lock);
 
     saveToDiskWorker.moveToThread(&saveToDiskThread);
     connect(this, &ChronoRaceTimings::saveToDisk, &saveToDiskWorker, &TimingsWorker::writeToDisk);
     connect(&saveToDiskWorker, &TimingsWorker::writeDone, this, &ChronoRaceTimings::clearDiskBuffer);
 
+    ui->unlockBox->hide();
     ui->stopButton->setEnabled(false);
 }
 
@@ -339,14 +341,17 @@ void ChronoRaceTimings::lock(bool checked)
         ui->stopButton->setEnabled(false);
         ui->resetButton->setEnabled(false);
         ui->buttonBox->setEnabled(false);
-        ui->lockBox->setIcon(QIcon(":/material/icons/lock.svg"));
-
+        ui->unlockBox->show();
+        ui->lockBox->hide();
+        ui->lockBox->setChecked(false);
     } else {
         ui->startButton->setEnabled(updateTimerId == 0);
         ui->stopButton->setEnabled(updateTimerId != 0);
         ui->resetButton->setEnabled(updateTimerId == 0);
         ui->buttonBox->setEnabled(true);
-        ui->lockBox->setIcon(QIcon(":/material/icons/lock_open.svg"));
+        ui->lockBox->show();
+        ui->unlockBox->hide();
+        ui->unlockBox->setChecked(true);
     }
     this->setWindowFlag(Qt::WindowCloseButtonHint, !checked);
     this->show();

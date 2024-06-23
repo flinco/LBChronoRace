@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "lbcrexception.h"
+#include "lbcrexception.hpp"
 
 void ChronoRaceException::setMessage(QString const &newMessage)
 {
@@ -25,6 +25,7 @@ void ChronoRaceException::setMessage(QString const &newMessage)
 QString &ChronoRaceException::getMessage() {
     return this->message;
 }
+
 void ChronoRaceException::raise() const
 {
     throw *this;

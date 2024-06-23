@@ -15,46 +15,35 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef RANKINGSWIZARDSELECTION_H
-#define RANKINGSWIZARDSELECTION_H
+#ifndef TEAMCLASSENTRY_H
+#define TEAMCLASSENTRY_H
 
-#include <QWizardPage>
-#include <QVBoxLayout>
-#include <QListWidget>
-#include <QListWidgetItem>
+#include <QVector>
 
-#include "category.h"
-#include "classentry.h"
-#include "teamclassentry.h"
+#include "classentry.hpp"
 
-class RankingsWizardSelection : public QWizardPage
+namespace placement {
+class TeamClassEntry;
+}
+
+class TeamClassEntry
 {
-    Q_OBJECT
-
-public:
-    explicit RankingsWizardSelection(QWidget *parent = Q_NULLPTR);
-
-    class RankingsWizardItem
-    {
-    public:
-        Category const *category { Q_NULLPTR };
-        bool skip { false };
-        QList<ClassEntry const *> ranking { };
-        QList<TeamClassEntry const *> teamRanking { };
-    };
-
-    void initializePage() override;
-    void cleanupPage() override;
+    Q_DECLARE_TR_FUNCTIONS(TeamClassEntry)
 
 private:
-    QListWidget categoriesList;
-    QVBoxLayout layout;
+    QString               team { "" };
+    QVector<ClassEntry *> entryList { };
 
-private slots:
-    void toggleSkipRanking(QListWidgetItem const *item) const;
+public:
+    QString const &getTeam() const;
+    ClassEntry const *getClassEntry(int index) const;
+    void setClassEntry(ClassEntry *entry);
+    int getClassEntryCount() const;
 
-signals:
-    void error(QString const &message);
+    bool operator< (TeamClassEntry const &rhs);
+    bool operator> (TeamClassEntry const &rhs);
+    bool operator<=(TeamClassEntry const &rhs);
+    bool operator>=(TeamClassEntry const &rhs);
 };
 
-#endif // RANKINGSWIZARDSELECTION_H
+#endif // TEAMCLASSENTRY_H

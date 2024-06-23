@@ -15,11 +15,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "rankingprinter.h"
-#include "pdfrankingprinter.h"
-#include "csvrankingprinter.h"
-#include "txtrankingprinter.h"
-#include "lbcrexception.h"
+#include "rankingprinter.hpp"
+#include "pdfrankingprinter.hpp"
+#include "csvrankingprinter.hpp"
+#include "txtrankingprinter.hpp"
+#include "lbcrexception.hpp"
 
 QScopedPointer<RankingPrinter> RankingPrinter::getRankingPrinter(CRLoader::Format format, uint indexFieldWidth, uint bibFieldWidth)
 {

@@ -17,7 +17,7 @@
 
 #include <algorithm>
 
-#include "teamslistmodel.h"
+#include "teamslistmodel.hpp"
 
 QDataStream &operator<<(QDataStream &out, TeamsListModel const &data)
 {

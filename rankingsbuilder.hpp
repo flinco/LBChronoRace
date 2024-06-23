@@ -23,9 +23,9 @@
 #include <QMap>
 #include <QString>
 
-#include "classentry.h"
-#include "teamclassentry.h"
-#include "category.h"
+#include "classentry.hpp"
+#include "teamclassentry.hpp"
+#include "category.hpp"
 
 class RankingsBuilder : public QObject
 {

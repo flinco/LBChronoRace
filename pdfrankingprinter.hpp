@@ -26,7 +26,7 @@
 #include <QPdfWriter>
 #include <QScopedPointer>
 
-#include "rankingprinter.h"
+#include "rankingprinter.hpp"
 
 class PDFRankingPrinter final : public RankingPrinter
 {

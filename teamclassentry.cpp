@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "teamclassentry.h"
-#include "lbcrexception.h"
+#include "teamclassentry.hpp"
+#include "lbcrexception.hpp"
 
 QString const &TeamClassEntry::getTeam() const
 {

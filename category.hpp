@@ -20,7 +20,7 @@
 
 #include <QDataStream>
 
-#include "competitor.h"
+#include "competitor.hpp"
 
 namespace category {
 class Category;

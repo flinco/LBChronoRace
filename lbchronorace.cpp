@@ -25,11 +25,11 @@
 
 //NOSONAR #include <QDebug>
 
-#include "lbchronorace.h"
-#include "crloader.h"
-#include "crloader.h"
-#include "lbcrexception.h"
-#include "rankingswizard.h"
+#include "lbchronorace.hpp"
+#include "crloader.hpp"
+#include "crloader.hpp"
+#include "lbcrexception.hpp"
+#include "rankingswizard.hpp"
 
 // static members initialization
 QDir LBChronoRace::lastSelectedPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
@@ -441,8 +441,10 @@ void LBChronoRace::loadRace()
 void LBChronoRace::saveRace()
 {
     if (raceDataFileName.isEmpty()) {
-        raceDataFileName = QFileDialog::getSaveFileName(this, tr("Select Race Data File"),
-            lastSelectedPath.absolutePath(), tr("ChronoRace Data (*.crd)"));
+        raceDataFileName = QDir::toNativeSeparators(
+            QFileDialog::getSaveFileName(this, tr("Select Race Data File"),
+                                         lastSelectedPath.absolutePath(),
+                                         tr("ChronoRace Data (*.crd)")));
 
         if (!raceDataFileName.isEmpty() && !raceDataFileName.endsWith(".crd", Qt::CaseInsensitive))
             raceDataFileName.append(".crd");

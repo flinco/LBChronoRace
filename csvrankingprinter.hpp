@@ -15,35 +15,36 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef TEAMCLASSENTRY_H
-#define TEAMCLASSENTRY_H
+#ifndef CSVRANKINGPRINTER_H
+#define CSVRANKINGPRINTER_H
 
-#include <QVector>
+#include <QTextStream>
+#include <QFile>
 
-#include "classentry.h"
+#include "rankingprinter.hpp"
 
-namespace placement {
-class TeamClassEntry;
-}
-
-class TeamClassEntry
+class CSVRankingPrinter final : public RankingPrinter
 {
-    Q_DECLARE_TR_FUNCTIONS(TeamClassEntry)
-
-private:
-    QString               team { "" };
-    QVector<ClassEntry *> entryList { };
+    Q_OBJECT
+    using RankingPrinter::RankingPrinter;
 
 public:
-    QString const &getTeam() const;
-    ClassEntry const *getClassEntry(int index) const;
-    void setClassEntry(ClassEntry *entry);
-    int getClassEntryCount() const;
+    void init(QString *outFileName, QString const &title) override;
 
-    bool operator< (TeamClassEntry const &rhs);
-    bool operator> (TeamClassEntry const &rhs);
-    bool operator<=(TeamClassEntry const &rhs);
-    bool operator>=(TeamClassEntry const &rhs);
+    void printStartList(QList<Competitor> const &startList) override;
+    void printRanking(Category const &category, QList<ClassEntry const *> const &ranking) override;
+    void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking) override;
+
+    bool finalize() override;
+
+    QString getFileFilter() override;
+
+private:
+    QTextStream csvStream;
+    QFile csvFile;
+
+    QString &buildOutFileName(QString &outFileBaseName) override;
+    QString &checkOutFileNameExtension(QString &outFileBaseName) override;
 };
 
-#endif // TEAMCLASSENTRY_H
+#endif // CSVRANKINGPRINTER_H

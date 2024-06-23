@@ -27,7 +27,7 @@
 #include <QVector>
 
 #include "ui_chronoracedata.h"
-#include "chronoracelogo.h"
+#include "chronoracelogo.hpp"
 
 class ChronoRaceData : public QDialog
 {

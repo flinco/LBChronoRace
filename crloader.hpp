@@ -22,15 +22,15 @@
 #include <QVector>
 #include <QDataStream>
 
-#include "timing.h"
-#include "category.h"
-#include "competitor.h"
+#include "timing.hpp"
+#include "category.hpp"
+#include "competitor.hpp"
 
-#include "crtablemodel.h"
-#include "startlistmodel.h"
-#include "teamslistmodel.h"
-#include "timingsmodel.h"
-#include "categoriesmodel.h"
+#include "crtablemodel.hpp"
+#include "startlistmodel.hpp"
+#include "teamslistmodel.hpp"
+#include "timingsmodel.hpp"
+#include "categoriesmodel.hpp"
 
 namespace loader {
 class CRLoader;

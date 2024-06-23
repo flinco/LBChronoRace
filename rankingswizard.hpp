@@ -22,11 +22,11 @@
 #include <QWizard>
 #include <QList>
 
-#include "chronoracedata.h"
-#include "rankingsbuilder.h"
-#include "rankingswizardformat.h"
-#include "rankingswizardmode.h"
-#include "rankingswizardselection.h"
+#include "chronoracedata.hpp"
+#include "rankingsbuilder.hpp"
+#include "rankingswizardformat.hpp"
+#include "rankingswizardmode.hpp"
+#include "rankingswizardselection.hpp"
 
 class RankingsWizard : public QWizard
 {

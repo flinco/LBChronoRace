@@ -17,9 +17,9 @@
 
 #include <QLabel>
 
-#include "crloader.h"
-#include "rankingswizard.h"
-#include "rankingswizardformat.h"
+#include "crloader.hpp"
+#include "rankingswizard.hpp"
+#include "rankingswizardformat.hpp"
 
 RankingsWizardFormat::RankingsWizardFormat(QWidget *parent) :
     QWizardPage(parent),

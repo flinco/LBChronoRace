@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "timing.h"
-#include "lbcrexception.h"
+#include "timing.hpp"
+#include "lbcrexception.hpp"
 
 Timing::Field TimingSorter::sortingField = Timing::Field::TMF_TIME;
 Qt::SortOrder TimingSorter::sortingOrder = Qt::AscendingOrder;
@@ -194,8 +194,8 @@ bool TimingSorter::operator() (Timing const &lhs, Timing const &rhs) const
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getBib() > rhs.getBib()) : (lhs.getBib() < rhs.getBib());
     case Timing::Field::TMF_LEG:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getLeg() > rhs.getLeg()) : (lhs.getLeg() < rhs.getLeg());
-    case Timing::Field::TMF_TIME: //NOSONAR
-        // nobreak here
+    case Timing::Field::TMF_TIME:
+        [[fallthrough]];
     default:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }

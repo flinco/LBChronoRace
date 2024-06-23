@@ -15,36 +15,46 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef TXTRANKINGPRINTER_H
-#define TXTRANKINGPRINTER_H
+#ifndef RANKINGSWIZARDSELECTION_H
+#define RANKINGSWIZARDSELECTION_H
 
-#include <QTextStream>
-#include <QFile>
+#include <QWizardPage>
+#include <QVBoxLayout>
+#include <QListWidget>
+#include <QListWidgetItem>
 
-#include "rankingprinter.h"
+#include "category.hpp"
+#include "classentry.hpp"
+#include "teamclassentry.hpp"
 
-class TXTRankingPrinter final : public RankingPrinter
+class RankingsWizardSelection : public QWizardPage
 {
     Q_OBJECT
-    using RankingPrinter::RankingPrinter;
 
 public:
-    void init(QString *outFileName, QString const &title) override;
+    explicit RankingsWizardSelection(QWidget *parent = Q_NULLPTR);
 
-    void printStartList(QList<Competitor> const &startList) override;
-    void printRanking(Category const &category, QList<ClassEntry const *> const &ranking) override;
-    void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking) override;
+    class RankingsWizardItem
+    {
+    public:
+        Category const *category { Q_NULLPTR };
+        bool skip { false };
+        QList<ClassEntry const *> ranking { };
+        QList<TeamClassEntry const *> teamRanking { };
+    };
 
-    bool finalize() override;
-
-    QString getFileFilter() override;
+    void initializePage() override;
+    void cleanupPage() override;
 
 private:
-    QTextStream txtStream;
-    QFile txtFile;
+    QListWidget categoriesList;
+    QVBoxLayout layout;
 
-    QString &buildOutFileName(QString &outFileBaseName) override;
-    QString &checkOutFileNameExtension(QString &outFileBaseName) override;
+private slots:
+    void toggleSkipRanking(QListWidgetItem const *item) const;
+
+signals:
+    void error(QString const &message);
 };
 
-#endif // TXTRANKINGPRINTER_H
+#endif // RANKINGSWIZARDSELECTION_H

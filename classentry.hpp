@@ -21,8 +21,8 @@
 #include <QVector>
 #include <QString>
 
-#include "competitor.h"
-#include "timing.h"
+#include "competitor.hpp"
+#include "timing.hpp"
 
 namespace placement {
 class ClassEntryElement;

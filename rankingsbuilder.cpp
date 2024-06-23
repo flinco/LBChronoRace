@@ -17,9 +17,9 @@
 
 #include <QMultiMap>
 
-#include "crloader.h"
-#include "rankingsbuilder.h"
-#include "rankingprinter.h"
+#include "crloader.hpp"
+#include "rankingsbuilder.hpp"
+#include "rankingprinter.hpp"
 
 uint RankingsBuilder::loadData()
 {

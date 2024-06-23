@@ -18,11 +18,11 @@
 #include <QVector>
 #include <QFileDialog>
 
-#include "crloader.h"
-#include "category.h"
-#include "lbcrexception.h"
-#include "rankingswizard.h"
-#include "rankingprinter.h"
+#include "crloader.hpp"
+#include "category.hpp"
+#include "lbcrexception.hpp"
+#include "rankingswizard.hpp"
+#include "rankingprinter.hpp"
 
 RankingsWizard::RankingsWizard(ChronoRaceData *data, QDir *path, RankingsWizardTarget target) :
     QWizard(Q_NULLPTR),
@@ -95,13 +95,6 @@ void RankingsWizard::buildRankings()
     rankingsList.resize(categories.size());
     for (auto &rankingItem : rankingsList) {
         rankingItem.category = &categories.at(i);
-
-        if (rankingItem.category->isTeam()) {
-            rankingItem.skip = rankingsBuilder.fillRanking(rankingItem.teamRanking, *rankingItem.category).isEmpty();
-        } else {
-            rankingItem.skip = rankingsBuilder.fillRanking(rankingItem.ranking, *rankingItem.category).isEmpty();
-        }
-
         i++;
     }
 
@@ -185,14 +178,18 @@ void RankingsWizard::printRankingsSingleFile()
         printer->init(&rankingsFileName, raceData->getEvent() + " - " + tr("Results"));
 
         // now print each ranking
-        for (auto const &rankingItem : rankingsList) {
+        for (auto &rankingItem : rankingsList) {
             if (rankingItem.skip)
                 continue;
 
             if (rankingItem.category->isTeam()) {
+                // build the ranking
+                rankingsBuilder.fillRanking(rankingItem.teamRanking, *rankingItem.category).isEmpty();
                 // print the team ranking
                 printer->printRanking(*rankingItem.category, rankingItem.teamRanking);
             } else {
+                // build the ranking
+                rankingsBuilder.fillRanking(rankingItem.ranking, *rankingItem.category).isEmpty();
                 // print the individual ranking
                 printer->printRanking(*rankingItem.category, rankingItem.ranking);
             }
@@ -239,7 +236,7 @@ void RankingsWizard::printRankingsMultiFile()
         // now print each ranking
         uint k = 0;
         QString outFileBaseName;
-        for (auto const &rankingItem : rankingsList) {
+        for (auto &rankingItem : rankingsList) {
             k++;
 
             if (rankingItem.skip)
@@ -249,9 +246,13 @@ void RankingsWizard::printRankingsMultiFile()
             printer->init(&outFileBaseName, raceData->getEvent() + " - " + tr("Results") + " - " + rankingItem.category->getFullDescription());
 
             if (rankingItem.category->isTeam()) {
+                // build the ranking
+                rankingsBuilder.fillRanking(rankingItem.teamRanking, *rankingItem.category).isEmpty();
                 // print the team ranking
                 printer->printRanking(*rankingItem.category, rankingItem.teamRanking);
             } else {
+                // build the ranking
+                rankingsBuilder.fillRanking(rankingItem.ranking, *rankingItem.category).isEmpty();
                 // print the individual ranking
                 printer->printRanking(*rankingItem.category, rankingItem.ranking);
             }

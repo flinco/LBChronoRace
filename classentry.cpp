@@ -15,9 +15,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "classentry.h"
-#include "crloader.h"
-#include "lbcrexception.h"
+#include "classentry.hpp"
+#include "crloader.hpp"
+#include "lbcrexception.hpp"
 
 // Static members
 QString ClassEntry::empty("*** ??? ***");
@@ -30,7 +30,7 @@ QString ClassEntryElement::formatNameCSV(bool first, QString const &name, QStrin
 
 QString ClassEntryElement::formatNameTxt(bool first, QString const &name, QString const &sex, QString const &year) const
 {
-    return QString("%1%2 (%3,%4)").arg(first ? "" : ",", name, sex, year);
+    return QString("%1%2 (%3,%4)").arg(first ? "" : ", ", name, sex, year);
 }
 
 void ClassEntryElement::addNames(bool csvFormat, bool first, QString &entryString, QString const &emptyName) const

@@ -15,15 +15,15 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CSVRANKINGPRINTER_H
-#define CSVRANKINGPRINTER_H
+#ifndef TXTRANKINGPRINTER_H
+#define TXTRANKINGPRINTER_H
 
 #include <QTextStream>
 #include <QFile>
 
-#include "rankingprinter.h"
+#include "rankingprinter.hpp"
 
-class CSVRankingPrinter final : public RankingPrinter
+class TXTRankingPrinter final : public RankingPrinter
 {
     Q_OBJECT
     using RankingPrinter::RankingPrinter;
@@ -40,11 +40,11 @@ public:
     QString getFileFilter() override;
 
 private:
-    QTextStream csvStream;
-    QFile csvFile;
+    QTextStream txtStream;
+    QFile txtFile;
 
     QString &buildOutFileName(QString &outFileBaseName) override;
     QString &checkOutFileNameExtension(QString &outFileBaseName) override;
 };
 
-#endif // CSVRANKINGPRINTER_H
+#endif // TXTRANKINGPRINTER_H

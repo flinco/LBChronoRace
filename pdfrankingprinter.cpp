@@ -19,9 +19,9 @@
 #include <QPointF>
 #include <QFontDatabase>
 
-#include "pdfrankingprinter.h"
-#include "chronoracedata.h"
-#include "lbcrexception.h"
+#include "pdfrankingprinter.hpp"
+#include "chronoracedata.hpp"
+#include "lbcrexception.hpp"
 
 static constexpr qreal RANKING_TOP_MARGIN    = 10.0;
 static constexpr qreal RANKING_LEFT_MARGIN   = 10.0;

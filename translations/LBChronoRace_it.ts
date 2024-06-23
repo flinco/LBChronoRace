@@ -506,6 +506,10 @@
         <translation>BLOCCA</translation>
     </message>
     <message>
+        <source>UNLOCK</source>
+        <translation>SBLOCCA</translation>
+    </message>
+    <message>
         <source>Bib</source>
         <translation>Pettorale</translation>
     </message>
