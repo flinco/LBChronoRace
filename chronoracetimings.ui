@@ -67,7 +67,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="controlButtons" stretch="2,2,2,1">
+        <layout class="QHBoxLayout" name="controlButtons" stretch="3,3,3,2">
          <item>
           <widget class="QToolButton" name="startButton">
            <property name="sizePolicy">
@@ -180,22 +180,45 @@
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="lockBox">
-           <property name="focusPolicy">
-            <enum>Qt::NoFocus</enum>
-           </property>
-           <property name="toolTip">
-            <string>Timer controls are disabled when checked</string>
-           </property>
-           <property name="text">
-            <string>LOCK</string>
-           </property>
-           <property name="icon">
-            <iconset resource="materialicons.qrc">
-             <normaloff>:/material/icons/lock_open.svg</normaloff>
-             <normalon>:/material/icons/lock.svg</normalon>:/material/icons/lock_open.svg</iconset>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="lockButtons">
+           <item>
+            <widget class="QCheckBox" name="lockBox">
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
+             <property name="toolTip">
+              <string>Timer controls are disabled when locked</string>
+             </property>
+             <property name="text">
+              <string>LOCK</string>
+             </property>
+             <property name="icon">
+              <iconset resource="materialicons.qrc">
+               <normaloff>:/material/icons/lock_open.svg</normaloff>:/material/icons/lock_open.svg</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="unlockBox">
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
+             <property name="toolTip">
+              <string>Timer controls are disabled when locked</string>
+             </property>
+             <property name="text">
+              <string>UNLOCK</string>
+             </property>
+             <property name="icon">
+              <iconset resource="materialicons.qrc">
+               <normaloff>:/material/icons/lock.svg</normaloff>:/material/icons/lock.svg</iconset>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>

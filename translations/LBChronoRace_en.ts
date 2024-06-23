@@ -506,6 +506,10 @@
         <translation>LOCK</translation>
     </message>
     <message>
+        <source>UNLOCK</source>
+        <translation>UNLOCK</translation>
+    </message>
+    <message>
         <source>Bib</source>
         <translation>Bib</translation>
     </message>
