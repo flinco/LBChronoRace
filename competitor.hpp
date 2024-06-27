@@ -47,10 +47,11 @@ public:
         CMF_NAME       = 1,
         CMF_SEX        = 2,
         CMF_YEAR       = 3,
-        CMF_TEAM       = 4,
-        CMF_OFFSET_LEG = 5,
-        CMF_LAST       = 5,
-        CMF_COUNT      = 6
+        CMF_CLUB       = 4,
+        CMF_TEAM       = 5,
+        CMF_OFFSET_LEG = 6,
+        CMF_LAST       = 6,
+        CMF_COUNT      = 7
     };
 
 private:
@@ -59,6 +60,7 @@ private:
     QString name { "" };
     Sex     sex { Sex::UNDEFINED };
     uint    year { 1900 };
+    QString club { "" };
     QString team { "" };
     uint    leg { 1u };
     int     offset { -1 };
@@ -78,6 +80,10 @@ public:
     void setBib(uint newBib);
     Sex getSex() const;
     void setSex(Sex const newSex);
+    QString const &getClub() const;
+    QString getClub(int newWidth) const;
+    void setClub(QString const &newClub);
+    void setClub(QString const *newClub);
     QString const &getTeam() const;
     QString getTeam(int newWidth) const;
     void setTeam(QString const &newTeam);

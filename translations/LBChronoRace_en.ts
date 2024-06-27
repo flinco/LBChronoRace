@@ -498,10 +498,6 @@
         <translation>RESET</translation>
     </message>
     <message>
-        <source>Timer controls are disabled when checked</source>
-        <translation>Timer controls are disabled when checked</translation>
-    </message>
-    <message>
         <source>LOCK</source>
         <translation>LOCK</translation>
     </message>
@@ -561,6 +557,10 @@ Continue?</source>
 All recorded timings and bibs will be deleted.
 Continue?</translation>
     </message>
+    <message>
+        <source>Timer controls are disabled when locked</source>
+        <translation>Timer controls are disabled when locked</translation>
+    </message>
 </context>
 <context>
     <name>ClassEntry</name>
@@ -595,8 +595,8 @@ Continue?</translation>
         <translation>Edit Race Information</translation>
     </message>
     <message>
-        <source>Edit Teams List</source>
-        <translation>Edit Teams List</translation>
+        <source>View Clubs List</source>
+        <translation>View Clubs List</translation>
     </message>
     <message>
         <source>Teams</source>
@@ -707,10 +707,6 @@ Continue?</translation>
         <translation>S</translation>
     </message>
     <message>
-        <source>Te&amp;ams</source>
-        <translation>Te&amp;ams</translation>
-    </message>
-    <message>
         <source>About LBChronoRace</source>
         <translation>About LBChronoRace</translation>
     </message>
@@ -735,8 +731,8 @@ Continue?</translation>
         <translation>Start List</translation>
     </message>
     <message>
-        <source>Teams List</source>
-        <translation>Teams List</translation>
+        <source>Clubs List</source>
+        <translation>Clubs List</translation>
     </message>
     <message>
         <source>Timings List</source>
@@ -807,8 +803,8 @@ Continue?</translation>
         <translation>Start List File saved: %1</translation>
     </message>
     <message>
-        <source>Select Teams List</source>
-        <translation>Select Teams List</translation>
+        <source>Select Clubs List</source>
+        <translation>Select Clubs List</translation>
     </message>
     <message>
         <source>Teams File saved: %1</source>
@@ -871,10 +867,6 @@ Continue?</translation>
         <translation>Edit race information, including logos</translation>
     </message>
     <message>
-        <source>See the list of the teams (that cannot be changed)</source>
-        <translation>See the list of the teams (that cannot be changed)</translation>
-    </message>
-    <message>
         <source>Add, remove, and change the race timings</source>
         <translation>Add, remove, and change the race timings</translation>
     </message>
@@ -917,6 +909,14 @@ Continue?</translation>
     <message>
         <source>Save current race data to a new file</source>
         <translation>Save current race data to a new file</translation>
+    </message>
+    <message>
+        <source>See the list of the clubs (that cannot be changed)</source>
+        <translation>See the list of the clubs (that cannot be changed)</translation>
+    </message>
+    <message>
+        <source>Cl&amp;ubs</source>
+        <translation>Cl&amp;ubs</translation>
     </message>
 </context>
 <context>
@@ -1319,6 +1319,14 @@ Continue?</translation>
         <source>Start time/Leg</source>
         <translation>Start time/Leg</translation>
     </message>
+    <message>
+        <source>Club name</source>
+        <translation>Club name</translation>
+    </message>
+    <message>
+        <source>Club</source>
+        <translation>Club</translation>
+    </message>
 </context>
 <context>
     <name>TXTRankingPrinter</name>
@@ -1357,19 +1365,19 @@ Continue?</translation>
         <translation>Requested index %1 exceeds the number of available entries %2</translation>
     </message>
     <message>
-        <source>Unexpected team: expected %1 - found %2</source>
-        <translation>Unexpected team: expected %1 - found %2</translation>
+        <source>Unexpected club: expected %1 - found %2</source>
+        <translation>Unexpected club: expected %1 - found %2</translation>
     </message>
 </context>
 <context>
     <name>TeamsListModel</name>
     <message>
-        <source>Team name</source>
-        <translation>Team name</translation>
+        <source>Club name</source>
+        <translation>Club name</translation>
     </message>
     <message>
-        <source>Team Name</source>
-        <translation>Team Name</translation>
+        <source>Club Name</source>
+        <translation>Club Name</translation>
     </message>
 </context>
 <context>

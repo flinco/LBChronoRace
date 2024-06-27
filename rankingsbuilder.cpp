@@ -167,8 +167,8 @@ QList<TeamClassEntry const *> &RankingsBuilder::fillRanking(QList<TeamClassEntry
             continue;
         }
 
-        // exclude competitors without team
-        if (classEntry->getTeam().isEmpty()) {
+        // exclude competitors without club
+        if (classEntry->getClub().isEmpty()) {
             continue;
         }
 
@@ -190,11 +190,11 @@ QList<TeamClassEntry const *> &RankingsBuilder::fillRanking(QList<TeamClassEntry
             continue;
         }
 
-        QString const &team = classEntry->getTeam();
+        QString const &club = classEntry->getClub();
 
-        QMap<QString, TeamClassEntry>::iterator const teamRankingIt = rankingByTeam.find(team);
+        QMap<QString, TeamClassEntry>::iterator const teamRankingIt = rankingByTeam.find(club);
         if (teamRankingIt == rankingByTeam.end()) {
-            rankingByTeam.insert(team, TeamClassEntry()).value().setClassEntry(classEntry);
+            rankingByTeam.insert(club, TeamClassEntry()).value().setClassEntry(classEntry);
         } else {
             teamRankingIt.value().setClassEntry(classEntry);
         }

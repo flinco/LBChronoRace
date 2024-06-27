@@ -15,6 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+#include "lbchronorace.hpp"
 #include "competitor.hpp"
 #include "lbcrexception.hpp"
 
@@ -27,6 +28,7 @@ QDataStream &operator<<(QDataStream &out, const Competitor &comp)
         << comp.name
         << Competitor::toSexString(comp.sex)
         << quint32(comp.year)
+        << comp.club
         << comp.team
         << quint32(comp.leg)
         << qint32(comp.offset);
@@ -46,8 +48,10 @@ QDataStream &operator>>(QDataStream &in, Competitor &comp)
        >> comp.name
        >> sexStr
        >> year32
-       >> comp.team
-       >> leg32
+       >> comp.club;
+    if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v2)
+      in >> comp.team;
+    in >> leg32
        >> offset32;
 
     comp.bib    = bib32;
@@ -92,6 +96,27 @@ Competitor::Sex Competitor::getSex() const
 void Competitor::setSex(Competitor::Sex const newSex)
 {
     this->sex = newSex;
+}
+
+QString const &Competitor::getClub() const
+{
+    return club;
+}
+
+QString Competitor::getClub(int newWidth) const
+{
+    return QString("%1").arg(this->club, -newWidth);
+}
+
+void Competitor::setClub(QString const &newClub)
+{
+    this->club = newClub;
+}
+
+void Competitor::setClub(QString const *newClub)
+{
+    if (newClub)
+        this->club = *newClub;
 }
 
 QString const &Competitor::getTeam() const
@@ -301,6 +326,8 @@ bool CompetitorSorter::operator() (Competitor const &lhs, Competitor const &rhs)
             return (sortingOrder == Qt::DescendingOrder) ? (Competitor::toSexString(lhs.getSex()) > Competitor::toSexString(rhs.getSex())) : (Competitor::toSexString(lhs.getSex()) < Competitor::toSexString(rhs.getSex()));
         case Competitor::Field::CMF_YEAR:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getYear() > rhs.getYear()) : (lhs.getYear() < rhs.getYear());
+        case Competitor::Field::CMF_CLUB:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getClub() > rhs.getClub()) : (lhs.getClub() < rhs.getClub());
         case Competitor::Field::CMF_TEAM:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getTeam() > rhs.getTeam()) : (lhs.getTeam() < rhs.getTeam());
         case Competitor::Field::CMF_BIB:

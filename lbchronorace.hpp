@@ -43,7 +43,8 @@ constexpr char LBCHRONORACE_CATEGORIES_DEFAULT[] = "categories.csv";
 
 constexpr int LBCHRONORACE_BIN_FMT_v1 = 1;
 constexpr int LBCHRONORACE_BIN_FMT_v2 = 2;
-#define LBCHRONORACE_BIN_FMT LBCHRONORACE_BIN_FMT_v2
+constexpr int LBCHRONORACE_BIN_FMT_v3 = 3;
+#define LBCHRONORACE_BIN_FMT LBCHRONORACE_BIN_FMT_v3
 
 class LBChronoRace : public QMainWindow
 {
@@ -53,6 +54,7 @@ public:
     explicit LBChronoRace(QWidget *parent = Q_NULLPTR, QGuiApplication const *app = Q_NULLPTR);
 
     static QDir lastSelectedPath;
+    static int binFormat;
 
 public slots:
     void initialize();

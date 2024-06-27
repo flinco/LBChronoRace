@@ -18,9 +18,9 @@
 #include "teamclassentry.hpp"
 #include "lbcrexception.hpp"
 
-QString const &TeamClassEntry::getTeam() const
+QString const &TeamClassEntry::getClub() const
 {
-    return team;
+    return club;
 }
 
 ClassEntry const *TeamClassEntry::getClassEntry(int index) const
@@ -34,9 +34,9 @@ ClassEntry const *TeamClassEntry::getClassEntry(int index) const
 void TeamClassEntry::setClassEntry(ClassEntry *entry)
 {
     if (this->entryList.isEmpty()) {
-        this->team = entry->getTeam();
-    } else if (this->team.compare(entry->getTeam()) != 0) {
-        throw(ChronoRaceException(tr("Unexpected team: expected %1 - found %2").arg(this->team, entry->getTeam())));
+        this->club = entry->getClub();
+    } else if (this->club.compare(entry->getClub()) != 0) {
+        throw(ChronoRaceException(tr("Unexpected club: expected %1 - found %2").arg(this->club, entry->getClub())));
     }
     this->entryList.push_back(entry);
 }

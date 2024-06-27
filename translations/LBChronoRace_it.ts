@@ -498,10 +498,6 @@
         <translation>AZZERA</translation>
     </message>
     <message>
-        <source>Timer controls are disabled when checked</source>
-        <translation>Disabilita i pulsanti di controllo del cronometro</translation>
-    </message>
-    <message>
         <source>LOCK</source>
         <translation>BLOCCA</translation>
     </message>
@@ -561,6 +557,10 @@ Continue?</source>
 Tutti i tempi registrati e i pettorali saranno cancellati.
 Continuare?</translation>
     </message>
+    <message>
+        <source>Timer controls are disabled when locked</source>
+        <translation>Disabilita i pulsanti di controllo del cronometro</translation>
+    </message>
 </context>
 <context>
     <name>ClassEntry</name>
@@ -595,8 +595,8 @@ Continuare?</translation>
         <translation>Modifica Informazioni Gara</translation>
     </message>
     <message>
-        <source>Edit Teams List</source>
-        <translation>Modifica Lista Squadre</translation>
+        <source>View Clubs List</source>
+        <translation>Visualizza Lista Società</translation>
     </message>
     <message>
         <source>Teams</source>
@@ -707,10 +707,6 @@ Continuare?</translation>
         <translation>S</translation>
     </message>
     <message>
-        <source>Te&amp;ams</source>
-        <translation>Squ&amp;adre</translation>
-    </message>
-    <message>
         <source>About LBChronoRace</source>
         <translation>Informazioni su LBChronoRace</translation>
     </message>
@@ -735,8 +731,8 @@ Continuare?</translation>
         <translation>Ordine di Partenza</translation>
     </message>
     <message>
-        <source>Teams List</source>
-        <translation>Lista Squadre</translation>
+        <source>Clubs List</source>
+        <translation>Lista Società</translation>
     </message>
     <message>
         <source>Timings List</source>
@@ -807,8 +803,8 @@ Continuare?</translation>
         <translation>File Ordine di Partenza salvato: %1</translation>
     </message>
     <message>
-        <source>Select Teams List</source>
-        <translation>Seleziona Lista Squadre</translation>
+        <source>Select Clubs List</source>
+        <translation>Seleziona Clubs Squadre</translation>
     </message>
     <message>
         <source>Teams File saved: %1</source>
@@ -871,10 +867,6 @@ Continuare?</translation>
         <translation>Modifica le informazioni sulla gara, compresi i loghi</translation>
     </message>
     <message>
-        <source>See the list of the teams (that cannot be changed)</source>
-        <translation>Visualizza l&apos;elenco delle squadre (che non può essere modificato)</translation>
-    </message>
-    <message>
         <source>Add, remove, and change the race timings</source>
         <translation>Aggiunge, rimuove e modifica i tempi di gara</translation>
     </message>
@@ -917,6 +909,14 @@ Continuare?</translation>
     <message>
         <source>Save current race data to a new file</source>
         <translation>Salva i dati di gara in un nuovo file</translation>
+    </message>
+    <message>
+        <source>See the list of the clubs (that cannot be changed)</source>
+        <translation>Visualizza l&apos;elenco delle società (che non può essere modificato)</translation>
+    </message>
+    <message>
+        <source>Cl&amp;ubs</source>
+        <translation>&amp;Società</translation>
     </message>
 </context>
 <context>
@@ -1319,6 +1319,14 @@ Continuare?</translation>
         <source>Start time/Leg</source>
         <translation>Partenza/Frazione</translation>
     </message>
+    <message>
+        <source>Club name</source>
+        <translation>Nome società</translation>
+    </message>
+    <message>
+        <source>Club</source>
+        <translation>Società</translation>
+    </message>
 </context>
 <context>
     <name>TXTRankingPrinter</name>
@@ -1357,19 +1365,19 @@ Continuare?</translation>
         <translation>L&apos;elemento richiesto %1 supera il numero di elementi disponibili %2</translation>
     </message>
     <message>
-        <source>Unexpected team: expected %1 - found %2</source>
-        <translation>Squadra non valida: attesa %1 - trovata %2</translation>
+        <source>Unexpected club: expected %1 - found %2</source>
+        <translation>Società non valida: attesa %1 - trovata %2</translation>
     </message>
 </context>
 <context>
     <name>TeamsListModel</name>
     <message>
-        <source>Team name</source>
-        <translation>Nome squadra</translation>
+        <source>Club name</source>
+        <translation>Nome società</translation>
     </message>
     <message>
-        <source>Team Name</source>
-        <translation>Nome Squadra</translation>
+        <source>Club Name</source>
+        <translation>Nome Società</translation>
     </message>
 </context>
 <context>

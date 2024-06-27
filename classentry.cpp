@@ -99,9 +99,10 @@ QString ClassEntry::getNamesCommon(bool csvFormat) const
 
     for (i = 0; i < entries.size(); i++) {
         if ((c = entries[i].competitor)) {
+            QString clubAndTeam = QString("%1 %2").arg(c->getClub(), c->getTeam()).simplified();
             retString += csvFormat ?
-                        QString(",%1").arg(c->getTeam()) :
-                        QString(" - %1").arg(c->getTeam(), -teamNameWidthMax);
+                        QString(",%1").arg(clubAndTeam) :
+                        QString(" - %1").arg(clubAndTeam, -teamNameWidthMax);
             break;
         }
     }
@@ -117,14 +118,26 @@ QString ClassEntry::getNamesCommon(bool csvFormat) const
     return retString;
 }
 
-QString ClassEntry::getNamesCSV() const
+QString ClassEntry::getNames(CRLoader::Format format) const
 {
-    return getNamesCommon(true);
-}
+    QString retString;
 
-QString ClassEntry::getNamesTxt() const
-{
-    return getNamesCommon(false);
+    switch (format)
+    {
+    case CRLoader::Format::TEXT:
+        retString = getNamesCommon(false);
+        break;
+    case CRLoader::Format::CSV:
+        retString = getNamesCommon(true);
+        break;
+    case CRLoader::Format::PDF:
+        [[fallthrough]];
+    default:
+        retString = "***Error***";
+        break;
+    }
+
+    return retString;
 }
 
 uint ClassEntry::getYear(uint legIdx) const
@@ -157,22 +170,26 @@ Competitor::Sex ClassEntry::getSex(uint legIdx) const
     return (entries[legIdx].competitor) ? entries[legIdx].competitor->getSex() : Competitor::Sex::UNDEFINED;
 }
 
-QString ClassEntry::getTimesCSV() const
+QString ClassEntry::getTimes(CRLoader::Format format, int legRankWidth) const
 {
     QString retString;
 
-    for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
-        retString.append(QString("%1%2,%3").arg((it == entries.constBegin()) ? "" : ",").arg(it->legRanking).arg(Timing::toTimeStr(it->time, Timing::Status::CLASSIFIED)));
-
-    return retString;
-}
-
-QString ClassEntry::getTimesTxt(int legRankWidth) const
-{
-    QString retString;
-
-    for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
-        retString.append(QString("%1(%2) %3").arg((it == entries.constBegin()) ? "" : " - ").arg(it->legRanking, legRankWidth).arg(Timing::toTimeStr(it->time, it->status), 7));
+    switch (format)
+    {
+    case CRLoader::Format::TEXT:
+        for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
+            retString.append(QString("%1(%2) %3").arg((it == entries.constBegin()) ? "" : " - ").arg(it->legRanking, legRankWidth).arg(Timing::toTimeStr(it->time, it->status), 7));
+        break;
+    case CRLoader::Format::CSV:
+        for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
+            retString.append(QString("%1%2,%3").arg((it == entries.constBegin()) ? "" : ",").arg(it->legRanking).arg(Timing::toTimeStr(it->time, Timing::Status::CLASSIFIED)));
+        break;
+    case CRLoader::Format::PDF:
+        [[fallthrough]];
+    default:
+        retString = "***Error***";
+        break;
+    }
 
     return retString;
 }
@@ -280,6 +297,16 @@ uint ClassEntry::getToYear() const
     return toYear;
 }
 
+QString const &ClassEntry::getClub() const
+{
+    for (auto const &it : entries) {
+        if (it.competitor)
+            return it.competitor->getClub();
+    }
+
+    return ClassEntry::empty;
+}
+
 QString const &ClassEntry::getTeam() const
 {
     for (auto const &it : entries) {
@@ -327,16 +354,28 @@ uint ClassEntry::getTotalTime() const
     return totalTime;
 }
 
-QString ClassEntry::getTotalTimeCSV() const
+QString ClassEntry::getTotalTime(CRLoader::Format format) const
 {
-    return getTotalTimeTxt();
-}
+    QString retString;
 
-QString ClassEntry::getTotalTimeTxt() const
-{
-    if (isDns()) return Timing::toTimeStr(totalTime, Timing::Status::DNS);
-    if (isDnf()) return Timing::toTimeStr(totalTime, Timing::Status::DNF);
-    return Timing::toTimeStr(totalTime, Timing::Status::CLASSIFIED);
+    switch (format)
+    {
+    case CRLoader::Format::TEXT:
+    case CRLoader::Format::CSV:
+    case CRLoader::Format::PDF:
+        if (isDns())
+            retString = Timing::toTimeStr(totalTime, Timing::Status::DNS);
+        else if (isDnf())
+            retString = Timing::toTimeStr(totalTime, Timing::Status::DNF);
+        else
+            retString = Timing::toTimeStr(totalTime, Timing::Status::CLASSIFIED);
+        break;
+    default:
+        retString = "***Error***";
+        break;
+    }
+
+    return retString;
 }
 
 QString ClassEntry::getDiffTimeTxt(uint referenceTime) const

@@ -48,15 +48,12 @@ public:
 
     void reset();
 
-    uint getTeamNameWidthMax() const;
-
 public slots:
     void addTeam(QString const &team);
     void refreshCounters(int r) override;
 
 private:
     QList<QString> teamsList;
-    uint           teamNameWidthMax;
 };
 
 #endif // LBTEAMSLISTMODEL_H
