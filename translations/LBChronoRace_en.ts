@@ -454,6 +454,16 @@
         <source>Quit</source>
         <translation>Quit</translation>
     </message>
+    <message>
+        <source>Are the data you are importing ISO-8859-1 (Latin-1) encoded?
+Choose No to use UTF-8 encoding. If in doubt, choose Yes.</source>
+        <translation>Are the data you are importing ISO-8859-1 (Latin-1) encoded?
+Choose No to use UTF-8 encoding. If in doubt, choose Yes.</translation>
+    </message>
+    <message>
+        <source>CSV Encoding</source>
+        <translation>CSV Encoding</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTimings</name>
@@ -843,10 +853,6 @@ Continue?</translation>
         <translation>Race Data File Error</translation>
     </message>
     <message>
-        <source>Format version %1 not supported</source>
-        <translation>Format version %1 not supported</translation>
-    </message>
-    <message>
         <source>Race saved: %1</source>
         <translation>Race saved: %1</translation>
     </message>
@@ -917,6 +923,12 @@ Continue?</translation>
     <message>
         <source>Cl&amp;ubs</source>
         <translation>Cl&amp;ubs</translation>
+    </message>
+    <message>
+        <source>Data format %1 not supported.
+Please uodate the application.</source>
+        <translation>Data format %1 not supported.
+Please uodate the application.</translation>
     </message>
 </context>
 <context>

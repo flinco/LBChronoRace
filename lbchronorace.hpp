@@ -25,6 +25,7 @@
 
 #include "ui_chronorace.h"
 
+#include "crloader.hpp"
 #include "chronoracetable.hpp"
 #include "chronoracedata.hpp"
 #include "chronoracetimings.hpp"
@@ -102,9 +103,9 @@ private slots:
     void makeStartList();
     void makeRankings();
 
-    void importStartList();
-    void importCategoriesList();
-    void importTimingsList();
+    void importStartList(CRLoader::Encoding encoding);
+    void importCategoriesList(CRLoader::Encoding encoding);
+    void importTimingsList(CRLoader::Encoding encoding);
 
     void exportStartList();
     void exportTeamList();
