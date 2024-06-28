@@ -454,6 +454,16 @@
         <source>Quit</source>
         <translation>Esci</translation>
     </message>
+    <message>
+        <source>Are the data you are importing ISO-8859-1 (Latin-1) encoded?
+Choose No to use UTF-8 encoding. If in doubt, choose Yes.</source>
+        <translation>I dati che si stanno per importare sono codificati ISO-8859-1 (Latin-1)?
+Sceglire No per usare la codifica UTF-8. Nel dubbio, scegliere Si.</translation>
+    </message>
+    <message>
+        <source>CSV Encoding</source>
+        <translation>Codifica CSV</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTimings</name>
@@ -840,11 +850,7 @@ Continuare?</translation>
     </message>
     <message>
         <source>Race Data File Error</source>
-        <translation>Errore File Gara</translation>
-    </message>
-    <message>
-        <source>Format version %1 not supported</source>
-        <translation>Formato versione %1 non supportato</translation>
+        <translation>Errore File Dati Gara</translation>
     </message>
     <message>
         <source>Race saved: %1</source>
@@ -917,6 +923,12 @@ Continuare?</translation>
     <message>
         <source>Cl&amp;ubs</source>
         <translation>&amp;Società</translation>
+    </message>
+    <message>
+        <source>Data format %1 not supported.
+Please uodate the application.</source>
+        <translation>Formato dati %1 non supportato.
+Aggiornare l&apos;applicazione.</translation>
     </message>
 </context>
 <context>

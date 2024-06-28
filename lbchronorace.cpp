@@ -26,8 +26,6 @@
 //NOSONAR #include <QDebug>
 
 #include "lbchronorace.hpp"
-#include "crloader.hpp"
-#include "crloader.hpp"
 #include "lbcrexception.hpp"
 #include "rankingswizard.hpp"
 
@@ -150,7 +148,7 @@ void LBChronoRace::appendErrorMessage(QString const &message) const
     ui->errorDisplay->appendPlainText(message);
 }
 
-void LBChronoRace::importStartList()
+void LBChronoRace::importStartList(CRLoader::Encoding encoding)
 {
     startListFileName = QFileDialog::getOpenFileName(this, tr("Select Start List"),
        lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
@@ -159,6 +157,7 @@ void LBChronoRace::importStartList()
         QPair<int, int> count(0, 0);
         appendInfoMessage(tr("Start List File: %1").arg(startListFileName));
         try {
+            CRLoader::setEncoding(encoding);
             count = CRLoader::importStartList(startListFileName);
             appendInfoMessage(tr("Loaded: %n competitor(s)", "", count.first));
             appendInfoMessage(tr("Loaded: %n team(s)", "", count.second));
@@ -171,7 +170,7 @@ void LBChronoRace::importStartList()
     }
 }
 
-void LBChronoRace::importCategoriesList()
+void LBChronoRace::importCategoriesList(CRLoader::Encoding encoding)
 {
     categoriesFileName = QFileDialog::getOpenFileName(this, tr("Select Categories File"),
          lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
@@ -180,6 +179,7 @@ void LBChronoRace::importCategoriesList()
         int count = 0;
         appendInfoMessage(tr("Categories File: %1").arg(categoriesFileName));
         try {
+            CRLoader::setEncoding(encoding);
             count = CRLoader::importCategories(categoriesFileName);
             appendInfoMessage(tr("Loaded: %n category(s)", "", count));
             lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
@@ -190,7 +190,7 @@ void LBChronoRace::importCategoriesList()
     }
 }
 
-void LBChronoRace::importTimingsList()
+void LBChronoRace::importTimingsList(CRLoader::Encoding encoding)
 {
     timingsFileName = QFileDialog::getOpenFileName(this, tr("Select Timings File"),
         lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
@@ -199,6 +199,7 @@ void LBChronoRace::importTimingsList()
         int count = 0;
         appendInfoMessage(tr("Timings File: %1").arg(timingsFileName));
         try {
+            CRLoader::setEncoding(encoding);
             count = CRLoader::importTimings(timingsFileName);
             appendInfoMessage(tr("Loaded: %n timing(s)", "", count));
             lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
@@ -420,7 +421,7 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
                 retval = true;
                 break;
             default:
-                QMessageBox::information(this, tr("Race Data File Error"), tr("Format version %1 not supported").arg(binFmt));
+                QMessageBox::information(this, tr("Race Data File Error"), tr("Data format %1 not supported.\nPlease uodate the application.").arg(binFmt));
                 break;
             }
         } else {
