@@ -67,6 +67,8 @@ set(PROJECT_SOURCES
     chronoracetimings.ui
     classentry.cpp
     classentry.hpp
+    clubdelegate.cpp
+    clubdelegate.hpp
     competitor.cpp
     competitor.hpp
     crloader.cpp

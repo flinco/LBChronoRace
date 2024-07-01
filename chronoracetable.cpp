@@ -54,6 +54,11 @@ void ChronoRaceTable::disableButtons() const
     //ui->modelExport->setEnabled(false); //NOSONAR
 }
 
+void ChronoRaceTable::setItemDelegateForColumn(int column, QAbstractItemDelegate *delegate)
+{
+    ui->tableView->setItemDelegateForColumn(column, delegate);
+}
+
 void ChronoRaceTable::show()
 {
     ui->retranslateUi(this);

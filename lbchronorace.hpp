@@ -29,6 +29,7 @@
 #include "chronoracetable.hpp"
 #include "chronoracedata.hpp"
 #include "chronoracetimings.hpp"
+#include "clubdelegate.hpp"
 
 #ifndef LBCHRONORACE_NAME
 #error "LBCHRONORACE_NAME not set"
@@ -87,6 +88,8 @@ private:
     ChronoRaceTable timingsTable;
 
     ChronoRaceTimings timings;
+
+    ClubDelegate clubDelegate;
 
     bool loadRaceFile(QString const &fileName);
 
