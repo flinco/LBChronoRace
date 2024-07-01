@@ -192,7 +192,7 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
         case static_cast<int>(Competitor::Field::CMF_SEX):
             try {
                 Competitor::Sex sex = Competitor::toSex(value.toString().trimmed(), true);
-                retval = (sex != Competitor::Sex::UNDEFINED);
+                retval = (sex != Competitor::Sex::MISC);
                 if (retval) startList[index.row()].setSex(sex);
             } catch (ChronoRaceException &ex) {
                 emit error(ex.getMessage());

@@ -78,10 +78,6 @@
         <translation>Individuale (I) o Società (T)</translation>
     </message>
     <message>
-        <source>Male (M), Female (F), Misc (X) or Unspecified (U)</source>
-        <translation>Maschile (M), Femminile (F), Mista (X) o Non specificato (U)</translation>
-    </message>
-    <message>
         <source>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</source>
         <translation>La categoria include concorrenti nati fino a quest&apos;anno incluso (es. 2000); 0 per disabilitare</translation>
     </message>
@@ -121,12 +117,62 @@
         <source>Category Short Name</source>
         <translation>Abbreviazione Categoria</translation>
     </message>
+    <message>
+        <source>Men (M), Women (F), Mixed (X) or All (U)</source>
+        <translation>Maschile (M), Femminile (F), Mista (X) o Tutti (U)</translation>
+    </message>
 </context>
 <context>
     <name>Category</name>
     <message>
         <source>Illegal category type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
         <translation>Categoria errata - valori ammessi &apos;I&apos; o &apos;T&apos; - trovato %1</translation>
+    </message>
+    <message>
+        <source>Unexpected Type enum value &apos;%1&apos;</source>
+        <translation>Valore enumerazione Type &apos;%1&apos; non valido</translation>
+    </message>
+    <message>
+        <source>Illegal type &apos;%1&apos;</source>
+        <translation>Tipo non valido &apos;%1&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>CategorySexDelegate</name>
+    <message>
+        <source>Men</source>
+        <translation>Maschile</translation>
+    </message>
+    <message>
+        <source>Women</source>
+        <translation>Femminile</translation>
+    </message>
+    <message>
+        <source>Mixed</source>
+        <translation>Mista</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Tutti</translation>
+    </message>
+    <message>
+        <source>Unexpected Sex enum value &apos;%1&apos;</source>
+        <translation>Valore enumerazione Sex &apos;%1&apos; non valido</translation>
+    </message>
+</context>
+<context>
+    <name>CategoryTypeDelegate</name>
+    <message>
+        <source>Individual</source>
+        <translation>Individuale</translation>
+    </message>
+    <message>
+        <source>Club</source>
+        <translation>Società</translation>
+    </message>
+    <message>
+        <source>Unexpected Type enum value &apos;%1&apos;</source>
+        <translation>Valore enumerazione Type &apos;%1&apos; non valido</translation>
     </message>
 </context>
 <context>
@@ -607,10 +653,6 @@ Continuare?</translation>
     <message>
         <source>View Clubs List</source>
         <translation>Visualizza Lista Società</translation>
-    </message>
-    <message>
-        <source>Teams</source>
-        <translation>Squadre</translation>
     </message>
     <message>
         <source>Competitors</source>
@@ -1283,6 +1325,25 @@ Aggiornare l&apos;applicazione.</translation>
     <message>
         <source>You can exclude some categories from the generated rankings.</source>
         <translation>Puoi escludere alcune categorie dalle classifiche generate.</translation>
+    </message>
+</context>
+<context>
+    <name>SexDelegate</name>
+    <message>
+        <source>Male</source>
+        <translation>Maschio</translation>
+    </message>
+    <message>
+        <source>Female</source>
+        <translation>Femmina</translation>
+    </message>
+    <message>
+        <source>Unexpected Sex enum value &apos;%1&apos;</source>
+        <translation>Valore enumerazione Sex &apos;%1&apos; non valido</translation>
+    </message>
+    <message>
+        <source>Not set</source>
+        <translation>Non impostato</translation>
     </message>
 </context>
 <context>

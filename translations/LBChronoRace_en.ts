@@ -78,10 +78,6 @@
         <translation>Individual (I) or Team (T)</translation>
     </message>
     <message>
-        <source>Male (M), Female (F), Misc (X) or Unspecified (U)</source>
-        <translation>Male (M), Female (F), Misc (X) or Unspecified (U)</translation>
-    </message>
-    <message>
         <source>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</source>
         <translation>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</translation>
     </message>
@@ -121,12 +117,62 @@
         <source>Category Short Name</source>
         <translation>Category Short Name</translation>
     </message>
+    <message>
+        <source>Men (M), Women (F), Mixed (X) or All (U)</source>
+        <translation>Men (M), Women (F), Mixed (X) or All (U)</translation>
+    </message>
 </context>
 <context>
     <name>Category</name>
     <message>
         <source>Illegal category type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
         <translation>Illegal category type - expected &apos;I&apos; or &apos;T&apos; - found %1</translation>
+    </message>
+    <message>
+        <source>Unexpected Type enum value &apos;%1&apos;</source>
+        <translation>Unexpected Type enum value &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Illegal type &apos;%1&apos;</source>
+        <translation>Illegal type &apos;%1&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>CategorySexDelegate</name>
+    <message>
+        <source>Men</source>
+        <translation>Men</translation>
+    </message>
+    <message>
+        <source>Women</source>
+        <translation>Women</translation>
+    </message>
+    <message>
+        <source>Mixed</source>
+        <translation>Mixed</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>All</translation>
+    </message>
+    <message>
+        <source>Unexpected Sex enum value &apos;%1&apos;</source>
+        <translation>Unexpected Sex enum value &apos;%1&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>CategoryTypeDelegate</name>
+    <message>
+        <source>Individual</source>
+        <translation>Individual</translation>
+    </message>
+    <message>
+        <source>Club</source>
+        <translation>Club</translation>
+    </message>
+    <message>
+        <source>Unexpected Type enum value &apos;%1&apos;</source>
+        <translation>Unexpected Type enum value &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -607,10 +653,6 @@ Continue?</translation>
     <message>
         <source>View Clubs List</source>
         <translation>View Clubs List</translation>
-    </message>
-    <message>
-        <source>Teams</source>
-        <translation>Teams</translation>
     </message>
     <message>
         <source>Competitors</source>
@@ -1283,6 +1325,25 @@ Please uodate the application.</translation>
     <message>
         <source>You can exclude some categories from the generated rankings.</source>
         <translation>You can exclude some categories from the generated rankings.</translation>
+    </message>
+</context>
+<context>
+    <name>SexDelegate</name>
+    <message>
+        <source>Male</source>
+        <translation>Male</translation>
+    </message>
+    <message>
+        <source>Female</source>
+        <translation>Female</translation>
+    </message>
+    <message>
+        <source>Unexpected Sex enum value &apos;%1&apos;</source>
+        <translation>Unexpected Sex enum value &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Not set</source>
+        <translation>Not set</translation>
     </message>
 </context>
 <context>
