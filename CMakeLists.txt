@@ -53,6 +53,10 @@ set(PROJECT_SOURCES
     categoriesmodel.hpp
     category.cpp
     category.hpp
+    catsexdelegate.cpp
+    catsexdelegate.hpp
+    cattypedelegate.cpp
+    cattypedelegate.hpp
     chronorace.ui
     chronoracedata.cpp
     chronoracedata.hpp
@@ -94,6 +98,8 @@ set(PROJECT_SOURCES
     rankingswizardmode.hpp
     rankingswizardselection.cpp
     rankingswizardselection.hpp
+    sexdelegate.cpp
+    sexdelegate.hpp
     startlistmodel.cpp
     startlistmodel.hpp
     teamclassentry.cpp

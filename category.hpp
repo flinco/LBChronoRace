@@ -31,6 +31,12 @@ class Category {
     Q_DECLARE_TR_FUNCTIONS(Category)
 
 public:
+    enum class Type
+    {
+        INDIVIDUAL,
+        CLUB,
+    };
+
     enum class Field
     {
         CTF_FIRST       = 0,
@@ -58,6 +64,9 @@ public:
 
     friend QDataStream &operator<<(QDataStream &out, Category const &category);
     friend QDataStream &operator>>(QDataStream &in, Category &category);
+
+    static Type toType(QString  const &type);
+    static QString toTypeString(Type const type);
 
     bool isTeam() const;
     void setTeam(bool newTeam);

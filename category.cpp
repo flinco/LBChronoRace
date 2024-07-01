@@ -64,6 +64,28 @@ QDataStream &operator>>(QDataStream &in, Category &category)
     return in;
 }
 
+Category::Type Category::toType(QString  const &type)
+{
+    if (type.compare("I", Qt::CaseInsensitive) == 0)
+        return Type::INDIVIDUAL;
+    else if (type.compare("T", Qt::CaseInsensitive) == 0)
+        return Type::CLUB;
+    else
+        throw(ChronoRaceException(tr("Illegal type '%1'").arg(type)));
+}
+
+QString Category::toTypeString(Type const type)
+{
+    switch (type) {
+    case Type::INDIVIDUAL:
+        return "I";
+    case Type::CLUB:
+        return "T";
+    default:
+        throw(ChronoRaceException(tr("Unexpected Type enum value '%1'").arg(static_cast<int>(type))));
+    }
+}
+
 bool Category::isTeam() const
 {
     return team;

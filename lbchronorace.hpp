@@ -29,7 +29,10 @@
 #include "chronoracetable.hpp"
 #include "chronoracedata.hpp"
 #include "chronoracetimings.hpp"
+#include "sexdelegate.hpp"
 #include "clubdelegate.hpp"
+#include "catsexdelegate.hpp"
+#include "cattypedelegate.hpp"
 
 #ifndef LBCHRONORACE_NAME
 #error "LBCHRONORACE_NAME not set"
@@ -89,7 +92,10 @@ private:
 
     ChronoRaceTimings timings;
 
+    SexDelegate sexDelegate;
     ClubDelegate clubDelegate;
+    CategorySexDelegate catSexDelegate;
+    CategoryTypeDelegate catTypeDelegate;
 
     bool loadRaceFile(QString const &fileName);
 

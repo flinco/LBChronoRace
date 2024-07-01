@@ -25,5 +25,12 @@
         <file>icons/timer_play.svg</file>
         <file>icons/timer_play_big.svg</file>
         <file>icons/upload.svg</file>
+        <file>icons/female.svg</file>
+        <file>icons/agender.svg</file>
+        <file>icons/transgender.svg</file>
+        <file>icons/male.svg</file>
+        <file>icons/unknown_med.svg</file>
+        <file>icons/person.svg</file>
+        <file>icons/group.svg</file>
     </qresource>
 </RCC>
