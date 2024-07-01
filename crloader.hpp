@@ -98,6 +98,8 @@ public:
     static Format getFormat();
     static void setFormat(Format const &value);
     static QString formatToLabel(Format const &value);
+
+    static QStringList getClubs();
 };
 
 #endif // LBLOADER_H

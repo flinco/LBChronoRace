@@ -51,6 +51,11 @@ CRTableModel *CRLoader::getCategoriesModel()
     return &categoriesModel;
 }
 
+QStringList CRLoader::getClubs()
+{
+    return QStringList(teamsListModel.getTeamsList());
+}
+
 CRLoader::Encoding CRLoader::getEncoding()
 {
     return encoding;

@@ -39,7 +39,8 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     startListTable(parent),
     teamsTable(parent),
     categoriesTable(parent),
-    timingsTable(parent)
+    timingsTable(parent),
+    clubDelegate(&startListTable)
 {
     startListFileName  = lastSelectedPath.filePath(LBCHRONORACE_STARTLIST_DEFAULT);
     timingsFileName    = lastSelectedPath.filePath(LBCHRONORACE_TIMINGS_DEFAULT);
@@ -116,6 +117,9 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
 
     QObject::connect(ui->actionAbout, &QAction::triggered, this, &LBChronoRace::actionAbout);
     QObject::connect(ui->actionAboutQt, &QAction::triggered, this, &LBChronoRace::actionAboutQt);
+
+    // tie the views with the related delegate instances
+    startListTable.setItemDelegateForColumn(static_cast<int>(Competitor::Field::CMF_CLUB), &clubDelegate);
 }
 
 void LBChronoRace::setCounterTeams(int count) const
@@ -126,6 +130,9 @@ void LBChronoRace::setCounterTeams(int count) const
 void LBChronoRace::setCounterCompetitors(int count) const
 {
     ui->counterCompetitors->display(count);
+
+    // also update the counter for the list of clubs
+    setCounterTeams(CRLoader::getTeamsListModel()->rowCount());
 }
 
 void LBChronoRace::setCounterCategories(int count) const

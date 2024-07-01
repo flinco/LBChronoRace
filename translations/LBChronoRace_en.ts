@@ -930,6 +930,10 @@ Please uodate the application.</source>
         <translation>Data format %1 not supported.
 Please uodate the application.</translation>
     </message>
+    <message>
+        <source>Clubs</source>
+        <translation>Clubs</translation>
+    </message>
 </context>
 <context>
     <name>PDFRankingPrinter</name>
