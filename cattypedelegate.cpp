@@ -25,6 +25,7 @@ CategoryTypeDelegate::CategoryTypeDelegate(QObject *parent) :
     comboBox->setEditable(false);
     comboBox->setInsertPolicy(QComboBox::NoInsert);
     comboBox->setDuplicatesEnabled(false);
+    comboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     comboBox->addItem(QIcon(":/material/icons/person.svg"), toCatTypeString(Category::Type::INDIVIDUAL), QVariant(Category::toTypeString(Category::Type::INDIVIDUAL)));
     comboBox->addItem(QIcon(":/material/icons/group.svg"), toCatTypeString(Category::Type::CLUB), QVariant(Category::toTypeString(Category::Type::CLUB)));
 }
@@ -57,6 +58,11 @@ void CategoryTypeDelegate::setModelData(QWidget *editor, QAbstractItemModel *mod
 {
     auto const *comboBox = static_cast<QComboBox *>(editor);
     model->setData(index, comboBox->currentData(Qt::UserRole), Qt::EditRole);
+}
+
+QSize CategoryTypeDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    return this->box.data()->sizeHint();
 }
 
 void CategoryTypeDelegate::updateEditorGeometry(QWidget *editor, QStyleOptionViewItem const &option, QModelIndex const &index) const

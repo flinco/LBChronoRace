@@ -25,6 +25,7 @@ ClubDelegate::ClubDelegate(QObject *parent) :
     comboBox->setEditable(true);
     comboBox->setInsertPolicy(QComboBox::InsertAlphabetically);
     comboBox->setDuplicatesEnabled(false);
+    comboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     comboBox->addItems(CRLoader::getClubs());
 }
 
@@ -56,6 +57,11 @@ void ClubDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, QMod
 {
     auto const *comboBox = static_cast<QComboBox *>(editor);
     model->setData(index, comboBox->currentData(Qt::EditRole), Qt::EditRole);
+}
+
+QSize ClubDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    return this->box.data()->sizeHint();
 }
 
 void ClubDelegate::updateEditorGeometry(QWidget *editor, QStyleOptionViewItem const &option, QModelIndex const &index) const
