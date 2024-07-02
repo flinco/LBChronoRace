@@ -24,6 +24,7 @@ ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
     ui->setupUi(this);
 
     ui->tableView->setSortingEnabled(true);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
 
     QObject::connect(ui->tableView->horizontalHeader(), &QHeaderView::sortIndicatorChanged, ui->tableView, &QTableView::sortByColumn);
     QObject::connect(ui->rowAdd, &QPushButton::clicked, this, &ChronoRaceTable::rowAdd);

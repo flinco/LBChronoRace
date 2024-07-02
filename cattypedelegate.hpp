@@ -35,6 +35,7 @@ public:
     void destroyEditor(QWidget *editor, const QModelIndex &index) const override;
     void setEditorData(QWidget *editor, QModelIndex const &index) const override;
     void setModelData(QWidget *editor, QAbstractItemModel *model, QModelIndex const &index) const override;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     void updateEditorGeometry(QWidget *editor, QStyleOptionViewItem const &option, QModelIndex const &index) const override;
 
 private:

@@ -26,6 +26,7 @@ SexDelegate::SexDelegate(QObject *parent) :
     comboBox->setInsertPolicy(QComboBox::NoInsert);
     comboBox->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
     comboBox->setDuplicatesEnabled(false);
+    comboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     comboBox->addItem(QIcon(":/material/icons/unknown_med.svg"), toSexString(Competitor::Sex::UNDEFINED), Competitor::toSexString(Competitor::Sex::UNDEFINED));
     comboBox->addItem(QIcon(":/material/icons/male.svg"), toSexString(Competitor::Sex::MALE), Competitor::toSexString(Competitor::Sex::MALE));
     comboBox->addItem(QIcon(":/material/icons/female.svg"), toSexString(Competitor::Sex::FEMALE), Competitor::toSexString(Competitor::Sex::FEMALE));
@@ -59,6 +60,11 @@ void SexDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, QMode
 {
     auto const *comboBox = static_cast<QComboBox *>(editor);
     model->setData(index, comboBox->currentData(Qt::UserRole), Qt::EditRole);
+}
+
+QSize SexDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    return this->box.data()->sizeHint();
 }
 
 void SexDelegate::updateEditorGeometry(QWidget *editor, QStyleOptionViewItem const &option, QModelIndex const &index) const
