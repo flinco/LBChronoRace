@@ -78,10 +78,6 @@
         <translation>Individuale (I) o Società (T)</translation>
     </message>
     <message>
-        <source>Male (M), Female (F), Misc (X) or Unspecified (U)</source>
-        <translation>Maschile (M), Femminile (F), Mista (X) o Non specificato (U)</translation>
-    </message>
-    <message>
         <source>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</source>
         <translation>La categoria include concorrenti nati fino a quest&apos;anno incluso (es. 2000); 0 per disabilitare</translation>
     </message>
@@ -121,12 +117,62 @@
         <source>Category Short Name</source>
         <translation>Abbreviazione Categoria</translation>
     </message>
+    <message>
+        <source>Men (M), Women (F), Mixed (X) or All (U)</source>
+        <translation>Maschile (M), Femminile (F), Mista (X) o Tutti (U)</translation>
+    </message>
 </context>
 <context>
     <name>Category</name>
     <message>
         <source>Illegal category type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
         <translation>Categoria errata - valori ammessi &apos;I&apos; o &apos;T&apos; - trovato %1</translation>
+    </message>
+    <message>
+        <source>Unexpected Type enum value &apos;%1&apos;</source>
+        <translation>Valore enumerazione Type &apos;%1&apos; non valido</translation>
+    </message>
+    <message>
+        <source>Illegal type &apos;%1&apos;</source>
+        <translation>Tipo non valido &apos;%1&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>CategorySexDelegate</name>
+    <message>
+        <source>Men</source>
+        <translation>Maschile</translation>
+    </message>
+    <message>
+        <source>Women</source>
+        <translation>Femminile</translation>
+    </message>
+    <message>
+        <source>Mixed</source>
+        <translation>Mista</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Tutti</translation>
+    </message>
+    <message>
+        <source>Unexpected Sex enum value &apos;%1&apos;</source>
+        <translation>Valore enumerazione Sex &apos;%1&apos; non valido</translation>
+    </message>
+</context>
+<context>
+    <name>CategoryTypeDelegate</name>
+    <message>
+        <source>Individual</source>
+        <translation>Individuale</translation>
+    </message>
+    <message>
+        <source>Club</source>
+        <translation>Società</translation>
+    </message>
+    <message>
+        <source>Unexpected Type enum value &apos;%1&apos;</source>
+        <translation>Valore enumerazione Type &apos;%1&apos; non valido</translation>
     </message>
 </context>
 <context>
@@ -454,6 +500,16 @@
         <source>Quit</source>
         <translation>Esci</translation>
     </message>
+    <message>
+        <source>Are the data you are importing ISO-8859-1 (Latin-1) encoded?
+Choose No to use UTF-8 encoding. If in doubt, choose Yes.</source>
+        <translation>I dati che si stanno per importare sono codificati ISO-8859-1 (Latin-1)?
+Sceglire No per usare la codifica UTF-8. Nel dubbio, scegliere Si.</translation>
+    </message>
+    <message>
+        <source>CSV Encoding</source>
+        <translation>Codifica CSV</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTimings</name>
@@ -496,10 +552,6 @@
     <message>
         <source>RESET</source>
         <translation>AZZERA</translation>
-    </message>
-    <message>
-        <source>Timer controls are disabled when checked</source>
-        <translation>Disabilita i pulsanti di controllo del cronometro</translation>
     </message>
     <message>
         <source>LOCK</source>
@@ -561,6 +613,10 @@ Continue?</source>
 Tutti i tempi registrati e i pettorali saranno cancellati.
 Continuare?</translation>
     </message>
+    <message>
+        <source>Timer controls are disabled when locked</source>
+        <translation>Disabilita i pulsanti di controllo del cronometro</translation>
+    </message>
 </context>
 <context>
     <name>ClassEntry</name>
@@ -595,12 +651,8 @@ Continuare?</translation>
         <translation>Modifica Informazioni Gara</translation>
     </message>
     <message>
-        <source>Edit Teams List</source>
-        <translation>Modifica Lista Squadre</translation>
-    </message>
-    <message>
-        <source>Teams</source>
-        <translation>Squadre</translation>
+        <source>View Clubs List</source>
+        <translation>Visualizza Lista Società</translation>
     </message>
     <message>
         <source>Competitors</source>
@@ -707,10 +759,6 @@ Continuare?</translation>
         <translation>S</translation>
     </message>
     <message>
-        <source>Te&amp;ams</source>
-        <translation>Squ&amp;adre</translation>
-    </message>
-    <message>
         <source>About LBChronoRace</source>
         <translation>Informazioni su LBChronoRace</translation>
     </message>
@@ -735,8 +783,8 @@ Continuare?</translation>
         <translation>Ordine di Partenza</translation>
     </message>
     <message>
-        <source>Teams List</source>
-        <translation>Lista Squadre</translation>
+        <source>Clubs List</source>
+        <translation>Lista Società</translation>
     </message>
     <message>
         <source>Timings List</source>
@@ -807,8 +855,8 @@ Continuare?</translation>
         <translation>File Ordine di Partenza salvato: %1</translation>
     </message>
     <message>
-        <source>Select Teams List</source>
-        <translation>Seleziona Lista Squadre</translation>
+        <source>Select Clubs List</source>
+        <translation>Seleziona Clubs Squadre</translation>
     </message>
     <message>
         <source>Teams File saved: %1</source>
@@ -844,11 +892,7 @@ Continuare?</translation>
     </message>
     <message>
         <source>Race Data File Error</source>
-        <translation>Errore File Gara</translation>
-    </message>
-    <message>
-        <source>Format version %1 not supported</source>
-        <translation>Formato versione %1 non supportato</translation>
+        <translation>Errore File Dati Gara</translation>
     </message>
     <message>
         <source>Race saved: %1</source>
@@ -869,10 +913,6 @@ Continuare?</translation>
     <message>
         <source>Edit race information, including logos</source>
         <translation>Modifica le informazioni sulla gara, compresi i loghi</translation>
-    </message>
-    <message>
-        <source>See the list of the teams (that cannot be changed)</source>
-        <translation>Visualizza l&apos;elenco delle squadre (che non può essere modificato)</translation>
     </message>
     <message>
         <source>Add, remove, and change the race timings</source>
@@ -917,6 +957,24 @@ Continuare?</translation>
     <message>
         <source>Save current race data to a new file</source>
         <translation>Salva i dati di gara in un nuovo file</translation>
+    </message>
+    <message>
+        <source>See the list of the clubs (that cannot be changed)</source>
+        <translation>Visualizza l&apos;elenco delle società (che non può essere modificato)</translation>
+    </message>
+    <message>
+        <source>Cl&amp;ubs</source>
+        <translation>&amp;Società</translation>
+    </message>
+    <message>
+        <source>Data format %1 not supported.
+Please uodate the application.</source>
+        <translation>Formato dati %1 non supportato.
+Aggiornare l&apos;applicazione.</translation>
+    </message>
+    <message>
+        <source>Clubs</source>
+        <translation>Società</translation>
     </message>
 </context>
 <context>
@@ -1270,6 +1328,25 @@ Continuare?</translation>
     </message>
 </context>
 <context>
+    <name>SexDelegate</name>
+    <message>
+        <source>Male</source>
+        <translation>Maschio</translation>
+    </message>
+    <message>
+        <source>Female</source>
+        <translation>Femmina</translation>
+    </message>
+    <message>
+        <source>Unexpected Sex enum value &apos;%1&apos;</source>
+        <translation>Valore enumerazione Sex &apos;%1&apos; non valido</translation>
+    </message>
+    <message>
+        <source>Not set</source>
+        <translation>Non impostato</translation>
+    </message>
+</context>
+<context>
     <name>StartListModel</name>
     <message>
         <source>Bib number (not 0)</source>
@@ -1319,6 +1396,14 @@ Continuare?</translation>
         <source>Start time/Leg</source>
         <translation>Partenza/Frazione</translation>
     </message>
+    <message>
+        <source>Club name</source>
+        <translation>Nome società</translation>
+    </message>
+    <message>
+        <source>Club</source>
+        <translation>Società</translation>
+    </message>
 </context>
 <context>
     <name>TXTRankingPrinter</name>
@@ -1357,19 +1442,19 @@ Continuare?</translation>
         <translation>L&apos;elemento richiesto %1 supera il numero di elementi disponibili %2</translation>
     </message>
     <message>
-        <source>Unexpected team: expected %1 - found %2</source>
-        <translation>Squadra non valida: attesa %1 - trovata %2</translation>
+        <source>Unexpected club: expected %1 - found %2</source>
+        <translation>Società non valida: attesa %1 - trovata %2</translation>
     </message>
 </context>
 <context>
     <name>TeamsListModel</name>
     <message>
-        <source>Team name</source>
-        <translation>Nome squadra</translation>
+        <source>Club name</source>
+        <translation>Nome società</translation>
     </message>
     <message>
-        <source>Team Name</source>
-        <translation>Nome Squadra</translation>
+        <source>Club Name</source>
+        <translation>Nome Società</translation>
     </message>
 </context>
 <context>

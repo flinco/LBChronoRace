@@ -15,6 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+#include <QMessageBox>
+
 #include "chronoracetable.hpp"
 
 ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
@@ -22,6 +24,7 @@ ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
     ui->setupUi(this);
 
     ui->tableView->setSortingEnabled(true);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
 
     QObject::connect(ui->tableView->horizontalHeader(), &QHeaderView::sortIndicatorChanged, ui->tableView, &QTableView::sortByColumn);
     QObject::connect(ui->rowAdd, &QPushButton::clicked, this, &ChronoRaceTable::rowAdd);
@@ -50,6 +53,11 @@ void ChronoRaceTable::disableButtons() const
     ui->rowDel->setEnabled(false);
     ui->modelImport->setEnabled(false);
     //ui->modelExport->setEnabled(false); //NOSONAR
+}
+
+void ChronoRaceTable::setItemDelegateForColumn(int column, QAbstractItemDelegate *delegate)
+{
+    ui->tableView->setItemDelegateForColumn(column, delegate);
 }
 
 void ChronoRaceTable::show()
@@ -88,7 +96,14 @@ void ChronoRaceTable::rowDel() const
 
 void ChronoRaceTable::modelImport()
 {
-    emit modelImported();
+    if (QMessageBox::question(this, tr("CSV Encoding"),
+                                 tr("Are the data you are importing ISO-8859-1 (Latin-1) encoded?\n"
+                                    "Choose No to use UTF-8 encoding. If in doubt, choose Yes."),
+                                 QMessageBox::No | QMessageBox::Yes, QMessageBox::Yes) == QMessageBox::Yes) {
+        emit modelImported(CRLoader::Encoding::LATIN1);
+    } else {
+        emit modelImported(CRLoader::Encoding::UTF8);
+    }
 }
 
 void ChronoRaceTable::modelExport()

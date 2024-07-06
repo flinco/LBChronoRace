@@ -28,7 +28,7 @@ project(LBChronoRace
     DESCRIPTION "Timings and Rankings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
-set(PROJECT_UPDATE 2)
+set(PROJECT_UPDATE 3)
 string(TIMESTAMP BUILD_DATE "%Y-%m-%d" UTC)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -53,6 +53,10 @@ set(PROJECT_SOURCES
     categoriesmodel.hpp
     category.cpp
     category.hpp
+    catsexdelegate.cpp
+    catsexdelegate.hpp
+    cattypedelegate.cpp
+    cattypedelegate.hpp
     chronorace.ui
     chronoracedata.cpp
     chronoracedata.hpp
@@ -67,6 +71,8 @@ set(PROJECT_SOURCES
     chronoracetimings.ui
     classentry.cpp
     classentry.hpp
+    clubdelegate.cpp
+    clubdelegate.hpp
     competitor.cpp
     competitor.hpp
     crloader.cpp
@@ -92,6 +98,8 @@ set(PROJECT_SOURCES
     rankingswizardmode.hpp
     rankingswizardselection.cpp
     rankingswizardselection.hpp
+    sexdelegate.cpp
+    sexdelegate.hpp
     startlistmodel.cpp
     startlistmodel.hpp
     teamclassentry.cpp

@@ -15,6 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+#include "lbchronorace.hpp"
 #include "startlistmodel.hpp"
 #include "lbcrexception.hpp"
 
@@ -23,7 +24,8 @@ QDataStream &operator<<(QDataStream &out, StartListModel const &data)
     out << data.startList
         << quint32(data.legCount)
         << quint32(data.maxBib)
-        << quint32(data.competitorNameMaxWidth);
+        << quint32(data.competitorNameWidthMax)
+        << quint32(data.teamNameWidthMax);
 
     return out;
 }
@@ -32,16 +34,25 @@ QDataStream &operator>>(QDataStream &in, StartListModel &data)
 {
     quint32 legCount;
     quint32 maxBib;
-    quint32 competitorNameMaxWidth;
+    quint32 competitorNameWidthMax;
+    quint32 teamNameWidthMax;
 
     in >> data.startList
        >> legCount
        >> maxBib
-       >> competitorNameMaxWidth;
+       >> competitorNameWidthMax;
+
+    if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v2) {
+        in >> teamNameWidthMax;
+    } else {
+        teamNameWidthMax = 0;
+        data.refreshCounters(0);
+    }
 
     data.legCount = legCount;
     data.maxBib = maxBib;
-    data.competitorNameMaxWidth = competitorNameMaxWidth;
+    data.competitorNameWidthMax = competitorNameWidthMax;
+    data.teamNameWidthMax = teamNameWidthMax;
 
     return in;
 }
@@ -52,24 +63,37 @@ void StartListModel::refreshCounters(int r)
     uint bib;
     uint leg;
     uint nameWidth;
+    uint clubWidth;
+    uint teamWidth;
 
     Q_UNUSED(r)
 
     legCount = 0;
     maxBib = 0;
-    competitorNameMaxWidth = 0;
+    competitorNameWidthMax = 0;
+    teamNameWidthMax = 0;
     for (auto const &comp : startList) {
         bib = comp.getBib();
         offset = comp.getOffset();
         leg = static_cast<uint>((offset < 0) ? qAbs(offset) : 1);
-        nameWidth = static_cast<uint>(comp.getName().length());
+        nameWidth = static_cast<uint>(comp.getName().simplified().length());
+        clubWidth = static_cast<uint>(comp.getClub().simplified().length());
+        teamWidth = static_cast<uint>(comp.getTeam().simplified().length());
+
+        if (clubWidth != 0) {
+            teamWidth += clubWidth;
+            if (teamWidth != 0)
+                teamWidth++;
+        }
 
         if (bib > maxBib)
             maxBib = bib;
         if (leg > legCount)
             legCount = leg;
-        if (nameWidth > competitorNameMaxWidth)
-            competitorNameMaxWidth = nameWidth;
+        if (nameWidth > competitorNameWidthMax)
+            competitorNameWidthMax = nameWidth;
+        if (teamWidth > teamNameWidthMax)
+            teamNameWidthMax = teamWidth;
     }
 }
 
@@ -105,6 +129,8 @@ QVariant StartListModel::data(QModelIndex const &index, int role) const
             return QVariant(Competitor::toSexString(startList.at(index.row()).getSex()));
         case static_cast<int>(Competitor::Field::CMF_YEAR):
             return QVariant(startList.at(index.row()).getYear());
+        case static_cast<int>(Competitor::Field::CMF_CLUB):
+            return QVariant(startList.at(index.row()).getClub());
         case static_cast<int>(Competitor::Field::CMF_TEAM):
             return QVariant(startList.at(index.row()).getTeam());
         case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
@@ -122,6 +148,8 @@ QVariant StartListModel::data(QModelIndex const &index, int role) const
             return QVariant(tr("Male (M) or Female (F)"));
         case static_cast<int>(Competitor::Field::CMF_YEAR):
             return QVariant(tr("Year of birth (i.e. 1982)"));
+        case static_cast<int>(Competitor::Field::CMF_CLUB):
+            return QVariant(tr("Club name"));
         case static_cast<int>(Competitor::Field::CMF_TEAM):
             return QVariant(tr("Team name"));
         case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
@@ -150,6 +178,7 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
             if (retval && uval) {
                 int maxLeg = this->getMaxLeg(uval, index.row());
                 startList[index.row()].setBib(uval);
+                startList[index.row()].setClub(this->getClub(uval));
                 startList[index.row()].setTeam(this->getTeam(uval));
                 startList[index.row()].setOffset((maxLeg < 0) ? &maxLeg : Q_NULLPTR);
             } else {
@@ -163,7 +192,7 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
         case static_cast<int>(Competitor::Field::CMF_SEX):
             try {
                 Competitor::Sex sex = Competitor::toSex(value.toString().trimmed(), true);
-                retval = (sex != Competitor::Sex::UNDEFINED);
+                retval = (sex != Competitor::Sex::MISC);
                 if (retval) startList[index.row()].setSex(sex);
             } catch (ChronoRaceException &ex) {
                 emit error(ex.getMessage());
@@ -174,6 +203,16 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
             uval = value.toUInt(&retval);
             if (retval) startList[index.row()].setYear(uval);
             break;
+        case static_cast<int>(Competitor::Field::CMF_CLUB):
+            uval = startList[index.row()].getBib();
+            if (uval == 0) {
+                startList[index.row()].setClub(value.toString().simplified());
+            } else {
+                this->setClub(uval, value.toString().simplified());
+            }
+            emit newClub(startList[index.row()].getClub());
+            retval = true;
+            break;
         case static_cast<int>(Competitor::Field::CMF_TEAM):
             uval = startList[index.row()].getBib();
             if (uval == 0) {
@@ -181,7 +220,6 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
             } else {
                 this->setTeam(uval, value.toString().simplified());
             }
-            emit newTeam(startList[index.row()].getTeam());
             retval = true;
             break;
         case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
@@ -213,6 +251,8 @@ QVariant StartListModel::headerData(int section, Qt::Orientation orientation, in
             return QString("%1").arg(tr("Sex"));
         case static_cast<int>(Competitor::Field::CMF_YEAR):
             return QString("%1").arg(tr("Year"));
+        case static_cast<int>(Competitor::Field::CMF_CLUB):
+            return QString("%1").arg(tr("Club"));
         case static_cast<int>(Competitor::Field::CMF_TEAM):
             return QString("%1").arg(tr("Team"));
         case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
@@ -274,7 +314,8 @@ void StartListModel::reset()
     startList.clear();
     legCount = 0;
     maxBib = 0;
-    competitorNameMaxWidth = 0;
+    competitorNameWidthMax = 0;
+    teamNameWidthMax = 0;
     endResetModel();
 }
 
@@ -299,9 +340,23 @@ uint StartListModel::getMaxBib() const
     return maxBib;
 }
 
-uint StartListModel::getCompetitorNameMaxWidth() const
+uint StartListModel::getCompetitorNameWidthMax() const
 {
-    return competitorNameMaxWidth;
+    return competitorNameWidthMax;
+}
+
+uint StartListModel::getTeamNameWidthMax() const
+{
+    return teamNameWidthMax;
+}
+
+QString const *StartListModel::getClub(uint bib)
+{
+    for (qsizetype row = 0; row < startList.count(); row++)
+        if (startList[row].getBib() == bib)
+            return &startList[row].getClub();
+
+    return Q_NULLPTR;
 }
 
 QString const *StartListModel::getTeam(uint bib)
@@ -311,6 +366,13 @@ QString const *StartListModel::getTeam(uint bib)
             return &startList[row].getTeam();
 
     return Q_NULLPTR;
+}
+
+void StartListModel::setClub(uint bib, QString const &club)
+{
+    for (qsizetype row = 0; row < startList.count(); row++)
+        if (startList[row].getBib() == bib)
+            startList[row].setClub(club);
 }
 
 void StartListModel::setTeam(uint bib, QString const &team)

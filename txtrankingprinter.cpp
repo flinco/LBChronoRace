@@ -128,7 +128,7 @@ void TXTRankingPrinter::printRanking(const Category &category, QList<ClassEntry 
     txtStream << category.getFullDescription() << Qt::endl;
     for (auto const c : ranking) {
         i++;
-        currTime = c->getTotalTimeTxt();
+        currTime = c->getTotalTime(CRLoader::Format::TEXT);
         if ((currPosNumber = position.getCurrentPositionNumber(i, currTime)) == 0)
             currPosNumber = prevPosNumber;
         else
@@ -143,10 +143,10 @@ void TXTRankingPrinter::printRanking(const Category &category, QList<ClassEntry 
         txtStream << c->getBib();
         txtStream.setFieldWidth(0);
         txtStream << " - ";
-        txtStream << c->getNamesTxt();
+        txtStream << c->getNames(CRLoader::Format::TEXT);
         txtStream << " - ";
         if (CRLoader::getStartListLegs() > 1)
-            txtStream << c->getTimesTxt(getIndexFieldWidth()) << " - ";
+            txtStream << c->getTimes(CRLoader::Format::TEXT, getIndexFieldWidth()) << " - ";
         txtStream << currTime << Qt::endl;
     }
     txtStream << Qt::endl;
@@ -180,11 +180,11 @@ void TXTRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
             txtStream << r->getClassEntry(j)->getBib();
             txtStream.setFieldWidth(0);
             txtStream << " - ";
-            txtStream << r->getClassEntry(j)->getNamesTxt();
+            txtStream << r->getClassEntry(j)->getNames(CRLoader::Format::TEXT);
             txtStream << " - ";
             if (CRLoader::getStartListLegs() > 1)
-                txtStream << r->getClassEntry(j)->getTimesTxt(getIndexFieldWidth()) << " - ";
-            txtStream << r->getClassEntry(j)->getTotalTimeTxt() << Qt::endl;
+                txtStream << r->getClassEntry(j)->getTimes(CRLoader::Format::TEXT, getIndexFieldWidth()) << " - ";
+            txtStream << r->getClassEntry(j)->getTotalTime(CRLoader::Format::TEXT) << Qt::endl;
         }
         txtStream << Qt::endl;
     }

@@ -51,6 +51,11 @@ CRTableModel *CRLoader::getCategoriesModel()
     return &categoriesModel;
 }
 
+QStringList CRLoader::getClubs()
+{
+    return QStringList(teamsListModel.getTeamsList());
+}
+
 CRLoader::Encoding CRLoader::getEncoding()
 {
     return encoding;
@@ -253,12 +258,12 @@ uint CRLoader::getStartListBibMax()
 
 uint CRLoader::getStartListNameWidthMax()
 {
-    return startListModel.getCompetitorNameMaxWidth();
+    return startListModel.getCompetitorNameWidthMax();
 }
 
 uint CRLoader::getTeamNameWidthMax()
 {
-    return teamsListModel.getTeamNameWidthMax();
+    return startListModel.getTeamNameWidthMax();
 }
 
 int CRLoader::importTimings(QString const &path)

@@ -83,7 +83,7 @@ QVariant CategoriesModel::data(QModelIndex const &index, int role) const
         case static_cast<int>(Category::Field::CTF_TEAM):
             return QVariant(tr("Individual (I) or Team (T)"));
         case static_cast<int>(Category::Field::CTF_SEX):
-            return QVariant(tr("Male (M), Female (F), Misc (X) or Unspecified (U)"));
+            return QVariant(tr("Men (M), Women (F), Mixed (X) or All (U)"));
         case static_cast<int>(Category::Field::CTF_TO_YEAR):
             return QVariant(tr("The category will include competitors born up to and including this year (i.e. 2000); 0 to disable"));
         case static_cast<int>(Category::Field::CTF_FROM_YEAR):

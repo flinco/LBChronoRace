@@ -21,6 +21,7 @@
 #include <QVector>
 #include <QString>
 
+#include "crloader.hpp"
 #include "competitor.hpp"
 #include "timing.hpp"
 
@@ -60,13 +61,11 @@ public:
     uint getBib() const;
     void setBib(uint newBib);
     QString getName(uint legIdx) const;
-    QString getNamesCSV() const;
-    QString getNamesTxt() const;
+    QString getNames(CRLoader::Format format) const;
     uint getYear(uint legIdx) const;
     Competitor::Sex getSex() const;
     Competitor::Sex getSex(uint legIdx) const;
-    QString getTimesCSV() const;
-    QString getTimesTxt(int legRankWidth) const;
+    QString getTimes(CRLoader::Format format, int legRankWidth = 0) const;
     QString getTime(uint legIdx) const;
     uint getTimeValue(uint legIdx) const;
     uint countEntries() const;
@@ -75,10 +74,10 @@ public:
     void setLegRanking(uint legIdx, uint ranking);
     uint getFromYear() const;
     uint getToYear() const;
+    QString const &getClub() const;
     QString const &getTeam() const;
     uint getTotalTime() const;
-    QString getTotalTimeCSV() const;
-    QString getTotalTimeTxt() const;
+    QString getTotalTime(CRLoader::Format format) const;
     QString getDiffTimeTxt(uint referenceTime) const;
     bool isDnf() const;
     bool isDns() const;

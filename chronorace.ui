@@ -58,15 +58,15 @@
        </widget>
       </item>
       <item row="2" column="3">
-       <widget class="QPushButton" name="editTeamsList">
+       <widget class="QPushButton" name="editClubsList">
         <property name="enabled">
          <bool>true</bool>
         </property>
         <property name="toolTip">
-         <string>See the list of the teams (that cannot be changed)</string>
+         <string>See the list of the clubs (that cannot be changed)</string>
         </property>
         <property name="text">
-         <string>Edit Teams List</string>
+         <string>View Clubs List</string>
         </property>
         <property name="icon">
          <iconset resource="materialicons.qrc">
@@ -80,7 +80,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="labelTeams">
         <property name="text">
-         <string>Teams</string>
+         <string>Clubs</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -503,10 +503,10 @@
      <normaloff>:/material/icons/format_list_bulleted.svg</normaloff>:/material/icons/format_list_bulleted.svg</iconset>
    </property>
    <property name="text">
-    <string>Te&amp;ams</string>
+    <string>Cl&amp;ubs</string>
    </property>
    <property name="toolTip">
-    <string>See the list of the teams (that cannot be changed)</string>
+    <string>See the list of the clubs (that cannot be changed)</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -595,7 +595,7 @@
   <tabstop>saveRace</tabstop>
   <tabstop>editRace</tabstop>
   <tabstop>editStartList</tabstop>
-  <tabstop>editTeamsList</tabstop>
+  <tabstop>editClubsList</tabstop>
   <tabstop>editCategories</tabstop>
   <tabstop>editTimings</tabstop>
  </tabstops>

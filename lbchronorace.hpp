@@ -25,9 +25,14 @@
 
 #include "ui_chronorace.h"
 
+#include "crloader.hpp"
 #include "chronoracetable.hpp"
 #include "chronoracedata.hpp"
 #include "chronoracetimings.hpp"
+#include "sexdelegate.hpp"
+#include "clubdelegate.hpp"
+#include "catsexdelegate.hpp"
+#include "cattypedelegate.hpp"
 
 #ifndef LBCHRONORACE_NAME
 #error "LBCHRONORACE_NAME not set"
@@ -43,7 +48,8 @@ constexpr char LBCHRONORACE_CATEGORIES_DEFAULT[] = "categories.csv";
 
 constexpr int LBCHRONORACE_BIN_FMT_v1 = 1;
 constexpr int LBCHRONORACE_BIN_FMT_v2 = 2;
-#define LBCHRONORACE_BIN_FMT LBCHRONORACE_BIN_FMT_v2
+constexpr int LBCHRONORACE_BIN_FMT_v3 = 3;
+#define LBCHRONORACE_BIN_FMT LBCHRONORACE_BIN_FMT_v3
 
 class LBChronoRace : public QMainWindow
 {
@@ -53,6 +59,7 @@ public:
     explicit LBChronoRace(QWidget *parent = Q_NULLPTR, QGuiApplication const *app = Q_NULLPTR);
 
     static QDir lastSelectedPath;
+    static int binFormat;
 
 public slots:
     void initialize();
@@ -85,6 +92,11 @@ private:
 
     ChronoRaceTimings timings;
 
+    SexDelegate sexDelegate;
+    ClubDelegate clubDelegate;
+    CategorySexDelegate catSexDelegate;
+    CategoryTypeDelegate catTypeDelegate;
+
     bool loadRaceFile(QString const &fileName);
 
 private slots:
@@ -100,9 +112,9 @@ private slots:
     void makeStartList();
     void makeRankings();
 
-    void importStartList();
-    void importCategoriesList();
-    void importTimingsList();
+    void importStartList(CRLoader::Encoding encoding);
+    void importCategoriesList(CRLoader::Encoding encoding);
+    void importTimingsList(CRLoader::Encoding encoding);
 
     void exportStartList();
     void exportTeamList();

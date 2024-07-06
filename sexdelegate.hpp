@@ -15,45 +15,33 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CHRONORACETABLE_H
-#define CHRONORACETABLE_H
+#ifndef SEXDELEGATE_HPP
+#define SEXDELEGATE_HPP
 
-#include <QDialog>
+#include <QObject>
+#include <QStyledItemDelegate>
+#include <QScopedPointer>
+#include <QComboBox>
 
-#include "ui_chronoracetable.h"
-#include "crloader.hpp"
-#include "crtablemodel.hpp"
+#include "competitor.hpp"
 
-class ChronoRaceTable : public QDialog
+class SexDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
-
 public:
-    explicit ChronoRaceTable(QWidget *parent = Q_NULLPTR);
+    explicit SexDelegate(QObject *parent = Q_NULLPTR);
 
-    QAbstractTableModel *getModel() const;
-    void setModel(CRTableModel *model) const;
-    void disableButtons() const;
-    void setItemDelegateForColumn(int column, QAbstractItemDelegate *delegate);
-
-private slots:
-    void rowAdd() const;
-    void rowDel() const;
-    void modelImport();
-    void modelExport();
-    void dialogQuit();
-
-public slots:
-    void show(); //NOSONAR
-
-signals:
-    void newRowCount(int count);
-    void modelImported(CRLoader::Encoding encoding);
-    void modelExported();
-    void countersRefresh();
+    QWidget *createEditor(QWidget *parent, QStyleOptionViewItem const &option, QModelIndex const &index) const override;
+    void destroyEditor(QWidget *editor, const QModelIndex &index) const override;
+    void setEditorData(QWidget *editor, QModelIndex const &index) const override;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, QModelIndex const &index) const override;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    void updateEditorGeometry(QWidget *editor, QStyleOptionViewItem const &option, QModelIndex const &index) const override;
 
 private:
-    QScopedPointer<Ui::ChronoRaceTable> ui { new Ui::ChronoRaceTable };
+    QScopedPointer<QComboBox> box { new QComboBox };
+
+    static QString toSexString(Competitor::Sex const sex);
 };
 
-#endif // CHRONORACETABLE_H
+#endif // SEXDELEGATE_HPP

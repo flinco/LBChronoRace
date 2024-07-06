@@ -78,10 +78,6 @@
         <translation>Individual (I) or Team (T)</translation>
     </message>
     <message>
-        <source>Male (M), Female (F), Misc (X) or Unspecified (U)</source>
-        <translation>Male (M), Female (F), Misc (X) or Unspecified (U)</translation>
-    </message>
-    <message>
         <source>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</source>
         <translation>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</translation>
     </message>
@@ -121,12 +117,62 @@
         <source>Category Short Name</source>
         <translation>Category Short Name</translation>
     </message>
+    <message>
+        <source>Men (M), Women (F), Mixed (X) or All (U)</source>
+        <translation>Men (M), Women (F), Mixed (X) or All (U)</translation>
+    </message>
 </context>
 <context>
     <name>Category</name>
     <message>
         <source>Illegal category type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
         <translation>Illegal category type - expected &apos;I&apos; or &apos;T&apos; - found %1</translation>
+    </message>
+    <message>
+        <source>Unexpected Type enum value &apos;%1&apos;</source>
+        <translation>Unexpected Type enum value &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Illegal type &apos;%1&apos;</source>
+        <translation>Illegal type &apos;%1&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>CategorySexDelegate</name>
+    <message>
+        <source>Men</source>
+        <translation>Men</translation>
+    </message>
+    <message>
+        <source>Women</source>
+        <translation>Women</translation>
+    </message>
+    <message>
+        <source>Mixed</source>
+        <translation>Mixed</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>All</translation>
+    </message>
+    <message>
+        <source>Unexpected Sex enum value &apos;%1&apos;</source>
+        <translation>Unexpected Sex enum value &apos;%1&apos;</translation>
+    </message>
+</context>
+<context>
+    <name>CategoryTypeDelegate</name>
+    <message>
+        <source>Individual</source>
+        <translation>Individual</translation>
+    </message>
+    <message>
+        <source>Club</source>
+        <translation>Club</translation>
+    </message>
+    <message>
+        <source>Unexpected Type enum value &apos;%1&apos;</source>
+        <translation>Unexpected Type enum value &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -454,6 +500,16 @@
         <source>Quit</source>
         <translation>Quit</translation>
     </message>
+    <message>
+        <source>Are the data you are importing ISO-8859-1 (Latin-1) encoded?
+Choose No to use UTF-8 encoding. If in doubt, choose Yes.</source>
+        <translation>Are the data you are importing ISO-8859-1 (Latin-1) encoded?
+Choose No to use UTF-8 encoding. If in doubt, choose Yes.</translation>
+    </message>
+    <message>
+        <source>CSV Encoding</source>
+        <translation>CSV Encoding</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTimings</name>
@@ -496,10 +552,6 @@
     <message>
         <source>RESET</source>
         <translation>RESET</translation>
-    </message>
-    <message>
-        <source>Timer controls are disabled when checked</source>
-        <translation>Timer controls are disabled when checked</translation>
     </message>
     <message>
         <source>LOCK</source>
@@ -561,6 +613,10 @@ Continue?</source>
 All recorded timings and bibs will be deleted.
 Continue?</translation>
     </message>
+    <message>
+        <source>Timer controls are disabled when locked</source>
+        <translation>Timer controls are disabled when locked</translation>
+    </message>
 </context>
 <context>
     <name>ClassEntry</name>
@@ -595,12 +651,8 @@ Continue?</translation>
         <translation>Edit Race Information</translation>
     </message>
     <message>
-        <source>Edit Teams List</source>
-        <translation>Edit Teams List</translation>
-    </message>
-    <message>
-        <source>Teams</source>
-        <translation>Teams</translation>
+        <source>View Clubs List</source>
+        <translation>View Clubs List</translation>
     </message>
     <message>
         <source>Competitors</source>
@@ -707,10 +759,6 @@ Continue?</translation>
         <translation>S</translation>
     </message>
     <message>
-        <source>Te&amp;ams</source>
-        <translation>Te&amp;ams</translation>
-    </message>
-    <message>
         <source>About LBChronoRace</source>
         <translation>About LBChronoRace</translation>
     </message>
@@ -735,8 +783,8 @@ Continue?</translation>
         <translation>Start List</translation>
     </message>
     <message>
-        <source>Teams List</source>
-        <translation>Teams List</translation>
+        <source>Clubs List</source>
+        <translation>Clubs List</translation>
     </message>
     <message>
         <source>Timings List</source>
@@ -807,8 +855,8 @@ Continue?</translation>
         <translation>Start List File saved: %1</translation>
     </message>
     <message>
-        <source>Select Teams List</source>
-        <translation>Select Teams List</translation>
+        <source>Select Clubs List</source>
+        <translation>Select Clubs List</translation>
     </message>
     <message>
         <source>Teams File saved: %1</source>
@@ -847,10 +895,6 @@ Continue?</translation>
         <translation>Race Data File Error</translation>
     </message>
     <message>
-        <source>Format version %1 not supported</source>
-        <translation>Format version %1 not supported</translation>
-    </message>
-    <message>
         <source>Race saved: %1</source>
         <translation>Race saved: %1</translation>
     </message>
@@ -869,10 +913,6 @@ Continue?</translation>
     <message>
         <source>Edit race information, including logos</source>
         <translation>Edit race information, including logos</translation>
-    </message>
-    <message>
-        <source>See the list of the teams (that cannot be changed)</source>
-        <translation>See the list of the teams (that cannot be changed)</translation>
     </message>
     <message>
         <source>Add, remove, and change the race timings</source>
@@ -917,6 +957,24 @@ Continue?</translation>
     <message>
         <source>Save current race data to a new file</source>
         <translation>Save current race data to a new file</translation>
+    </message>
+    <message>
+        <source>See the list of the clubs (that cannot be changed)</source>
+        <translation>See the list of the clubs (that cannot be changed)</translation>
+    </message>
+    <message>
+        <source>Cl&amp;ubs</source>
+        <translation>Cl&amp;ubs</translation>
+    </message>
+    <message>
+        <source>Data format %1 not supported.
+Please uodate the application.</source>
+        <translation>Data format %1 not supported.
+Please uodate the application.</translation>
+    </message>
+    <message>
+        <source>Clubs</source>
+        <translation>Clubs</translation>
     </message>
 </context>
 <context>
@@ -1270,6 +1328,25 @@ Continue?</translation>
     </message>
 </context>
 <context>
+    <name>SexDelegate</name>
+    <message>
+        <source>Male</source>
+        <translation>Male</translation>
+    </message>
+    <message>
+        <source>Female</source>
+        <translation>Female</translation>
+    </message>
+    <message>
+        <source>Unexpected Sex enum value &apos;%1&apos;</source>
+        <translation>Unexpected Sex enum value &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Not set</source>
+        <translation>Not set</translation>
+    </message>
+</context>
+<context>
     <name>StartListModel</name>
     <message>
         <source>Bib number (not 0)</source>
@@ -1319,6 +1396,14 @@ Continue?</translation>
         <source>Start time/Leg</source>
         <translation>Start time/Leg</translation>
     </message>
+    <message>
+        <source>Club name</source>
+        <translation>Club name</translation>
+    </message>
+    <message>
+        <source>Club</source>
+        <translation>Club</translation>
+    </message>
 </context>
 <context>
     <name>TXTRankingPrinter</name>
@@ -1357,19 +1442,19 @@ Continue?</translation>
         <translation>Requested index %1 exceeds the number of available entries %2</translation>
     </message>
     <message>
-        <source>Unexpected team: expected %1 - found %2</source>
-        <translation>Unexpected team: expected %1 - found %2</translation>
+        <source>Unexpected club: expected %1 - found %2</source>
+        <translation>Unexpected club: expected %1 - found %2</translation>
     </message>
 </context>
 <context>
     <name>TeamsListModel</name>
     <message>
-        <source>Team name</source>
-        <translation>Team name</translation>
+        <source>Club name</source>
+        <translation>Club name</translation>
     </message>
     <message>
-        <source>Team Name</source>
-        <translation>Team Name</translation>
+        <source>Club Name</source>
+        <translation>Club Name</translation>
     </message>
 </context>
 <context>
