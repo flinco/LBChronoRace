@@ -52,22 +52,26 @@ public:
     uint getLegCount() const;
     void setLegCount(uint leg);
     uint getMaxBib() const;
-    uint getCompetitorNameMaxWidth() const;
+    uint getCompetitorNameWidthMax() const;
+    uint getTeamNameWidthMax() const;
 
 public slots:
     void refreshCounters(int r) override;
 
 signals:
-    void newTeam(QString const &team);
+    void newClub(QString const &club);
     void error(QString const &message);
 
 private:
     QList<Competitor> startList;
     uint              legCount;
     uint              maxBib;
-    uint              competitorNameMaxWidth;
+    uint              competitorNameWidthMax;
+    uint              teamNameWidthMax;
 
+    QString const *getClub(uint bib);
     QString const *getTeam(uint bib);
+    void setClub(uint bib, QString const &club);
     void setTeam(uint bib, QString const &team);
     int getMaxLeg(uint bib, int skip);
 };

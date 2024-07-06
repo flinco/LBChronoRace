@@ -21,36 +21,27 @@
 
 QDataStream &operator<<(QDataStream &out, TeamsListModel const &data)
 {
+    quint32 v2TeamNameWidthMax = 0;
+
     out << data.teamsList
-        << quint32(data.teamNameWidthMax);
+        << quint32(v2TeamNameWidthMax);
 
     return out;
 }
 
 QDataStream &operator>>(QDataStream &in, TeamsListModel &data)
 {
-    quint32 teamNameWidthMax;
+    quint32 v2TeamNameWidthMax;
 
     in >> data.teamsList
-       >> teamNameWidthMax;
-
-    data.teamNameWidthMax = teamNameWidthMax;
+       >> v2TeamNameWidthMax;
 
     return in;
 }
 
 void TeamsListModel::refreshCounters(int r)
 {
-    uint teamNameLength;
-
     Q_UNUSED(r)
-
-    teamNameWidthMax = 0;
-    for (auto const &team : teamsList) {
-        teamNameLength = static_cast<uint>(team.length());
-        if (teamNameLength > teamNameWidthMax)
-            teamNameWidthMax = teamNameLength;
-    }
 }
 
 int TeamsListModel::rowCount(QModelIndex const &parent) const
@@ -78,7 +69,7 @@ QVariant TeamsListModel::data(QModelIndex const &index, int role) const
     if (role == Qt::DisplayRole)
         return QVariant(teamsList.at(index.row()));
     else if (role == Qt::ToolTipRole)
-        return QVariant(tr("Team name"));
+        return QVariant(tr("Club name"));
     else
         return QVariant();
 }
@@ -90,7 +81,7 @@ QVariant TeamsListModel::headerData(int section, Qt::Orientation orientation, in
         return QVariant();
 
     if (orientation == Qt::Horizontal)
-        return QString("%1").arg(tr("Team Name"));
+        return QString("%1").arg(tr("Club Name"));
     else
         return QString("%1").arg(section + 1);
 }
@@ -154,7 +145,6 @@ void TeamsListModel::sort(int column, Qt::SortOrder order)
 void TeamsListModel::reset() {
     beginResetModel();
     teamsList.clear();
-    teamNameWidthMax = 0;
     endResetModel();
 }
 
@@ -164,16 +154,7 @@ void TeamsListModel::addTeam(QString const &team)
         int rowCount = this->rowCount();
         this->insertRow(rowCount, QModelIndex());
         this->setData(this->index(rowCount, 0, QModelIndex()), QVariant(team), Qt::EditRole);
-
-        auto teamNameLength = static_cast<uint>(team.length());
-        if (teamNameLength > teamNameWidthMax)
-            teamNameWidthMax = teamNameLength;
     }
-}
-
-uint TeamsListModel::getTeamNameWidthMax() const
-{
-    return teamNameWidthMax;
 }
 
 QList<QString> const &TeamsListModel::getTeamsList() const

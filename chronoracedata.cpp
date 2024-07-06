@@ -126,7 +126,7 @@ QDataStream &operator>>(QDataStream &in, ChronoRaceData &data)
        >> data.sponsorLogo3.pixmap
        >> data.sponsorLogo4.pixmap;
 
-    if (data.binFmt == LBCHRONORACE_BIN_FMT_v2)
+    if (data.binFmt > LBCHRONORACE_BIN_FMT_v1)
         in >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)]
            >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)];
 

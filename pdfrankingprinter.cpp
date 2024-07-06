@@ -154,7 +154,7 @@ void PDFRankingPrinter::printStartList(QList<Competitor> const &startList)
             painter.setFont(rnkFont);
             writeRect.translate(toHdots(60.0), 0.0);
             writeRect.setWidth(toHdots(45.0));
-            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c)->getTeam());
+            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c)->getClub() + " " + (*c)->getTeam());
             // Year
             writeRect.translate(toHdots(45.0), 0.0);
             writeRect.setWidth(toHdots(9.0));
@@ -638,7 +638,7 @@ void PDFRankingPrinter::printEntrySingleLeg(QRectF &writeRect, ClassEntry const 
 {
     static Position position;
 
-    QString currTime = c->getTotalTimeTxt();
+    QString currTime = c->getTotalTime(CRLoader::Format::PDF);
 
     switch (type) {
     case RankingType::INDIVIDUAL_SINGLE:
@@ -685,7 +685,7 @@ void PDFRankingPrinter::printEntrySingleLeg(QRectF &writeRect, ClassEntry const 
         painter.setFont(rnkFont);
         writeRect.translate(toHdots(60.0), 0.0);
         writeRect.setWidth(toHdots(45.0));
-        painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, c->getTeam());
+        painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, c->getClub() + " " + c->getTeam());
         // Year
         writeRect.translate(toHdots(45.0), 0.0);
         writeRect.setWidth(toHdots(9.0));
@@ -753,7 +753,7 @@ void PDFRankingPrinter::printEntryMultiLeg(QRectF &writeRect, ClassEntry const *
 
     auto entriesPerBlock = static_cast<int>(CRLoader::getStartListLegs() + 1);
 
-    QString currTime = r->getTotalTimeTxt();
+    QString currTime = r->getTotalTime(CRLoader::Format::PDF);
 
     switch (type) {
     case RankingType::INDIVIDUAL_MULTI:
@@ -797,7 +797,7 @@ void PDFRankingPrinter::printEntryMultiLeg(QRectF &writeRect, ClassEntry const *
         painter.setFont(rnkFontBold);
         writeRect.translate(toHdots(8.0), 0.0);
         writeRect.setWidth(toHdots(66.0));
-        painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, r->getTeam());
+        painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, r->getClub() + " " + r->getTeam());
         // Category
         painter.setFont(rnkFont);
         writeRect.translate(toHdots(66.0), 0.0);

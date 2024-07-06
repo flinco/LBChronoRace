@@ -97,16 +97,16 @@ void CSVRankingPrinter::printRanking(const Category &category, QList<ClassEntry 
     csvStream << category.getShortDescription() << Qt::endl;
     for (auto const c : ranking) {
         i++;
-        currTime = c->getTotalTimeTxt();
+        currTime = c->getTotalTime(CRLoader::Format::CSV);
         if ((currPosNumber = position.getCurrentPositionNumber(i, currTime)) == 0)
             currPosNumber = prevPosNumber;
         else
             prevPosNumber = currPosNumber;
         csvStream << currPosNumber << ",";
         csvStream << c->getBib() << ",";
-        csvStream << c->getNamesCSV() << ",";
+        csvStream << c->getNames(CRLoader::Format::CSV) << ",";
         if (CRLoader::getStartListLegs() > 1)
-            csvStream << c->getTimesCSV() << ",";
+            csvStream << c->getTimes(CRLoader::Format::CSV) << ",";
         csvStream << currTime << Qt::endl;
     }
     csvStream << Qt::endl;
@@ -125,10 +125,10 @@ void CSVRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
         for (int j = 0; j < r->getClassEntryCount(); j++) {
             csvStream << i << ",";
             csvStream << r->getClassEntry(j)->getBib() << ",";
-            csvStream << r->getClassEntry(j)->getNamesCSV() << ",";
+            csvStream << r->getClassEntry(j)->getNames(CRLoader::Format::CSV) << ",";
             if (CRLoader::getStartListLegs() > 1)
-                csvStream << r->getClassEntry(j)->getTimesCSV() << ",";
-            csvStream << r->getClassEntry(j)->getTotalTimeCSV() << Qt::endl;
+                csvStream << r->getClassEntry(j)->getTimes(CRLoader::Format::CSV) << ",";
+            csvStream << r->getClassEntry(j)->getTotalTime(CRLoader::Format::CSV) << Qt::endl;
         }
     }
     csvStream << Qt::endl;

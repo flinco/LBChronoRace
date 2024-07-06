@@ -33,6 +33,7 @@
 
 // static members initialization
 QDir LBChronoRace::lastSelectedPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+int  LBChronoRace::binFormat = LBCHRONORACE_BIN_FMT;
 
 LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QMainWindow(parent),
@@ -56,14 +57,14 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(&startListTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterCompetitors);
 
     teamsTable.disableButtons();
-    teamsTable.setWindowTitle(tr("Teams List"));
+    teamsTable.setWindowTitle(tr("Clubs List"));
     teamsTable.setModel(CRLoader::getTeamsListModel());
     QObject::connect(&teamsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportTeamList);
     QObject::connect(&teamsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterTeams);
 
     auto const *startListModel = (StartListModel const *) CRLoader::getStartListModel();
     auto const *teamsListModel = (TeamsListModel const *) CRLoader::getTeamsListModel();
-    QObject::connect(startListModel, &StartListModel::newTeam, teamsListModel, &TeamsListModel::addTeam);
+    QObject::connect(startListModel, &StartListModel::newClub, teamsListModel, &TeamsListModel::addTeam);
     QObject::connect(startListModel, &StartListModel::error, this, &LBChronoRace::appendErrorMessage);
 
     auto *categoriesModel = (CategoriesModel *) CRLoader::getCategoriesModel();
@@ -95,7 +96,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->saveRace, &QPushButton::clicked, this, &LBChronoRace::saveRace);
     QObject::connect(ui->editRace, &QPushButton::clicked, &raceInfo, &ChronoRaceData::show);
     QObject::connect(ui->editStartList, &QPushButton::clicked, &startListTable, &ChronoRaceTable::show);
-    QObject::connect(ui->editTeamsList, &QPushButton::clicked, &teamsTable, &ChronoRaceTable::show);
+    QObject::connect(ui->editClubsList, &QPushButton::clicked, &teamsTable, &ChronoRaceTable::show);
     QObject::connect(ui->editCategories, &QPushButton::clicked, &categoriesTable, &ChronoRaceTable::show);
     QObject::connect(ui->editTimings, &QPushButton::clicked, &timingsTable, &ChronoRaceTable::show);
     QObject::connect(ui->makeStartList, &QPushButton::clicked, this, &LBChronoRace::makeStartList);
@@ -230,7 +231,7 @@ void LBChronoRace::exportStartList()
 
 void LBChronoRace::exportTeamList()
 {
-    teamsFileName = QFileDialog::getSaveFileName(this, tr("Select Teams List"),
+    teamsFileName = QFileDialog::getSaveFileName(this, tr("Select Clubs List"),
         lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
 
     if (!teamsFileName.isEmpty()) {
@@ -378,10 +379,13 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
             switch (binFmt) {
             case LBCHRONORACE_BIN_FMT_v1:
             case LBCHRONORACE_BIN_FMT_v2:
+            case LBCHRONORACE_BIN_FMT_v3:
                 QAbstractTableModel const *table;
                 qint16 encodingIdx;
                 qint16 formatIdx;
                 int tableCount;
+
+                binFormat = static_cast<int>(binFmt);
 
                 in >> encodingIdx;
                 encodingSelector(encodingIdx);
