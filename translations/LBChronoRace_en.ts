@@ -74,10 +74,6 @@
         <translation>I</translation>
     </message>
     <message>
-        <source>Individual (I) or Team (T)</source>
-        <translation>Individual (I) or Team (T)</translation>
-    </message>
-    <message>
         <source>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</source>
         <translation>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</translation>
     </message>
@@ -92,10 +88,6 @@
     <message>
         <source>Short category name</source>
         <translation>Short category name</translation>
-    </message>
-    <message>
-        <source>Individual/Team</source>
-        <translation>Individual/Team</translation>
     </message>
     <message>
         <source>Sex</source>
@@ -120,6 +112,14 @@
     <message>
         <source>Men (M), Women (F), Mixed (X) or All (U)</source>
         <translation>Men (M), Women (F), Mixed (X) or All (U)</translation>
+    </message>
+    <message>
+        <source>Individual/Relay (I) or Club (T)</source>
+        <translation>Individual/Relay (I) or Club (T)</translation>
+    </message>
+    <message>
+        <source>Individual/Club</source>
+        <translation>Individual/Club</translation>
     </message>
 </context>
 <context>
@@ -163,16 +163,16 @@
 <context>
     <name>CategoryTypeDelegate</name>
     <message>
-        <source>Individual</source>
-        <translation>Individual</translation>
-    </message>
-    <message>
         <source>Club</source>
         <translation>Club</translation>
     </message>
     <message>
         <source>Unexpected Type enum value &apos;%1&apos;</source>
         <translation>Unexpected Type enum value &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Individual/Relay</source>
+        <translation>Individual/Relay</translation>
     </message>
 </context>
 <context>

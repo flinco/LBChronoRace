@@ -81,7 +81,7 @@ QVariant CategoriesModel::data(QModelIndex const &index, int role) const
     else if (role == Qt::ToolTipRole)
         switch (index.column()) {
         case static_cast<int>(Category::Field::CTF_TEAM):
-            return QVariant(tr("Individual (I) or Team (T)"));
+            return QVariant(tr("Individual/Relay (I) or Club (T)"));
         case static_cast<int>(Category::Field::CTF_SEX):
             return QVariant(tr("Men (M), Women (F), Mixed (X) or All (U)"));
         case static_cast<int>(Category::Field::CTF_TO_YEAR):
@@ -153,7 +153,7 @@ QVariant CategoriesModel::headerData(int section, Qt::Orientation orientation, i
     if (orientation == Qt::Horizontal)
         switch (section) {
         case static_cast<int>(Category::Field::CTF_TEAM):
-            return QString("%1").arg(tr("Individual/Team"));
+            return QString("%1").arg(tr("Individual/Club"));
         case static_cast<int>(Category::Field::CTF_SEX):
             return QString("%1").arg(tr("Sex"));
         case static_cast<int>(Category::Field::CTF_TO_YEAR):

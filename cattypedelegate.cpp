@@ -76,7 +76,7 @@ QString CategoryTypeDelegate::toCatTypeString(Category::Type type)
 {
     switch (type) {
     case Category::Type::INDIVIDUAL:
-        return tr("Individual");
+        return tr("Individual/Relay");
     case Category::Type::CLUB:
         return tr("Club");
     default:

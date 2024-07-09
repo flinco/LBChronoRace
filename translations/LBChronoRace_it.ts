@@ -74,10 +74,6 @@
         <translation>I</translation>
     </message>
     <message>
-        <source>Individual (I) or Team (T)</source>
-        <translation>Individuale (I) o Società (T)</translation>
-    </message>
-    <message>
         <source>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</source>
         <translation>La categoria include concorrenti nati fino a quest&apos;anno incluso (es. 2000); 0 per disabilitare</translation>
     </message>
@@ -92,10 +88,6 @@
     <message>
         <source>Short category name</source>
         <translation>Abbreviazione categoria</translation>
-    </message>
-    <message>
-        <source>Individual/Team</source>
-        <translation>Individuale/Società</translation>
     </message>
     <message>
         <source>Sex</source>
@@ -120,6 +112,14 @@
     <message>
         <source>Men (M), Women (F), Mixed (X) or All (U)</source>
         <translation>Maschile (M), Femminile (F), Mista (X) o Tutti (U)</translation>
+    </message>
+    <message>
+        <source>Individual/Relay (I) or Club (T)</source>
+        <translation>Individuale/Staffetta (I) or Società (T)</translation>
+    </message>
+    <message>
+        <source>Individual/Club</source>
+        <translation>Individuale/Società</translation>
     </message>
 </context>
 <context>
@@ -163,16 +163,16 @@
 <context>
     <name>CategoryTypeDelegate</name>
     <message>
-        <source>Individual</source>
-        <translation>Individuale</translation>
-    </message>
-    <message>
         <source>Club</source>
         <translation>Società</translation>
     </message>
     <message>
         <source>Unexpected Type enum value &apos;%1&apos;</source>
         <translation>Valore enumerazione Type &apos;%1&apos; non valido</translation>
+    </message>
+    <message>
+        <source>Individual/Relay</source>
+        <translation>Individuale/Staffetta</translation>
     </message>
 </context>
 <context>
