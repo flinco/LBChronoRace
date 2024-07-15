@@ -501,10 +501,16 @@
         <translation>Quit</translation>
     </message>
     <message>
-        <source>Are the data you are importing ISO-8859-1 (Latin-1) encoded?
-Choose No to use UTF-8 encoding. If in doubt, choose Yes.</source>
-        <translation>Are the data you are importing ISO-8859-1 (Latin-1) encoded?
-Choose No to use UTF-8 encoding. If in doubt, choose Yes.</translation>
+        <source>The data being imported must be %1 encoded.
+Continue?</source>
+        <translation>The data being imported must be %1 encoded.
+Continue?</translation>
+    </message>
+    <message>
+        <source>The data will be exported with %1 encoding.
+Continue?</source>
+        <translation>The data will be exported with %1 encoding.
+Continue?</translation>
     </message>
     <message>
         <source>CSV Encoding</source>
@@ -991,6 +997,38 @@ Please uodate the application.</translation>
     <message>
         <source>Export Timings to another PC</source>
         <translation>Export Timings to another PC</translation>
+    </message>
+    <message>
+        <source>Import Timings</source>
+        <translation>Import Timings</translation>
+    </message>
+    <message>
+        <source>Export Timings</source>
+        <translation>Export Timings</translation>
+    </message>
+    <message>
+        <source>Set Encoding</source>
+        <translation>Set Encoding</translation>
+    </message>
+    <message>
+        <source>Set encoding for CSV and Plain Text</source>
+        <translation>Set encoding for CSV and Plain Text</translation>
+    </message>
+    <message>
+        <source>Error: unexpected encoding value (fall back to the default)</source>
+        <translation>Error: unexpected encoding value (fall back to the default)</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Settings</translation>
+    </message>
+    <message>
+        <source>CSV and Plain Text Encoding</source>
+        <translation>CSV and Plain Text Encoding</translation>
+    </message>
+    <message>
+        <source>Error: unexpected encoding value (encoding not changed)</source>
+        <translation>Error: unexpected encoding value (encoding not changed)</translation>
     </message>
 </context>
 <context>

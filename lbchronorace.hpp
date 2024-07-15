@@ -107,14 +107,16 @@ private slots:
     void saveRace();
     void saveRaceAs();
 
+    void setEncoding();
+
     void encodingSelector(int idx) const;
     void formatSelector(int idx) const;
     void makeStartList();
     void makeRankings();
 
-    void importStartList(CRLoader::Encoding encoding);
-    void importCategoriesList(CRLoader::Encoding encoding);
-    void importTimingsList(CRLoader::Encoding encoding);
+    void importStartList();
+    void importCategoriesList();
+    void importTimingsList();
 
     void exportStartList();
     void exportTeamList();

@@ -20,6 +20,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QInputDialog>
 #include <QMessageBox>
 #include <QScreen>
 
@@ -118,6 +119,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionEditTimings, &QAction::triggered, &timingsTable, &ChronoRaceTable::show);
     QObject::connect(ui->actionImportTimings, &QAction::triggered, &timingsTable, &ChronoRaceTable::modelImport);
     QObject::connect(ui->actionExportTimings, &QAction::triggered, &timingsTable, &ChronoRaceTable::modelExport);
+    QObject::connect(ui->actionSetEncoding, &QAction::triggered, this, &LBChronoRace::setEncoding);
     QObject::connect(ui->actionMakeStartList, &QAction::triggered, this, &LBChronoRace::makeStartList);
     QObject::connect(ui->actionCollectTimings, &QAction::triggered, &timings, &ChronoRaceTimings::show);
     QObject::connect(ui->actionMakeRankings, &QAction::triggered, this, &LBChronoRace::makeRankings);
@@ -165,7 +167,7 @@ void LBChronoRace::appendErrorMessage(QString const &message) const
     ui->errorDisplay->appendPlainText(message);
 }
 
-void LBChronoRace::importStartList(CRLoader::Encoding encoding)
+void LBChronoRace::importStartList()
 {
     startListFileName = QFileDialog::getOpenFileName(this, tr("Select Start List"),
        lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
@@ -174,7 +176,6 @@ void LBChronoRace::importStartList(CRLoader::Encoding encoding)
         QPair<int, int> count(0, 0);
         appendInfoMessage(tr("Start List File: %1").arg(startListFileName));
         try {
-            CRLoader::setEncoding(encoding);
             count = CRLoader::importStartList(startListFileName);
             appendInfoMessage(tr("Loaded: %n competitor(s)", "", count.first));
             appendInfoMessage(tr("Loaded: %n team(s)", "", count.second));
@@ -187,7 +188,7 @@ void LBChronoRace::importStartList(CRLoader::Encoding encoding)
     }
 }
 
-void LBChronoRace::importCategoriesList(CRLoader::Encoding encoding)
+void LBChronoRace::importCategoriesList()
 {
     categoriesFileName = QFileDialog::getOpenFileName(this, tr("Select Categories File"),
          lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
@@ -196,7 +197,6 @@ void LBChronoRace::importCategoriesList(CRLoader::Encoding encoding)
         int count = 0;
         appendInfoMessage(tr("Categories File: %1").arg(categoriesFileName));
         try {
-            CRLoader::setEncoding(encoding);
             count = CRLoader::importCategories(categoriesFileName);
             appendInfoMessage(tr("Loaded: %n category(s)", "", count));
             lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
@@ -207,7 +207,7 @@ void LBChronoRace::importCategoriesList(CRLoader::Encoding encoding)
     }
 }
 
-void LBChronoRace::importTimingsList(CRLoader::Encoding encoding)
+void LBChronoRace::importTimingsList()
 {
     timingsFileName = QFileDialog::getOpenFileName(this, tr("Select Timings File"),
         lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
@@ -216,7 +216,6 @@ void LBChronoRace::importTimingsList(CRLoader::Encoding encoding)
         int count = 0;
         appendInfoMessage(tr("Timings File: %1").arg(timingsFileName));
         try {
-            CRLoader::setEncoding(encoding);
             count = CRLoader::importTimings(timingsFileName);
             appendInfoMessage(tr("Loaded: %n timing(s)", "", count));
             lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
@@ -351,7 +350,7 @@ void LBChronoRace::encodingSelector(int idx) const
         CRLoader::setEncoding(CRLoader::Encoding::UTF8);
         break;
     default:
-        CRLoader::setEncoding(CRLoader::Encoding::UTF8);
+        CRLoader::setEncoding(CRLoader::Encoding::LATIN1);
         break;
     }
 
@@ -506,6 +505,46 @@ void LBChronoRace::saveRaceAs()
 
     if (raceDataFileName.isEmpty())
         raceDataFileName = oldRaceDataFileName;
+}
+
+void LBChronoRace::setEncoding()
+{
+    bool ok = false;
+    int current = 0;
+
+    QStringList items = {
+        CRLoader::encodingToLabel(CRLoader::Encoding::LATIN1),
+        CRLoader::encodingToLabel(CRLoader::Encoding::UTF8)
+    };
+
+    switch (CRLoader::getEncoding()) {
+    case CRLoader::Encoding::LATIN1:
+        current = 0;
+        break;
+    case CRLoader::Encoding::UTF8:
+        current = 1;
+        break;
+    default:
+        appendErrorMessage(tr("Error: unexpected encoding value (fall back to the default)"));
+        break;
+    }
+
+    QString item = QInputDialog::getItem(this,
+                                         tr("Settings"),
+                                         tr("CSV and Plain Text Encoding"),
+                                         items,
+                                         current,
+                                         false,
+                                         &ok);
+
+    if (ok) {
+        if (item == items[0])
+            CRLoader::setEncoding(CRLoader::Encoding::LATIN1);
+        else if (item == items[1])
+            CRLoader::setEncoding(CRLoader::Encoding::UTF8);
+        else
+            appendErrorMessage(tr("Error: unexpected encoding value (encoding not changed)"));
+    }
 }
 
 void LBChronoRace::makeStartList()

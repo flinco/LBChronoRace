@@ -28,7 +28,7 @@ TeamsListModel              CRLoader::teamsListModel;
 TimingsModel                CRLoader::timingsModel;
 CategoriesModel             CRLoader::categoriesModel;
 QList<QVariant>             CRLoader::standardItemList;
-CRLoader::Encoding          CRLoader::encoding              = CRLoader::Encoding::UTF8;
+CRLoader::Encoding          CRLoader::encoding              = CRLoader::Encoding::LATIN1;
 CRLoader::Format            CRLoader::format                = CRLoader::Format::PDF;
 
 CRTableModel *CRLoader::getStartListModel()

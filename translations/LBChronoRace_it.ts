@@ -501,10 +501,16 @@
         <translation>Esci</translation>
     </message>
     <message>
-        <source>Are the data you are importing ISO-8859-1 (Latin-1) encoded?
-Choose No to use UTF-8 encoding. If in doubt, choose Yes.</source>
-        <translation>I dati che si stanno per importare sono codificati ISO-8859-1 (Latin-1)?
-Sceglire No per usare la codifica UTF-8. Nel dubbio, scegliere Si.</translation>
+        <source>The data being imported must be %1 encoded.
+Continue?</source>
+        <translation>I dati da importare devono avere codifica %1.
+Procedere?</translation>
+    </message>
+    <message>
+        <source>The data will be exported with %1 encoding.
+Continue?</source>
+        <translation>I dati saranno esportati con codifica %1.
+Procedere?</translation>
     </message>
     <message>
         <source>CSV Encoding</source>
@@ -991,6 +997,38 @@ Aggiornare l&apos;applicazione.</translation>
     <message>
         <source>Export Timings to another PC</source>
         <translation>Esporta Tempi per un altro PC</translation>
+    </message>
+    <message>
+        <source>Import Timings</source>
+        <translation>Importa Tempi</translation>
+    </message>
+    <message>
+        <source>Export Timings</source>
+        <translation>Esporta Tempi</translation>
+    </message>
+    <message>
+        <source>Set Encoding</source>
+        <translation>Imposta Codifica</translation>
+    </message>
+    <message>
+        <source>Set encoding for CSV and Plain Text</source>
+        <translation>Imposta codifica per CSV e Testo</translation>
+    </message>
+    <message>
+        <source>Error: unexpected encoding value (fall back to the default)</source>
+        <translation>Errore: valore codifica inatteso (ripiego sulla codifica predefinita)</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Impostazioni</translation>
+    </message>
+    <message>
+        <source>CSV and Plain Text Encoding</source>
+        <translation>Codifica CVS e Testo</translation>
+    </message>
+    <message>
+        <source>Error: unexpected encoding value (encoding not changed)</source>
+        <translation>Errore: valore codifica inatteso (codifica non modificata)</translation>
     </message>
 </context>
 <context>

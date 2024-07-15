@@ -32,5 +32,6 @@
         <file>icons/unknown_med.svg</file>
         <file>icons/person.svg</file>
         <file>icons/group.svg</file>
+        <file>icons/abc.svg</file>
     </qresource>
 </RCC>

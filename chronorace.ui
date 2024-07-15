@@ -431,6 +431,8 @@
     <addaction name="actionMakeStartList"/>
     <addaction name="actionCollectTimings"/>
     <addaction name="actionMakeRankings"/>
+    <addaction name="separator"/>
+    <addaction name="actionSetEncoding"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -628,6 +630,18 @@
    </property>
    <property name="toolTip">
     <string>Generate results</string>
+   </property>
+  </action>
+  <action name="actionSetEncoding">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/abc.svg</normaloff>:/material/icons/abc.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Set Encoding</string>
+   </property>
+   <property name="toolTip">
+    <string>Set encoding for CSV and Plain Text</string>
    </property>
   </action>
  </widget>
