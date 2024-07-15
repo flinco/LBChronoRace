@@ -275,19 +275,34 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,1">
         <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+         <widget class="QPushButton" name="importTimings">
+          <property name="toolTip">
+           <string>Load the timings collected and exported in another PC</string>
           </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
+          <property name="text">
+           <string>Import Timings from another PC</string>
           </property>
-         </spacer>
+          <property name="icon">
+           <iconset resource="materialicons.qrc">
+            <normaloff>:/material/icons/download.svg</normaloff>:/material/icons/download.svg</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="exportTimings">
+          <property name="toolTip">
+           <string>Copy the collected timings to a file to be imported on another PC</string>
+          </property>
+          <property name="text">
+           <string>Export Timings to another PC</string>
+          </property>
+          <property name="icon">
+           <iconset resource="materialicons.qrc">
+            <normaloff>:/material/icons/upload.svg</normaloff>:/material/icons/upload.svg</iconset>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -374,7 +389,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -410,6 +425,9 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <addaction name="actionImportTimings"/>
+    <addaction name="actionExportTimings"/>
+    <addaction name="separator"/>
     <addaction name="actionMakeStartList"/>
     <addaction name="actionCollectTimings"/>
     <addaction name="actionMakeRankings"/>
@@ -550,6 +568,30 @@
    </property>
    <property name="toolTip">
     <string>Save current race data to a new file</string>
+   </property>
+  </action>
+  <action name="actionImportTimings">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/download.svg</normaloff>:/material/icons/download.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Import Timings</string>
+   </property>
+   <property name="toolTip">
+    <string>Load the timings collected and exported in another PC</string>
+   </property>
+  </action>
+  <action name="actionExportTimings">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/upload.svg</normaloff>:/material/icons/upload.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Export Timings</string>
+   </property>
+   <property name="toolTip">
+    <string>Copy the collected timings to a file to be imported on another PC</string>
    </property>
   </action>
   <action name="actionMakeStartList">

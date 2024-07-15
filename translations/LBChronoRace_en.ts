@@ -976,6 +976,22 @@ Please uodate the application.</translation>
         <source>Clubs</source>
         <translation>Clubs</translation>
     </message>
+    <message>
+        <source>Load the timings collected and exported in another PC</source>
+        <translation>Load the timings collected and exported in another PC</translation>
+    </message>
+    <message>
+        <source>Import Timings from another PC</source>
+        <translation>Import Timings from another PC</translation>
+    </message>
+    <message>
+        <source>Copy the collected timings to a file to be imported on another PC</source>
+        <translation>Copy the collected timings to a file to be imported on another PC</translation>
+    </message>
+    <message>
+        <source>Export Timings to another PC</source>
+        <translation>Export Timings to another PC</translation>
+    </message>
 </context>
 <context>
     <name>PDFRankingPrinter</name>

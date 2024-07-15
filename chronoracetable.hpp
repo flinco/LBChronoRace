@@ -39,12 +39,12 @@ public:
 private slots:
     void rowAdd() const;
     void rowDel() const;
-    void modelImport();
-    void modelExport();
     void dialogQuit();
 
 public slots:
     void show(); //NOSONAR
+    void modelImport();
+    void modelExport();
 
 signals:
     void newRowCount(int count);

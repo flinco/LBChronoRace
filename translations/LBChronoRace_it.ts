@@ -976,6 +976,22 @@ Aggiornare l&apos;applicazione.</translation>
         <source>Clubs</source>
         <translation>Società</translation>
     </message>
+    <message>
+        <source>Load the timings collected and exported in another PC</source>
+        <translation>Carica i tempi registrati ed esportati in un altro PC</translation>
+    </message>
+    <message>
+        <source>Import Timings from another PC</source>
+        <translation>Importa Tempi da un altro PC</translation>
+    </message>
+    <message>
+        <source>Copy the collected timings to a file to be imported on another PC</source>
+        <translation>Copia i tempi registrati su un file da importare su un altro PC</translation>
+    </message>
+    <message>
+        <source>Export Timings to another PC</source>
+        <translation>Esporta Tempi per un altro PC</translation>
+    </message>
 </context>
 <context>
     <name>PDFRankingPrinter</name>
