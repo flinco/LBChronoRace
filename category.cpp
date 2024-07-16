@@ -16,28 +16,20 @@
  *****************************************************************************/
 
 #include "category.hpp"
+#include "lbchronorace.hpp"
 #include "lbcrexception.hpp"
+#include "crhelper.hpp"
 
 Category::Field CategorySorter::sortingField = Category::Field::CTF_FIRST;
 Qt::SortOrder   CategorySorter::sortingOrder = Qt::AscendingOrder;
 
-Category::Category(QString const &team)
-{
-    if (team.length() != 1) {
-        throw(ChronoRaceException(tr("Illegal category type - expected 'I' or 'T' - found %1").arg(team)));
-    } else {
-        this->team = (team.compare("T", Qt::CaseInsensitive) == 0);
-    }
-}
-
 QDataStream &operator<<(QDataStream &out, Category const &category)
 {
-    out << qint32(category.team)
-        << Competitor::toSexString(category.sex)
+    out << category.fullDescription
+        << category.shortDescription
+        << quint32(category.type)
         << quint32(category.toYear)
-        << quint32(category.fromYear)
-        << category.fullDescription
-        << category.shortDescription;
+        << quint32(category.fromYear);
 
     return out;
 }
@@ -46,54 +38,65 @@ QDataStream &operator>>(QDataStream &in, Category &category)
 {
     quint32 toYear32;
     quint32 fromYear32;
-    qint32  team32;
-    QString sexStr;
 
-    in >> team32
-       >> sexStr
-       >> toYear32
-       >> fromYear32
-       >> category.fullDescription
-       >> category.shortDescription;
+    if (LBChronoRace::binFormat < LBCHRONORACE_BIN_FMT_v4) {
+        qint32  team32;
+        QString sexStr;
 
-    category.team     = (bool) team32;
-    category.sex      = Competitor::toSex(sexStr);
+        in >> team32
+           >> sexStr
+           >> toYear32
+           >> fromYear32
+           >> category.fullDescription
+           >> category.shortDescription;
+
+        switch (CRHelper::toSex(sexStr)) {
+        case Competitor::Sex::MALE:
+            category.type = Category::Type::MALE;
+            break;
+        case Competitor::Sex::FEMALE:
+            category.type = Category::Type::FEMALE;
+            break;
+        case Competitor::Sex::UNDEFINED:
+            category.type = Category::Type::RELAY_MF;
+            break;
+        }
+    } else {
+        qint32 type32;
+
+        in >> category.fullDescription
+           >> category.shortDescription
+           >> type32
+           >> toYear32
+           >> fromYear32;
+
+        switch (type32) {
+        case static_cast<quint32>(Category::Type::MALE):
+            [[fallthrough]];
+        case static_cast<quint32>(Category::Type::FEMALE):
+            [[fallthrough]];
+        case static_cast<quint32>(Category::Type::RELAY_MF):
+            [[fallthrough]];
+        case static_cast<quint32>(Category::Type::RELAY_Y):
+            [[fallthrough]];
+        case static_cast<quint32>(Category::Type::RELAY_X):
+            category.type = static_cast<Category::Type>(type32);
+            break;
+        default:
+            category.illegalType(type32);
+            break;
+        }
+    }
+
     category.toYear   = toYear32;
     category.fromYear = fromYear32;
 
     return in;
 }
 
-Category::Type Category::toType(QString  const &type)
+void Category::illegalType(quint32 value) const
 {
-    if (type.compare("I", Qt::CaseInsensitive) == 0)
-        return Type::INDIVIDUAL;
-    else if (type.compare("T", Qt::CaseInsensitive) == 0)
-        return Type::CLUB;
-    else
-        throw(ChronoRaceException(tr("Illegal type '%1'").arg(type)));
-}
-
-QString Category::toTypeString(Type const type)
-{
-    switch (type) {
-    case Type::INDIVIDUAL:
-        return "I";
-    case Type::CLUB:
-        return "T";
-    default:
-        throw(ChronoRaceException(tr("Unexpected Type enum value '%1'").arg(static_cast<int>(type))));
-    }
-}
-
-bool Category::isTeam() const
-{
-    return team;
-}
-
-void Category::setTeam(bool newTeam)
-{
-    this->team = newTeam;
+    throw(ChronoRaceException(tr("Illegal category type '%1'").arg(value)));
 }
 
 uint Category::getFromYear() const
@@ -116,14 +119,14 @@ void Category::setFullDescription(QString const &newFullDescription)
     this->fullDescription = newFullDescription;
 }
 
-Competitor::Sex Category::getSex() const
+Category::Type Category::getType() const
 {
-    return sex;
+    return type;
 }
 
-void Category::setSex(Competitor::Sex const newSex)
+void Category::setType(Category::Type const newType)
 {
-    this->sex = newSex;
+    this->type = newType;
 }
 
 QString const &Category::getShortDescription() const
@@ -146,27 +149,50 @@ void Category::setToYear(uint newToYear)
     this->toYear = newToYear;
 }
 
+uint Category::getWeight() const
+{
+    uint weight = 0u;
+
+    if (this->fromYear)
+        weight++;
+
+    if (this->toYear)
+        weight++;
+
+    //NOSONAR switch (this->type) {
+    //NOSONAR case Category::Type::RELAY_Y:
+    //NOSONAR     [[fallthrough]];
+    //NOSONAR case Category::Type::RELAY_X:
+    //NOSONAR     weight++;
+    //NOSONAR     break;
+    //NOSONAR case Category::Type::MALE:
+    //NOSONAR     [[fallthrough]];
+    //NOSONAR case Category::Type::FEMALE:
+    //NOSONAR     [[fallthrough]];
+    //NOSONAR case Category::Type::RELAY_MF:
+    //NOSONAR     // do nothing
+    //NOSONAR     break;
+    //NOSONAR default:
+    //NOSONAR     Q_UNREACHABLE();
+    //NOSONAR     break;
+    //NOSONAR }
+
+    return weight;
+}
+
 bool Category::isValid() const
 {
     return (!fullDescription.isEmpty() && !shortDescription.isEmpty());
 }
 
-bool Category::includes(Competitor const *competitor) const
-{
-    return (competitor && !this->isTeam() &&
-            (competitor->getSex() == this->getSex()) &&
-            (competitor->getYear() >= this->getFromYear()) &&
-            (competitor->getYear() <= this->getToYear()));
-}
-
 bool Category::operator< (Category const &rhs) const
 {
-    return (!this->isTeam() && rhs.isTeam());
+    return (this->getFullDescription() < rhs.getFullDescription());
 }
 
 bool Category::operator> (Category const &rhs) const
 {
-    return (this->isTeam() && !rhs.isTeam());
+    return (this->getFullDescription() > rhs.getFullDescription());
 }
 
 bool Category::operator<=(Category const &rhs) const
@@ -179,11 +205,17 @@ bool Category::operator>=(Category const &rhs) const
     return !(*this < rhs);
 }
 
+bool Category::operator== (Category const &rhs) const
+{
+    return ((this->getFullDescription() == rhs.getFullDescription())
+         && (this->getShortDescription() == rhs.getShortDescription()));
+}
+
 bool CategorySorter::operator() (Category const &lhs, Category const &rhs) const
 {
     switch(sortingField) {
-    case Category::Field::CTF_SEX:
-        return (sortingOrder == Qt::DescendingOrder) ? (Competitor::toSexString(lhs.getSex()) > Competitor::toSexString(rhs.getSex())) : (Competitor::toSexString(lhs.getSex()) < Competitor::toSexString(rhs.getSex()));
+    case Category::Field::CTF_TYPE:
+        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getType() > rhs.getType()) : (lhs.getType() < rhs.getType());
     case Category::Field::CTF_TO_YEAR:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getToYear() > rhs.getToYear()) : (lhs.getToYear() < rhs.getToYear());
     case Category::Field::CTF_FROM_YEAR:
@@ -192,8 +224,6 @@ bool CategorySorter::operator() (Category const &lhs, Category const &rhs) const
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFullDescription() > rhs.getFullDescription()) : (lhs.getFullDescription() < rhs.getFullDescription());
     case Category::Field::CTF_SHORT_DESCR:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getShortDescription() > rhs.getShortDescription()) : (lhs.getShortDescription() < rhs.getShortDescription());
-    case Category::Field::CTF_TEAM:
-        [[fallthrough]];
     default:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }

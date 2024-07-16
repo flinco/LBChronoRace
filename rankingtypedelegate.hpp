@@ -15,33 +15,29 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef SEXDELEGATE_HPP
-#define SEXDELEGATE_HPP
+#ifndef RANKINGTYPEDELEGATE_HPP
+#define RANKINGTYPEDELEGATE_HPP
 
 #include <QObject>
 #include <QStyledItemDelegate>
 #include <QScopedPointer>
 #include <QComboBox>
 
-#include "competitor.hpp"
-
-class SexDelegate : public QStyledItemDelegate
+class RankingTypeDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit SexDelegate(QObject *parent = Q_NULLPTR);
+    explicit RankingTypeDelegate(QObject *parent = Q_NULLPTR);
 
     QWidget *createEditor(QWidget *parent, QStyleOptionViewItem const &option, QModelIndex const &index) const override;
     void destroyEditor(QWidget *editor, const QModelIndex &index) const override;
     void setEditorData(QWidget *editor, QModelIndex const &index) const override;
     void setModelData(QWidget *editor, QAbstractItemModel *model, QModelIndex const &index) const override;
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    QSize sizeHint(QStyleOptionViewItem const &option, QModelIndex const &index) const override;
     void updateEditorGeometry(QWidget *editor, QStyleOptionViewItem const &option, QModelIndex const &index) const override;
 
 private:
-    QScopedPointer<QComboBox> box { new QComboBox };
-
-    static QString toSexString(Competitor::Sex const sex);
+    QScopedPointer<QComboBox> rankingTypeBox { new QComboBox };
 };
 
-#endif // SEXDELEGATE_HPP
+#endif // RANKINGTYPEDELEGATE_HPP

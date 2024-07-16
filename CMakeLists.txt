@@ -53,8 +53,6 @@ set(PROJECT_SOURCES
     categoriesmodel.hpp
     category.cpp
     category.hpp
-    catsexdelegate.cpp
-    catsexdelegate.hpp
     cattypedelegate.cpp
     cattypedelegate.hpp
     chronorace.ui
@@ -75,6 +73,10 @@ set(PROJECT_SOURCES
     clubdelegate.hpp
     competitor.cpp
     competitor.hpp
+    compsexdelegate.cpp
+    compsexdelegate.hpp
+    crhelper.cpp
+    crhelper.hpp
     crloader.cpp
     crloader.hpp
     crtablemodel.hpp
@@ -84,12 +86,20 @@ set(PROJECT_SOURCES
     lbchronorace.hpp
     lbcrexception.cpp
     lbcrexception.hpp
+    multiselectcombobox.cpp
+    multiselectcombobox.hpp
     pdfrankingprinter.cpp
     pdfrankingprinter.hpp
+    ranking.cpp
+    ranking.hpp
+    rankingcatsdelegate.cpp
+    rankingcatsdelegate.hpp
     rankingsbuilder.cpp
     rankingsbuilder.hpp
     rankingprinter.cpp
     rankingprinter.hpp
+    rankingsmodel.cpp
+    rankingsmodel.hpp
     rankingswizard.cpp
     rankingswizard.hpp
     rankingswizardformat.cpp
@@ -98,8 +108,8 @@ set(PROJECT_SOURCES
     rankingswizardmode.hpp
     rankingswizardselection.cpp
     rankingswizardselection.hpp
-    sexdelegate.cpp
-    sexdelegate.hpp
+    rankingtypedelegate.cpp
+    rankingtypedelegate.hpp
     startlistmodel.cpp
     startlistmodel.hpp
     teamclassentry.cpp

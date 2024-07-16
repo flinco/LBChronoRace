@@ -17,6 +17,7 @@
 
 #include <algorithm>
 
+#include "lbchronorace.hpp"
 #include "teamslistmodel.hpp"
 
 QDataStream &operator<<(QDataStream &out, TeamsListModel const &data)
@@ -88,12 +89,23 @@ QVariant TeamsListModel::headerData(int section, Qt::Orientation orientation, in
 
 bool TeamsListModel::setData(QModelIndex const &index, QVariant const &value, int role)
 {
-    if (index.isValid() && role == Qt::EditRole) {
-        teamsList[index.row()] = value.toString().simplified();
-        emit dataChanged(index, index);
-        return true;
-    }
-    return false;
+    bool retval = false;
+
+    if (!index.isValid())
+        return retval;
+
+    if (role != Qt::EditRole)
+        return retval;
+
+    if (value.toString().contains(LBChronoRace::csvFilter))
+        return retval;
+
+    teamsList[index.row()] = value.toString().simplified();
+    retval = true;
+
+    emit dataChanged(index, index);
+
+    return retval;
 }
 
 Qt::ItemFlags TeamsListModel::flags(QModelIndex const &index) const

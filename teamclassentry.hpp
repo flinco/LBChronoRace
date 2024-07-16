@@ -18,8 +18,6 @@
 #ifndef TEAMCLASSENTRY_H
 #define TEAMCLASSENTRY_H
 
-#include <QVector>
-
 #include "classentry.hpp"
 
 namespace placement {
@@ -36,7 +34,7 @@ private:
 
 public:
     QString const &getClub() const;
-    ClassEntry const *getClassEntry(int index) const;
+    ClassEntry *getClassEntry(int index) const;
     void setClassEntry(ClassEntry *entry);
     int getClassEntryCount() const;
 

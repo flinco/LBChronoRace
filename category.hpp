@@ -18,9 +18,8 @@
 #ifndef CATEGORY_H
 #define CATEGORY_H
 
+#include <QCoreApplication>
 #include <QDataStream>
-
-#include "competitor.hpp"
 
 namespace category {
 class Category;
@@ -33,8 +32,11 @@ class Category {
 public:
     enum class Type
     {
-        INDIVIDUAL,
-        CLUB,
+        MALE     = 0,
+        FEMALE   = 1,
+        RELAY_MF = 2,
+        RELAY_Y  = 3,
+        RELAY_X  = 4
     };
 
     enum class Field
@@ -42,52 +44,46 @@ public:
         CTF_FIRST       = 0,
         CTF_FULL_DESCR  = 0,
         CTF_SHORT_DESCR = 1,
-        CTF_SEX         = 2,
+        CTF_TYPE        = 2,
         CTF_FROM_YEAR   = 3,
         CTF_TO_YEAR     = 4,
-        CTF_TEAM        = 5,
-        CTF_LAST        = 5,
-        CTF_COUNT       = 6
+        CTF_LAST        = 4,
+        CTF_COUNT       = 5
     };
 
 private:
-    bool team { false };
-    Competitor::Sex sex { Competitor::Sex::UNDEFINED };
+    Type type { Type::MALE };
     uint toYear { 0u };
     uint fromYear { 0u };
     QString fullDescription { "" };
     QString shortDescription { "" };
 
+    void illegalType(quint32 value) const;
+
 public:
     Category() = default;
-    explicit Category(QString const &team);
 
     friend QDataStream &operator<<(QDataStream &out, Category const &category);
     friend QDataStream &operator>>(QDataStream &in, Category &category);
 
-    static Type toType(QString  const &type);
-    static QString toTypeString(Type const type);
-
-    bool isTeam() const;
-    void setTeam(bool newTeam);
     uint getFromYear() const;
     void setFromYear(uint newFromYear);
     QString const &getFullDescription() const;
     void setFullDescription(QString const &newFullDescription);
-    Competitor::Sex getSex() const;
-    void setSex(Competitor::Sex const newSex);
+    Type getType() const;
+    void setType(Type const newType);
     QString const &getShortDescription() const;
     void setShortDescription(QString const &newShortDescription);
     uint getToYear() const;
     void setToYear(unsigned int newToYear);
+    uint getWeight() const;
     bool isValid() const;
-
-    bool includes(Competitor const *competitor) const;
 
     bool operator<  (Category const &rhs) const;
     bool operator>  (Category const &rhs) const;
     bool operator<= (Category const &rhs) const;
     bool operator>= (Category const &rhs) const;
+    bool operator== (Category const &rhs) const;
 };
 
 Category::Field &operator++(Category::Field &field);

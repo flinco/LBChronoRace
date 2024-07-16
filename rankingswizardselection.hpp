@@ -23,7 +23,7 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 
-#include "category.hpp"
+#include "ranking.hpp"
 #include "classentry.hpp"
 #include "teamclassentry.hpp"
 
@@ -37,7 +37,7 @@ public:
     class RankingsWizardItem
     {
     public:
-        Category const *category { Q_NULLPTR };
+        Ranking const *categories { Q_NULLPTR };
         bool skip { false };
         QList<ClassEntry const *> ranking { };
         QList<TeamClassEntry const *> teamRanking { };
@@ -47,7 +47,7 @@ public:
     void cleanupPage() override;
 
 private:
-    QListWidget categoriesList;
+    QListWidget rankingsList;
     QVBoxLayout layout;
 
 private slots:

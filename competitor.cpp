@@ -17,8 +17,10 @@
 
 #include "lbchronorace.hpp"
 #include "competitor.hpp"
-#include "lbcrexception.hpp"
+#include "crhelper.hpp"
 
+// Static members
+QString           Competitor::empty("");
 Competitor::Field CompetitorSorter::sortingField = Competitor::Field::CMF_FIRST;
 Qt::SortOrder     CompetitorSorter::sortingOrder = Qt::AscendingOrder;
 
@@ -26,7 +28,7 @@ QDataStream &operator<<(QDataStream &out, const Competitor &comp)
 {
     out << quint32(comp.bib)
         << comp.name
-        << Competitor::toSexString(comp.sex)
+        << CRHelper::toSexString(comp.sex)
         << quint32(comp.year)
         << comp.club
         << comp.team
@@ -55,7 +57,7 @@ QDataStream &operator>>(QDataStream &in, Competitor &comp)
        >> offset32;
 
     comp.bib    = bib32;
-    comp.sex    = Competitor::toSex(sexStr);
+    comp.sex    = CRHelper::toSex(sexStr);
     comp.year   = year32;
     comp.leg    = leg32;
     comp.offset = offset32;
@@ -181,94 +183,57 @@ bool Competitor::isValid() const
     return ((bib != 0u) && !name.isEmpty() && (sex != Sex::UNDEFINED));
 }
 
-QString const &Competitor::getCategory() const
+Category const *Competitor::getCategory() const
 {
-    return this->category;
+    return this->categories.isEmpty() ? Q_NULLPTR : this->categories[0];
 }
 
-void Competitor::setCategory(QString const &newCategory)
+QList<Category const *> &Competitor::getCategories()
 {
-    this->category = newCategory;
+    return this->categories;
 }
 
-Competitor::Sex Competitor::toSex(QString  const &sex, bool const strict)
+void Competitor::setCategories(QList<Category> const &newCategories)
 {
-    if (sex.length() != 1) {
-        throw(ChronoRaceException(tr("Illegal sex '%1'").arg(sex)));
-    } else {
-        if (sex.compare("M", Qt::CaseInsensitive) == 0)
-            return Sex::MALE;
-        else if (sex.compare("F", Qt::CaseInsensitive) == 0)
-            return Sex::FEMALE;
-        else if (!strict && (sex.compare("X", Qt::CaseInsensitive) == 0))
-            return Sex::MISC;
-    }
+    this->categories.clear();
 
-    return Sex::UNDEFINED;
-}
-
-QString Competitor::toSexString(Sex const sex)
-{
-    switch (sex) {
-        case Sex::MALE:
-            return "M";
-        case Sex::FEMALE:
-            return "F";
-        case Sex::MISC:
-            return "X";
-        case Sex::UNDEFINED:
-            return "U";
-        default:
-            throw(ChronoRaceException(tr("Unexpected Sex enum value '%1'").arg(static_cast<int>(sex))));
+    for (auto const &category : newCategories) {
+        if (this->isInCategory(&category))
+            this->categories.append(&category);
     }
 }
 
-int Competitor::toOffset(QString const &offset)
+bool Competitor::isInCategory(Category const *category) const
 {
-    QStringList list = offset.split(":");
+    if (!category)
+        return false;
 
-    int retval = -1;
-    int h;
-    int m;
-    int s;
-    int l = 0;
-    bool check_h;
-    bool check_m;
-    bool check_s;
-    bool check_l;
-    switch (list.count()) {
-        case 3:
-            h = list[0].toInt(&check_h, 10);
-            m = list[1].toInt(&check_m, 10);
-            s = list[2].toInt(&check_s, 10);
-            if (check_h && check_m && check_s)
-                retval = (h * 3600) + (m * 60) + s;
+    uint fromYear = category->getFromYear();
+    uint toYear = category->getToYear();
+
+    if ((fromYear != 0) && (this->year < fromYear))
+        return false;
+
+    if ((toYear != 0) && (toYear < this->year))
+        return false;
+
+    Category::Type type = category->getType();
+    switch (this->sex) {
+    case Competitor::Sex::MALE:
+        if ((type == Category::Type::FEMALE) || (type == Category::Type::RELAY_X))
+            return false;
         break;
-        case 2:
-            m = list[0].toInt(&check_m, 10);
-            s = list[1].toInt(&check_s, 10);
-            if (check_m && check_s)
-                retval = (m * 60) + s;
+    case Competitor::Sex::FEMALE:
+        if ((type == Category::Type::MALE) || (type == Category::Type::RELAY_Y))
+            return false;
         break;
-        case 1:
-            l = list[0].toInt(&check_l, 10);
-            if (check_l)
-                retval = -qAbs(l);
-        break;
-        default:
-            // do nothing
-        break;
+    case Competitor::Sex::UNDEFINED:
+        return false;
+    default:
+        Q_UNREACHABLE();
     }
 
-    return retval;
-}
-
-QString Competitor::toOffsetString(int offset)
-{
-    if (offset < 0)
-        return QString("%1").arg(qAbs(offset));
-    else
-        return QString("%1:%2:%3").arg(((offset / 60) / 60)).arg(((offset / 60) % 60), 2, 10, QChar('0')).arg((offset % 60), 2, 10, QChar('0'));
+    return true;
 }
 
 bool Competitor::operator< (Competitor const &rhs) const
@@ -323,7 +288,7 @@ bool CompetitorSorter::operator() (Competitor const &lhs, Competitor const &rhs)
         case Competitor::Field::CMF_NAME:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getName() > rhs.getName()) : (lhs.getName() < rhs.getName());
         case Competitor::Field::CMF_SEX:
-            return (sortingOrder == Qt::DescendingOrder) ? (Competitor::toSexString(lhs.getSex()) > Competitor::toSexString(rhs.getSex())) : (Competitor::toSexString(lhs.getSex()) < Competitor::toSexString(rhs.getSex()));
+            return (sortingOrder == Qt::DescendingOrder) ? (CRHelper::toSexString(lhs.getSex()) > CRHelper::toSexString(rhs.getSex())) : (CRHelper::toSexString(lhs.getSex()) < CRHelper::toSexString(rhs.getSex()));
         case Competitor::Field::CMF_YEAR:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getYear() > rhs.getYear()) : (lhs.getYear() < rhs.getYear());
         case Competitor::Field::CMF_CLUB:

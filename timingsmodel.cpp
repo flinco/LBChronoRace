@@ -17,6 +17,7 @@
 
 #include <algorithm>
 
+#include "lbchronorace.hpp"
 #include "timingsmodel.hpp"
 #include "lbcrexception.hpp"
 
@@ -91,39 +92,46 @@ QVariant TimingsModel::data(QModelIndex const &index, int role) const
 
 bool TimingsModel::setData(QModelIndex const &index, QVariant const &value, int role)
 {
-
     bool retval = false;
-    if (index.isValid() && role == Qt::EditRole) {
 
-        uint uval;
-        switch (index.column()) {
-        case static_cast<int>(Timing::Field::TMF_BIB):
-            uval = value.toUInt(&retval);
-            if (retval && uval)
-                timings[index.row()].setBib(uval);
-            else
-                retval = false;
-            break;
-        case static_cast<int>(Timing::Field::TMF_LEG):
-            uval = value.toUInt(&retval);
-            if (retval)
-                timings[index.row()].setLeg(uval);
-            break;
-        case static_cast<int>(Timing::Field::TMF_TIME):
-            try {
-                timings[index.row()].setTiming(value.toString().trimmed());
-                retval = true;
-            } catch (ChronoRaceException &ex) {
-                emit error(ex.getMessage());
-                retval = false;
-            }
-            break;
-        default:
-            break;
+    if (!index.isValid())
+        return retval;
+
+    if (role != Qt::EditRole)
+        return retval;
+
+    if (value.toString().contains(LBChronoRace::csvFilter))
+        return retval;
+
+    uint uval;
+    switch (index.column()) {
+    case static_cast<int>(Timing::Field::TMF_BIB):
+        uval = value.toUInt(&retval);
+        if (retval && uval)
+            timings[index.row()].setBib(uval);
+        else
+            retval = false;
+        break;
+    case static_cast<int>(Timing::Field::TMF_LEG):
+        uval = value.toUInt(&retval);
+        if (retval)
+            timings[index.row()].setLeg(uval);
+        break;
+    case static_cast<int>(Timing::Field::TMF_TIME):
+        try {
+            timings[index.row()].setTiming(value.toString().trimmed());
+            retval = true;
+        } catch (ChronoRaceException &ex) {
+            emit error(ex.getMessage());
+            retval = false;
         }
-
-        if (retval) emit dataChanged(index, index);
+        break;
+    default:
+        break;
     }
+
+    if (retval) emit dataChanged(index, index);
+
     return retval;
 }
 

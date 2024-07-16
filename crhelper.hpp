@@ -15,33 +15,47 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CATSEXDELEGATE_HPP
-#define CATSEXDELEGATE_HPP
+#ifndef CRHELPER_H
+#define CRHELPER_H
 
-#include <QObject>
-#include <QStyledItemDelegate>
-#include <QScopedPointer>
-#include <QComboBox>
+#include <QCoreApplication>
+#include <QString>
 
+#include "crloader.hpp"
 #include "competitor.hpp"
+#include "ranking.hpp"
+#include "category.hpp"
+#include "timing.hpp"
 
-class CategorySexDelegate : public QStyledItemDelegate
+namespace helper {
+class CRHelper;
+}
+
+class CRHelper
 {
-    Q_OBJECT
+    Q_DECLARE_TR_FUNCTIONS(CRHelper)
+
 public:
-    explicit CategorySexDelegate(QObject *parent = Q_NULLPTR);
+    static QString encodingToLabel(CRLoader::Encoding const &value);
+    static QString formatToLabel(CRLoader::Format const &value);
 
-    QWidget *createEditor(QWidget *parent, QStyleOptionViewItem const &option, QModelIndex const &index) const override;
-    void destroyEditor(QWidget *editor, const QModelIndex &index) const override;
-    void setEditorData(QWidget *editor, QModelIndex const &index) const override;
-    void setModelData(QWidget *editor, QAbstractItemModel *model, QModelIndex const &index) const override;
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-    void updateEditorGeometry(QWidget *editor, QStyleOptionViewItem const &option, QModelIndex const &index) const override;
+    static Competitor::Sex toSex(QString const &sex);
+    static QString toSexString(Competitor::Sex const sex);
+    static QString toSexFullString(Competitor::Sex const sex);
+    static int toOffset(QString const &offset);
+    static QString toOffsetString(int offset);
 
-private:
-    QScopedPointer<QComboBox> box { new QComboBox };
+    static Ranking::Type toRankingType(QString const &type);
+    static QString toTypeString(Ranking::Type const type);
 
-    static QString toCatSexString(Competitor::Sex const sex);
+    static Category::Type toCategoryType(QString const &type);
+    static QString toTypeString(Category::Type const type);
+
+    static QString toRankingTypeString(Ranking::Type type);
+    static QString toCategoryTypeString(Category::Type const type);
+
+    static QString toTimeStr(uint const seconds, Timing::Status const status, char const *prefix = Q_NULLPTR);
+    static QString toTimeStr(Timing const &timing);
 };
 
-#endif // CATSEXDELEGATE_HPP
+#endif // CRHELPER_H

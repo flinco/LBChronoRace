@@ -1,0 +1,6 @@
+Relays Male,RM,I,RM+RF+RX
+Relays Female,RF,I,RM
+Relays Mixed,RX,I,RF
+Teams,T,T,RM+RF+RX
+Teams M,TM,T,RM
+Teams F,TF,T,RF

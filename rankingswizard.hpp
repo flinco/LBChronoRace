@@ -70,6 +70,7 @@ private:
     QList<RankingsWizardSelection::RankingsWizardItem> rankingsList { };
     RankingsWizardTarget target { RankingsWizardTarget::Rankings };
 
+    void buildStartList();
     void buildRankings();
 
     void printStartList();

@@ -74,9 +74,6 @@ public:
     void setTiming(char const *timing);
     bool isValid() const;
 
-    static QString toTimeStr(uint const seconds, Timing::Status const status, char const *prefix = Q_NULLPTR);
-    static QString toTimeStr(Timing const &timing);
-
     bool operator<  (Timing const &rhs) const;
     bool operator>  (Timing const &rhs) const;
     bool operator<= (Timing const &rhs) const;

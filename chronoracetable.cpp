@@ -19,6 +19,7 @@
 
 #include "chronoracetable.hpp"
 #include "crloader.hpp"
+#include "crhelper.hpp"
 
 ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
 {
@@ -99,7 +100,7 @@ void ChronoRaceTable::modelImport()
 {
     if (QMessageBox::question(this, tr("CSV Encoding"),
                               tr("The data being imported must be %1 encoded.\n"
-                                 "Continue?").arg(CRLoader::encodingToLabel(CRLoader::getEncoding())),
+                                 "Continue?").arg(CRHelper::encodingToLabel(CRLoader::getEncoding())),
                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
         emit modelImported();
     }
@@ -109,7 +110,7 @@ void ChronoRaceTable::modelExport()
 {
     if (QMessageBox::question(this, tr("CSV Encoding"),
                               tr("The data will be exported with %1 encoding.\n"
-                                 "Continue?").arg(CRLoader::encodingToLabel(CRLoader::getEncoding())),
+                                 "Continue?").arg(CRHelper::encodingToLabel(CRLoader::getEncoding())),
                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
         emit modelExported();
     }
