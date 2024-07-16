@@ -21,11 +21,12 @@
 #include <QObject>
 #include <QList>
 #include <QMap>
+#include <QMultiMap>
 #include <QString>
 
 #include "classentry.hpp"
 #include "teamclassentry.hpp"
-#include "category.hpp"
+#include "rankingprinter.hpp"
 
 class RankingsBuilder : public QObject
 {
@@ -34,14 +35,16 @@ class RankingsBuilder : public QObject
 
 public:
     uint loadData();
-    QList<ClassEntry const *> &fillRanking(QList<ClassEntry const *> &ranking, Category const &category) const;
-    QList<TeamClassEntry const *> &fillRanking(QList<TeamClassEntry const *> &ranking, Category const &category);
-
-    static QList<Competitor> makeStartList();
+    QList<ClassEntry const *> &fillRanking(QList<ClassEntry const *> &ranking, Ranking const *categories) const;
+    QList<TeamClassEntry const *> &fillRanking(QList<TeamClassEntry const *> &ranking, Ranking const *categories);
+    QList<Competitor const *> fillStartList() const;
 
 private:
-    void fillStartList();
-    void setCompetitorCategory(QVector<Category> const &categories, Competitor *competitor) const;
+    void sortTeamRanking(QMap<QString, TeamClassEntry> &rankingByTeam, QList<TeamClassEntry *> &sortedTeamRanking) const;
+    void sortLegTimes(QList<ClassEntry *> const &ranking, uint legs, PositionNumber &position) const;
+    void sortLegTimes(TeamClassEntry const &teamClassEntry, uint legs, PositionNumber &position) const;
+    void prepareStartList();
+    void emitMessages(QStringList &messages);
 
     QMultiMap<uint, Competitor> startList { };
     QMap<uint, ClassEntry> rankingByBib { };

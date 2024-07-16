@@ -1,0 +1,230 @@
+/*****************************************************************************
+ * Copyright (C) 2021 by Lorenzo Buzzi (lorenzo@buzzi.pro)                   *
+ *                                                                           *
+ * This program is free software: you can redistribute it and/or modify      *
+ * it under the terms of the GNU General Public License as published by      *
+ * the Free Software Foundation, either version 3 of the License, or         *
+ * (at your option) any later version.                                       *
+ *                                                                           *
+ * This program is distributed in the hope that it will be useful,           *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the              *
+ * GNU General Public License for more details.                              *
+ *                                                                           *
+ * You should have received a copy of the GNU General Public License         *
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
+ *****************************************************************************/
+
+#include "lbchronorace.hpp"
+#include "rankingsmodel.hpp"
+
+QDataStream &operator<<(QDataStream &out, RankingsModel const &data)
+{
+    out << data.rankings;
+
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, RankingsModel &data)
+{
+    in >> data.rankings;
+
+    return in;
+}
+
+void RankingsModel::refreshCounters(int r)
+{
+    Q_UNUSED(r)
+}
+
+int RankingsModel::rowCount(QModelIndex const &parent) const
+{
+
+    Q_UNUSED(parent)
+
+    return static_cast<int>(rankings.count());
+}
+
+int RankingsModel::columnCount(QModelIndex const &parent) const
+{
+
+    Q_UNUSED(parent)
+
+    return static_cast<int>(Ranking::Field::RTF_COUNT);
+}
+
+QVariant RankingsModel::data(QModelIndex const &index, int role) const
+{
+    if (!index.isValid())
+        return QVariant();
+
+    if (index.row() >= rankings.size())
+        return QVariant();
+
+    if (role == Qt::DisplayRole)
+        switch (index.column()) {
+        case static_cast<int>(Ranking::Field::RTF_FULL_DESCR):
+            return QVariant(rankings.at(index.row()).getFullDescription());
+        case static_cast<int>(Ranking::Field::RTF_SHORT_DESCR):
+            return QVariant(rankings.at(index.row()).getShortDescription());
+        case static_cast<int>(Ranking::Field::RTF_TEAM):
+            return QVariant(rankings.at(index.row()).isTeam() ? tr("T") : tr("I"));
+        case static_cast<int>(Ranking::Field::RTF_CATEGORIES):
+            return QVariant(rankings.at(index.row()).getCategories().join('+'));
+        default:
+            return QVariant();
+        }
+    else if (role == Qt::EditRole)
+        switch (index.column()) {
+        case static_cast<int>(Ranking::Field::RTF_FULL_DESCR):
+            return QVariant(rankings.at(index.row()).getFullDescription());
+        case static_cast<int>(Ranking::Field::RTF_SHORT_DESCR):
+            return QVariant(rankings.at(index.row()).getShortDescription());
+        case static_cast<int>(Ranking::Field::RTF_TEAM):
+            return QVariant(rankings.at(index.row()).isTeam() ? tr("T") : tr("I"));
+        case static_cast<int>(Ranking::Field::RTF_CATEGORIES):
+            return QVariant(rankings.at(index.row()).getCategories());
+        default:
+            return QVariant();
+        }
+    else if (role == Qt::ToolTipRole)
+        switch (index.column()) {
+        case static_cast<int>(Ranking::Field::RTF_FULL_DESCR):
+            return QVariant(tr("Full ranking name"));
+        case static_cast<int>(Ranking::Field::RTF_SHORT_DESCR):
+            return QVariant(tr("Short ranking name"));
+        case static_cast<int>(Ranking::Field::RTF_TEAM):
+            return QVariant(tr("Individual/Relay (I) or Club (T)"));
+        case static_cast<int>(Ranking::Field::RTF_CATEGORIES):
+            return QVariant(tr("The ranking will include all the categories listed here"));
+        default:
+            return QVariant();
+        }
+
+    return QVariant();
+}
+
+bool RankingsModel::setData(QModelIndex const &index, QVariant const &value, int role)
+{
+    bool retval = false;
+
+    if (!index.isValid())
+        return retval;
+
+    if (role != Qt::EditRole)
+        return retval;
+
+    if (value.toString().contains(LBChronoRace::csvFilter))
+        return retval;
+
+    switch (index.column()) {
+    case static_cast<int>(Ranking::Field::RTF_FULL_DESCR):
+        rankings[index.row()].setFullDescription(value.toString().simplified());
+        retval = true;
+        break;
+    case static_cast<int>(Ranking::Field::RTF_SHORT_DESCR):
+        rankings[index.row()].setShortDescription(value.toString().simplified());
+        retval = true;
+        break;
+    case static_cast<int>(Ranking::Field::RTF_TEAM):
+        rankings[index.row()].setTeam(QString::compare(value.toString().trimmed(), "T", Qt::CaseInsensitive) == 0);
+        break;
+    case static_cast<int>(Ranking::Field::RTF_CATEGORIES):
+        rankings[index.row()].setCategories(value.toStringList());
+        break;
+    default:
+        break;
+    }
+
+    if (retval) emit dataChanged(index, index);
+
+    return retval;
+}
+
+QVariant RankingsModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (role != Qt::DisplayRole)
+        return QVariant();
+
+    if (orientation == Qt::Horizontal)
+        switch (section) {
+        case static_cast<int>(Ranking::Field::RTF_FULL_DESCR):
+            return QString("%1").arg(tr("Ranking Full Name"));
+        case static_cast<int>(Ranking::Field::RTF_SHORT_DESCR):
+            return QString("%1").arg(tr("Ranking Short Name"));
+        case static_cast<int>(Ranking::Field::RTF_TEAM):
+            return QString("%1").arg(tr("Individual/Club"));
+        case static_cast<int>(Ranking::Field::RTF_CATEGORIES):
+            return QString("%1").arg(tr("Categories"));
+        default:
+            return QString("%1").arg(section + 1);
+        }
+    else
+        return QString("%1").arg(section + 1);
+}
+
+Qt::ItemFlags RankingsModel::flags(QModelIndex const &index) const
+{
+    if (!index.isValid())
+        return Qt::ItemIsEnabled;
+
+    return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+}
+
+bool RankingsModel::insertRows(int position, int rows, QModelIndex const &parent)
+{
+
+    Q_UNUSED(parent)
+
+    beginInsertRows(QModelIndex(), position, position + rows - 1);
+
+    for (int row = 0; row < rows; ++row) {
+        rankings.insert(position, Ranking());
+    }
+
+    endInsertRows();
+    return true;
+}
+
+bool RankingsModel::removeRows(int position, int rows, QModelIndex const &parent)
+{
+
+    Q_UNUSED(parent)
+
+    beginRemoveRows(QModelIndex(), position, position + rows - 1);
+
+    for (int row = 0; row < rows; ++row) {
+        rankings.removeAt(position);
+    }
+
+    endRemoveRows();
+    return true;
+}
+
+void RankingsModel::sort(int column, Qt::SortOrder order)
+{
+
+    RankingSorter::setSortingField((Ranking::Field) column);
+    RankingSorter::setSortingOrder(order);
+    std::stable_sort(rankings.begin(), rankings.end(), RankingSorter());
+    emit dataChanged(QModelIndex(), QModelIndex());
+}
+
+void RankingsModel::reset()
+{
+    beginResetModel();
+    rankings.clear();
+    endResetModel();
+}
+
+void RankingsModel::parseCategories()
+{
+    for (auto &ranking : rankings) {
+        ranking.parseCategories();
+    }
+}
+
+QList<Ranking> const &RankingsModel::getRankings() const
+{
+    return rankings;
+}

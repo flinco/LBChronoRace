@@ -29,25 +29,30 @@
 #include "lbchronorace.hpp"
 #include "lbcrexception.hpp"
 #include "rankingswizard.hpp"
+#include "crhelper.hpp"
 
 // static members initialization
 QDir LBChronoRace::lastSelectedPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
-int  LBChronoRace::binFormat = LBCHRONORACE_BIN_FMT;
+uint LBChronoRace::binFormat = LBCHRONORACE_BIN_FMT;
+QRegularExpression LBChronoRace::csvFilter("[,;]");
 
 LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QMainWindow(parent),
     raceInfo(parent),
     startListTable(parent),
     teamsTable(parent),
+    rankingsTable(parent),
     categoriesTable(parent),
     timingsTable(parent),
     sexDelegate(&startListTable),
     clubDelegate(&startListTable),
-    catSexDelegate(&categoriesTable),
-    catTypeDelegate(&categoriesTable)
+    rankingTypeDelegate(&rankingsTable),
+    rankingCatsDelegate(&rankingsTable),
+    categoryTypeDelegate(&categoriesTable)
 {
     startListFileName  = lastSelectedPath.filePath(LBCHRONORACE_STARTLIST_DEFAULT);
     timingsFileName    = lastSelectedPath.filePath(LBCHRONORACE_TIMINGS_DEFAULT);
+    rankingsFileName   = lastSelectedPath.filePath(LBCHRONORACE_RANKINGS_DEFAULT);
     categoriesFileName = lastSelectedPath.filePath(LBCHRONORACE_CATEGORIES_DEFAULT);
     teamsFileName      = lastSelectedPath.filePath(LBCHRONORACE_TEAMLIST_DEFAULT);
 
@@ -65,20 +70,29 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(&teamsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportTeamList);
     QObject::connect(&teamsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterTeams);
 
-    auto const *startListModel = (StartListModel const *) CRLoader::getStartListModel();
-    auto const *teamsListModel = (TeamsListModel const *) CRLoader::getTeamsListModel();
+    auto const *startListModel = dynamic_cast<StartListModel const *>(CRLoader::getStartListModel());
+    auto const *teamsListModel = dynamic_cast<TeamsListModel const *>(CRLoader::getTeamsListModel());
     QObject::connect(startListModel, &StartListModel::newClub, teamsListModel, &TeamsListModel::addTeam);
     QObject::connect(startListModel, &StartListModel::error, this, &LBChronoRace::appendErrorMessage);
 
-    auto *categoriesModel = (CategoriesModel *) CRLoader::getCategoriesModel();
+    auto *rankingsModel = dynamic_cast<RankingsModel *>(CRLoader::getRankingsModel());
+    rankingsTable.setWindowTitle(tr("Rankings"));
+    rankingsTable.setModel(rankingsModel);
+    QObject::connect(&rankingsTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importRankingsList);
+    QObject::connect(&rankingsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportRankingsList);
+    QObject::connect(&rankingsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterRankings);
+    QObject::connect(rankingsModel, &RankingsModel::error, this, &LBChronoRace::appendErrorMessage);
+
+    auto *categoriesModel = dynamic_cast<CategoriesModel *>(CRLoader::getCategoriesModel());
     categoriesTable.setWindowTitle(tr("Categories"));
     categoriesTable.setModel(categoriesModel);
     QObject::connect(&categoriesTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importCategoriesList);
     QObject::connect(&categoriesTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportCategoriesList);
     QObject::connect(&categoriesTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterCategories);
     QObject::connect(categoriesModel, &CategoriesModel::error, this, &LBChronoRace::appendErrorMessage);
+    rankingCatsDelegate.setCategories(categoriesModel);
 
-    auto *timingsModel = (TimingsModel *) CRLoader::getTimingsModel();
+    auto *timingsModel = dynamic_cast<TimingsModel *>(CRLoader::getTimingsModel());
     timingsTable.setWindowTitle(tr("Timings List"));
     timingsTable.setModel(timingsModel);
     QObject::connect(&timingsTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importTimingsList);
@@ -100,6 +114,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->editRace, &QPushButton::clicked, &raceInfo, &ChronoRaceData::show);
     QObject::connect(ui->editStartList, &QPushButton::clicked, &startListTable, &ChronoRaceTable::show);
     QObject::connect(ui->editClubsList, &QPushButton::clicked, &teamsTable, &ChronoRaceTable::show);
+    QObject::connect(ui->editRankings, &QPushButton::clicked, &rankingsTable, &ChronoRaceTable::show);
     QObject::connect(ui->editCategories, &QPushButton::clicked, &categoriesTable, &ChronoRaceTable::show);
     QObject::connect(ui->editTimings, &QPushButton::clicked, &timingsTable, &ChronoRaceTable::show);
     QObject::connect(ui->importTimings, &QPushButton::clicked, &timingsTable, &ChronoRaceTable::modelImport);
@@ -115,6 +130,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionEditRace, &QAction::triggered, &raceInfo, &ChronoRaceData::show);
     QObject::connect(ui->actionEditStartList, &QAction::triggered, &startListTable, &ChronoRaceTable::show);
     QObject::connect(ui->actionEditTeams, &QAction::triggered, &teamsTable, &ChronoRaceTable::show);
+    QObject::connect(ui->actionEditRankings, &QAction::triggered, &rankingsTable, &ChronoRaceTable::show);
     QObject::connect(ui->actionEditCategories, &QAction::triggered, &categoriesTable, &ChronoRaceTable::show);
     QObject::connect(ui->actionEditTimings, &QAction::triggered, &timingsTable, &ChronoRaceTable::show);
     QObject::connect(ui->actionImportTimings, &QAction::triggered, &timingsTable, &ChronoRaceTable::modelImport);
@@ -130,8 +146,9 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     // tie the views with the related delegate instances
     startListTable.setItemDelegateForColumn(static_cast<int>(Competitor::Field::CMF_SEX), &sexDelegate);
     startListTable.setItemDelegateForColumn(static_cast<int>(Competitor::Field::CMF_CLUB), &clubDelegate);
-    categoriesTable.setItemDelegateForColumn(static_cast<int>(Category::Field::CTF_SEX), &catSexDelegate);
-    categoriesTable.setItemDelegateForColumn(static_cast<int>(Category::Field::CTF_TEAM), &catTypeDelegate);
+    rankingsTable.setItemDelegateForColumn(static_cast<int>(Ranking::Field::RTF_TEAM), &rankingTypeDelegate);
+    rankingsTable.setItemDelegateForColumn(static_cast<int>(Ranking::Field::RTF_CATEGORIES), &rankingCatsDelegate);
+    categoriesTable.setItemDelegateForColumn(static_cast<int>(Category::Field::CTF_TYPE), &categoryTypeDelegate);
 }
 
 void LBChronoRace::setCounterTeams(int count) const
@@ -145,6 +162,11 @@ void LBChronoRace::setCounterCompetitors(int count) const
 
     // also update the counter for the list of clubs
     setCounterTeams(CRLoader::getTeamsListModel()->rowCount());
+}
+
+void LBChronoRace::setCounterRankings(int count) const
+{
+    ui->counterRankings->display(count);
 }
 
 void LBChronoRace::setCounterCategories(int count) const
@@ -188,6 +210,25 @@ void LBChronoRace::importStartList()
     }
 }
 
+void LBChronoRace::importRankingsList()
+{
+    rankingsFileName = QFileDialog::getOpenFileName(this, tr("Select Rankings File"),
+                                                    lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
+
+    if (!rankingsFileName.isEmpty()) {
+        int count = 0;
+        appendInfoMessage(tr("Rankings File: %1").arg(rankingsFileName));
+        try {
+            count = CRLoader::importModel(CRLoader::Model::RANKINGS, rankingsFileName);
+            appendInfoMessage(tr("Loaded: %n ranking(s)", "", count));
+            lastSelectedPath = QFileInfo(rankingsFileName).absoluteDir();
+        } catch (ChronoRaceException &e) {
+            appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
+        }
+        setCounterRankings(count);
+    }
+}
+
 void LBChronoRace::importCategoriesList()
 {
     categoriesFileName = QFileDialog::getOpenFileName(this, tr("Select Categories File"),
@@ -197,7 +238,7 @@ void LBChronoRace::importCategoriesList()
         int count = 0;
         appendInfoMessage(tr("Categories File: %1").arg(categoriesFileName));
         try {
-            count = CRLoader::importCategories(categoriesFileName);
+            count = CRLoader::importModel(CRLoader::Model::CATEGORIES, categoriesFileName);
             appendInfoMessage(tr("Loaded: %n category(s)", "", count));
             lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
         } catch (ChronoRaceException &e) {
@@ -216,7 +257,7 @@ void LBChronoRace::importTimingsList()
         int count = 0;
         appendInfoMessage(tr("Timings File: %1").arg(timingsFileName));
         try {
-            count = CRLoader::importTimings(timingsFileName);
+            count = CRLoader::importModel(CRLoader::Model::TIMINGS, timingsFileName);
             appendInfoMessage(tr("Loaded: %n timing(s)", "", count));
             lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
         } catch (ChronoRaceException &e) {
@@ -237,7 +278,7 @@ void LBChronoRace::exportStartList()
             startListFileName.append(".csv");
 
         try {
-            CRLoader::exportStartList(startListFileName);
+            CRLoader::exportModel(CRLoader::Model::STARTLIST, startListFileName);
             appendInfoMessage(tr("Start List File saved: %1").arg(startListFileName));
             lastSelectedPath = QFileInfo(startListFileName).absoluteDir();
         }  catch (ChronoRaceException &e) {
@@ -257,9 +298,29 @@ void LBChronoRace::exportTeamList()
             teamsFileName.append(".csv");
 
         try {
-            CRLoader::exportTeams(teamsFileName);
+            CRLoader::exportModel(CRLoader::Model::TEAMSLIST, teamsFileName);
             appendInfoMessage(tr("Teams File saved: %1").arg(teamsFileName));
             lastSelectedPath = QFileInfo(teamsFileName).absoluteDir();
+        }  catch (ChronoRaceException &e) {
+            appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
+        }
+    }
+}
+
+void LBChronoRace::exportRankingsList()
+{
+    rankingsFileName = QFileDialog::getSaveFileName(this, tr("Select Rankings File"),
+                                                      lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
+
+    if (!rankingsFileName.isEmpty()) {
+
+        if (!rankingsFileName.endsWith(".csv", Qt::CaseInsensitive))
+            rankingsFileName.append(".csv");
+
+        try {
+            CRLoader::exportModel(CRLoader::Model::RANKINGS, rankingsFileName);
+            appendInfoMessage(tr("Rankings File saved: %1").arg(rankingsFileName));
+            lastSelectedPath = QFileInfo(rankingsFileName).absoluteDir();
         }  catch (ChronoRaceException &e) {
             appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
         }
@@ -277,7 +338,7 @@ void LBChronoRace::exportCategoriesList()
             categoriesFileName.append(".csv");
 
         try {
-            CRLoader::exportCategories(categoriesFileName);
+            CRLoader::exportModel(CRLoader::Model::CATEGORIES, categoriesFileName);
             appendInfoMessage(tr("Categories File saved: %1").arg(categoriesFileName));
             lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
         }  catch (ChronoRaceException &e) {
@@ -297,7 +358,7 @@ void LBChronoRace::exportTimingsList()
             timingsFileName.append(".csv");
 
         try {
-            CRLoader::exportTimings(timingsFileName);
+            CRLoader::exportModel(CRLoader::Model::TIMINGS, timingsFileName);
             appendInfoMessage(tr("Timings File saved: %1").arg(timingsFileName));
             lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
         }  catch (ChronoRaceException &e) {
@@ -354,7 +415,7 @@ void LBChronoRace::encodingSelector(int idx) const
         break;
     }
 
-    appendInfoMessage(tr("Selected encoding: %1").arg(CRLoader::encodingToLabel(CRLoader::getEncoding())));
+    appendInfoMessage(tr("Selected encoding: %1").arg(CRHelper::encodingToLabel(CRLoader::getEncoding())));
 }
 
 void LBChronoRace::formatSelector(int idx) const
@@ -374,7 +435,7 @@ void LBChronoRace::formatSelector(int idx) const
         break;
     }
 
-    appendInfoMessage(tr("Selected format: %1").arg(CRLoader::formatToLabel(CRLoader::getFormat())));
+    appendInfoMessage(tr("Selected format: %1").arg(CRHelper::formatToLabel(CRLoader::getFormat())));
 }
 
 bool LBChronoRace::loadRaceFile(QString const &fileName)
@@ -397,6 +458,7 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
             case LBCHRONORACE_BIN_FMT_v1:
             case LBCHRONORACE_BIN_FMT_v2:
             case LBCHRONORACE_BIN_FMT_v3:
+            case LBCHRONORACE_BIN_FMT_v4:
                 QAbstractTableModel const *table;
                 qint16 encodingIdx;
                 qint16 formatIdx;
@@ -424,6 +486,10 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
                 tableCount = table->rowCount();
                 setCounterTeams(tableCount);
                 appendInfoMessage(tr("Loaded: %n team(s)", "", tableCount));
+                table = CRLoader::getRankingsModel();
+                tableCount = table->rowCount();
+                setCounterRankings(tableCount);
+                appendInfoMessage(tr("Loaded: %n ranking(s)", "", tableCount));
                 table = CRLoader::getCategoriesModel();
                 tableCount = table->rowCount();
                 setCounterCategories(tableCount);
@@ -437,7 +503,7 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
                 retval = true;
                 break;
             default:
-                QMessageBox::information(this, tr("Race Data File Error"), tr("Data format %1 not supported.\nPlease uodate the application.").arg(binFmt));
+                QMessageBox::information(this, tr("Race Data File Error"), tr("Data format %1 not supported.\nPlease update the application.").arg(binFmt));
                 break;
             }
         } else {
@@ -513,8 +579,8 @@ void LBChronoRace::setEncoding()
     int current = 0;
 
     QStringList items = {
-        CRLoader::encodingToLabel(CRLoader::Encoding::LATIN1),
-        CRLoader::encodingToLabel(CRLoader::Encoding::UTF8)
+        CRHelper::encodingToLabel(CRLoader::Encoding::LATIN1),
+        CRHelper::encodingToLabel(CRLoader::Encoding::UTF8)
     };
 
     switch (CRLoader::getEncoding()) {
@@ -549,7 +615,7 @@ void LBChronoRace::setEncoding()
 
 void LBChronoRace::makeStartList()
 {
-    //NOSONAR ui->errorDisplay->clear();
+    ui->errorDisplay->clear();
 
     try {
         RankingsWizard wizard(&raceInfo, &lastSelectedPath, RankingsWizard::RankingsWizardTarget::StartList);
@@ -569,7 +635,7 @@ void LBChronoRace::makeStartList()
 
 void LBChronoRace::makeRankings()
 {
-    //NOSONAR ui->errorDisplay->clear();
+    ui->errorDisplay->clear();
 
     try {
         RankingsWizard wizard(&raceInfo, &lastSelectedPath, RankingsWizard::RankingsWizardTarget::Rankings);

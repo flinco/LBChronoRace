@@ -31,9 +31,9 @@ class CSVRankingPrinter final : public RankingPrinter
 public:
     void init(QString *outFileName, QString const &title) override;
 
-    void printStartList(QList<Competitor> const &startList) override;
-    void printRanking(Category const &category, QList<ClassEntry const *> const &ranking) override;
-    void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking) override;
+    void printStartList(QList<Competitor const *> const &startList) override;
+    void printRanking(Ranking const &categories, QList<ClassEntry const *> const &ranking) override;
+    void printRanking(Ranking const &categories, QList<TeamClassEntry const *> const &ranking) override;
 
     bool finalize() override;
 

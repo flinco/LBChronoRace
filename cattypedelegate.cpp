@@ -16,18 +16,21 @@
  *****************************************************************************/
 
 #include "cattypedelegate.hpp"
-#include "lbcrexception.hpp"
+#include "crhelper.hpp"
 
 CategoryTypeDelegate::CategoryTypeDelegate(QObject *parent) :
     QStyledItemDelegate(parent)
 {
-    auto *comboBox = box.data();
+    auto *comboBox = categoryTypeBox.data();
     comboBox->setEditable(false);
     comboBox->setInsertPolicy(QComboBox::NoInsert);
     comboBox->setDuplicatesEnabled(false);
     comboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-    comboBox->addItem(QIcon(":/material/icons/person.svg"), toCatTypeString(Category::Type::INDIVIDUAL), QVariant(Category::toTypeString(Category::Type::INDIVIDUAL)));
-    comboBox->addItem(QIcon(":/material/icons/group.svg"), toCatTypeString(Category::Type::CLUB), QVariant(Category::toTypeString(Category::Type::CLUB)));
+    comboBox->addItem(QIcon(":/material/icons/male.svg"), CRHelper::toCategoryTypeString(Category::Type::MALE), CRHelper::toTypeString(Category::Type::MALE));
+    comboBox->addItem(QIcon(":/material/icons/female.svg"), CRHelper::toCategoryTypeString(Category::Type::FEMALE), CRHelper::toTypeString(Category::Type::FEMALE));
+    comboBox->addItem(QIcon(":/material/icons/transgender.svg"), CRHelper::toCategoryTypeString(Category::Type::RELAY_MF), CRHelper::toTypeString(Category::Type::RELAY_MF));
+    comboBox->addItem(QIcon(":/material/icons/male.svg"), CRHelper::toCategoryTypeString(Category::Type::RELAY_Y), CRHelper::toTypeString(Category::Type::RELAY_Y));
+    comboBox->addItem(QIcon(":/material/icons/female.svg"), CRHelper::toCategoryTypeString(Category::Type::RELAY_X), CRHelper::toTypeString(Category::Type::RELAY_X));
 }
 
 QWidget *CategoryTypeDelegate::createEditor(QWidget *parent, QStyleOptionViewItem const &option, QModelIndex const &index) const
@@ -35,7 +38,7 @@ QWidget *CategoryTypeDelegate::createEditor(QWidget *parent, QStyleOptionViewIte
     Q_UNUSED(option)
     Q_UNUSED(index)
 
-    auto *comboBox = box.data();
+    auto *comboBox = categoryTypeBox.data();
     comboBox->setParent(parent);
 
     return comboBox;
@@ -51,7 +54,7 @@ void CategoryTypeDelegate::setEditorData(QWidget *editor, QModelIndex const &ind
 {
     // Get the value via index of the Model and put it into the ComboBox
     auto *comboBox = static_cast<QComboBox *>(editor);
-    comboBox->setCurrentText(toCatTypeString(Category::toType(index.model()->data(index, Qt::EditRole).toString())));
+    comboBox->setCurrentText(CRHelper::toCategoryTypeString(CRHelper::toCategoryType(index.model()->data(index, Qt::EditRole).toString())));
 }
 
 void CategoryTypeDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, QModelIndex const &index) const
@@ -60,9 +63,12 @@ void CategoryTypeDelegate::setModelData(QWidget *editor, QAbstractItemModel *mod
     model->setData(index, comboBox->currentData(Qt::UserRole), Qt::EditRole);
 }
 
-QSize CategoryTypeDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize CategoryTypeDelegate::sizeHint(QStyleOptionViewItem const &option, QModelIndex const &index) const
 {
-    return this->box.data()->sizeHint();
+    Q_UNUSED(option)
+    Q_UNUSED(index)
+
+    return this->categoryTypeBox.data()->sizeHint();
 }
 
 void CategoryTypeDelegate::updateEditorGeometry(QWidget *editor, QStyleOptionViewItem const &option, QModelIndex const &index) const
@@ -70,16 +76,4 @@ void CategoryTypeDelegate::updateEditorGeometry(QWidget *editor, QStyleOptionVie
     Q_UNUSED(index)
 
     editor->setGeometry(option.rect);
-}
-
-QString CategoryTypeDelegate::toCatTypeString(Category::Type type)
-{
-    switch (type) {
-    case Category::Type::INDIVIDUAL:
-        return tr("Individual/Relay");
-    case Category::Type::CLUB:
-        return tr("Club");
-    default:
-        throw(ChronoRaceException(tr("Unexpected Type enum value '%1'").arg(static_cast<int>(type))));
-    }
 }

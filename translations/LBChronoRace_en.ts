@@ -2,19 +2,7 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
-    <name>CRLoader</name>
-    <message>
-        <source>Error: cannot open %1</source>
-        <translation>Error: cannot open %1</translation>
-    </message>
-    <message>
-        <source>Wrong number of columns; expected %1 - found %2</source>
-        <translation>Wrong number of columns; expected %1 - found %2</translation>
-    </message>
-    <message>
-        <source>Wrong number of elements in CSV row; expected %1 - found %2</source>
-        <translation>Wrong number of elements in CSV row; expected %1 - found %2</translation>
-    </message>
+    <name>CRHelper</name>
     <message>
         <source>UTF-8</source>
         <translation>UTF-8</translation>
@@ -22,6 +10,10 @@
     <message>
         <source>ISO-8859-1 (Latin-1)</source>
         <translation>ISO-8859-1 (Latin-1)</translation>
+    </message>
+    <message>
+        <source>Unknown encoding %1</source>
+        <translation>Unknown encoding %1</translation>
     </message>
     <message>
         <source>PDF</source>
@@ -36,12 +28,91 @@
         <translation>CSV</translation>
     </message>
     <message>
-        <source>Unknown encoding %1</source>
-        <translation>Unknown encoding %1</translation>
-    </message>
-    <message>
         <source>Unknown format %1</source>
         <translation>Unknown format %1</translation>
+    </message>
+    <message>
+        <source>Illegal sex &apos;%1&apos;</source>
+        <translation>Illegal sex &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Unexpected Sex enum value &apos;%1&apos;</source>
+        <translation>Unexpected Sex enum value &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Male</source>
+        <translation>Male</translation>
+    </message>
+    <message>
+        <source>Female</source>
+        <translation>Female</translation>
+    </message>
+    <message>
+        <source>Not set</source>
+        <translation>Not set</translation>
+    </message>
+    <message>
+        <source>Illegal type &apos;%1&apos;</source>
+        <translation>Illegal type &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Unexpected Type enum value &apos;%1&apos;</source>
+        <translation>Unexpected Type enum value &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Individual/Relay</source>
+        <translation>Individual/Relay</translation>
+    </message>
+    <message>
+        <source>Club</source>
+        <translation>Club</translation>
+    </message>
+    <message>
+        <source>Individual/Relay (M)</source>
+        <translation>Individual/Relay (M)</translation>
+    </message>
+    <message>
+        <source>Individual/Relay (F)</source>
+        <translation>Individual/Relay (F)</translation>
+    </message>
+    <message>
+        <source>Mixed Relay (M/F)</source>
+        <translation>Mixed Relay (M/F)</translation>
+    </message>
+    <message>
+        <source>Mixed Clubs Relay (M)</source>
+        <translation>Mixed Clubs Relay (M)</translation>
+    </message>
+    <message>
+        <source>Mixed Clubs Relay (F)</source>
+        <translation>Mixed Clubs Relay (F)</translation>
+    </message>
+    <message>
+        <source>Invalid status value %1</source>
+        <translation>Invalid status value %1</translation>
+    </message>
+</context>
+<context>
+    <name>CRLoader</name>
+    <message>
+        <source>Error: cannot open %1</source>
+        <translation>Error: cannot open %1</translation>
+    </message>
+    <message>
+        <source>Wrong number of columns; expected %1 - found %2</source>
+        <translation>Wrong number of columns; expected %1 - found %2</translation>
+    </message>
+    <message>
+        <source>Wrong number of elements in CSV row; expected %1 - found %2</source>
+        <translation>Wrong number of elements in CSV row; expected %1 - found %2</translation>
+    </message>
+    <message>
+        <source>Unexpected model value %1 (import)</source>
+        <translation>Unexpected model value %1 (import)</translation>
+    </message>
+    <message>
+        <source>Unexpected model value %1 (export)</source>
+        <translation>Unexpected model value %1 (export)</translation>
     </message>
 </context>
 <context>
@@ -66,14 +137,6 @@
 <context>
     <name>CategoriesModel</name>
     <message>
-        <source>T</source>
-        <translation>T</translation>
-    </message>
-    <message>
-        <source>I</source>
-        <translation>I</translation>
-    </message>
-    <message>
         <source>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</source>
         <translation>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</translation>
     </message>
@@ -88,10 +151,6 @@
     <message>
         <source>Short category name</source>
         <translation>Short category name</translation>
-    </message>
-    <message>
-        <source>Sex</source>
-        <translation>Sex</translation>
     </message>
     <message>
         <source>Up to</source>
@@ -110,69 +169,19 @@
         <translation>Category Short Name</translation>
     </message>
     <message>
-        <source>Men (M), Women (F), Mixed (X) or All (U)</source>
-        <translation>Men (M), Women (F), Mixed (X) or All (U)</translation>
+        <source>Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)</source>
+        <translation>Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)</translation>
     </message>
     <message>
-        <source>Individual/Relay (I) or Club (T)</source>
-        <translation>Individual/Relay (I) or Club (T)</translation>
-    </message>
-    <message>
-        <source>Individual/Club</source>
-        <translation>Individual/Club</translation>
+        <source>Type</source>
+        <translation>Type</translation>
     </message>
 </context>
 <context>
     <name>Category</name>
     <message>
-        <source>Illegal category type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
-        <translation>Illegal category type - expected &apos;I&apos; or &apos;T&apos; - found %1</translation>
-    </message>
-    <message>
-        <source>Unexpected Type enum value &apos;%1&apos;</source>
-        <translation>Unexpected Type enum value &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Illegal type &apos;%1&apos;</source>
-        <translation>Illegal type &apos;%1&apos;</translation>
-    </message>
-</context>
-<context>
-    <name>CategorySexDelegate</name>
-    <message>
-        <source>Men</source>
-        <translation>Men</translation>
-    </message>
-    <message>
-        <source>Women</source>
-        <translation>Women</translation>
-    </message>
-    <message>
-        <source>Mixed</source>
-        <translation>Mixed</translation>
-    </message>
-    <message>
-        <source>All</source>
-        <translation>All</translation>
-    </message>
-    <message>
-        <source>Unexpected Sex enum value &apos;%1&apos;</source>
-        <translation>Unexpected Sex enum value &apos;%1&apos;</translation>
-    </message>
-</context>
-<context>
-    <name>CategoryTypeDelegate</name>
-    <message>
-        <source>Club</source>
-        <translation>Club</translation>
-    </message>
-    <message>
-        <source>Unexpected Type enum value &apos;%1&apos;</source>
-        <translation>Unexpected Type enum value &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Individual/Relay</source>
-        <translation>Individual/Relay</translation>
+        <source>Illegal category type &apos;%1&apos;</source>
+        <translation>Illegal category type &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -638,16 +647,29 @@ Continue?</translation>
         <source>Competitor mismatch for bib %1: found %2 replaced by %3</source>
         <translation>Competitor mismatch for bib %1: found %2 replaced by %3</translation>
     </message>
-</context>
-<context>
-    <name>Competitor</name>
     <message>
-        <source>Illegal sex &apos;%1&apos;</source>
-        <translation>Illegal sex &apos;%1&apos;</translation>
+        <source>Unexpected sex value for bib %1 (%2)</source>
+        <translation>Unexpected sex value for bib %1 (%2)</translation>
     </message>
     <message>
-        <source>Unexpected Sex enum value &apos;%1&apos;</source>
-        <translation>Unexpected Sex enum value &apos;%1&apos;</translation>
+        <source>No competitors associated to bib %1</source>
+        <translation>No competitors associated to bib %1</translation>
+    </message>
+    <message>
+        <source>No categories associated to competitor %1 - bib %2</source>
+        <translation>No categories associated to competitor %1 - bib %2</translation>
+    </message>
+    <message>
+        <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3</source>
+        <translation>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3</translation>
+    </message>
+    <message>
+        <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3 - leg 1</source>
+        <translation>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3 - leg 1</translation>
+    </message>
+    <message>
+        <source>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</source>
+        <translation>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</translation>
     </message>
 </context>
 <context>
@@ -973,12 +995,6 @@ Continue?</translation>
         <translation>Cl&amp;ubs</translation>
     </message>
     <message>
-        <source>Data format %1 not supported.
-Please uodate the application.</source>
-        <translation>Data format %1 not supported.
-Please uodate the application.</translation>
-    </message>
-    <message>
         <source>Clubs</source>
         <translation>Clubs</translation>
     </message>
@@ -1029,6 +1045,50 @@ Please uodate the application.</translation>
     <message>
         <source>Error: unexpected encoding value (encoding not changed)</source>
         <translation>Error: unexpected encoding value (encoding not changed)</translation>
+    </message>
+    <message>
+        <source>Rankings</source>
+        <translation>Rankings</translation>
+    </message>
+    <message>
+        <source>Add, remove, and change the definition of the rankings</source>
+        <translation>Add, remove, and change the definition of the rankings</translation>
+    </message>
+    <message>
+        <source>Edit Rankings</source>
+        <translation>Edit Rankings</translation>
+    </message>
+    <message>
+        <source>Select Rankings File</source>
+        <translation>Select Rankings File</translation>
+    </message>
+    <message>
+        <source>Rankings File: %1</source>
+        <translation>Rankings File: %1</translation>
+    </message>
+    <message numerus="yes">
+        <source>Loaded: %n ranking(s)</source>
+        <translation>
+            <numerusform>Loaded: %n ranking</numerusform>
+            <numerusform>Loaded: %n rankings</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Rankings File saved: %1</source>
+        <translation>Rankings File saved: %1</translation>
+    </message>
+    <message>
+        <source>Data format %1 not supported.
+Please update the application.</source>
+        <translation>Data format %1 not supported.
+Please update the application.</translation>
+    </message>
+</context>
+<context>
+    <name>MultiSelectComboBox</name>
+    <message>
+        <source>Search…</source>
+        <translation>Search…</translation>
     </message>
 </context>
 <context>
@@ -1184,6 +1244,22 @@ Please uodate the application.</translation>
         <source>Created with %1 %2</source>
         <translation>Created with %1 %2</translation>
     </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unknown</translation>
+    </message>
+    <message>
+        <source>????</source>
+        <translation>????</translation>
+    </message>
+    <message>
+        <source>?</source>
+        <translation>?</translation>
+    </message>
+    <message>
+        <source>?:??:??</source>
+        <translation>?:??:??</translation>
+    </message>
 </context>
 <context>
     <name>QMessageBox</name>
@@ -1256,6 +1332,13 @@ Please uodate the application.</translation>
     </message>
 </context>
 <context>
+    <name>Ranking</name>
+    <message>
+        <source>Illegal ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
+        <translation>Illegal ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</translation>
+    </message>
+</context>
+<context>
     <name>RankingPrinter</name>
     <message>
         <source>Error: unknown rankings format %1</source>
@@ -1264,10 +1347,6 @@ Please uodate the application.</translation>
 </context>
 <context>
     <name>RankingsBuilder</name>
-    <message>
-        <source>Warning: missing or extra legs for bib %1</source>
-        <translation>Warning: missing or extra legs for bib %1</translation>
-    </message>
     <message>
         <source>Competitor not found for bib %1</source>
         <translation>Competitor not found for bib %1</translation>
@@ -1283,6 +1362,53 @@ Please uodate the application.</translation>
     <message>
         <source>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</source>
         <translation>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</translation>
+    </message>
+    <message>
+        <source>Warning: missing or extra legs for bib %1 or %2</source>
+        <translation>Warning: missing or extra legs for bib %1 or %2</translation>
+    </message>
+</context>
+<context>
+    <name>RankingsModel</name>
+    <message>
+        <source>T</source>
+        <translation>T</translation>
+    </message>
+    <message>
+        <source>I</source>
+        <translation>I</translation>
+    </message>
+    <message>
+        <source>Full ranking name</source>
+        <translation>Full ranking name</translation>
+    </message>
+    <message>
+        <source>Short ranking name</source>
+        <translation>Short ranking name</translation>
+    </message>
+    <message>
+        <source>Individual/Relay (I) or Club (T)</source>
+        <translation>Individual/Relay (I) or Club (T)</translation>
+    </message>
+    <message>
+        <source>The ranking will include all the categories listed here</source>
+        <translation>The ranking will include all the categories listed here</translation>
+    </message>
+    <message>
+        <source>Ranking Full Name</source>
+        <translation>Ranking Full Name</translation>
+    </message>
+    <message>
+        <source>Ranking Short Name</source>
+        <translation>Ranking Short Name</translation>
+    </message>
+    <message>
+        <source>Individual/Club</source>
+        <translation>Individual/Club</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <translation>Categories</translation>
     </message>
 </context>
 <context>
@@ -1381,27 +1507,8 @@ Please uodate the application.</translation>
         <translation>Rankings</translation>
     </message>
     <message>
-        <source>You can exclude some categories from the generated rankings.</source>
-        <translation>You can exclude some categories from the generated rankings.</translation>
-    </message>
-</context>
-<context>
-    <name>SexDelegate</name>
-    <message>
-        <source>Male</source>
-        <translation>Male</translation>
-    </message>
-    <message>
-        <source>Female</source>
-        <translation>Female</translation>
-    </message>
-    <message>
-        <source>Unexpected Sex enum value &apos;%1&apos;</source>
-        <translation>Unexpected Sex enum value &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Not set</source>
-        <translation>Not set</translation>
+        <source>You can exclude some of the generated rankings.</source>
+        <translation>You can exclude some of the generated rankings.</translation>
     </message>
 </context>
 <context>
@@ -1524,10 +1631,6 @@ Please uodate the application.</translation>
     <message>
         <source>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
         <translation>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</translation>
-    </message>
-    <message>
-        <source>Invalid status value %1</source>
-        <translation>Invalid status value %1</translation>
     </message>
 </context>
 <context>

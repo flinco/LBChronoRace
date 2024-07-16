@@ -18,6 +18,7 @@
 #include "lbchronorace.hpp"
 #include "startlistmodel.hpp"
 #include "lbcrexception.hpp"
+#include "crhelper.hpp"
 
 QDataStream &operator<<(QDataStream &out, StartListModel const &data)
 {
@@ -126,7 +127,7 @@ QVariant StartListModel::data(QModelIndex const &index, int role) const
         case static_cast<int>(Competitor::Field::CMF_NAME):
             return QVariant(startList.at(index.row()).getName());
         case static_cast<int>(Competitor::Field::CMF_SEX):
-            return QVariant(Competitor::toSexString(startList.at(index.row()).getSex()));
+            return QVariant(CRHelper::toSexString(startList.at(index.row()).getSex()));
         case static_cast<int>(Competitor::Field::CMF_YEAR):
             return QVariant(startList.at(index.row()).getYear());
         case static_cast<int>(Competitor::Field::CMF_CLUB):
@@ -134,7 +135,7 @@ QVariant StartListModel::data(QModelIndex const &index, int role) const
         case static_cast<int>(Competitor::Field::CMF_TEAM):
             return QVariant(startList.at(index.row()).getTeam());
         case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
-            return QVariant(Competitor::toOffsetString(startList.at(index.row()).getOffset()));
+            return QVariant(CRHelper::toOffsetString(startList.at(index.row()).getOffset()));
         default:
             return QVariant();
         }
@@ -172,62 +173,65 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
     if (role != Qt::EditRole)
         return retval;
 
+    if (value.toString().contains(LBChronoRace::csvFilter))
+        return retval;
+
     switch (index.column()) {
-        case static_cast<int>(Competitor::Field::CMF_BIB):
-            uval = value.toUInt(&retval);
-            if (retval && uval) {
-                int maxLeg = this->getMaxLeg(uval, index.row());
-                startList[index.row()].setBib(uval);
-                startList[index.row()].setClub(this->getClub(uval));
-                startList[index.row()].setTeam(this->getTeam(uval));
-                startList[index.row()].setOffset((maxLeg < 0) ? &maxLeg : Q_NULLPTR);
-            } else {
-                retval = false;
-            }
-            break;
-        case static_cast<int>(Competitor::Field::CMF_NAME):
-            startList[index.row()].setName(value.toString().simplified());
+    case static_cast<int>(Competitor::Field::CMF_BIB):
+        uval = value.toUInt(&retval);
+        if (retval && uval) {
+            int maxLeg = this->getMaxLeg(uval, index.row());
+            startList[index.row()].setBib(uval);
+            startList[index.row()].setClub(this->getClub(uval));
+            startList[index.row()].setTeam(this->getTeam(uval));
+            startList[index.row()].setOffset((maxLeg < 0) ? &maxLeg : Q_NULLPTR);
+        } else {
+            retval = false;
+        }
+        break;
+    case static_cast<int>(Competitor::Field::CMF_NAME):
+        startList[index.row()].setName(value.toString().simplified());
+        retval = true;
+        break;
+    case static_cast<int>(Competitor::Field::CMF_SEX):
+        try {
+            Competitor::Sex sex = CRHelper::toSex(value.toString().trimmed());
+            startList[index.row()].setSex(sex);
             retval = true;
-            break;
-        case static_cast<int>(Competitor::Field::CMF_SEX):
-            try {
-                Competitor::Sex sex = Competitor::toSex(value.toString().trimmed(), true);
-                retval = (sex != Competitor::Sex::MISC);
-                if (retval) startList[index.row()].setSex(sex);
-            } catch (ChronoRaceException &ex) {
-                emit error(ex.getMessage());
-                retval = false;
-            }
-            break;
-        case static_cast<int>(Competitor::Field::CMF_YEAR):
-            uval = value.toUInt(&retval);
-            if (retval) startList[index.row()].setYear(uval);
-            break;
-        case static_cast<int>(Competitor::Field::CMF_CLUB):
-            uval = startList[index.row()].getBib();
-            if (uval == 0) {
-                startList[index.row()].setClub(value.toString().simplified());
-            } else {
-                this->setClub(uval, value.toString().simplified());
-            }
-            emit newClub(startList[index.row()].getClub());
-            retval = true;
-            break;
-        case static_cast<int>(Competitor::Field::CMF_TEAM):
-            uval = startList[index.row()].getBib();
-            if (uval == 0) {
-                startList[index.row()].setTeam(value.toString().simplified());
-            } else {
-                this->setTeam(uval, value.toString().simplified());
-            }
-            retval = true;
-            break;
-        case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
-            startList[index.row()].setOffset(Competitor::toOffset(value.toString().simplified()));
-            retval = true;
-            break;
-        default:
-            break;
+        } catch (ChronoRaceException &ex) {
+            emit error(ex.getMessage());
+            retval = false;
+        }
+        break;
+    case static_cast<int>(Competitor::Field::CMF_YEAR):
+        uval = value.toUInt(&retval);
+        if (retval) startList[index.row()].setYear(uval);
+        break;
+    case static_cast<int>(Competitor::Field::CMF_CLUB):
+        //NOSONAR uval = startList[index.row()].getBib();
+        //NOSONAR if (uval == 0) {
+            startList[index.row()].setClub(value.toString().simplified());
+        //NOSONAR } else {
+        //NOSONAR     this->setClub(uval, value.toString().simplified());
+        //NOSONAR }
+        emit newClub(startList[index.row()].getClub());
+        retval = true;
+        break;
+    case static_cast<int>(Competitor::Field::CMF_TEAM):
+        uval = startList[index.row()].getBib();
+        if (uval == 0) {
+            startList[index.row()].setTeam(value.toString().simplified());
+        } else {
+            this->setTeam(uval, value.toString().simplified());
+        }
+        retval = true;
+        break;
+    case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
+        startList[index.row()].setOffset(CRHelper::toOffset(value.toString().simplified()));
+        retval = true;
+        break;
+    default:
+        break;
     }
 
     if (retval)
@@ -352,11 +356,24 @@ uint StartListModel::getTeamNameWidthMax() const
 
 QString const *StartListModel::getClub(uint bib)
 {
-    for (qsizetype row = 0; row < startList.count(); row++)
-        if (startList[row].getBib() == bib)
-            return &startList[row].getClub();
+    QString const *clubPtr = Q_NULLPTR;
 
-    return Q_NULLPTR;
+    for (qsizetype row = 0; row < startList.count(); row++) {
+        if (startList[row].getBib() != bib)
+            continue;
+
+        if (startList[row].getClub().isEmpty())
+            continue;
+
+        if (!clubPtr) {
+            clubPtr = &startList[row].getClub();
+        } else if (*clubPtr != startList[row].getClub()) {
+            clubPtr = Q_NULLPTR;
+            break;
+        }
+    }
+
+    return clubPtr;
 }
 
 QString const *StartListModel::getTeam(uint bib)

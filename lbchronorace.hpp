@@ -22,6 +22,7 @@
 #include <QMainWindow>
 #include <QDir>
 #include <QScopedPointer>
+#include <QRegularExpression>
 
 #include "ui_chronorace.h"
 
@@ -29,9 +30,10 @@
 #include "chronoracetable.hpp"
 #include "chronoracedata.hpp"
 #include "chronoracetimings.hpp"
-#include "sexdelegate.hpp"
+#include "compsexdelegate.hpp"
 #include "clubdelegate.hpp"
-#include "catsexdelegate.hpp"
+#include "rankingtypedelegate.hpp"
+#include "rankingcatsdelegate.hpp"
 #include "cattypedelegate.hpp"
 
 #ifndef LBCHRONORACE_NAME
@@ -44,12 +46,14 @@
 constexpr char LBCHRONORACE_STARTLIST_DEFAULT[]  = "startlist.csv";
 constexpr char LBCHRONORACE_TEAMLIST_DEFAULT[]   = "teamlist.csv";
 constexpr char LBCHRONORACE_TIMINGS_DEFAULT[]    = "timings.csv";
+constexpr char LBCHRONORACE_RANKINGS_DEFAULT[]   = "rankings.csv";
 constexpr char LBCHRONORACE_CATEGORIES_DEFAULT[] = "categories.csv";
 
-constexpr int LBCHRONORACE_BIN_FMT_v1 = 1;
-constexpr int LBCHRONORACE_BIN_FMT_v2 = 2;
-constexpr int LBCHRONORACE_BIN_FMT_v3 = 3;
-#define LBCHRONORACE_BIN_FMT LBCHRONORACE_BIN_FMT_v3
+constexpr uint LBCHRONORACE_BIN_FMT_v1 = 1u;
+constexpr uint LBCHRONORACE_BIN_FMT_v2 = 2u;
+constexpr uint LBCHRONORACE_BIN_FMT_v3 = 3u;
+constexpr uint LBCHRONORACE_BIN_FMT_v4 = 4u;
+#define LBCHRONORACE_BIN_FMT LBCHRONORACE_BIN_FMT_v4
 
 class LBChronoRace : public QMainWindow
 {
@@ -59,7 +63,9 @@ public:
     explicit LBChronoRace(QWidget *parent = Q_NULLPTR, QGuiApplication const *app = Q_NULLPTR);
 
     static QDir lastSelectedPath;
-    static int binFormat;
+    static uint binFormat;
+
+    static QRegularExpression csvFilter;
 
 public slots:
     void initialize();
@@ -68,6 +74,7 @@ public slots:
 
     void setCounterTeams(int count) const;
     void setCounterCompetitors(int count) const;
+    void setCounterRankings(int count) const;
     void setCounterCategories(int count) const;
     void setCounterTimings(int count) const;
 
@@ -80,6 +87,7 @@ private:
     QString raceDataFileName { "" };
     QString startListFileName;
     QString timingsFileName;
+    QString rankingsFileName;
     QString categoriesFileName;
     QString teamsFileName;
 
@@ -87,15 +95,17 @@ private:
 
     ChronoRaceTable startListTable;
     ChronoRaceTable teamsTable;
+    ChronoRaceTable rankingsTable;
     ChronoRaceTable categoriesTable;
     ChronoRaceTable timingsTable;
 
     ChronoRaceTimings timings;
 
-    SexDelegate sexDelegate;
+    CompetitorSexDelegate sexDelegate;
     ClubDelegate clubDelegate;
-    CategorySexDelegate catSexDelegate;
-    CategoryTypeDelegate catTypeDelegate;
+    RankingTypeDelegate rankingTypeDelegate;
+    RankingCategoriesDelegate rankingCatsDelegate;
+    CategoryTypeDelegate categoryTypeDelegate;
 
     bool loadRaceFile(QString const &fileName);
 
@@ -115,11 +125,13 @@ private slots:
     void makeRankings();
 
     void importStartList();
+    void importRankingsList();
     void importCategoriesList();
     void importTimingsList();
 
     void exportStartList();
     void exportTeamList();
+    void exportRankingsList();
     void exportCategoriesList();
     void exportTimingsList();
 };

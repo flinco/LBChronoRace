@@ -21,6 +21,9 @@
 #include <QCoreApplication>
 #include <QDataStream>
 #include <QString>
+#include <QList>
+
+#include "category.hpp"
 
 namespace competitor {
 class Competitor;
@@ -36,8 +39,7 @@ public:
     {
         UNDEFINED,
         MALE,
-        FEMALE,
-        MISC
+        FEMALE
     };
 
     enum class Field
@@ -55,6 +57,7 @@ public:
     };
 
 private:
+    static QString empty;
 
     uint    bib { 0u };
     QString name { "" };
@@ -64,7 +67,9 @@ private:
     QString team { "" };
     uint    leg { 1u };
     int     offset { -1 };
-    QString category { "" };
+    QList<Category const *> categories { };
+
+    bool isInCategory(Category const *category) const;
 
 public:
     Competitor() = default;
@@ -97,13 +102,9 @@ public:
     void setOffset(int const *newOffset);
     bool isValid() const;
 
-    QString const &getCategory() const;
-    void setCategory(QString const &newCategory);
-
-    static Sex toSex(QString const &sex, bool const strict = false);
-    static QString toSexString(Sex const sex);
-    static int toOffset(QString const &offset);
-    static QString toOffsetString(int offset);
+    Category const *getCategory() const;
+    QList<Category const *> &getCategories();
+    void setCategories(QList<Category> const &newCategories);
 
     bool operator<  (Competitor const &rhs) const;
     bool operator>  (Competitor const &rhs) const;

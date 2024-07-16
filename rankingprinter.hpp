@@ -24,7 +24,7 @@
 
 #include "crloader.hpp"
 #include "chronoracedata.hpp"
-#include "category.hpp"
+#include "ranking.hpp"
 #include "classentry.hpp"
 #include "teamclassentry.hpp"
 
@@ -38,9 +38,9 @@ public:
 
     virtual void init(QString *outFileName, QString const &title) = 0;
 
-    virtual void printStartList(QList<Competitor> const &startList) = 0;
-    virtual void printRanking(Category const &category, QList<ClassEntry const *> const &ranking) = 0;
-    virtual void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking) = 0;
+    virtual void printStartList(QList<Competitor const *> const &startList) = 0;
+    virtual void printRanking(Ranking const &categories, QList<ClassEntry const *> const &ranking) = 0;
+    virtual void printRanking(Ranking const &categories, QList<TeamClassEntry const *> const &ranking) = 0;
 
     virtual bool finalize() = 0;
 

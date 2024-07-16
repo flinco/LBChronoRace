@@ -17,6 +17,7 @@
 
 #include "timing.hpp"
 #include "lbcrexception.hpp"
+#include "crhelper.hpp"
 
 Timing::Field TimingSorter::sortingField = Timing::Field::TMF_TIME;
 Qt::SortOrder TimingSorter::sortingOrder = Qt::AscendingOrder;
@@ -93,7 +94,7 @@ Timing::Status Timing::getStatus() const
 
 QString Timing::getTiming() const
 {
-    return toTimeStr(this->seconds, this->status);
+    return CRHelper::toTimeStr(this->seconds, this->status);
 }
 
 void Timing::setTiming(QString const &timing)
@@ -140,31 +141,6 @@ void Timing::setTiming(char const *timing)
 bool Timing::isValid() const
 {
     return ((bib != 0u) && ((status == Status::DNS) || (status == Status::DNF) || ((status == Status::CLASSIFIED) && (seconds != 0u))));
-}
-
-QString Timing::toTimeStr(uint const seconds, Timing::Status const status, char const *prefix)
-{
-
-    QString retString(prefix ? prefix : "");
-    switch (status) {
-        case Timing::Status::CLASSIFIED:
-            retString.append(QString("%1:%2:%3").arg(((seconds / 60) / 60)).arg(((seconds / 60) % 60), 2, 10, QLatin1Char('0')).arg((seconds % 60), 2, 10, QLatin1Char('0')));
-            break;
-        case Timing::Status::DNF:
-            retString.append("DNF");
-            break;
-        case Timing::Status::DNS:
-            retString.append("DNS");
-            break;
-        default:
-            throw(ChronoRaceException(tr("Invalid status value %1").arg(static_cast<int>(status))));
-    }
-    return retString;
-}
-
-QString Timing::toTimeStr(Timing const &timing)
-{
-    return toTimeStr(timing.getSeconds(), timing.getStatus());
 }
 
 bool Timing::operator< (Timing const &rhs) const

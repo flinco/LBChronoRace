@@ -2,19 +2,7 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="it_IT">
 <context>
-    <name>CRLoader</name>
-    <message>
-        <source>Error: cannot open %1</source>
-        <translation>Errore: impossibile aprire %1</translation>
-    </message>
-    <message>
-        <source>Wrong number of columns; expected %1 - found %2</source>
-        <translation>Numero colonne errato - atteso %1 - trovato %2</translation>
-    </message>
-    <message>
-        <source>Wrong number of elements in CSV row; expected %1 - found %2</source>
-        <translation>Numero elementi errato nel CSV row; atteso %1 - trovato %2</translation>
-    </message>
+    <name>CRHelper</name>
     <message>
         <source>UTF-8</source>
         <translation>UTF-8</translation>
@@ -22,6 +10,10 @@
     <message>
         <source>ISO-8859-1 (Latin-1)</source>
         <translation>ISO-8859-1 (Latin-1)</translation>
+    </message>
+    <message>
+        <source>Unknown encoding %1</source>
+        <translation>Codifica sconosciuta %1</translation>
     </message>
     <message>
         <source>PDF</source>
@@ -36,12 +28,91 @@
         <translation>CSV</translation>
     </message>
     <message>
-        <source>Unknown encoding %1</source>
-        <translation>Codifica sconosciuta %1</translation>
-    </message>
-    <message>
         <source>Unknown format %1</source>
         <translation>Formato sconosciuto %1</translation>
+    </message>
+    <message>
+        <source>Illegal sex &apos;%1&apos;</source>
+        <translation>Sesso non valido &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Unexpected Sex enum value &apos;%1&apos;</source>
+        <translation>Valore enumerazione Sex &apos;%1&apos; non valido</translation>
+    </message>
+    <message>
+        <source>Male</source>
+        <translation>Maschio</translation>
+    </message>
+    <message>
+        <source>Female</source>
+        <translation>Femmina</translation>
+    </message>
+    <message>
+        <source>Not set</source>
+        <translation>Non impostato</translation>
+    </message>
+    <message>
+        <source>Illegal type &apos;%1&apos;</source>
+        <translation>Tipo non valido &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Unexpected Type enum value &apos;%1&apos;</source>
+        <translation>Valore enumerazione Tipo &apos;%1&apos; non valido</translation>
+    </message>
+    <message>
+        <source>Individual/Relay</source>
+        <translation>Individuale/Staffetta</translation>
+    </message>
+    <message>
+        <source>Club</source>
+        <translation>Società</translation>
+    </message>
+    <message>
+        <source>Individual/Relay (M)</source>
+        <translation>Individuale/Staffetta (M)</translation>
+    </message>
+    <message>
+        <source>Individual/Relay (F)</source>
+        <translation>Individuale/Staffetta (F)</translation>
+    </message>
+    <message>
+        <source>Mixed Relay (M/F)</source>
+        <translation>Staffetta Mista (M/F)</translation>
+    </message>
+    <message>
+        <source>Mixed Clubs Relay (M)</source>
+        <translation>Staffetta Mista di Società (M)</translation>
+    </message>
+    <message>
+        <source>Mixed Clubs Relay (F)</source>
+        <translation>Staffetta Mista di Società (F)</translation>
+    </message>
+    <message>
+        <source>Invalid status value %1</source>
+        <translation>Valore di stato %1 non valido</translation>
+    </message>
+</context>
+<context>
+    <name>CRLoader</name>
+    <message>
+        <source>Error: cannot open %1</source>
+        <translation>Errore: impossibile aprire %1</translation>
+    </message>
+    <message>
+        <source>Wrong number of columns; expected %1 - found %2</source>
+        <translation>Numero colonne errato - atteso %1 - trovato %2</translation>
+    </message>
+    <message>
+        <source>Wrong number of elements in CSV row; expected %1 - found %2</source>
+        <translation>Numero elementi errato nel CSV row; atteso %1 - trovato %2</translation>
+    </message>
+    <message>
+        <source>Unexpected model value %1 (import)</source>
+        <translation>Valore modello inatteso %1 (importazione)</translation>
+    </message>
+    <message>
+        <source>Unexpected model value %1 (export)</source>
+        <translation>Valore modello inatteso %1 (esportazione)</translation>
     </message>
 </context>
 <context>
@@ -66,14 +137,6 @@
 <context>
     <name>CategoriesModel</name>
     <message>
-        <source>T</source>
-        <translation>T</translation>
-    </message>
-    <message>
-        <source>I</source>
-        <translation>I</translation>
-    </message>
-    <message>
         <source>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</source>
         <translation>La categoria include concorrenti nati fino a quest&apos;anno incluso (es. 2000); 0 per disabilitare</translation>
     </message>
@@ -88,10 +151,6 @@
     <message>
         <source>Short category name</source>
         <translation>Abbreviazione categoria</translation>
-    </message>
-    <message>
-        <source>Sex</source>
-        <translation>Sesso</translation>
     </message>
     <message>
         <source>Up to</source>
@@ -110,69 +169,19 @@
         <translation>Abbreviazione Categoria</translation>
     </message>
     <message>
-        <source>Men (M), Women (F), Mixed (X) or All (U)</source>
-        <translation>Maschile (M), Femminile (F), Mista (X) o Tutti (U)</translation>
+        <source>Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)</source>
+        <translation>Individuale/Staffetta Maschile (M), Individuale/Staffetta Femminile (F), Staffetta Mista M/F (X), Staffetta Mista di Società M (Y) o Staffetta Mista di Società F (X)</translation>
     </message>
     <message>
-        <source>Individual/Relay (I) or Club (T)</source>
-        <translation>Individuale/Staffetta (I) or Società (T)</translation>
-    </message>
-    <message>
-        <source>Individual/Club</source>
-        <translation>Individuale/Società</translation>
+        <source>Type</source>
+        <translation>Tipo</translation>
     </message>
 </context>
 <context>
     <name>Category</name>
     <message>
-        <source>Illegal category type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
-        <translation>Categoria errata - valori ammessi &apos;I&apos; o &apos;T&apos; - trovato %1</translation>
-    </message>
-    <message>
-        <source>Unexpected Type enum value &apos;%1&apos;</source>
-        <translation>Valore enumerazione Type &apos;%1&apos; non valido</translation>
-    </message>
-    <message>
-        <source>Illegal type &apos;%1&apos;</source>
-        <translation>Tipo non valido &apos;%1&apos;</translation>
-    </message>
-</context>
-<context>
-    <name>CategorySexDelegate</name>
-    <message>
-        <source>Men</source>
-        <translation>Maschile</translation>
-    </message>
-    <message>
-        <source>Women</source>
-        <translation>Femminile</translation>
-    </message>
-    <message>
-        <source>Mixed</source>
-        <translation>Mista</translation>
-    </message>
-    <message>
-        <source>All</source>
-        <translation>Tutti</translation>
-    </message>
-    <message>
-        <source>Unexpected Sex enum value &apos;%1&apos;</source>
-        <translation>Valore enumerazione Sex &apos;%1&apos; non valido</translation>
-    </message>
-</context>
-<context>
-    <name>CategoryTypeDelegate</name>
-    <message>
-        <source>Club</source>
-        <translation>Società</translation>
-    </message>
-    <message>
-        <source>Unexpected Type enum value &apos;%1&apos;</source>
-        <translation>Valore enumerazione Type &apos;%1&apos; non valido</translation>
-    </message>
-    <message>
-        <source>Individual/Relay</source>
-        <translation>Individuale/Staffetta</translation>
+        <source>Illegal category type &apos;%1&apos;</source>
+        <translation>Tipo categoria illegale &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -638,16 +647,29 @@ Continuare?</translation>
         <source>Competitor mismatch for bib %1: found %2 replaced by %3</source>
         <translation>Concorrente incompatibile per il pettorale %1: quello riscontrato %2 sarà rimpiazzato da %3</translation>
     </message>
-</context>
-<context>
-    <name>Competitor</name>
     <message>
-        <source>Illegal sex &apos;%1&apos;</source>
-        <translation>Sesso non valido &apos;%1&apos;</translation>
+        <source>Unexpected sex value for bib %1 (%2)</source>
+        <translation>Valore sesso inatteso per il pettorale &apos;%1&apos; (%2)</translation>
     </message>
     <message>
-        <source>Unexpected Sex enum value &apos;%1&apos;</source>
-        <translation>Valore enumerazione Sex &apos;%1&apos; non valido</translation>
+        <source>No competitors associated to bib %1</source>
+        <translation>Nessun concorrente asscoiato al pettorale %1</translation>
+    </message>
+    <message>
+        <source>No categories associated to competitor %1 - bib %2</source>
+        <translation>Nessuna categoria associata al concorrente %1 - pettorale %2</translation>
+    </message>
+    <message>
+        <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3</source>
+        <translation>Scartata categoria &apos;%1&apos; associata al concorrente %2 - pettorale %3</translation>
+    </message>
+    <message>
+        <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3 - leg 1</source>
+        <translation>Scartata categoria &apos;%1&apos; associata al concorrente %2 - pettorale %3 - frazione 1</translation>
+    </message>
+    <message>
+        <source>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</source>
+        <translation>Rimozione categoria candidata &apos;%1&apos; associata al concorrente %2 - pettorale %3</translation>
     </message>
 </context>
 <context>
@@ -973,12 +995,6 @@ Continuare?</translation>
         <translation>&amp;Società</translation>
     </message>
     <message>
-        <source>Data format %1 not supported.
-Please uodate the application.</source>
-        <translation>Formato dati %1 non supportato.
-Aggiornare l&apos;applicazione.</translation>
-    </message>
-    <message>
         <source>Clubs</source>
         <translation>Società</translation>
     </message>
@@ -1029,6 +1045,50 @@ Aggiornare l&apos;applicazione.</translation>
     <message>
         <source>Error: unexpected encoding value (encoding not changed)</source>
         <translation>Errore: valore codifica inatteso (codifica non modificata)</translation>
+    </message>
+    <message>
+        <source>Rankings</source>
+        <translation>Classifiche</translation>
+    </message>
+    <message>
+        <source>Add, remove, and change the definition of the rankings</source>
+        <translation>Aggiunge, rimuove e modifica la definizione delle classifiche</translation>
+    </message>
+    <message>
+        <source>Edit Rankings</source>
+        <translation>Modifica Classifiche</translation>
+    </message>
+    <message>
+        <source>Select Rankings File</source>
+        <translation>Seleziona File Classifiche</translation>
+    </message>
+    <message>
+        <source>Rankings File: %1</source>
+        <translation>File Classifiche: %1</translation>
+    </message>
+    <message numerus="yes">
+        <source>Loaded: %n ranking(s)</source>
+        <translation>
+            <numerusform>Caricata: %n classifica</numerusform>
+            <numerusform>Caricate: %n classifiche</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Rankings File saved: %1</source>
+        <translation>File Classifiche salvato: %1</translation>
+    </message>
+    <message>
+        <source>Data format %1 not supported.
+Please update the application.</source>
+        <translation>Formato dati %1 non supportato.
+Aggiornare l&amp;apos;applicazione.</translation>
+    </message>
+</context>
+<context>
+    <name>MultiSelectComboBox</name>
+    <message>
+        <source>Search…</source>
+        <translation>Cerca…</translation>
     </message>
 </context>
 <context>
@@ -1166,7 +1226,7 @@ Aggiornare l&apos;applicazione.</translation>
     </message>
     <message>
         <source>Error: cannot start drawing</source>
-        <translation>Errore: scrittura su PDF inpossibile</translation>
+        <translation>Errore: scrittura su PDF impossibile</translation>
     </message>
     <message>
         <source>Error: no file name supplied</source>
@@ -1183,6 +1243,22 @@ Aggiornare l&apos;applicazione.</translation>
     <message>
         <source>Created with %1 %2</source>
         <translation>Creato con %1 %2</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Sconosciuto</translation>
+    </message>
+    <message>
+        <source>????</source>
+        <translation>????</translation>
+    </message>
+    <message>
+        <source>?</source>
+        <translation>?</translation>
+    </message>
+    <message>
+        <source>?:??:??</source>
+        <translation>?:??:??</translation>
     </message>
 </context>
 <context>
@@ -1256,6 +1332,13 @@ Aggiornare l&apos;applicazione.</translation>
     </message>
 </context>
 <context>
+    <name>Ranking</name>
+    <message>
+        <source>Illegal ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
+        <translation>Tipo classifica errato - atteso &apos;I&apos; o &apos;T&apos; - trovato %1</translation>
+    </message>
+</context>
+<context>
     <name>RankingPrinter</name>
     <message>
         <source>Error: unknown rankings format %1</source>
@@ -1264,10 +1347,6 @@ Aggiornare l&apos;applicazione.</translation>
 </context>
 <context>
     <name>RankingsBuilder</name>
-    <message>
-        <source>Warning: missing or extra legs for bib %1</source>
-        <translation>Frazione extra o mancante per il pettorale %1</translation>
-    </message>
     <message>
         <source>Competitor not found for bib %1</source>
         <translation>Concorrente non trovato per il pettorale %1</translation>
@@ -1283,6 +1362,53 @@ Aggiornare l&apos;applicazione.</translation>
     <message>
         <source>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</source>
         <translation>Attenzione: i tempi inseriti (%1) non corrispondono al numero dei partenti (%2); controllare possibili duplicazioni o mancanze nella lista tempi</translation>
+    </message>
+    <message>
+        <source>Warning: missing or extra legs for bib %1 or %2</source>
+        <translation>Frazione extra o mancante per il pettorale %1 o %2</translation>
+    </message>
+</context>
+<context>
+    <name>RankingsModel</name>
+    <message>
+        <source>T</source>
+        <translation>T</translation>
+    </message>
+    <message>
+        <source>I</source>
+        <translation>I</translation>
+    </message>
+    <message>
+        <source>Full ranking name</source>
+        <translation>Nome classifica</translation>
+    </message>
+    <message>
+        <source>Short ranking name</source>
+        <translation>Abbreviazione classifica</translation>
+    </message>
+    <message>
+        <source>Individual/Relay (I) or Club (T)</source>
+        <translation>Individuale/Staffetta (I) or Società (T)</translation>
+    </message>
+    <message>
+        <source>The ranking will include all the categories listed here</source>
+        <translation>La classifica includerà tutte le categorie qui elencate</translation>
+    </message>
+    <message>
+        <source>Ranking Full Name</source>
+        <translation>Nome Classifica</translation>
+    </message>
+    <message>
+        <source>Ranking Short Name</source>
+        <translation>Abbreviazione Classifica</translation>
+    </message>
+    <message>
+        <source>Individual/Club</source>
+        <translation>Individuale/Società</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <translation>Categorie</translation>
     </message>
 </context>
 <context>
@@ -1321,7 +1447,7 @@ Aggiornare l&apos;applicazione.</translation>
     </message>
     <message>
         <source>Generated Results: %1</source>
-        <translation>Generato Classifiche: %1</translation>
+        <translation>Generate Classifiche: %1</translation>
     </message>
     <message>
         <source>Start List</source>
@@ -1381,27 +1507,8 @@ Aggiornare l&apos;applicazione.</translation>
         <translation>Classifiche</translation>
     </message>
     <message>
-        <source>You can exclude some categories from the generated rankings.</source>
-        <translation>Puoi escludere alcune categorie dalle classifiche generate.</translation>
-    </message>
-</context>
-<context>
-    <name>SexDelegate</name>
-    <message>
-        <source>Male</source>
-        <translation>Maschio</translation>
-    </message>
-    <message>
-        <source>Female</source>
-        <translation>Femmina</translation>
-    </message>
-    <message>
-        <source>Unexpected Sex enum value &apos;%1&apos;</source>
-        <translation>Valore enumerazione Sex &apos;%1&apos; non valido</translation>
-    </message>
-    <message>
-        <source>Not set</source>
-        <translation>Non impostato</translation>
+        <source>You can exclude some of the generated rankings.</source>
+        <translation>Puoi escludere alcune dalle classifiche generate.</translation>
     </message>
 </context>
 <context>
@@ -1524,10 +1631,6 @@ Aggiornare l&apos;applicazione.</translation>
     <message>
         <source>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
         <translation>Valore cronometrico &apos;%1&apos; non valido per il pettorale &apos;%2&apos;</translation>
-    </message>
-    <message>
-        <source>Invalid status value %1</source>
-        <translation>Valore di stato %1 non valido</translation>
     </message>
 </context>
 <context>
