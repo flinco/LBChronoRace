@@ -905,9 +905,8 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
     QString editingTimestamp = QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm");
 
     // Created with
-    QString createdWith = QString("Created with %1 %2")
-                              .arg(QStringLiteral(LBCHRONORACE_NAME),
-                                   QStringLiteral(LBCHRONORACE_VERSION));
+    QString createdWith = tr("Created with %1 %2").arg(QStringLiteral(LBCHRONORACE_NAME),
+                                                       QStringLiteral(LBCHRONORACE_VERSION));
 
     // Horizontal lines
     if (page == 1) {
@@ -1040,9 +1039,8 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
 //NOSONAR     QString editingTimestamp = QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm");
 
 //NOSONAR     // Created with
-//NOSONAR     QString createdWith = QString("Created with %1 %2")
-//NOSONAR                               .arg(QStringLiteral(LBCHRONORACE_NAME),
-//NOSONAR                                    QStringLiteral(LBCHRONORACE_VERSION));
+//NOSONAR     QString createdWith = tr("Created with %1 %2").arg(QStringLiteral(LBCHRONORACE_NAME),
+//NOSONAR                                                        QStringLiteral(LBCHRONORACE_VERSION));
 
 //NOSONAR     // Horizontal lines
 //NOSONAR     if (page == 1) {

@@ -1180,6 +1180,10 @@ Aggiornare l&apos;applicazione.</translation>
         <source>Error: cannot write to PDF</source>
         <translation>Error: impossibile scrivere su PDF</translation>
     </message>
+    <message>
+        <source>Created with %1 %2</source>
+        <translation>Creato con %1 %2</translation>
+    </message>
 </context>
 <context>
     <name>QMessageBox</name>

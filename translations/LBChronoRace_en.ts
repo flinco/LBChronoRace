@@ -1180,6 +1180,10 @@ Please uodate the application.</translation>
         <source>Error: cannot write to PDF</source>
         <translation>Error: cannot write to PDF</translation>
     </message>
+    <message>
+        <source>Created with %1 %2</source>
+        <translation>Created with %1 %2</translation>
+    </message>
 </context>
 <context>
     <name>QMessageBox</name>
