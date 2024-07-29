@@ -76,7 +76,7 @@
         </property>
         <property name="icon">
          <iconset resource="materialicons.qrc">
-          <normaloff>:/material/icons/format_list_bulleted_add.svg</normaloff>:/material/icons/format_list_bulleted_add.svg</iconset>
+          <normaloff>:/material/icons/more.svg</normaloff>:/material/icons/more.svg</iconset>
         </property>
        </widget>
       </item>
@@ -112,7 +112,7 @@
         </property>
         <property name="icon">
          <iconset resource="materialicons.qrc">
-          <normaloff>:/material/icons/format_list_numbered.svg</normaloff>:/material/icons/format_list_numbered.svg</iconset>
+          <normaloff>:/material/icons/user_attributes.svg</normaloff>:/material/icons/user_attributes.svg</iconset>
         </property>
        </widget>
       </item>
@@ -156,7 +156,7 @@
         </property>
         <property name="icon">
          <iconset resource="materialicons.qrc">
-          <normaloff>:/material/icons/format_list_numbered_rtl.svg</normaloff>:/material/icons/format_list_numbered_rtl.svg</iconset>
+          <normaloff>:/material/icons/acute.svg</normaloff>:/material/icons/acute.svg</iconset>
         </property>
        </widget>
       </item>
@@ -197,7 +197,7 @@
         </property>
         <property name="icon">
          <iconset resource="materialicons.qrc">
-          <normaloff>:/material/icons/format_list_bulleted.svg</normaloff>:/material/icons/format_list_bulleted.svg</iconset>
+          <normaloff>:/material/icons/group.svg</normaloff>:/material/icons/group.svg</iconset>
         </property>
        </widget>
       </item>
@@ -241,7 +241,7 @@
         </property>
         <property name="icon">
          <iconset resource="materialicons.qrc">
-          <normaloff>:/material/icons/format_list_bulleted_add.svg</normaloff>:/material/icons/format_list_bulleted_add.svg</iconset>
+          <normaloff>:/material/icons/rule.svg</normaloff>:/material/icons/rule.svg</iconset>
         </property>
        </widget>
       </item>
@@ -416,7 +416,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -482,7 +482,7 @@
   <action name="actionEditStartList">
    <property name="icon">
     <iconset resource="materialicons.qrc">
-     <normaloff>:/material/icons/format_list_numbered.svg</normaloff>:/material/icons/format_list_numbered.svg</iconset>
+     <normaloff>:/material/icons/user_attributes.svg</normaloff>:/material/icons/user_attributes.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Start List</string>
@@ -494,7 +494,7 @@
   <action name="actionEditCategories">
    <property name="icon">
     <iconset resource="materialicons.qrc">
-     <normaloff>:/material/icons/format_list_bulleted_add.svg</normaloff>:/material/icons/format_list_bulleted_add.svg</iconset>
+     <normaloff>:/material/icons/more.svg</normaloff>:/material/icons/more.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Categories</string>
@@ -506,7 +506,7 @@
   <action name="actionEditTimings">
    <property name="icon">
     <iconset resource="materialicons.qrc">
-     <normaloff>:/material/icons/format_list_numbered_rtl.svg</normaloff>:/material/icons/format_list_numbered_rtl.svg</iconset>
+     <normaloff>:/material/icons/acute.svg</normaloff>:/material/icons/acute.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Timings</string>
@@ -548,7 +548,7 @@
   <action name="actionEditTeams">
    <property name="icon">
     <iconset resource="materialicons.qrc">
-     <normaloff>:/material/icons/format_list_bulleted.svg</normaloff>:/material/icons/format_list_bulleted.svg</iconset>
+     <normaloff>:/material/icons/group.svg</normaloff>:/material/icons/group.svg</iconset>
    </property>
    <property name="text">
     <string>Cl&amp;ubs</string>
@@ -675,7 +675,7 @@
   <action name="actionEditRankings">
    <property name="icon">
     <iconset resource="materialicons.qrc">
-     <normaloff>:/material/icons/format_list_bulleted_add.svg</normaloff>:/material/icons/format_list_bulleted_add.svg</iconset>
+     <normaloff>:/material/icons/rule.svg</normaloff>:/material/icons/rule.svg</iconset>
    </property>
    <property name="text">
     <string>Rankings</string>
