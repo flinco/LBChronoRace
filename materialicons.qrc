@@ -42,5 +42,9 @@
         <file>icons/person.svg</file>
         <file>icons/group.svg</file>
         <file>icons/abc.svg</file>
+        <file>icons/acute.svg</file>
+        <file>icons/more.svg</file>
+        <file>icons/rule.svg</file>
+        <file>icons/user_attributes.svg</file>
     </qresource>
 </RCC>
