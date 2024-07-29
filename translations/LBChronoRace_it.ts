@@ -600,14 +600,6 @@ La lista tempi precedente non sarà sovrascritta.
 Eliminare i tempi registrati?</translation>
     </message>
     <message>
-        <source>Droped bib %1 due to missing time</source>
-        <translation>Scartato pettorale %1 (tempo mancante)</translation>
-    </message>
-    <message>
-        <source>Dropped time %1 due to missing bib</source>
-        <translation>Scartato tempo %1 (pettorale mancante)</translation>
-    </message>
-    <message>
         <source>Reset Timings List</source>
         <translation>Azzera Lista Tempi</translation>
     </message>
@@ -622,6 +614,14 @@ Continuare?</translation>
     <message>
         <source>Timer controls are disabled when locked</source>
         <translation>Disabilita i pulsanti di controllo del cronometro</translation>
+    </message>
+    <message>
+        <source>Missing time for bib %1</source>
+        <translation>Tempo mancante per il pettorale %1</translation>
+    </message>
+    <message>
+        <source>Missing bib for time %1</source>
+        <translation>Pettorale mancante per il tempo %1</translation>
     </message>
 </context>
 <context>

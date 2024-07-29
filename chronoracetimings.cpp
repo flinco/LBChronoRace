@@ -262,16 +262,26 @@ void ChronoRaceTimings::saveTimings()
     int r;
     int c;
 
+    QTableWidgetItem const *bib;
+    QTableWidgetItem const *time;
+
     CRLoader::clearTimings();
-    for (r = 0, c = 0; r < ui->dataArea->rowCount(); r++)
-        if (ui->dataArea->item(r, 0) && ui->dataArea->item(r, 1)) {
-            CRLoader::addTiming(ui->dataArea->item(r, 0)->text(), ui->dataArea->item(r, 1)->text());
-            c++;
-        } else if (ui->dataArea->item(r, 0)) {
-            emit error(tr("Droped bib %1 due to missing time").arg(ui->dataArea->item(r, 0)->text()));
-        } else if (ui->dataArea->item(r, 1)) {
-            emit error(tr("Dropped time %1 due to missing bib").arg(ui->dataArea->item(r, 1)->text()));
+    for (r = 0, c = 0; r < ui->dataArea->rowCount(); r++) {
+
+        bib = ui->dataArea->item(r, 0);
+        time = ui->dataArea->item(r, 1);
+
+        if (!bib && !time) {
+            continue;
+        } else if (!bib) {
+            emit error(tr("Missing bib for time %1").arg(time->text()));
+        } else if (!time) {
+            emit error(tr("Missing time for bib %1").arg(bib->text()));
         }
+
+        CRLoader::addTiming(bib ? bib->text() : "0", time ? time->text() : "0:00:00");
+        c++;
+    }
 
     emit newTimingsCount(c);
 }

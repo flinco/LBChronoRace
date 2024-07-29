@@ -600,14 +600,6 @@ The previously recorded timings list will be preserved.
 Do you want to discard the recorded timings?</translation>
     </message>
     <message>
-        <source>Droped bib %1 due to missing time</source>
-        <translation>Droped bib %1 due to missing time</translation>
-    </message>
-    <message>
-        <source>Dropped time %1 due to missing bib</source>
-        <translation>Dropped time %1 due to missing bib</translation>
-    </message>
-    <message>
         <source>Reset Timings List</source>
         <translation>Reset Timings List</translation>
     </message>
@@ -622,6 +614,14 @@ Continue?</translation>
     <message>
         <source>Timer controls are disabled when locked</source>
         <translation>Timer controls are disabled when locked</translation>
+    </message>
+    <message>
+        <source>Missing time for bib %1</source>
+        <translation>Missing time for bib %1</translation>
+    </message>
+    <message>
+        <source>Missing bib for time %1</source>
+        <translation>Missing bib for time %1</translation>
     </message>
 </context>
 <context>
