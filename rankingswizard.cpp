@@ -167,7 +167,7 @@ void RankingsWizard::printStartList()
             QObject::disconnect(errorMessages);
         }
     } catch (ChronoRaceException &e) {
-        emit error(tr("Error: %1").arg(e.getMessage()));
+        emit error(e.getMessage());
     }
 }
 
@@ -222,7 +222,7 @@ void RankingsWizard::printRankingsSingleFile()
         QObject::disconnect(printerErrorMessages);
         QObject::disconnect(printerInfoMessages);
     } catch (ChronoRaceException &e) {
-        emit error(tr("Error: %1").arg(e.getMessage()));
+        emit error(e.getMessage());
     }
 }
 
@@ -284,7 +284,7 @@ void RankingsWizard::printRankingsMultiFile()
         QObject::disconnect(printerErrorMessages);
         QObject::disconnect(printerInfoMessages);
     } catch (ChronoRaceException &e) {
-        emit error(tr("Error: %1").arg(e.getMessage()));
+        emit error(e.getMessage());
     }
 }
 

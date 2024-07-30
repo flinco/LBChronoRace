@@ -198,8 +198,8 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
             Competitor::Sex sex = CRHelper::toSex(value.toString().trimmed());
             startList[index.row()].setSex(sex);
             retval = true;
-        } catch (ChronoRaceException &ex) {
-            emit error(ex.getMessage());
+        } catch (ChronoRaceException &e) {
+            emit error(e.getMessage());
             retval = false;
         }
         break;

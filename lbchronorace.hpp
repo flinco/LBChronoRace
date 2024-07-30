@@ -26,7 +26,6 @@
 
 #include "ui_chronorace.h"
 
-#include "crloader.hpp"
 #include "chronoracetable.hpp"
 #include "chronoracedata.hpp"
 #include "chronoracetimings.hpp"
