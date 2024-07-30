@@ -719,8 +719,8 @@ Continuare?</translation>
         <translation>Informazioni</translation>
     </message>
     <message>
-        <source>Errors</source>
-        <translation>Errori</translation>
+        <source>Warnings/Errors</source>
+        <translation>Avvisi/Errori</translation>
     </message>
     <message>
         <source>Make Start List</source>
@@ -817,10 +817,6 @@ Continuare?</translation>
     <message>
         <source>Timings List</source>
         <translation>Lista Tempi</translation>
-    </message>
-    <message>
-        <source>Error: %1</source>
-        <translation>Errore: %1</translation>
     </message>
     <message>
         <source>CSV (*.csv)</source>
@@ -1031,20 +1027,12 @@ Continuare?</translation>
         <translation>Imposta codifica per CSV e Testo</translation>
     </message>
     <message>
-        <source>Error: unexpected encoding value (fall back to the default)</source>
-        <translation>Errore: valore codifica inatteso (ripiego sulla codifica predefinita)</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Impostazioni</translation>
     </message>
     <message>
         <source>CSV and Plain Text Encoding</source>
         <translation>Codifica CVS e Testo</translation>
-    </message>
-    <message>
-        <source>Error: unexpected encoding value (encoding not changed)</source>
-        <translation>Errore: valore codifica inatteso (codifica non modificata)</translation>
     </message>
     <message>
         <source>Rankings</source>
@@ -1082,6 +1070,14 @@ Continuare?</translation>
 Please update the application.</source>
         <translation>Formato dati %1 non supportato.
 Aggiornare l&amp;apos;applicazione.</translation>
+    </message>
+    <message>
+        <source>Unexpected encoding value (fall back to the default)</source>
+        <translation>Valore codifica inatteso (ripiego sulla codifica predefinita)</translation>
+    </message>
+    <message>
+        <source>Unexpected encoding value (encoding not changed)</source>
+        <translation>Valore codifica inatteso (codifica non modificata)</translation>
     </message>
 </context>
 <context>
@@ -1237,28 +1233,12 @@ Aggiornare l&amp;apos;applicazione.</translation>
         <translation>Errore: tentativo d&apos;uso di painter non attivo</translation>
     </message>
     <message>
-        <source>Error: cannot write to PDF</source>
-        <translation>Error: impossibile scrivere su PDF</translation>
-    </message>
-    <message>
         <source>Created with %1 %2</source>
         <translation>Creato con %1 %2</translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation>Sconosciuto</translation>
-    </message>
-    <message>
-        <source>????</source>
-        <translation>????</translation>
-    </message>
-    <message>
-        <source>?</source>
-        <translation>?</translation>
-    </message>
-    <message>
-        <source>?:??:??</source>
-        <translation>?:??:??</translation>
+        <source>Cannot write to PDF</source>
+        <translation>Impossibile scrivere il PDF</translation>
     </message>
 </context>
 <context>
@@ -1356,8 +1336,8 @@ Aggiornare l&amp;apos;applicazione.</translation>
         <translation>Pettorale %1 non inserito in classifica; possibile duplicazione nella lista tempi</translation>
     </message>
     <message>
-        <source>Warning: %1</source>
-        <translation>Attenzione: %1</translation>
+        <source>Notice:: %1</source>
+        <translation>Avviso:: %1</translation>
     </message>
     <message>
         <source>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</source>
@@ -1424,10 +1404,6 @@ Aggiornare l&amp;apos;applicazione.</translation>
     <message>
         <source>Generated Start List: %1</source>
         <translation>Generato Ordine di Partenza: %1</translation>
-    </message>
-    <message>
-        <source>Error: %1</source>
-        <translation>Errore: %1</translation>
     </message>
     <message>
         <source>Select Results Destination Folder</source>

@@ -117,8 +117,8 @@ bool CategoriesModel::setData(QModelIndex const &index, QVariant const &value, i
             auto type = CRHelper::toCategoryType(value.toString().trimmed());
             categories[index.row()].setType(type);
             retval = true;
-        } catch (ChronoRaceException &ex) {
-            emit error(ex.getMessage());
+        } catch (ChronoRaceException &e) {
+            emit error(e.getMessage());
             retval = false;
         }
         break;

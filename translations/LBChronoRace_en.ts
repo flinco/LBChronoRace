@@ -719,8 +719,8 @@ Continue?</translation>
         <translation>Information</translation>
     </message>
     <message>
-        <source>Errors</source>
-        <translation>Errors</translation>
+        <source>Warnings/Errors</source>
+        <translation>Warnings/Errors</translation>
     </message>
     <message>
         <source>Make Start List</source>
@@ -817,10 +817,6 @@ Continue?</translation>
     <message>
         <source>Timings List</source>
         <translation>Timings List</translation>
-    </message>
-    <message>
-        <source>Error: %1</source>
-        <translation>Error: %1</translation>
     </message>
     <message>
         <source>CSV (*.csv)</source>
@@ -1031,20 +1027,12 @@ Continue?</translation>
         <translation>Set encoding for CSV and Plain Text</translation>
     </message>
     <message>
-        <source>Error: unexpected encoding value (fall back to the default)</source>
-        <translation>Error: unexpected encoding value (fall back to the default)</translation>
-    </message>
-    <message>
         <source>Settings</source>
         <translation>Settings</translation>
     </message>
     <message>
         <source>CSV and Plain Text Encoding</source>
         <translation>CSV and Plain Text Encoding</translation>
-    </message>
-    <message>
-        <source>Error: unexpected encoding value (encoding not changed)</source>
-        <translation>Error: unexpected encoding value (encoding not changed)</translation>
     </message>
     <message>
         <source>Rankings</source>
@@ -1082,6 +1070,14 @@ Continue?</translation>
 Please update the application.</source>
         <translation>Data format %1 not supported.
 Please update the application.</translation>
+    </message>
+    <message>
+        <source>Unexpected encoding value (fall back to the default)</source>
+        <translation>Unexpected encoding value (fall back to the default)</translation>
+    </message>
+    <message>
+        <source>Unexpected encoding value (encoding not changed)</source>
+        <translation>Unexpected encoding value (encoding not changed)</translation>
     </message>
 </context>
 <context>
@@ -1237,28 +1233,12 @@ Please update the application.</translation>
         <translation>Error: drawing attempt on inactive painter</translation>
     </message>
     <message>
-        <source>Error: cannot write to PDF</source>
-        <translation>Error: cannot write to PDF</translation>
-    </message>
-    <message>
         <source>Created with %1 %2</source>
         <translation>Created with %1 %2</translation>
     </message>
     <message>
-        <source>Unknown</source>
-        <translation>Unknown</translation>
-    </message>
-    <message>
-        <source>????</source>
-        <translation>????</translation>
-    </message>
-    <message>
-        <source>?</source>
-        <translation>?</translation>
-    </message>
-    <message>
-        <source>?:??:??</source>
-        <translation>?:??:??</translation>
+        <source>Cannot write to PDF</source>
+        <translation>Cannot write to PDF</translation>
     </message>
 </context>
 <context>
@@ -1356,8 +1336,8 @@ Please update the application.</translation>
         <translation>Bib %1 not inserted in results; check for possible duplicated entries</translation>
     </message>
     <message>
-        <source>Warning: %1</source>
-        <translation>Warning: %1</translation>
+        <source>Notice:: %1</source>
+        <translation>Notice:: %1</translation>
     </message>
     <message>
         <source>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</source>
@@ -1424,10 +1404,6 @@ Please update the application.</translation>
     <message>
         <source>Generated Start List: %1</source>
         <translation>Generated Start List: %1</translation>
-    </message>
-    <message>
-        <source>Error: %1</source>
-        <translation>Error: %1</translation>
     </message>
     <message>
         <source>Select Results Destination Folder</source>

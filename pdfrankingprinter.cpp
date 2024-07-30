@@ -317,7 +317,7 @@ bool PDFRankingPrinter::finalize()
     else if (painter.end())
         result = true;
     else
-        emit error(tr("Error: cannot write to PDF"));
+        emit error(tr("Cannot write to PDF"));
 
     if (!writer.isNull())
         writer.reset(Q_NULLPTR);

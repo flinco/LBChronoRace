@@ -300,7 +300,7 @@ void RankingsBuilder::emitMessages(QStringList &messages)
 {
     for (auto const &message : messages) {
         if (message.length())
-            emit error(tr("Warning: %1").arg(message));
+            emit error(tr("Notice:: %1").arg(message));
     }
     messages.clear();
 }

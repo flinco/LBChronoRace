@@ -181,12 +181,22 @@ void LBChronoRace::setCounterTimings(int count) const
 
 void LBChronoRace::appendInfoMessage(QString const &message) const
 {
-    ui->infoDisplay->appendPlainText(message);
+    if (auto sep = message.indexOf(':'); sep < 0) {
+        ui->infoDisplay->appendHtml("<p><font color=\"blue\">" + message + "</font></p>");
+    } else {
+        ui->infoDisplay->appendHtml("<p><font color=\"blue\">" + message.first(sep) + "</font>" + message.sliced(sep) + "</p>");
+    }
 }
 
 void LBChronoRace::appendErrorMessage(QString const &message) const
 {
-    ui->errorDisplay->appendPlainText(message);
+    if (auto sep = message.indexOf(':'); sep < 0) {
+        ui->errorDisplay->appendHtml("<p><font color=\"red\">" + message + "</font></p>");
+    } else if (message.at(sep + 1) == QChar(':')) {
+        ui->errorDisplay->appendHtml("<p><font color=\"orange\">" + message.first(sep) + "</font>" + message.sliced(sep + 1) + "</p>");
+    } else {
+        ui->errorDisplay->appendHtml("<p><font color=\"red\">" + message.first(sep) + "</font>" + message.sliced(sep) + "</p>");
+    }
 }
 
 void LBChronoRace::importStartList()
@@ -203,7 +213,7 @@ void LBChronoRace::importStartList()
             appendInfoMessage(tr("Loaded: %n team(s)", "", count.second));
             lastSelectedPath = QFileInfo(startListFileName).absoluteDir();
         } catch (ChronoRaceException &e) {
-            appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
+            appendErrorMessage(e.getMessage());
         }
         setCounterCompetitors(count.first);
         setCounterTeams(count.second);
@@ -223,7 +233,7 @@ void LBChronoRace::importRankingsList()
             appendInfoMessage(tr("Loaded: %n ranking(s)", "", count));
             lastSelectedPath = QFileInfo(rankingsFileName).absoluteDir();
         } catch (ChronoRaceException &e) {
-            appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
+            appendErrorMessage(e.getMessage());
         }
         setCounterRankings(count);
     }
@@ -242,7 +252,7 @@ void LBChronoRace::importCategoriesList()
             appendInfoMessage(tr("Loaded: %n category(s)", "", count));
             lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
         } catch (ChronoRaceException &e) {
-            appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
+            appendErrorMessage(e.getMessage());
         }
         setCounterCategories(count);
     }
@@ -261,7 +271,7 @@ void LBChronoRace::importTimingsList()
             appendInfoMessage(tr("Loaded: %n timing(s)", "", count));
             lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
         } catch (ChronoRaceException &e) {
-            appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
+            appendErrorMessage(e.getMessage());
         }
         setCounterTimings(count);
     }
@@ -282,7 +292,7 @@ void LBChronoRace::exportStartList()
             appendInfoMessage(tr("Start List File saved: %1").arg(startListFileName));
             lastSelectedPath = QFileInfo(startListFileName).absoluteDir();
         }  catch (ChronoRaceException &e) {
-            appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
+            appendErrorMessage(e.getMessage());
         }
     }
 }
@@ -302,7 +312,7 @@ void LBChronoRace::exportTeamList()
             appendInfoMessage(tr("Teams File saved: %1").arg(teamsFileName));
             lastSelectedPath = QFileInfo(teamsFileName).absoluteDir();
         }  catch (ChronoRaceException &e) {
-            appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
+            appendErrorMessage(e.getMessage());
         }
     }
 }
@@ -322,7 +332,7 @@ void LBChronoRace::exportRankingsList()
             appendInfoMessage(tr("Rankings File saved: %1").arg(rankingsFileName));
             lastSelectedPath = QFileInfo(rankingsFileName).absoluteDir();
         }  catch (ChronoRaceException &e) {
-            appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
+            appendErrorMessage(e.getMessage());
         }
     }
 }
@@ -342,7 +352,7 @@ void LBChronoRace::exportCategoriesList()
             appendInfoMessage(tr("Categories File saved: %1").arg(categoriesFileName));
             lastSelectedPath = QFileInfo(categoriesFileName).absoluteDir();
         }  catch (ChronoRaceException &e) {
-            appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
+            appendErrorMessage(e.getMessage());
         }
     }
 }
@@ -362,7 +372,7 @@ void LBChronoRace::exportTimingsList()
             appendInfoMessage(tr("Timings File saved: %1").arg(timingsFileName));
             lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
         }  catch (ChronoRaceException &e) {
-            appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
+            appendErrorMessage(e.getMessage());
         }
     }
 }
@@ -591,7 +601,7 @@ void LBChronoRace::setEncoding()
         current = 1;
         break;
     default:
-        appendErrorMessage(tr("Error: unexpected encoding value (fall back to the default)"));
+        appendErrorMessage(tr("Unexpected encoding value (fall back to the default)"));
         break;
     }
 
@@ -609,7 +619,7 @@ void LBChronoRace::setEncoding()
         else if (item == items[1])
             CRLoader::setEncoding(CRLoader::Encoding::UTF8);
         else
-            appendErrorMessage(tr("Error: unexpected encoding value (encoding not changed)"));
+            appendErrorMessage(tr("Unexpected encoding value (encoding not changed)"));
     }
 }
 
@@ -629,7 +639,7 @@ void LBChronoRace::makeStartList()
         QObject::disconnect(wizardInfoMessages);
 
     } catch (ChronoRaceException &e) {
-        appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
+        appendErrorMessage(e.getMessage());
     }
 }
 
@@ -649,7 +659,7 @@ void LBChronoRace::makeRankings()
         QObject::disconnect(wizardInfoMessages);
 
     } catch (ChronoRaceException &e) {
-        appendErrorMessage(tr("Error: %1").arg(e.getMessage()));
+        appendErrorMessage(e.getMessage());
     }
 }
 
