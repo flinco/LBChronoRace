@@ -163,6 +163,9 @@ set_property(SOURCE icons.qrc PROPERTY SKIP_AUTORCC ON)
 # Google Material Icons (as standard resource)
 list(APPEND PROJECT_SOURCES materialicons.qrc)
 
+# Images (as standard resource)
+list(APPEND PROJECT_SOURCES images.qrc)
+
 if(WIN32)
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.rc")
     qt_add_executable(${CMAKE_PROJECT_NAME} WIN32
