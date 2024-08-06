@@ -685,11 +685,11 @@ void LBChronoRace::actionAbout()
         );
     std::ignore = translatedTextAboutQtMessage;
 
-    QString const translatedTextAboutQtCaption = QMessageBox::tr(
+    QString const translatedTextAboutCaption = QMessageBox::tr(
         "<h3>About %1</h3>"
         "<p>Software for producing the results of footraces.</p>"
         ).arg(QStringLiteral(LBCHRONORACE_NAME));
-    QString const translatedTextAboutQtText = QMessageBox::tr(
+    QString const translatedTextAboutText = QMessageBox::tr(
         "<p>Copyright&copy; 2021-2022</p>"
         "<p>Version: %1 (source code on <a href=\"http://github.com/flinco/LBChronoRace\">GitHub</a>)</p>"
         "<p>Author: Lorenzo Buzzi (<a href=\"mailto:lorenzo@buzzi.pro\">lorenzo@buzzi.pro</a>)</p>"
@@ -702,11 +702,15 @@ void LBChronoRace::actionAbout()
         "See the GNU General Public License for more details.</p>"
         "<p>You should have received a copy of the GNU General Public License along with %2. "
         "If not, see: <a href=\"https://www.gnu.org/licenses/\">https://www.gnu.org/licenses/</a>.</p>"
+        "<p><table><tbody><tr>"
+        "<td>If you found this application useful<br>and want to support its development,<br>you can make a donation:</td>"
+        "<td><a href=\"https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C\"><img src=\":/images/PayPal_Donate_en.gif\" /></a></td>"
+        "</tr></tbody></table></p>"
         ).arg(QStringLiteral(LBCHRONORACE_VERSION), QStringLiteral(LBCHRONORACE_NAME));
     QMessageBox msgBox(this);
     msgBox.setWindowTitle(tr("About %1").arg(QStringLiteral(LBCHRONORACE_NAME)));
-    msgBox.setText(translatedTextAboutQtCaption);
-    msgBox.setInformativeText(translatedTextAboutQtText);
+    msgBox.setText(translatedTextAboutCaption);
+    msgBox.setInformativeText(translatedTextAboutText);
     if (QPixmap pm(QStringLiteral(":/icons/LBChronoRace.png")); !pm.isNull()) {
         msgBox.setIconPixmap(pm);
     }
