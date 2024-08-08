@@ -1079,6 +1079,16 @@ Aggiornare l&amp;apos;applicazione.</translation>
         <source>Unexpected encoding value (encoding not changed)</source>
         <translation>Valore codifica inatteso (codifica non modificata)</translation>
     </message>
+    <message>
+        <source>Race Data File Format</source>
+        <translation>Formato File Dati Gara</translation>
+    </message>
+    <message>
+        <source>This Race Data File was saved with a previous release of the application.
+The definitions of Categories and Rankings must be reviewed and corrected.</source>
+        <translation>Il File Dati Gara è stato salvato con una precedente versione dell&apos;applicazione.
+Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</translation>
+    </message>
 </context>
 <context>
     <name>MultiSelectComboBox</name>
