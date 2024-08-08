@@ -466,8 +466,12 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
 
             switch (binFmt) {
             case LBCHRONORACE_BIN_FMT_v1:
+                [[fallthrough]];
             case LBCHRONORACE_BIN_FMT_v2:
+                [[fallthrough]];
             case LBCHRONORACE_BIN_FMT_v3:
+                QMessageBox::warning(this, tr("Race Data File Format"), tr("This Race Data File was saved with a previous release of the application.\nThe definitions of Categories and Rankings must be reviewed and corrected."));
+                [[fallthrough]];
             case LBCHRONORACE_BIN_FMT_v4:
                 QAbstractTableModel const *table;
                 qint16 encodingIdx;

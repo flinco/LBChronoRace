@@ -1079,6 +1079,16 @@ Please update the application.</translation>
         <source>Unexpected encoding value (encoding not changed)</source>
         <translation>Unexpected encoding value (encoding not changed)</translation>
     </message>
+    <message>
+        <source>Race Data File Format</source>
+        <translation>Race Data File Format</translation>
+    </message>
+    <message>
+        <source>This Race Data File was saved with a previous release of the application.
+The definitions of Categories and Rankings must be reviewed and corrected.</source>
+        <translation>This Race Data File was saved with a previous release of the application.
+The definitions of Categories and Rankings must be reviewed and corrected.</translation>
+    </message>
 </context>
 <context>
     <name>MultiSelectComboBox</name>
