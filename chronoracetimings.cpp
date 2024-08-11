@@ -100,6 +100,8 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
             break;
         case Qt::Key_Return:
         case Qt::Key_Enter:
+            if (!bibBuffer.isEmpty() && (bibRowCount > 0))
+                ui->dataArea->item(bibRowCount - 1, 0)->setBackground(Qt::green);
             bibBuffer.clear();
             break;
         case Qt::Key_Backspace:
@@ -212,9 +214,13 @@ void ChronoRaceTimings::recordTiming(qint64 seconds)
 {
     auto newTiming = QString("%1:%2:%3").arg(seconds / 3600).arg(seconds / 60, 2, 10, QChar('0')).arg(seconds % 60, 2, 10, QChar('0'));
 
-    if (timingRowCount == ui->dataArea->rowCount())
+    if (timingRowCount == ui->dataArea->rowCount()) {
         ui->dataArea->setRowCount(timingRowCount + 1);
+        ui->dataArea->setItem(timingRowCount, 0, new QTableWidgetItem);
+        ui->dataArea->item(timingRowCount, 0)->setBackground(Qt::red);
+    }
     ui->dataArea->setItem(timingRowCount, 1, new QTableWidgetItem(newTiming));
+    ui->dataArea->scrollToBottom();
     timingRowCount += 1;
 }
 
@@ -245,15 +251,20 @@ void ChronoRaceTimings::deleteBib()
     bibBuffer.removeLast();
     if (bibBuffer.isEmpty()) {
         if (bibRowCount > 0) {
-            if (bibRowCount-- > timingRowCount)
+            if (bibRowCount-- > timingRowCount) {
                 ui->dataArea->setRowCount(bibRowCount);
-            else
+            } else {
                 ui->dataArea->item(bibRowCount, 0)->setText(bibBuffer);
-            if (bibRowCount)
+                ui->dataArea->item(bibRowCount, 0)->setBackground(Qt::red);
+            }
+            if (bibRowCount) {
                 bibBuffer = ui->dataArea->item(bibRowCount - 1, 0)->text();
+                ui->dataArea->item(bibRowCount - 1, 0)->setBackground(Qt::white);
+            }
         }
     } else {
         ui->dataArea->item(bibRowCount - 1, 0)->setText(bibBuffer);
+        ui->dataArea->item(bibRowCount - 1, 0)->setBackground(Qt::white);
     }
 }
 
