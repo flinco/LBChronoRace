@@ -91,6 +91,26 @@
         <source>Invalid status value %1</source>
         <translation>Valore di stato %1 non valido</translation>
     </message>
+    <message>
+        <source>Illegal status value &apos;%1&apos;</source>
+        <translation>Stato concorrente &apos;%1&apos; non valido</translation>
+    </message>
+    <message>
+        <source>Classified</source>
+        <translation>Classificato</translation>
+    </message>
+    <message>
+        <source>Disqualified</source>
+        <translation>Squalificato</translation>
+    </message>
+    <message>
+        <source>Did not finish</source>
+        <translation>Ritirato</translation>
+    </message>
+    <message>
+        <source>Did not start</source>
+        <translation>Non partito</translation>
+    </message>
 </context>
 <context>
     <name>CRLoader</name>
@@ -1611,10 +1631,6 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
 <context>
     <name>Timing</name>
     <message>
-        <source>Illegal timing value &apos;%1&apos;</source>
-        <translation>Valore cronometrico &apos;%1&apos; non valido</translation>
-    </message>
-    <message>
         <source>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
         <translation>Valore cronometrico &apos;%1&apos; non valido per il pettorale &apos;%2&apos;</translation>
     </message>
@@ -1630,8 +1646,16 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Frazione (0 per rilevamento automatico)</translation>
     </message>
     <message>
-        <source>Timing (i.e. 0:45:23) or DNF or DNS</source>
-        <translation>Tempo (es. 0:45:23), DNF (non classificato) o DNS (non partito)</translation>
+        <source>Timing (i.e. 0:45:23)</source>
+        <translation>Tempo (es. 0:45:23)</translation>
+    </message>
+    <message>
+        <source>Classified (CLS), Disqualified (DSQ), Did not finish (DNF), or Did not start (DNS)</source>
+        <translation>Classificato (CLS), Squalificato (DSQ), Ritirato (DNF) o Non partito (DNS)</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Stato</translation>
     </message>
     <message>
         <source>Bib</source>

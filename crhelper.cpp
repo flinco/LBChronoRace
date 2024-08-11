@@ -220,13 +220,16 @@ QString CRHelper::toCategoryTypeString(Category::Type const type)
     }
 }
 
-QString CRHelper::toTimeStr(uint const seconds, Timing::Status const status, char const *prefix)
+QString CRHelper::toTimeString(uint const seconds, Timing::Status const status, char const *prefix)
 {
+    QString retString { prefix ? prefix : "" };
 
-    QString retString(prefix ? prefix : "");
     switch (status) {
     case Timing::Status::CLASSIFIED:
         retString.append(QString("%1:%2:%3").arg(((seconds / 60) / 60)).arg(((seconds / 60) % 60), 2, 10, QLatin1Char('0')).arg((seconds % 60), 2, 10, QLatin1Char('0')));
+        break;
+    case Timing::Status::DSQ:
+        retString.append("DSQ");
         break;
     case Timing::Status::DNF:
         retString.append("DNF");
@@ -237,10 +240,65 @@ QString CRHelper::toTimeStr(uint const seconds, Timing::Status const status, cha
     default:
         throw(ChronoRaceException(tr("Invalid status value %1").arg(static_cast<int>(status))));
     }
+
     return retString;
 }
 
-QString CRHelper::toTimeStr(Timing const &timing)
+QString CRHelper::toTimeString(Timing const &timing)
 {
-    return toTimeStr(timing.getSeconds(), timing.getStatus());
+    return toTimeString(timing.getSeconds(), timing.getStatus());
+}
+
+Timing::Status CRHelper::toTimingStatus(QString const &status)
+{
+    if (status.compare("CLS", Qt::CaseInsensitive) == 0)
+        return Timing::Status::CLASSIFIED;
+    else if (status.compare("DSQ", Qt::CaseInsensitive) == 0)
+        return Timing::Status::DSQ;
+    else if (status.compare("DNF", Qt::CaseInsensitive) == 0)
+        return Timing::Status::DNF;
+    else if (status.compare("DNS", Qt::CaseInsensitive) == 0)
+        return Timing::Status::DNS;
+    else
+        throw(ChronoRaceException(tr("Illegal status value '%1'").arg(status)));
+}
+
+QString CRHelper::toStatusString(Timing::Status const status)
+{
+    QString retString { "" };
+
+    switch (status) {
+    case Timing::Status::CLASSIFIED:
+        retString.append("CLS");
+        break;
+    case Timing::Status::DSQ:
+        retString.append("DSQ");
+        break;
+    case Timing::Status::DNF:
+        retString.append("DNF");
+        break;
+    case Timing::Status::DNS:
+        retString.append("DNS");
+        break;
+    default:
+        throw(ChronoRaceException(tr("Invalid status value %1").arg(static_cast<int>(status))));
+    }
+
+    return retString;
+}
+
+QString CRHelper::toStatusFullString(Timing::Status const status)
+{
+    switch (status) {
+    case Timing::Status::CLASSIFIED:
+        return tr("Classified");
+    case Timing::Status::DSQ:
+        return tr("Disqualified");
+    case Timing::Status::DNF:
+        return tr("Did not finish");
+    case Timing::Status::DNS:
+        return tr("Did not start");
+    default:
+        throw(ChronoRaceException(tr("Invalid status value %1").arg(static_cast<int>(status))));
+    }
 }

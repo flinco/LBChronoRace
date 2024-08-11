@@ -90,6 +90,7 @@ public:
     QString getDiffTimeTxt(uint referenceTime) const;
     bool isDnf() const;
     bool isDns() const;
+    bool isDsq() const;
 
     Category const *getCategory() const;
     Category const *getCategory(uint legIdx) const;

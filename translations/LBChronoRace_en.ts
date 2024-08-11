@@ -91,6 +91,26 @@
         <source>Invalid status value %1</source>
         <translation>Invalid status value %1</translation>
     </message>
+    <message>
+        <source>Illegal status value &apos;%1&apos;</source>
+        <translation>Illegal status value &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Classified</source>
+        <translation>Classified</translation>
+    </message>
+    <message>
+        <source>Disqualified</source>
+        <translation>Disqualified</translation>
+    </message>
+    <message>
+        <source>Did not finish</source>
+        <translation>Did not finish</translation>
+    </message>
+    <message>
+        <source>Did not start</source>
+        <translation>Did not start</translation>
+    </message>
 </context>
 <context>
     <name>CRLoader</name>
@@ -1611,10 +1631,6 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
 <context>
     <name>Timing</name>
     <message>
-        <source>Illegal timing value &apos;%1&apos;</source>
-        <translation>Illegal timing value &apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
         <translation>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</translation>
     </message>
@@ -1630,8 +1646,16 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Leg number (0 for automatic detection)</translation>
     </message>
     <message>
-        <source>Timing (i.e. 0:45:23) or DNF or DNS</source>
-        <translation>Timing (i.e. 0:45:23) or DNF or DNS</translation>
+        <source>Timing (i.e. 0:45:23)</source>
+        <translation>Timing (i.e. 0:45:23)</translation>
+    </message>
+    <message>
+        <source>Classified (CLS), Disqualified (DSQ), Did not finish (DNF), or Did not start (DNS)</source>
+        <translation>Classified (CLS), Disqualified (DSQ), Did not finish (DNF), or Did not start (DNS)</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Bib</source>

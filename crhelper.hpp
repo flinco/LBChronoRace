@@ -54,8 +54,12 @@ public:
     static QString toRankingTypeString(Ranking::Type type);
     static QString toCategoryTypeString(Category::Type const type);
 
-    static QString toTimeStr(uint const seconds, Timing::Status const status, char const *prefix = Q_NULLPTR);
-    static QString toTimeStr(Timing const &timing);
+    static QString toTimeString(uint const seconds, Timing::Status const status, char const *prefix = Q_NULLPTR);
+    static QString toTimeString(Timing const &timing);
+
+    static Timing::Status toTimingStatus(QString const &status);
+    static QString toStatusString(Timing::Status const status);
+    static QString toStatusFullString(Timing::Status const status);
 };
 
 #endif // CRHELPER_H

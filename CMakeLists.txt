@@ -120,6 +120,8 @@ set(PROJECT_SOURCES
     timing.hpp
     timingsmodel.cpp
     timingsmodel.hpp
+    timingstatusdelegate.cpp
+    timingstatusdelegate.hpp
     txtrankingprinter.cpp
     txtrankingprinter.hpp)
 

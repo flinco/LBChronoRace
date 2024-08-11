@@ -239,6 +239,8 @@ void CRLoader::addTiming(QString const &bib, QString const &timing)
     temp = "0";
     checkString(&timingsModel, temp, ',');
     temp = timing;
+    checkString(&timingsModel, temp, ',');
+    temp = "CLS";
     checkString(&timingsModel, temp);
 }
 

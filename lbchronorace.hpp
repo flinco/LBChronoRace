@@ -34,6 +34,7 @@
 #include "rankingtypedelegate.hpp"
 #include "rankingcatsdelegate.hpp"
 #include "cattypedelegate.hpp"
+#include "timingstatusdelegate.hpp"
 
 #ifndef LBCHRONORACE_NAME
 #error "LBCHRONORACE_NAME not set"
@@ -105,6 +106,7 @@ private:
     RankingTypeDelegate rankingTypeDelegate;
     RankingCategoriesDelegate rankingCatsDelegate;
     CategoryTypeDelegate categoryTypeDelegate;
+    TimingStatusDelegate timingStatusDelegate;
 
     bool loadRaceFile(QString const &fileName);
 

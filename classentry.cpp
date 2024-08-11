@@ -205,11 +205,11 @@ QString ClassEntry::getTimes(CRLoader::Format format, int legRankWidth) const
     switch (format) {
     case CRLoader::Format::TEXT:
         for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
-            retString.append(QString("%1(%2) %3").arg((it == entries.constBegin()) ? "" : " - ").arg(it->legRanking, legRankWidth).arg(CRHelper::toTimeStr(it->time, it->status), 7));
+            retString.append(QString("%1(%2) %3").arg((it == entries.constBegin()) ? "" : " - ").arg(it->legRanking, legRankWidth).arg(CRHelper::toTimeString(it->time, it->status), 7));
         break;
     case CRLoader::Format::CSV:
         for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
-            retString.append(QString("%1%2,%3").arg((it == entries.constBegin()) ? "" : ",").arg(it->legRanking).arg(CRHelper::toTimeStr(it->time, Timing::Status::CLASSIFIED)));
+            retString.append(QString("%1%2,%3").arg((it == entries.constBegin()) ? "" : ",").arg(it->legRanking).arg(CRHelper::toTimeString(it->time, Timing::Status::CLASSIFIED)));
         break;
     case CRLoader::Format::PDF:
         retString = "***Error***";
@@ -227,7 +227,7 @@ QString ClassEntry::getTime(uint legIdx) const
     if (static_cast<qsizetype>(legIdx) >= entries.size())
         throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
-    return CRHelper::toTimeStr(entries[legIdx].time, entries[legIdx].status);
+    return CRHelper::toTimeString(entries[legIdx].time, entries[legIdx].status);
 }
 
 uint ClassEntry::getTimeValue(uint legIdx) const
@@ -235,7 +235,16 @@ uint ClassEntry::getTimeValue(uint legIdx) const
     if (static_cast<qsizetype>(legIdx) >= entries.size())
         throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
-    return entries[legIdx].time;
+    switch (entries[legIdx].status) {
+    case Timing::Status::DNS:
+        return UINT_MAX;
+    case Timing::Status::DNF:
+        return UINT_MAX - 1;
+    //NOSONAR case Timing::Status::DSQ:
+    //NOSONAR     return UINT_MAX - 2;
+    default:
+        return entries[legIdx].time;
+    }
 }
 
 uint ClassEntry::countEntries() const
@@ -264,21 +273,23 @@ void ClassEntry::setTime(Competitor *comp, Timing const &timing, QStringList &me
 
     entries[legIndex].competitor = comp;
     entries[legIndex].status = timing.getStatus();
-    if (isDns()) {
-        totalTime = UINT_MAX;
-    } else if (isDnf()) {
+    entries[legIndex].time = timing.getSeconds();
+    if (isDnf()) {
         totalTime = UINT_MAX - 1;
+    } else if (isDns()) {
+        totalTime = UINT_MAX;
     } else {
         if (offset < 0) {
             // no offset; use standard timing logic
             // good for both individual and relay races
-            entries[legIndex].time = timing.getSeconds() - totalTime;
-            totalTime = timing.getSeconds();
+            uint seconds = entries[legIndex].time;
+            entries[legIndex].time -= totalTime;
+            totalTime = seconds;
         } else {
             // competitor with offset; maybe individual
             // race without mass start or relay race with
             // timings sum
-            uint seconds = timing.getSeconds() - static_cast<uint>(offset);
+            uint seconds = entries[legIndex].time - static_cast<uint>(offset);
             entries[legIndex].time = seconds;
             totalTime += seconds;
         }
@@ -380,6 +391,13 @@ bool ClassEntry::isDns() const
     });
 }
 
+bool ClassEntry::isDsq() const
+{
+    return std::any_of(entries.constBegin(), entries.constEnd(), [&](ClassEntryElement const &el) {
+        return (el.status == Timing::Status::DSQ);
+    });
+}
+
 Category const *ClassEntry::getCategory() const
 {
     return category;
@@ -414,7 +432,7 @@ QStringList ClassEntry::setCategory()
 
 uint ClassEntry::getTotalTime() const
 {
-    return totalTime;
+    return isDsq() ? (UINT_MAX - 2) : totalTime;
 }
 
 QString ClassEntry::getTotalTime(CRLoader::Format format) const
@@ -427,12 +445,14 @@ QString ClassEntry::getTotalTime(CRLoader::Format format) const
     case CRLoader::Format::CSV:
         [[fallthrough]];
     case CRLoader::Format::PDF:
-        if (isDns())
-            retString = CRHelper::toTimeStr(totalTime, Timing::Status::DNS);
+        if (isDsq())
+            retString = CRHelper::toTimeString(totalTime, Timing::Status::DSQ);
         else if (isDnf())
-            retString = CRHelper::toTimeStr(totalTime, Timing::Status::DNF);
+            retString = CRHelper::toTimeString(totalTime, Timing::Status::DNF);
+        else if (isDns())
+            retString = CRHelper::toTimeString(totalTime, Timing::Status::DNS);
         else
-            retString = CRHelper::toTimeStr(totalTime, Timing::Status::CLASSIFIED);
+            retString = CRHelper::toTimeString(totalTime, Timing::Status::CLASSIFIED);
         break;
     default:
         Q_UNREACHABLE();
@@ -444,19 +464,19 @@ QString ClassEntry::getTotalTime(CRLoader::Format format) const
 
 QString ClassEntry::getDiffTimeTxt(uint referenceTime) const
 {
-    if (isDns() || isDnf() || (totalTime == referenceTime))
+    if (isDsq() || isDns() || isDnf() || (totalTime == referenceTime))
         return QString("");
 
     if (totalTime > referenceTime)
-        return CRHelper::toTimeStr(totalTime - referenceTime, Timing::Status::CLASSIFIED, "+");
+        return CRHelper::toTimeString(totalTime - referenceTime, Timing::Status::CLASSIFIED, "+");
     else
-        return CRHelper::toTimeStr(referenceTime - totalTime, Timing::Status::CLASSIFIED, "-");
+        return CRHelper::toTimeString(referenceTime - totalTime, Timing::Status::CLASSIFIED, "-");
 }
 
-bool ClassEntry::operator< (ClassEntry const &rhs) const { return totalTime <  rhs.totalTime; }
-bool ClassEntry::operator> (ClassEntry const &rhs) const { return totalTime >  rhs.totalTime; }
-bool ClassEntry::operator<=(ClassEntry const &rhs) const { return totalTime <= rhs.totalTime; }
-bool ClassEntry::operator>=(ClassEntry const &rhs) const { return totalTime >= rhs.totalTime; }
+bool ClassEntry::operator< (ClassEntry const &rhs) const { return getTotalTime() <  rhs.getTotalTime(); }
+bool ClassEntry::operator> (ClassEntry const &rhs) const { return getTotalTime() >  rhs.getTotalTime(); }
+bool ClassEntry::operator<=(ClassEntry const &rhs) const { return getTotalTime() <= rhs.getTotalTime(); }
+bool ClassEntry::operator>=(ClassEntry const &rhs) const { return getTotalTime() >= rhs.getTotalTime(); }
 
 bool ClassEntryHelper::allCompetitorsShareTheSameClub(QVector<ClassEntryElement> const &entries, qsizetype fromLeg, qsizetype toLeg, QString const &club)
 {

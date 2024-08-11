@@ -46,5 +46,9 @@
         <file>icons/more.svg</file>
         <file>icons/rule.svg</file>
         <file>icons/user_attributes.svg</file>
+        <file>icons/classified.svg</file>
+        <file>icons/dnf.svg</file>
+        <file>icons/dns.svg</file>
+        <file>icons/dsq.svg</file>
     </qresource>
 </RCC>

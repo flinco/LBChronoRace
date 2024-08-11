@@ -48,7 +48,8 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     clubDelegate(&startListTable),
     rankingTypeDelegate(&rankingsTable),
     rankingCatsDelegate(&rankingsTable),
-    categoryTypeDelegate(&categoriesTable)
+    categoryTypeDelegate(&categoriesTable),
+    timingStatusDelegate(&timingsTable)
 {
     startListFileName  = lastSelectedPath.filePath(LBCHRONORACE_STARTLIST_DEFAULT);
     timingsFileName    = lastSelectedPath.filePath(LBCHRONORACE_TIMINGS_DEFAULT);
@@ -149,6 +150,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     rankingsTable.setItemDelegateForColumn(static_cast<int>(Ranking::Field::RTF_TEAM), &rankingTypeDelegate);
     rankingsTable.setItemDelegateForColumn(static_cast<int>(Ranking::Field::RTF_CATEGORIES), &rankingCatsDelegate);
     categoriesTable.setItemDelegateForColumn(static_cast<int>(Category::Field::CTF_TYPE), &categoryTypeDelegate);
+    timingsTable.setItemDelegateForColumn(static_cast<int>(Timing::Field::TMF_STATUS), &timingStatusDelegate);
 }
 
 void LBChronoRace::setCounterTeams(int count) const

@@ -49,7 +49,7 @@ QDataStream &operator>>(QDataStream &in, Ranking &ranking)
        >> team32
        >> ranking.categories;
 
-    ranking.team = (bool) team32;
+    ranking.team = static_cast<bool>(team32);
 
     return in;
 }

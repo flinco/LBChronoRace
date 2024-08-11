@@ -133,8 +133,8 @@ QList<TeamClassEntry const *> &RankingsBuilder::fillRanking(QList<TeamClassEntry
 
     for (auto &classEntry : rankingByTime) {
 
-        // exclude DNS and DNF
-        if (classEntry->isDns() || classEntry->isDnf()) {
+        // exclude DNS, DNF, and DSQ
+        if (classEntry->isDns() || classEntry->isDnf() || classEntry->isDsq()) {
             continue;
         }
 
