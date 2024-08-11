@@ -15,6 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+#include <QCompleter>
+
 #include "clubdelegate.hpp"
 #include "crloader.hpp"
 
@@ -23,9 +25,11 @@ ClubDelegate::ClubDelegate(QObject *parent) :
 {
     auto *comboBox = clubBox.data();
     comboBox->setEditable(true);
+    comboBox->completer()->setCaseSensitivity(Qt::CaseSensitive);
     comboBox->setInsertPolicy(QComboBox::InsertAlphabetically);
     comboBox->setDuplicatesEnabled(false);
     comboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    comboBox->addItem("");
     comboBox->addItems(CRLoader::getClubs());
 }
 
@@ -37,6 +41,7 @@ QWidget *ClubDelegate::createEditor(QWidget *parent, QStyleOptionViewItem const 
     auto *comboBox = clubBox.data();
     comboBox->setParent(parent);
     comboBox->clear();
+    comboBox->addItem("");
     comboBox->addItems(CRLoader::getClubs());
 
     return comboBox;
