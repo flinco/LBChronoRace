@@ -201,8 +201,10 @@ void LBChronoRace::appendErrorMessage(QString const &message) const
 
 void LBChronoRace::importStartList()
 {
-    startListFileName = QFileDialog::getOpenFileName(this, tr("Select Start List"),
-       lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
+    startListFileName = QDir::toNativeSeparators(
+        QFileDialog::getOpenFileName(this, tr("Select Start List"),
+                                     lastSelectedPath.absolutePath(),
+                                     tr("CSV (*.csv)")));
 
     if (!startListFileName.isEmpty()) {
         QPair<int, int> count(0, 0);
@@ -222,8 +224,10 @@ void LBChronoRace::importStartList()
 
 void LBChronoRace::importRankingsList()
 {
-    rankingsFileName = QFileDialog::getOpenFileName(this, tr("Select Rankings File"),
-                                                    lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
+    rankingsFileName = QDir::toNativeSeparators(
+        QFileDialog::getOpenFileName(this, tr("Select Rankings File"),
+                                     lastSelectedPath.absolutePath(),
+                                     tr("CSV (*.csv)")));
 
     if (!rankingsFileName.isEmpty()) {
         int count = 0;
@@ -241,8 +245,10 @@ void LBChronoRace::importRankingsList()
 
 void LBChronoRace::importCategoriesList()
 {
-    categoriesFileName = QFileDialog::getOpenFileName(this, tr("Select Categories File"),
-         lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
+    categoriesFileName = QDir::toNativeSeparators(
+        QFileDialog::getOpenFileName(this, tr("Select Categories File"),
+                                     lastSelectedPath.absolutePath(),
+                                     tr("CSV (*.csv)")));
 
     if (!categoriesFileName.isEmpty()) {
         int count = 0;
@@ -260,8 +266,10 @@ void LBChronoRace::importCategoriesList()
 
 void LBChronoRace::importTimingsList()
 {
-    timingsFileName = QFileDialog::getOpenFileName(this, tr("Select Timings File"),
-        lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
+    timingsFileName = QDir::toNativeSeparators(
+        QFileDialog::getOpenFileName(this, tr("Select Timings File"),
+                                     lastSelectedPath.absolutePath(),
+                                     tr("CSV (*.csv)")));
 
     if (!timingsFileName.isEmpty()) {
         int count = 0;
@@ -279,8 +287,10 @@ void LBChronoRace::importTimingsList()
 
 void LBChronoRace::exportStartList()
 {
-    startListFileName = QFileDialog::getSaveFileName(this, tr("Select Start List"),
-        lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
+    startListFileName = QDir::toNativeSeparators(
+        QFileDialog::getSaveFileName(this, tr("Select Start List"),
+                                     lastSelectedPath.absolutePath(),
+                                     tr("CSV (*.csv)")));
 
     if (!startListFileName.isEmpty()) {
 
@@ -299,8 +309,10 @@ void LBChronoRace::exportStartList()
 
 void LBChronoRace::exportTeamList()
 {
-    teamsFileName = QFileDialog::getSaveFileName(this, tr("Select Clubs List"),
-        lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
+    teamsFileName = QDir::toNativeSeparators(
+        QFileDialog::getSaveFileName(this, tr("Select Clubs List"),
+                                     lastSelectedPath.absolutePath(),
+                                     tr("CSV (*.csv)")));
 
     if (!teamsFileName.isEmpty()) {
 
@@ -319,8 +331,10 @@ void LBChronoRace::exportTeamList()
 
 void LBChronoRace::exportRankingsList()
 {
-    rankingsFileName = QFileDialog::getSaveFileName(this, tr("Select Rankings File"),
-                                                      lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
+    rankingsFileName = QDir::toNativeSeparators(
+        QFileDialog::getSaveFileName(this, tr("Select Rankings File"),
+                                     lastSelectedPath.absolutePath(),
+                                     tr("CSV (*.csv)")));
 
     if (!rankingsFileName.isEmpty()) {
 
@@ -339,8 +353,10 @@ void LBChronoRace::exportRankingsList()
 
 void LBChronoRace::exportCategoriesList()
 {
-    categoriesFileName = QFileDialog::getSaveFileName(this, tr("Select Categories File"),
-        lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
+    categoriesFileName = QDir::toNativeSeparators(
+        QFileDialog::getSaveFileName(this, tr("Select Categories File"),
+                                     lastSelectedPath.absolutePath(),
+                                     tr("CSV (*.csv)")));
 
     if (!categoriesFileName.isEmpty()) {
 
@@ -359,8 +375,10 @@ void LBChronoRace::exportCategoriesList()
 
 void LBChronoRace::exportTimingsList()
 {
-    timingsFileName = QFileDialog::getSaveFileName(this, tr("Select Timings File"),
-        lastSelectedPath.absolutePath(), tr("CSV (*.csv)"));
+    timingsFileName = QDir::toNativeSeparators(
+        QFileDialog::getSaveFileName(this, tr("Select Timings File"),
+                                     lastSelectedPath.absolutePath(),
+                                     tr("CSV (*.csv)")));
 
     if (!timingsFileName.isEmpty()) {
 
