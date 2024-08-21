@@ -39,18 +39,7 @@ void CSVRankingPrinter::init(QString *outFileName, QString const &title)
         throw(ChronoRaceException(tr("Error: cannot open %1").arg(*outFileName)));
     }
     csvStream.setDevice(&csvFile);
-
-    switch (CRLoader::getEncoding()) {
-    case CRLoader::Encoding::UTF8:
-        csvStream.setEncoding(QStringConverter::Utf8);
-        break;
-    case CRLoader::Encoding::LATIN1:
-        csvStream.setEncoding(QStringConverter::Latin1);
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
-    }
+    csvStream.setEncoding(CRLoader::getEncoding());
 }
 
 void CSVRankingPrinter::printStartList(QList<Competitor const *> const &startList)

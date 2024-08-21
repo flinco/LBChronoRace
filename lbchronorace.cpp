@@ -434,14 +434,15 @@ void LBChronoRace::resizeDialogs(QScreen const *screen)
 void LBChronoRace::encodingSelector(int idx) const
 {
     switch (idx) {
-    case static_cast<int>(CRLoader::Encoding::LATIN1):
-        CRLoader::setEncoding(CRLoader::Encoding::LATIN1);
+    case 1:
+        CRLoader::setEncoding(QStringConverter::Encoding::Utf8);
         break;
-    case static_cast<int>(CRLoader::Encoding::UTF8):
-        CRLoader::setEncoding(CRLoader::Encoding::UTF8);
+    case 0:
+        CRLoader::setEncoding(QStringConverter::Encoding::Latin1);
         break;
     default:
-        CRLoader::setEncoding(CRLoader::Encoding::LATIN1);
+        appendInfoMessage(tr("Unknown encoding %1; loaded default").arg(idx));
+        CRLoader::setEncoding(QStringConverter::Encoding::Latin1);
         break;
     }
 
@@ -579,9 +580,22 @@ void LBChronoRace::saveRace()
             QDataStream out(&raceDataFile);
 
             out.setVersion(QDataStream::Qt_5_15);
-            out << quint32(LBCHRONORACE_BIN_FMT)
-                << qint16(CRLoader::getEncoding())
-                << qint16(CRLoader::getFormat())
+            out << quint32(LBCHRONORACE_BIN_FMT);
+
+            switch (CRLoader::getEncoding()) {
+            case QStringConverter::Encoding::Utf8:
+                out << qint16(1);
+                break;
+            case QStringConverter::Encoding::Latin1:
+                out << qint16(0);
+                break;
+            default:
+                appendInfoMessage(tr("Unknown encoding %1; default saved").arg(static_cast<int>(CRLoader::getEncoding())));
+                out << qint16(0);
+                break;
+            }
+
+            out << qint16(CRLoader::getFormat())
                 << raceInfo;
             CRLoader::saveRaceData(out);
 
@@ -613,15 +627,15 @@ void LBChronoRace::setEncoding()
     int current = 0;
 
     QStringList items = {
-        CRHelper::encodingToLabel(CRLoader::Encoding::LATIN1),
-        CRHelper::encodingToLabel(CRLoader::Encoding::UTF8)
+        CRHelper::encodingToLabel(QStringConverter::Encoding::Latin1),
+        CRHelper::encodingToLabel(QStringConverter::Encoding::Utf8)
     };
 
     switch (CRLoader::getEncoding()) {
-    case CRLoader::Encoding::LATIN1:
+    case QStringConverter::Encoding::Latin1:
         current = 0;
         break;
-    case CRLoader::Encoding::UTF8:
+    case QStringConverter::Encoding::Utf8:
         current = 1;
         break;
     default:
@@ -639,9 +653,9 @@ void LBChronoRace::setEncoding()
 
     if (ok) {
         if (item == items[0])
-            CRLoader::setEncoding(CRLoader::Encoding::LATIN1);
+            CRLoader::setEncoding(QStringConverter::Encoding::Latin1);
         else if (item == items[1])
-            CRLoader::setEncoding(CRLoader::Encoding::UTF8);
+            CRLoader::setEncoding(QStringConverter::Encoding::Utf8);
         else
             appendErrorMessage(tr("Unexpected encoding value (encoding not changed)"));
     }

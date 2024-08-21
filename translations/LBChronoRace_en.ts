@@ -12,8 +12,8 @@
         <translation>ISO-8859-1 (Latin-1)</translation>
     </message>
     <message>
-        <source>Unknown encoding %1</source>
-        <translation>Unknown encoding %1</translation>
+        <source>Unsupported encoding %1</source>
+        <translation>Unsupported encoding %1</translation>
     </message>
     <message>
         <source>PDF</source>
@@ -1108,6 +1108,18 @@ Please update the application.</translation>
 The definitions of Categories and Rankings must be reviewed and corrected.</source>
         <translation>This Race Data File was saved with a previous release of the application.
 The definitions of Categories and Rankings must be reviewed and corrected.</translation>
+    </message>
+    <message>
+        <source>Unknown encoding %1; loaded saved</source>
+        <translation type="obsolete">Unknown encoding %1; loaded saved</translation>
+    </message>
+    <message>
+        <source>Unknown encoding %1; default saved</source>
+        <translation>Unknown encoding %1; default saved</translation>
+    </message>
+    <message>
+        <source>Unknown encoding %1; loaded default</source>
+        <translation>Unknown encoding %1; loaded default</translation>
     </message>
 </context>
 <context>

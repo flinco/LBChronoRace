@@ -20,6 +20,7 @@
 
 #include <QCoreApplication>
 #include <QString>
+#include <QStringConverter>
 #include <QList>
 #include <QDataStream>
 
@@ -43,12 +44,6 @@ class CRLoader
     Q_DECLARE_TR_FUNCTIONS(CRLoader)
 
 public:
-    enum class Encoding
-    {
-        LATIN1 = 0,
-        UTF8 = 1
-    };
-
     enum class Format
     {
         PDF = 0,
@@ -72,7 +67,7 @@ private:
     static RankingsModel               rankingsModel;
     static CategoriesModel             categoriesModel;
     static QList<QVariant>             standardItemList;
-    static Encoding                    encoding;
+    static QStringConverter::Encoding  encoding;
     static Format                      format;
 
     static void loadCSV(QString const &filePath, QAbstractTableModel *model);
@@ -102,8 +97,8 @@ public:
     static CRTableModel *getTimingsModel();
     static CRTableModel *getRankingsModel();
     static CRTableModel *getCategoriesModel();
-    static Encoding getEncoding();
-    static void setEncoding(Encoding const &value);
+    static QStringConverter::Encoding getEncoding();
+    static void setEncoding(QStringConverter::Encoding const &value);
     static Format getFormat();
     static void setFormat(Format const &value);
 

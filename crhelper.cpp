@@ -18,15 +18,15 @@
 #include "crhelper.hpp"
 #include "lbcrexception.hpp"
 
-QString CRHelper::encodingToLabel(CRLoader::Encoding const &value)
+QString CRHelper::encodingToLabel(QStringConverter::Encoding const &value)
 {
     switch (value) {
-    case CRLoader::Encoding::UTF8:
+    case QStringConverter::Encoding::Utf8:
         return tr("UTF-8");
-    case CRLoader::Encoding::LATIN1:
+    case QStringConverter::Encoding::Latin1:
         return tr("ISO-8859-1 (Latin-1)");
     default:
-        return tr("Unknown encoding %1").arg(static_cast<int>(value));
+        return tr("Unsupported encoding %1").arg(static_cast<int>(value));
     }
 }
 

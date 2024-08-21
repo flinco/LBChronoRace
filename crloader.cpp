@@ -30,7 +30,7 @@ TimingsModel                CRLoader::timingsModel;
 RankingsModel               CRLoader::rankingsModel;
 CategoriesModel             CRLoader::categoriesModel;
 QList<QVariant>             CRLoader::standardItemList;
-CRLoader::Encoding          CRLoader::encoding              = CRLoader::Encoding::LATIN1;
+QStringConverter::Encoding  CRLoader::encoding              = QStringConverter::Encoding::Latin1;
 CRLoader::Format            CRLoader::format                = CRLoader::Format::PDF;
 
 CRTableModel *CRLoader::getStartListModel()
@@ -63,12 +63,12 @@ QStringList CRLoader::getClubs()
     return QStringList(teamsListModel.getTeamsList());
 }
 
-CRLoader::Encoding CRLoader::getEncoding()
+QStringConverter::Encoding CRLoader::getEncoding()
 {
     return encoding;
 }
 
-void CRLoader::setEncoding(Encoding const &value)
+void CRLoader::setEncoding(QStringConverter::Encoding const &value)
 {
     encoding = value;
 }
@@ -90,9 +90,9 @@ void CRLoader::loadCSV(QString const &filePath, QAbstractTableModel *model)
     QFile file (filePath);
     if (file.open(QIODevice::ReadOnly)) {
         QString data;
-        if (encoding == Encoding::UTF8)
+        if (encoding == QStringConverter::Encoding::Utf8)
             data = QString::fromUtf8(file.readAll());
-        else /* if (encoding == Encoding::LATIN1) */ //NOSONAR
+        else /* if (encoding == QStringConverter::Encoding::Latin1) */ //NOSONAR
             data = QString::fromLatin1(file.readAll());
         standardItemList.clear();
         data.remove(re); //remove all ocurrences of CR (Carriage Return)
@@ -125,10 +125,7 @@ void CRLoader::saveCSV(QString const &filePath, QAbstractTableModel const *model
     }
     QTextStream outStream(&outFile);
 
-    if (CRLoader::getEncoding() == Encoding::UTF8)
-        outStream.setEncoding(QStringConverter::Utf8);
-    else /* if (encoding == Encoding::LATIN1) */ //NOSONAR
-        outStream.setEncoding(QStringConverter::Latin1);
+    outStream.setEncoding(CRLoader::getEncoding());
 
     int rowCount = model->rowCount();
     int columnCount = model->columnCount();
@@ -305,10 +302,7 @@ void CRLoader::exportModel(Model model, QString const &path)
             }
             QTextStream outStream(&outFile);
 
-            if (CRLoader::getEncoding() == Encoding::UTF8)
-                outStream.setEncoding(QStringConverter::Utf8);
-            else /* if (encoding == Encoding::LATIN1) */ //NOSONAR
-                outStream.setEncoding(QStringConverter::Latin1);
+            outStream.setEncoding(CRLoader::getEncoding());
 
             int rowCount = teamsListModel.rowCount();
             for (int r = 0; r < rowCount; ++r)

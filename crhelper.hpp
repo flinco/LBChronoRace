@@ -36,7 +36,7 @@ class CRHelper
     Q_DECLARE_TR_FUNCTIONS(CRHelper)
 
 public:
-    static QString encodingToLabel(CRLoader::Encoding const &value);
+    static QString encodingToLabel(QStringConverter::Encoding const &value);
     static QString formatToLabel(CRLoader::Format const &value);
 
     static Competitor::Sex toSex(QString const &sex);

@@ -46,10 +46,7 @@ void TimingsWorker::writeToDisk(QString const &buffer) {
     }
     QTextStream outStream(&outFile);
 
-    if (CRLoader::getEncoding() == CRLoader::Encoding::UTF8)
-        outStream.setEncoding(QStringConverter::Utf8);
-    else //NOSONAR if (CRLoader::getEncoding() == CRLoader::Encoding::LATIN1)
-        outStream.setEncoding(QStringConverter::Latin1);
+    outStream.setEncoding(CRLoader::getEncoding());
 
     outStream << buffer;
     outStream.flush();

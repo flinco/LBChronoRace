@@ -40,18 +40,7 @@ void TXTRankingPrinter::init(QString *outFileName, QString const &title)
         throw(ChronoRaceException(tr("Error: cannot open %1").arg(*outFileName)));
     }
     txtStream.setDevice(&txtFile);
-
-    switch (CRLoader::getEncoding()) {
-    case CRLoader::Encoding::UTF8:
-        txtStream.setEncoding(QStringConverter::Utf8);
-        break;
-    case CRLoader::Encoding::LATIN1:
-        txtStream.setEncoding(QStringConverter::Latin1);
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
-    }
+    txtStream.setEncoding(CRLoader::getEncoding());
 }
 
 void TXTRankingPrinter::printStartList(QList<Competitor const *> const &startList)

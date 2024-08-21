@@ -12,8 +12,8 @@
         <translation>ISO-8859-1 (Latin-1)</translation>
     </message>
     <message>
-        <source>Unknown encoding %1</source>
-        <translation>Codifica sconosciuta %1</translation>
+        <source>Unsupported encoding %1</source>
+        <translation>Codifica %1 non supportata</translation>
     </message>
     <message>
         <source>PDF</source>
@@ -1108,6 +1108,18 @@ Aggiornare l&amp;apos;applicazione.</translation>
 The definitions of Categories and Rankings must be reviewed and corrected.</source>
         <translation>Il File Dati Gara è stato salvato con una precedente versione dell&apos;applicazione.
 Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</translation>
+    </message>
+    <message>
+        <source>Unknown encoding %1; loaded saved</source>
+        <translation type="obsolete">Codifica sconosciuta %1; </translation>
+    </message>
+    <message>
+        <source>Unknown encoding %1; default saved</source>
+        <translation>Codifica sconosciuta %1; codifca predefinita salvata</translation>
+    </message>
+    <message>
+        <source>Unknown encoding %1; loaded default</source>
+        <translation>Codifica sconosciuta %1; codifca predefinita caricata</translation>
     </message>
 </context>
 <context>
