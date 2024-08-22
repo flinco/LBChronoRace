@@ -1282,6 +1282,10 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Cannot write to PDF</source>
         <translation>Impossibile scrivere il PDF</translation>
     </message>
+    <message>
+        <source>Rankings</source>
+        <translation>Classifiche</translation>
+    </message>
 </context>
 <context>
     <name>QMessageBox</name>

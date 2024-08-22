@@ -22,11 +22,12 @@
 #include "lbcrexception.hpp"
 #include "crhelper.hpp"
 
-void TXTRankingPrinter::init(QString *outFileName, QString const &title)
+void TXTRankingPrinter::init(QString *outFileName, QString const &title, QString const &subject)
 {
     Q_ASSERT(!txtFile.isOpen());
 
     Q_UNUSED(title)
+    Q_UNUSED(subject)
 
     if (outFileName == Q_NULLPTR) {
         throw(ChronoRaceException(tr("Error: no file name supplied")));

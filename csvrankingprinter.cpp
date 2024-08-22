@@ -21,11 +21,12 @@
 #include "lbcrexception.hpp"
 #include "crhelper.hpp"
 
-void CSVRankingPrinter::init(QString *outFileName, QString const &title)
+void CSVRankingPrinter::init(QString *outFileName, QString const &title, QString const &subject)
 {
     Q_ASSERT(!csvFile.isOpen());
 
     Q_UNUSED(title)
+    Q_UNUSED(subject)
 
     if (outFileName == Q_NULLPTR) {
         throw(ChronoRaceException(tr("Error: no file name supplied")));

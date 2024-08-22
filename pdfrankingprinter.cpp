@@ -18,6 +18,7 @@
 #include <QLocale>
 #include <QPointF>
 #include <QFontDatabase>
+#include <QUuid>
 
 #include "pdfrankingprinter.hpp"
 #include "chronoracedata.hpp"
@@ -45,7 +46,7 @@ PDFRankingPrinter::PDFRankingPrinter(uint indexFieldWidth, uint bibFieldWidth) :
 }
 
 
-void PDFRankingPrinter::init(QString *outFileName, QString const &title)
+void PDFRankingPrinter::init(QString *outFileName, QString const &title, QString const &subject)
 {
     QPdfWriter *w;
 
@@ -67,8 +68,75 @@ void PDFRankingPrinter::init(QString *outFileName, QString const &title)
     w->setPageSize(QPageSize::A4);
     w->setPageOrientation(QPageLayout::Portrait);
     w->setPageMargins(QMarginsF(RANKING_LEFT_MARGIN, RANKING_TOP_MARGIN, RANKING_RIGHT_MARGIN, RANKING_BOTTOM_MARGIN), QPageLayout::Millimeter);
-    w->setTitle(title);
-    w->setCreator(LBCHRONORACE_NAME);
+    //NOSONAR w->setTitle(title);
+    //NOSONAR w->setCreator(LBCHRONORACE_NAME);
+
+    // append more details to the .pdf
+    QString metaData = QStringLiteral(
+        "<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:iX='http://ns.adobe.com/iX/1.0/'>"
+        ""
+        "  <rdf:Description rdf:about='' xmlns:pdf='http://ns.adobe.com/pdf/1.3/'>"
+        "    <pdf:Producer>Qt %1</pdf:Producer>"
+        "    <pdf:Keywords>%2</pdf:Keywords>"
+        "  </rdf:Description>"
+        ""
+        "  <rdf:Description rdf:about='' xmlns:photoshop='http://ns.adobe.com/photoshop/1.0/'>"
+        "  </rdf:Description>"
+        ""
+        "  <rdf:Description rdf:about='' xmlns:tiff='http://ns.adobe.com/tiff/1.0/'>"
+        "  </rdf:Description>"
+        ""
+        "  <rdf:Description rdf:about='' xmlns:xap='http://ns.adobe.com/xap/1.0/'>"
+        "    <xap:CreatorTool>%3</xap:CreatorTool>"
+        "    <xap:CreateDate>%4</xap:CreateDate>"
+        "    <xap:ModifyDate>%4</xap:ModifyDate>"
+        "    <xap:MetadataDate>%4</xap:MetadataDate>"
+        "  </rdf:Description>"
+        ""
+        "  <rdf:Description rdf:about='' xmlns:xapMM='http://ns.adobe.com/xap/1.0/mm/'>"
+        "    <xapMM:DocumentID>uuid:%5</xapMM:DocumentID>"
+        "    <xapMM:InstanceID>uuid:%6</xapMM:InstanceID>"
+        "  </rdf:Description>"
+        ""
+        "  <rdf:Description rdf:about='' xmlns:dc='http://purl.org/dc/elements/1.1/'>"
+        "    <dc:format>application/pdf</dc:format>"
+        "    <dc:title>"
+        "      <rdf:Alt>"
+        "        <rdf:li xml:lang='x-default'>%7</rdf:li>"
+        "      </rdf:Alt>"
+        "    </dc:title>"
+        "    <dc:description>"
+        "      <rdf:Alt>"
+        "        <rdf:li xml:lang='x-default'>%8</rdf:li>"
+        "      </rdf:Alt>"
+        "    </dc:description>"
+        "    <dc:creator>"
+        "      <rdf:Seq>"
+        "        <rdf:li>%3</rdf:li>"
+        "      </rdf:Seq>"
+        "    </dc:creator>"
+        "     <dc:subject>"
+        "      <rdf:Bag>"
+        "        <rdf:li>%2</rdf:li>"
+        "      </rdf:Bag>"
+        "    </dc:subject>"
+        "  </rdf:Description>"
+        ""
+        "  <rdf:Description rdf:about='' xmlns:pdfaid='http://www.aiim.org/pdfa/ns/id/'>"
+        "    <pdfaid:part>1</pdfaid:part>"
+        "    <pdfaid:conformance>B</pdfaid:conformance>"
+        "  </rdf:Description>"
+        ""
+        "</rdf:RDF>"
+        ).arg(QT_VERSION_STR,
+              tr("Rankings"), // keywords (can be a comma separated)
+              LBCHRONORACE_NAME,
+              QDateTime::currentDateTime().toString(Qt::ISODate),
+              QUuid::createUuid().toByteArray(QUuid::WithoutBraces),
+              QUuid::createUuid().toByteArray(QUuid::WithoutBraces),
+              title,
+              subject);
+    w->setDocumentXmpMetadata(metaData.toUtf8());
 
     // Set global values to convert from mm to dots
     this->ratioX = w->logicalDpiX() / 25.4;

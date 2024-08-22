@@ -1282,6 +1282,10 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Cannot write to PDF</source>
         <translation>Cannot write to PDF</translation>
     </message>
+    <message>
+        <source>Rankings</source>
+        <translation>Rankings</translation>
+    </message>
 </context>
 <context>
     <name>QMessageBox</name>

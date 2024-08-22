@@ -36,7 +36,7 @@ public:
 
     static QScopedPointer<RankingPrinter> getRankingPrinter(CRLoader::Format format, uint indexFieldWidth, uint bibFieldWidth);
 
-    virtual void init(QString *outFileName, QString const &title) = 0;
+    virtual void init(QString *outFileName, QString const &title, QString const &subject) = 0;
 
     virtual void printStartList(QList<Competitor const *> const &startList) = 0;
     virtual void printRanking(Ranking const &categories, QList<ClassEntry const *> const &ranking) = 0;
