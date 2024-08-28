@@ -24,11 +24,11 @@
 
 cmake_minimum_required(VERSION 3.20)
 project(LBChronoRace
-    VERSION 2024
+    VERSION 2025
     DESCRIPTION "Timings and Rankings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
-set(PROJECT_UPDATE 3)
+set(PROJECT_UPDATE 0)
 string(TIMESTAMP BUILD_DATE "%Y-%m-%d" UTC)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -53,8 +53,6 @@ set(PROJECT_SOURCES
     categoriesmodel.hpp
     category.cpp
     category.hpp
-    catsexdelegate.cpp
-    catsexdelegate.hpp
     cattypedelegate.cpp
     cattypedelegate.hpp
     chronorace.ui
@@ -75,6 +73,10 @@ set(PROJECT_SOURCES
     clubdelegate.hpp
     competitor.cpp
     competitor.hpp
+    compsexdelegate.cpp
+    compsexdelegate.hpp
+    crhelper.cpp
+    crhelper.hpp
     crloader.cpp
     crloader.hpp
     crtablemodel.hpp
@@ -84,12 +86,20 @@ set(PROJECT_SOURCES
     lbchronorace.hpp
     lbcrexception.cpp
     lbcrexception.hpp
+    multiselectcombobox.cpp
+    multiselectcombobox.hpp
     pdfrankingprinter.cpp
     pdfrankingprinter.hpp
+    ranking.cpp
+    ranking.hpp
+    rankingcatsdelegate.cpp
+    rankingcatsdelegate.hpp
     rankingsbuilder.cpp
     rankingsbuilder.hpp
     rankingprinter.cpp
     rankingprinter.hpp
+    rankingsmodel.cpp
+    rankingsmodel.hpp
     rankingswizard.cpp
     rankingswizard.hpp
     rankingswizardformat.cpp
@@ -98,8 +108,8 @@ set(PROJECT_SOURCES
     rankingswizardmode.hpp
     rankingswizardselection.cpp
     rankingswizardselection.hpp
-    sexdelegate.cpp
-    sexdelegate.hpp
+    rankingtypedelegate.cpp
+    rankingtypedelegate.hpp
     startlistmodel.cpp
     startlistmodel.hpp
     teamclassentry.cpp
@@ -110,6 +120,8 @@ set(PROJECT_SOURCES
     timing.hpp
     timingsmodel.cpp
     timingsmodel.hpp
+    timingstatusdelegate.cpp
+    timingstatusdelegate.hpp
     txtrankingprinter.cpp
     txtrankingprinter.hpp)
 
@@ -152,6 +164,9 @@ set_property(SOURCE icons.qrc PROPERTY SKIP_AUTORCC ON)
 
 # Google Material Icons (as standard resource)
 list(APPEND PROJECT_SOURCES materialicons.qrc)
+
+# Images (as standard resource)
+list(APPEND PROJECT_SOURCES images.qrc)
 
 if(WIN32)
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.rc")

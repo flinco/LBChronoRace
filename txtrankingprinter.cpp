@@ -20,10 +20,14 @@
 #include "txtrankingprinter.hpp"
 #include "chronoracedata.hpp"
 #include "lbcrexception.hpp"
+#include "crhelper.hpp"
 
-void TXTRankingPrinter::init(QString *outFileName, [[maybe_unused]] QString const &title)
+void TXTRankingPrinter::init(QString *outFileName, QString const &title, QString const &subject)
 {
     Q_ASSERT(!txtFile.isOpen());
+
+    Q_UNUSED(title)
+    Q_UNUSED(subject)
 
     if (outFileName == Q_NULLPTR) {
         throw(ChronoRaceException(tr("Error: no file name supplied")));
@@ -37,21 +41,10 @@ void TXTRankingPrinter::init(QString *outFileName, [[maybe_unused]] QString cons
         throw(ChronoRaceException(tr("Error: cannot open %1").arg(*outFileName)));
     }
     txtStream.setDevice(&txtFile);
-
-    switch (CRLoader::getEncoding()) {
-    case CRLoader::Encoding::UTF8:
-        txtStream.setEncoding(QStringConverter::Utf8);
-        break;
-    case CRLoader::Encoding::LATIN1:
-        txtStream.setEncoding(QStringConverter::Latin1);
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
-    }
+    txtStream.setEncoding(CRLoader::getEncoding());
 }
 
-void TXTRankingPrinter::printStartList(QList<Competitor> const &startList)
+void TXTRankingPrinter::printStartList(QList<Competitor const *> const &startList)
 {
     if (!txtFile.isOpen()) {
         throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
@@ -70,13 +63,13 @@ void TXTRankingPrinter::printStartList(QList<Competitor> const &startList)
     for (auto const &competitor : startList) {
         i++;
 
-        offset = competitor.getOffset();
+        offset = competitor->getOffset();
         if (offset >= 0) {
             offset += (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
-            lastColumnValue = Competitor::toOffsetString(offset);
+            lastColumnValue = CRHelper::toOffsetString(offset);
         } else if (CRLoader::getStartListLegs() == 1) {
             offset = (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
-            lastColumnValue = Competitor::toOffsetString(offset);
+            lastColumnValue = CRHelper::toOffsetString(offset);
         } else {
             QString legValue = tr("Leg %n", "", qAbs(offset));
             if (!lastColumnValue.isEmpty() && (legValue != lastColumnValue))
@@ -91,16 +84,16 @@ void TXTRankingPrinter::printStartList(QList<Competitor> const &startList)
         txtStream << " - ";
         txtStream.setFieldWidth(getBibFieldWidth());
         txtStream.setFieldAlignment(QTextStream::AlignRight);
-        txtStream << competitor.getBib();
+        txtStream << competitor->getBib();
         txtStream.setFieldWidth(0);
         txtStream << " - ";
-        txtStream << competitor.getName(nWidth);
+        txtStream << competitor->getName(nWidth);
         txtStream << " - ";
-        txtStream << competitor.getTeam(tWidth);
+        txtStream << competitor->getTeam(tWidth);
         txtStream << " - ";
-        txtStream << competitor.getYear();
+        txtStream << competitor->getYear();
         txtStream << " - ";
-        txtStream << Competitor::toSexString(competitor.getSex());
+        txtStream << CRHelper::toSexString(competitor->getSex());
         txtStream << " - ";
         txtStream.setFieldWidth(15);
         txtStream.setFieldAlignment(QTextStream::AlignRight);
@@ -111,7 +104,7 @@ void TXTRankingPrinter::printStartList(QList<Competitor> const &startList)
     txtStream << Qt::endl;
 }
 
-void TXTRankingPrinter::printRanking(const Category &category, QList<ClassEntry const *> const &ranking)
+void TXTRankingPrinter::printRanking(Ranking const &categories, QList<ClassEntry const *> const &ranking)
 {
     static Position position;
 
@@ -125,7 +118,7 @@ void TXTRankingPrinter::printRanking(const Category &category, QList<ClassEntry 
     QString currTime;
     ChronoRaceData const *raceInfo = getRaceInfo();
     txtStream << *raceInfo << Qt::endl; // add header
-    txtStream << category.getFullDescription() << Qt::endl;
+    txtStream << categories.getFullDescription() << Qt::endl;
     for (auto const c : ranking) {
         i++;
         currTime = c->getTotalTime(CRLoader::Format::TEXT);
@@ -152,7 +145,7 @@ void TXTRankingPrinter::printRanking(const Category &category, QList<ClassEntry 
     txtStream << Qt::endl;
 }
 
-void TXTRankingPrinter::printRanking(const Category &category, QList<TeamClassEntry const *> const &ranking)
+void TXTRankingPrinter::printRanking(Ranking const &categories, QList<TeamClassEntry const *> const &ranking)
 {
     if (!txtFile.isOpen()) {
         throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
@@ -161,7 +154,7 @@ void TXTRankingPrinter::printRanking(const Category &category, QList<TeamClassEn
     int i = 0;
     ChronoRaceData const *raceInfo = getRaceInfo();
     txtStream << *raceInfo << Qt::endl; // add header
-    txtStream << category.getFullDescription() << Qt::endl;
+    txtStream << categories.getFullDescription() << Qt::endl;
     for (auto const r : ranking) {
         i++;
         for (int j = 0; j < r->getClassEntryCount(); j++) {

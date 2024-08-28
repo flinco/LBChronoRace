@@ -27,14 +27,14 @@ RankingsWizardSelection::RankingsWizardSelection(QWidget *parent) :
     QListWidgetItem *item;
     uint i = 0;
 
-    QVector<Category> categories = CRLoader::getCategories();
+    QList<Ranking> const &rankings = CRLoader::getRankings();
 
     setTitle(tr("Rankings"));
-    setSubTitle(tr("You can exclude some categories from the generated rankings."));
+    setSubTitle(tr("You can exclude some of the generated rankings."));
 
-    for (auto const &category : categories) {
-        categoriesList.addItem(category.getFullDescription());
-        item = categoriesList.item(i);
+    for (auto const &ranking : rankings) {
+        rankingsList.addItem(ranking.getFullDescription());
+        item = rankingsList.item(i);
 
         flags = item->flags();
         flags |= Qt::ItemIsUserCheckable;
@@ -43,29 +43,29 @@ RankingsWizardSelection::RankingsWizardSelection(QWidget *parent) :
         i++;
     }
 
-    layout.addWidget(&categoriesList);
+    layout.addWidget(&rankingsList);
 
     setLayout(&layout);
 }
 
 void RankingsWizardSelection::initializePage()
 {
-    QList<RankingsWizardSelection::RankingsWizardItem> *rankingsList = (qobject_cast<RankingsWizard *>(wizard()))->getRankingsList();
+    QList<RankingsWizardSelection::RankingsWizardItem> *rankings = (qobject_cast<RankingsWizard *>(wizard()))->getRankingsList();
 
-    for (uint i = 0; i < rankingsList->size(); i++) {
-        categoriesList.item(i)->setCheckState((*rankingsList)[i].skip ? Qt::Unchecked : Qt::Checked);
+    for (uint i = 0; i < rankings->count(); i++) {
+        rankingsList.item(i)->setCheckState((*rankings)[i].skip ? Qt::Unchecked : Qt::Checked);
     }
 
-    QObject::connect(&categoriesList, &QListWidget::itemChanged, this, &RankingsWizardSelection::toggleSkipRanking);
+    QObject::connect(&rankingsList, &QListWidget::itemChanged, this, &RankingsWizardSelection::toggleSkipRanking);
 }
 
 void RankingsWizardSelection::cleanupPage()
 {
-    QObject::disconnect(&categoriesList, &QListWidget::itemChanged, this, &RankingsWizardSelection::toggleSkipRanking);
+    QObject::disconnect(&rankingsList, &QListWidget::itemChanged, this, &RankingsWizardSelection::toggleSkipRanking);
 }
 
 void RankingsWizardSelection::toggleSkipRanking(QListWidgetItem const *item) const
 {
-    (*(qobject_cast<RankingsWizard *>(wizard())->getRankingsList()))[categoriesList.row(item)].skip = (item->checkState() != Qt::Checked);
+    (*(qobject_cast<RankingsWizard *>(wizard())->getRankingsList()))[rankingsList.row(item)].skip = (item->checkState() != Qt::Checked);
 }
 

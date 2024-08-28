@@ -43,7 +43,134 @@
     </property>
     <item>
      <layout class="QGridLayout" name="upperArea">
-      <item row="0" column="3">
+      <item row="3" column="0">
+       <widget class="QLabel" name="labelCompetitors">
+        <property name="text">
+         <string>Competitors</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="labelRankings">
+        <property name="text">
+         <string>Rankings</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="editCategories">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="toolTip">
+         <string>Add, remove, and change the definition of the categories</string>
+        </property>
+        <property name="text">
+         <string>Edit Categories</string>
+        </property>
+        <property name="icon">
+         <iconset resource="materialicons.qrc">
+          <normaloff>:/material/icons/more.svg</normaloff>:/material/icons/more.svg</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLCDNumber" name="counterTimings"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLCDNumber" name="counterCompetitors">
+        <property name="frameShape">
+         <enum>QFrame::Shape::Box</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Raised</enum>
+        </property>
+        <property name="lineWidth">
+         <number>1</number>
+        </property>
+        <property name="smallDecimalPoint">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QPushButton" name="editStartList">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="toolTip">
+         <string>Add, remove, and change competitors</string>
+        </property>
+        <property name="text">
+         <string>Edit Start List</string>
+        </property>
+        <property name="icon">
+         <iconset resource="materialicons.qrc">
+          <normaloff>:/material/icons/user_attributes.svg</normaloff>:/material/icons/user_attributes.svg</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="labelTimings">
+        <property name="text">
+         <string>Timings</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="saveRace">
+        <property name="toolTip">
+         <string>Save current race data to file</string>
+        </property>
+        <property name="text">
+         <string>Save Race</string>
+        </property>
+        <property name="icon">
+         <iconset resource="materialicons.qrc">
+          <normaloff>:/material/icons/save.svg</normaloff>:/material/icons/save.svg</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLCDNumber" name="counterCategories"/>
+      </item>
+      <item row="5" column="2">
+       <widget class="QPushButton" name="editTimings">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="toolTip">
+         <string>Add, remove, and change the race timings</string>
+        </property>
+        <property name="text">
+         <string>Edit Timings</string>
+        </property>
+        <property name="icon">
+         <iconset resource="materialicons.qrc">
+          <normaloff>:/material/icons/acute.svg</normaloff>:/material/icons/acute.svg</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelCategories">
+        <property name="text">
+         <string>Categories</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
        <widget class="QPushButton" name="editRace">
         <property name="toolTip">
          <string>Edit race information, including logos</string>
@@ -57,7 +184,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="3">
+      <item row="4" column="2">
        <widget class="QPushButton" name="editClubsList">
         <property name="enabled">
          <bool>true</bool>
@@ -70,108 +197,9 @@
         </property>
         <property name="icon">
          <iconset resource="materialicons.qrc">
-          <normaloff>:/material/icons/format_list_bulleted.svg</normaloff>:/material/icons/format_list_bulleted.svg</iconset>
+          <normaloff>:/material/icons/group.svg</normaloff>:/material/icons/group.svg</iconset>
         </property>
        </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLCDNumber" name="counterTeams"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="labelTeams">
-        <property name="text">
-         <string>Clubs</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QLCDNumber" name="counterTimings"/>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLCDNumber" name="counterCompetitors">
-        <property name="frameShape">
-         <enum>QFrame::Box</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <property name="lineWidth">
-         <number>1</number>
-        </property>
-        <property name="smallDecimalPoint">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="labelCompetitors">
-        <property name="text">
-         <string>Competitors</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="labelTimings">
-        <property name="text">
-         <string>Timings</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="labelCategories">
-        <property name="text">
-         <string>Categories</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="3">
-       <widget class="QPushButton" name="editTimings">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="toolTip">
-         <string>Add, remove, and change the race timings</string>
-        </property>
-        <property name="text">
-         <string>Edit Timings</string>
-        </property>
-        <property name="icon">
-         <iconset resource="materialicons.qrc">
-          <normaloff>:/material/icons/format_list_numbered_rtl.svg</normaloff>:/material/icons/format_list_numbered_rtl.svg</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="3">
-       <widget class="QPushButton" name="editCategories">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="toolTip">
-         <string>Add, remove, and change the definition of the categories</string>
-        </property>
-        <property name="text">
-         <string>Edit Categories</string>
-        </property>
-        <property name="icon">
-         <iconset resource="materialicons.qrc">
-          <normaloff>:/material/icons/format_list_bulleted_add.svg</normaloff>:/material/icons/format_list_bulleted_add.svg</iconset>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2">
-       <widget class="QLCDNumber" name="counterCategories"/>
       </item>
       <item row="0" column="0">
        <widget class="QPushButton" name="loadRace">
@@ -187,34 +215,33 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
-       <widget class="QPushButton" name="editStartList">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="toolTip">
-         <string>Add, remove, and change competitors</string>
-        </property>
+      <item row="4" column="0">
+       <widget class="QLabel" name="labelTeams">
         <property name="text">
-         <string>Edit Start List</string>
+         <string>Clubs</string>
         </property>
-        <property name="icon">
-         <iconset resource="materialicons.qrc">
-          <normaloff>:/material/icons/format_list_numbered.svg</normaloff>:/material/icons/format_list_numbered.svg</iconset>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
-       <widget class="QPushButton" name="saveRace">
+      <item row="4" column="1">
+       <widget class="QLCDNumber" name="counterTeams"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLCDNumber" name="counterRankings"/>
+      </item>
+      <item row="2" column="2">
+       <widget class="QPushButton" name="editRankings">
         <property name="toolTip">
-         <string>Save current race data to file</string>
+         <string>Add, remove, and change the definition of the rankings</string>
         </property>
         <property name="text">
-         <string>Save Race</string>
+         <string>Edit Rankings</string>
         </property>
         <property name="icon">
          <iconset resource="materialicons.qrc">
-          <normaloff>:/material/icons/save.svg</normaloff>:/material/icons/save.svg</iconset>
+          <normaloff>:/material/icons/rule.svg</normaloff>:/material/icons/rule.svg</iconset>
         </property>
        </widget>
       </item>
@@ -239,6 +266,15 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::FocusPolicy::NoFocus</enum>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::ContextMenuPolicy::NoContextMenu</enum>
+          </property>
+          <property name="acceptDrops">
+           <bool>false</bool>
+          </property>
           <property name="toolTip">
            <string>General information messages generated by the application</string>
           </property>
@@ -251,7 +287,7 @@
         <item>
          <widget class="QLabel" name="labelErrorDisplay">
           <property name="text">
-           <string>Errors</string>
+           <string>Warnings/Errors</string>
           </property>
          </widget>
         </item>
@@ -262,6 +298,15 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::FocusPolicy::NoFocus</enum>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::ContextMenuPolicy::NoContextMenu</enum>
+          </property>
+          <property name="acceptDrops">
+           <bool>false</bool>
           </property>
           <property name="toolTip">
            <string>Error messages generated by the application</string>
@@ -275,19 +320,34 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,1">
         <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+         <widget class="QPushButton" name="importTimings">
+          <property name="toolTip">
+           <string>Load the timings collected and exported in another PC</string>
           </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
+          <property name="text">
+           <string>Import Timings from another PC</string>
           </property>
-         </spacer>
+          <property name="icon">
+           <iconset resource="materialicons.qrc">
+            <normaloff>:/material/icons/download.svg</normaloff>:/material/icons/download.svg</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="exportTimings">
+          <property name="toolTip">
+           <string>Copy the collected timings to a file to be imported on another PC</string>
+          </property>
+          <property name="text">
+           <string>Export Timings to another PC</string>
+          </property>
+          <property name="icon">
+           <iconset resource="materialicons.qrc">
+            <normaloff>:/material/icons/upload.svg</normaloff>:/material/icons/upload.svg</iconset>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -374,7 +434,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -394,9 +454,10 @@
      <string>&amp;Edit</string>
     </property>
     <addaction name="actionEditRace"/>
+    <addaction name="actionEditCategories"/>
+    <addaction name="actionEditRankings"/>
     <addaction name="actionEditStartList"/>
     <addaction name="actionEditTeams"/>
-    <addaction name="actionEditCategories"/>
     <addaction name="actionEditTimings"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -410,9 +471,14 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <addaction name="actionImportTimings"/>
+    <addaction name="actionExportTimings"/>
+    <addaction name="separator"/>
     <addaction name="actionMakeStartList"/>
     <addaction name="actionCollectTimings"/>
     <addaction name="actionMakeRankings"/>
+    <addaction name="separator"/>
+    <addaction name="actionSetEncoding"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -434,7 +500,7 @@
   <action name="actionEditStartList">
    <property name="icon">
     <iconset resource="materialicons.qrc">
-     <normaloff>:/material/icons/format_list_numbered.svg</normaloff>:/material/icons/format_list_numbered.svg</iconset>
+     <normaloff>:/material/icons/user_attributes.svg</normaloff>:/material/icons/user_attributes.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Start List</string>
@@ -446,7 +512,7 @@
   <action name="actionEditCategories">
    <property name="icon">
     <iconset resource="materialicons.qrc">
-     <normaloff>:/material/icons/format_list_bulleted_add.svg</normaloff>:/material/icons/format_list_bulleted_add.svg</iconset>
+     <normaloff>:/material/icons/more.svg</normaloff>:/material/icons/more.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Categories</string>
@@ -458,7 +524,7 @@
   <action name="actionEditTimings">
    <property name="icon">
     <iconset resource="materialicons.qrc">
-     <normaloff>:/material/icons/format_list_numbered_rtl.svg</normaloff>:/material/icons/format_list_numbered_rtl.svg</iconset>
+     <normaloff>:/material/icons/acute.svg</normaloff>:/material/icons/acute.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Timings</string>
@@ -500,7 +566,7 @@
   <action name="actionEditTeams">
    <property name="icon">
     <iconset resource="materialicons.qrc">
-     <normaloff>:/material/icons/format_list_bulleted.svg</normaloff>:/material/icons/format_list_bulleted.svg</iconset>
+     <normaloff>:/material/icons/group.svg</normaloff>:/material/icons/group.svg</iconset>
    </property>
    <property name="text">
     <string>Cl&amp;ubs</string>
@@ -552,6 +618,30 @@
     <string>Save current race data to a new file</string>
    </property>
   </action>
+  <action name="actionImportTimings">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/download.svg</normaloff>:/material/icons/download.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Import Timings</string>
+   </property>
+   <property name="toolTip">
+    <string>Load the timings collected and exported in another PC</string>
+   </property>
+  </action>
+  <action name="actionExportTimings">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/upload.svg</normaloff>:/material/icons/upload.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Export Timings</string>
+   </property>
+   <property name="toolTip">
+    <string>Copy the collected timings to a file to be imported on another PC</string>
+   </property>
+  </action>
   <action name="actionMakeStartList">
    <property name="icon">
     <iconset resource="materialicons.qrc">
@@ -588,15 +678,40 @@
     <string>Generate results</string>
    </property>
   </action>
+  <action name="actionSetEncoding">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/abc.svg</normaloff>:/material/icons/abc.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Set Encoding</string>
+   </property>
+   <property name="toolTip">
+    <string>Set encoding for CSV and Plain Text</string>
+   </property>
+  </action>
+  <action name="actionEditRankings">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/rule.svg</normaloff>:/material/icons/rule.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Rankings</string>
+   </property>
+   <property name="toolTip">
+    <string>Add, remove, and change the definition of the rankings</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
   <tabstop>loadRace</tabstop>
   <tabstop>saveRace</tabstop>
   <tabstop>editRace</tabstop>
+  <tabstop>editCategories</tabstop>
+  <tabstop>editRankings</tabstop>
   <tabstop>editStartList</tabstop>
   <tabstop>editClubsList</tabstop>
-  <tabstop>editCategories</tabstop>
   <tabstop>editTimings</tabstop>
  </tabstops>
  <resources>

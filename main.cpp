@@ -30,8 +30,6 @@
 
 int main(int argc, char *argv[])
 {
-    /* Deprecated and always enabled in Qt6 */
-    //NOSONAR QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
 
     QLocale lbcrLocale;

@@ -20,26 +20,23 @@
 #include "crloader.hpp"
 #include "rankingswizard.hpp"
 #include "rankingswizardformat.hpp"
+#include "crhelper.hpp"
 
 RankingsWizardFormat::RankingsWizardFormat(QWidget *parent) :
     QWizardPage(parent),
     fileFormat(parent),
     fileEncoding(parent)
 {
-    int formatIdx;
-    int encodingIdx;
-
-    formatIdx = static_cast<int>(CRLoader::getFormat());
-    fileFormat.insertItem(static_cast<int>(CRLoader::Format::PDF), CRLoader::formatToLabel(CRLoader::Format::PDF));
-    fileFormat.insertItem(static_cast<int>(CRLoader::Format::TEXT), CRLoader::formatToLabel(CRLoader::Format::TEXT));
-    fileFormat.insertItem(static_cast<int>(CRLoader::Format::CSV), CRLoader::formatToLabel(CRLoader::Format::CSV));
+    auto formatIdx = static_cast<int>(CRLoader::getFormat());
+    fileFormat.insertItem(static_cast<int>(CRLoader::Format::PDF), CRHelper::formatToLabel(CRLoader::Format::PDF));
+    fileFormat.insertItem(static_cast<int>(CRLoader::Format::TEXT), CRHelper::formatToLabel(CRLoader::Format::TEXT));
+    fileFormat.insertItem(static_cast<int>(CRLoader::Format::CSV), CRHelper::formatToLabel(CRLoader::Format::CSV));
     fileFormat.setCurrentIndex(formatIdx);
     layout.addRow(new QLabel(tr("Format")), &fileFormat);
 
-    encodingIdx = static_cast<int>(CRLoader::getEncoding());
-    fileEncoding.insertItem(static_cast<int>(CRLoader::Encoding::UTF8), CRLoader::encodingToLabel(CRLoader::Encoding::UTF8));
-    fileEncoding.insertItem(static_cast<int>(CRLoader::Encoding::LATIN1), CRLoader::encodingToLabel(CRLoader::Encoding::LATIN1));
-    fileEncoding.setCurrentIndex(encodingIdx);
+    fileEncoding.addItem(CRHelper::encodingToLabel(QStringConverter::Encoding::Utf8), QVariant(QStringConverter::Encoding::Utf8));
+    fileEncoding.addItem(CRHelper::encodingToLabel(QStringConverter::Encoding::Latin1), QVariant(QStringConverter::Encoding::Latin1));
+    fileEncoding.setCurrentText(CRHelper::encodingToLabel(CRLoader::getEncoding()));
     layout.addRow(new QLabel(tr("Encoding")), &fileEncoding);
 
     formatChange(formatIdx);
@@ -97,15 +94,5 @@ void RankingsWizardFormat::formatChange(int index)
 
 void RankingsWizardFormat::encodingChange(int index) const
 {
-    switch (index) {
-    case static_cast<int>(CRLoader::Encoding::UTF8):
-        CRLoader::setEncoding(CRLoader::Encoding::UTF8);
-        break;
-    case static_cast<int>(CRLoader::Encoding::LATIN1):
-        CRLoader::setEncoding(CRLoader::Encoding::LATIN1);
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
-    }
+    CRLoader::setEncoding(fileEncoding.itemData(index, Qt::UserRole).value<QStringConverter::Encoding>());
 }

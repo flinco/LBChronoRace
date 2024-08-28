@@ -19,10 +19,14 @@
 
 #include "csvrankingprinter.hpp"
 #include "lbcrexception.hpp"
+#include "crhelper.hpp"
 
-void CSVRankingPrinter::init(QString *outFileName, [[maybe_unused]] QString const &title)
+void CSVRankingPrinter::init(QString *outFileName, QString const &title, QString const &subject)
 {
     Q_ASSERT(!csvFile.isOpen());
+
+    Q_UNUSED(title)
+    Q_UNUSED(subject)
 
     if (outFileName == Q_NULLPTR) {
         throw(ChronoRaceException(tr("Error: no file name supplied")));
@@ -36,21 +40,10 @@ void CSVRankingPrinter::init(QString *outFileName, [[maybe_unused]] QString cons
         throw(ChronoRaceException(tr("Error: cannot open %1").arg(*outFileName)));
     }
     csvStream.setDevice(&csvFile);
-
-    switch (CRLoader::getEncoding()) {
-    case CRLoader::Encoding::UTF8:
-        csvStream.setEncoding(QStringConverter::Utf8);
-        break;
-    case CRLoader::Encoding::LATIN1:
-        csvStream.setEncoding(QStringConverter::Latin1);
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
-    }
+    csvStream.setEncoding(CRLoader::getEncoding());
 }
 
-void CSVRankingPrinter::printStartList(QList<Competitor> const &startList)
+void CSVRankingPrinter::printStartList(QList<Competitor const *> const &startList)
 {
     if (!csvFile.isOpen()) {
         throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
@@ -59,21 +52,21 @@ void CSVRankingPrinter::printStartList(QList<Competitor> const &startList)
     int offset;
     int i = 0;
     QTime startTime = getRaceInfo()->getStartTime();
-    for (auto const &competitor : startList) {
+    for (auto const *competitor : startList) {
         i++;
         csvStream << i << ",";
-        csvStream << competitor.getBib() << ",";
-        csvStream << competitor.getName() << ",";
-        csvStream << competitor.getTeam() << ",";
-        csvStream << competitor.getYear() << ",";
-        csvStream << Competitor::toSexString(competitor.getSex()) << ",";
-        offset = competitor.getOffset();
+        csvStream << competitor->getBib() << ",";
+        csvStream << competitor->getName() << ",";
+        csvStream << competitor->getTeam() << ",";
+        csvStream << competitor->getYear() << ",";
+        csvStream << CRHelper::toSexString(competitor->getSex()) << ",";
+        offset = competitor->getOffset();
         if (offset >= 0) {
             offset += (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
-            csvStream << Competitor::toOffsetString(offset);
+            csvStream << CRHelper::toOffsetString(offset);
         } else if (CRLoader::getStartListLegs() == 1) {
             offset = (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
-            csvStream << Competitor::toOffsetString(offset);
+            csvStream << CRHelper::toOffsetString(offset);
         } else {
             csvStream << qAbs(offset);
         }
@@ -82,7 +75,7 @@ void CSVRankingPrinter::printStartList(QList<Competitor> const &startList)
     csvStream << Qt::endl;
 }
 
-void CSVRankingPrinter::printRanking(const Category &category, QList<ClassEntry const *> const &ranking)
+void CSVRankingPrinter::printRanking(Ranking const &categories, QList<ClassEntry const *> const &ranking)
 {
     static Position position;
 
@@ -94,7 +87,7 @@ void CSVRankingPrinter::printRanking(const Category &category, QList<ClassEntry 
     int prevPosNumber = 0;
     int currPosNumber = 0;
     QString currTime;
-    csvStream << category.getShortDescription() << Qt::endl;
+    csvStream << categories.getShortDescription() << Qt::endl;
     for (auto const c : ranking) {
         i++;
         currTime = c->getTotalTime(CRLoader::Format::CSV);
@@ -112,14 +105,14 @@ void CSVRankingPrinter::printRanking(const Category &category, QList<ClassEntry 
     csvStream << Qt::endl;
 }
 
-void CSVRankingPrinter::printRanking(const Category &category, QList<TeamClassEntry const *> const &ranking)
+void CSVRankingPrinter::printRanking(Ranking const &categories, QList<TeamClassEntry const *> const &ranking)
 {
     if (!csvFile.isOpen()) {
         throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
     }
 
     int i = 0;
-    csvStream << category.getShortDescription() << Qt::endl;
+    csvStream << categories.getShortDescription() << Qt::endl;
     for (auto const r : ranking) {
         i++;
         for (int j = 0; j < r->getClassEntryCount(); j++) {

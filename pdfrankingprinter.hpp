@@ -35,11 +35,11 @@ class PDFRankingPrinter final : public RankingPrinter
 public:
     explicit PDFRankingPrinter(uint indexFieldWidth, uint bibFieldWidth);
 
-    void init(QString *outFileName, QString const &title) override;
+    void init(QString *outFileName, QString const &title, QString const &subject) override;
 
-    void printStartList(QList<Competitor> const &startList) override;
-    void printRanking(Category const &category, QList<ClassEntry const *> const &ranking) override;
-    void printRanking(Category const &category, QList<TeamClassEntry const *> const &ranking) override;
+    void printStartList(QList<Competitor const *> const &startList) override;
+    void printRanking(Ranking const &categories, QList<ClassEntry const *> const &ranking) override;
+    void printRanking(Ranking const &categories, QList<TeamClassEntry const *> const &ranking) override;
 
     bool finalize() override;
 
@@ -66,9 +66,9 @@ private:
     qreal toVdots(qreal mm) const;
     void fitRectToLogo(QRectF &rect, QPixmap const &pixmap) const;
 
-    QList<QList<Competitor const *>> splitStartList(QList<Competitor> const &startList) const;
-    QList<QList<Competitor const *>> splitStartListSingleLeg(QList<Competitor> const &startList) const;
-    QList<QList<Competitor const *>> splitStartListMultiLeg(QList<Competitor> const &startList) const;
+    QList<QList<Competitor const *>> splitStartList(QList<Competitor const *> const &startList) const;
+    QList<QList<Competitor const *>> splitStartListSingleLeg(QList<Competitor const *> const &startList) const;
+    QList<QList<Competitor const *>> splitStartListMultiLeg(QList<Competitor const *> const &startList) const;
     QList<QList<ClassEntry const *>> splitIndividualRanking(QList<ClassEntry const *> const ranking) const;
     QList<QList<ClassEntry const *>> splitIndividualRankingSingleLeg(QList<ClassEntry const *> const ranking) const;
     QList<QList<ClassEntry const *>> splitIndividualRankingMultiLeg(QList<ClassEntry const *> const ranking) const;
@@ -86,8 +86,8 @@ private:
     void printPageMultiLeg(QRectF &writeRect, QList<ClassEntry const *> const &page, int &posIndex, uint referenceTime);
     void printPageMultiLeg(QRectF &writeRect, QList<TeamClassEntry const *> const &page, int &posIndex);
 
-    void drawTemplatePortrait(QString const &fullDescription, int page, int pages);
-    //NOSONAR void drawTemplateLandscape(QString const &fullDescription, int page, int pages);
+    void drawTemplatePortrait(QString const &fullDescription, int page, int pages, bool startList = false);
+    //NOSONAR void drawTemplateLandscape(QString const &fullDescription, int page, int pages, bool startList = false);
 
     qreal ratioX;
     qreal ratioY;

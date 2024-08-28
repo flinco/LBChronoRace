@@ -70,15 +70,19 @@ private:
     QList<RankingsWizardSelection::RankingsWizardItem> rankingsList { };
     RankingsWizardTarget target { RankingsWizardTarget::Rankings };
 
+    void buildStartList();
     void buildRankings();
 
     void printStartList();
     void printRankingsSingleFile();
     void printRankingsMultiFile();
 
+    QStringList messages { };
+
 private slots:
     void forwardInfoMessage(QString const &message);
     void forwardErrorMessage(QString const &message);
+    void storeErrorMessage(QString const &message);
     void print(bool checked);
 
 signals:

@@ -15,33 +15,34 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef SEXDELEGATE_HPP
-#define SEXDELEGATE_HPP
+#ifndef RANKINGCATEGORIESDELEGATE_HPP
+#define RANKINGCATEGORIESDELEGATE_HPP
 
 #include <QObject>
 #include <QStyledItemDelegate>
 #include <QScopedPointer>
-#include <QComboBox>
 
-#include "competitor.hpp"
+#include "categoriesmodel.hpp"
+#include "multiselectcombobox.hpp"
 
-class SexDelegate : public QStyledItemDelegate
+class RankingCategoriesDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit SexDelegate(QObject *parent = Q_NULLPTR);
+    explicit RankingCategoriesDelegate(QObject *parent = Q_NULLPTR) : QStyledItemDelegate(parent) { }
 
     QWidget *createEditor(QWidget *parent, QStyleOptionViewItem const &option, QModelIndex const &index) const override;
     void destroyEditor(QWidget *editor, const QModelIndex &index) const override;
     void setEditorData(QWidget *editor, QModelIndex const &index) const override;
     void setModelData(QWidget *editor, QAbstractItemModel *model, QModelIndex const &index) const override;
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    QSize sizeHint(QStyleOptionViewItem const &option, QModelIndex const &index) const override;
     void updateEditorGeometry(QWidget *editor, QStyleOptionViewItem const &option, QModelIndex const &index) const override;
 
-private:
-    QScopedPointer<QComboBox> box { new QComboBox };
+    void setCategories(const CategoriesModel *newCategories);
 
-    static QString toSexString(Competitor::Sex const sex);
+private:
+    CategoriesModel const *categories { Q_NULLPTR };
+    QScopedPointer<MultiSelectComboBox> box { new MultiSelectComboBox };
 };
 
-#endif // SEXDELEGATE_HPP
+#endif // RANKINGCATEGORIESDELEGATE_HPP

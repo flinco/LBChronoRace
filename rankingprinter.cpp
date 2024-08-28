@@ -64,8 +64,8 @@ int Position::getCurrentPositionNumber(int posIndex, QString const &currTime)
     int returnedPosition = 0;
 
     // Return 0 if the position has not changed
-    if ((posIndex == 1) || (time.compare(currTime) != 0) || (currTime.startsWith("DN"))) {
-        // First entry, DNS, DNF, or Different time
+    if ((posIndex == 1) || (time.compare(currTime) != 0) || (currTime.startsWith("D"))) {
+        // First entry, DNS, DNF, DSQ, or Different time
         time = currTime;
         returnedPosition = position = posIndex;
     }

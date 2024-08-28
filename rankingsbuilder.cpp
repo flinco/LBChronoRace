@@ -15,17 +15,13 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include <QMultiMap>
-
 #include "crloader.hpp"
 #include "rankingsbuilder.hpp"
-#include "rankingprinter.hpp"
 
 uint RankingsBuilder::loadData()
 {
     QStringList messages;
-    QVector<Timing> timings = CRLoader::getTimings();
-    QVector<Category> categories = CRLoader::getCategories();
+    QList<Timing> timings { CRLoader::getTimings() };
 
     uint bib;
     uint leg;
@@ -35,10 +31,13 @@ uint RankingsBuilder::loadData()
     startList.clear();
 
     // reset and fill the start list
-    fillStartList();
+    prepareStartList();
+
+    // sort timings
+    std::sort(timings.begin(), timings.end(), [&](Timing const &t1, Timing const &t2) { return (t1 < t2); } );
 
     // compute individual general classifications (all included, sorted by bib)
-    for (auto timing : timings) {
+    for (auto const &timing : timings) {
 
         bib = timing.getBib();
         leg = timing.getLeg();
@@ -66,9 +65,6 @@ uint RankingsBuilder::loadData()
         if (!comp) {
             emit error(tr("Bib %1 not inserted in results; check for possible duplicated entries").arg(bib));
             continue;
-        } else {
-            // Set the category for the competitor (if any)
-            setCompetitorCategory(categories, comp);
         }
 
         if (classEntryIt != rankingByBib.end()) {
@@ -78,9 +74,7 @@ uint RankingsBuilder::loadData()
         }
     }
 
-    for (auto const &message : messages)
-        emit error(tr("Warning: %1").arg(message));
-    messages.clear();
+    emitMessages(messages);
 
     if (startList.size() != timings.size())
         emit error(tr("Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries").arg(timings.size()).arg(startList.size()));
@@ -89,60 +83,35 @@ uint RankingsBuilder::loadData()
     QList<ClassEntry *>::const_iterator c;
     for (auto classEntry = rankingByBib.begin(); classEntry != rankingByBib.end(); classEntry++) {
         c = rankingByTime.constBegin();
+        messages += classEntry->setCategory();
         while ((c != rankingByTime.constEnd()) && (*(*c) < classEntry.value()))
             ++c;
         rankingByTime.insert(c, &classEntry.value());
     }
 
+    emitMessages(messages);
+
     return static_cast<uint>(rankingByBib.size());
 }
 
-QList<ClassEntry const *> &RankingsBuilder::fillRanking(QList<ClassEntry const *> &ranking, Category const &category) const
+QList<ClassEntry const *> &RankingsBuilder::fillRanking(QList<ClassEntry const *> &ranking, Ranking const *categories) const
 {
-    Q_ASSERT(!category.isTeam());
+    Q_ASSERT(!categories->isTeam());
 
     QList<ClassEntry *> tmpRanking;
-    for (auto classEntry : rankingByTime) {
+    for (auto &classEntry : rankingByTime) {
 
-        // Sex
-        if ((category.getSex() != Competitor::Sex::UNDEFINED) &&
-            (category.getSex() != classEntry->getSex())) {
+        // exclude not included categories
+        if (!categories->includes(classEntry->getCategory())) {
             continue;
         }
-
-        // To Year
-        if (category.getToYear() &&
-            (category.getToYear() < classEntry->getToYear())) {
-            continue;
-        }
-
-        // From Year
-        if (category.getFromYear() &&
-            (category.getFromYear() > classEntry->getFromYear())) {
-            continue;
-        }
-
-        classEntry->setCategory(category.getFullDescription());
 
         tmpRanking.append(classEntry);
     }
 
     // do the sorting of the single leg times
-    uint i;
-    uint legs = CRLoader::getStartListLegs();
     PositionNumber position;
-    for (uint legIdx = 0u; legIdx < legs; legIdx++) {
-        QMultiMap<uint, ClassEntry *> sortedLegClassification;
-        for (auto classEntry : tmpRanking) {
-            if (classEntry->countEntries() == legs)
-                sortedLegClassification.insert(classEntry->getTimeValue(legIdx), classEntry);
-        }
-        i = 0;
-        for (auto classEntry : sortedLegClassification) {
-            i++;
-            classEntry->setLegRanking(legIdx, position.getCurrentPosition(i, classEntry->getTimeValue(legIdx)));
-        }
-    }
+    sortLegTimes(tmpRanking, CRLoader::getStartListLegs(), position);
 
     ranking.clear();
     ranking.reserve(tmpRanking.size());
@@ -153,44 +122,33 @@ QList<ClassEntry const *> &RankingsBuilder::fillRanking(QList<ClassEntry const *
     return ranking;
 }
 
-QList<TeamClassEntry const *> &RankingsBuilder::fillRanking(QList<TeamClassEntry const *> &ranking, Category const &category)
+QList<TeamClassEntry const *> &RankingsBuilder::fillRanking(QList<TeamClassEntry const *> &ranking, Ranking const *categories)
 {
-    Q_ASSERT(category.isTeam());
+    Q_ASSERT(categories->isTeam());
 
     rankingsByTeam.emplaceBack();
     auto &rankingByTeam = rankingsByTeam.last();
 
-    for (auto classEntry : rankingByTime) {
+    QString club;
 
-        // exclude DNS and DNF
-        if (classEntry->isDns() || classEntry->isDnf()) {
+    for (auto &classEntry : rankingByTime) {
+
+        // exclude DNS, DNF, and DSQ
+        if (classEntry->isDns() || classEntry->isDnf() || classEntry->isDsq()) {
             continue;
         }
+
+        club = classEntry->getClub();
 
         // exclude competitors without club
-        if (classEntry->getClub().isEmpty()) {
+        if (club.isEmpty()) {
             continue;
         }
 
-        // Sex
-        if ((category.getSex() != Competitor::Sex::UNDEFINED) &&
-            (category.getSex() != classEntry->getSex())) {
+        // exclude not included categories
+        if (!categories->includes(classEntry->getCategory())) {
             continue;
         }
-
-        // To Year
-        if (category.getToYear() &&
-            (category.getToYear() < classEntry->getToYear())) {
-            continue;
-        }
-
-        // From Year
-        if (category.getFromYear() &&
-            (category.getFromYear() > classEntry->getFromYear())) {
-            continue;
-        }
-
-        QString const &club = classEntry->getClub();
 
         QMap<QString, TeamClassEntry>::iterator const teamRankingIt = rankingByTeam.find(club);
         if (teamRankingIt == rankingByTeam.end()) {
@@ -202,13 +160,7 @@ QList<TeamClassEntry const *> &RankingsBuilder::fillRanking(QList<TeamClassEntry
 
     // sort the team rankings
     QList<TeamClassEntry *> sortedTeamRanking;
-    QList<TeamClassEntry *>::const_iterator t;
-    for (auto &teamClassEntry : rankingByTeam) {
-        t = sortedTeamRanking.constBegin();
-        while ((t != sortedTeamRanking.constEnd()) && (*(*t) < teamClassEntry))
-            ++t;
-        sortedTeamRanking.insert(t, &teamClassEntry);
-    }
+    sortTeamRanking(rankingByTeam, sortedTeamRanking);
 
     // copy and return the team rankings
     ranking.clear();
@@ -220,18 +172,87 @@ QList<TeamClassEntry const *> &RankingsBuilder::fillRanking(QList<TeamClassEntry
     return ranking;
 }
 
-QList<Competitor> RankingsBuilder::makeStartList()
+void RankingsBuilder::sortTeamRanking(QMap<QString, TeamClassEntry> &rankingByTeam, QList<TeamClassEntry *> &sortedTeamRanking) const
 {
-    // compute and sort the start list
-    QList<Competitor> sortedStartList = CRLoader::getStartList();
-    CompetitorSorter::setSortingField(Competitor::Field::CMF_BIB);
-    CompetitorSorter::setSortingOrder(Qt::AscendingOrder);
-    std::stable_sort(sortedStartList.begin(), sortedStartList.end(), CompetitorSorter());
+    uint legs = CRLoader::getStartListLegs();
+    PositionNumber position;
+    QList<TeamClassEntry *>::const_iterator t;
+    for (auto &teamClassEntry : rankingByTeam) {
+        // do the sorting of the single leg times
+        sortLegTimes(teamClassEntry, legs, position);
+
+        // actually sort the team ranking
+        t = sortedTeamRanking.constBegin();
+        while ((t != sortedTeamRanking.constEnd()) && (*(*t) < teamClassEntry))
+            ++t;
+        sortedTeamRanking.insert(t, &teamClassEntry);
+    }
+}
+
+void RankingsBuilder::sortLegTimes(QList<ClassEntry *> const &ranking, uint legs, PositionNumber &position) const
+{
+    uint i;
+    for (uint legIdx = 0u; legIdx < legs; legIdx++) {
+        QMultiMap<uint, ClassEntry *> sortedLegClassification;
+        for (auto classEntry : ranking) {
+            if (classEntry->countEntries() == legs)
+                sortedLegClassification.insert(classEntry->getTimeValue(legIdx), classEntry);
+        }
+        i = 0;
+        for (auto classEntry : sortedLegClassification) {
+            i++;
+            classEntry->setLegRanking(legIdx, position.getCurrentPosition(i, classEntry->getTimeValue(legIdx)));
+        }
+    }
+}
+
+void RankingsBuilder::sortLegTimes(TeamClassEntry const &teamClassEntry, uint legs, PositionNumber &position) const
+{
+    uint i;
+    int count;
+    for (uint legIdx = 0u; legIdx < legs; legIdx++) {
+        QMultiMap<uint, ClassEntry *> sortedLegClassification;
+        count = teamClassEntry.getClassEntryCount();
+        for (int j = 0; j < count; j++) {
+            auto *classEntry = teamClassEntry.getClassEntry(j);
+            if (classEntry->countEntries() == legs)
+                sortedLegClassification.insert(classEntry->getTimeValue(legIdx), classEntry);
+        }
+        i = 0;
+        for (auto classEntry : sortedLegClassification) {
+            i++;
+            classEntry->setLegRanking(legIdx, position.getCurrentPosition(i, classEntry->getTimeValue(legIdx)));
+        }
+    }
+}
+
+QList<Competitor const *> RankingsBuilder::fillStartList() const
+{
+    // create the start list container
+    QList<Competitor const *> sortedStartList;
+
+    // fill (sorted) the start list
+    Competitor const *comp;
+    QMutableListIterator  l { sortedStartList };
+    QMultiMapIterator i { startList };
+    while (i.hasNext()) {
+        comp = &i.next().value();
+
+        l.toFront();
+        while (l.hasNext()) {
+            if (*comp < *l.next()) {
+                l.previous();
+                break;
+            }
+        }
+
+        l.insert(comp);
+    }
 
     return sortedStartList;
 }
 
-void RankingsBuilder::fillStartList()
+void RankingsBuilder::prepareStartList()
 {
     uint bib;
     uint mask;
@@ -239,43 +260,47 @@ void RankingsBuilder::fillStartList()
 
     int offset;
 
-    rankingByTime.clear();
-    QMultiMap<uint, Competitor>::const_iterator element;
-    for (auto comp : CRLoader::getStartList()) {
-        bib = comp.getBib();
-        element = startList.constFind(bib);
-        if (element != startList.constEnd()) {
-            // check if there is a leg set for the competitor
-            // otherwise set it automatically
-            offset = comp.getOffset();
-            comp.setLeg(static_cast<uint>((offset < 0) ? qAbs(offset) : (startList.count(bib) + 1)));
+    QList<Category> const &categories = CRLoader::getCategories();
 
-            // set a bit in the leg count array
-            mask = 0x1 << comp.getLeg();
-            if (legCount.contains(bib))
-                legCount[bib] |= mask;
-            else
-                legCount.insert(bib, mask);
-        }
+    rankingByTime.clear();
+    for (auto &comp : CRLoader::getStartList()) {
+        bib = comp.getBib();
+
+        // check if there is a leg set for the competitor
+        // otherwise set it automatically
+        offset = comp.getOffset();
+        comp.setLeg(static_cast<uint>((offset < 0) ? qAbs(offset) : (startList.count(bib) + 1)));
+
+        // set a bit in the leg count array
+        mask = 0x1 << (comp.getLeg() - 1);
+        if (legCount.contains(bib))
+            legCount[bib] |= mask;
+        else
+            legCount.insert(bib, mask);
+
+        // Set the category for each competitor
+        comp.setCategories(categories);
+
         startList.insert(bib, comp);
     }
 
+    uint prevBib = 0;
     uint prevMask = 0;
     for (QMap<uint, uint>::const_key_value_iterator i = legCount.constKeyValueBegin(); i != legCount.constKeyValueEnd(); i++) {
         mask = i->second;
-        if (prevMask && (mask != prevMask)) {
-            emit error(tr("Warning: missing or extra legs for bib %1").arg(i->first));
+        if (prevBib && (mask != prevMask)) {
+            emit error(tr("Warning: missing or extra legs for bib %1 or %2").arg(prevBib).arg(i->first));
         }
+        prevBib = i->first;
         prevMask = mask;
     }
 }
 
-void RankingsBuilder::setCompetitorCategory(QVector<Category> const &categories, Competitor *competitor) const
+void RankingsBuilder::emitMessages(QStringList &messages)
 {
-    for (auto const &category : categories) {
-        if (category.includes(competitor)) {
-            competitor->setCategory(category.getFullDescription());
-            break;
-        }
+    for (auto const &message : messages) {
+        if (message.length())
+            emit error(tr("Notice:: %1").arg(message));
     }
+    messages.clear();
 }

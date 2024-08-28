@@ -17,8 +17,10 @@
 
 #include <algorithm>
 
+#include "lbchronorace.hpp"
 #include "timingsmodel.hpp"
 #include "lbcrexception.hpp"
+#include "crhelper.hpp"
 
 QDataStream &operator<<(QDataStream &out, TimingsModel const  &data)
 {
@@ -71,6 +73,8 @@ QVariant TimingsModel::data(QModelIndex const &index, int role) const
             return QVariant(timings.at(index.row()).getLeg());
         case static_cast<int>(Timing::Field::TMF_TIME):
             return QVariant(timings.at(index.row()).getTiming());
+        case static_cast<int>(Timing::Field::TMF_STATUS):
+            return QVariant(CRHelper::toStatusString(timings.at(index.row()).getStatus()));
         default:
             return QVariant();
         }
@@ -81,7 +85,9 @@ QVariant TimingsModel::data(QModelIndex const &index, int role) const
         case static_cast<int>(Timing::Field::TMF_LEG):
             return QVariant(tr("Leg number (0 for automatic detection)"));
         case static_cast<int>(Timing::Field::TMF_TIME):
-            return QVariant(tr("Timing (i.e. 0:45:23) or DNF or DNS"));
+            return QVariant(tr("Timing (i.e. 0:45:23)"));
+        case static_cast<int>(Timing::Field::TMF_STATUS):
+            return QVariant(tr("Classified (CLS), Disqualified (DSQ), Did not finish (DNF), or Did not start (DNS)"));
         default:
             return QVariant();
         }
@@ -91,39 +97,55 @@ QVariant TimingsModel::data(QModelIndex const &index, int role) const
 
 bool TimingsModel::setData(QModelIndex const &index, QVariant const &value, int role)
 {
-
     bool retval = false;
-    if (index.isValid() && role == Qt::EditRole) {
 
-        uint uval;
-        switch (index.column()) {
-        case static_cast<int>(Timing::Field::TMF_BIB):
-            uval = value.toUInt(&retval);
-            if (retval && uval)
-                timings[index.row()].setBib(uval);
-            else
-                retval = false;
-            break;
-        case static_cast<int>(Timing::Field::TMF_LEG):
-            uval = value.toUInt(&retval);
-            if (retval)
-                timings[index.row()].setLeg(uval);
-            break;
-        case static_cast<int>(Timing::Field::TMF_TIME):
-            try {
-                timings[index.row()].setTiming(value.toString().trimmed());
-                retval = true;
-            } catch (ChronoRaceException &ex) {
-                emit error(ex.getMessage());
-                retval = false;
-            }
-            break;
-        default:
-            break;
+    if (!index.isValid())
+        return retval;
+
+    if (role != Qt::EditRole)
+        return retval;
+
+    if (value.toString().contains(LBChronoRace::csvFilter))
+        return retval;
+
+    uint uval;
+    switch (index.column()) {
+    case static_cast<int>(Timing::Field::TMF_BIB):
+        uval = value.toUInt(&retval);
+        if (retval && uval)
+            timings[index.row()].setBib(uval);
+        else
+            retval = false;
+        break;
+    case static_cast<int>(Timing::Field::TMF_LEG):
+        uval = value.toUInt(&retval);
+        if (retval)
+            timings[index.row()].setLeg(uval);
+        break;
+    case static_cast<int>(Timing::Field::TMF_TIME):
+        try {
+            timings[index.row()].setTiming(value.toString().trimmed());
+            retval = true;
+        } catch (ChronoRaceException &e) {
+            emit error(e.getMessage());
+            retval = false;
         }
-
-        if (retval) emit dataChanged(index, index);
+        break;
+    case static_cast<int>(Timing::Field::TMF_STATUS):
+        try {
+            timings[index.row()].setStatus(value.toString().trimmed());
+            retval = true;
+        } catch (ChronoRaceException &e) {
+            emit error(e.getMessage());
+            retval = false;
+        }
+        break;
+    default:
+        break;
     }
+
+    if (retval) emit dataChanged(index, index);
+
     return retval;
 }
 
@@ -140,6 +162,8 @@ QVariant TimingsModel::headerData(int section, Qt::Orientation orientation, int 
             return QString("%1").arg(tr("Leg"));
         case static_cast<int>(Timing::Field::TMF_TIME):
             return QString("%1").arg(tr("Timing"));
+        case static_cast<int>(Timing::Field::TMF_STATUS):
+            return QString("%1").arg(tr("Status"));
         default:
             return QString("%1").arg(section + 1);
         }

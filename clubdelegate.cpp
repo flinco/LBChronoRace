@@ -15,17 +15,21 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+#include <QCompleter>
+
 #include "clubdelegate.hpp"
 #include "crloader.hpp"
 
 ClubDelegate::ClubDelegate(QObject *parent) :
     QStyledItemDelegate(parent)
 {
-    auto *comboBox = box.data();
+    auto *comboBox = clubBox.data();
     comboBox->setEditable(true);
+    comboBox->completer()->setCaseSensitivity(Qt::CaseSensitive);
     comboBox->setInsertPolicy(QComboBox::InsertAlphabetically);
     comboBox->setDuplicatesEnabled(false);
     comboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    comboBox->addItem("");
     comboBox->addItems(CRLoader::getClubs());
 }
 
@@ -34,8 +38,11 @@ QWidget *ClubDelegate::createEditor(QWidget *parent, QStyleOptionViewItem const 
     Q_UNUSED(option)
     Q_UNUSED(index)
 
-    auto *comboBox = box.data();
+    auto *comboBox = clubBox.data();
     comboBox->setParent(parent);
+    comboBox->clear();
+    comboBox->addItem("");
+    comboBox->addItems(CRLoader::getClubs());
 
     return comboBox;
 }
@@ -59,9 +66,12 @@ void ClubDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, QMod
     model->setData(index, comboBox->currentData(Qt::EditRole), Qt::EditRole);
 }
 
-QSize ClubDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize ClubDelegate::sizeHint(QStyleOptionViewItem const &option, QModelIndex const &index) const
 {
-    return this->box.data()->sizeHint();
+    Q_UNUSED(option)
+    Q_UNUSED(index)
+
+    return this->clubBox.data()->sizeHint();
 }
 
 void ClubDelegate::updateEditorGeometry(QWidget *editor, QStyleOptionViewItem const &option, QModelIndex const &index) const

@@ -33,26 +33,28 @@ class Timing {
 public:
     enum class Status
     {
-        DNS,
-        DNF,
-        CLASSIFIED
+        DNS        = 0,
+        DNF        = 1,
+        DSQ        = 2,
+        CLASSIFIED = 3
     };
 
     enum class Field
     {
-        TMF_FIRST = 0,
-        TMF_BIB   = 0,
-        TMF_LEG   = 1,
-        TMF_TIME  = 2,
-        TMF_LAST  = 2,
-        TMF_COUNT = 3
+        TMF_FIRST  = 0,
+        TMF_BIB    = 0,
+        TMF_LEG    = 1,
+        TMF_TIME   = 2,
+        TMF_STATUS = 3,
+        TMF_LAST   = 3,
+        TMF_COUNT  = 4
     };
 
 private:
     uint   bib { 0u };
     uint   leg { 0u };
     uint   seconds { 0u };
-    Status status { Status::CLASSIFIED};
+    Status status { Status::CLASSIFIED };
 
 public:
     Timing() = default;
@@ -67,15 +69,15 @@ public:
     void setLeg(uint newLeg);
     bool isDnf() const;
     bool isDns() const;
+    bool isDsq() const;
     Status getStatus() const;
+    void setStatus(Status newStatus);
+    void setStatus(QString const &newStatus);
     uint getSeconds() const;
     QString getTiming() const;
     void setTiming(QString const &timing);
     void setTiming(char const *timing);
     bool isValid() const;
-
-    static QString toTimeStr(uint const seconds, Timing::Status const status, char const *prefix = Q_NULLPTR);
-    static QString toTimeStr(Timing const &timing);
 
     bool operator<  (Timing const &rhs) const;
     bool operator>  (Timing const &rhs) const;

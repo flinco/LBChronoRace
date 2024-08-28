@@ -46,10 +46,7 @@ void TimingsWorker::writeToDisk(QString const &buffer) {
     }
     QTextStream outStream(&outFile);
 
-    if (CRLoader::getEncoding() == CRLoader::Encoding::UTF8)
-        outStream.setEncoding(QStringConverter::Utf8);
-    else //NOSONAR if (CRLoader::getEncoding() == CRLoader::Encoding::LATIN1)
-        outStream.setEncoding(QStringConverter::Latin1);
+    outStream.setEncoding(CRLoader::getEncoding());
 
     outStream << buffer;
     outStream.flush();
@@ -100,6 +97,8 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
             break;
         case Qt::Key_Return:
         case Qt::Key_Enter:
+            if (!bibBuffer.isEmpty() && (bibRowCount > 0))
+                ui->dataArea->item(bibRowCount - 1, 0)->setBackground(Qt::green);
             bibBuffer.clear();
             break;
         case Qt::Key_Backspace:
@@ -212,9 +211,13 @@ void ChronoRaceTimings::recordTiming(qint64 seconds)
 {
     auto newTiming = QString("%1:%2:%3").arg(seconds / 3600).arg(seconds / 60, 2, 10, QChar('0')).arg(seconds % 60, 2, 10, QChar('0'));
 
-    if (timingRowCount == ui->dataArea->rowCount())
+    if (timingRowCount == ui->dataArea->rowCount()) {
         ui->dataArea->setRowCount(timingRowCount + 1);
+        ui->dataArea->setItem(timingRowCount, 0, new QTableWidgetItem);
+        ui->dataArea->item(timingRowCount, 0)->setBackground(Qt::red);
+    }
     ui->dataArea->setItem(timingRowCount, 1, new QTableWidgetItem(newTiming));
+    ui->dataArea->scrollToBottom();
     timingRowCount += 1;
 }
 
@@ -245,15 +248,20 @@ void ChronoRaceTimings::deleteBib()
     bibBuffer.removeLast();
     if (bibBuffer.isEmpty()) {
         if (bibRowCount > 0) {
-            if (bibRowCount-- > timingRowCount)
+            if (bibRowCount-- > timingRowCount) {
                 ui->dataArea->setRowCount(bibRowCount);
-            else
+            } else {
                 ui->dataArea->item(bibRowCount, 0)->setText(bibBuffer);
-            if (bibRowCount)
+                ui->dataArea->item(bibRowCount, 0)->setBackground(Qt::red);
+            }
+            if (bibRowCount) {
                 bibBuffer = ui->dataArea->item(bibRowCount - 1, 0)->text();
+                ui->dataArea->item(bibRowCount - 1, 0)->setBackground(Qt::white);
+            }
         }
     } else {
         ui->dataArea->item(bibRowCount - 1, 0)->setText(bibBuffer);
+        ui->dataArea->item(bibRowCount - 1, 0)->setBackground(Qt::white);
     }
 }
 
@@ -262,16 +270,26 @@ void ChronoRaceTimings::saveTimings()
     int r;
     int c;
 
+    QTableWidgetItem const *bib;
+    QTableWidgetItem const *time;
+
     CRLoader::clearTimings();
-    for (r = 0, c = 0; r < ui->dataArea->rowCount(); r++)
-        if (ui->dataArea->item(r, 0) && ui->dataArea->item(r, 1)) {
-            CRLoader::addTiming(ui->dataArea->item(r, 0)->text(), ui->dataArea->item(r, 1)->text());
-            c++;
-        } else if (ui->dataArea->item(r, 0)) {
-            emit error(tr("Droped bib %1 due to missing time").arg(ui->dataArea->item(r, 0)->text()));
-        } else if (ui->dataArea->item(r, 1)) {
-            emit error(tr("Dropped time %1 due to missing bib").arg(ui->dataArea->item(r, 1)->text()));
+    for (r = 0, c = 0; r < ui->dataArea->rowCount(); r++) {
+
+        bib = ui->dataArea->item(r, 0);
+        time = ui->dataArea->item(r, 1);
+
+        if (!bib && !time) {
+            continue;
+        } else if (!bib) {
+            emit error(tr("Missing bib for time %1").arg(time->text()));
+        } else if (!time) {
+            emit error(tr("Missing time for bib %1").arg(bib->text()));
         }
+
+        CRLoader::addTiming(bib ? bib->text() : "0", time ? time->text() : "0:00:00");
+        c++;
+    }
 
     emit newTimingsCount(c);
 }

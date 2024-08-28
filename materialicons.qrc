@@ -6,6 +6,15 @@
         <file>icons/edit_document.svg</file>
         <file>icons/exit_to_app.svg</file>
         <file>icons/file_open.svg</file>
+        <file>icons/filter_1.svg</file>
+        <file>icons/filter_2.svg</file>
+        <file>icons/filter_3.svg</file>
+        <file>icons/filter_4.svg</file>
+        <file>icons/filter_5.svg</file>
+        <file>icons/filter_6.svg</file>
+        <file>icons/filter_7.svg</file>
+        <file>icons/filter_8.svg</file>
+        <file>icons/filter_9.svg</file>
         <file>icons/format_list_bulleted.svg</file>
         <file>icons/format_list_bulleted_add.svg</file>
         <file>icons/format_list_numbered.svg</file>
@@ -32,5 +41,14 @@
         <file>icons/unknown_med.svg</file>
         <file>icons/person.svg</file>
         <file>icons/group.svg</file>
+        <file>icons/abc.svg</file>
+        <file>icons/acute.svg</file>
+        <file>icons/more.svg</file>
+        <file>icons/rule.svg</file>
+        <file>icons/user_attributes.svg</file>
+        <file>icons/classified.svg</file>
+        <file>icons/dnf.svg</file>
+        <file>icons/dns.svg</file>
+        <file>icons/dsq.svg</file>
     </qresource>
 </RCC>

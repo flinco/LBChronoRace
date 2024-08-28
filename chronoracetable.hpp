@@ -21,7 +21,6 @@
 #include <QDialog>
 
 #include "ui_chronoracetable.h"
-#include "crloader.hpp"
 #include "crtablemodel.hpp"
 
 class ChronoRaceTable : public QDialog
@@ -39,16 +38,16 @@ public:
 private slots:
     void rowAdd() const;
     void rowDel() const;
-    void modelImport();
-    void modelExport();
     void dialogQuit();
 
 public slots:
     void show(); //NOSONAR
+    void modelImport();
+    void modelExport();
 
 signals:
     void newRowCount(int count);
-    void modelImported(CRLoader::Encoding encoding);
+    void modelImported();
     void modelExported();
     void countersRefresh();
 

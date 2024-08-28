@@ -18,6 +18,8 @@
 #include <QMessageBox>
 
 #include "chronoracetable.hpp"
+#include "crloader.hpp"
+#include "crhelper.hpp"
 
 ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
 {
@@ -97,18 +99,21 @@ void ChronoRaceTable::rowDel() const
 void ChronoRaceTable::modelImport()
 {
     if (QMessageBox::question(this, tr("CSV Encoding"),
-                                 tr("Are the data you are importing ISO-8859-1 (Latin-1) encoded?\n"
-                                    "Choose No to use UTF-8 encoding. If in doubt, choose Yes."),
-                                 QMessageBox::No | QMessageBox::Yes, QMessageBox::Yes) == QMessageBox::Yes) {
-        emit modelImported(CRLoader::Encoding::LATIN1);
-    } else {
-        emit modelImported(CRLoader::Encoding::UTF8);
+                              tr("The data being imported must be %1 encoded.\n"
+                                 "Continue?").arg(CRHelper::encodingToLabel(CRLoader::getEncoding())),
+                                 QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
+        emit modelImported();
     }
 }
 
 void ChronoRaceTable::modelExport()
 {
-    emit modelExported();
+    if (QMessageBox::question(this, tr("CSV Encoding"),
+                              tr("The data will be exported with %1 encoding.\n"
+                                 "Continue?").arg(CRHelper::encodingToLabel(CRLoader::getEncoding())),
+                                 QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
+        emit modelExported();
+    }
 }
 
 void ChronoRaceTable::dialogQuit()

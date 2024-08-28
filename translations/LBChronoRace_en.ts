@@ -2,19 +2,7 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
-    <name>CRLoader</name>
-    <message>
-        <source>Error: cannot open %1</source>
-        <translation>Error: cannot open %1</translation>
-    </message>
-    <message>
-        <source>Wrong number of columns; expected %1 - found %2</source>
-        <translation>Wrong number of columns; expected %1 - found %2</translation>
-    </message>
-    <message>
-        <source>Wrong number of elements in CSV row; expected %1 - found %2</source>
-        <translation>Wrong number of elements in CSV row; expected %1 - found %2</translation>
-    </message>
+    <name>CRHelper</name>
     <message>
         <source>UTF-8</source>
         <translation>UTF-8</translation>
@@ -22,6 +10,10 @@
     <message>
         <source>ISO-8859-1 (Latin-1)</source>
         <translation>ISO-8859-1 (Latin-1)</translation>
+    </message>
+    <message>
+        <source>Unsupported encoding %1</source>
+        <translation>Unsupported encoding %1</translation>
     </message>
     <message>
         <source>PDF</source>
@@ -36,12 +28,111 @@
         <translation>CSV</translation>
     </message>
     <message>
-        <source>Unknown encoding %1</source>
-        <translation>Unknown encoding %1</translation>
-    </message>
-    <message>
         <source>Unknown format %1</source>
         <translation>Unknown format %1</translation>
+    </message>
+    <message>
+        <source>Illegal sex &apos;%1&apos;</source>
+        <translation>Illegal sex &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Unexpected Sex enum value &apos;%1&apos;</source>
+        <translation>Unexpected Sex enum value &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Male</source>
+        <translation>Male</translation>
+    </message>
+    <message>
+        <source>Female</source>
+        <translation>Female</translation>
+    </message>
+    <message>
+        <source>Not set</source>
+        <translation>Not set</translation>
+    </message>
+    <message>
+        <source>Illegal type &apos;%1&apos;</source>
+        <translation>Illegal type &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Unexpected Type enum value &apos;%1&apos;</source>
+        <translation>Unexpected Type enum value &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Individual/Relay</source>
+        <translation>Individual/Relay</translation>
+    </message>
+    <message>
+        <source>Club</source>
+        <translation>Club</translation>
+    </message>
+    <message>
+        <source>Individual/Relay (M)</source>
+        <translation>Individual/Relay (M)</translation>
+    </message>
+    <message>
+        <source>Individual/Relay (F)</source>
+        <translation>Individual/Relay (F)</translation>
+    </message>
+    <message>
+        <source>Mixed Relay (M/F)</source>
+        <translation>Mixed Relay (M/F)</translation>
+    </message>
+    <message>
+        <source>Mixed Clubs Relay (M)</source>
+        <translation>Mixed Clubs Relay (M)</translation>
+    </message>
+    <message>
+        <source>Mixed Clubs Relay (F)</source>
+        <translation>Mixed Clubs Relay (F)</translation>
+    </message>
+    <message>
+        <source>Invalid status value %1</source>
+        <translation>Invalid status value %1</translation>
+    </message>
+    <message>
+        <source>Illegal status value &apos;%1&apos;</source>
+        <translation>Illegal status value &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Classified</source>
+        <translation>Classified</translation>
+    </message>
+    <message>
+        <source>Disqualified</source>
+        <translation>Disqualified</translation>
+    </message>
+    <message>
+        <source>Did not finish</source>
+        <translation>Did not finish</translation>
+    </message>
+    <message>
+        <source>Did not start</source>
+        <translation>Did not start</translation>
+    </message>
+</context>
+<context>
+    <name>CRLoader</name>
+    <message>
+        <source>Error: cannot open %1</source>
+        <translation>Error: cannot open %1</translation>
+    </message>
+    <message>
+        <source>Wrong number of columns; expected %1 - found %2</source>
+        <translation>Wrong number of columns; expected %1 - found %2</translation>
+    </message>
+    <message>
+        <source>Wrong number of elements in CSV row; expected %1 - found %2</source>
+        <translation>Wrong number of elements in CSV row; expected %1 - found %2</translation>
+    </message>
+    <message>
+        <source>Unexpected model value %1 (import)</source>
+        <translation>Unexpected model value %1 (import)</translation>
+    </message>
+    <message>
+        <source>Unexpected model value %1 (export)</source>
+        <translation>Unexpected model value %1 (export)</translation>
     </message>
 </context>
 <context>
@@ -66,18 +157,6 @@
 <context>
     <name>CategoriesModel</name>
     <message>
-        <source>T</source>
-        <translation>T</translation>
-    </message>
-    <message>
-        <source>I</source>
-        <translation>I</translation>
-    </message>
-    <message>
-        <source>Individual (I) or Team (T)</source>
-        <translation>Individual (I) or Team (T)</translation>
-    </message>
-    <message>
         <source>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</source>
         <translation>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</translation>
     </message>
@@ -92,14 +171,6 @@
     <message>
         <source>Short category name</source>
         <translation>Short category name</translation>
-    </message>
-    <message>
-        <source>Individual/Team</source>
-        <translation>Individual/Team</translation>
-    </message>
-    <message>
-        <source>Sex</source>
-        <translation>Sex</translation>
     </message>
     <message>
         <source>Up to</source>
@@ -118,61 +189,19 @@
         <translation>Category Short Name</translation>
     </message>
     <message>
-        <source>Men (M), Women (F), Mixed (X) or All (U)</source>
-        <translation>Men (M), Women (F), Mixed (X) or All (U)</translation>
+        <source>Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)</source>
+        <translation>Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Type</translation>
     </message>
 </context>
 <context>
     <name>Category</name>
     <message>
-        <source>Illegal category type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
-        <translation>Illegal category type - expected &apos;I&apos; or &apos;T&apos; - found %1</translation>
-    </message>
-    <message>
-        <source>Unexpected Type enum value &apos;%1&apos;</source>
-        <translation>Unexpected Type enum value &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Illegal type &apos;%1&apos;</source>
-        <translation>Illegal type &apos;%1&apos;</translation>
-    </message>
-</context>
-<context>
-    <name>CategorySexDelegate</name>
-    <message>
-        <source>Men</source>
-        <translation>Men</translation>
-    </message>
-    <message>
-        <source>Women</source>
-        <translation>Women</translation>
-    </message>
-    <message>
-        <source>Mixed</source>
-        <translation>Mixed</translation>
-    </message>
-    <message>
-        <source>All</source>
-        <translation>All</translation>
-    </message>
-    <message>
-        <source>Unexpected Sex enum value &apos;%1&apos;</source>
-        <translation>Unexpected Sex enum value &apos;%1&apos;</translation>
-    </message>
-</context>
-<context>
-    <name>CategoryTypeDelegate</name>
-    <message>
-        <source>Individual</source>
-        <translation>Individual</translation>
-    </message>
-    <message>
-        <source>Club</source>
-        <translation>Club</translation>
-    </message>
-    <message>
-        <source>Unexpected Type enum value &apos;%1&apos;</source>
-        <translation>Unexpected Type enum value &apos;%1&apos;</translation>
+        <source>Illegal category type &apos;%1&apos;</source>
+        <translation>Illegal category type &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -501,10 +530,16 @@
         <translation>Quit</translation>
     </message>
     <message>
-        <source>Are the data you are importing ISO-8859-1 (Latin-1) encoded?
-Choose No to use UTF-8 encoding. If in doubt, choose Yes.</source>
-        <translation>Are the data you are importing ISO-8859-1 (Latin-1) encoded?
-Choose No to use UTF-8 encoding. If in doubt, choose Yes.</translation>
+        <source>The data being imported must be %1 encoded.
+Continue?</source>
+        <translation>The data being imported must be %1 encoded.
+Continue?</translation>
+    </message>
+    <message>
+        <source>The data will be exported with %1 encoding.
+Continue?</source>
+        <translation>The data will be exported with %1 encoding.
+Continue?</translation>
     </message>
     <message>
         <source>CSV Encoding</source>
@@ -594,14 +629,6 @@ The previously recorded timings list will be preserved.
 Do you want to discard the recorded timings?</translation>
     </message>
     <message>
-        <source>Droped bib %1 due to missing time</source>
-        <translation>Droped bib %1 due to missing time</translation>
-    </message>
-    <message>
-        <source>Dropped time %1 due to missing bib</source>
-        <translation>Dropped time %1 due to missing bib</translation>
-    </message>
-    <message>
         <source>Reset Timings List</source>
         <translation>Reset Timings List</translation>
     </message>
@@ -616,6 +643,14 @@ Continue?</translation>
     <message>
         <source>Timer controls are disabled when locked</source>
         <translation>Timer controls are disabled when locked</translation>
+    </message>
+    <message>
+        <source>Missing time for bib %1</source>
+        <translation>Missing time for bib %1</translation>
+    </message>
+    <message>
+        <source>Missing bib for time %1</source>
+        <translation>Missing bib for time %1</translation>
     </message>
 </context>
 <context>
@@ -632,16 +667,29 @@ Continue?</translation>
         <source>Competitor mismatch for bib %1: found %2 replaced by %3</source>
         <translation>Competitor mismatch for bib %1: found %2 replaced by %3</translation>
     </message>
-</context>
-<context>
-    <name>Competitor</name>
     <message>
-        <source>Illegal sex &apos;%1&apos;</source>
-        <translation>Illegal sex &apos;%1&apos;</translation>
+        <source>Unexpected sex value for bib %1 (%2)</source>
+        <translation>Unexpected sex value for bib %1 (%2)</translation>
     </message>
     <message>
-        <source>Unexpected Sex enum value &apos;%1&apos;</source>
-        <translation>Unexpected Sex enum value &apos;%1&apos;</translation>
+        <source>No competitors associated to bib %1</source>
+        <translation>No competitors associated to bib %1</translation>
+    </message>
+    <message>
+        <source>No categories associated to competitor %1 - bib %2</source>
+        <translation>No categories associated to competitor %1 - bib %2</translation>
+    </message>
+    <message>
+        <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3</source>
+        <translation>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3</translation>
+    </message>
+    <message>
+        <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3 - leg 1</source>
+        <translation>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3 - leg 1</translation>
+    </message>
+    <message>
+        <source>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</source>
+        <translation>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</translation>
     </message>
 </context>
 <context>
@@ -691,8 +739,8 @@ Continue?</translation>
         <translation>Information</translation>
     </message>
     <message>
-        <source>Errors</source>
-        <translation>Errors</translation>
+        <source>Warnings/Errors</source>
+        <translation>Warnings/Errors</translation>
     </message>
     <message>
         <source>Make Start List</source>
@@ -789,10 +837,6 @@ Continue?</translation>
     <message>
         <source>Timings List</source>
         <translation>Timings List</translation>
-    </message>
-    <message>
-        <source>Error: %1</source>
-        <translation>Error: %1</translation>
     </message>
     <message>
         <source>CSV (*.csv)</source>
@@ -967,14 +1011,122 @@ Continue?</translation>
         <translation>Cl&amp;ubs</translation>
     </message>
     <message>
-        <source>Data format %1 not supported.
-Please uodate the application.</source>
-        <translation>Data format %1 not supported.
-Please uodate the application.</translation>
-    </message>
-    <message>
         <source>Clubs</source>
         <translation>Clubs</translation>
+    </message>
+    <message>
+        <source>Load the timings collected and exported in another PC</source>
+        <translation>Load the timings collected and exported in another PC</translation>
+    </message>
+    <message>
+        <source>Import Timings from another PC</source>
+        <translation>Import Timings from another PC</translation>
+    </message>
+    <message>
+        <source>Copy the collected timings to a file to be imported on another PC</source>
+        <translation>Copy the collected timings to a file to be imported on another PC</translation>
+    </message>
+    <message>
+        <source>Export Timings to another PC</source>
+        <translation>Export Timings to another PC</translation>
+    </message>
+    <message>
+        <source>Import Timings</source>
+        <translation>Import Timings</translation>
+    </message>
+    <message>
+        <source>Export Timings</source>
+        <translation>Export Timings</translation>
+    </message>
+    <message>
+        <source>Set Encoding</source>
+        <translation>Set Encoding</translation>
+    </message>
+    <message>
+        <source>Set encoding for CSV and Plain Text</source>
+        <translation>Set encoding for CSV and Plain Text</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation>Settings</translation>
+    </message>
+    <message>
+        <source>CSV and Plain Text Encoding</source>
+        <translation>CSV and Plain Text Encoding</translation>
+    </message>
+    <message>
+        <source>Rankings</source>
+        <translation>Rankings</translation>
+    </message>
+    <message>
+        <source>Add, remove, and change the definition of the rankings</source>
+        <translation>Add, remove, and change the definition of the rankings</translation>
+    </message>
+    <message>
+        <source>Edit Rankings</source>
+        <translation>Edit Rankings</translation>
+    </message>
+    <message>
+        <source>Select Rankings File</source>
+        <translation>Select Rankings File</translation>
+    </message>
+    <message>
+        <source>Rankings File: %1</source>
+        <translation>Rankings File: %1</translation>
+    </message>
+    <message numerus="yes">
+        <source>Loaded: %n ranking(s)</source>
+        <translation>
+            <numerusform>Loaded: %n ranking</numerusform>
+            <numerusform>Loaded: %n rankings</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Rankings File saved: %1</source>
+        <translation>Rankings File saved: %1</translation>
+    </message>
+    <message>
+        <source>Data format %1 not supported.
+Please update the application.</source>
+        <translation>Data format %1 not supported.
+Please update the application.</translation>
+    </message>
+    <message>
+        <source>Unexpected encoding value (fall back to the default)</source>
+        <translation>Unexpected encoding value (fall back to the default)</translation>
+    </message>
+    <message>
+        <source>Unexpected encoding value (encoding not changed)</source>
+        <translation>Unexpected encoding value (encoding not changed)</translation>
+    </message>
+    <message>
+        <source>Race Data File Format</source>
+        <translation>Race Data File Format</translation>
+    </message>
+    <message>
+        <source>This Race Data File was saved with a previous release of the application.
+The definitions of Categories and Rankings must be reviewed and corrected.</source>
+        <translation>This Race Data File was saved with a previous release of the application.
+The definitions of Categories and Rankings must be reviewed and corrected.</translation>
+    </message>
+    <message>
+        <source>Unknown encoding %1; loaded saved</source>
+        <translation type="obsolete">Unknown encoding %1; loaded saved</translation>
+    </message>
+    <message>
+        <source>Unknown encoding %1; default saved</source>
+        <translation>Unknown encoding %1; default saved</translation>
+    </message>
+    <message>
+        <source>Unknown encoding %1; loaded default</source>
+        <translation>Unknown encoding %1; loaded default</translation>
+    </message>
+</context>
+<context>
+    <name>MultiSelectComboBox</name>
+    <message>
+        <source>Search…</source>
+        <translation>Search…</translation>
     </message>
 </context>
 <context>
@@ -1123,8 +1275,16 @@ Please uodate the application.</translation>
         <translation>Error: drawing attempt on inactive painter</translation>
     </message>
     <message>
-        <source>Error: cannot write to PDF</source>
-        <translation>Error: cannot write to PDF</translation>
+        <source>Created with %1 %2</source>
+        <translation>Created with %1 %2</translation>
+    </message>
+    <message>
+        <source>Cannot write to PDF</source>
+        <translation>Cannot write to PDF</translation>
+    </message>
+    <message>
+        <source>Rankings</source>
+        <translation>Rankings</translation>
     </message>
 </context>
 <context>
@@ -1138,8 +1298,8 @@ Please uodate the application.</translation>
         <translation>&lt;h3&gt;About %1&lt;/h3&gt;&lt;p&gt;Software for producing the results of footraces.&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1198,6 +1358,13 @@ Please uodate the application.</translation>
     </message>
 </context>
 <context>
+    <name>Ranking</name>
+    <message>
+        <source>Illegal ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
+        <translation>Illegal ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</translation>
+    </message>
+</context>
+<context>
     <name>RankingPrinter</name>
     <message>
         <source>Error: unknown rankings format %1</source>
@@ -1207,10 +1374,6 @@ Please uodate the application.</translation>
 <context>
     <name>RankingsBuilder</name>
     <message>
-        <source>Warning: missing or extra legs for bib %1</source>
-        <translation>Warning: missing or extra legs for bib %1</translation>
-    </message>
-    <message>
         <source>Competitor not found for bib %1</source>
         <translation>Competitor not found for bib %1</translation>
     </message>
@@ -1219,12 +1382,59 @@ Please uodate the application.</translation>
         <translation>Bib %1 not inserted in results; check for possible duplicated entries</translation>
     </message>
     <message>
-        <source>Warning: %1</source>
-        <translation>Warning: %1</translation>
+        <source>Notice:: %1</source>
+        <translation>Notice:: %1</translation>
     </message>
     <message>
         <source>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</source>
         <translation>Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries</translation>
+    </message>
+    <message>
+        <source>Warning: missing or extra legs for bib %1 or %2</source>
+        <translation>Warning: missing or extra legs for bib %1 or %2</translation>
+    </message>
+</context>
+<context>
+    <name>RankingsModel</name>
+    <message>
+        <source>T</source>
+        <translation>T</translation>
+    </message>
+    <message>
+        <source>I</source>
+        <translation>I</translation>
+    </message>
+    <message>
+        <source>Full ranking name</source>
+        <translation>Full ranking name</translation>
+    </message>
+    <message>
+        <source>Short ranking name</source>
+        <translation>Short ranking name</translation>
+    </message>
+    <message>
+        <source>Individual/Relay (I) or Club (T)</source>
+        <translation>Individual/Relay (I) or Club (T)</translation>
+    </message>
+    <message>
+        <source>The ranking will include all the categories listed here</source>
+        <translation>The ranking will include all the categories listed here</translation>
+    </message>
+    <message>
+        <source>Ranking Full Name</source>
+        <translation>Ranking Full Name</translation>
+    </message>
+    <message>
+        <source>Ranking Short Name</source>
+        <translation>Ranking Short Name</translation>
+    </message>
+    <message>
+        <source>Individual/Club</source>
+        <translation>Individual/Club</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <translation>Categories</translation>
     </message>
 </context>
 <context>
@@ -1240,10 +1450,6 @@ Please uodate the application.</translation>
     <message>
         <source>Generated Start List: %1</source>
         <translation>Generated Start List: %1</translation>
-    </message>
-    <message>
-        <source>Error: %1</source>
-        <translation>Error: %1</translation>
     </message>
     <message>
         <source>Select Results Destination Folder</source>
@@ -1323,27 +1529,8 @@ Please uodate the application.</translation>
         <translation>Rankings</translation>
     </message>
     <message>
-        <source>You can exclude some categories from the generated rankings.</source>
-        <translation>You can exclude some categories from the generated rankings.</translation>
-    </message>
-</context>
-<context>
-    <name>SexDelegate</name>
-    <message>
-        <source>Male</source>
-        <translation>Male</translation>
-    </message>
-    <message>
-        <source>Female</source>
-        <translation>Female</translation>
-    </message>
-    <message>
-        <source>Unexpected Sex enum value &apos;%1&apos;</source>
-        <translation>Unexpected Sex enum value &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Not set</source>
-        <translation>Not set</translation>
+        <source>You can exclude some of the generated rankings.</source>
+        <translation>You can exclude some of the generated rankings.</translation>
     </message>
 </context>
 <context>
@@ -1460,16 +1647,8 @@ Please uodate the application.</translation>
 <context>
     <name>Timing</name>
     <message>
-        <source>Illegal timing value &apos;%1&apos;</source>
-        <translation>Illegal timing value &apos;%1&apos;</translation>
-    </message>
-    <message>
         <source>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
         <translation>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</translation>
-    </message>
-    <message>
-        <source>Invalid status value %1</source>
-        <translation>Invalid status value %1</translation>
     </message>
 </context>
 <context>
@@ -1483,8 +1662,16 @@ Please uodate the application.</translation>
         <translation>Leg number (0 for automatic detection)</translation>
     </message>
     <message>
-        <source>Timing (i.e. 0:45:23) or DNF or DNS</source>
-        <translation>Timing (i.e. 0:45:23) or DNF or DNS</translation>
+        <source>Timing (i.e. 0:45:23)</source>
+        <translation>Timing (i.e. 0:45:23)</translation>
+    </message>
+    <message>
+        <source>Classified (CLS), Disqualified (DSQ), Did not finish (DNF), or Did not start (DNS)</source>
+        <translation>Classified (CLS), Disqualified (DSQ), Did not finish (DNF), or Did not start (DNS)</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
     </message>
     <message>
         <source>Bib</source>

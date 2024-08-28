@@ -20,15 +20,17 @@
 #include <QRegularExpression>
 
 #include "crloader.hpp"
+#include "lbchronorace.hpp"
 #include "lbcrexception.hpp"
 
 // Members initialization
 StartListModel              CRLoader::startListModel;
 TeamsListModel              CRLoader::teamsListModel;
 TimingsModel                CRLoader::timingsModel;
+RankingsModel               CRLoader::rankingsModel;
 CategoriesModel             CRLoader::categoriesModel;
 QList<QVariant>             CRLoader::standardItemList;
-CRLoader::Encoding          CRLoader::encoding              = CRLoader::Encoding::UTF8;
+QStringConverter::Encoding  CRLoader::encoding              = QStringConverter::Encoding::Latin1;
 CRLoader::Format            CRLoader::format                = CRLoader::Format::PDF;
 
 CRTableModel *CRLoader::getStartListModel()
@@ -46,6 +48,11 @@ CRTableModel *CRLoader::getTimingsModel()
     return &timingsModel;
 }
 
+CRTableModel *CRLoader::getRankingsModel()
+{
+    return &rankingsModel;
+}
+
 CRTableModel *CRLoader::getCategoriesModel()
 {
     return &categoriesModel;
@@ -56,26 +63,14 @@ QStringList CRLoader::getClubs()
     return QStringList(teamsListModel.getTeamsList());
 }
 
-CRLoader::Encoding CRLoader::getEncoding()
+QStringConverter::Encoding CRLoader::getEncoding()
 {
     return encoding;
 }
 
-void CRLoader::setEncoding(Encoding const &value)
+void CRLoader::setEncoding(QStringConverter::Encoding const &value)
 {
     encoding = value;
-}
-
-QString CRLoader::encodingToLabel(Encoding const &value)
-{
-    switch (value) {
-    case CRLoader::Encoding::UTF8:
-        return tr("UTF-8");
-    case CRLoader::Encoding::LATIN1:
-        return tr("ISO-8859-1 (Latin-1)");
-    default:
-        return tr("Unknown encoding %1").arg(static_cast<int>(value));
-    }
 }
 
 CRLoader::Format CRLoader::getFormat()
@@ -88,20 +83,6 @@ void CRLoader::setFormat(Format const &value)
     format = value;
 }
 
-QString CRLoader::formatToLabel(Format const &value)
-{
-    switch (value) {
-    case CRLoader::Format::PDF:
-        return tr("PDF");
-    case CRLoader::Format::TEXT:
-        return tr("Text");
-    case CRLoader::Format::CSV:
-        return tr("CSV");
-    default:
-        return tr("Unknown format %1").arg(static_cast<int>(value));
-    }
-}
-
 void CRLoader::loadCSV(QString const &filePath, QAbstractTableModel *model)
 {
     static QRegularExpression re("\r");
@@ -109,9 +90,9 @@ void CRLoader::loadCSV(QString const &filePath, QAbstractTableModel *model)
     QFile file (filePath);
     if (file.open(QIODevice::ReadOnly)) {
         QString data;
-        if (encoding == Encoding::UTF8)
+        if (encoding == QStringConverter::Encoding::Utf8)
             data = QString::fromUtf8(file.readAll());
-        else /* if (encoding == Encoding::LATIN1) */ //NOSONAR
+        else /* if (encoding == QStringConverter::Encoding::Latin1) */ //NOSONAR
             data = QString::fromLatin1(file.readAll());
         standardItemList.clear();
         data.remove(re); //remove all ocurrences of CR (Carriage Return)
@@ -144,10 +125,7 @@ void CRLoader::saveCSV(QString const &filePath, QAbstractTableModel const *model
     }
     QTextStream outStream(&outFile);
 
-    if (CRLoader::getEncoding() == Encoding::UTF8)
-        outStream.setEncoding(QStringConverter::Utf8);
-    else /* if (encoding == Encoding::LATIN1) */ //NOSONAR
-        outStream.setEncoding(QStringConverter::Latin1);
+    outStream.setEncoding(CRLoader::getEncoding());
 
     int rowCount = model->rowCount();
     int columnCount = model->columnCount();
@@ -168,6 +146,7 @@ void CRLoader::saveRaceData(QDataStream &out)
 {
     out << startListModel
         << teamsListModel
+        << rankingsModel
         << categoriesModel
         << timingsModel;
 
@@ -178,23 +157,27 @@ void CRLoader::loadRaceData(QDataStream &in)
     standardItemList.clear();
     startListModel.reset();
     teamsListModel.reset();
+    rankingsModel.reset();
     categoriesModel.reset();
     timingsModel.reset();
 
     in >> startListModel
-       >> teamsListModel
-       >> categoriesModel
+       >> teamsListModel;
+    if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v3) {
+        in >> rankingsModel;
+    }
+    in >> categoriesModel
        >> timingsModel;
 
     startListModel.refreshCounters(0);
     teamsListModel.refreshCounters(0);
+    rankingsModel.refreshCounters(0);
     categoriesModel.refreshCounters(0);
     timingsModel.refreshCounters(0);
 }
 
 QPair<int, int> CRLoader::importStartList(QString const &path)
 {
-
     startListModel.reset();
     teamsListModel.reset();
 
@@ -207,33 +190,6 @@ QPair<int, int> CRLoader::importStartList(QString const &path)
     }
 
     return QPair<int, int>(rowCount, teamsListModel.rowCount());
-}
-
-void CRLoader::exportStartList(QString const &path)
-{
-    saveCSV(path, &startListModel);
-}
-
-void CRLoader::exportTeams(QString const &path)
-{
-
-    QFile outFile(path);
-    if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        throw(ChronoRaceException(tr("Error: cannot open %1").arg(path)));
-    }
-    QTextStream outStream(&outFile);
-
-    if (CRLoader::getEncoding() == Encoding::UTF8)
-        outStream.setEncoding(QStringConverter::Utf8);
-    else /* if (encoding == Encoding::LATIN1) */ //NOSONAR
-        outStream.setEncoding(QStringConverter::Latin1);
-
-    int rowCount = teamsListModel.rowCount();
-    for (int r = 0; r < rowCount; ++r)
-        outStream << teamsListModel.data(teamsListModel.index(r, 0, QModelIndex()), Qt::DisplayRole).toString() << Qt::endl;
-
-    outStream.flush();
-    outFile.close();
 }
 
 QList<Competitor> CRLoader::getStartList()
@@ -266,28 +222,6 @@ uint CRLoader::getTeamNameWidthMax()
     return startListModel.getTeamNameWidthMax();
 }
 
-int CRLoader::importTimings(QString const &path)
-{
-
-    timingsModel.reset();
-
-    loadCSV(path, &timingsModel);
-
-    int rowCount = timingsModel.rowCount();
-
-    if (int columnCount = timingsModel.columnCount(); columnCount != static_cast<int>(Timing::Field::TMF_COUNT)) {
-        timingsModel.reset();
-        throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Timing::Field::TMF_COUNT)).arg(columnCount)));
-    }
-
-    return rowCount;
-}
-
-void CRLoader::exportTimings(QString const &path)
-{
-    saveCSV(path, &timingsModel);
-}
-
 void CRLoader::clearTimings()
 {
     timingsModel.reset();
@@ -302,39 +236,105 @@ void CRLoader::addTiming(QString const &bib, QString const &timing)
     temp = "0";
     checkString(&timingsModel, temp, ',');
     temp = timing;
+    checkString(&timingsModel, temp, ',');
+    temp = "CLS";
     checkString(&timingsModel, temp);
 }
 
-QVector<Timing> CRLoader::getTimings()
+QList<Timing> const &CRLoader::getTimings()
 {
-    return QVector<Timing>::fromList(timingsModel.getTimings());
+    return timingsModel.getTimings();
 }
 
-int CRLoader::importCategories(QString const &path)
+int CRLoader::importModel(Model model, QString const &path)
 {
+    int rowCount = 0;
+    int columnCount = 0;
 
-    categoriesModel.reset();
-
-    loadCSV(path, &categoriesModel);
-
-    int rowCount = categoriesModel.rowCount();
-
-    if (int columnCount = categoriesModel.columnCount(); columnCount != static_cast<int>(Category::Field::CTF_COUNT)) {
+    switch (model) {
+    case Model::RANKINGS:
+        rankingsModel.reset();
+        loadCSV(path, &rankingsModel);
+        rowCount = rankingsModel.rowCount();
+        if (columnCount = rankingsModel.columnCount(); columnCount != static_cast<int>(Ranking::Field::RTF_COUNT)) {
+            rankingsModel.reset();
+            throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Ranking::Field::RTF_COUNT)).arg(columnCount)));
+        }
+        rankingsModel.parseCategories();
+        break;
+    case Model::CATEGORIES:
         categoriesModel.reset();
-        throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Category::Field::CTF_COUNT)).arg(columnCount)));
+        loadCSV(path, &categoriesModel);
+        rowCount = categoriesModel.rowCount();
+        if (columnCount = categoriesModel.columnCount(); columnCount != static_cast<int>(Category::Field::CTF_COUNT)) {
+            categoriesModel.reset();
+            throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Category::Field::CTF_COUNT)).arg(columnCount)));
+        }
+        break;
+    case Model::TIMINGS:
+        timingsModel.reset();
+        loadCSV(path, &timingsModel);
+        rowCount = timingsModel.rowCount();
+        if (columnCount = timingsModel.columnCount(); columnCount != static_cast<int>(Timing::Field::TMF_COUNT)) {
+            timingsModel.reset();
+            throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Timing::Field::TMF_COUNT)).arg(columnCount)));
+        }
+        break;
+    default:
+        throw(ChronoRaceException(tr("Unexpected model value %1 (import)").arg(static_cast<int>(model))));
+        break;
     }
 
     return rowCount;
 }
 
-void CRLoader::exportCategories(QString const &path)
+void CRLoader::exportModel(Model model, QString const &path)
 {
-    saveCSV(path, &categoriesModel);
+    switch (model) {
+    case Model::STARTLIST:
+        saveCSV(path, &startListModel);
+        break;
+    case Model::TEAMSLIST:
+        {
+            QFile outFile(path);
+            if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                throw(ChronoRaceException(tr("Error: cannot open %1").arg(path)));
+            }
+            QTextStream outStream(&outFile);
+
+            outStream.setEncoding(CRLoader::getEncoding());
+
+            int rowCount = teamsListModel.rowCount();
+            for (int r = 0; r < rowCount; ++r)
+                outStream << teamsListModel.data(teamsListModel.index(r, 0, QModelIndex()), Qt::DisplayRole).toString() << Qt::endl;
+
+            outStream.flush();
+            outFile.close();
+        }
+        break;
+    case Model::RANKINGS:
+        saveCSV(path, &rankingsModel);
+        break;
+    case Model::CATEGORIES:
+        saveCSV(path, &categoriesModel);
+        break;
+    case Model::TIMINGS:
+        saveCSV(path, &timingsModel);
+        break;
+    default:
+        throw(ChronoRaceException(tr("Unexpected model value %1 (export)").arg(static_cast<int>(model))));
+        break;
+    }
 }
 
-QVector<Category> CRLoader::getCategories()
+QList<Ranking> const &CRLoader::getRankings()
 {
-    return QVector<Category>::fromList(categoriesModel.getCategories());
+    return rankingsModel.getRankings();
+}
+
+QList<Category> const &CRLoader::getCategories()
+{
+    return categoriesModel.getCategories();
 }
 
 void CRLoader::checkString(QAbstractTableModel *model, QString &token, QChar character)

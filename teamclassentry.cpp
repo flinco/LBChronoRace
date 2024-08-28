@@ -23,7 +23,7 @@ QString const &TeamClassEntry::getClub() const
     return club;
 }
 
-ClassEntry const *TeamClassEntry::getClassEntry(int index) const
+ClassEntry *TeamClassEntry::getClassEntry(int index) const
 {
     if (index >= this->entryList.size())
         throw(ChronoRaceException(tr("Requested index %1 exceeds the number of available entries %2").arg(index).arg(this->entryList.size())));

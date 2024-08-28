@@ -15,11 +15,9 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include <QVector>
 #include <QFileDialog>
 
 #include "crloader.hpp"
-#include "category.hpp"
 #include "lbcrexception.hpp"
 #include "rankingswizard.hpp"
 #include "rankingprinter.hpp"
@@ -38,8 +36,19 @@ RankingsWizard::RankingsWizard(ChronoRaceData *data, QDir *path, RankingsWizardT
     setWizardStyle(ModernStyle);
 #endif
 
-    if (this->target == RankingsWizardTarget::Rankings)
+    QObject::connect(&rankingsBuilder, &RankingsBuilder::error, this, &RankingsWizard::storeErrorMessage);
+
+    switch (this->target) {
+    case RankingsWizardTarget::Rankings:
         buildRankings();
+        break;
+    case RankingsWizardTarget::StartList:
+        buildStartList();
+        break;
+    default:
+        Q_UNREACHABLE();
+        break;
+    }
 
     QObject::connect(&formatPage, &RankingsWizardFormat::error, this, &RankingsWizard::forwardErrorMessage);
     QObject::connect(&modePage, &RankingsWizardMode::error, this, &RankingsWizard::forwardErrorMessage);
@@ -82,23 +91,26 @@ void RankingsWizard::setTarget(RankingsWizard::RankingsWizardTarget newTarget)
     target = newTarget;
 }
 
+void RankingsWizard::buildStartList()
+{
+    // compute the startlist
+    rankingsBuilder.loadData();
+}
+
 void RankingsWizard::buildRankings()
 {
     uint i = 0;
 
-    QVector<Category> categories = CRLoader::getCategories();
-    auto const &builderErrorMessages = QObject::connect(&rankingsBuilder, &RankingsBuilder::error, this, &RankingsWizard::forwardErrorMessage);
+    QList<Ranking> const &rankings = CRLoader::getRankings();
 
     // compute individual general classifications (all included, sorted by bib)
     numberOfCompetitors = rankingsBuilder.loadData();
 
-    rankingsList.resize(categories.size());
+    rankingsList.resize(rankings.count());
     for (auto &rankingItem : rankingsList) {
-        rankingItem.category = &categories.at(i);
+        rankingItem.categories = &rankings.at(i);
         i++;
     }
-
-    QObject::disconnect(builderErrorMessages);
 }
 
 void RankingsWizard::forwardInfoMessage(QString const &message)
@@ -111,13 +123,20 @@ void RankingsWizard::forwardErrorMessage(QString const &message)
     emit error(message);
 }
 
+void RankingsWizard::storeErrorMessage(QString const &message)
+{
+    if (!message.isEmpty())
+        messages.append(message);
+}
+
+
 void RankingsWizard::printStartList()
 {
     try {
         CRLoader::Format format = CRLoader::getFormat();
 
-        // compute start list
-        QList<Competitor> startList = RankingsBuilder::makeStartList();
+        // this call can be done only after the rankingsBuilder.loadData() call
+        QList<Competitor const *> startList = rankingsBuilder.fillStartList();
 
         auto sWidth = static_cast<uint>(QString::number(startList.size()).size());
         auto bWidth = static_cast<uint>(QString::number(CRLoader::getStartListBibMax()).size());
@@ -134,7 +153,7 @@ void RankingsWizard::printStartList()
             auto const &infoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &RankingsWizard::forwardInfoMessage);
             auto const &errorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &RankingsWizard::forwardErrorMessage);
 
-            printer->init(&startListFileName, raceData->getEvent() + " - " + tr("Start List"));
+            printer->init(&startListFileName, raceData->getEvent(), tr("Start List"));
 
             // print the startlist
             printer->printStartList(startList);
@@ -150,7 +169,7 @@ void RankingsWizard::printStartList()
             QObject::disconnect(errorMessages);
         }
     } catch (ChronoRaceException &e) {
-        emit error(tr("Error: %1").arg(e.getMessage()));
+        emit error(e.getMessage());
     }
 }
 
@@ -175,23 +194,23 @@ void RankingsWizard::printRankingsSingleFile()
         auto const &printerInfoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &RankingsWizard::forwardInfoMessage);
         auto const &printerErrorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &RankingsWizard::forwardErrorMessage);
 
-        printer->init(&rankingsFileName, raceData->getEvent() + " - " + tr("Results"));
+        printer->init(&rankingsFileName, raceData->getEvent(), tr("Results"));
 
         // now print each ranking
         for (auto &rankingItem : rankingsList) {
             if (rankingItem.skip)
                 continue;
 
-            if (rankingItem.category->isTeam()) {
+            if (rankingItem.categories->isTeam()) {
                 // build the ranking
-                rankingsBuilder.fillRanking(rankingItem.teamRanking, *rankingItem.category).isEmpty();
+                rankingsBuilder.fillRanking(rankingItem.teamRanking, rankingItem.categories);
                 // print the team ranking
-                printer->printRanking(*rankingItem.category, rankingItem.teamRanking);
+                printer->printRanking(*rankingItem.categories, rankingItem.teamRanking);
             } else {
                 // build the ranking
-                rankingsBuilder.fillRanking(rankingItem.ranking, *rankingItem.category).isEmpty();
+                rankingsBuilder.fillRanking(rankingItem.ranking, rankingItem.categories);
                 // print the individual ranking
-                printer->printRanking(*rankingItem.category, rankingItem.ranking);
+                printer->printRanking(*rankingItem.categories, rankingItem.ranking);
             }
         }
 
@@ -205,7 +224,7 @@ void RankingsWizard::printRankingsSingleFile()
         QObject::disconnect(printerErrorMessages);
         QObject::disconnect(printerInfoMessages);
     } catch (ChronoRaceException &e) {
-        emit error(tr("Error: %1").arg(e.getMessage()));
+        emit error(e.getMessage());
     }
 }
 
@@ -242,24 +261,24 @@ void RankingsWizard::printRankingsMultiFile()
             if (rankingItem.skip)
                 continue;
 
-            outFileBaseName = QDir(rankingsBasePath).filePath(QString("class%1_%2").arg(k, rWidth, 10, QChar('0')).arg(rankingItem.category->getShortDescription()));
-            printer->init(&outFileBaseName, raceData->getEvent() + " - " + tr("Results") + " - " + rankingItem.category->getFullDescription());
+            outFileBaseName = QDir(rankingsBasePath).filePath(QString("class%1_%2").arg(k, rWidth, 10, QChar('0')).arg(rankingItem.categories->getShortDescription()));
+            printer->init(&outFileBaseName, raceData->getEvent(), tr("Results") + " - " + rankingItem.categories->getFullDescription());
 
-            if (rankingItem.category->isTeam()) {
+            if (rankingItem.categories->isTeam()) {
                 // build the ranking
-                rankingsBuilder.fillRanking(rankingItem.teamRanking, *rankingItem.category).isEmpty();
+                rankingsBuilder.fillRanking(rankingItem.teamRanking, rankingItem.categories);
                 // print the team ranking
-                printer->printRanking(*rankingItem.category, rankingItem.teamRanking);
+                printer->printRanking(*rankingItem.categories, rankingItem.teamRanking);
             } else {
                 // build the ranking
-                rankingsBuilder.fillRanking(rankingItem.ranking, *rankingItem.category).isEmpty();
+                rankingsBuilder.fillRanking(rankingItem.ranking, rankingItem.categories);
                 // print the individual ranking
-                printer->printRanking(*rankingItem.category, rankingItem.ranking);
+                printer->printRanking(*rankingItem.categories, rankingItem.ranking);
             }
 
             if (printer->finalize()) {
                 QFileInfo outFileInfo(outFileBaseName);
-                emit info(tr("Generated Results '%1': %2").arg(rankingItem.category->getFullDescription(), QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
+                emit info(tr("Generated Results '%1': %2").arg(rankingItem.categories->getFullDescription(), QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
             }
         }
 
@@ -267,12 +286,19 @@ void RankingsWizard::printRankingsMultiFile()
         QObject::disconnect(printerErrorMessages);
         QObject::disconnect(printerInfoMessages);
     } catch (ChronoRaceException &e) {
-        emit error(tr("Error: %1").arg(e.getMessage()));
+        emit error(e.getMessage());
     }
 }
 
-void RankingsWizard::print([[maybe_unused]] bool checked)
+void RankingsWizard::print(bool checked)
 {
+    Q_UNUSED(checked)
+
+    for (auto const &message : messages)
+        if (!message.isEmpty())
+            emit error(message);
+    messages.clear();
+
     switch (this->target) {
     case RankingsWizardTarget::StartList:
         printStartList();

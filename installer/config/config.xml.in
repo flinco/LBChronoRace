@@ -26,4 +26,5 @@
     <StartMenuDir>LBChronoRace</StartMenuDir>
     <TargetDir>@at@ApplicationsDirX64@at@/LBChronoRace</TargetDir>
     <InstallActionColumnVisible>true</InstallActionColumnVisible>
+    <ControlScript>uninstall.qs</ControlScript>
 </Installer>
