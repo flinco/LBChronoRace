@@ -86,8 +86,8 @@ private:
     void printPageMultiLeg(QRectF &writeRect, QList<ClassEntry const *> const &page, int &posIndex, uint referenceTime);
     void printPageMultiLeg(QRectF &writeRect, QList<TeamClassEntry const *> const &page, int &posIndex);
 
-    void drawTemplatePortrait(QString const &fullDescription, int page, int pages);
-    //NOSONAR void drawTemplateLandscape(QString const &fullDescription, int page, int pages);
+    void drawTemplatePortrait(QString const &fullDescription, int page, int pages, bool startList = false);
+    //NOSONAR void drawTemplateLandscape(QString const &fullDescription, int page, int pages, bool startList = false);
 
     qreal ratioX;
     qreal ratioY;

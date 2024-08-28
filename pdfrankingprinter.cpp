@@ -114,7 +114,7 @@ void PDFRankingPrinter::printStartList(QList<Competitor const *> const &startLis
         if (currentPage++) // this is not the first loop, add a new pages
             pdfWriter->newPage();
 
-        drawTemplatePortrait(tr("Start List"), p, pp);
+        drawTemplatePortrait(tr("Start List"), p, pp, true);
 
         // Prepare fonts
         rnkFont.setPointSize(7);
@@ -929,7 +929,7 @@ void PDFRankingPrinter::printPageMultiLeg(QRectF &writeRect, QList<TeamClassEntr
 
 }
 
-void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int page, int pages)
+void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int page, int pages, bool startList)
 {
     QRect boundingRect;
     QRectF writeRect;
@@ -1024,8 +1024,10 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
     // Results, page and editing timestamp
     painter.setFont(rnkFont);
     writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(-40.5)));
-    writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-35.0)));
-    painter.drawText(writeRect.toRect(), Qt::AlignHCenter | Qt::AlignTop, tr("Results") + ":\u00a0" + raceInfo->getResults());
+    if (!startList) {
+        writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-35.0)));
+        painter.drawText(writeRect.toRect(), Qt::AlignHCenter | Qt::AlignTop, tr("Results") + ":\u00a0" + raceInfo->getResults());
+    }
     writeRect.setBottomRight(QPointF(toHdots(30.0), toVdots(-35.0)));
     painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, tr("Page %n", "", page) + " " + tr("of %n", "", pages));
     writeRect.setTopLeft(QPointF(toHdots(-30.0), toVdots(-40.5)));
@@ -1063,7 +1065,7 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
     }
 }
 
-//NOSONAR void PDFRankingPrinter::drawTemplateLandscape(QString const &fullDescription, int page, int pages)
+//NOSONAR void PDFRankingPrinter::drawTemplateLandscape(QString const &fullDescription, int page, int pages, bool startList)
 //NOSONAR {
 //NOSONAR     QRect boundingRect;
 //NOSONAR     QRectF writeRect;
@@ -1157,8 +1159,10 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
 //NOSONAR     // Results, page and editing timestamp
 //NOSONAR     painter.setFont(rnkFont);
 //NOSONAR     writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(-40.5)));
-//NOSONAR     writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-35.0)));
-//NOSONAR     painter.drawText(writeRect.toRect(), Qt::AlignHCenter | Qt::AlignTop, tr("Results") + ":\u00a0" + raceInfo->getResults());
+//NOSONAR     if (!startList) {
+//NOSONAR         writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-35.0)));
+//NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignHCenter | Qt::AlignTop, tr("Results") + ":\u00a0" + raceInfo->getResults());
+//NOSONAR     }
 //NOSONAR     writeRect.setBottomRight(QPointF(toHdots(30.0), toVdots(-35.0)));
 //NOSONAR     painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, tr("Page %n", "", page) + " " + tr("of %n", "", pages));
 //NOSONAR     writeRect.setTopLeft(QPointF(toHdots(-30.0), toVdots(-40.5)));
