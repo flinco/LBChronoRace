@@ -50,5 +50,12 @@
         <file>icons/dnf.svg</file>
         <file>icons/dns.svg</file>
         <file>icons/dsq.svg</file>
+        <file>icons/add.svg</file>
+        <file>icons/alt.svg</file>
+        <file>icons/backspace.svg</file>
+        <file>icons/cancel.svg</file>
+        <file>icons/dialpad.svg</file>
+        <file>icons/return.svg</file>
+        <file>icons/space_bar.svg</file>
     </qresource>
 </RCC>

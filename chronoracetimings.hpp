@@ -68,8 +68,6 @@ private:
     QScopedPointer<Ui::ChronoRaceTimings> ui { new Ui::ChronoRaceTimings };
 
     int            timingRowCount { 0 };
-    int            bibRowCount    { 0 };
-    QString        bibBuffer      { "" };
 
     int            updateTimerId  { 0 };
     int            backupTimerId  { 0 };
@@ -79,18 +77,31 @@ private:
     QThread        saveToDiskThread;
     TimingsWorker  saveToDiskWorker;
 
+    QTableWidgetItem *currentBibItem { Q_NULLPTR };
+
+    void updateCurrentBibItem(QTableWidgetItem *newBibItem);
+
     void recordTiming(qint64 seconds);
     void deleteTiming();
-    void recordBib(QString const &key);
     void deleteBib();
 
     void saveTimings();
+
+    void stepUp();
+    void stepDown();
+
+    bool enterPressed();
+    bool digitPressed(QString const &key);
+    bool upPressed();
+    bool downPressed();
 
 private slots:
     void start();
     void stop();
     void reset();
     void lock(bool checked);
+
+    void bibClicked(QTableWidgetItem *item);
 };
 
 #endif // CHRONORACETIMINGS_H
