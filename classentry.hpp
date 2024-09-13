@@ -109,7 +109,7 @@ private:
     static bool allCompetitorsShareTheSameClub(QVector<ClassEntryElement> const &entries, qsizetype fromLeg, qsizetype toLeg, QString const &club);
     static bool allCompetitorsAreOfTheSameSex(QVector<ClassEntryElement> const &entries, qsizetype fromLeg, qsizetype toLeg, Competitor::Sex sex);
     static void removeImpossibleCategories(QVector<ClassEntryElement> &entries);
-    static void removeLowerWeigthCategories(QList<Category const *> &categories, QStringList &messages, QString const &name, uint bib);
+    static void removeLowerWeigthCategories(QList<Category const *> &categories, QString const &name, uint bib);
 
 public:
     static void setCategorySingleLeg(ClassEntry *entry, QStringList &messages);

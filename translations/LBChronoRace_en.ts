@@ -684,8 +684,8 @@ Continue?</translation>
         <translation>No competitors associated to bib %1</translation>
     </message>
     <message>
-        <source>No categories associated to competitor %1 - bib %2</source>
-        <translation>No categories associated to competitor %1 - bib %2</translation>
+        <source>No category fits the competitor with bib %1 - %2</source>
+        <translation>No category fits the competitor with bib %1 - %2</translation>
     </message>
     <message>
         <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3</source>
@@ -698,6 +698,10 @@ Continue?</translation>
     <message>
         <source>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</source>
         <translation>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</translation>
+    </message>
+    <message>
+        <source>No category fits the team with bib %1</source>
+        <translation>No category fits the team with bib %1</translation>
     </message>
 </context>
 <context>

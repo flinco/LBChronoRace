@@ -547,7 +547,7 @@ void ClassEntryHelper::removeImpossibleCategories(QVector<ClassEntryElement> &en
     }
 }
 
-void ClassEntryHelper::removeLowerWeigthCategories(QList<Category const *> &categories, QStringList &messages, QString const &name, uint bib)
+void ClassEntryHelper::removeLowerWeigthCategories(QList<Category const *> &categories, QString const &name, uint bib)
 {
     Category::Type type;
     Category const *cat1 = Q_NULLPTR;
@@ -578,13 +578,13 @@ void ClassEntryHelper::removeLowerWeigthCategories(QList<Category const *> &cate
 
             w2 = cat2->getWeight();
             if (w1 < w2) {
-                messages += tr("Removing candidate category '%1' associated to competitor %2 - bib %3").arg(cat2->getFullDescription(), name, QString::number(bib));
+                qDebug() << tr("Removing candidate category '%1' associated to competitor %2 - bib %3").arg(cat2->getFullDescription(), name, QString::number(bib));
                 cat1 = Q_NULLPTR;
                 break;
             }
 
             if (w1 > w2) {
-                messages += tr("Removing candidate category '%1' associated to competitor %2 - bib %3").arg(j.peekPrevious()->getFullDescription(), name, QString::number(bib));
+                qDebug() << tr("Removing candidate category '%1' associated to competitor %2 - bib %3").arg(j.peekPrevious()->getFullDescription(), name, QString::number(bib));
                 j.remove();
             }
         }
@@ -600,13 +600,13 @@ void ClassEntryHelper::setCategorySingleLeg(ClassEntry *entry, QStringList &mess
     QString const &name = comp->getName();
 
     if (QList<Category const *> &categories = comp->getCategories(); categories.isEmpty()) {
-        messages += tr("No categories associated to competitor %1 - bib %2").arg(name).arg(entry->bib);
+        messages += tr("No category fits the competitor with bib %1 - %2").arg(entry->bib).arg(name);
     } else {
         /* Slim down the list removing impossible category types */
         removeImpossibleCategories(entry->entries);
 
         /* Slim down the list removing categories having same type but lower weight */
-        removeLowerWeigthCategories(categories, messages, name, entry->bib);
+        removeLowerWeigthCategories(categories, name, entry->bib);
 
         qsizetype i = categories.count();
         while (i-- > 1) {
@@ -645,7 +645,7 @@ void ClassEntryHelper::setCategoryMultiLeg(ClassEntry *entry, QStringList &messa
     }
 
     /* Slim down the list removing categories having same type but lower weight */
-    removeLowerWeigthCategories(comp->getCategories(), messages, comp->getName(), entry->bib);
+    removeLowerWeigthCategories(comp->getCategories(), comp->getName(), entry->bib);
 
     /* Slim down the list of all other legs using the first one as reference */
     for (leg = 1; leg < count; leg++) {
@@ -662,4 +662,7 @@ void ClassEntryHelper::setCategoryMultiLeg(ClassEntry *entry, QStringList &messa
     }
 
     entry->category = entries->at(0).competitor->getCategory();
+
+    if (entry->category == Q_NULLPTR)
+        messages += tr("No category fits the team with bib %1").arg(entry->bib);
 }

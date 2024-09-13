@@ -684,8 +684,8 @@ Continuare?</translation>
         <translation>Nessun concorrente asscoiato al pettorale %1</translation>
     </message>
     <message>
-        <source>No categories associated to competitor %1 - bib %2</source>
-        <translation>Nessuna categoria associata al concorrente %1 - pettorale %2</translation>
+        <source>No category fits the competitor with bib %1 - %2</source>
+        <translation>Il concorrente con pettorale %1, %2, non rientra in nessuna categoria</translation>
     </message>
     <message>
         <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3</source>
@@ -698,6 +698,10 @@ Continuare?</translation>
     <message>
         <source>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</source>
         <translation>Rimozione categoria candidata &apos;%1&apos; associata al concorrente %2 - pettorale %3</translation>
+    </message>
+    <message>
+        <source>No category fits the team with bib %1</source>
+        <translation>La squadra con pettorale %1 non rientra in nessuna categoria</translation>
     </message>
 </context>
 <context>
