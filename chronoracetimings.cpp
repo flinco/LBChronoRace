@@ -173,7 +173,7 @@ void ChronoRaceTimings::timerEvent(QTimerEvent *event) {
     } else if (event->timerId() == updateTimerId) {
         qint64 elapsed = this->timer.elapsed() / 1000;
 
-        ui->timer->display(QString("%1:%2:%3").arg(elapsed / 3600).arg(elapsed / 60, 2, 10, QChar('0')).arg(elapsed % 60, 2, 10, QChar('0')));
+        ui->timer->display(QString("%1:%2:%3").arg(elapsed / 3600).arg((elapsed % 3600) / 60, 2, 10, QChar('0')).arg(elapsed % 60, 2, 10, QChar('0')));
     }
 }
 
