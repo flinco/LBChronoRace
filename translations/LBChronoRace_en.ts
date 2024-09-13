@@ -545,6 +545,14 @@ Continue?</translation>
         <source>CSV Encoding</source>
         <translation>CSV Encoding</translation>
     </message>
+    <message>
+        <source>Save the race data</source>
+        <translation>Save the race data</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Save</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTimings</name>

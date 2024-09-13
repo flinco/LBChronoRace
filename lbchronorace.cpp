@@ -63,12 +63,14 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     startListTable.setModel(CRLoader::getStartListModel());
     QObject::connect(&startListTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importStartList);
     QObject::connect(&startListTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportStartList);
+    QObject::connect(&startListTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
     QObject::connect(&startListTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterCompetitors);
 
     teamsTable.disableButtons();
     teamsTable.setWindowTitle(tr("Clubs List"));
     teamsTable.setModel(CRLoader::getTeamsListModel());
     QObject::connect(&teamsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportTeamList);
+    QObject::connect(&teamsTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
     QObject::connect(&teamsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterTeams);
 
     auto const *startListModel = dynamic_cast<StartListModel const *>(CRLoader::getStartListModel());
@@ -81,6 +83,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     rankingsTable.setModel(rankingsModel);
     QObject::connect(&rankingsTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importRankingsList);
     QObject::connect(&rankingsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportRankingsList);
+    QObject::connect(&rankingsTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
     QObject::connect(&rankingsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterRankings);
     QObject::connect(rankingsModel, &RankingsModel::error, this, &LBChronoRace::appendErrorMessage);
 
@@ -89,6 +92,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     categoriesTable.setModel(categoriesModel);
     QObject::connect(&categoriesTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importCategoriesList);
     QObject::connect(&categoriesTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportCategoriesList);
+    QObject::connect(&categoriesTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
     QObject::connect(&categoriesTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterCategories);
     QObject::connect(categoriesModel, &CategoriesModel::error, this, &LBChronoRace::appendErrorMessage);
     rankingCatsDelegate.setCategories(categoriesModel);
@@ -98,6 +102,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     timingsTable.setModel(timingsModel);
     QObject::connect(&timingsTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importTimingsList);
     QObject::connect(&timingsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportTimingsList);
+    QObject::connect(&timingsTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
     QObject::connect(&timingsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterTimings);
     QObject::connect(timingsModel, &TimingsModel::error, this, &LBChronoRace::appendErrorMessage);
 

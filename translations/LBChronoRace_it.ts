@@ -545,6 +545,14 @@ Procedere?</translation>
         <source>CSV Encoding</source>
         <translation>Codifica CSV</translation>
     </message>
+    <message>
+        <source>Save the race data</source>
+        <translation>Salva i dati nel file gara</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Salva</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTimings</name>

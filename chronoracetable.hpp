@@ -39,6 +39,7 @@ private slots:
     void rowAdd() const;
     void rowDel() const;
     void dialogQuit();
+    void dialogSave();
 
 public slots:
     void show(); //NOSONAR
@@ -49,7 +50,7 @@ signals:
     void newRowCount(int count);
     void modelImported();
     void modelExported();
-    void countersRefresh();
+    void saveRaceData();
 
 private:
     QScopedPointer<Ui::ChronoRaceTable> ui { new Ui::ChronoRaceTable };
