@@ -97,6 +97,20 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="dialogSave">
+       <property name="toolTip">
+        <string>Save the race data</string>
+       </property>
+       <property name="text">
+        <string>Save</string>
+       </property>
+       <property name="icon">
+        <iconset resource="materialicons.qrc">
+         <normaloff>:/material/icons/save.svg</normaloff>:/material/icons/save.svg</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="dialogQuit">
        <property name="toolTip">
         <string>Return to the application</string>

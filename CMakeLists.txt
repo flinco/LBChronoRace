@@ -28,7 +28,7 @@ project(LBChronoRace
     DESCRIPTION "Timings and Rankings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
-set(PROJECT_UPDATE 0)
+set(PROJECT_UPDATE 1)
 string(TIMESTAMP BUILD_DATE "%Y-%m-%d" UTC)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

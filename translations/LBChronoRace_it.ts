@@ -545,6 +545,14 @@ Procedere?</translation>
         <source>CSV Encoding</source>
         <translation>Codifica CSV</translation>
     </message>
+    <message>
+        <source>Save the race data</source>
+        <translation>Salva i dati nel file gara</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Salva</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTimings</name>
@@ -553,12 +561,20 @@ Procedere?</translation>
         <translation>Registratore Tempi</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to delete the last recorded &lt;span style=&quot; font-style:italic;&quot;&gt;Timing&lt;/span&gt;, press &lt;span style=&quot; font-weight:700;&quot;&gt;CANC&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to delete the last recorded &lt;span style=&quot; font-style:italic;&quot;&gt;Bib&lt;/span&gt;, press &lt;span style=&quot; font-weight:700;&quot;&gt;BACKSPACE&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;per cancellare l&apos;ultimo &lt;span style=&quot; font-style:italic;&quot;&gt;Tempo&lt;/span&gt; registrato,&lt;br&gt;premere &lt;span style=&quot; font-weight:700;&quot;&gt;CANC&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;per cancellare l&apos;ultimo &lt;span style=&quot; font-style:italic;&quot;&gt;Pettorale&lt;/span&gt; registrato,&lt;br&gt;premere &lt;span style=&quot; font-weight:700;&quot;&gt;BACKSPACE&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;to record a &lt;span style=&quot; font-style:italic;&quot;&gt;Timing&lt;/span&gt;,&lt;br&gt;press the &lt;span style=&quot; font-weight:700;&quot;&gt;SPACE BAR&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;per registrare un &lt;span style=&quot; font-style:italic;&quot;&gt;Tempo&lt;/span&gt;,&lt;br&gt;premere la &lt;span style=&quot; font-weight:700;&quot;&gt;BARRA SPAZIATRICE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to record a &lt;span style=&quot; font-style:italic;&quot;&gt;Timing&lt;/span&gt;, press the &lt;span style=&quot; font-weight:700;&quot;&gt;SPACE BAR&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to record a &lt;span style=&quot; font-style:italic;&quot;&gt;Bib&lt;/span&gt;, type it and then press &lt;span style=&quot; font-weight:700;&quot;&gt;ENTER&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;per registrare un &lt;span style=&quot; font-style:italic;&quot;&gt;Tempo&lt;/span&gt;,&lt;br&gt;premere la &lt;span style=&quot; font-weight:700;&quot;&gt;BARRA SPAZIATRICE&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;per registrare un &lt;span style=&quot; font-style:italic;&quot;&gt;Pettorale&lt;/span&gt;,&lt;br&gt;digitarlo e premere &lt;span style=&quot; font-weight:700;&quot;&gt;INVIO&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;to record a &lt;span style=&quot; font-style:italic;&quot;&gt;Bib&lt;/span&gt;,&lt;br&gt;type it and then press &lt;span style=&quot; font-weight:700;&quot;&gt;ENTER&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;per registrare un &lt;span style=&quot; font-style:italic;&quot;&gt;Pettorale&lt;/span&gt;,&lt;br&gt;digitarlo e premere &lt;span style=&quot; font-weight:700;&quot;&gt;INVIO&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;to delete the last recorded &lt;span style=&quot; font-style:italic;&quot;&gt;Timing&lt;/span&gt;,&lt;br&gt;press &lt;span style=&quot; font-weight:700;&quot;&gt;ALT&lt;/span&gt;+&lt;span style=&quot; font-weight:700;&quot;&gt;CANC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;per cancellare l&apos;ultimo &lt;span style=&quot; font-style:italic;&quot;&gt;Tempo&lt;/span&gt;,&lt;br&gt;premere &lt;span style=&quot; font-weight:700;&quot;&gt;ALT&lt;/span&gt;+&lt;span style=&quot; font-weight:700;&quot;&gt;CANC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;to delete the current (yellow) &lt;span style=&quot; font-style:italic;&quot;&gt;Bib&lt;/span&gt;,&lt;br&gt;press &lt;span style=&quot; font-weight:700;&quot;&gt;BACKSPACE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;per cancellare il &lt;span style=&quot; font-style:italic;&quot;&gt;Pettorale&lt;/span&gt; selezionato (giallo),&lt;br&gt;premere &lt;span style=&quot; font-weight:700;&quot;&gt;BACKSPACE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Once the timer is started:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -676,8 +692,8 @@ Continuare?</translation>
         <translation>Nessun concorrente asscoiato al pettorale %1</translation>
     </message>
     <message>
-        <source>No categories associated to competitor %1 - bib %2</source>
-        <translation>Nessuna categoria associata al concorrente %1 - pettorale %2</translation>
+        <source>No category fits the competitor with bib %1 - %2</source>
+        <translation>Il concorrente con pettorale %1, %2, non rientra in nessuna categoria</translation>
     </message>
     <message>
         <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3</source>
@@ -690,6 +706,10 @@ Continuare?</translation>
     <message>
         <source>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</source>
         <translation>Rimozione categoria candidata &apos;%1&apos; associata al concorrente %2 - pettorale %3</translation>
+    </message>
+    <message>
+        <source>No category fits the team with bib %1</source>
+        <translation>La squadra con pettorale %1 non rientra in nessuna categoria</translation>
     </message>
 </context>
 <context>

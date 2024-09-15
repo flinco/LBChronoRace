@@ -545,6 +545,14 @@ Continue?</translation>
         <source>CSV Encoding</source>
         <translation>CSV Encoding</translation>
     </message>
+    <message>
+        <source>Save the race data</source>
+        <translation>Save the race data</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Save</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTimings</name>
@@ -553,12 +561,20 @@ Continue?</translation>
         <translation>Race Timings Recorder</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to delete the last recorded &lt;span style=&quot; font-style:italic;&quot;&gt;Timing&lt;/span&gt;, press &lt;span style=&quot; font-weight:700;&quot;&gt;CANC&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to delete the last recorded &lt;span style=&quot; font-style:italic;&quot;&gt;Bib&lt;/span&gt;, press &lt;span style=&quot; font-weight:700;&quot;&gt;BACKSPACE&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to delete the last recorded &lt;span style=&quot; font-style:italic;&quot;&gt;Timing&lt;/span&gt;,&lt;br&gt;press &lt;span style=&quot; font-weight:700;&quot;&gt;CANC&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to delete the last recorded &lt;span style=&quot; font-style:italic;&quot;&gt;Bib&lt;/span&gt;,&lt;br&gt;press &lt;span style=&quot; font-weight:700;&quot;&gt;BACKSPACE&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;to record a &lt;span style=&quot; font-style:italic;&quot;&gt;Timing&lt;/span&gt;,&lt;br&gt;press the &lt;span style=&quot; font-weight:700;&quot;&gt;SPACE BAR&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;to record a &lt;span style=&quot; font-style:italic;&quot;&gt;Timing&lt;/span&gt;,&lt;br&gt;press the &lt;span style=&quot; font-weight:700;&quot;&gt;SPACE BAR&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to record a &lt;span style=&quot; font-style:italic;&quot;&gt;Timing&lt;/span&gt;, press the &lt;span style=&quot; font-weight:700;&quot;&gt;SPACE BAR&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to record a &lt;span style=&quot; font-style:italic;&quot;&gt;Bib&lt;/span&gt;, type it and then press &lt;span style=&quot; font-weight:700;&quot;&gt;ENTER&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to record a &lt;span style=&quot; font-style:italic;&quot;&gt;Timing&lt;/span&gt;,&lt;br&gt;press the &lt;span style=&quot; font-weight:700;&quot;&gt;SPACE BAR&lt;/span&gt;&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;to record a &lt;span style=&quot; font-style:italic;&quot;&gt;Bib&lt;/span&gt;,&lt;br&gt;type it and then press &lt;span style=&quot; font-weight:700;&quot;&gt;ENTER&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;to record a &lt;span style=&quot; font-style:italic;&quot;&gt;Bib&lt;/span&gt;,&lt;br&gt;type it and then press &lt;span style=&quot; font-weight:700;&quot;&gt;ENTER&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;to record a &lt;span style=&quot; font-style:italic;&quot;&gt;Bib&lt;/span&gt;,&lt;br&gt;type it and then press &lt;span style=&quot; font-weight:700;&quot;&gt;ENTER&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;to delete the last recorded &lt;span style=&quot; font-style:italic;&quot;&gt;Timing&lt;/span&gt;,&lt;br&gt;press &lt;span style=&quot; font-weight:700;&quot;&gt;ALT&lt;/span&gt;+&lt;span style=&quot; font-weight:700;&quot;&gt;CANC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;to delete the last recorded &lt;span style=&quot; font-style:italic;&quot;&gt;Timing&lt;/span&gt;,&lt;br&gt;press &lt;span style=&quot; font-weight:700;&quot;&gt;ALT&lt;/span&gt;+&lt;span style=&quot; font-weight:700;&quot;&gt;CANC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;to delete the current (yellow) &lt;span style=&quot; font-style:italic;&quot;&gt;Bib&lt;/span&gt;,&lt;br&gt;press &lt;span style=&quot; font-weight:700;&quot;&gt;BACKSPACE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;to delete the current (yellow) &lt;span style=&quot; font-style:italic;&quot;&gt;Bib&lt;/span&gt;,&lt;br&gt;press &lt;span style=&quot; font-weight:700;&quot;&gt;BACKSPACE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Once the timer is started:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -676,8 +692,8 @@ Continue?</translation>
         <translation>No competitors associated to bib %1</translation>
     </message>
     <message>
-        <source>No categories associated to competitor %1 - bib %2</source>
-        <translation>No categories associated to competitor %1 - bib %2</translation>
+        <source>No category fits the competitor with bib %1 - %2</source>
+        <translation>No category fits the competitor with bib %1 - %2</translation>
     </message>
     <message>
         <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3</source>
@@ -690,6 +706,10 @@ Continue?</translation>
     <message>
         <source>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</source>
         <translation>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</translation>
+    </message>
+    <message>
+        <source>No category fits the team with bib %1</source>
+        <translation>No category fits the team with bib %1</translation>
     </message>
 </context>
 <context>
