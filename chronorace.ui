@@ -108,7 +108,7 @@
          <string>Add, remove, and change competitors</string>
         </property>
         <property name="text">
-         <string>Edit Start List</string>
+         <string>Edit Competitors</string>
         </property>
         <property name="icon">
          <iconset resource="materialicons.qrc">
@@ -503,7 +503,7 @@
      <normaloff>:/material/icons/user_attributes.svg</normaloff>:/material/icons/user_attributes.svg</iconset>
    </property>
    <property name="text">
-    <string>&amp;Start List</string>
+    <string>C&amp;ompetitors</string>
    </property>
    <property name="toolTip">
     <string>Add, remove, and change competitors</string>
