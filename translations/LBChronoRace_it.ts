@@ -747,8 +747,8 @@ Continuare?</translation>
         <translation>Carica Gara</translation>
     </message>
     <message>
-        <source>Edit Start List</source>
-        <translation>Modifica Ordine di Partenza</translation>
+        <source>Edit Competitors</source>
+        <translation>Modifica Concorrenti</translation>
     </message>
     <message>
         <source>Save Race</source>
@@ -799,8 +799,8 @@ Continuare?</translation>
         <translation>Q</translation>
     </message>
     <message>
-        <source>&amp;Start List</source>
-        <translation>&amp;Ordine di Partenza</translation>
+        <source>C&amp;ompetitors</source>
+        <translation>C&amp;oncorrenti</translation>
     </message>
     <message>
         <source>&amp;Categories</source>
@@ -847,10 +847,6 @@ Continuare?</translation>
         <translation>Salva come</translation>
     </message>
     <message>
-        <source>Start List</source>
-        <translation>Ordine di Partenza</translation>
-    </message>
-    <message>
         <source>Clubs List</source>
         <translation>Lista Società</translation>
     </message>
@@ -863,12 +859,12 @@ Continuare?</translation>
         <translation>CSV (*.csv)</translation>
     </message>
     <message>
-        <source>Select Start List</source>
-        <translation>Seleziona Ordine di Partenza</translation>
+        <source>Select Competitors</source>
+        <translation>Seleziona Concorrenti</translation>
     </message>
     <message>
-        <source>Start List File: %1</source>
-        <translation>File Ordine di Partenza: %1</translation>
+        <source>Competitors File: %1</source>
+        <translation>File Concorrenti: %1</translation>
     </message>
     <message numerus="yes">
         <source>Loaded: %n competitor(s)</source>
@@ -915,8 +911,8 @@ Continuare?</translation>
         </translation>
     </message>
     <message>
-        <source>Start List File saved: %1</source>
-        <translation>File Ordine di Partenza salvato: %1</translation>
+        <source>Competitors File saved: %1</source>
+        <translation>File Concorrenti salvato: %1</translation>
     </message>
     <message>
         <source>Select Clubs List</source>
@@ -1128,10 +1124,6 @@ Aggiornare l&amp;apos;applicazione.</translation>
 The definitions of Categories and Rankings must be reviewed and corrected.</source>
         <translation>Il File Dati Gara è stato salvato con una precedente versione dell&apos;applicazione.
 Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</translation>
-    </message>
-    <message>
-        <source>Unknown encoding %1; loaded saved</source>
-        <translation type="obsolete">Codifica sconosciuta %1; </translation>
     </message>
     <message>
         <source>Unknown encoding %1; default saved</source>

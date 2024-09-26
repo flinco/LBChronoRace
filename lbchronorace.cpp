@@ -59,7 +59,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
 
     ui->setupUi(this);
 
-    startListTable.setWindowTitle(tr("Start List"));
+    startListTable.setWindowTitle(tr("Competitors"));
     startListTable.setModel(CRLoader::getStartListModel());
     QObject::connect(&startListTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importStartList);
     QObject::connect(&startListTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportStartList);
@@ -209,13 +209,13 @@ void LBChronoRace::appendErrorMessage(QString const &message) const
 void LBChronoRace::importStartList()
 {
     startListFileName = QDir::toNativeSeparators(
-        QFileDialog::getOpenFileName(this, tr("Select Start List"),
+        QFileDialog::getOpenFileName(this, tr("Select Competitors"),
                                      lastSelectedPath.absolutePath(),
                                      tr("CSV (*.csv)")));
 
     if (!startListFileName.isEmpty()) {
         QPair<int, int> count(0, 0);
-        appendInfoMessage(tr("Start List File: %1").arg(startListFileName));
+        appendInfoMessage(tr("Competitors File: %1").arg(startListFileName));
         try {
             count = CRLoader::importStartList(startListFileName);
             appendInfoMessage(tr("Loaded: %n competitor(s)", "", count.first));
@@ -295,7 +295,7 @@ void LBChronoRace::importTimingsList()
 void LBChronoRace::exportStartList()
 {
     startListFileName = QDir::toNativeSeparators(
-        QFileDialog::getSaveFileName(this, tr("Select Start List"),
+        QFileDialog::getSaveFileName(this, tr("Select Competitors"),
                                      lastSelectedPath.absolutePath(),
                                      tr("CSV (*.csv)")));
 
@@ -306,7 +306,7 @@ void LBChronoRace::exportStartList()
 
         try {
             CRLoader::exportModel(CRLoader::Model::STARTLIST, startListFileName);
-            appendInfoMessage(tr("Start List File saved: %1").arg(startListFileName));
+            appendInfoMessage(tr("Competitors File saved: %1").arg(startListFileName));
             lastSelectedPath = QFileInfo(startListFileName).absoluteDir();
         }  catch (ChronoRaceException &e) {
             appendErrorMessage(e.getMessage());

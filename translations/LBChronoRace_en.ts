@@ -747,8 +747,8 @@ Continue?</translation>
         <translation>Load Race</translation>
     </message>
     <message>
-        <source>Edit Start List</source>
-        <translation>Edit Start List</translation>
+        <source>Edit Competitors</source>
+        <translation>Edit Competitors</translation>
     </message>
     <message>
         <source>Save Race</source>
@@ -799,8 +799,8 @@ Continue?</translation>
         <translation>Q</translation>
     </message>
     <message>
-        <source>&amp;Start List</source>
-        <translation>&amp;Start List</translation>
+        <source>C&amp;ompetitors</source>
+        <translation>C&amp;ompetitors</translation>
     </message>
     <message>
         <source>&amp;Categories</source>
@@ -847,10 +847,6 @@ Continue?</translation>
         <translation>Save as</translation>
     </message>
     <message>
-        <source>Start List</source>
-        <translation>Start List</translation>
-    </message>
-    <message>
         <source>Clubs List</source>
         <translation>Clubs List</translation>
     </message>
@@ -863,12 +859,12 @@ Continue?</translation>
         <translation>CSV (*.csv)</translation>
     </message>
     <message>
-        <source>Select Start List</source>
-        <translation>Select Start List</translation>
+        <source>Select Competitors</source>
+        <translation>Select Competitors</translation>
     </message>
     <message>
-        <source>Start List File: %1</source>
-        <translation>Start List File: %1</translation>
+        <source>Competitors File: %1</source>
+        <translation>Competitors File: %1</translation>
     </message>
     <message numerus="yes">
         <source>Loaded: %n competitor(s)</source>
@@ -915,8 +911,8 @@ Continue?</translation>
         </translation>
     </message>
     <message>
-        <source>Start List File saved: %1</source>
-        <translation>Start List File saved: %1</translation>
+        <source>Competitors File saved: %1</source>
+        <translation>Competitors File saved: %1</translation>
     </message>
     <message>
         <source>Select Clubs List</source>
@@ -1128,10 +1124,6 @@ Please update the application.</translation>
 The definitions of Categories and Rankings must be reviewed and corrected.</source>
         <translation>This Race Data File was saved with a previous release of the application.
 The definitions of Categories and Rankings must be reviewed and corrected.</translation>
-    </message>
-    <message>
-        <source>Unknown encoding %1; loaded saved</source>
-        <translation type="obsolete">Unknown encoding %1; loaded saved</translation>
     </message>
     <message>
         <source>Unknown encoding %1; default saved</source>
