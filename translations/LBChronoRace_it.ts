@@ -1468,6 +1468,10 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Seleziona Cartella Destinazione Classifiche</translation>
     </message>
     <message>
+        <source>Warning: please select a destination file name</source>
+        <translation>Attenzione: è necessario selezionare un nome file</translation>
+    </message>
+    <message>
         <source>Warning: please select a destination folder</source>
         <translation>Attenzione: è necessario selezionare una cartella</translation>
     </message>

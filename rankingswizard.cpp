@@ -189,7 +189,7 @@ void RankingsWizard::printRankingsSingleFile()
                                                                 printer->getFileFilter());
 
         if (rankingsFileName.isEmpty())
-            throw(ChronoRaceException(tr("Warning: please select a destination folder")));
+            throw(ChronoRaceException(tr("Warning: please select a destination file name")));
 
         auto const &printerInfoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &RankingsWizard::forwardInfoMessage);
         auto const &printerErrorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &RankingsWizard::forwardErrorMessage);

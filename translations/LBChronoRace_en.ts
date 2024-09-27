@@ -1468,6 +1468,10 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Select Results Destination Folder</translation>
     </message>
     <message>
+        <source>Warning: please select a destination file name</source>
+        <translation>Warning: please select a destination file name</translation>
+    </message>
+    <message>
         <source>Warning: please select a destination folder</source>
         <translation>Warning: please select a destination folder</translation>
     </message>
