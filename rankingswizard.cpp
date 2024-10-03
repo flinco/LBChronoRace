@@ -16,6 +16,8 @@
  *****************************************************************************/
 
 #include <QFileDialog>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include "crloader.hpp"
 #include "lbcrexception.hpp"
@@ -51,6 +53,7 @@ RankingsWizard::RankingsWizard(ChronoRaceData *data, QDir *path, RankingsWizardT
     }
 
     QObject::connect(&formatPage, &RankingsWizardFormat::error, this, &RankingsWizard::forwardErrorMessage);
+    QObject::connect(&formatPage, &RankingsWizardFormat::notifyOpenChange, this, &RankingsWizard::setOpenFileAtEnd);
     QObject::connect(&modePage, &RankingsWizardMode::error, this, &RankingsWizard::forwardErrorMessage);
     QObject::connect(&selectionPage, &RankingsWizardSelection::error, this, &RankingsWizard::forwardErrorMessage);
 
@@ -113,6 +116,11 @@ void RankingsWizard::buildRankings()
     }
 }
 
+void RankingsWizard::setOpenFileAtEnd(bool open)
+{
+    openFileAtEnd = open;
+}
+
 void RankingsWizard::forwardInfoMessage(QString const &message)
 {
     emit info(message);
@@ -160,8 +168,14 @@ void RankingsWizard::printStartList()
 
             if (printer->finalize()) {
                 QFileInfo outFileInfo(startListFileName);
-                emit info(tr("Generated Start List: %1").arg(QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
+                QString outFilePath = QDir::toNativeSeparators(outFileInfo.absoluteFilePath());
+                emit info(tr("Generated Start List: %1").arg(outFilePath));
                 lastSelectedPath->setPath(outFileInfo.absoluteDir().absolutePath());
+
+                if (this->openFileAtEnd) {
+                    emit info(tr("Trying to open: %1").arg(outFilePath));
+                    QDesktopServices::openUrl(QUrl::fromLocalFile(outFilePath));
+                }
             }
 
             // cleanup
@@ -216,8 +230,14 @@ void RankingsWizard::printRankingsSingleFile()
 
         if (printer->finalize()) {
             QFileInfo outFileInfo(rankingsFileName);
-            emit info(tr("Generated Results: %1").arg(QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
+            QString outFilePath = QDir::toNativeSeparators(outFileInfo.absoluteFilePath());
+            emit info(tr("Generated Results: %1").arg(outFilePath));
             lastSelectedPath->setPath(outFileInfo.absoluteDir().absolutePath());
+
+            if (this->openFileAtEnd) {
+                emit info(tr("Trying to open: %1").arg(outFilePath));
+                QDesktopServices::openUrl(QUrl::fromLocalFile(outFilePath));
+            }
         }
 
         // cleanup
@@ -278,7 +298,13 @@ void RankingsWizard::printRankingsMultiFile()
 
             if (printer->finalize()) {
                 QFileInfo outFileInfo(outFileBaseName);
-                emit info(tr("Generated Results '%1': %2").arg(rankingItem.categories->getFullDescription(), QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
+                QString outFilePath = QDir::toNativeSeparators(outFileInfo.absoluteFilePath());
+                emit info(tr("Generated Results '%1': %2").arg(rankingItem.categories->getFullDescription(), outFilePath));
+
+                if (this->openFileAtEnd) {
+                    emit info(tr("Trying to open: %1").arg(outFilePath));
+                    QDesktopServices::openUrl(QUrl::fromLocalFile(outFilePath));
+                }
             }
         }
 

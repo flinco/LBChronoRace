@@ -1495,6 +1495,10 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Results</source>
         <translation>Results</translation>
     </message>
+    <message>
+        <source>Trying to open: %1</source>
+        <translation>Trying to open: %1</translation>
+    </message>
 </context>
 <context>
     <name>RankingsWizardFormat</name>
@@ -1517,6 +1521,12 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Encoding</source>
         <translation>Encoding</translation>
+    </message>
+    <message>
+        <source>Open file after
+publishing</source>
+        <translation>Open file after
+publishing</translation>
     </message>
 </context>
 <context>

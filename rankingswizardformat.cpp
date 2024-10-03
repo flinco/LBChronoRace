@@ -25,7 +25,8 @@
 RankingsWizardFormat::RankingsWizardFormat(QWidget *parent) :
     QWizardPage(parent),
     fileFormat(parent),
-    fileEncoding(parent)
+    fileEncoding(parent),
+    fileOpen(parent)
 {
     auto formatIdx = static_cast<int>(CRLoader::getFormat());
     fileFormat.insertItem(static_cast<int>(CRLoader::Format::PDF), CRHelper::formatToLabel(CRLoader::Format::PDF));
@@ -39,9 +40,14 @@ RankingsWizardFormat::RankingsWizardFormat(QWidget *parent) :
     fileEncoding.setCurrentText(CRHelper::encodingToLabel(CRLoader::getEncoding()));
     layout.addRow(new QLabel(tr("Encoding")), &fileEncoding);
 
+    fileOpen.setCheckState(Qt::CheckState::Checked);
+    layout.addRow(new QLabel(tr("Open file after\npublishing")), &fileOpen);
+    layout.setAlignment(&fileOpen, Qt::AlignmentFlag::AlignLeft | Qt::AlignmentFlag::AlignVCenter);
+
     formatChange(formatIdx);
     connect(&fileFormat, &QComboBox::currentIndexChanged, this, &RankingsWizardFormat::formatChange);
     connect(&fileEncoding, &QComboBox::currentIndexChanged, this, &RankingsWizardFormat::encodingChange);
+    connect(&fileOpen, &QCheckBox::checkStateChanged, this, &RankingsWizardFormat::openChange);
 
     setLayout(&layout);
 }
@@ -95,4 +101,9 @@ void RankingsWizardFormat::formatChange(int index)
 void RankingsWizardFormat::encodingChange(int index) const
 {
     CRLoader::setEncoding(fileEncoding.itemData(index, Qt::UserRole).value<QStringConverter::Encoding>());
+}
+
+void RankingsWizardFormat::openChange(Qt::CheckState state)
+{
+    emit notifyOpenChange(state == Qt::CheckState::Checked);
 }
