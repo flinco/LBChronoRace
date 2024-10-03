@@ -355,8 +355,6 @@ void ChronoRaceTimings::saveTimings()
         CRLoader::addTiming(bib ? bib->text() : "0", time ? time->text() : "0:00:00");
         c++;
     }
-
-    emit newTimingsCount(c);
 }
 
 void ChronoRaceTimings::stepUp()

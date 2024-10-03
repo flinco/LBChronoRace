@@ -34,7 +34,7 @@ ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
     QObject::connect(ui->modelImport, &QPushButton::clicked, this, &ChronoRaceTable::modelImport);
     QObject::connect(ui->modelExport, &QPushButton::clicked, this, &ChronoRaceTable::modelExport);
     QObject::connect(ui->dialogSave, &QPushButton::clicked, this, &ChronoRaceTable::saveRaceData);
-    QObject::connect(ui->dialogQuit, &QPushButton::clicked, this, &ChronoRaceTable::dialogQuit);
+    QObject::connect(ui->dialogQuit, &QPushButton::clicked, this, &ChronoRaceTable::close);
 }
 
 QAbstractTableModel *ChronoRaceTable::getModel() const
@@ -115,12 +115,6 @@ void ChronoRaceTable::modelExport()
                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
         emit modelExported();
     }
-}
-
-void ChronoRaceTable::dialogQuit()
-{
-    emit newRowCount(ui->tableView->model()->rowCount());
-    this->close();
 }
 
 void ChronoRaceTable::dialogSave()

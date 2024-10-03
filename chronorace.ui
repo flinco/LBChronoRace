@@ -479,6 +479,8 @@
     <addaction name="actionMakeRankings"/>
     <addaction name="separator"/>
     <addaction name="actionSetEncoding"/>
+    <addaction name="actionAddTimeSpan"/>
+    <addaction name="actionSubtractTimeSpan"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -700,6 +702,30 @@
    </property>
    <property name="toolTip">
     <string>Add, remove, and change the definition of the rankings</string>
+   </property>
+  </action>
+  <action name="actionAddTimeSpan">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/update.svg</normaloff>:/material/icons/update.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Add time span</string>
+   </property>
+   <property name="toolTip">
+    <string>Add an arbitrary amount of time to all the recorded timings</string>
+   </property>
+  </action>
+  <action name="actionSubtractTimeSpan">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/history.svg</normaloff>:/material/icons/history.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Subtract time span</string>
+   </property>
+   <property name="toolTip">
+    <string>Subtract an arbitrary amount of time to all the recorded timings</string>
    </property>
   </action>
  </widget>

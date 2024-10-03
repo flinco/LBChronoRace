@@ -30,11 +30,13 @@
 #include "lbcrexception.hpp"
 #include "rankingswizard.hpp"
 #include "crhelper.hpp"
+#include "timespandialog.hpp"
 
 // static members initialization
 QDir LBChronoRace::lastSelectedPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 uint LBChronoRace::binFormat = LBCHRONORACE_BIN_FMT;
 QRegularExpression LBChronoRace::csvFilter("[,;]");
+
 
 LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QMainWindow(parent),
@@ -59,24 +61,25 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
 
     ui->setupUi(this);
 
+    auto *startListModel = dynamic_cast<StartListModel *>(CRLoader::getStartListModel());
     startListTable.setWindowTitle(tr("Competitors"));
-    startListTable.setModel(CRLoader::getStartListModel());
+    startListTable.setModel(startListModel);
     QObject::connect(&startListTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importStartList);
     QObject::connect(&startListTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportStartList);
     QObject::connect(&startListTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
-    QObject::connect(&startListTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterCompetitors);
+    QObject::connect(startListModel, &StartListModel::error, this, &LBChronoRace::appendErrorMessage);
+    startListModel->setCounter(ui->counterCompetitors);
 
+    auto *teamsListModel = dynamic_cast<TeamsListModel *>(CRLoader::getTeamsListModel());
     teamsTable.disableButtons();
     teamsTable.setWindowTitle(tr("Clubs List"));
-    teamsTable.setModel(CRLoader::getTeamsListModel());
+    teamsTable.setModel(teamsListModel);
     QObject::connect(&teamsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportTeamList);
     QObject::connect(&teamsTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
-    QObject::connect(&teamsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterTeams);
+    teamsListModel->setCounter(ui->counterTeams);
 
-    auto const *startListModel = dynamic_cast<StartListModel const *>(CRLoader::getStartListModel());
-    auto const *teamsListModel = dynamic_cast<TeamsListModel const *>(CRLoader::getTeamsListModel());
+    // start list --> teams list
     QObject::connect(startListModel, &StartListModel::newClub, teamsListModel, &TeamsListModel::addTeam);
-    QObject::connect(startListModel, &StartListModel::error, this, &LBChronoRace::appendErrorMessage);
 
     auto *rankingsModel = dynamic_cast<RankingsModel *>(CRLoader::getRankingsModel());
     rankingsTable.setWindowTitle(tr("Rankings"));
@@ -84,8 +87,8 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(&rankingsTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importRankingsList);
     QObject::connect(&rankingsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportRankingsList);
     QObject::connect(&rankingsTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
-    QObject::connect(&rankingsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterRankings);
     QObject::connect(rankingsModel, &RankingsModel::error, this, &LBChronoRace::appendErrorMessage);
+    rankingsModel->setCounter(ui->counterRankings);
 
     auto *categoriesModel = dynamic_cast<CategoriesModel *>(CRLoader::getCategoriesModel());
     categoriesTable.setWindowTitle(tr("Categories"));
@@ -93,9 +96,9 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(&categoriesTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importCategoriesList);
     QObject::connect(&categoriesTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportCategoriesList);
     QObject::connect(&categoriesTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
-    QObject::connect(&categoriesTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterCategories);
     QObject::connect(categoriesModel, &CategoriesModel::error, this, &LBChronoRace::appendErrorMessage);
     rankingCatsDelegate.setCategories(categoriesModel);
+    categoriesModel->setCounter(ui->counterCategories);
 
     auto *timingsModel = dynamic_cast<TimingsModel *>(CRLoader::getTimingsModel());
     timingsTable.setWindowTitle(tr("Timings List"));
@@ -103,10 +106,9 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(&timingsTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importTimingsList);
     QObject::connect(&timingsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportTimingsList);
     QObject::connect(&timingsTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
-    QObject::connect(&timingsTable, &ChronoRaceTable::newRowCount, this, &LBChronoRace::setCounterTimings);
     QObject::connect(timingsModel, &TimingsModel::error, this, &LBChronoRace::appendErrorMessage);
+    timingsModel->setCounter(ui->counterTimings);
 
-    QObject::connect(&timings, &ChronoRaceTimings::newTimingsCount, this, &LBChronoRace::setCounterTimings);
     QObject::connect(&timings, &ChronoRaceTimings::error, this, &LBChronoRace::appendErrorMessage);
 
     // react to screen change and resize
@@ -145,6 +147,8 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionMakeStartList, &QAction::triggered, this, &LBChronoRace::makeStartList);
     QObject::connect(ui->actionCollectTimings, &QAction::triggered, &timings, &ChronoRaceTimings::show);
     QObject::connect(ui->actionMakeRankings, &QAction::triggered, this, &LBChronoRace::makeRankings);
+    QObject::connect(ui->actionAddTimeSpan, &QAction::triggered, this, &LBChronoRace::addTimeSpan);
+    QObject::connect(ui->actionSubtractTimeSpan, &QAction::triggered, this, &LBChronoRace::subtractTimeSpan);
 
     QObject::connect(ui->actionAbout, &QAction::triggered, this, &LBChronoRace::actionAbout);
     QObject::connect(ui->actionAboutQt, &QAction::triggered, this, &LBChronoRace::actionAboutQt);
@@ -156,34 +160,6 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     rankingsTable.setItemDelegateForColumn(static_cast<int>(Ranking::Field::RTF_CATEGORIES), &rankingCatsDelegate);
     categoriesTable.setItemDelegateForColumn(static_cast<int>(Category::Field::CTF_TYPE), &categoryTypeDelegate);
     timingsTable.setItemDelegateForColumn(static_cast<int>(Timing::Field::TMF_STATUS), &timingStatusDelegate);
-}
-
-void LBChronoRace::setCounterTeams(int count) const
-{
-    ui->counterTeams->display(count);
-}
-
-void LBChronoRace::setCounterCompetitors(int count) const
-{
-    ui->counterCompetitors->display(count);
-
-    // also update the counter for the list of clubs
-    setCounterTeams(CRLoader::getTeamsListModel()->rowCount());
-}
-
-void LBChronoRace::setCounterRankings(int count) const
-{
-    ui->counterRankings->display(count);
-}
-
-void LBChronoRace::setCounterCategories(int count) const
-{
-    ui->counterCategories->display(count);
-}
-
-void LBChronoRace::setCounterTimings(int count) const
-{
-    ui->counterTimings->display(count);
 }
 
 void LBChronoRace::appendInfoMessage(QString const &message) const
@@ -199,7 +175,7 @@ void LBChronoRace::appendErrorMessage(QString const &message) const
 {
     if (auto sep = message.indexOf(':'); sep < 0) {
         ui->errorDisplay->appendHtml("<p><font color=\"red\">" + message + "</font></p>");
-    } else if (message.at(sep + 1) == QChar(':')) {
+    } else if ((message.length() > (sep + 1)) && (message.at(sep + 1) == QChar(':'))) {
         ui->errorDisplay->appendHtml("<p><font color=\"orange\">" + message.first(sep) + "</font>" + message.sliced(sep + 1) + "</p>");
     } else {
         ui->errorDisplay->appendHtml("<p><font color=\"red\">" + message.first(sep) + "</font>" + message.sliced(sep) + "</p>");
@@ -224,8 +200,6 @@ void LBChronoRace::importStartList()
         } catch (ChronoRaceException &e) {
             appendErrorMessage(e.getMessage());
         }
-        setCounterCompetitors(count.first);
-        setCounterTeams(count.second);
     }
 }
 
@@ -246,7 +220,6 @@ void LBChronoRace::importRankingsList()
         } catch (ChronoRaceException &e) {
             appendErrorMessage(e.getMessage());
         }
-        setCounterRankings(count);
     }
 }
 
@@ -267,7 +240,6 @@ void LBChronoRace::importCategoriesList()
         } catch (ChronoRaceException &e) {
             appendErrorMessage(e.getMessage());
         }
-        setCounterCategories(count);
     }
 }
 
@@ -288,7 +260,6 @@ void LBChronoRace::importTimingsList()
         } catch (ChronoRaceException &e) {
             appendErrorMessage(e.getMessage());
         }
-        setCounterTimings(count);
     }
 }
 
@@ -398,6 +369,21 @@ void LBChronoRace::exportTimingsList()
             lastSelectedPath = QFileInfo(timingsFileName).absoluteDir();
         }  catch (ChronoRaceException &e) {
             appendErrorMessage(e.getMessage());
+        }
+    }
+}
+
+void LBChronoRace::applyTimeSpan(int offset)
+{
+    if (offset > 0) {
+        QString text = tr("%n second(s) will be added to all the recorded timings.\nAre you sure you want to continue?", "", offset); // turn to milliseconds
+        if (QMessageBox::warning(this, QString("Apply Time Span"), text, QMessageBox::StandardButton::Yes, QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes) {
+            (dynamic_cast<TimingsModel *>(CRLoader::getTimingsModel()))->addTimeSpan(offset);
+        }
+    } else if (offset < 0) {
+        QString text = tr("%n second(s) will be subtracted from all the recorded timings.\nTimings resulting below 0 will be set to 0:00:00.\nAre you sure you want to continue?", "", -offset); // turn to milliseconds
+        if (QMessageBox::warning(this, QString("Apply Time Span"), text, QMessageBox::StandardButton::Yes, QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes) {
+            (dynamic_cast<TimingsModel *>(CRLoader::getTimingsModel()))->addTimeSpan(offset);
         }
     }
 }
@@ -523,23 +509,23 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
 
                 table = CRLoader::getStartListModel();
                 tableCount = table->rowCount();
-                setCounterCompetitors(tableCount);
+                ui->counterCompetitors->display(tableCount);
                 appendInfoMessage(tr("Loaded: %n competitor(s)", "", tableCount));
                 table = CRLoader::getTeamsListModel();
                 tableCount = table->rowCount();
-                setCounterTeams(tableCount);
+                ui->counterTeams->display(tableCount);
                 appendInfoMessage(tr("Loaded: %n team(s)", "", tableCount));
                 table = CRLoader::getRankingsModel();
                 tableCount = table->rowCount();
-                setCounterRankings(tableCount);
+                ui->counterRankings->display(tableCount);
                 appendInfoMessage(tr("Loaded: %n ranking(s)", "", tableCount));
                 table = CRLoader::getCategoriesModel();
                 tableCount = table->rowCount();
-                setCounterCategories(tableCount);
+                ui->counterCategories->display(tableCount);
                 appendInfoMessage(tr("Loaded: %n category(s)", "", tableCount));
                 table = CRLoader::getTimingsModel();
                 tableCount = table->rowCount();
-                setCounterTimings(tableCount);
+                ui->counterTimings->display(tableCount);
                 appendInfoMessage(tr("Loaded: %n timing(s)", "", tableCount));
 
                 appendInfoMessage(tr("Race loaded: %1").arg(fileName));
@@ -703,6 +689,40 @@ void LBChronoRace::makeRankings()
 
         QObject::disconnect(wizardErrorMessages);
         QObject::disconnect(wizardInfoMessages);
+
+    } catch (ChronoRaceException &e) {
+        appendErrorMessage(e.getMessage());
+    }
+}
+
+void LBChronoRace::addTimeSpan()
+{
+    try {
+        TimeSpanDialog addDialog(this, tr("Time span"), tr("Time interval to add up"), false);
+
+        auto const &dialogHandle = QObject::connect(&addDialog, &TimeSpanDialog::applyOffset, this, &LBChronoRace::applyTimeSpan);
+
+        addDialog.setModal(true);
+        addDialog.exec();
+
+        QObject::disconnect(dialogHandle);
+
+    } catch (ChronoRaceException &e) {
+        appendErrorMessage(e.getMessage());
+    }
+}
+
+void LBChronoRace::subtractTimeSpan()
+{
+    try {
+        TimeSpanDialog subDialog(this, tr("Time span"), tr("Time interval to subtract"), true);
+
+        auto const &dialogHandle = QObject::connect(&subDialog, &TimeSpanDialog::applyOffset, this, &LBChronoRace::applyTimeSpan);
+
+        subDialog.setModal(true);
+        subDialog.exec();
+
+        QObject::disconnect(dialogHandle);
 
     } catch (ChronoRaceException &e) {
         appendErrorMessage(e.getMessage());

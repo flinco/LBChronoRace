@@ -173,7 +173,6 @@ Qt::ItemFlags RankingsModel::flags(QModelIndex const &index) const
 
 bool RankingsModel::insertRows(int position, int rows, QModelIndex const &parent)
 {
-
     Q_UNUSED(parent)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
@@ -183,12 +182,14 @@ bool RankingsModel::insertRows(int position, int rows, QModelIndex const &parent
     }
 
     endInsertRows();
+
+    refreshDisplayCounter();
+
     return true;
 }
 
 bool RankingsModel::removeRows(int position, int rows, QModelIndex const &parent)
 {
-
     Q_UNUSED(parent)
 
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
@@ -198,6 +199,9 @@ bool RankingsModel::removeRows(int position, int rows, QModelIndex const &parent
     }
 
     endRemoveRows();
+
+    refreshDisplayCounter();
+
     return true;
 }
 
@@ -215,6 +219,8 @@ void RankingsModel::reset()
     beginResetModel();
     rankings.clear();
     endResetModel();
+
+    refreshDisplayCounter();
 }
 
 void RankingsModel::parseCategories()

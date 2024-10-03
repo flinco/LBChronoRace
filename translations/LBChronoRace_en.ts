@@ -1133,6 +1133,57 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Unknown encoding %1; loaded default</source>
         <translation>Unknown encoding %1; loaded default</translation>
     </message>
+    <message>
+        <source>Add time span</source>
+        <translation>Add time span</translation>
+    </message>
+    <message>
+        <source>Add an arbitrary amount of time to all the recorded timings</source>
+        <translation>Add an arbitrary amount of time to all the recorded timings</translation>
+    </message>
+    <message>
+        <source>Subtract time span</source>
+        <translation>Subtract time span</translation>
+    </message>
+    <message>
+        <source>Subtract an arbitrary amount of time to all the recorded timings</source>
+        <translation>Subtract an arbitrary amount of time to all the recorded timings</translation>
+    </message>
+    <message>
+        <source>Time span</source>
+        <translation>Time span</translation>
+    </message>
+    <message>
+        <source>Time interval to add up</source>
+        <translation>Time interval to add up</translation>
+    </message>
+    <message>
+        <source>Time interval to subtract</source>
+        <translation>Time interval to subtract</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n second(s) will be added to all the recorded timings.
+Are you sure you want to continue?</source>
+        <translation>
+            <numerusform>%n second will be added to all the recorded timings.
+Are you sure you want to continue?</numerusform>
+            <numerusform>%n seconds will be added to all the recorded timings.
+Are you sure you want to continue?</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n second(s) will be subtracted from all the recorded timings.
+Timings resulting below 0 will be set to 0:00:00.
+Are you sure you want to continue?</source>
+        <translation>
+            <numerusform>%n second will be subtracted from all the recorded timings.
+Timings resulting below 0 will be set to 0:00:00.
+Are you sure you want to continue?</numerusform>
+            <numerusform>%n seconds will be subtracted from all the recorded timings.
+Timings resulting below 0 will be set to 0:00:00.
+Are you sure you want to continue?</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>MultiSelectComboBox</name>
@@ -1668,6 +1719,21 @@ publishing</translation>
     <message>
         <source>Club Name</source>
         <translation>Club Name</translation>
+    </message>
+</context>
+<context>
+    <name>TimeSpanDialog</name>
+    <message>
+        <source>Number of hours to add up or subtract</source>
+        <translation>Number of hours to add up or subtract</translation>
+    </message>
+    <message>
+        <source>Number of minutes to add up or subtract</source>
+        <translation>Number of minutes to add up or subtract</translation>
+    </message>
+    <message>
+        <source>Number of seconds to add up or subtract</source>
+        <translation>Number of seconds to add up or subtract</translation>
     </message>
 </context>
 <context>

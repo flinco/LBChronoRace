@@ -210,7 +210,6 @@ Qt::ItemFlags CategoriesModel::flags(QModelIndex const &index) const
 
 bool CategoriesModel::insertRows(int position, int rows, QModelIndex const &parent)
 {
-
     Q_UNUSED(parent)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
@@ -220,12 +219,14 @@ bool CategoriesModel::insertRows(int position, int rows, QModelIndex const &pare
     }
 
     endInsertRows();
+
+    refreshDisplayCounter();
+
     return true;
 }
 
 bool CategoriesModel::removeRows(int position, int rows, QModelIndex const &parent)
 {
-
     Q_UNUSED(parent)
 
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
@@ -235,6 +236,9 @@ bool CategoriesModel::removeRows(int position, int rows, QModelIndex const &pare
     }
 
     endRemoveRows();
+
+    refreshDisplayCounter();
+
     return true;
 }
 
@@ -252,6 +256,8 @@ void CategoriesModel::reset()
     beginResetModel();
     categories.clear();
     endResetModel();
+
+    refreshDisplayCounter();
 }
 
 QList<Category> const &CategoriesModel::getCategories() const

@@ -38,7 +38,6 @@ public:
 private slots:
     void rowAdd() const;
     void rowDel() const;
-    void dialogQuit();
     void dialogSave();
 
 public slots:
@@ -47,7 +46,6 @@ public slots:
     void modelExport();
 
 signals:
-    void newRowCount(int count);
     void modelImported();
     void modelExported();
     void saveRaceData();

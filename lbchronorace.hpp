@@ -73,12 +73,6 @@ public slots:
     void show(); //NOSONAR
     void resizeDialogs(QScreen const *screen);
 
-    void setCounterTeams(int count) const;
-    void setCounterCompetitors(int count) const;
-    void setCounterRankings(int count) const;
-    void setCounterCategories(int count) const;
-    void setCounterTimings(int count) const;
-
     void appendInfoMessage(QString const &message) const;
     void appendErrorMessage(QString const &message) const;
 
@@ -126,6 +120,9 @@ private slots:
     void makeStartList();
     void makeRankings();
 
+    void addTimeSpan();
+    void subtractTimeSpan();
+
     void importStartList();
     void importRankingsList();
     void importCategoriesList();
@@ -136,6 +133,8 @@ private slots:
     void exportRankingsList();
     void exportCategoriesList();
     void exportTimingsList();
+
+    void applyTimeSpan(int offset);
 };
 
 #endif // LBCHRONORACE_H

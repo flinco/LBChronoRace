@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (C) 2021 by Lorenzo Buzzi (lorenzo@buzzi.pro)                   *
+ * Copyright (C) 2024 by Lorenzo Buzzi (lorenzo@buzzi.pro)                   *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU General Public License as published by      *
@@ -15,39 +15,30 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CRTABLEMODEL_H
-#define CRTABLEMODEL_H
+#ifndef TIMESPANDIALOG_H
+#define TIMESPANDIALOG_H
 
-#include <QAbstractTableModel>
-#include <QLCDNumber>
+#include <QDialog>
+#include <QString>
+#include <QScopedPointer>
+#include <QGridLayout>
 
-class CRTableModel : public QAbstractTableModel
+class TimeSpanDialog : public QDialog
 {
     Q_OBJECT
-    using QAbstractTableModel::QAbstractTableModel;
-
-public:
-    void setCounter(QLCDNumber *newCounter);
 
 private:
-    QLCDNumber *counter { Q_NULLPTR };
+    bool subtract;
+    QScopedPointer<QGridLayout> layout { new QGridLayout };
 
-protected:
-    virtual void refreshDisplayCounter() final;
+public:
+    explicit TimeSpanDialog(QWidget *parent, QString const &title, QString const &label, bool sub);
+
+signals:
+    void applyOffset(int value);
 
 public slots:
-    virtual void refreshCounters(int r) = 0;
+    void accept() override;
 };
 
-inline void CRTableModel::setCounter(QLCDNumber *newCounter)
-{
-    counter = newCounter;
-}
-
-inline void CRTableModel::refreshDisplayCounter()
-{
-    if (counter != Q_NULLPTR)
-        counter->display(rowCount(QModelIndex()));
-}
-
-#endif // CRTABLEMODEL_H
+#endif // TIMESPANDIALOG_H
