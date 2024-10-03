@@ -278,7 +278,6 @@ Qt::ItemFlags StartListModel::flags(QModelIndex const &index) const
 
 bool StartListModel::insertRows(int position, int rows, QModelIndex const &parent)
 {
-
     Q_UNUSED(parent)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
@@ -288,6 +287,9 @@ bool StartListModel::insertRows(int position, int rows, QModelIndex const &paren
     }
 
     endInsertRows();
+
+    refreshDisplayCounter();
+
     return true;
 }
 
@@ -300,6 +302,8 @@ bool StartListModel::removeRows(int position, int rows, QModelIndex const &paren
         startList.removeAt(position);
     }
     endRemoveRows();
+
+    refreshDisplayCounter();
 
     return true;
 }
@@ -321,6 +325,8 @@ void StartListModel::reset()
     competitorNameWidthMax = 0;
     teamNameWidthMax = 0;
     endResetModel();
+
+    refreshDisplayCounter();
 }
 
 QList<Competitor> const &StartListModel::getStartList() const

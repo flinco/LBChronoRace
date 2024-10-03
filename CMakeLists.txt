@@ -116,6 +116,8 @@ set(PROJECT_SOURCES
     teamclassentry.hpp
     teamslistmodel.cpp
     teamslistmodel.hpp
+    timespandialog.cpp
+    timespandialog.hpp
     timing.cpp
     timing.hpp
     timingsmodel.cpp

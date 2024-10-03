@@ -57,5 +57,7 @@
         <file>icons/dialpad.svg</file>
         <file>icons/return.svg</file>
         <file>icons/space_bar.svg</file>
+        <file>icons/history.svg</file>
+        <file>icons/update.svg</file>
     </qresource>
 </RCC>

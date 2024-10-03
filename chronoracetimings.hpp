@@ -60,7 +60,6 @@ public slots:
     void clearDiskBuffer();
 
 signals:
-    void newTimingsCount(int count);
     void saveToDisk(QString const &buffer);
     void error(QString const &message);
 

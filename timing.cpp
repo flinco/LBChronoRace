@@ -162,6 +162,14 @@ void Timing::setTiming(char const *timing)
     setTiming(QString(timing));
 }
 
+void Timing::addOffset(int offset)
+{
+    if ((offset >= 0) || (static_cast<uint>(abs(offset)) < this->seconds))
+        this->seconds += offset;
+    else
+        this->seconds = 0;
+}
+
 bool Timing::isValid() const
 {
     return ((bib != 0u) && ((status == Status::DNS) || (status == Status::DNF) || (status == Status::DSQ) || ((status == Status::CLASSIFIED) && (seconds != 0u))));

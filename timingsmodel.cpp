@@ -43,7 +43,6 @@ void TimingsModel::refreshCounters(int r)
 
 int TimingsModel::rowCount(QModelIndex const &parent) const
 {
-
     Q_UNUSED(parent)
 
     return static_cast<int>(timings.count());
@@ -51,7 +50,6 @@ int TimingsModel::rowCount(QModelIndex const &parent) const
 
 int TimingsModel::columnCount(QModelIndex const &parent) const
 {
-
     Q_UNUSED(parent)
 
     return static_cast<int>(Timing::Field::TMF_COUNT);
@@ -179,8 +177,8 @@ Qt::ItemFlags TimingsModel::flags(QModelIndex const &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool TimingsModel::insertRows(int position, int rows, QModelIndex const &parent) {
-
+bool TimingsModel::insertRows(int position, int rows, QModelIndex const &parent)
+{
     Q_UNUSED(parent)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
@@ -190,12 +188,14 @@ bool TimingsModel::insertRows(int position, int rows, QModelIndex const &parent)
     }
 
     endInsertRows();
+
+    refreshDisplayCounter();
+
     return true;
 }
 
 bool TimingsModel::removeRows(int position, int rows, QModelIndex const &parent)
 {
-
     Q_UNUSED(parent)
 
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
@@ -205,12 +205,14 @@ bool TimingsModel::removeRows(int position, int rows, QModelIndex const &parent)
     }
 
     endRemoveRows();
+
+    refreshDisplayCounter();
+
     return true;
 }
 
 void TimingsModel::sort(int column, Qt::SortOrder order)
 {
-
     TimingSorter::setSortingField((Timing::Field) column);
     TimingSorter::setSortingOrder(order);
     std::stable_sort(timings.begin(), timings.end(), TimingSorter());
@@ -221,9 +223,19 @@ void TimingsModel::reset() {
     beginResetModel();
     timings.clear();
     endResetModel();
+
+    refreshDisplayCounter();
 }
 
 QList<Timing> const &TimingsModel::getTimings() const
 {
     return timings;
+}
+
+void TimingsModel::addTimeSpan(int offset)
+{
+    for (auto r = 0; r < timings.count(); r++) {
+        timings[r].addOffset(offset);
+        setData(this->index(r, static_cast<int>(Timing::Field::TMF_TIME)), QVariant(timings[r].getTiming()), Qt::EditRole);
+    }
 }

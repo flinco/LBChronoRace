@@ -1133,6 +1133,57 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Unknown encoding %1; loaded default</source>
         <translation>Codifica sconosciuta %1; codifca predefinita caricata</translation>
     </message>
+    <message>
+        <source>Add time span</source>
+        <translation>Aggiungi tempo</translation>
+    </message>
+    <message>
+        <source>Add an arbitrary amount of time to all the recorded timings</source>
+        <translation>Aggiunge una quantità arbitraria di tempo a tutti i tempi registrati</translation>
+    </message>
+    <message>
+        <source>Subtract time span</source>
+        <translation>Sottrai tempo</translation>
+    </message>
+    <message>
+        <source>Subtract an arbitrary amount of time to all the recorded timings</source>
+        <translation>Sottrae una quantità arbitraria di tempo da tutti i tempi registrati</translation>
+    </message>
+    <message>
+        <source>Time span</source>
+        <translation>Quantità di tempo</translation>
+    </message>
+    <message>
+        <source>Time interval to add up</source>
+        <translation>Quantità di tempo da aggiungere</translation>
+    </message>
+    <message>
+        <source>Time interval to subtract</source>
+        <translation>Quantità di tempo da sottrarre</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n second(s) will be added to all the recorded timings.
+Are you sure you want to continue?</source>
+        <translation>
+            <numerusform>%n secondo sarà aggiunto a tutti i tempi registrati.
+Sei sicuro di voler continuare?</numerusform>
+            <numerusform>%n secondi saranno aggiunti a tutti i tempi registrati.
+Sei sicuro di voler continuare?</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n second(s) will be subtracted from all the recorded timings.
+Timings resulting below 0 will be set to 0:00:00.
+Are you sure you want to continue?</source>
+        <translation>
+            <numerusform>%n secondo sarà sottratto da tutti i tempi registrati.
+Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.
+Sei sicuro di voler continuare?</numerusform>
+            <numerusform>%n secondi saranno sottratti da tutti i tempi registrati.
+Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.
+Sei sicuro di voler continuare?</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>MultiSelectComboBox</name>
@@ -1668,6 +1719,21 @@ la pubblicazione</translation>
     <message>
         <source>Club Name</source>
         <translation>Nome Società</translation>
+    </message>
+</context>
+<context>
+    <name>TimeSpanDialog</name>
+    <message>
+        <source>Number of hours to add up or subtract</source>
+        <translation>NUmero di ore da aggiungere o sottrarre</translation>
+    </message>
+    <message>
+        <source>Number of minutes to add up or subtract</source>
+        <translation>Numero di minuti da aggiungere o sottrarre</translation>
+    </message>
+    <message>
+        <source>Number of seconds to add up or subtract</source>
+        <translation>Numero di secondi da aggiungere o sottrarre</translation>
     </message>
 </context>
 <context>

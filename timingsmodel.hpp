@@ -47,6 +47,8 @@ public:
 
     QList<Timing> const &getTimings() const;
 
+    void addTimeSpan(int offset);
+
     void reset();
 
 public slots:

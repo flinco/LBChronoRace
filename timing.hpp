@@ -77,6 +77,7 @@ public:
     QString getTiming() const;
     void setTiming(QString const &timing);
     void setTiming(char const *timing);
+    void addOffset(int offset);
     bool isValid() const;
 
     bool operator<  (Timing const &rhs) const;

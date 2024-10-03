@@ -118,7 +118,6 @@ Qt::ItemFlags TeamsListModel::flags(QModelIndex const &index) const
 
 bool TeamsListModel::insertRows(int position, int rows, QModelIndex const &parent)
 {
-
     Q_UNUSED(parent)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
@@ -126,6 +125,8 @@ bool TeamsListModel::insertRows(int position, int rows, QModelIndex const &paren
         teamsList.insert(position, QString());
     }
     endInsertRows();
+
+    refreshDisplayCounter();
 
     return true;
 }
@@ -139,6 +140,8 @@ bool TeamsListModel::removeRows(int position, int rows, QModelIndex const &paren
         teamsList.removeAt(position);
     }
     endRemoveRows();
+
+    refreshDisplayCounter();
 
     return true;
 }
@@ -158,6 +161,8 @@ void TeamsListModel::reset() {
     beginResetModel();
     teamsList.clear();
     endResetModel();
+
+    refreshDisplayCounter();
 }
 
 void TeamsListModel::addTeam(QString const &team)
@@ -166,6 +171,8 @@ void TeamsListModel::addTeam(QString const &team)
         int rowCount = this->rowCount();
         this->insertRow(rowCount, QModelIndex());
         this->setData(this->index(rowCount, 0, QModelIndex()), QVariant(team), Qt::EditRole);
+
+        refreshDisplayCounter();
     }
 }
 
