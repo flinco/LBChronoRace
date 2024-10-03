@@ -107,6 +107,7 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
             break;
         case Qt::Key::Key_Backspace:
             deleteBib();
+            break;
         case Qt::Key::Key_Delete:
             if (keyModifiers & Qt::KeyboardModifier::AltModifier)
                 deleteTiming();
