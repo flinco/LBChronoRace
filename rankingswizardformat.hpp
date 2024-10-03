@@ -21,6 +21,7 @@
 #include <QWizardPage>
 #include <QFormLayout>
 #include <QComboBox>
+#include <QCheckBox>
 
 class RankingsWizardFormat : public QWizardPage
 {
@@ -37,13 +38,16 @@ private:
 
     QComboBox fileFormat;
     QComboBox fileEncoding;
+    QCheckBox fileOpen;
 
 private slots:
     void formatChange(int index);
     void encodingChange(int index) const;
+    void openChange(Qt::CheckState state);
 
 signals:
     void error(QString const &message);
+    void notifyOpenChange(bool open);
 };
 
 #endif // RANKINGSWIZARDFORMAT_H

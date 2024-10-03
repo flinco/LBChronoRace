@@ -77,9 +77,12 @@ private:
     void printRankingsSingleFile();
     void printRankingsMultiFile();
 
+    bool openFileAtEnd { true };
+
     QStringList messages { };
 
 private slots:
+    void setOpenFileAtEnd(bool open);
     void forwardInfoMessage(QString const &message);
     void forwardErrorMessage(QString const &message);
     void storeErrorMessage(QString const &message);

@@ -1495,6 +1495,10 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Results</source>
         <translation>Risultati</translation>
     </message>
+    <message>
+        <source>Trying to open: %1</source>
+        <translation>Apertura file: %1</translation>
+    </message>
 </context>
 <context>
     <name>RankingsWizardFormat</name>
@@ -1517,6 +1521,12 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Encoding</source>
         <translation>Codifica</translation>
+    </message>
+    <message>
+        <source>Open file after
+publishing</source>
+        <translation>Apri file dopo
+la pubblicazione</translation>
     </message>
 </context>
 <context>
