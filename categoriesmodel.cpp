@@ -63,7 +63,27 @@ QVariant CategoriesModel::data(QModelIndex const &index, int role) const
     if (index.row() >= categories.size())
         return QVariant();
 
-    if ((role == Qt::DisplayRole) || (role == Qt::EditRole))
+    if (role == Qt::DisplayRole) {
+        uint year;
+        switch (index.column()) {
+        case static_cast<int>(Category::Field::CTF_TYPE):
+            return QVariant(CRHelper::toTypeString(categories.at(index.row()).getType()));
+        case static_cast<int>(Category::Field::CTF_TO_YEAR):
+            if ((year = categories.at(index.row()).getToYear()))
+                return QVariant(year);
+            return QVariant("");
+        case static_cast<int>(Category::Field::CTF_FROM_YEAR):
+            if ((year = categories.at(index.row()).getFromYear()))
+                return QVariant(year);
+            return QVariant("");
+        case static_cast<int>(Category::Field::CTF_FULL_DESCR):
+            return QVariant(categories.at(index.row()).getFullDescription());
+        case static_cast<int>(Category::Field::CTF_SHORT_DESCR):
+            return QVariant(categories.at(index.row()).getShortDescription());
+        default:
+            return QVariant();
+        }
+    } else if (role == Qt::EditRole) {
         switch (index.column()) {
         case static_cast<int>(Category::Field::CTF_TYPE):
             return QVariant(CRHelper::toTypeString(categories.at(index.row()).getType()));
@@ -78,14 +98,14 @@ QVariant CategoriesModel::data(QModelIndex const &index, int role) const
         default:
             return QVariant();
         }
-    else if (role == Qt::ToolTipRole)
+    } else if (role == Qt::ToolTipRole) {
         switch (index.column()) {
         case static_cast<int>(Category::Field::CTF_TYPE):
             return QVariant(tr("Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)"));
         case static_cast<int>(Category::Field::CTF_TO_YEAR):
-            return QVariant(tr("The category will include competitors born up to and including this year (i.e. 2000); 0 to disable"));
+            return QVariant(tr("The category will include competitors born up to and including this year (i.e. 2000); set to 0 to disable this constraint"));
         case static_cast<int>(Category::Field::CTF_FROM_YEAR):
-            return QVariant(tr("The category will include competitors born from this year (i.e. 1982); to disable"));
+            return QVariant(tr("The category will include competitors born from this year (i.e. 1982); set to 0 to disable this constraint"));
         case static_cast<int>(Category::Field::CTF_FULL_DESCR):
             return QVariant(tr("Full category name"));
         case static_cast<int>(Category::Field::CTF_SHORT_DESCR):
@@ -93,6 +113,7 @@ QVariant CategoriesModel::data(QModelIndex const &index, int role) const
         default:
             return QVariant();
         }
+    }
 
     return QVariant();
 }
@@ -123,11 +144,19 @@ bool CategoriesModel::setData(QModelIndex const &index, QVariant const &value, i
         }
         break;
     case static_cast<int>(Category::Field::CTF_TO_YEAR):
-        uval = value.toUInt(&retval);
+        if ((retval = value.toString().isEmpty())) {
+            uval = 0;
+        } else {
+            uval = value.toUInt(&retval);
+        }
         if (retval) categories[index.row()].setToYear(uval);
         break;
     case static_cast<int>(Category::Field::CTF_FROM_YEAR):
-        uval = value.toUInt(&retval);
+        if ((retval = value.toString().isEmpty())) {
+            uval = 0;
+        } else {
+            uval = value.toUInt(&retval);
+        }
         if (retval) categories[index.row()].setFromYear(uval);
         break;
     case static_cast<int>(Category::Field::CTF_FULL_DESCR):
