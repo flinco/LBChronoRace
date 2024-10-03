@@ -157,12 +157,12 @@
 <context>
     <name>CategoriesModel</name>
     <message>
-        <source>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</source>
-        <translation>La categoria include concorrenti nati fino a quest&apos;anno incluso (es. 2000); 0 per disabilitare</translation>
+        <source>The category will include competitors born up to and including this year (i.e. 2000); set to 0 to disable this constraint</source>
+        <translation>La categoria include concorrenti nati fino a quest&apos;anno incluso (es. 2000); 0 per disabilitare questo vincolo</translation>
     </message>
     <message>
-        <source>The category will include competitors born from this year (i.e. 1982); to disable</source>
-        <translation>La categoria include concorrenti nati da quest&apos;anno incluso (es. 1982); 0 per disabilitare</translation>
+        <source>The category will include competitors born from this year (i.e. 1982); set to 0 to disable this constraint</source>
+        <translation>La categoria include concorrenti nati da quest&apos;anno incluso (es. 1982); 0 per disabilitare questo vincolo</translation>
     </message>
     <message>
         <source>Full category name</source>
