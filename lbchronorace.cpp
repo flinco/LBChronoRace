@@ -487,7 +487,7 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
             QFileInfo raceDataFileInfo(fileName);
 
             QDataStream in(&raceDataFile);
-            in.setVersion(QDataStream::Qt_5_15);
+            in.setVersion(QDataStream::Qt_6_0);
             in >> binFmt;
 
             switch (binFmt) {
@@ -499,6 +499,9 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
                 QMessageBox::warning(this, tr("Race Data File Format"), tr("This Race Data File was saved with a previous release of the application.\nThe definitions of Categories and Rankings must be reviewed and corrected."));
                 [[fallthrough]];
             case LBCHRONORACE_BIN_FMT_v4:
+                in.setVersion(QDataStream::Qt_5_15);
+                [[fallthrough]];
+            case LBCHRONORACE_BIN_FMT_v5:
                 QAbstractTableModel const *table;
                 qint16 encodingIdx;
                 qint16 formatIdx;
@@ -584,7 +587,7 @@ void LBChronoRace::saveRace()
             QFileInfo raceDataFileInfo(raceDataFileName);
             QDataStream out(&raceDataFile);
 
-            out.setVersion(QDataStream::Qt_5_15);
+            out.setVersion(QDataStream::Qt_6_0);
             out << quint32(LBCHRONORACE_BIN_FMT);
 
             switch (CRLoader::getEncoding()) {
