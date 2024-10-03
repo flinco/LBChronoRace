@@ -296,7 +296,7 @@ bool CompetitorSorter::operator() (Competitor const &lhs, Competitor const &rhs)
         case Competitor::Field::CMF_TEAM:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getTeam() > rhs.getTeam()) : (lhs.getTeam() < rhs.getTeam());
         case Competitor::Field::CMF_BIB:
-            [[fallthrough]];
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getBib() > rhs.getBib()) : (lhs.getBib() < rhs.getBib());
         case Competitor::Field::CMF_OFFSET_LEG:
             [[fallthrough]];
         default:
