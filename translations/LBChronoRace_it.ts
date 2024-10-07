@@ -111,6 +111,10 @@
         <source>Did not start</source>
         <translation>Non partito</translation>
     </message>
+    <message>
+        <source>Invalid accuracy value %1</source>
+        <translation>Valore di precisione %1 non valido</translation>
+    </message>
 </context>
 <context>
     <name>CRLoader</name>
@@ -1205,14 +1209,14 @@ Sei sicuro di voler continuare?</numerusform>
     </message>
     <message numerus="yes">
         <source>%n second(s) will be subtracted from all the recorded timings.
-Timings resulting below 0 will be set to 0:00:00.
+Timings resulting below 0 will be set to 0:00:00.000.
 Are you sure you want to continue?</source>
         <translation>
             <numerusform>%n secondo sarà sottratto da tutti i tempi registrati.
-Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.
+Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.000.
 Sei sicuro di voler continuare?</numerusform>
             <numerusform>%n secondi saranno sottratti da tutti i tempi registrati.
-Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.
+Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.000.
 Sei sicuro di voler continuare?</numerusform>
         </translation>
     </message>
@@ -1775,12 +1779,16 @@ la pubblicazione</translation>
         <source>Number of seconds to add up or subtract</source>
         <translation>Numero di secondi da aggiungere o sottrarre</translation>
     </message>
+    <message>
+        <source>Number of milliseconds to add up or subtract</source>
+        <translation>Numero di millisecondi da aggiungere o sottrarre</translation>
+    </message>
 </context>
 <context>
     <name>Timing</name>
     <message>
-        <source>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
-        <translation>Valore cronometrico &apos;%1&apos; non valido per il pettorale &apos;%2&apos;</translation>
+        <source>Warning: illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
+        <translation>Attenzione: valore cronometrico &apos;%1&apos; non valido per il pettorale &apos;%2&apos;</translation>
     </message>
 </context>
 <context>

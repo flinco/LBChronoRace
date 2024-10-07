@@ -223,13 +223,37 @@ QString CRHelper::toCategoryTypeString(Category::Type const type)
     }
 }
 
-QString CRHelper::toTimeString(uint const seconds, Timing::Status const status, char const *prefix)
+QString CRHelper::toTimeString(uint milliseconds, Timing::Status const status, char const *prefix)
 {
     QString retString { prefix ? prefix : "" };
 
     switch (status) {
     case Timing::Status::CLASSIFIED:
-        retString.append(QString("%1:%2:%3").arg(((seconds / 60) / 60)).arg(((seconds / 60) % 60), 2, 10, QLatin1Char('0')).arg((seconds % 60), 2, 10, QLatin1Char('0')));
+        {
+            auto hr = milliseconds / 3600000;
+            milliseconds %= 3600000;
+            auto min = milliseconds / 60000;
+            milliseconds %= 60000;
+            auto sec = milliseconds / 1000;
+            milliseconds %= 1000;
+
+            switch (accuracy) {
+            case ChronoRaceData::Accuracy::SECOND:
+                retString.append(QString("%1:%2:%3").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec + ((milliseconds < 500) ? 0 : 1), 2, 10, QLatin1Char('0')));
+                break;
+            case ChronoRaceData::Accuracy::TENTH:
+                retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg((milliseconds + 50) / 100, 1, 10, QLatin1Char('0')));
+                break;
+            case ChronoRaceData::Accuracy::HUNDREDTH:
+                retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg((milliseconds + 5) / 10, 2, 10, QLatin1Char('0')));
+                break;
+            case ChronoRaceData::Accuracy::THOUSANDTH:
+                retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg(milliseconds, 3, 10, QLatin1Char('0')));
+                break;
+            default:
+                throw(ChronoRaceException(tr("Invalid accuracy value %1").arg(static_cast<int>(accuracy))));
+            }
+        }
         break;
     case Timing::Status::DSQ:
         retString.append("DSQ");
@@ -249,7 +273,7 @@ QString CRHelper::toTimeString(uint const seconds, Timing::Status const status, 
 
 QString CRHelper::toTimeString(Timing const &timing)
 {
-    return toTimeString(timing.getSeconds(), timing.getStatus());
+    return toTimeString(timing.getMilliseconds(), timing.getStatus());
 }
 
 Timing::Status CRHelper::toTimingStatus(QString const &status)

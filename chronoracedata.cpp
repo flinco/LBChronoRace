@@ -80,6 +80,10 @@ ChronoRaceData::ChronoRaceData(QWidget *parent) : QDialog(parent)
     ui->nameComposition->setCurrentIndex(this->nameCompositionIdx);
     this->stringFields[static_cast<int>(StringField::NAME_COMPOSITION)] = ui->nameComposition->currentText();
 
+    /* NB: The following line can be removed or commented out to allow for millisecond-accurate timing;
+     *     however, this requires changing the layout of the PDF, as the timing and timing difference
+     *     fields are not wide enough to accommodate so many digits. */
+    ui->accuracy->removeItem(static_cast<int>(ChronoRaceData::Accuracy::THOUSANDTH));
     ui->accuracy->setCurrentIndex(this->accuracyIdx);
     this->stringFields[static_cast<int>(StringField::ACCURACY)] = ui->accuracy->currentText();
 }
