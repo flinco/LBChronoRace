@@ -80,7 +80,7 @@ private:
 
     void updateCurrentBibItem(QTableWidgetItem *newBibItem);
 
-    void recordTiming(qint64 seconds);
+    void recordTiming(qint64 milliseconds);
     void deleteTiming();
     void deleteBib();
 
