@@ -61,6 +61,16 @@ class LBChronoRace : public QMainWindow
     Q_OBJECT
 
 public:
+    enum class fileNameField
+    {
+        CATEGORIES    = 0,
+        RANKINGS      = 1,
+        STARTLIST     = 2,
+        TEAMS         = 3,
+        TIMINGS       = 4,
+        NUM_OF_FIELDS = 5
+    };
+
     explicit LBChronoRace(QWidget *parent = Q_NULLPTR, QGuiApplication const *app = Q_NULLPTR);
 
     static QDir lastSelectedPath;
@@ -80,11 +90,7 @@ private:
     QScopedPointer<Ui::LBChronoRace> ui { new Ui::LBChronoRace };
 
     QString raceDataFileName { "" };
-    QString startListFileName;
-    QString timingsFileName;
-    QString rankingsFileName;
-    QString categoriesFileName;
-    QString teamsFileName;
+    QVector<QString> fileNames;
 
     ChronoRaceData raceInfo;
 

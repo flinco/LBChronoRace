@@ -232,7 +232,7 @@ void PDFRankingPrinter::printStartList(QList<Competitor const *> const &startLis
             painter.setFont(rnkFontBold);
             writeRect.translate(toHdots(8.0), 0.0);
             writeRect.setWidth(toHdots(60.0));
-            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c)->getName(0));
+            painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c)->getCompetitorName(CRHelper::nameComposition, 0));
             // Team
             painter.setFont(rnkFont);
             writeRect.translate(toHdots(60.0), 0.0);

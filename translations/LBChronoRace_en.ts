@@ -486,6 +486,38 @@
         <source>The elevation gain of the race course (optional)</source>
         <translation>The elevation gain of the race course (optional)</translation>
     </message>
+    <message>
+        <source>Competitor</source>
+        <translation>Competitor</translation>
+    </message>
+    <message>
+        <source>How the name of the competitor is built</source>
+        <translation>How the name of the competitor is built</translation>
+    </message>
+    <message>
+        <source>Surname Name</source>
+        <translation>Last name First name</translation>
+    </message>
+    <message>
+        <source>Name Surname</source>
+        <translation>First name Last name</translation>
+    </message>
+    <message>
+        <source>Surname (only)</source>
+        <translation>Last name (only)</translation>
+    </message>
+    <message>
+        <source>Name (only)</source>
+        <translation>First name (only)</translation>
+    </message>
+    <message>
+        <source>Accuracy</source>
+        <translation>Accuracy</translation>
+    </message>
+    <message>
+        <source>How much accurate the timings will be</source>
+        <translation>How much accurate the timings will be</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTable</name>
@@ -1641,10 +1673,6 @@ publishing</translation>
         <translation>Bib</translation>
     </message>
     <message>
-        <source>Competitor</source>
-        <translation>Competitor</translation>
-    </message>
-    <message>
         <source>Sex</source>
         <translation>Sex</translation>
     </message>
@@ -1667,6 +1695,18 @@ publishing</translation>
     <message>
         <source>Club</source>
         <translation>Club</translation>
+    </message>
+    <message>
+        <source>Competitor surname</source>
+        <translation>Competitor surname</translation>
+    </message>
+    <message>
+        <source>Last name</source>
+        <translation>Last name</translation>
+    </message>
+    <message>
+        <source>First name</source>
+        <translation>First name</translation>
     </message>
 </context>
 <context>

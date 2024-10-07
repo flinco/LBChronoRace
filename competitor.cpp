@@ -27,6 +27,7 @@ Qt::SortOrder     CompetitorSorter::sortingOrder = Qt::AscendingOrder;
 QDataStream &operator<<(QDataStream &out, const Competitor &comp)
 {
     out << quint32(comp.bib)
+        << comp.surname
         << comp.name
         << CRHelper::toSexString(comp.sex)
         << quint32(comp.year)
@@ -47,8 +48,10 @@ QDataStream &operator>>(QDataStream &in, Competitor &comp)
     QString sexStr;
 
     in >> bib32
-       >> comp.name
-       >> sexStr
+       >> comp.surname;
+    if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v4)
+        in >> comp.name;
+    in >> sexStr
        >> year32
        >> comp.club;
     if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v2)
@@ -65,14 +68,40 @@ QDataStream &operator>>(QDataStream &in, Competitor &comp)
     return in;
 }
 
+QString Competitor::getCompetitorName(ChronoRaceData::NameComposition nameComposition) const
+{
+    switch (nameComposition) {
+    case ChronoRaceData::NameComposition::NAME_FIRST:
+        return QString("%1 %2").arg(this->name, this->surname);
+    case ChronoRaceData::NameComposition::SURNAME_FIRST:
+        return QString("%1 %2").arg(this->surname, this->name);
+    case ChronoRaceData::NameComposition::SURNAME_ONLY:
+        return QString("%1").arg(this->surname);
+    case ChronoRaceData::NameComposition::NAME_ONLY:
+        return QString("%1").arg(this->name);
+    default:
+        Q_UNREACHABLE();
+    }
+}
+
+QString Competitor::getCompetitorName(ChronoRaceData::NameComposition nameComposition, int width) const
+{
+    return QString("%1").arg(getCompetitorName(nameComposition), -width);
+}
+
+QString const &Competitor::getSurname() const
+{
+    return surname;
+}
+
+void Competitor::setSurname(QString const &newSurname)
+{
+    this->surname = newSurname;
+}
+
 QString const &Competitor::getName() const
 {
     return name;
-}
-
-QString Competitor::getName(int width) const
-{
-    return QString("%1").arg(this->name, -width);
 }
 
 void Competitor::setName(QString const &newName)
@@ -167,15 +196,10 @@ int Competitor::getOffset() const
     return offset;
 }
 
-void Competitor::setOffset(int newOffset)
+void Competitor::setOffset(int newOffset, bool maxLeg)
 {
-    this->offset = newOffset;
-}
-
-void Competitor::setOffset(int const *newOffset)
-{
-    if (newOffset)
-        this->offset = *newOffset;
+    if (!maxLeg || (newOffset < 0))
+        this->offset = newOffset;
 }
 
 bool Competitor::isValid() const
@@ -285,6 +309,8 @@ bool Competitor::operator>=(Competitor const &rhs) const
 bool CompetitorSorter::operator() (Competitor const &lhs, Competitor const &rhs) const
 {
     switch(sortingField) {
+        case Competitor::Field::CMF_SURNAME:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getSurname() > rhs.getSurname()) : (lhs.getSurname() < rhs.getSurname());
         case Competitor::Field::CMF_NAME:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getName() > rhs.getName()) : (lhs.getName() < rhs.getName());
         case Competitor::Field::CMF_SEX:

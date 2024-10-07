@@ -36,18 +36,36 @@ class ChronoRaceData : public QDialog
 public:
     enum class StringField
     {
-        EVENT          = 0,
-        PLACE          = 1,
-        RACE_TYPE      = 2,
-        RESULTS        = 3,
-        REFEREE        = 4,
-        TIMEKEEPER_1   = 5,
-        TIMEKEEPER_2   = 6,
-        TIMEKEEPER_3   = 7,
-        LENGTH         = 8,
-        ELEVATION_GAIN = 9,
-        ORGANIZATION   = 10,
-        NUM_OF_FIELDS  = 11
+        EVENT            = 0,
+        PLACE            = 1,
+        RACE_TYPE        = 2,
+        RESULTS          = 3,
+        REFEREE          = 4,
+        TIMEKEEPER_1     = 5,
+        TIMEKEEPER_2     = 6,
+        TIMEKEEPER_3     = 7,
+        LENGTH           = 8,
+        ELEVATION_GAIN   = 9,
+        NAME_COMPOSITION = 10,
+        ACCURACY         = 11,
+        ORGANIZATION     = 12,
+        NUM_OF_FIELDS    = 13
+    };
+
+    enum class NameComposition
+    {
+        SURNAME_FIRST = 0,
+        NAME_FIRST    = 1,
+        SURNAME_ONLY  = 2,
+        NAME_ONLY     = 3
+    };
+
+    enum class Accuracy
+    {
+        SECOND     = 0,
+        TENTH      = 1,
+        HUNDREDTH  = 2,
+        THOUSANDTH = 3
     };
 
     explicit ChronoRaceData(QWidget *parent = Q_NULLPTR);
@@ -75,7 +93,7 @@ public:
     QString getElevationGain() const;
     QVector<QPixmap> getSponsorLogos() const;
 
-    void setBinFormat(uint format);
+    void getGlobalData(ChronoRaceData::NameComposition *gNameComposition, ChronoRaceData::Accuracy *gAccuracy) const;
 
 public slots:
     void loadLogo(QLabel *label = Q_NULLPTR);
@@ -88,13 +106,12 @@ public slots:
 private:
     QScopedPointer<Ui::ChronoRaceData> ui { new Ui::ChronoRaceData };
 
-    // Binary format for the loader
-    uint    binFmt;
-
     QDate   date { QDate::currentDate() };
     QTime   startTime { 0, 0 };
     int     raceTypeIdx { 0 };
     int     resultsIdx { 0 };
+    int     nameCompositionIdx { 0 };
+    int     accuracyIdx { 0 };
     QVector<QString> stringFields;
     ChronoRaceLogo leftLogo;
     ChronoRaceLogo rightLogo;
@@ -102,6 +119,9 @@ private:
     ChronoRaceLogo sponsorLogo2;
     ChronoRaceLogo sponsorLogo3;
     ChronoRaceLogo sponsorLogo4;
+
+signals:
+    void globalDataChange(ChronoRaceData::NameComposition, ChronoRaceData::Accuracy);
 };
 
 #endif // CHRONORACEDATA_H

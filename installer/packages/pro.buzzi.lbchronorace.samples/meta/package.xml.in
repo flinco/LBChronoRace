@@ -4,8 +4,8 @@
     <DisplayName xml:lang="it">Esempi</DisplayName>
     <Description>Ranking data samples.</Description>
     <Description xml:lang="it">Dati di esempio.</Description>
-    <Version inheritVersionFrom="pro.buzzi.lbchronorace">1.0.3</Version>
-    <ReleaseDate>2024-08-22</ReleaseDate>
+    <Version inheritVersionFrom="pro.buzzi.lbchronorace">1.0.4</Version>
+    <ReleaseDate>2024-10-24</ReleaseDate>
     <Name>pro.buzzi.lbchronorace.samples</Name>
     <Dependencies>pro.buzzi.lbchronorace</Dependencies>
     <Default>true</Default>

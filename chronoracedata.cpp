@@ -21,8 +21,8 @@
 #include "lbchronorace.hpp"
 #include "chronoracedata.hpp"
 
-ChronoRaceData::ChronoRaceData(QWidget *parent) : QDialog(parent) {
-
+ChronoRaceData::ChronoRaceData(QWidget *parent) : QDialog(parent)
+{
     this->stringFields.resize(static_cast<int>(StringField::NUM_OF_FIELDS));
 
     ui->setupUi(this);
@@ -76,6 +76,12 @@ ChronoRaceData::ChronoRaceData(QWidget *parent) : QDialog(parent) {
     QObject::connect(ui->removeSponsorLogo4, &QPushButton::clicked, &this->sponsorLogo4, &ChronoRaceLogo::removeLogo);
     QObject::connect(&this->sponsorLogo4, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
     QObject::connect(&this->sponsorLogo4, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::deleteLogo);
+
+    ui->nameComposition->setCurrentIndex(this->nameCompositionIdx);
+    this->stringFields[static_cast<int>(StringField::NAME_COMPOSITION)] = ui->nameComposition->currentText();
+
+    ui->accuracy->setCurrentIndex(this->accuracyIdx);
+    this->stringFields[static_cast<int>(StringField::ACCURACY)] = ui->accuracy->currentText();
 }
 
 QDataStream &operator<<(QDataStream &out, ChronoRaceData const &data)
@@ -98,7 +104,9 @@ QDataStream &operator<<(QDataStream &out, ChronoRaceData const &data)
         << data.sponsorLogo3.pixmap
         << data.sponsorLogo4.pixmap
         << data.stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)]
-        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)];
+        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)]
+        << quint32(data.nameCompositionIdx)
+        << quint32(data.accuracyIdx);
 
     return out;
 }
@@ -107,6 +115,8 @@ QDataStream &operator>>(QDataStream &in, ChronoRaceData &data)
 {
     qint32 raceTypeIdx32;
     qint32 resultsIdx32;
+    qint32 nameCompositionIdx32 = 0;
+    qint32 accuracyIdx32 = 0;
 
     in >> data.leftLogo.pixmap
        >> data.rightLogo.pixmap
@@ -126,18 +136,31 @@ QDataStream &operator>>(QDataStream &in, ChronoRaceData &data)
        >> data.sponsorLogo3.pixmap
        >> data.sponsorLogo4.pixmap;
 
-    if (data.binFmt > LBCHRONORACE_BIN_FMT_v1)
+    if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v1)
         in >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)]
            >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)];
 
+    if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v4)
+        in >> nameCompositionIdx32
+           >> accuracyIdx32;
+
     data.raceTypeIdx = raceTypeIdx32;
     data.resultsIdx = resultsIdx32;
+
+    data.nameCompositionIdx = nameCompositionIdx32;
+    data.accuracyIdx = accuracyIdx32;
 
     data.ui->raceType->setCurrentIndex(data.raceTypeIdx);
     data.stringFields[static_cast<int>(ChronoRaceData::StringField::RACE_TYPE)] = data.ui->raceType->currentText();
 
     data.ui->results->setCurrentIndex(data.resultsIdx);
     data.stringFields[static_cast<int>(ChronoRaceData::StringField::RESULTS)] = data.ui->results->currentText();
+
+    data.ui->nameComposition->setCurrentIndex(data.nameCompositionIdx);
+    data.stringFields[static_cast<int>(ChronoRaceData::StringField::NAME_COMPOSITION)] = data.ui->nameComposition->currentText();
+
+    data.ui->accuracy->setCurrentIndex(data.accuracyIdx);
+    data.stringFields[static_cast<int>(ChronoRaceData::StringField::ACCURACY)] = data.ui->accuracy->currentText();
 
     return in;
 }
@@ -282,6 +305,12 @@ void ChronoRaceData::saveRaceData()
     this->sponsorLogo2.pixmap = ui->sponsorLogo2->pixmap();
     this->sponsorLogo3.pixmap = ui->sponsorLogo3->pixmap();
     this->sponsorLogo4.pixmap = ui->sponsorLogo4->pixmap();
+    this->nameCompositionIdx = ui->nameComposition->currentIndex();
+    this->stringFields[static_cast<int>(StringField::NAME_COMPOSITION)] = ui->nameComposition->currentText();
+    this->accuracyIdx = ui->accuracy->currentIndex();
+    this->stringFields[static_cast<int>(StringField::ACCURACY)] = ui->accuracy->currentText();
+
+    emit globalDataChange(static_cast<NameComposition>(this->nameCompositionIdx), static_cast<Accuracy>(this->accuracyIdx));
 }
 
 void ChronoRaceData::restoreRaceData() const
@@ -305,6 +334,8 @@ void ChronoRaceData::restoreRaceData() const
     ui->sponsorLogo2->setPixmap(this->sponsorLogo2.pixmap);
     ui->sponsorLogo3->setPixmap(this->sponsorLogo3.pixmap);
     ui->sponsorLogo4->setPixmap(this->sponsorLogo4.pixmap);
+    ui->nameComposition->setCurrentIndex(this->nameCompositionIdx);
+    ui->accuracy->setCurrentIndex(this->accuracyIdx);
 }
 
 void ChronoRaceData::accept()
@@ -325,11 +356,6 @@ void ChronoRaceData::show()
     restoreRaceData();
     this->setWindowModality(Qt::ApplicationModal);
     QDialog::show();
-}
-
-void ChronoRaceData::setBinFormat(uint format)
-{
-    this->binFmt = format;
 }
 
 void ChronoRaceData::loadLogo(QLabel *label)
@@ -378,6 +404,15 @@ QVector<QPixmap> ChronoRaceData::getSponsorLogos() const
         sponsorLogos.push_back(this->sponsorLogo4.pixmap);
 
     return sponsorLogos;
+}
+
+void ChronoRaceData::getGlobalData(ChronoRaceData::NameComposition *gNameComposition, ChronoRaceData::Accuracy *gAccuracy) const
+{
+    if (gNameComposition != Q_NULLPTR)
+        *gNameComposition = static_cast<ChronoRaceData::NameComposition>(this->nameCompositionIdx);
+
+    if (gAccuracy != Q_NULLPTR)
+        *gAccuracy = static_cast<ChronoRaceData::Accuracy>(this->accuracyIdx);
 }
 
 QString ChronoRaceData::getElevationGain() const

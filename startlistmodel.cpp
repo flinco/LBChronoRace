@@ -124,6 +124,8 @@ QVariant StartListModel::data(QModelIndex const &index, int role) const
         switch (index.column()) {
         case static_cast<int>(Competitor::Field::CMF_BIB):
             return QVariant(startList.at(index.row()).getBib());
+        case static_cast<int>(Competitor::Field::CMF_SURNAME):
+            return QVariant(startList.at(index.row()).getSurname());
         case static_cast<int>(Competitor::Field::CMF_NAME):
             return QVariant(startList.at(index.row()).getName());
         case static_cast<int>(Competitor::Field::CMF_SEX):
@@ -143,6 +145,8 @@ QVariant StartListModel::data(QModelIndex const &index, int role) const
         switch (index.column()) {
         case static_cast<int>(Competitor::Field::CMF_BIB):
             return QVariant(tr("Bib number (not 0)"));
+        case static_cast<int>(Competitor::Field::CMF_SURNAME):
+            return QVariant(tr("Competitor surname"));
         case static_cast<int>(Competitor::Field::CMF_NAME):
             return QVariant(tr("Competitor name"));
         case static_cast<int>(Competitor::Field::CMF_SEX):
@@ -184,10 +188,14 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
             startList[index.row()].setBib(uval);
             startList[index.row()].setClub(this->getClub(uval));
             startList[index.row()].setTeam(this->getTeam(uval));
-            startList[index.row()].setOffset((maxLeg < 0) ? &maxLeg : Q_NULLPTR);
+            startList[index.row()].setOffset(maxLeg, true);
         } else {
             retval = false;
         }
+        break;
+    case static_cast<int>(Competitor::Field::CMF_SURNAME):
+        startList[index.row()].setSurname(value.toString().simplified());
+        retval = true;
         break;
     case static_cast<int>(Competitor::Field::CMF_NAME):
         startList[index.row()].setName(value.toString().simplified());
@@ -249,8 +257,10 @@ QVariant StartListModel::headerData(int section, Qt::Orientation orientation, in
         switch (section) {
         case static_cast<int>(Competitor::Field::CMF_BIB):
             return QString("%1").arg(tr("Bib"));
+        case static_cast<int>(Competitor::Field::CMF_SURNAME):
+            return QString("%1").arg(tr("Last name"));
         case static_cast<int>(Competitor::Field::CMF_NAME):
-            return QString("%1").arg(tr("Competitor"));
+            return QString("%1").arg(tr("First name"));
         case static_cast<int>(Competitor::Field::CMF_SEX):
             return QString("%1").arg(tr("Sex"));
         case static_cast<int>(Competitor::Field::CMF_YEAR):

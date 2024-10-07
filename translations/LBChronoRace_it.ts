@@ -486,6 +486,38 @@
         <source>The elevation gain of the race course (optional)</source>
         <translation>Il dislivello del percorso di gara (opzionale)</translation>
     </message>
+    <message>
+        <source>Competitor</source>
+        <translation>Concorrente</translation>
+    </message>
+    <message>
+        <source>How the name of the competitor is built</source>
+        <translation>Come è costruito il nome del concorrente</translation>
+    </message>
+    <message>
+        <source>Surname Name</source>
+        <translation>Cognome Nome</translation>
+    </message>
+    <message>
+        <source>Name Surname</source>
+        <translation>Nome Cognome</translation>
+    </message>
+    <message>
+        <source>Surname (only)</source>
+        <translation>Solo Cognome</translation>
+    </message>
+    <message>
+        <source>Name (only)</source>
+        <translation>Solo Nome</translation>
+    </message>
+    <message>
+        <source>Accuracy</source>
+        <translation>Precisione</translation>
+    </message>
+    <message>
+        <source>How much accurate the timings will be</source>
+        <translation>Quanto preciso sarà il cronometraggio</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTable</name>
@@ -1641,10 +1673,6 @@ la pubblicazione</translation>
         <translation>Pettorale</translation>
     </message>
     <message>
-        <source>Competitor</source>
-        <translation>Concorrente</translation>
-    </message>
-    <message>
         <source>Sex</source>
         <translation>Sesso</translation>
     </message>
@@ -1667,6 +1695,18 @@ la pubblicazione</translation>
     <message>
         <source>Club</source>
         <translation>Società</translation>
+    </message>
+    <message>
+        <source>Competitor surname</source>
+        <translation>Cognome concorrente</translation>
+    </message>
+    <message>
+        <source>Last name</source>
+        <translation>Cognome</translation>
+    </message>
+    <message>
+        <source>First name</source>
+        <translation>Nome</translation>
     </message>
 </context>
 <context>
