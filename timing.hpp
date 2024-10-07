@@ -21,6 +21,7 @@
 #include <QCoreApplication>
 #include <QDataStream>
 #include <QString>
+#include <QRegularExpression>
 
 namespace timing {
 class Timing;
@@ -53,8 +54,10 @@ public:
 private:
     uint   bib { 0u };
     uint   leg { 0u };
-    uint   seconds { 0u };
+    uint   milliseconds { 0u };
     Status status { Status::CLASSIFIED };
+
+    uint toMillis(QString const &token, bool countDigits = false) const;
 
 public:
     Timing() = default;
@@ -73,7 +76,7 @@ public:
     Status getStatus() const;
     void setStatus(Status newStatus);
     void setStatus(QString const &newStatus);
-    uint getSeconds() const;
+    uint getMilliseconds() const;
     QString getTiming() const;
     void setTiming(QString const &timing);
     void setTiming(char const *timing);
@@ -84,6 +87,10 @@ public:
     bool operator>  (Timing const &rhs) const;
     bool operator<= (Timing const &rhs) const;
     bool operator>= (Timing const &rhs) const;
+
+    static QRegularExpression validatorS;
+    static QRegularExpression validatorMS;
+    static QRegularExpression validatorHMS;
 };
 
 Timing::Field &operator++(Timing::Field &field);

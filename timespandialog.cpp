@@ -34,11 +34,11 @@ TimeSpanDialog::TimeSpanDialog(QWidget *parent, QString const &title, QString co
     this->setWindowFlag(Qt::WindowType::Dialog, true);
     this->setInputMethodHints(Qt::InputMethodHint::ImhTime);
 
-    grid->addWidget(new QLabel(label), 0, 0, 1, 3); // change 3 to 4 when enabling milliseconds
+    grid->addWidget(new QLabel(label), 0, 0, 1, 4);
     grid->addWidget(new QSpinBox(), 1, 0);
     grid->addWidget(new QSpinBox(), 1, 1);
     grid->addWidget(new QSpinBox(), 1, 2);
-    //grid->addWidget(new QSpinBox(), 1, 3);
+    grid->addWidget(new QSpinBox(), 1, 3);
 
     auto *spinBox = static_cast<QSpinBox *>(grid->itemAtPosition(1, 0)->widget());
     spinBox->setSuffix(" h");
@@ -52,12 +52,12 @@ TimeSpanDialog::TimeSpanDialog(QWidget *parent, QString const &title, QString co
     spinBox->setSuffix(" s");
     spinBox->setRange(0, 59);
     spinBox->setToolTip(tr("Number of seconds to add up or subtract"));
-    //NOSONAR spinBox = static_cast<QSpinBox *>(grid->itemAtPosition(1, 3)->widget());
-    //NOSONAR spinBox->setSuffix(" ms");
-    //NOSONAR spinBox->setRange(0, 999);
-    //NOSONAR spinBox->setToolTip(tr("Number of milliseconds to add up or subtract"));
+    spinBox = static_cast<QSpinBox *>(grid->itemAtPosition(1, 3)->widget());
+    spinBox->setSuffix(" ms");
+    spinBox->setRange(0, 999);
+    spinBox->setToolTip(tr("Number of milliseconds to add up or subtract"));
 
-    grid->addWidget(new QDialogButtonBox(QDialogButtonBox::StandardButton::Ok | QDialogButtonBox::StandardButton::Cancel), 2, 0, 1, 3); // change 3 to 4 when enabling milliseconds
+    grid->addWidget(new QDialogButtonBox(QDialogButtonBox::StandardButton::Ok | QDialogButtonBox::StandardButton::Cancel), 2, 0, 1, 4);
     auto const *buttonBox = static_cast<QDialogButtonBox *>(grid->itemAtPosition(2, 0)->widget());
 
     connect(buttonBox, &QDialogButtonBox::accepted, this, &TimeSpanDialog::accept);
@@ -72,13 +72,13 @@ void TimeSpanDialog::accept()
     auto const *grid = layout.data();
 
     auto const *spinBox = static_cast<QSpinBox *>(grid->itemAtPosition(1, 0)->widget());
-    value += 3600 * spinBox->value(); // change 3600 to 3600000 when enabling milliseconds
+    value += 3600000 * spinBox->value();
     spinBox = static_cast<QSpinBox *>(grid->itemAtPosition(1, 1)->widget());
-    value += 60 * spinBox->value(); // change 60 to 60000 when enabling milliseconds
+    value += 60000 * spinBox->value();
     spinBox = static_cast<QSpinBox *>(grid->itemAtPosition(1, 2)->widget());
-    value += 1 * spinBox->value(); // change 1 to 1000 when enabling milliseconds
-    //NOSONAR spinBox = static_cast<QSpinBox *>(grid->itemAtPosition(1, 3)->widget());
-    //NOSONAR value += spinBox->value();
+    value += 1000 * spinBox->value();
+    spinBox = static_cast<QSpinBox *>(grid->itemAtPosition(1, 3)->widget());
+    value += spinBox->value();
 
     this->hide();
 

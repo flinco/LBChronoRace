@@ -273,7 +273,7 @@ void ClassEntry::setTime(Competitor *comp, Timing const &timing, QStringList &me
 
     entries[legIndex].competitor = comp;
     entries[legIndex].status = timing.getStatus();
-    entries[legIndex].time = timing.getSeconds();
+    entries[legIndex].time = timing.getMilliseconds();
     if (isDnf()) {
         totalTime = UINT_MAX - 1;
     } else if (isDns()) {
@@ -282,16 +282,16 @@ void ClassEntry::setTime(Competitor *comp, Timing const &timing, QStringList &me
         if (offset < 0) {
             // no offset; use standard timing logic
             // good for both individual and relay races
-            uint seconds = entries[legIndex].time;
+            uint millis = entries[legIndex].time;
             entries[legIndex].time -= totalTime;
-            totalTime = seconds;
+            totalTime = millis;
         } else {
             // competitor with offset; maybe individual
             // race without mass start or relay race with
             // timings sum
-            uint seconds = entries[legIndex].time - static_cast<uint>(offset);
-            entries[legIndex].time = seconds;
-            totalTime += seconds;
+            uint millis = entries[legIndex].time - (static_cast<uint>(offset) * 1000);
+            entries[legIndex].time = millis;
+            totalTime += millis;
         }
     }
 }

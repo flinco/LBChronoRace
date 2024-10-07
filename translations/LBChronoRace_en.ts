@@ -111,6 +111,10 @@
         <source>Did not start</source>
         <translation>Did not start</translation>
     </message>
+    <message>
+        <source>Invalid accuracy value %1</source>
+        <translation>Invalid accuracy value %1</translation>
+    </message>
 </context>
 <context>
     <name>CRLoader</name>
@@ -1205,14 +1209,14 @@ Are you sure you want to continue?</numerusform>
     </message>
     <message numerus="yes">
         <source>%n second(s) will be subtracted from all the recorded timings.
-Timings resulting below 0 will be set to 0:00:00.
+Timings resulting below 0 will be set to 0:00:00.000.
 Are you sure you want to continue?</source>
         <translation>
             <numerusform>%n second will be subtracted from all the recorded timings.
-Timings resulting below 0 will be set to 0:00:00.
+Timings resulting below 0 will be set to 0:00:00.000.
 Are you sure you want to continue?</numerusform>
             <numerusform>%n seconds will be subtracted from all the recorded timings.
-Timings resulting below 0 will be set to 0:00:00.
+Timings resulting below 0 will be set to 0:00:00.000.
 Are you sure you want to continue?</numerusform>
         </translation>
     </message>
@@ -1775,12 +1779,16 @@ publishing</translation>
         <source>Number of seconds to add up or subtract</source>
         <translation>Number of seconds to add up or subtract</translation>
     </message>
+    <message>
+        <source>Number of milliseconds to add up or subtract</source>
+        <translation>Number of milliseconds to add up or subtract</translation>
+    </message>
 </context>
 <context>
     <name>Timing</name>
     <message>
-        <source>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
-        <translation>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</translation>
+        <source>Warning: illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
+        <translation>Warning: illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</translation>
     </message>
 </context>
 <context>

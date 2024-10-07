@@ -98,7 +98,7 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
         switch (keyEvent->key()) {
         case Qt::Key::Key_Space:
             if (updateTimerId != 0)
-                recordTiming(this->timer.elapsed() / 1000);
+                recordTiming(this->timer.elapsed());
             break;
         case Qt::Key::Key_Return:
             [[fallthrough]];
@@ -247,12 +247,19 @@ void ChronoRaceTimings::updateCurrentBibItem(QTableWidgetItem *newBibItem)
     }
 }
 
-void ChronoRaceTimings::recordTiming(qint64 seconds)
+void ChronoRaceTimings::recordTiming(qint64 milliseconds)
 {
     QTableWidgetItem *timingCell;
     Qt::ItemFlags flags;
 
-    auto newTiming = QString("%1:%2:%3").arg(seconds / 3600).arg(seconds / 60, 2, 10, QChar('0')).arg(seconds % 60, 2, 10, QChar('0'));
+    auto hr = milliseconds / 3600000;
+    milliseconds %= 3600000;
+    auto min = milliseconds / 60000;
+    milliseconds %= 60000;
+    auto sec = milliseconds / 1000;
+    milliseconds %= 1000;
+
+    auto newTiming = QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0')).arg(milliseconds, 3, 10, QChar('0'));
 
     if (timingRowCount == ui->dataArea->rowCount()) {
         ui->dataArea->setRowCount(timingRowCount + 1);
@@ -352,7 +359,7 @@ void ChronoRaceTimings::saveTimings()
             emit error(tr("Missing time for bib %1").arg(bib->text()));
         }
 
-        CRLoader::addTiming(bib ? bib->text() : "0", time ? time->text() : "0:00:00");
+        CRLoader::addTiming(bib ? bib->text() : "0", time ? time->text() : "0:00:00.000");
         c++;
     }
 }
