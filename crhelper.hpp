@@ -22,6 +22,7 @@
 #include <QString>
 
 #include "crloader.hpp"
+#include "chronoracedata.hpp"
 #include "competitor.hpp"
 #include "ranking.hpp"
 #include "category.hpp"
@@ -36,6 +37,9 @@ class CRHelper
     Q_DECLARE_TR_FUNCTIONS(CRHelper)
 
 public:
+    static ChronoRaceData::NameComposition nameComposition;
+    static ChronoRaceData::Accuracy accuracy;
+
     static QString encodingToLabel(QStringConverter::Encoding const &value);
     static QString formatToLabel(CRLoader::Format const &value);
 
@@ -60,6 +64,9 @@ public:
     static Timing::Status toTimingStatus(QString const &status);
     static QString toStatusString(Timing::Status const status);
     static QString toStatusFullString(Timing::Status const status);
+
+public slots:
+    static void updateGlobalData(ChronoRaceData::NameComposition newNameComposition, ChronoRaceData::Accuracy newAccuracy);
 };
 
 #endif // CRHELPER_H

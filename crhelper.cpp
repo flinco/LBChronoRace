@@ -18,6 +18,9 @@
 #include "crhelper.hpp"
 #include "lbcrexception.hpp"
 
+ChronoRaceData::NameComposition CRHelper::nameComposition = ChronoRaceData::NameComposition::SURNAME_FIRST;
+ChronoRaceData::Accuracy CRHelper::accuracy = ChronoRaceData::Accuracy::SECOND;
+
 QString CRHelper::encodingToLabel(QStringConverter::Encoding const &value)
 {
     switch (value) {
@@ -301,4 +304,10 @@ QString CRHelper::toStatusFullString(Timing::Status const status)
     default:
         throw(ChronoRaceException(tr("Invalid status value %1").arg(static_cast<int>(status))));
     }
+}
+
+void CRHelper::updateGlobalData(ChronoRaceData::NameComposition newNameComposition, ChronoRaceData::Accuracy newAccuracy)
+{
+    CRHelper::nameComposition = newNameComposition;
+    CRHelper::accuracy = newAccuracy;
 }

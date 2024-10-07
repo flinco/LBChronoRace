@@ -42,7 +42,7 @@
    <item row="10" column="0" rowspan="2">
     <spacer name="logosSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -101,7 +101,7 @@
       <string>Fourth sponsor logo (at the bottom of the PDF)</string>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::Shape::Box</enum>
      </property>
      <property name="text">
       <string>Sponsor 4 not loaded</string>
@@ -137,7 +137,7 @@
       <string>The logo in the upper left corner of the PDF</string>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::Shape::Box</enum>
      </property>
      <property name="text">
       <string>Logo 1 not loaded</string>
@@ -187,7 +187,7 @@
       <string>First sponsor logo (at the bottom of the PDF)</string>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::Shape::Box</enum>
      </property>
      <property name="text">
       <string>Sponsor 1 not loaded</string>
@@ -207,10 +207,10 @@
    <item row="14" column="0" colspan="8">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
      </property>
     </widget>
    </item>
@@ -342,7 +342,7 @@
       <string>Second sponsor logo (at the bottom of the PDF)</string>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::Shape::Box</enum>
      </property>
      <property name="text">
       <string>Sponsor 2 not loaded</string>
@@ -364,7 +364,7 @@
       <string>Third sponsor logo (at the bottom of the PDF)</string>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::Shape::Box</enum>
      </property>
      <property name="text">
       <string>Sponsor 3 not loaded</string>
@@ -386,7 +386,7 @@
       <string>The logo in the upper right corner of the PDF</string>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::Shape::Box</enum>
      </property>
      <property name="text">
       <string>Logo 2 not loaded</string>
@@ -409,7 +409,7 @@
       <string>Organization</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
      </property>
     </widget>
    </item>
@@ -430,7 +430,7 @@
    <item row="12" column="0" colspan="8">
     <spacer name="bottomSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -538,7 +538,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="4">
+   <item row="6" column="2">
     <widget class="QLabel" name="labelElevationGain">
      <property name="text">
       <string>Elevation Gain</string>
@@ -559,6 +559,77 @@
      </property>
     </widget>
    </item>
+   <item row="6" column="4">
+    <widget class="QLabel" name="labelNameComposition">
+     <property name="text">
+      <string>Competitor</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="5">
+    <widget class="QComboBox" name="nameComposition">
+     <property name="toolTip">
+      <string>How the name of the competitor is built</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Surname Name</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Name Surname</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Surname (only)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Name (only)</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="6" column="6">
+    <widget class="QLabel" name="labelAccuracy">
+     <property name="text">
+      <string>Accuracy</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="7">
+    <widget class="QComboBox" name="accuracy">
+     <property name="toolTip">
+      <string>How much accurate the timings will be</string>
+     </property>
+     <property name="currentText">
+      <string notr="true">h:mm:ss</string>
+     </property>
+     <item>
+      <property name="text">
+       <string notr="true">h:mm:ss</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">h:mm:ss.d</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">h:mm:ss.cc</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">h:mm:ss.mmm</string>
+      </property>
+     </item>
+    </widget>
+   </item>
    <item row="7" column="1" colspan="7">
     <widget class="QPlainTextEdit" name="organization">
      <property name="toolTip">
@@ -566,14 +637,14 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="1" colspan="3">
+   <item row="6" column="1">
     <widget class="QLineEdit" name="length">
      <property name="toolTip">
       <string>The length of the race (optional)</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="5" colspan="3">
+   <item row="6" column="3">
     <widget class="QLineEdit" name="elevationGain">
      <property name="toolTip">
       <string>The elevation gain of the race course (optional)</string>
@@ -599,6 +670,8 @@
   <tabstop>results</tabstop>
   <tabstop>length</tabstop>
   <tabstop>elevationGain</tabstop>
+  <tabstop>nameComposition</tabstop>
+  <tabstop>accuracy</tabstop>
   <tabstop>organization</tabstop>
   <tabstop>loadSponsorLogo1</tabstop>
   <tabstop>removeSponsorLogo1</tabstop>

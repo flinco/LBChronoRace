@@ -87,7 +87,7 @@ void TXTRankingPrinter::printStartList(QList<Competitor const *> const &startLis
         txtStream << competitor->getBib();
         txtStream.setFieldWidth(0);
         txtStream << " - ";
-        txtStream << competitor->getName(nWidth);
+        txtStream << competitor->getCompetitorName(CRHelper::nameComposition, nWidth);
         txtStream << " - ";
         txtStream << competitor->getTeam(tWidth);
         txtStream << " - ";

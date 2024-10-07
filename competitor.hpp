@@ -23,6 +23,7 @@
 #include <QString>
 #include <QList>
 
+#include "chronoracedata.hpp"
 #include "category.hpp"
 
 namespace competitor {
@@ -46,20 +47,22 @@ public:
     {
         CMF_FIRST      = 0,
         CMF_BIB        = 0,
-        CMF_NAME       = 1,
-        CMF_SEX        = 2,
-        CMF_YEAR       = 3,
-        CMF_CLUB       = 4,
-        CMF_TEAM       = 5,
-        CMF_OFFSET_LEG = 6,
-        CMF_LAST       = 6,
-        CMF_COUNT      = 7
+        CMF_SURNAME    = 1,
+        CMF_NAME       = 2,
+        CMF_SEX        = 3,
+        CMF_YEAR       = 4,
+        CMF_CLUB       = 5,
+        CMF_TEAM       = 6,
+        CMF_OFFSET_LEG = 7,
+        CMF_LAST       = 7,
+        CMF_COUNT      = 8
     };
 
 private:
     static QString empty;
 
     uint    bib { 0u };
+    QString surname { "" };
     QString name { "" };
     Sex     sex { Sex::UNDEFINED };
     uint    year { 1900 };
@@ -78,8 +81,11 @@ public:
     friend QDataStream &operator<<(QDataStream &out, Competitor const &comp);
     friend QDataStream &operator>>(QDataStream &in, Competitor &comp);
 
+    QString getCompetitorName(ChronoRaceData::NameComposition nameComposition) const;
+    QString getCompetitorName(ChronoRaceData::NameComposition nameComposition, int width) const;
+    QString const &getSurname() const;
+    void setSurname(QString const &newSurname);
     QString const &getName() const;
-    QString getName(int width) const;
     void setName(QString const &newName);
     uint getBib() const;
     void setBib(uint newBib);
@@ -98,8 +104,7 @@ public:
     uint getLeg() const;
     void setLeg(uint newLeg);
     int getOffset() const;
-    void setOffset(int newOffset);
-    void setOffset(int const *newOffset);
+    void setOffset(int newOffset, bool maxLeg = false);
     bool isValid() const;
 
     Category const *getCategory() const;

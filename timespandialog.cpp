@@ -33,7 +33,6 @@ TimeSpanDialog::TimeSpanDialog(QWidget *parent, QString const &title, QString co
     this->setWindowTitle(title);
     this->setWindowFlag(Qt::WindowType::Dialog, true);
     this->setInputMethodHints(Qt::InputMethodHint::ImhTime);
-    //this->setAttribute(Qt::WA_QuitOnClose, false);
 
     grid->addWidget(new QLabel(label), 0, 0, 1, 3); // change 3 to 4 when enabling milliseconds
     grid->addWidget(new QSpinBox(), 1, 0);
@@ -41,9 +40,6 @@ TimeSpanDialog::TimeSpanDialog(QWidget *parent, QString const &title, QString co
     grid->addWidget(new QSpinBox(), 1, 2);
     //grid->addWidget(new QSpinBox(), 1, 3);
 
-    //auto *le = static_cast<QLineEdit *>(grid->itemAt(1)->widget());
-    //le->setPlaceholderText(tr("0:00:00"));
-    //le->setValidator(new QRegularExpressionValidator(QRegularExpression("^(?:(?:([01]?\\d|2[0-3]):)?([0-5]?\\d):)?([0-5]?\\d)$")));
     auto *spinBox = static_cast<QSpinBox *>(grid->itemAtPosition(1, 0)->widget());
     spinBox->setSuffix(" h");
     spinBox->setRange(0, 9);

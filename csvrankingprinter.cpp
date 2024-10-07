@@ -56,7 +56,7 @@ void CSVRankingPrinter::printStartList(QList<Competitor const *> const &startLis
         i++;
         csvStream << i << ",";
         csvStream << competitor->getBib() << ",";
-        csvStream << competitor->getName() << ",";
+        csvStream << competitor->getCompetitorName(CRHelper::nameComposition) << ",";
         csvStream << competitor->getTeam() << ",";
         csvStream << competitor->getYear() << ",";
         csvStream << CRHelper::toSexString(competitor->getSex()) << ",";
