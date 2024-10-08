@@ -88,6 +88,7 @@ public:
     static void clearTimings();
     static void addTiming(QString const &bib, QString const &timing);
     static QList<Timing> const &getTimings();
+    static int importTeams(QString const &path, bool append = false);
     static int importCategories(QString const &path, bool append = false);
     static int importRankings(QString const &path, bool append = false);
     static int importTimings(QString const &path, bool append = false);
