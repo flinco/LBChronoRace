@@ -46,8 +46,8 @@ private slots:
     void openChange(Qt::CheckState state);
 
 signals:
-    void error(QString const &message);
-    void notifyOpenChange(bool open);
+    void error(QString const &);
+    void notifyOpenChange(bool);
 };
 
 #endif // RANKINGSWIZARDFORMAT_H

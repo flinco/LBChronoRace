@@ -63,8 +63,8 @@ private:
     ChronoRaceData const *raceInfo { Q_NULLPTR };
 
 signals:
-    void error(QString const &message);
-    void info(QString const &message);
+    void error(QString const &);
+    void info(QString const &);
 };
 
 class Position

@@ -39,7 +39,7 @@ private slots:
     void toggleSingleMode(bool checked) const;
 
 signals:
-    void error(QString const &message);
+    void error(QString const &);
 };
 
 #endif // RANKINGSWIZARDMODE_H

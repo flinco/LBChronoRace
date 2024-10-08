@@ -54,7 +54,7 @@ private slots:
     void toggleSkipRanking(QListWidgetItem const *item) const;
 
 signals:
-    void error(QString const &message);
+    void error(QString const &);
 };
 
 #endif // RANKINGSWIZARDSELECTION_H

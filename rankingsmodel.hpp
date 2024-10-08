@@ -60,7 +60,7 @@ private:
     QList<Ranking> rankings;
 
 signals:
-    void error(QString const &message);
+    void error(QString const &);
 };
 
 #endif // LBRANKINGSMODEL_H

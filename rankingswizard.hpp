@@ -89,8 +89,8 @@ private slots:
     void print(bool checked);
 
 signals:
-    void info(QString const &message);
-    void error(QString const &message);
+    void info(QString const &);
+    void error(QString const &);
 };
 
 #endif // RANKINGSWIZARD_H

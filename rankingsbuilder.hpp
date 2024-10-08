@@ -52,7 +52,7 @@ private:
     QList<QMap<QString, TeamClassEntry>> rankingsByTeam { };
 
 signals:
-    void error(QString const &message);
+    void error(QString const &);
 };
 
 #endif // RANKINGSBUILDER_H
