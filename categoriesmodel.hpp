@@ -58,7 +58,7 @@ private:
     QList<Category> categories;
 
 signals:
-    void error(QString const &message);
+    void error(QString const &);
 };
 
 #endif // LBCATEGORIESMODEL_H

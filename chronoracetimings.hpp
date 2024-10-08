@@ -60,8 +60,8 @@ public slots:
     void clearDiskBuffer();
 
 signals:
-    void saveToDisk(QString const &buffer);
-    void error(QString const &message);
+    void saveToDisk(QString const &);
+    void error(QString const &);
 
 private:
     QScopedPointer<Ui::ChronoRaceTimings> ui { new Ui::ChronoRaceTimings };

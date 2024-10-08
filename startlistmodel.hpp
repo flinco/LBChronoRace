@@ -59,8 +59,8 @@ public slots:
     void refreshCounters(int r) override;
 
 signals:
-    void newClub(QString const &club);
-    void error(QString const &message);
+    void newClub(QString const &);
+    void error(QString const &);
 
 private:
     QList<Competitor> startList;

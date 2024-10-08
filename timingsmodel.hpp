@@ -58,7 +58,7 @@ private:
     QList<Timing> timings;
 
 signals:
-    void error(QString const &message);
+    void error(QString const &);
 };
 
 

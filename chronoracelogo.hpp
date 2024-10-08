@@ -34,8 +34,8 @@ public slots:
     void removeLogo();
 
 signals:
-    void logoLoaded(QLabel *label = Q_NULLPTR);
-    void logoRemoved(QLabel *label = Q_NULLPTR);
+    void logoLoaded(QLabel *);
+    void logoRemoved(QLabel *);
 };
 
 #endif // CHRONORACELOGO_H

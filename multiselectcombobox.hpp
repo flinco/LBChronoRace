@@ -57,7 +57,7 @@ protected:
     void keyPressEvent(QKeyEvent *aEvent) override;
 
 private:
-    void stateChanged(int aState);
+    void stateChanged(Qt::CheckState aState);
     void onSearch(QString const &aSearchString) const;
     void itemClicked(int aIndex) const;
 

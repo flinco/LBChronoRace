@@ -35,7 +35,7 @@ public:
     explicit TimeSpanDialog(QWidget *parent, QString const &title, QString const &label, bool sub);
 
 signals:
-    void applyOffset(int value);
+    void applyOffset(int);
 
 public slots:
     void accept() override;

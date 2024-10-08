@@ -66,7 +66,7 @@ void MultiSelectComboBox::hidePopup()
     }
 }
 
-void MultiSelectComboBox::stateChanged(int aState)
+void MultiSelectComboBox::stateChanged(Qt::CheckState aState)
 {
     QListWidget const *listWidget = mListWidget.data();
     QListWidgetItem *listItem;
@@ -119,7 +119,7 @@ void MultiSelectComboBox::addItem(QString const &aText, QVariant const &aUserDat
     listWidget->setItemWidget(listWidgetItem, new QCheckBox(aText, this));
 
     checkBox = static_cast<QCheckBox *>(listWidget->itemWidget(listWidgetItem));
-    connect(checkBox, &QCheckBox::stateChanged, this, &MultiSelectComboBox::stateChanged);
+    connect(checkBox, &QCheckBox::checkStateChanged, this, &MultiSelectComboBox::stateChanged);
 }
 
 void MultiSelectComboBox::addItems(QStringList const &aTexts)
