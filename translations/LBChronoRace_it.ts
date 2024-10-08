@@ -1267,6 +1267,14 @@ Sei sicuro di voler continuare?</numerusform>
         <source>Append</source>
         <translation>Aggiungere</translation>
     </message>
+    <message>
+        <source>Clubs File: %1</source>
+        <translation>File Società: %1</translation>
+    </message>
+    <message>
+        <source>Select Clubs File</source>
+        <translation>Seleziona File Società</translation>
+    </message>
 </context>
 <context>
     <name>MultiSelectComboBox</name>
