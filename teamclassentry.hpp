@@ -32,16 +32,19 @@ private:
     QString               club { "" };
     QVector<ClassEntry *> entryList { };
 
+    quint64 totaltime { Q_UINT64_C(0) };
+
 public:
     QString const &getClub() const;
     ClassEntry *getClassEntry(int index) const;
     void setClassEntry(ClassEntry *entry);
     int getClassEntryCount() const;
+    uint getAverageTiming() const;
 
-    bool operator< (TeamClassEntry const &rhs);
-    bool operator> (TeamClassEntry const &rhs);
-    bool operator<=(TeamClassEntry const &rhs);
-    bool operator>=(TeamClassEntry const &rhs);
+    bool operator< (TeamClassEntry const &rhs) const;
+    bool operator> (TeamClassEntry const &rhs) const;
+    bool operator<=(TeamClassEntry const &rhs) const;
+    bool operator>=(TeamClassEntry const &rhs) const;
 };
 
 #endif // TEAMCLASSENTRY_H

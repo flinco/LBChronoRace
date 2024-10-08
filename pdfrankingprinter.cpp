@@ -548,9 +548,11 @@ QList<QList<TeamClassEntry const *>> PDFRankingPrinter::splitTeamRankingSingleLe
     QList<QList<TeamClassEntry const *>> pages;
 
     pages.emplaceBack();
+    int count;
     int availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
     for (auto t = ranking.constBegin(); t < ranking.constEnd(); t++) {
-        for (int j = 0; j < (*t)->getClassEntryCount(); j++) {
+        count = (*t)->getClassEntryCount();
+        for (int j = 0; j < count; j++) {
             if (availableEntriesOnPage <= 0) {
                 pages.emplaceBack();
                 availableEntriesOnPage = RANKING_PORTRAIT_SECOND_PAGE_LIMIT;
@@ -572,10 +574,12 @@ QList<QList<TeamClassEntry const *>> PDFRankingPrinter::splitTeamRankingMultiLeg
     QList<QList<TeamClassEntry const *>> pages;
 
     pages.emplaceBack();
+    int count;
     int availableEntriesOnPage = RANKING_PORTRAIT_FIRST_PAGE_LIMIT;
     auto entriesPerBlock = static_cast<int>(CRLoader::getStartListLegs() + 1);
     for (auto t = ranking.constBegin(); t < ranking.constEnd(); t++) {
-        for (int j = 0; j < (*t)->getClassEntryCount(); j++) {
+        count = (*t)->getClassEntryCount();
+        for (int j = 0; j < count; j++) {
             if (entriesPerBlock > availableEntriesOnPage) {
                 // go to a new page
                 pages.emplaceBack();
