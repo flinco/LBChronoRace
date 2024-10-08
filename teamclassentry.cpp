@@ -39,6 +39,7 @@ void TeamClassEntry::setClassEntry(ClassEntry *entry)
         throw(ChronoRaceException(tr("Unexpected club: expected %1 - found %2").arg(this->club, entry->getClub())));
     }
     this->entryList.push_back(entry);
+    this->totaltime += entry->getTotalTime();
 }
 
 int TeamClassEntry::getClassEntryCount() const
@@ -46,36 +47,43 @@ int TeamClassEntry::getClassEntryCount() const
     return static_cast<int>(this->entryList.size());
 }
 
-bool TeamClassEntry::operator< (TeamClassEntry const &rhs)
+uint TeamClassEntry::getAverageTiming() const
+{
+    return static_cast<uint>(this->totaltime / this->entryList.count());
+}
+
+bool TeamClassEntry::operator< (TeamClassEntry const &rhs) const
 {
     auto size = this->entryList.size();
     if (size == rhs.entryList.size()) {
-        for (int i = 0; i < size; i++) {
-            if (*this->entryList[i] < *rhs.entryList.at(i)) return true;
-        }
-        return false;
+        //NOSONAR for (int i = 0; i < size; i++) {
+        //NOSONAR     if (*this->entryList[i] < *rhs.entryList.at(i)) return true;
+        //NOSONAR }
+        //NOSONAR return false;
+        return (this->getAverageTiming() < rhs.getAverageTiming());
     }
     return (size > rhs.entryList.size());
 }
 
-bool TeamClassEntry::operator> (TeamClassEntry const &rhs)
+bool TeamClassEntry::operator> (TeamClassEntry const &rhs) const
 {
     auto size = this->entryList.size();
     if (size == rhs.entryList.size()) {
-        for (int i = 0; i < size; i++) {
-            if (*this->entryList[i] > *rhs.entryList.at(i)) return true;
-        }
-        return false;
+        //NOSONAR for (int i = 0; i < size; i++) {
+        //NOSONAR     if (*this->entryList[i] > *rhs.entryList.at(i)) return true;
+        //NOSONAR }
+        //NOSONAR return false;
+        return (this->getAverageTiming() > rhs.getAverageTiming());
     }
     return (size < rhs.entryList.size());
 }
 
-bool TeamClassEntry::operator<=(TeamClassEntry const &rhs)
+bool TeamClassEntry::operator<=(TeamClassEntry const &rhs) const
 {
     return !(*this > rhs);
 }
 
-bool TeamClassEntry::operator>=(TeamClassEntry const &rhs)
+bool TeamClassEntry::operator>=(TeamClassEntry const &rhs) const
 {
     return !(*this < rhs);
 }

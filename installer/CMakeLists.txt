@@ -160,7 +160,7 @@ add_custom_command(TARGET "${CMAKE_PROJECT_NAME}Installer" PRE_BUILD
     DEPENDS "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>"
     COMMENT "Copy executable into the installer directory")
 
-# Populate the installer tree with the runtime dependancies
+# Populate the installer tree with the runtime dependencies
 if(CMAKE_BUILD_TYPE_UPPER STREQUAL "DEBUG")
     set(WINDEPLOYQT_ARGS "--debug")
 else()

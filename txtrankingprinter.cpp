@@ -151,13 +151,15 @@ void TXTRankingPrinter::printRanking(Ranking const &categories, QList<TeamClassE
         throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
     }
 
+    int count;
     int i = 0;
     ChronoRaceData const *raceInfo = getRaceInfo();
     txtStream << *raceInfo << Qt::endl; // add header
     txtStream << categories.getFullDescription() << Qt::endl;
     for (auto const r : ranking) {
         i++;
-        for (int j = 0; j < r->getClassEntryCount(); j++) {
+        count = r->getClassEntryCount();
+        for (int j = 0; j < count; j++) {
             if (j == 0) {
                 txtStream.setFieldWidth(getIndexFieldWidth());
                 txtStream.setFieldAlignment(QTextStream::AlignRight);

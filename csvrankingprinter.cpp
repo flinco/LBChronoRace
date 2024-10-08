@@ -111,11 +111,13 @@ void CSVRankingPrinter::printRanking(Ranking const &categories, QList<TeamClassE
         throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
     }
 
+    int count;
     int i = 0;
     csvStream << categories.getShortDescription() << Qt::endl;
     for (auto const r : ranking) {
         i++;
-        for (int j = 0; j < r->getClassEntryCount(); j++) {
+        count = r->getClassEntryCount();
+        for (int j = 0; j < count; j++) {
             csvStream << i << ",";
             csvStream << r->getClassEntry(j)->getBib() << ",";
             csvStream << r->getClassEntry(j)->getNames(CRLoader::Format::CSV) << ",";
