@@ -131,10 +131,6 @@
         <translation>Wrong number of elements in CSV row; expected %1 - found %2</translation>
     </message>
     <message>
-        <source>Unexpected model value %1 (import)</source>
-        <translation>Unexpected model value %1 (import)</translation>
-    </message>
-    <message>
         <source>Unexpected model value %1 (export)</source>
         <translation>Unexpected model value %1 (export)</translation>
     </message>
@@ -910,10 +906,10 @@ Continue?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <source>Loaded: %n team(s)</source>
+        <source>Loaded: %n club(s)</source>
         <translation>
-            <numerusform>Loaded: %n team</numerusform>
-            <numerusform>Loaded: %n teams</numerusform>
+            <numerusform>Loaded: %n club</numerusform>
+            <numerusform>Loaded: %n clubs</numerusform>
         </translation>
     </message>
     <message>
@@ -1219,6 +1215,57 @@ Are you sure you want to continue?</numerusform>
 Timings resulting below 0 will be set to 0:00:00.000.
 Are you sure you want to continue?</numerusform>
         </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n competitor(s)</source>
+        <translation>
+            <numerusform>Appended: %n competitor</numerusform>
+            <numerusform>Appended: %n competitors</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n club(s)</source>
+        <translation>
+            <numerusform>Appended: %n club</numerusform>
+            <numerusform>Appended: %n clubs</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n ranking(s)</source>
+        <translation>
+            <numerusform>Appended: %n ranking</numerusform>
+            <numerusform>Appended: %n rankings</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n category(s)</source>
+        <translation>
+            <numerusform>Appended: %n category</numerusform>
+            <numerusform>Appended: %n categories</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n timing(s)</source>
+        <translation>
+            <numerusform>Appended: %n timing</numerusform>
+            <numerusform>Appended: %n timings</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Import mode</source>
+        <translation>Import mode</translation>
+    </message>
+    <message>
+        <source>Do you want to replace the entire contents of the table or add data to the existing ones?</source>
+        <translation>Do you want to replace the entire contents of the table or add data to the existing ones?</translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation>Replace</translation>
+    </message>
+    <message>
+        <source>Append</source>
+        <translation>Append</translation>
     </message>
 </context>
 <context>

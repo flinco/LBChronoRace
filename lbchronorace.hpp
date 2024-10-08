@@ -110,6 +110,7 @@ private:
     TimingStatusDelegate timingStatusDelegate;
 
     bool loadRaceFile(QString const &fileName);
+    bool askForAppend();
 
 private slots:
     void actionAbout();

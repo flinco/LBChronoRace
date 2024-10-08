@@ -176,20 +176,36 @@ void CRLoader::loadRaceData(QDataStream &in)
     timingsModel.refreshCounters(0);
 }
 
-QPair<int, int> CRLoader::importStartList(QString const &path)
+QPair<int, int> CRLoader::importStartList(QString const &path, bool append)
 {
-    startListModel.reset();
-    teamsListModel.reset();
+    int startListCount = 0;
+    int teamsListCount = 0;
+
+    if (append) {
+        startListCount = startListModel.rowCount();
+        teamsListCount = teamsListModel.rowCount();
+    } else {
+        startListModel.reset();
+        teamsListModel.reset();
+    }
 
     loadCSV(path, &startListModel);
-    int rowCount = startListModel.rowCount();
 
     if (int columnCount = startListModel.columnCount(); columnCount != static_cast<int>(Competitor::Field::CMF_COUNT)) {
-        startListModel.reset();
+        if (!append)
+            startListModel.reset();
         throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Competitor::Field::CMF_COUNT)).arg(columnCount)));
     }
 
-    return QPair<int, int>(rowCount, teamsListModel.rowCount());
+    if (append) {
+        startListCount = startListModel.rowCount() - startListCount;
+        teamsListCount = teamsListModel.rowCount() - teamsListCount;
+    } else {
+        startListCount = startListModel.rowCount();
+        teamsListCount = teamsListModel.rowCount();
+    }
+
+    return QPair<int, int>(startListCount, teamsListCount);
 }
 
 QList<Competitor> CRLoader::getStartList()
@@ -246,44 +262,73 @@ QList<Timing> const &CRLoader::getTimings()
     return timingsModel.getTimings();
 }
 
-int CRLoader::importModel(Model model, QString const &path)
+int CRLoader::importCategories(QString const &path, bool append)
 {
     int rowCount = 0;
     int columnCount = 0;
 
-    switch (model) {
-    case Model::RANKINGS:
-        rankingsModel.reset();
-        loadCSV(path, &rankingsModel);
-        rowCount = rankingsModel.rowCount();
-        if (columnCount = rankingsModel.columnCount(); columnCount != static_cast<int>(Ranking::Field::RTF_COUNT)) {
-            rankingsModel.reset();
-            throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Ranking::Field::RTF_COUNT)).arg(columnCount)));
-        }
-        rankingsModel.parseCategories();
-        break;
-    case Model::CATEGORIES:
-        categoriesModel.reset();
-        loadCSV(path, &categoriesModel);
+    if (append)
         rowCount = categoriesModel.rowCount();
-        if (columnCount = categoriesModel.columnCount(); columnCount != static_cast<int>(Category::Field::CTF_COUNT)) {
+    else
+        categoriesModel.reset();
+
+    loadCSV(path, &categoriesModel);
+
+    if (columnCount = categoriesModel.columnCount(); columnCount != static_cast<int>(Category::Field::CTF_COUNT)) {
+        if (!append)
             categoriesModel.reset();
-            throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Category::Field::CTF_COUNT)).arg(columnCount)));
-        }
-        break;
-    case Model::TIMINGS:
-        timingsModel.reset();
-        loadCSV(path, &timingsModel);
-        rowCount = timingsModel.rowCount();
-        if (columnCount = timingsModel.columnCount(); columnCount != static_cast<int>(Timing::Field::TMF_COUNT)) {
-            timingsModel.reset();
-            throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Timing::Field::TMF_COUNT)).arg(columnCount)));
-        }
-        break;
-    default:
-        throw(ChronoRaceException(tr("Unexpected model value %1 (import)").arg(static_cast<int>(model))));
-        break;
+        throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Category::Field::CTF_COUNT)).arg(columnCount)));
     }
+
+    rowCount = categoriesModel.rowCount() - (append ? rowCount : 0);
+
+    return rowCount;
+}
+
+int CRLoader::importRankings(QString const &path, bool append)
+{
+    int rowCount = 0;
+    int columnCount = 0;
+
+    if (append)
+        rowCount = rankingsModel.rowCount();
+    else
+        rankingsModel.reset();
+
+    loadCSV(path, &rankingsModel);
+
+    if (columnCount = rankingsModel.columnCount(); columnCount != static_cast<int>(Ranking::Field::RTF_COUNT)) {
+        if (!append)
+            rankingsModel.reset();
+        throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Ranking::Field::RTF_COUNT)).arg(columnCount)));
+    }
+
+    rowCount = rankingsModel.rowCount() - (append ? rowCount : 0);
+
+    rankingsModel.parseCategories();
+
+    return rowCount;
+}
+
+int CRLoader::importTimings(QString const &path, bool append)
+{
+    int rowCount = 0;
+    int columnCount = 0;
+
+    if (append)
+        rowCount = timingsModel.rowCount();
+    else
+        timingsModel.reset();
+
+    loadCSV(path, &timingsModel);
+
+    if (columnCount = timingsModel.columnCount(); columnCount != static_cast<int>(Timing::Field::TMF_COUNT)) {
+        if (!append)
+            timingsModel.reset();
+        throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Timing::Field::TMF_COUNT)).arg(columnCount)));
+    }
+
+    rowCount = timingsModel.rowCount() - (append ? rowCount : 0);
 
     return rowCount;
 }
