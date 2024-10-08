@@ -131,6 +131,7 @@ private slots:
     void subtractTimeSpan();
 
     void importStartList();
+    void importTeamsList();
     void importRankingsList();
     void importCategoriesList();
     void importTimingsList();

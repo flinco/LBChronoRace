@@ -54,8 +54,8 @@ void ChronoRaceTable::disableButtons() const
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->rowAdd->setEnabled(false);
     ui->rowDel->setEnabled(false);
-    ui->modelImport->setEnabled(false);
-    //ui->modelExport->setEnabled(false); //NOSONAR
+    //NOSONAR ui->modelImport->setEnabled(false);
+    //NOSONAR ui->modelExport->setEnabled(false);
 }
 
 void ChronoRaceTable::setItemDelegateForColumn(int column, QAbstractItemDelegate *delegate)

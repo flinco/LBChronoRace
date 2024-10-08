@@ -78,6 +78,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     teamsTable.disableButtons();
     teamsTable.setWindowTitle(tr("Clubs List"));
     teamsTable.setModel(teamsListModel);
+    QObject::connect(&teamsTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importTeamsList);
     QObject::connect(&teamsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportTeamList);
     QObject::connect(&teamsTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
     teamsListModel->setCounter(ui->counterTeams);
@@ -207,6 +208,31 @@ void LBChronoRace::importStartList()
                 appendInfoMessage(tr("Loaded: %n club(s)", "", count.second));
             }
             lastSelectedPath = QFileInfo(this->fileNames[static_cast<int>(fileNameField::STARTLIST)]).absoluteDir();
+        } catch (ChronoRaceException &e) {
+            appendErrorMessage(e.getMessage());
+        }
+    }
+}
+
+void LBChronoRace::importTeamsList()
+{
+    this->fileNames[static_cast<int>(fileNameField::TEAMS)] = QDir::toNativeSeparators(
+        QFileDialog::getOpenFileName(this, tr("Select Clubs File"),
+                                     lastSelectedPath.absolutePath(),
+                                     tr("CSV (*.csv)")));
+
+    if (!this->fileNames[static_cast<int>(fileNameField::TEAMS)].isEmpty()) {
+        int count = 0;
+        bool append = true; // always append!
+        appendInfoMessage(tr("Clubs File: %1").arg(this->fileNames[static_cast<int>(fileNameField::TEAMS)]));
+        try {
+            count = CRLoader::importTeams(this->fileNames[static_cast<int>(fileNameField::TEAMS)], append);
+            if (append) {
+                appendInfoMessage(tr("Appended: %n club(s)", "", count));
+            } else {
+                appendInfoMessage(tr("Loaded: %n club(s)", "", count));
+            }
+            lastSelectedPath = QFileInfo(this->fileNames[static_cast<int>(fileNameField::TEAMS)]).absoluteDir();
         } catch (ChronoRaceException &e) {
             appendErrorMessage(e.getMessage());
         }

@@ -262,6 +262,29 @@ QList<Timing> const &CRLoader::getTimings()
     return timingsModel.getTimings();
 }
 
+int CRLoader::importTeams(QString const &path, bool append)
+{
+    int rowCount = 0;
+    int columnCount = 0;
+
+    if (append)
+        rowCount = teamsListModel.rowCount();
+    else
+        teamsListModel.reset();
+
+    loadCSV(path, &teamsListModel);
+
+    if (columnCount = teamsListModel.columnCount(); columnCount != 1) {
+        if (!append)
+            teamsListModel.reset();
+        throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(1).arg(columnCount)));
+    }
+
+    rowCount = teamsListModel.rowCount() - (append ? rowCount : 0);
+
+    return rowCount;
+}
+
 int CRLoader::importCategories(QString const &path, bool append)
 {
     int rowCount = 0;
