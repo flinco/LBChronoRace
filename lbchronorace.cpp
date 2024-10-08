@@ -195,11 +195,17 @@ void LBChronoRace::importStartList()
 
     if (!this->fileNames[static_cast<int>(fileNameField::STARTLIST)].isEmpty()) {
         QPair<int, int> count(0, 0);
+        bool append = askForAppend();
         appendInfoMessage(tr("Competitors File: %1").arg(this->fileNames[static_cast<int>(fileNameField::STARTLIST)]));
         try {
-            count = CRLoader::importStartList(this->fileNames[static_cast<int>(fileNameField::STARTLIST)]);
-            appendInfoMessage(tr("Loaded: %n competitor(s)", "", count.first));
-            appendInfoMessage(tr("Loaded: %n team(s)", "", count.second));
+            count = CRLoader::importStartList(this->fileNames[static_cast<int>(fileNameField::STARTLIST)], append);
+            if (append) {
+                appendInfoMessage(tr("Appended: %n competitor(s)", "", count.first));
+                appendInfoMessage(tr("Appended: %n club(s)", "", count.second));
+            } else {
+                appendInfoMessage(tr("Loaded: %n competitor(s)", "", count.first));
+                appendInfoMessage(tr("Loaded: %n club(s)", "", count.second));
+            }
             lastSelectedPath = QFileInfo(this->fileNames[static_cast<int>(fileNameField::STARTLIST)]).absoluteDir();
         } catch (ChronoRaceException &e) {
             appendErrorMessage(e.getMessage());
@@ -216,10 +222,14 @@ void LBChronoRace::importRankingsList()
 
     if (!this->fileNames[static_cast<int>(fileNameField::RANKINGS)].isEmpty()) {
         int count = 0;
+        bool append = askForAppend();
         appendInfoMessage(tr("Rankings File: %1").arg(this->fileNames[static_cast<int>(fileNameField::RANKINGS)]));
         try {
-            count = CRLoader::importModel(CRLoader::Model::RANKINGS, this->fileNames[static_cast<int>(fileNameField::RANKINGS)]);
-            appendInfoMessage(tr("Loaded: %n ranking(s)", "", count));
+            count = CRLoader::importRankings(this->fileNames[static_cast<int>(fileNameField::RANKINGS)], append);
+            if (append)
+                appendInfoMessage(tr("Appended: %n ranking(s)", "", count));
+            else
+                appendInfoMessage(tr("Loaded: %n ranking(s)", "", count));
             lastSelectedPath = QFileInfo(this->fileNames[static_cast<int>(fileNameField::RANKINGS)]).absoluteDir();
         } catch (ChronoRaceException &e) {
             appendErrorMessage(e.getMessage());
@@ -236,10 +246,14 @@ void LBChronoRace::importCategoriesList()
 
     if (!this->fileNames[static_cast<int>(fileNameField::CATEGORIES)].isEmpty()) {
         int count = 0;
+        bool append = askForAppend();
         appendInfoMessage(tr("Categories File: %1").arg(this->fileNames[static_cast<int>(fileNameField::CATEGORIES)]));
         try {
-            count = CRLoader::importModel(CRLoader::Model::CATEGORIES, this->fileNames[static_cast<int>(fileNameField::CATEGORIES)]);
-            appendInfoMessage(tr("Loaded: %n category(s)", "", count));
+            count = CRLoader::importCategories(this->fileNames[static_cast<int>(fileNameField::CATEGORIES)], append);
+            if (append)
+                appendInfoMessage(tr("Appended: %n category(s)", "", count));
+            else
+                appendInfoMessage(tr("Loaded: %n category(s)", "", count));
             lastSelectedPath = QFileInfo(this->fileNames[static_cast<int>(fileNameField::CATEGORIES)]).absoluteDir();
         } catch (ChronoRaceException &e) {
             appendErrorMessage(e.getMessage());
@@ -256,10 +270,14 @@ void LBChronoRace::importTimingsList()
 
     if (!this->fileNames[static_cast<int>(fileNameField::TIMINGS)].isEmpty()) {
         int count = 0;
+        bool append = askForAppend();
         appendInfoMessage(tr("Timings File: %1").arg(this->fileNames[static_cast<int>(fileNameField::TIMINGS)]));
         try {
-            count = CRLoader::importModel(CRLoader::Model::TIMINGS, this->fileNames[static_cast<int>(fileNameField::TIMINGS)]);
-            appendInfoMessage(tr("Loaded: %n timing(s)", "", count));
+            count = CRLoader::importTimings(this->fileNames[static_cast<int>(fileNameField::TIMINGS)], append);
+            if (append)
+                appendInfoMessage(tr("Appended: %n timing(s)", "", count));
+            else
+                appendInfoMessage(tr("Loaded: %n timing(s)", "", count));
             lastSelectedPath = QFileInfo(this->fileNames[static_cast<int>(fileNameField::TIMINGS)]).absoluteDir();
         } catch (ChronoRaceException &e) {
             appendErrorMessage(e.getMessage());
@@ -521,7 +539,7 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
                 table = CRLoader::getTeamsListModel();
                 tableCount = table->rowCount();
                 ui->counterTeams->display(tableCount);
-                appendInfoMessage(tr("Loaded: %n team(s)", "", tableCount));
+                appendInfoMessage(tr("Loaded: %n club(s)", "", tableCount));
                 table = CRLoader::getRankingsModel();
                 tableCount = table->rowCount();
                 ui->counterRankings->display(tableCount);
@@ -548,6 +566,18 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
     }
 
     return retval;
+}
+
+bool LBChronoRace::askForAppend()
+{
+    QMessageBox msgBox(QMessageBox::Icon::Question, tr("Import mode"), tr("Do you want to replace the entire contents of the table or add data to the existing ones?"), QMessageBox::NoButton, this);
+
+    auto *pButtonReplace = msgBox.addButton(tr("Replace"), QMessageBox::NoRole);
+    QAbstractButton const *pButtonAppend = msgBox.addButton(tr("Append"), QMessageBox::YesRole);
+    msgBox.setDefaultButton(pButtonReplace);
+
+    msgBox.exec();
+    return (msgBox.clickedButton() == pButtonAppend);
 }
 
 void LBChronoRace::loadRace()

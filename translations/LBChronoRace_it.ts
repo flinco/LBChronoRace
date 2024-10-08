@@ -131,10 +131,6 @@
         <translation>Numero elementi errato nel CSV row; atteso %1 - trovato %2</translation>
     </message>
     <message>
-        <source>Unexpected model value %1 (import)</source>
-        <translation>Valore modello inatteso %1 (importazione)</translation>
-    </message>
-    <message>
         <source>Unexpected model value %1 (export)</source>
         <translation>Valore modello inatteso %1 (esportazione)</translation>
     </message>
@@ -910,10 +906,10 @@ Continuare?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <source>Loaded: %n team(s)</source>
+        <source>Loaded: %n club(s)</source>
         <translation>
-            <numerusform>Caricata: %n squadra</numerusform>
-            <numerusform>Caricate: %n squadre</numerusform>
+            <numerusform>Caricata: %n società</numerusform>
+            <numerusform>Caricate: %n società</numerusform>
         </translation>
     </message>
     <message>
@@ -1219,6 +1215,57 @@ Sei sicuro di voler continuare?</numerusform>
 Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.000.
 Sei sicuro di voler continuare?</numerusform>
         </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n competitor(s)</source>
+        <translation>
+            <numerusform>Aggiunto: %n concorrente</numerusform>
+            <numerusform>Aggiunti: %n concorrenti</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n club(s)</source>
+        <translation>
+            <numerusform>Aggiunta: %n società</numerusform>
+            <numerusform>Aggiunte: %n società</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n ranking(s)</source>
+        <translation>
+            <numerusform>Aggiunta: %n classifica</numerusform>
+            <numerusform>Aggiunte: %n classifiche</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n category(s)</source>
+        <translation>
+            <numerusform>Aggiunta: %n categoria</numerusform>
+            <numerusform>Aggiunte: %n categorie</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n timing(s)</source>
+        <translation>
+            <numerusform>Aggiunto: %n tempo</numerusform>
+            <numerusform>Aggiunti: %n tempi</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Import mode</source>
+        <translation>Modo importazione</translation>
+    </message>
+    <message>
+        <source>Do you want to replace the entire contents of the table or add data to the existing ones?</source>
+        <translation>Sostituire l&apos;intero contenuto della tabella o aggiungere dati a quelli esistenti?</translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation>Sostituire</translation>
+    </message>
+    <message>
+        <source>Append</source>
+        <translation>Aggiungere</translation>
     </message>
 </context>
 <context>
