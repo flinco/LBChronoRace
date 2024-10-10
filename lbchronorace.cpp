@@ -63,6 +63,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
 
     ui->setupUi(this);
 
+    // TODO: mandare le info gara e i loghi al Live Viewer...
     QObject::connect(&raceInfo, &ChronoRaceData::globalDataChange, &CRHelper::updateGlobalData);
 
     auto *startListModel = dynamic_cast<StartListModel *>(CRLoader::getStartListModel());
@@ -114,7 +115,10 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(timingsModel, &TimingsModel::error, this, &LBChronoRace::appendErrorMessage);
     timingsModel->setCounter(ui->counterTimings);
 
+    timings.setRaceData(&raceInfo);
     QObject::connect(&timings, &ChronoRaceTimings::error, this, &LBChronoRace::appendErrorMessage);
+    QObject::connect(app, &QGuiApplication::screenAdded, &timings, &ChronoRaceTimings::screenAdded);
+    QObject::connect(app, &QGuiApplication::screenRemoved, &timings, &ChronoRaceTimings::screenRemoved);
 
     // react to screen change and resize
     QObject::connect(app, &QGuiApplication::primaryScreenChanged, this, &LBChronoRace::resizeDialogs);
