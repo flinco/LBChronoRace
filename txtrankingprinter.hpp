@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef TXTRANKINGPRINTER_H
-#define TXTRANKINGPRINTER_H
+#ifndef TXTRANKINGPRINTER_HPP
+#define TXTRANKINGPRINTER_HPP
 
 #include <QTextStream>
 #include <QFile>
@@ -47,4 +47,4 @@ private:
     QString &checkOutFileNameExtension(QString &outFileBaseName) override;
 };
 
-#endif // TXTRANKINGPRINTER_H
+#endif // TXTRANKINGPRINTER_HPP

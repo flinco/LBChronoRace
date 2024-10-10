@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef LBSTARTLISTMODEL_H
-#define LBSTARTLISTMODEL_H
+#ifndef LBSTARTLISTMODEL_HPP
+#define LBSTARTLISTMODEL_HPP
 
 #include <QObject>
 #include <QDataStream>
@@ -76,4 +76,4 @@ private:
     int getMaxLeg(uint bib, int skip);
 };
 
-#endif // LBSTARTLISTMODEL_H
+#endif // LBSTARTLISTMODEL_HPP

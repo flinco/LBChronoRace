@@ -308,6 +308,43 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QCheckBox" name="showBox">
+             <property name="focusPolicy">
+              <enum>Qt::FocusPolicy::NoFocus</enum>
+             </property>
+             <property name="toolTip">
+              <string>Show/hide live panel</string>
+             </property>
+             <property name="text">
+              <string>LIVE ON</string>
+             </property>
+             <property name="icon">
+              <iconset resource="materialicons.qrc">
+               <normaloff>:/material/icons/image.svg</normaloff>:/material/icons/image.svg</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="hideBox">
+             <property name="focusPolicy">
+              <enum>Qt::FocusPolicy::NoFocus</enum>
+             </property>
+             <property name="toolTip">
+              <string>Show/hide live panel</string>
+             </property>
+             <property name="text">
+              <string>LIVE OFF</string>
+             </property>
+             <property name="icon">
+              <iconset resource="materialicons.qrc">
+               <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>

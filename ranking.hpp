@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef RANKING_H
-#define RANKING_H
+#ifndef RANKING_HPP
+#define RANKING_HPP
 
 #include <QString>
 #include <QStringList>
@@ -101,4 +101,4 @@ public:
     bool operator() (Ranking const &lhs, Ranking const &rhs) const;
 };
 
-#endif // RANKING_H
+#endif // RANKING_HPP

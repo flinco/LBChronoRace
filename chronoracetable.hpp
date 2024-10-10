@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CHRONORACETABLE_H
-#define CHRONORACETABLE_H
+#ifndef CHRONORACETABLE_HPP
+#define CHRONORACETABLE_HPP
 
 #include <QDialog>
 
@@ -54,4 +54,4 @@ private:
     QScopedPointer<Ui::ChronoRaceTable> ui { new Ui::ChronoRaceTable };
 };
 
-#endif // CHRONORACETABLE_H
+#endif // CHRONORACETABLE_HPP

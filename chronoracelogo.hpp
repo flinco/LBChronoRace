@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CHRONORACELOGO_H
-#define CHRONORACELOGO_H
+#ifndef CHRONORACELOGO_HPP
+#define CHRONORACELOGO_HPP
 
 #include <QPixmap>
 #include <QLabel>
@@ -38,4 +38,4 @@ signals:
     void logoRemoved(QLabel *);
 };
 
-#endif // CHRONORACELOGO_H
+#endif // CHRONORACELOGO_HPP

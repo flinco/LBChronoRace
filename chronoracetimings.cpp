@@ -21,6 +21,7 @@
 #include <QStandardPaths>
 #include <QKeyEvent>
 #include <QMessageBox>
+#include <QWindow>
 
 #include "chronoracetimings.hpp"
 #include "crloader.hpp"
@@ -56,7 +57,9 @@ void TimingsWorker::writeToDisk(QString const &buffer) {
 };
 
 
-ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent) {
+ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent)
+{
+    auto screens = QGuiApplication::screens();
 
     QString startDisplay = "0:00:00";
 
@@ -79,11 +82,21 @@ ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent) {
     QObject::connect(ui->lockBox, &QCheckBox::clicked, this, &ChronoRaceTimings::lock);
     QObject::connect(ui->unlockBox, &QCheckBox::clicked, this, &ChronoRaceTimings::lock);
 
+    QObject::connect(ui->showBox, &QCheckBox::clicked, this, &ChronoRaceTimings::live);
+    QObject::connect(ui->hideBox, &QCheckBox::clicked, this, &ChronoRaceTimings::live);
+
     saveToDiskWorker.moveToThread(&saveToDiskThread);
     connect(this, &ChronoRaceTimings::saveToDisk, &saveToDiskWorker, &TimingsWorker::writeToDisk);
     connect(&saveToDiskWorker, &TimingsWorker::writeDone, this, &ChronoRaceTimings::clearDiskBuffer);
 
+    screenCount = screens.count();
+    if (screenCount < 2) {
+        ui->showBox->setEnabled(false);
+        ui->hideBox->setEnabled(false);
+    }
+
     ui->unlockBox->hide();
+    ui->hideBox->hide();
     ui->stopButton->setEnabled(false);
 }
 
@@ -513,6 +526,8 @@ void ChronoRaceTimings::lock(bool checked)
         ui->stopButton->setEnabled(false);
         ui->resetButton->setEnabled(false);
         ui->buttonBox->setEnabled(false);
+        ui->showBox->setEnabled(false);
+        ui->hideBox->setEnabled(false);
         ui->unlockBox->show();
         ui->lockBox->hide();
         ui->lockBox->setChecked(false);
@@ -521,11 +536,35 @@ void ChronoRaceTimings::lock(bool checked)
         ui->stopButton->setEnabled(updateTimerId != 0);
         ui->resetButton->setEnabled(updateTimerId == 0);
         ui->buttonBox->setEnabled(true);
+        ui->showBox->setEnabled(true);
+        ui->hideBox->setEnabled(true);
         ui->lockBox->show();
         ui->unlockBox->hide();
         ui->unlockBox->setChecked(true);
     }
+
     this->setWindowFlag(Qt::WindowCloseButtonHint, !checked);
+    this->show();
+}
+
+void ChronoRaceTimings::live(bool checked)
+{
+    if (auto pLiveTable = liveTable.data(); checked) {
+        ui->hideBox->show();
+        ui->showBox->hide();
+        ui->showBox->setChecked(false);
+
+        pLiveTable->show();
+
+        pLiveTable->windowHandle()->setScreen(qApp->screens()[1]);
+    } else {
+        pLiveTable->hide();
+
+        ui->showBox->show();
+        ui->hideBox->hide();
+        ui->hideBox->setChecked(true);
+    }
+
     this->show();
 }
 
@@ -534,4 +573,33 @@ void ChronoRaceTimings::bibClicked(QTableWidgetItem *item)
     if (item->column() == 0) {
         updateCurrentBibItem(item);
     }
+}
+
+void ChronoRaceTimings::screenRemoved(QScreen *screen)
+{
+    if ((screen == liveScreen) || (liveScreen == QApplication::primaryScreen())) {
+
+        liveScreen = Q_NULLPTR;
+        liveTable.data()->hide();
+
+        ui->showBox->setChecked(false);
+        ui->showBox->show();
+        ui->hideBox->hide();
+        ui->hideBox->setChecked(true);
+
+        if (screenCount > 1) {
+            screenCount--;
+            ui->showBox->setEnabled(screenCount > 1);
+            ui->hideBox->setEnabled(screenCount > 1);
+        }
+    }
+}
+
+void ChronoRaceTimings::screenAdded(QScreen *screen)
+{
+    Q_UNUSED(screen)
+
+    screenCount++;
+    ui->showBox->setEnabled(screenCount > 1);
+    ui->hideBox->setEnabled(screenCount > 1);
 }

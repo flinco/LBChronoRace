@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CLASSENTRY_H
-#define CLASSENTRY_H
+#ifndef CLASSENTRY_HPP
+#define CLASSENTRY_HPP
 
 #include <QVector>
 #include <QString>
@@ -116,4 +116,4 @@ public:
     static void setCategoryMultiLeg(ClassEntry *entry, QStringList &messages);
 };
 
-#endif // CLASSENTRY_H
+#endif // CLASSENTRY_HPP

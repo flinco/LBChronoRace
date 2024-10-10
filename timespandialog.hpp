@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef TIMESPANDIALOG_H
-#define TIMESPANDIALOG_H
+#ifndef TIMESPANDIALOG_HPP
+#define TIMESPANDIALOG_HPP
 
 #include <QDialog>
 #include <QString>
@@ -41,4 +41,4 @@ public slots:
     void accept() override;
 };
 
-#endif // TIMESPANDIALOG_H
+#endif // TIMESPANDIALOG_HPP

@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef LBTIMINGSMODEL_H
-#define LBTIMINGSMODEL_H
+#ifndef LBTIMINGSMODEL_HPP
+#define LBTIMINGSMODEL_HPP
 
 #include <QObject>
 #include <QDataStream>
@@ -62,4 +62,4 @@ signals:
 };
 
 
-#endif // LBTIMINGSMODEL_H
+#endif // LBTIMINGSMODEL_HPP

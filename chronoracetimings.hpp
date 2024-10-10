@@ -15,13 +15,16 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CHRONORACETIMINGS_H
-#define CHRONORACETIMINGS_H
+#ifndef CHRONORACETIMINGS_HPP
+#define CHRONORACETIMINGS_HPP
 
 #include <QDialog>
 #include <QTimerEvent>
 #include <QElapsedTimer>
 #include <QThread>
+#include <QGuiApplication>
+
+#include "livetable.hpp"
 
 #include "ui_chronoracetimings.h"
 
@@ -57,6 +60,9 @@ public slots:
     void reject() override;
     void show(); //NOSONAR
 
+    void screenRemoved(QScreen *screen);
+    void screenAdded(QScreen *screen);
+
     void clearDiskBuffer();
 
 signals:
@@ -65,6 +71,7 @@ signals:
 
 private:
     QScopedPointer<Ui::ChronoRaceTimings> ui { new Ui::ChronoRaceTimings };
+    QScopedPointer<LiveTable> liveTable { new LiveTable };
 
     int            timingRowCount { 0 };
 
@@ -77,6 +84,9 @@ private:
     TimingsWorker  saveToDiskWorker;
 
     QTableWidgetItem *currentBibItem { Q_NULLPTR };
+
+    qsizetype screenCount { 0 };
+    QScreen const *liveScreen { Q_NULLPTR };
 
     void updateCurrentBibItem(QTableWidgetItem *newBibItem);
 
@@ -99,8 +109,9 @@ private slots:
     void stop();
     void reset();
     void lock(bool checked);
+    void live(bool checked);
 
     void bibClicked(QTableWidgetItem *item);
 };
 
-#endif // CHRONORACETIMINGS_H
+#endif // CHRONORACETIMINGS_HPP
