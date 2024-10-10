@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     macos:
-      xcode: "14.0.0"  # Use macOS image with Xcode (adjust the version if needed)
+      xcode: "16.0.0"  # Use macOS image with Xcode (adjust the version if needed)
     environment:
       PATH: "/usr/local/opt/qt/bin:$PATH"
     steps:
@@ -34,9 +34,10 @@ jobs:
       - run:
           name: Create the DMG package
           command: |
+            mkdir -p ~/dist
             cd build
             mkdir MyApp.app
-            cp -R myapp.app /Users/dist/  # Copy the built application
+            cp -R myapp.app ~/dist/  # Copy the built application
 
 workflows:
   version: 2
