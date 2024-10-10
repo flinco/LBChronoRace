@@ -251,6 +251,9 @@ elseif(APPLE)
         ${PROJECT_FONTS}
         ${ICON_FILES}
         ${PROJECT_ICONS})
+
+    # Create the bundle tree
+    add_subdirectory(bundle)
 else()
     set(LBCHRONORACE_BIN lbchronorace)
 

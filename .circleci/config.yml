@@ -21,6 +21,7 @@ jobs:
           name: Install Qt6 and CMake
           command: |
             brew install qt cmake vulkan-headers
+            #brew install create-dmg
             echo 'export PATH="/usr/local/opt/qt/bin:$PATH"' >> ~/.bash_profile
             source ~/.bash_profile
 
@@ -33,9 +34,37 @@ jobs:
             cmake -DCMAKE_PREFIX_PATH=$(brew --prefix qt) ..  # Configure the project
             make  # Build the project
 
+      # Step 3: Create the DMG package
+      - run:
+          name: Create the DMG package
+          command: |
+            mkdir -p ~/dist
+            cd build
+            #cmake --install . --prefix ~/dist --strip -v
+            cmake --install . --prefix ~/dist --strip
+
+      # Step 4: Create APP archive
+      - run:
+          name: Create APP archive
+          command: |
+            cd ~/dist
+            tar cvzf LBChronoRace_app.tar.gz LBChronoRace.app
+
+      # Step 5: Store the DMG package and the APP archive
+      - store_artifacts:
+            path: ~/dist/LBChronoRace.dmg
+            destination: LBChronoRace.dmg
+      - store_artifacts:
+            path: ~/dist/LBChronoRace_app.tar.gz
+            destination: LBChronoRace_app.tar.gz
+
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only:
+                - macos-bundle  # Run only on pushes to this branch
 
