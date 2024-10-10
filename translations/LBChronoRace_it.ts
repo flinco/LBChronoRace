@@ -227,10 +227,6 @@
         <translation>Informazioni Gara</translation>
     </message>
     <message>
-        <source>Remove 1st sponsor</source>
-        <translation>Rimuovi 1° sponsor</translation>
-    </message>
-    <message>
         <source>Event</source>
         <translation>Evento</translation>
     </message>
@@ -249,14 +245,6 @@
     <message>
         <source>Logo 1 not loaded</source>
         <translation>1° logo non caricato</translation>
-    </message>
-    <message>
-        <source>Load 4th sponsor</source>
-        <translation>Carica 4° sponsor</translation>
-    </message>
-    <message>
-        <source>Remove 4th sponsor</source>
-        <translation>Rimuovi 4° sponsor</translation>
     </message>
     <message>
         <source>Sponsor 1 not loaded</source>
@@ -279,28 +267,12 @@
         <translation>Staffetta</translation>
     </message>
     <message>
-        <source>Load 1st sponsor</source>
-        <translation>Carica 1° sponsor</translation>
-    </message>
-    <message>
-        <source>Remove 3rd sponsor</source>
-        <translation>Rimuovi 3° sponsor</translation>
-    </message>
-    <message>
         <source>Timekeeper 1</source>
         <translation>Cronometrista 1</translation>
     </message>
     <message>
-        <source>Remove 2nd sponsor</source>
-        <translation>Rimuovi 2° sponsor</translation>
-    </message>
-    <message>
         <source>dd/MM/yyyy</source>
         <translation>dd/MM/yyyy</translation>
-    </message>
-    <message>
-        <source>Load 3rd sponsor</source>
-        <translation>Carica 3° sponsor</translation>
     </message>
     <message>
         <source>Date</source>
@@ -331,28 +303,8 @@
         <translation>Cronometrista 2</translation>
     </message>
     <message>
-        <source>Load 2nd logo</source>
-        <translation>Carica 2° Logo</translation>
-    </message>
-    <message>
-        <source>Load 2nd sponsor</source>
-        <translation>Carica 2° sponsor</translation>
-    </message>
-    <message>
-        <source>Remove 1st logo</source>
-        <translation>Rimuovi 1° logo</translation>
-    </message>
-    <message>
         <source>Place</source>
         <translation>Luogo</translation>
-    </message>
-    <message>
-        <source>Load 1st logo</source>
-        <translation>Carica 1° Logo</translation>
-    </message>
-    <message>
-        <source>Remove 2nd logo</source>
-        <translation>Rimuovi 2° logo</translation>
     </message>
     <message>
         <source>Lenght</source>
@@ -534,6 +486,38 @@
         <source>How much accurate the timings will be</source>
         <translation>Quanto preciso sarà il cronometraggio</translation>
     </message>
+    <message>
+        <source>Remove</source>
+        <translation>Rimuovi</translation>
+    </message>
+    <message>
+        <source>Load</source>
+        <translation>Carica</translation>
+    </message>
+    <message>
+        <source>1st sponsor logo</source>
+        <translation>1° logo sponsor</translation>
+    </message>
+    <message>
+        <source>2nd sponsor logo</source>
+        <translation>2° logo sponsor</translation>
+    </message>
+    <message>
+        <source>3rd sponsor logo</source>
+        <translation>3° logo sponsor</translation>
+    </message>
+    <message>
+        <source>4th sponsor logo</source>
+        <translation>4° logo sponsor</translation>
+    </message>
+    <message>
+        <source>Top left logo</source>
+        <translation>Logo sinistro</translation>
+    </message>
+    <message>
+        <source>Top right logo</source>
+        <translation>Logo destro</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTable</name>
@@ -653,14 +637,6 @@ Procedere?</translation>
         <translation>AZZERA</translation>
     </message>
     <message>
-        <source>LOCK</source>
-        <translation>BLOCCA</translation>
-    </message>
-    <message>
-        <source>UNLOCK</source>
-        <translation>SBLOCCA</translation>
-    </message>
-    <message>
         <source>Bib</source>
         <translation>Pettorale</translation>
     </message>
@@ -715,6 +691,22 @@ Continuare?</translation>
     <message>
         <source>Missing bib for time %1</source>
         <translation>Pettorale mancante per il tempo %1</translation>
+    </message>
+    <message>
+        <source>Buttons lock</source>
+        <translation>Blocco pulsanti</translation>
+    </message>
+    <message>
+        <source>Show/hide Live View panel</source>
+        <translation>Mostra/nascondi il pannello &apos;Vista in diretta&apos;</translation>
+    </message>
+    <message>
+        <source>Live View</source>
+        <translation>Vista in diretta</translation>
+    </message>
+    <message>
+        <source>Enter competitors to use the Live View</source>
+        <translation>Per utilizzare la &apos;Vista in diretta&apos; inserire i concorrenti</translation>
     </message>
 </context>
 <context>
@@ -1290,6 +1282,41 @@ Sei sicuro di voler continuare?</numerusform>
     <message>
         <source>Select Clubs File</source>
         <translation>Seleziona File Società</translation>
+    </message>
+</context>
+<context>
+    <name>LiveTable</name>
+    <message>
+        <source>Bib</source>
+        <translation>Pett</translation>
+    </message>
+    <message>
+        <source>Competitor</source>
+        <translation>Concorrente</translation>
+    </message>
+    <message>
+        <source>Timing</source>
+        <translation>Tempo</translation>
+    </message>
+    <message>
+        <source>The Race</source>
+        <translation>La Gara</translation>
+    </message>
+    <message>
+        <source>LBChronoRace</source>
+        <translation>LBChronoRace</translation>
+    </message>
+    <message>
+        <source>Team</source>
+        <translation>Squadra</translation>
+    </message>
+    <message>
+        <source>Leg %1</source>
+        <translation>Fraz %1</translation>
+    </message>
+    <message>
+        <source>Enter competitors to use the Live View</source>
+        <translation>Per utilizzare la &apos;Vista in diretta&apos; inserire i concorrenti</translation>
     </message>
 </context>
 <context>
