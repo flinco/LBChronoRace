@@ -1,0 +1,50 @@
+version: 2.1
+
+jobs:
+  build:
+    macos:
+      xcode: "14.0.0"  # Use macOS image with Xcode (adjust the version if needed)
+    environment:
+      PATH: "/usr/local/opt/qt/bin:$PATH"
+    steps:
+      - checkout  # Clone the repository
+
+      # Step 1: Install Homebrew and Qt6
+      - run:
+          name: Install Homebrew
+          command: |
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      - run:
+          name: Install Qt6 and CMake
+          command: |
+            brew install qt cmake
+            echo 'export PATH="/usr/local/opt/qt/bin:$PATH"' >> ~/.bash_profile
+            source ~/.bash_profile
+
+      # Step 2: Configure the project with CMake
+      - run:
+          name: Configure the build with CMake
+          command: |
+            mkdir build
+            cd build
+            cmake -DCMAKE_PREFIX_PATH=$(brew --prefix qt) ..  # Configure the project
+            make  # Build the project
+
+      # Step 3: Create the DMG package (optional)
+      - run:
+          name: Create the DMG package
+          command: |
+            cd build
+            mkdir MyApp.app
+            cp -R myapp.app /Users/dist/  # Copy the built application
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - circleci-project-setup  # Run only on pushes to this branch
+
