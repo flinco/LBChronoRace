@@ -173,12 +173,20 @@
         <translation>Abbreviazione categoria</translation>
     </message>
     <message>
-        <source>Up to</source>
-        <translation>Fino al</translation>
+        <source>Born up to</source>
+        <translation>Nati fino al</translation>
     </message>
     <message>
-        <source>From</source>
-        <translation>Dal</translation>
+        <source>Born from</source>
+        <translation>Nati dal</translation>
+    </message>
+    <message>
+        <source>Bib up to</source>
+        <translation>Fino al pettorale</translation>
+    </message>
+    <message>
+        <source>Bib from</source>
+        <translation>Dal pettorale</translation>
     </message>
     <message>
         <source>Category Full Name</source>
@@ -195,6 +203,14 @@
     <message>
         <source>Type</source>
         <translation>Tipo</translation>
+    </message>
+    <message>
+        <source>The category will include competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint</source>
+        <translation>La categoria include concorrenti con pettorale minore o guale a questo (es. 200); 0 per disabilitare questo vincolo</translation>
+    </message>
+    <message>
+        <source>The category will include competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint</source>
+        <translation>La categoria include concorrenti con pettorale maggiore o guale a questo (es. 200); 0 per disabilitare questo vincolo</translation>
     </message>
 </context>
 <context>

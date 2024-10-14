@@ -80,8 +80,6 @@ public:
     void setTime(Competitor *comp, Timing const &timing, QStringList &messages);
     uint getLegRanking(uint legIdx) const;
     void setLegRanking(uint legIdx, uint ranking);
-    uint getFromYear() const;
-    uint getToYear() const;
     QString getClub() const;
     QString getTeam() const;
     QString getClubsAndTeam() const;

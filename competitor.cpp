@@ -234,11 +234,19 @@ bool Competitor::isInCategory(Category const *category) const
 
     uint fromYear = category->getFromYear();
     uint toYear = category->getToYear();
+    uint fromBib = category->getFromBib();
+    uint toBib = category->getToBib();
 
     if ((fromYear != 0) && (this->year < fromYear))
         return false;
 
     if ((toYear != 0) && (toYear < this->year))
+        return false;
+
+    if ((fromBib != 0) && (this->bib < fromBib))
+        return false;
+
+    if ((toBib != 0) && (toBib < this->bib))
         return false;
 
     Category::Type type = category->getType();

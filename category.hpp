@@ -47,14 +47,18 @@ public:
         CTF_TYPE        = 2,
         CTF_FROM_YEAR   = 3,
         CTF_TO_YEAR     = 4,
-        CTF_LAST        = 4,
-        CTF_COUNT       = 5
+        CTF_FROM_BIB    = 5,
+        CTF_TO_BIB      = 6,
+        CTF_LAST        = 6,
+        CTF_COUNT       = 7
     };
 
 private:
     Type type { Type::MALE };
     uint toYear { 0u };
     uint fromYear { 0u };
+    uint toBib { 0u };
+    uint fromBib { 0u };
     QString fullDescription { "" };
     QString shortDescription { "" };
 
@@ -66,16 +70,20 @@ public:
     friend QDataStream &operator<<(QDataStream &out, Category const &category);
     friend QDataStream &operator>>(QDataStream &in, Category &category);
 
-    uint getFromYear() const;
-    void setFromYear(uint newFromYear);
     QString const &getFullDescription() const;
     void setFullDescription(QString const &newFullDescription);
     Type getType() const;
     void setType(Type const newType);
     QString const &getShortDescription() const;
     void setShortDescription(QString const &newShortDescription);
+    uint getFromYear() const;
+    void setFromYear(uint newFromYear);
     uint getToYear() const;
     void setToYear(unsigned int newToYear);
+    uint getFromBib() const;
+    void setFromBib(uint newFromBib);
+    uint getToBib() const;
+    void setToBib(unsigned int newToBib);
     uint getWeight() const;
     bool isValid() const;
 

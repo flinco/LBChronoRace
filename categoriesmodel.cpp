@@ -64,17 +64,25 @@ QVariant CategoriesModel::data(QModelIndex const &index, int role) const
         return QVariant();
 
     if (role == Qt::DisplayRole) {
-        uint year;
+        uint uval;
         switch (index.column()) {
         case static_cast<int>(Category::Field::CTF_TYPE):
             return QVariant(CRHelper::toTypeString(categories.at(index.row()).getType()));
         case static_cast<int>(Category::Field::CTF_TO_YEAR):
-            if ((year = categories.at(index.row()).getToYear()))
-                return QVariant(year);
+            if ((uval = categories.at(index.row()).getToYear()))
+                return QVariant(uval);
             return QVariant("");
         case static_cast<int>(Category::Field::CTF_FROM_YEAR):
-            if ((year = categories.at(index.row()).getFromYear()))
-                return QVariant(year);
+            if ((uval = categories.at(index.row()).getFromYear()))
+                return QVariant(uval);
+            return QVariant("");
+        case static_cast<int>(Category::Field::CTF_TO_BIB):
+            if ((uval = categories.at(index.row()).getToBib()))
+                return QVariant(uval);
+            return QVariant("");
+        case static_cast<int>(Category::Field::CTF_FROM_BIB):
+            if ((uval = categories.at(index.row()).getFromBib()))
+                return QVariant(uval);
             return QVariant("");
         case static_cast<int>(Category::Field::CTF_FULL_DESCR):
             return QVariant(categories.at(index.row()).getFullDescription());
@@ -91,6 +99,10 @@ QVariant CategoriesModel::data(QModelIndex const &index, int role) const
             return QVariant(categories.at(index.row()).getToYear());
         case static_cast<int>(Category::Field::CTF_FROM_YEAR):
             return QVariant(categories.at(index.row()).getFromYear());
+        case static_cast<int>(Category::Field::CTF_TO_BIB):
+            return QVariant(categories.at(index.row()).getToBib());
+        case static_cast<int>(Category::Field::CTF_FROM_BIB):
+            return QVariant(categories.at(index.row()).getFromBib());
         case static_cast<int>(Category::Field::CTF_FULL_DESCR):
             return QVariant(categories.at(index.row()).getFullDescription());
         case static_cast<int>(Category::Field::CTF_SHORT_DESCR):
@@ -106,6 +118,10 @@ QVariant CategoriesModel::data(QModelIndex const &index, int role) const
             return QVariant(tr("The category will include competitors born up to and including this year (i.e. 2000); set to 0 to disable this constraint"));
         case static_cast<int>(Category::Field::CTF_FROM_YEAR):
             return QVariant(tr("The category will include competitors born from this year (i.e. 1982); set to 0 to disable this constraint"));
+        case static_cast<int>(Category::Field::CTF_TO_BIB):
+            return QVariant(tr("The category will include competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint"));
+        case static_cast<int>(Category::Field::CTF_FROM_BIB):
+            return QVariant(tr("The category will include competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint"));
         case static_cast<int>(Category::Field::CTF_FULL_DESCR):
             return QVariant(tr("Full category name"));
         case static_cast<int>(Category::Field::CTF_SHORT_DESCR):
@@ -131,6 +147,9 @@ bool CategoriesModel::setData(QModelIndex const &index, QVariant const &value, i
     if (value.toString().contains(LBChronoRace::csvFilter))
         return retval;
 
+    // from now on, retval is already 'true' if value is an empty string
+    retval = value.toString().isEmpty();
+
     uint uval;
     switch (index.column()) {
     case static_cast<int>(Category::Field::CTF_TYPE):
@@ -144,20 +163,20 @@ bool CategoriesModel::setData(QModelIndex const &index, QVariant const &value, i
         }
         break;
     case static_cast<int>(Category::Field::CTF_TO_YEAR):
-        if ((retval = value.toString().isEmpty())) {
-            uval = 0;
-        } else {
-            uval = value.toUInt(&retval);
-        }
+        uval = retval ? 0 : value.toUInt(&retval);
         if (retval) categories[index.row()].setToYear(uval);
         break;
     case static_cast<int>(Category::Field::CTF_FROM_YEAR):
-        if ((retval = value.toString().isEmpty())) {
-            uval = 0;
-        } else {
-            uval = value.toUInt(&retval);
-        }
+        uval = retval ? 0 : value.toUInt(&retval);
         if (retval) categories[index.row()].setFromYear(uval);
+        break;
+    case static_cast<int>(Category::Field::CTF_TO_BIB):
+        uval = retval ? 0 : value.toUInt(&retval);
+        if (retval) categories[index.row()].setToBib(uval);
+        break;
+    case static_cast<int>(Category::Field::CTF_FROM_BIB):
+        uval = retval ? 0 : value.toUInt(&retval);
+        if (retval) categories[index.row()].setFromBib(uval);
         break;
     case static_cast<int>(Category::Field::CTF_FULL_DESCR):
         categories[index.row()].setFullDescription(value.toString().simplified());
@@ -186,9 +205,13 @@ QVariant CategoriesModel::headerData(int section, Qt::Orientation orientation, i
         case static_cast<int>(Category::Field::CTF_TYPE):
             return QString("%1").arg(tr("Type"));
         case static_cast<int>(Category::Field::CTF_TO_YEAR):
-            return QString("%1").arg(tr("Up to"));
+            return QString("%1").arg(tr("Born up to"));
         case static_cast<int>(Category::Field::CTF_FROM_YEAR):
-            return QString("%1").arg(tr("From"));
+            return QString("%1").arg(tr("Born from"));
+        case static_cast<int>(Category::Field::CTF_TO_BIB):
+            return QString("%1").arg(tr("Bib up to"));
+        case static_cast<int>(Category::Field::CTF_FROM_BIB):
+            return QString("%1").arg(tr("Bib from"));
         case static_cast<int>(Category::Field::CTF_FULL_DESCR):
             return QString("%1").arg(tr("Category Full Name"));
         case static_cast<int>(Category::Field::CTF_SHORT_DESCR):

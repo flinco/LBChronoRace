@@ -173,12 +173,20 @@
         <translation>Short category name</translation>
     </message>
     <message>
-        <source>Up to</source>
-        <translation>Up to</translation>
+        <source>Born up to</source>
+        <translation>Born up to</translation>
     </message>
     <message>
-        <source>From</source>
-        <translation>From</translation>
+        <source>Born from</source>
+        <translation>Born from</translation>
+    </message>
+    <message>
+        <source>Bib up to</source>
+        <translation>Bib up to</translation>
+    </message>
+    <message>
+        <source>Bib from</source>
+        <translation>Bib from</translation>
     </message>
     <message>
         <source>Category Full Name</source>
@@ -195,6 +203,14 @@
     <message>
         <source>Type</source>
         <translation>Type</translation>
+    </message>
+    <message>
+        <source>The category will include competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint</source>
+        <translation>The category will include competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint</translation>
+    </message>
+    <message>
+        <source>The category will include competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint</source>
+        <translation>The category will include competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint</translation>
     </message>
 </context>
 <context>
