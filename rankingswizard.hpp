@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef RANKINGSWIZARD_H
-#define RANKINGSWIZARD_H
+#ifndef RANKINGSWIZARD_HPP
+#define RANKINGSWIZARD_HPP
 
 #include <QDir>
 #include <QWizard>
@@ -93,4 +93,4 @@ signals:
     void error(QString const &);
 };
 
-#endif // RANKINGSWIZARD_H
+#endif // RANKINGSWIZARD_HPP

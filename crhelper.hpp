@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CRHELPER_H
-#define CRHELPER_H
+#ifndef CRHELPER_HPP
+#define CRHELPER_HPP
 
 #include <QCoreApplication>
 #include <QString>
@@ -69,4 +69,4 @@ public slots:
     static void updateGlobalData(ChronoRaceData::NameComposition newNameComposition, ChronoRaceData::Accuracy newAccuracy);
 };
 
-#endif // CRHELPER_H
+#endif // CRHELPER_HPP

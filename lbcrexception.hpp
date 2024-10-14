@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef LBEXCEPTION_H
-#define LBEXCEPTION_H
+#ifndef LBEXCEPTION_HPP
+#define LBEXCEPTION_HPP
 
 #include <QException>
 #include <QString>
@@ -36,4 +36,4 @@ public:
     QString &getMessage();
 };
 
-#endif // LBEXCEPTION_H
+#endif // LBEXCEPTION_HPP

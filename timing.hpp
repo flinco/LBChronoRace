@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef TIMING_H
-#define TIMING_H
+#ifndef TIMING_HPP
+#define TIMING_HPP
 
 #include <QCoreApplication>
 #include <QDataStream>
@@ -111,4 +111,4 @@ public:
     bool operator() (Timing const &lhs, Timing const &rhs) const;
 };
 
-#endif // TIMING_H
+#endif // TIMING_HPP

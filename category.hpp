@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CATEGORY_H
-#define CATEGORY_H
+#ifndef CATEGORY_HPP
+#define CATEGORY_HPP
 
 #include <QCoreApplication>
 #include <QDataStream>
@@ -104,4 +104,4 @@ public:
     bool operator() (Category const &lhs, Category const &rhs) const;
 };
 
-#endif // CATEGORY_H
+#endif // CATEGORY_HPP
