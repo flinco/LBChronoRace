@@ -312,30 +312,6 @@ void ClassEntry::setLegRanking(uint legIdx, uint ranking)
     entries[legIdx].legRanking = ranking;
 }
 
-uint ClassEntry::getFromYear() const
-{
-    uint fromYear = UINT_MAX;
-
-    for (auto const &it : entries) {
-        if (it.competitor)
-            fromYear = (fromYear > it.competitor->getYear()) ? it.competitor->getYear() : fromYear;
-    }
-
-    return fromYear;
-}
-
-uint ClassEntry::getToYear() const
-{
-    uint toYear = 0u;
-
-    for (auto const &it : entries) {
-        if (it.competitor)
-            toYear = (toYear < it.competitor->getYear()) ? it.competitor->getYear() : toYear;
-    }
-
-    return toYear;
-}
-
 QString ClassEntry::getClub() const
 {
     QStringList clubs { };

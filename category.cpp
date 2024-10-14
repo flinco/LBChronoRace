@@ -29,7 +29,9 @@ QDataStream &operator<<(QDataStream &out, Category const &category)
         << category.shortDescription
         << quint32(category.type)
         << quint32(category.toYear)
-        << quint32(category.fromYear);
+        << quint32(category.fromYear)
+        << quint32(category.toBib)
+        << quint32(category.fromBib);
 
     return out;
 }
@@ -38,6 +40,8 @@ QDataStream &operator>>(QDataStream &in, Category &category)
 {
     quint32 toYear32;
     quint32 fromYear32;
+    quint32 toBib32 = 0;
+    quint32 fromBib32 = 0;
 
     if (LBChronoRace::binFormat < LBCHRONORACE_BIN_FMT_v4) {
         qint32  team32;
@@ -69,6 +73,9 @@ QDataStream &operator>>(QDataStream &in, Category &category)
            >> type32
            >> toYear32
            >> fromYear32;
+        if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v4)
+            in >> toBib32
+               >> fromBib32;
 
         switch (type32) {
         case static_cast<quint32>(Category::Type::MALE):
@@ -90,6 +97,8 @@ QDataStream &operator>>(QDataStream &in, Category &category)
 
     category.toYear   = toYear32;
     category.fromYear = fromYear32;
+    category.toBib    = toBib32;
+    category.fromBib  = fromBib32;
 
     return in;
 }
@@ -97,16 +106,6 @@ QDataStream &operator>>(QDataStream &in, Category &category)
 void Category::illegalType(quint32 value) const
 {
     throw(ChronoRaceException(tr("Illegal category type '%1'").arg(value)));
-}
-
-uint Category::getFromYear() const
-{
-    return fromYear;
-}
-
-void Category::setFromYear(uint newFromYear)
-{
-    this->fromYear = newFromYear;
 }
 
 QString const &Category::getFullDescription() const
@@ -139,6 +138,16 @@ void Category::setShortDescription(QString const &newShortDescription)
     this->shortDescription = newShortDescription;
 }
 
+uint Category::getFromYear() const
+{
+    return fromYear;
+}
+
+void Category::setFromYear(uint newFromYear)
+{
+    this->fromYear = newFromYear;
+}
+
 uint Category::getToYear() const
 {
     return toYear;
@@ -149,15 +158,41 @@ void Category::setToYear(uint newToYear)
     this->toYear = newToYear;
 }
 
+uint Category::getFromBib() const
+{
+    return fromBib;
+}
+
+void Category::setFromBib(uint newFromBib)
+{
+    this->fromBib = newFromBib;
+}
+
+uint Category::getToBib() const
+{
+    return toBib;
+}
+
+void Category::setToBib(uint newToBib)
+{
+    this->toYear = newToBib;
+}
+
 uint Category::getWeight() const
 {
     uint weight = 0u;
 
     if (this->fromYear)
-        weight++;
+        weight += 1;
 
     if (this->toYear)
-        weight++;
+        weight += 1;
+
+    if (this->fromBib)
+        weight += 2;
+
+    if (this->toBib)
+        weight += 2;
 
     //NOSONAR switch (this->type) {
     //NOSONAR case Category::Type::RELAY_Y:
@@ -220,6 +255,10 @@ bool CategorySorter::operator() (Category const &lhs, Category const &rhs) const
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getToYear() > rhs.getToYear()) : (lhs.getToYear() < rhs.getToYear());
     case Category::Field::CTF_FROM_YEAR:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFromYear() > rhs.getFromYear()) : (lhs.getFromYear() < rhs.getFromYear());
+    case Category::Field::CTF_TO_BIB:
+        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getToBib() > rhs.getToBib()) : (lhs.getToBib() < rhs.getToBib());
+    case Category::Field::CTF_FROM_BIB:
+        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFromBib() > rhs.getFromBib()) : (lhs.getFromBib() < rhs.getFromBib());
     case Category::Field::CTF_FULL_DESCR:
         return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFullDescription() > rhs.getFullDescription()) : (lhs.getFullDescription() < rhs.getFullDescription());
     case Category::Field::CTF_SHORT_DESCR:
