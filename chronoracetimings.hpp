@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CHRONORACETIMINGS_H
-#define CHRONORACETIMINGS_H
+#ifndef CHRONORACETIMINGS_HPP
+#define CHRONORACETIMINGS_HPP
 
 #include <QDialog>
 #include <QTimerEvent>
@@ -103,4 +103,4 @@ private slots:
     void bibClicked(QTableWidgetItem *item);
 };
 
-#endif // CHRONORACETIMINGS_H
+#endif // CHRONORACETIMINGS_HPP

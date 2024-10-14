@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef LBRANKINGSMODEL_H
-#define LBRANKINGSMODEL_H
+#ifndef LBRANKINGSMODEL_HPP
+#define LBRANKINGSMODEL_HPP
 
 #include <QObject>
 #include <QDataStream>
@@ -63,4 +63,4 @@ signals:
     void error(QString const &);
 };
 
-#endif // LBRANKINGSMODEL_H
+#endif // LBRANKINGSMODEL_HPP

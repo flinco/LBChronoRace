@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef RANKINGPRINTER_H
-#define RANKINGPRINTER_H
+#ifndef RANKINGPRINTER_HPP
+#define RANKINGPRINTER_HPP
 
 #include <QObject>
 #include <QScopedPointer>
@@ -86,4 +86,4 @@ private:
     uint time { 0u };
 };
 
-#endif // RANKINGPRINTER_H
+#endif // RANKINGPRINTER_HPP

@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef LBTEAMSLISTMODEL_H
-#define LBTEAMSLISTMODEL_H
+#ifndef LBTEAMSLISTMODEL_HPP
+#define LBTEAMSLISTMODEL_HPP
 
 #include <QObject>
 #include <QList>
@@ -56,4 +56,4 @@ private:
     QList<QString> teamsList;
 };
 
-#endif // LBTEAMSLISTMODEL_H
+#endif // LBTEAMSLISTMODEL_HPP

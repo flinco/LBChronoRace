@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef RANKINGSWIZARDMODE_H
-#define RANKINGSWIZARDMODE_H
+#ifndef RANKINGSWIZARDMODE_HPP
+#define RANKINGSWIZARDMODE_HPP
 
 #include <QWizardPage>
 #include <QVBoxLayout>
@@ -42,4 +42,4 @@ signals:
     void error(QString const &);
 };
 
-#endif // RANKINGSWIZARDMODE_H
+#endif // RANKINGSWIZARDMODE_HPP

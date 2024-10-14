@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef PDFRANKINGPRINTER_H
-#define PDFRANKINGPRINTER_H
+#ifndef PDFRANKINGPRINTER_HPP
+#define PDFRANKINGPRINTER_HPP
 
 #include <QString>
 #include <QList>
@@ -101,4 +101,4 @@ private:
     QFont rnkFontBoldItal;
 };
 
-#endif // PDFRANKINGPRINTER_H
+#endif // PDFRANKINGPRINTER_HPP

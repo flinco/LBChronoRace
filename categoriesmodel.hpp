@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef LBCATEGORIESMODEL_H
-#define LBCATEGORIESMODEL_H
+#ifndef LBCATEGORIESMODEL_HPP
+#define LBCATEGORIESMODEL_HPP
 
 #include <QObject>
 #include <QDataStream>
@@ -61,4 +61,4 @@ signals:
     void error(QString const &);
 };
 
-#endif // LBCATEGORIESMODEL_H
+#endif // LBCATEGORIESMODEL_HPP

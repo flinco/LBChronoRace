@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CRLOADER_H
-#define CRLOADER_H
+#ifndef CRLOADER_HPP
+#define CRLOADER_HPP
 
 #include <QCoreApplication>
 #include <QString>
@@ -108,4 +108,4 @@ public:
     static QStringList getClubs();
 };
 
-#endif // CRLOADER_H
+#endif // CRLOADER_HPP

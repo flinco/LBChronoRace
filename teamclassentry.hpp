@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef TEAMCLASSENTRY_H
-#define TEAMCLASSENTRY_H
+#ifndef TEAMCLASSENTRY_HPP
+#define TEAMCLASSENTRY_HPP
 
 #include "classentry.hpp"
 
@@ -47,4 +47,4 @@ public:
     bool operator>=(TeamClassEntry const &rhs) const;
 };
 
-#endif // TEAMCLASSENTRY_H
+#endif // TEAMCLASSENTRY_HPP

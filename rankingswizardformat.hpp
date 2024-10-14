@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef RANKINGSWIZARDFORMAT_H
-#define RANKINGSWIZARDFORMAT_H
+#ifndef RANKINGSWIZARDFORMAT_HPP
+#define RANKINGSWIZARDFORMAT_HPP
 
 #include <QWizardPage>
 #include <QFormLayout>
@@ -50,4 +50,4 @@ signals:
     void notifyOpenChange(bool);
 };
 
-#endif // RANKINGSWIZARDFORMAT_H
+#endif // RANKINGSWIZARDFORMAT_HPP

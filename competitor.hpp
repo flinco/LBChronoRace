@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef COMPETITOR_H
-#define COMPETITOR_H
+#ifndef COMPETITOR_HPP
+#define COMPETITOR_HPP
 
 #include <QCoreApplication>
 #include <QDataStream>
@@ -135,4 +135,4 @@ public:
     bool operator() (Competitor const &lhs, Competitor const &rhs) const;
 };
 
-#endif // COMPETITOR_H
+#endif // COMPETITOR_HPP

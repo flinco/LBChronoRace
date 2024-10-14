@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CSVRANKINGPRINTER_H
-#define CSVRANKINGPRINTER_H
+#ifndef CSVRANKINGPRINTER_HPP
+#define CSVRANKINGPRINTER_HPP
 
 #include <QTextStream>
 #include <QFile>
@@ -47,4 +47,4 @@ private:
     QString &checkOutFileNameExtension(QString &outFileBaseName) override;
 };
 
-#endif // CSVRANKINGPRINTER_H
+#endif // CSVRANKINGPRINTER_HPP

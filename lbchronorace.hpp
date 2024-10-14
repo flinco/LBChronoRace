@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef LBCHRONORACE_H
-#define LBCHRONORACE_H
+#ifndef LBCHRONORACE_HPP
+#define LBCHRONORACE_HPP
 
 #include <QGuiApplication>
 #include <QMainWindow>
@@ -145,4 +145,4 @@ private slots:
     void applyTimeSpan(int offset);
 };
 
-#endif // LBCHRONORACE_H
+#endif // LBCHRONORACE_HPP

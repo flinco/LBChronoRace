@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CRTABLEMODEL_H
-#define CRTABLEMODEL_H
+#ifndef CRTABLEMODEL_HPP
+#define CRTABLEMODEL_HPP
 
 #include <QAbstractTableModel>
 #include <QLCDNumber>
@@ -50,4 +50,4 @@ inline void CRTableModel::refreshDisplayCounter()
         counter->display(rowCount(QModelIndex()));
 }
 
-#endif // CRTABLEMODEL_H
+#endif // CRTABLEMODEL_HPP

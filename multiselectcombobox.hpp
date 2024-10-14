@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef MULTISELECTCOMBOBOX_H
-#define MULTISELECTCOMBOBOX_H
+#ifndef MULTISELECTCOMBOBOX_HPP
+#define MULTISELECTCOMBOBOX_HPP
 
 #include <QComboBox>
 #include <QListWidget>
@@ -64,4 +64,4 @@ private:
     QScopedPointer<QListWidget> mListWidget;
 };
 
-#endif // MULTISELECTCOMBOBOX_H
+#endif // MULTISELECTCOMBOBOX_HPP

@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CHRONORACEDATA_H
-#define CHRONORACEDATA_H
+#ifndef CHRONORACEDATA_HPP
+#define CHRONORACEDATA_HPP
 
 #include <QDialog>
 #include <QDate>
@@ -124,4 +124,4 @@ signals:
     void globalDataChange(ChronoRaceData::NameComposition, ChronoRaceData::Accuracy);
 };
 
-#endif // CHRONORACEDATA_H
+#endif // CHRONORACEDATA_HPP
