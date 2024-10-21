@@ -96,6 +96,12 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
         auto const keyEvent = static_cast<QKeyEvent *>(event);
         auto const keyModifiers = keyEvent->modifiers();
         switch (keyEvent->key()) {
+        case Qt::Key::Key_F10:
+            if (!(keyModifiers & Qt::KeyboardModifier::AltModifier)) {
+                retval = QDialog::eventFilter(watched, event);
+                break;
+            }
+            [[fallthrough]];
         case Qt::Key::Key_Space:
             if (updateTimerId != 0)
                 recordTiming(this->timer.elapsed());
