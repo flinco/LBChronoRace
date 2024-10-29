@@ -120,50 +120,19 @@ public:
     QList<Category const *> &getCategories();
     void setCategories(QList<Category> const &newCategories);
 
-    friend bool operator<(Competitor const &lhs, Competitor const &rhs)
+    friend auto operator<=>(Competitor const &lhs, Competitor const &rhs)
     {
         if ((lhs.offset < 0) && (lhs.offset != rhs.offset))
-            return qAbs(lhs.offset) < qAbs(rhs.offset);
-
-        if (lhs.bib < rhs.bib)
-            return true;
+            return qAbs(lhs.offset) <=> qAbs(rhs.offset);
 
         if (lhs.bib == rhs.bib) {
             if (lhs.offset != rhs.offset)
-                return qAbs(lhs.offset) < qAbs(rhs.offset);
+                return qAbs(lhs.offset) <=> qAbs(rhs.offset);
             else
-                return lhs.leg < rhs.leg;
+                return lhs.leg <=> rhs.leg;
         }
 
-        return false;
-    }
-
-    friend bool operator>(Competitor const &lhs, Competitor const &rhs)
-    {
-        if ((lhs.offset < 0) && (lhs.offset != rhs.offset))
-            return qAbs(lhs.offset) > qAbs(rhs.offset);
-
-        if (lhs.bib > rhs.bib)
-            return true;
-
-        if (lhs.bib == rhs.bib) {
-            if (lhs.offset != rhs.offset)
-                return qAbs(lhs.offset) > qAbs(rhs.offset);
-            else
-                return lhs.leg > rhs.leg;
-        }
-
-        return false;
-    }
-
-    friend bool operator<=(Competitor const &lhs, Competitor const &rhs)
-    {
-        return !(lhs > rhs);
-    }
-
-    friend bool operator>=(Competitor const &lhs, Competitor const &rhs)
-    {
-        return !(lhs < rhs);
+        return lhs.bib <=> rhs.bib;
     }
 };
 

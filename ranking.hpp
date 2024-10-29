@@ -86,24 +86,14 @@ public:
 
     bool includes(Category const *category) const;
 
-    friend bool operator< (Ranking const &lhs, Ranking const &rhs)
+    friend auto operator<=>(Ranking const &lhs, Ranking const &rhs)
     {
-        return (!lhs.isTeam() && rhs.isTeam());
-    }
+        auto lIsTeam = lhs.isTeam();
 
-    friend bool operator> (Ranking const &lhs, Ranking const &rhs)
-    {
-        return (lhs.isTeam() && !rhs.isTeam());
-    }
+        if (lIsTeam == rhs.isTeam())
+            return std::strong_ordering::equivalent;
 
-    friend bool operator<=(Ranking const &lhs, Ranking const &rhs)
-    {
-        return !(lhs > rhs);
-    }
-
-    friend bool operator>=(Ranking const &lhs, Ranking const &rhs)
-    {
-        return !(lhs < rhs);
+        return (!lIsTeam) ? std::strong_ordering::less : std::strong_ordering::greater;
     }
 };
 

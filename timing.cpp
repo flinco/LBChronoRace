@@ -48,22 +48,24 @@ QDataStream &Timing::tDeserialize(QDataStream &in){
     this->milliseconds = (LBChronoRace::binFormat < LBCHRONORACE_BIN_FMT_v5) ? millis32 * 1000 : millis32;
 
     switch (status32) {
-    case static_cast<qint32>(Timing::Status::DNS):
-        this->status = Timing::Status::DNS;
-        break;
-    case static_cast<qint32>(Timing::Status::DNF):
-        this->status = Timing::Status::DNF;
-        break;
-    case static_cast<qint32>(Timing::Status::DSQ):
-        this->status = (LBChronoRace::binFormat < LBCHRONORACE_BIN_FMT_v4) ? Timing::Status::CLASSIFIED : Timing::Status::DSQ;
-        break;
-    case static_cast<qint32>(Timing::Status::CLASSIFIED):
-        this->status = Timing::Status::CLASSIFIED;
-        break;
-    default:
-        /* Since tr() cannot be used here, let's use classified just
-         * to avoid loosing the recorded timing value (if any).  */
-        this->status = Timing::Status::CLASSIFIED;
+        using enum Timing::Status;
+
+        case static_cast<qint32>(DNS):
+            this->status = DNS;
+            break;
+        case static_cast<qint32>(DNF):
+            this->status = DNF;
+            break;
+        case static_cast<qint32>(DSQ):
+            this->status = (LBChronoRace::binFormat < LBCHRONORACE_BIN_FMT_v4) ? CLASSIFIED : DSQ;
+            break;
+        case static_cast<qint32>(CLASSIFIED):
+            this->status = CLASSIFIED;
+            break;
+        default:
+            /* Since tr() cannot be used here, let's use classified just
+             * to avoid loosing the recorded timing value (if any).  */
+            this->status = CLASSIFIED;
         break;
     }
 
@@ -82,18 +84,18 @@ uint Timing::toMillis(const QString &token, bool countDigits) const
     if (!token.isEmpty()) {
         bool converted = false;
         switch (countDigits ? token.length() : 3) {
-        case 1:
-            val = 100 * token.toUInt(&converted, 10);
-            break;
-        case 2:
-            val = 10 * token.toUInt(&converted, 10);
-            break;
-        case 3:
-            val = token.toUInt(&converted, 10);
-            break;
-        default:
-            // do nothing
-            break;
+            case 1:
+                val = 100 * token.toUInt(&converted, 10);
+                break;
+            case 2:
+                val = 10 * token.toUInt(&converted, 10);
+                break;
+            case 3:
+                val = token.toUInt(&converted, 10);
+                break;
+            default:
+                // do nothing
+                break;
         }
 
         if (!converted)
@@ -212,20 +214,24 @@ void Timing::addOffset(int offset)
 
 bool Timing::isValid() const
 {
-    return ((bib != 0u) && ((status == Status::DNS) || (status == Status::DNF) || (status == Status::DSQ) || ((status == Status::CLASSIFIED) && (this->milliseconds != 0u))));
+    using enum Timing::Status;
+
+    return ((bib != 0u) && ((status == DNS) || (status == DNF) || (status == DSQ) || ((status == CLASSIFIED) && (this->milliseconds != 0u))));
 }
 
 bool TimingSorter::operator() (Timing const &lhs, Timing const &rhs) const
 {
     switch(sortingField) {
-    case Timing::Field::TMF_BIB:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getBib() > rhs.getBib()) : (lhs.getBib() < rhs.getBib());
-    case Timing::Field::TMF_LEG:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getLeg() > rhs.getLeg()) : (lhs.getLeg() < rhs.getLeg());
-    case Timing::Field::TMF_TIME:
-        [[fallthrough]];
-    default:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
+        using enum Timing::Field;
+
+        case TMF_BIB:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getBib() > rhs.getBib()) : (lhs.getBib() < rhs.getBib());
+        case TMF_LEG:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getLeg() > rhs.getLeg()) : (lhs.getLeg() < rhs.getLeg());
+        case TMF_TIME:
+            [[fallthrough]];
+        default:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }
 
     return false;

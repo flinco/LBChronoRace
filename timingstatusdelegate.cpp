@@ -21,15 +21,17 @@
 TimingStatusDelegate::TimingStatusDelegate(QObject *parent) :
     QStyledItemDelegate(parent)
 {
+    using enum Timing::Status;
+
     auto *comboBox = timingStatusBox.data();
     comboBox->setEditable(false);
     comboBox->setInsertPolicy(QComboBox::NoInsert);
     comboBox->setDuplicatesEnabled(false);
     comboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-    comboBox->addItem(QIcon(":/material/icons/classified.svg"), CRHelper::toStatusFullString(Timing::Status::CLASSIFIED), CRHelper::toStatusString(Timing::Status::CLASSIFIED));
-    comboBox->addItem(QIcon(":/material/icons/dsq.svg"), CRHelper::toStatusFullString(Timing::Status::DSQ), CRHelper::toStatusString(Timing::Status::DSQ));
-    comboBox->addItem(QIcon(":/material/icons/dnf.svg"), CRHelper::toStatusFullString(Timing::Status::DNF), CRHelper::toStatusString(Timing::Status::DNF));
-    comboBox->addItem(QIcon(":/material/icons/dns.svg"), CRHelper::toStatusFullString(Timing::Status::DNS), CRHelper::toStatusString(Timing::Status::DNS));
+    comboBox->addItem(QIcon(":/material/icons/classified.svg"), CRHelper::toStatusFullString(CLASSIFIED), CRHelper::toStatusString(CLASSIFIED));
+    comboBox->addItem(QIcon(":/material/icons/dsq.svg"), CRHelper::toStatusFullString(DSQ), CRHelper::toStatusString(DSQ));
+    comboBox->addItem(QIcon(":/material/icons/dnf.svg"), CRHelper::toStatusFullString(DNF), CRHelper::toStatusString(DNF));
+    comboBox->addItem(QIcon(":/material/icons/dns.svg"), CRHelper::toStatusFullString(DNS), CRHelper::toStatusString(DNS));
 }
 
 QWidget *TimingStatusDelegate::createEditor(QWidget *parent, QStyleOptionViewItem const &option, QModelIndex const &index) const

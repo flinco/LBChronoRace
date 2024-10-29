@@ -69,16 +69,18 @@ QDataStream &Competitor::cDeserialize(QDataStream &in){
 QString Competitor::getCompetitorName(ChronoRaceData::NameComposition nameComposition) const
 {
     switch (nameComposition) {
-    case ChronoRaceData::NameComposition::NAME_FIRST:
-        return QString("%1 %2").arg(this->name, this->surname);
-    case ChronoRaceData::NameComposition::SURNAME_FIRST:
-        return QString("%1 %2").arg(this->surname, this->name);
-    case ChronoRaceData::NameComposition::SURNAME_ONLY:
-        return QString("%1").arg(this->surname);
-    case ChronoRaceData::NameComposition::NAME_ONLY:
-        return QString("%1").arg(this->name);
-    default:
-        Q_UNREACHABLE();
+        using enum ChronoRaceData::NameComposition;
+
+        case NAME_FIRST:
+            return QString("%1 %2").arg(this->name, this->surname);
+        case SURNAME_FIRST:
+            return QString("%1 %2").arg(this->surname, this->name);
+        case SURNAME_ONLY:
+            return QString("%1").arg(this->surname);
+        case NAME_ONLY:
+            return QString("%1").arg(this->name);
+        default:
+            Q_UNREACHABLE();
     }
 }
 
@@ -249,18 +251,18 @@ bool Competitor::isInCategory(Category const *category) const
 
     Category::Type type = category->getType();
     switch (this->sex) {
-    case Competitor::Sex::MALE:
-        if ((type == Category::Type::FEMALE) || (type == Category::Type::RELAY_X))
+        case Competitor::Sex::MALE:
+            if ((type == Category::Type::FEMALE) || (type == Category::Type::RELAY_X))
+                return false;
+            break;
+        case Competitor::Sex::FEMALE:
+            if ((type == Category::Type::MALE) || (type == Category::Type::RELAY_Y))
+                return false;
+            break;
+        case Competitor::Sex::UNDEFINED:
             return false;
-        break;
-    case Competitor::Sex::FEMALE:
-        if ((type == Category::Type::MALE) || (type == Category::Type::RELAY_Y))
-            return false;
-        break;
-    case Competitor::Sex::UNDEFINED:
-        return false;
-    default:
-        Q_UNREACHABLE();
+        default:
+            Q_UNREACHABLE();
     }
 
     return true;
@@ -269,21 +271,23 @@ bool Competitor::isInCategory(Category const *category) const
 bool CompetitorSorter::operator() (Competitor const &lhs, Competitor const &rhs) const
 {
     switch(sortingField) {
-        case Competitor::Field::CMF_SURNAME:
+        using enum Competitor::Field;
+
+        case CMF_SURNAME:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getSurname() > rhs.getSurname()) : (lhs.getSurname() < rhs.getSurname());
-        case Competitor::Field::CMF_NAME:
+        case CMF_NAME:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getName() > rhs.getName()) : (lhs.getName() < rhs.getName());
-        case Competitor::Field::CMF_SEX:
+        case CMF_SEX:
             return (sortingOrder == Qt::DescendingOrder) ? (CRHelper::toSexString(lhs.getSex()) > CRHelper::toSexString(rhs.getSex())) : (CRHelper::toSexString(lhs.getSex()) < CRHelper::toSexString(rhs.getSex()));
-        case Competitor::Field::CMF_YEAR:
+        case CMF_YEAR:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getYear() > rhs.getYear()) : (lhs.getYear() < rhs.getYear());
-        case Competitor::Field::CMF_CLUB:
+        case CMF_CLUB:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getClub() > rhs.getClub()) : (lhs.getClub() < rhs.getClub());
-        case Competitor::Field::CMF_TEAM:
+        case CMF_TEAM:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getTeam() > rhs.getTeam()) : (lhs.getTeam() < rhs.getTeam());
-        case Competitor::Field::CMF_BIB:
+        case CMF_BIB:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getBib() > rhs.getBib()) : (lhs.getBib() < rhs.getBib());
-        case Competitor::Field::CMF_OFFSET_LEG:
+        case CMF_OFFSET_LEG:
             [[fallthrough]];
         default:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);

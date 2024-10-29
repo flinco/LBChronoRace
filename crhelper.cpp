@@ -32,68 +32,78 @@ void CRHelper::setParent(QWidget *newParent)
 QString CRHelper::encodingToLabel(QStringConverter::Encoding const &value)
 {
     switch (value) {
-    case QStringConverter::Encoding::Utf8:
-        return tr("UTF-8");
-    case QStringConverter::Encoding::Latin1:
-        return tr("ISO-8859-1 (Latin-1)");
-    default:
-        return tr("Unsupported encoding %1").arg(static_cast<int>(value));
+        using enum QStringConverter::Encoding;
+
+        case Utf8:
+            return tr("UTF-8");
+        case Latin1:
+            return tr("ISO-8859-1 (Latin-1)");
+        default:
+            return tr("Unsupported encoding %1").arg(static_cast<int>(value));
     }
 }
 
 QString CRHelper::formatToLabel(CRLoader::Format const &value)
 {
     switch (value) {
-    case CRLoader::Format::PDF:
-        return tr("PDF");
-    case CRLoader::Format::TEXT:
-        return tr("Text");
-    case CRLoader::Format::CSV:
-        return tr("CSV");
-    default:
-        return tr("Unknown format %1").arg(static_cast<int>(value));
+        using enum CRLoader::Format;
+
+        case PDF:
+            return tr("PDF");
+        case TEXT:
+            return tr("Text");
+        case CSV:
+            return tr("CSV");
+        default:
+            return tr("Unknown format %1").arg(static_cast<int>(value));
     }
 }
 
 Competitor::Sex CRHelper::toSex(QString const &sex)
 {
+    using enum Competitor::Sex;
+
     if (sex.length() != 1) {
         throw(ChronoRaceException(tr("Illegal sex '%1'").arg(sex)));
     } else {
         if (sex.compare("M", Qt::CaseInsensitive) == 0)
-            return Competitor::Sex::MALE;
+            return MALE;
         else if (sex.compare("F", Qt::CaseInsensitive) == 0)
-            return Competitor::Sex::FEMALE;
+            return FEMALE;
     }
 
-    return Competitor::Sex::UNDEFINED;
+    return UNDEFINED;
 }
 
 QString CRHelper::toSexString(Competitor::Sex const sex)
 {
     switch (sex) {
-    case Competitor::Sex::MALE:
-        return "M";
-    case Competitor::Sex::FEMALE:
-        return "F";
-    case Competitor::Sex::UNDEFINED:
-        return "U";
-    default:
-        throw(ChronoRaceException(tr("Unexpected Sex enum value '%1'").arg(static_cast<int>(sex))));
+        using enum Competitor::Sex;
+
+        case MALE:
+            return "M";
+        case FEMALE:
+            return "F";
+        case UNDEFINED:
+            return "U";
+        default:
+            throw(ChronoRaceException(tr("Unexpected Sex enum value '%1'").arg(static_cast<int>(sex))));
     }
 }
 
 QString CRHelper::toSexFullString(Competitor::Sex const sex)
 {
     switch (sex) {
-    case Competitor::Sex::MALE:
-        return tr("Male");
-    case Competitor::Sex::FEMALE:
-        return tr("Female");
-    case Competitor::Sex::UNDEFINED:
-        return tr("Not set");
-    default:
-        throw(ChronoRaceException(tr("Unexpected Sex enum value '%1'").arg(static_cast<int>(sex))));
+        using enum Competitor::Sex;
+
+        case MALE:
+            return tr("Male");
+        case FEMALE:
+            return tr("Female");
+        case UNDEFINED:
+            return tr("Not set");
+        default:
+            throw(ChronoRaceException(tr("Unexpected Sex enum value '%1'").arg(static_cast<int>(sex))));
     }
 }
 
@@ -111,27 +121,27 @@ int CRHelper::toOffset(QString const &offset)
     bool check_s;
     bool check_l;
     switch (list.count()) {
-    case 3:
-        h = list[0].toInt(&check_h, 10);
-        m = list[1].toInt(&check_m, 10);
-        s = list[2].toInt(&check_s, 10);
-        if (check_h && check_m && check_s)
-            retval = (h * 3600) + (m * 60) + s;
-        break;
-    case 2:
-        m = list[0].toInt(&check_m, 10);
-        s = list[1].toInt(&check_s, 10);
-        if (check_m && check_s)
-            retval = (m * 60) + s;
-        break;
-    case 1:
-        l = list[0].toInt(&check_l, 10);
-        if (check_l)
-            retval = -qAbs(l);
-        break;
-    default:
-        // do nothing
-        break;
+        case 3:
+            h = list[0].toInt(&check_h, 10);
+            m = list[1].toInt(&check_m, 10);
+            s = list[2].toInt(&check_s, 10);
+            if (check_h && check_m && check_s)
+                retval = (h * 3600) + (m * 60) + s;
+            break;
+        case 2:
+            m = list[0].toInt(&check_m, 10);
+            s = list[1].toInt(&check_s, 10);
+            if (check_m && check_s)
+                retval = (m * 60) + s;
+            break;
+        case 1:
+            l = list[0].toInt(&check_l, 10);
+            if (check_l)
+                retval = -qAbs(l);
+            break;
+        default:
+            // do nothing
+            break;
     }
 
     return retval;
@@ -147,10 +157,12 @@ QString CRHelper::toOffsetString(int offset)
 
 Ranking::Type CRHelper::toRankingType(QString  const &type)
 {
+    using enum Ranking::Type;
+
     if (type.compare("I", Qt::CaseInsensitive) == 0)
-        return Ranking::Type::INDIVIDUAL;
+        return INDIVIDUAL;
     else if (type.compare("T", Qt::CaseInsensitive) == 0)
-        return Ranking::Type::CLUB;
+        return CLUB;
     else
         throw(ChronoRaceException(tr("Illegal type '%1'").arg(type)));
 }
@@ -158,27 +170,31 @@ Ranking::Type CRHelper::toRankingType(QString  const &type)
 QString CRHelper::toTypeString(Ranking::Type const type)
 {
     switch (type) {
-    case Ranking::Type::INDIVIDUAL:
-        return "I";
-    case Ranking::Type::CLUB:
-        return "T";
-    default:
-        throw(ChronoRaceException(tr("Unexpected Type enum value '%1'").arg(static_cast<int>(type))));
+        using enum Ranking::Type;
+
+        case INDIVIDUAL:
+            return "I";
+        case CLUB:
+            return "T";
+        default:
+            throw(ChronoRaceException(tr("Unexpected Type enum value '%1'").arg(static_cast<int>(type))));
     }
 }
 
 Category::Type CRHelper::toCategoryType(QString const &type)
 {
+    using enum Category::Type;
+
     if (type.compare("M", Qt::CaseInsensitive) == 0)
-        return Category::Type::MALE;
+        return MALE;
     else if (type.compare("F", Qt::CaseInsensitive) == 0)
-        return Category::Type::FEMALE;
+        return FEMALE;
     else if (type.compare("U", Qt::CaseInsensitive) == 0)
-        return Category::Type::RELAY_MF;
+        return RELAY_MF;
     else if (type.compare("Y", Qt::CaseInsensitive) == 0)
-        return Category::Type::RELAY_Y;
+        return RELAY_Y;
     else if (type.compare("X", Qt::CaseInsensitive) == 0)
-        return Category::Type::RELAY_X;
+        return RELAY_X;
     else
         throw(ChronoRaceException(tr("Illegal type '%1'").arg(type)));
 }
@@ -186,48 +202,54 @@ Category::Type CRHelper::toCategoryType(QString const &type)
 QString CRHelper::toTypeString(Category::Type const type)
 {
     switch (type) {
-    case Category::Type::MALE:
-        return "M";
-    case Category::Type::FEMALE:
-        return "F";
-    case Category::Type::RELAY_MF:
-        return "U";
-    case Category::Type::RELAY_Y:
-        return "Y";
-    case Category::Type::RELAY_X:
-        return "X";
-    default:
-        throw(ChronoRaceException(tr("Unexpected Type enum value '%1'").arg(static_cast<int>(type))));
+        using enum Category::Type;
+
+        case MALE:
+            return "M";
+        case FEMALE:
+            return "F";
+        case RELAY_MF:
+            return "U";
+        case RELAY_Y:
+            return "Y";
+        case RELAY_X:
+            return "X";
+        default:
+            throw(ChronoRaceException(tr("Unexpected Type enum value '%1'").arg(static_cast<int>(type))));
     }
 }
 
 QString CRHelper::toRankingTypeString(Ranking::Type type)
 {
     switch (type) {
-    case Ranking::Type::INDIVIDUAL:
-        return tr("Individual/Relay");
-    case Ranking::Type::CLUB:
-        return tr("Club");
-    default:
-        throw(ChronoRaceException(tr("Unexpected Type enum value '%1'").arg(static_cast<int>(type))));
+        using enum Ranking::Type;
+
+        case INDIVIDUAL:
+            return tr("Individual/Relay");
+        case CLUB:
+            return tr("Club");
+        default:
+            throw(ChronoRaceException(tr("Unexpected Type enum value '%1'").arg(static_cast<int>(type))));
     }
 }
 
 QString CRHelper::toCategoryTypeString(Category::Type const type)
 {
     switch (type) {
-    case Category::Type::MALE:
-        return tr("Individual/Relay (M)");
-    case Category::Type::FEMALE:
-        return tr("Individual/Relay (F)");
-    case Category::Type::RELAY_MF:
-        return tr("Mixed Relay (M/F)");
-    case Category::Type::RELAY_Y:
-        return tr("Mixed Clubs Relay (M)");
-    case Category::Type::RELAY_X:
-        return tr("Mixed Clubs Relay (F)");
-    default:
-        throw(ChronoRaceException(tr("Unexpected Type enum value '%1'").arg(static_cast<int>(type))));
+        using enum Category::Type;
+
+        case MALE:
+            return tr("Individual/Relay (M)");
+        case FEMALE:
+            return tr("Individual/Relay (F)");
+        case RELAY_MF:
+            return tr("Mixed Relay (M/F)");
+        case RELAY_Y:
+            return tr("Mixed Clubs Relay (M)");
+        case RELAY_X:
+            return tr("Mixed Clubs Relay (F)");
+        default:
+            throw(ChronoRaceException(tr("Unexpected Type enum value '%1'").arg(static_cast<int>(type))));
     }
 }
 
@@ -236,20 +258,22 @@ QString CRHelper::toTimeString(uint milliseconds, Timing::Status const status, c
     QString retString { prefix ? prefix : "" };
 
     switch (status) {
-    case Timing::Status::CLASSIFIED:
-        retString.append(CRHelper::toTimeString(milliseconds, accuracy));
-        break;
-    case Timing::Status::DSQ:
-        retString.append("DSQ");
-        break;
-    case Timing::Status::DNF:
-        retString.append("DNF");
-        break;
-    case Timing::Status::DNS:
-        retString.append("DNS");
-        break;
-    default:
-        throw(ChronoRaceException(tr("Invalid status value %1").arg(static_cast<int>(status))));
+        using enum Timing::Status;
+
+        case CLASSIFIED:
+            retString.append(CRHelper::toTimeString(milliseconds, accuracy));
+            break;
+        case DSQ:
+            retString.append("DSQ");
+            break;
+        case DNF:
+            retString.append("DNF");
+            break;
+        case DNS:
+            retString.append("DNS");
+            break;
+        default:
+            throw(ChronoRaceException(tr("Invalid status value %1").arg(static_cast<int>(status))));
     }
 
     return retString;
@@ -267,20 +291,22 @@ QString CRHelper::toTimeString(uint milliseconds, ChronoRaceData::Accuracy acc)
     milliseconds %= 1000;
 
     switch (acc) {
-    case ChronoRaceData::Accuracy::SECOND:
-        retString.append(QString("%1:%2:%3").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec + ((milliseconds < 500) ? 0 : 1), 2, 10, QLatin1Char('0')));
-        break;
-    case ChronoRaceData::Accuracy::TENTH:
-        retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg((milliseconds + 50) / 100, 1, 10, QLatin1Char('0')));
-        break;
-    case ChronoRaceData::Accuracy::HUNDREDTH:
-        retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg((milliseconds + 5) / 10, 2, 10, QLatin1Char('0')));
-        break;
-    case ChronoRaceData::Accuracy::THOUSANDTH:
-        retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg(milliseconds, 3, 10, QLatin1Char('0')));
-        break;
-    default:
-        throw(ChronoRaceException(tr("Invalid accuracy value %1").arg(static_cast<int>(acc))));
+        using enum ChronoRaceData::Accuracy;
+
+        case SECOND:
+            retString.append(QString("%1:%2:%3").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec + ((milliseconds < 500) ? 0 : 1), 2, 10, QLatin1Char('0')));
+            break;
+        case TENTH:
+            retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg((milliseconds + 50) / 100, 1, 10, QLatin1Char('0')));
+            break;
+        case HUNDREDTH:
+            retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg((milliseconds + 5) / 10, 2, 10, QLatin1Char('0')));
+            break;
+        case THOUSANDTH:
+            retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg(milliseconds, 3, 10, QLatin1Char('0')));
+            break;
+        default:
+            throw(ChronoRaceException(tr("Invalid accuracy value %1").arg(static_cast<int>(acc))));
     }
 
     return retString;
@@ -293,14 +319,16 @@ QString CRHelper::toTimeString(Timing const &timing)
 
 Timing::Status CRHelper::toTimingStatus(QString const &status)
 {
+    using enum Timing::Status;
+
     if (status.compare("CLS", Qt::CaseInsensitive) == 0)
-        return Timing::Status::CLASSIFIED;
+        return CLASSIFIED;
     else if (status.compare("DSQ", Qt::CaseInsensitive) == 0)
-        return Timing::Status::DSQ;
+        return DSQ;
     else if (status.compare("DNF", Qt::CaseInsensitive) == 0)
-        return Timing::Status::DNF;
+        return DNF;
     else if (status.compare("DNS", Qt::CaseInsensitive) == 0)
-        return Timing::Status::DNS;
+        return DNS;
     else
         throw(ChronoRaceException(tr("Illegal status value '%1'").arg(status)));
 }
@@ -310,20 +338,22 @@ QString CRHelper::toStatusString(Timing::Status const status)
     QString retString { "" };
 
     switch (status) {
-    case Timing::Status::CLASSIFIED:
-        retString.append("CLS");
-        break;
-    case Timing::Status::DSQ:
-        retString.append("DSQ");
-        break;
-    case Timing::Status::DNF:
-        retString.append("DNF");
-        break;
-    case Timing::Status::DNS:
-        retString.append("DNS");
-        break;
-    default:
-        throw(ChronoRaceException(tr("Invalid status value %1").arg(static_cast<int>(status))));
+        using enum Timing::Status;
+
+        case CLASSIFIED:
+            retString.append("CLS");
+            break;
+        case DSQ:
+            retString.append("DSQ");
+            break;
+        case DNF:
+            retString.append("DNF");
+            break;
+        case DNS:
+            retString.append("DNS");
+            break;
+        default:
+            throw(ChronoRaceException(tr("Invalid status value %1").arg(static_cast<int>(status))));
     }
 
     return retString;
@@ -332,16 +362,18 @@ QString CRHelper::toStatusString(Timing::Status const status)
 QString CRHelper::toStatusFullString(Timing::Status const status)
 {
     switch (status) {
-    case Timing::Status::CLASSIFIED:
-        return tr("Classified");
-    case Timing::Status::DSQ:
-        return tr("Disqualified");
-    case Timing::Status::DNF:
-        return tr("Did not finish");
-    case Timing::Status::DNS:
-        return tr("Did not start");
-    default:
-        throw(ChronoRaceException(tr("Invalid status value %1").arg(static_cast<int>(status))));
+        using enum Timing::Status;
+
+        case CLASSIFIED:
+            return tr("Classified");
+        case DSQ:
+            return tr("Disqualified");
+        case DNF:
+            return tr("Did not finish");
+        case DNS:
+            return tr("Did not start");
+        default:
+            throw(ChronoRaceException(tr("Invalid status value %1").arg(static_cast<int>(status))));
     }
 }
 

@@ -114,9 +114,9 @@ Qt::ItemFlags TeamsListModel::flags(QModelIndex const &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool TeamsListModel::insertRows(int position, int rows, QModelIndex const &parent)
+bool TeamsListModel::insertRows(int position, int rows, QModelIndex const &index)
 {
-    Q_UNUSED(parent)
+    Q_UNUSED(index)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
     for (int row = 0; row < rows; ++row) {
@@ -129,9 +129,9 @@ bool TeamsListModel::insertRows(int position, int rows, QModelIndex const &paren
     return true;
 }
 
-bool TeamsListModel::removeRows(int position, int rows, QModelIndex const &parent)
+bool TeamsListModel::removeRows(int position, int rows, QModelIndex const &index)
 {
-    Q_UNUSED(parent)
+    Q_UNUSED(index)
 
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
     for (int row = 0; row < rows; ++row) {
@@ -148,9 +148,9 @@ void TeamsListModel::sort(int column, Qt::SortOrder order)
 {
 
     if (column == 0) {
-        std::stable_sort(teamsList.begin(), teamsList.end());
+        std::ranges::stable_sort(teamsList);
         if (order == Qt::DescendingOrder)
-            std::reverse(teamsList.begin(), teamsList.end());
+            std::ranges::reverse(teamsList);
         emit dataChanged(QModelIndex(), QModelIndex());
     }
 }

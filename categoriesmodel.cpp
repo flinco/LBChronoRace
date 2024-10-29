@@ -66,68 +66,74 @@ QVariant CategoriesModel::data(QModelIndex const &index, int role) const
     if (role == Qt::DisplayRole) {
         uint uval;
         switch (index.column()) {
-        case static_cast<int>(Category::Field::CTF_TYPE):
-            return QVariant(CRHelper::toTypeString(categories.at(index.row()).getType()));
-        case static_cast<int>(Category::Field::CTF_TO_YEAR):
-            if ((uval = categories.at(index.row()).getToYear()))
-                return QVariant(uval);
-            return QVariant("");
-        case static_cast<int>(Category::Field::CTF_FROM_YEAR):
-            if ((uval = categories.at(index.row()).getFromYear()))
-                return QVariant(uval);
-            return QVariant("");
-        case static_cast<int>(Category::Field::CTF_TO_BIB):
-            if ((uval = categories.at(index.row()).getToBib()))
-                return QVariant(uval);
-            return QVariant("");
-        case static_cast<int>(Category::Field::CTF_FROM_BIB):
-            if ((uval = categories.at(index.row()).getFromBib()))
-                return QVariant(uval);
-            return QVariant("");
-        case static_cast<int>(Category::Field::CTF_FULL_DESCR):
-            return QVariant(categories.at(index.row()).getFullDescription());
-        case static_cast<int>(Category::Field::CTF_SHORT_DESCR):
-            return QVariant(categories.at(index.row()).getShortDescription());
-        default:
-            return QVariant();
+            using enum Category::Field;
+
+            case static_cast<int>(CTF_TYPE):
+                return QVariant(CRHelper::toTypeString(categories.at(index.row()).getType()));
+            case static_cast<int>(CTF_TO_YEAR):
+                if ((uval = categories.at(index.row()).getToYear()))
+                    return QVariant(uval);
+                return QVariant("");
+            case static_cast<int>(CTF_FROM_YEAR):
+                if ((uval = categories.at(index.row()).getFromYear()))
+                    return QVariant(uval);
+                return QVariant("");
+            case static_cast<int>(CTF_TO_BIB):
+                if ((uval = categories.at(index.row()).getToBib()))
+                    return QVariant(uval);
+                return QVariant("");
+            case static_cast<int>(CTF_FROM_BIB):
+                if ((uval = categories.at(index.row()).getFromBib()))
+                    return QVariant(uval);
+                return QVariant("");
+            case static_cast<int>(CTF_FULL_DESCR):
+                return QVariant(categories.at(index.row()).getFullDescription());
+            case static_cast<int>(CTF_SHORT_DESCR):
+                return QVariant(categories.at(index.row()).getShortDescription());
+            default:
+                return QVariant();
         }
     } else if (role == Qt::EditRole) {
         switch (index.column()) {
-        case static_cast<int>(Category::Field::CTF_TYPE):
-            return QVariant(CRHelper::toTypeString(categories.at(index.row()).getType()));
-        case static_cast<int>(Category::Field::CTF_TO_YEAR):
-            return QVariant(categories.at(index.row()).getToYear());
-        case static_cast<int>(Category::Field::CTF_FROM_YEAR):
-            return QVariant(categories.at(index.row()).getFromYear());
-        case static_cast<int>(Category::Field::CTF_TO_BIB):
-            return QVariant(categories.at(index.row()).getToBib());
-        case static_cast<int>(Category::Field::CTF_FROM_BIB):
-            return QVariant(categories.at(index.row()).getFromBib());
-        case static_cast<int>(Category::Field::CTF_FULL_DESCR):
-            return QVariant(categories.at(index.row()).getFullDescription());
-        case static_cast<int>(Category::Field::CTF_SHORT_DESCR):
-            return QVariant(categories.at(index.row()).getShortDescription());
-        default:
-            return QVariant();
+            using enum Category::Field;
+
+            case static_cast<int>(CTF_TYPE):
+                return QVariant(CRHelper::toTypeString(categories.at(index.row()).getType()));
+            case static_cast<int>(CTF_TO_YEAR):
+                return QVariant(categories.at(index.row()).getToYear());
+            case static_cast<int>(CTF_FROM_YEAR):
+                return QVariant(categories.at(index.row()).getFromYear());
+            case static_cast<int>(CTF_TO_BIB):
+                return QVariant(categories.at(index.row()).getToBib());
+            case static_cast<int>(CTF_FROM_BIB):
+                return QVariant(categories.at(index.row()).getFromBib());
+            case static_cast<int>(CTF_FULL_DESCR):
+                return QVariant(categories.at(index.row()).getFullDescription());
+            case static_cast<int>(CTF_SHORT_DESCR):
+                return QVariant(categories.at(index.row()).getShortDescription());
+            default:
+                return QVariant();
         }
     } else if (role == Qt::ToolTipRole) {
         switch (index.column()) {
-        case static_cast<int>(Category::Field::CTF_TYPE):
-            return QVariant(tr("Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)"));
-        case static_cast<int>(Category::Field::CTF_TO_YEAR):
-            return QVariant(tr("The category will include competitors born up to and including this year (i.e. 2000); set to 0 to disable this constraint"));
-        case static_cast<int>(Category::Field::CTF_FROM_YEAR):
-            return QVariant(tr("The category will include competitors born from this year (i.e. 1982); set to 0 to disable this constraint"));
-        case static_cast<int>(Category::Field::CTF_TO_BIB):
-            return QVariant(tr("The category will include competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint"));
-        case static_cast<int>(Category::Field::CTF_FROM_BIB):
-            return QVariant(tr("The category will include competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint"));
-        case static_cast<int>(Category::Field::CTF_FULL_DESCR):
-            return QVariant(tr("Full category name"));
-        case static_cast<int>(Category::Field::CTF_SHORT_DESCR):
-            return QVariant(tr("Short category name"));
-        default:
-            return QVariant();
+            using enum Category::Field;
+
+            case static_cast<int>(CTF_TYPE):
+                return QVariant(tr("Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)"));
+            case static_cast<int>(CTF_TO_YEAR):
+                return QVariant(tr("The category will include competitors born up to and including this year (i.e. 2000); set to 0 to disable this constraint"));
+            case static_cast<int>(CTF_FROM_YEAR):
+                return QVariant(tr("The category will include competitors born from this year (i.e. 1982); set to 0 to disable this constraint"));
+            case static_cast<int>(CTF_TO_BIB):
+                return QVariant(tr("The category will include competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint"));
+            case static_cast<int>(CTF_FROM_BIB):
+                return QVariant(tr("The category will include competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint"));
+            case static_cast<int>(CTF_FULL_DESCR):
+                return QVariant(tr("Full category name"));
+            case static_cast<int>(CTF_SHORT_DESCR):
+                return QVariant(tr("Short category name"));
+            default:
+                return QVariant();
         }
     }
 
@@ -152,42 +158,44 @@ bool CategoriesModel::setData(QModelIndex const &index, QVariant const &value, i
 
     uint uval;
     switch (index.column()) {
-    case static_cast<int>(Category::Field::CTF_TYPE):
-        try {
-            auto type = CRHelper::toCategoryType(value.toString().trimmed());
-            categories[index.row()].setType(type);
+        using enum Category::Field;
+
+        case static_cast<int>(CTF_TYPE):
+            try {
+                auto type = CRHelper::toCategoryType(value.toString().trimmed());
+                categories[index.row()].setType(type);
+                retval = true;
+            } catch (ChronoRaceException &e) {
+                emit error(e.getMessage());
+                retval = false;
+            }
+            break;
+        case static_cast<int>(CTF_TO_YEAR):
+            uval = retval ? 0 : value.toUInt(&retval);
+            if (retval) categories[index.row()].setToYear(uval);
+            break;
+        case static_cast<int>(CTF_FROM_YEAR):
+            uval = retval ? 0 : value.toUInt(&retval);
+            if (retval) categories[index.row()].setFromYear(uval);
+            break;
+        case static_cast<int>(CTF_TO_BIB):
+            uval = retval ? 0 : value.toUInt(&retval);
+            if (retval) categories[index.row()].setToBib(uval);
+            break;
+        case static_cast<int>(CTF_FROM_BIB):
+            uval = retval ? 0 : value.toUInt(&retval);
+            if (retval) categories[index.row()].setFromBib(uval);
+            break;
+        case static_cast<int>(CTF_FULL_DESCR):
+            categories[index.row()].setFullDescription(value.toString().simplified());
             retval = true;
-        } catch (ChronoRaceException &e) {
-            emit error(e.getMessage());
-            retval = false;
-        }
-        break;
-    case static_cast<int>(Category::Field::CTF_TO_YEAR):
-        uval = retval ? 0 : value.toUInt(&retval);
-        if (retval) categories[index.row()].setToYear(uval);
-        break;
-    case static_cast<int>(Category::Field::CTF_FROM_YEAR):
-        uval = retval ? 0 : value.toUInt(&retval);
-        if (retval) categories[index.row()].setFromYear(uval);
-        break;
-    case static_cast<int>(Category::Field::CTF_TO_BIB):
-        uval = retval ? 0 : value.toUInt(&retval);
-        if (retval) categories[index.row()].setToBib(uval);
-        break;
-    case static_cast<int>(Category::Field::CTF_FROM_BIB):
-        uval = retval ? 0 : value.toUInt(&retval);
-        if (retval) categories[index.row()].setFromBib(uval);
-        break;
-    case static_cast<int>(Category::Field::CTF_FULL_DESCR):
-        categories[index.row()].setFullDescription(value.toString().simplified());
-        retval = true;
-        break;
-    case static_cast<int>(Category::Field::CTF_SHORT_DESCR):
-        categories[index.row()].setShortDescription(value.toString().simplified());
-        retval = true;
-        break;
-    default:
-        break;
+            break;
+        case static_cast<int>(CTF_SHORT_DESCR):
+            categories[index.row()].setShortDescription(value.toString().simplified());
+            retval = true;
+            break;
+        default:
+            break;
     }
 
     if (retval) emit dataChanged(index, index);
@@ -202,22 +210,24 @@ QVariant CategoriesModel::headerData(int section, Qt::Orientation orientation, i
 
     if (orientation == Qt::Horizontal)
         switch (section) {
-        case static_cast<int>(Category::Field::CTF_TYPE):
-            return QString("%1").arg(tr("Type"));
-        case static_cast<int>(Category::Field::CTF_TO_YEAR):
-            return QString("%1").arg(tr("Born up to"));
-        case static_cast<int>(Category::Field::CTF_FROM_YEAR):
-            return QString("%1").arg(tr("Born from"));
-        case static_cast<int>(Category::Field::CTF_TO_BIB):
-            return QString("%1").arg(tr("Bib up to"));
-        case static_cast<int>(Category::Field::CTF_FROM_BIB):
-            return QString("%1").arg(tr("Bib from"));
-        case static_cast<int>(Category::Field::CTF_FULL_DESCR):
-            return QString("%1").arg(tr("Category Full Name"));
-        case static_cast<int>(Category::Field::CTF_SHORT_DESCR):
-            return QString("%1").arg(tr("Category Short Name"));
-        default:
-            return QString("%1").arg(section + 1);
+            using enum Category::Field;
+
+            case static_cast<int>(CTF_TYPE):
+                return QString("%1").arg(tr("Type"));
+            case static_cast<int>(CTF_TO_YEAR):
+                return QString("%1").arg(tr("Born up to"));
+            case static_cast<int>(CTF_FROM_YEAR):
+                return QString("%1").arg(tr("Born from"));
+            case static_cast<int>(CTF_TO_BIB):
+                return QString("%1").arg(tr("Bib up to"));
+            case static_cast<int>(CTF_FROM_BIB):
+                return QString("%1").arg(tr("Bib from"));
+            case static_cast<int>(CTF_FULL_DESCR):
+                return QString("%1").arg(tr("Category Full Name"));
+            case static_cast<int>(CTF_SHORT_DESCR):
+                return QString("%1").arg(tr("Category Short Name"));
+            default:
+                return QString("%1").arg(section + 1);
         }
     else
         return QString("%1").arg(section + 1);
@@ -231,9 +241,9 @@ Qt::ItemFlags CategoriesModel::flags(QModelIndex const &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool CategoriesModel::insertRows(int position, int rows, QModelIndex const &parent)
+bool CategoriesModel::insertRows(int position, int rows, QModelIndex const &index)
 {
-    Q_UNUSED(parent)
+    Q_UNUSED(index)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
 
@@ -248,9 +258,9 @@ bool CategoriesModel::insertRows(int position, int rows, QModelIndex const &pare
     return true;
 }
 
-bool CategoriesModel::removeRows(int position, int rows, QModelIndex const &parent)
+bool CategoriesModel::removeRows(int position, int rows, QModelIndex const &index)
 {
-    Q_UNUSED(parent)
+    Q_UNUSED(index)
 
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
 
@@ -267,10 +277,9 @@ bool CategoriesModel::removeRows(int position, int rows, QModelIndex const &pare
 
 void CategoriesModel::sort(int column, Qt::SortOrder order)
 {
-
     CategorySorter::setSortingField((Category::Field) column);
     CategorySorter::setSortingOrder(order);
-    std::stable_sort(categories.begin(), categories.end(), CategorySorter());
+    std::ranges::stable_sort(categories, CategorySorter());
     emit dataChanged(QModelIndex(), QModelIndex());
 }
 

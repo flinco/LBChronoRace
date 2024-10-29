@@ -121,45 +121,49 @@ QVariant StartListModel::data(QModelIndex const &index, int role) const
 
     if ((role == Qt::DisplayRole) || (role == Qt::EditRole))
         switch (index.column()) {
-        case static_cast<int>(Competitor::Field::CMF_BIB):
-            return QVariant(startList.at(index.row()).getBib());
-        case static_cast<int>(Competitor::Field::CMF_SURNAME):
-            return QVariant(startList.at(index.row()).getSurname());
-        case static_cast<int>(Competitor::Field::CMF_NAME):
-            return QVariant(startList.at(index.row()).getName());
-        case static_cast<int>(Competitor::Field::CMF_SEX):
-            return QVariant(CRHelper::toSexString(startList.at(index.row()).getSex()));
-        case static_cast<int>(Competitor::Field::CMF_YEAR):
-            return QVariant(startList.at(index.row()).getYear());
-        case static_cast<int>(Competitor::Field::CMF_CLUB):
-            return QVariant(startList.at(index.row()).getClub());
-        case static_cast<int>(Competitor::Field::CMF_TEAM):
-            return QVariant(startList.at(index.row()).getTeam());
-        case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
-            return QVariant(CRHelper::toOffsetString(startList.at(index.row()).getOffset()));
-        default:
-            return QVariant();
+            using enum Competitor::Field;
+
+            case static_cast<int>(CMF_BIB):
+                return QVariant(startList.at(index.row()).getBib());
+            case static_cast<int>(CMF_SURNAME):
+                return QVariant(startList.at(index.row()).getSurname());
+            case static_cast<int>(CMF_NAME):
+                return QVariant(startList.at(index.row()).getName());
+            case static_cast<int>(CMF_SEX):
+                return QVariant(CRHelper::toSexString(startList.at(index.row()).getSex()));
+            case static_cast<int>(CMF_YEAR):
+                return QVariant(startList.at(index.row()).getYear());
+            case static_cast<int>(CMF_CLUB):
+                return QVariant(startList.at(index.row()).getClub());
+            case static_cast<int>(CMF_TEAM):
+                return QVariant(startList.at(index.row()).getTeam());
+            case static_cast<int>(CMF_OFFSET_LEG):
+                return QVariant(CRHelper::toOffsetString(startList.at(index.row()).getOffset()));
+            default:
+                return QVariant();
         }
     else if (role == Qt::ToolTipRole)
         switch (index.column()) {
-        case static_cast<int>(Competitor::Field::CMF_BIB):
-            return QVariant(tr("Bib number (not 0)"));
-        case static_cast<int>(Competitor::Field::CMF_SURNAME):
-            return QVariant(tr("Competitor surname"));
-        case static_cast<int>(Competitor::Field::CMF_NAME):
-            return QVariant(tr("Competitor name"));
-        case static_cast<int>(Competitor::Field::CMF_SEX):
-            return QVariant(tr("Male (M) or Female (F)"));
-        case static_cast<int>(Competitor::Field::CMF_YEAR):
-            return QVariant(tr("Year of birth (i.e. 1982)"));
-        case static_cast<int>(Competitor::Field::CMF_CLUB):
-            return QVariant(tr("Club name"));
-        case static_cast<int>(Competitor::Field::CMF_TEAM):
-            return QVariant(tr("Team name"));
-        case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
-            return QVariant(tr("Start time offset or leg (to set the leg put a '-' sign before the leg number)"));
-        default:
-            return QVariant();
+            using enum Competitor::Field;
+
+            case static_cast<int>(CMF_BIB):
+                return QVariant(tr("Bib number (not 0)"));
+            case static_cast<int>(CMF_SURNAME):
+                return QVariant(tr("Competitor surname"));
+            case static_cast<int>(CMF_NAME):
+                return QVariant(tr("Competitor name"));
+            case static_cast<int>(CMF_SEX):
+                return QVariant(tr("Male (M) or Female (F)"));
+            case static_cast<int>(CMF_YEAR):
+                return QVariant(tr("Year of birth (i.e. 1982)"));
+            case static_cast<int>(CMF_CLUB):
+                return QVariant(tr("Club name"));
+            case static_cast<int>(CMF_TEAM):
+                return QVariant(tr("Team name"));
+            case static_cast<int>(CMF_OFFSET_LEG):
+                return QVariant(tr("Start time offset or leg (to set the leg put a '-' sign before the leg number)"));
+            default:
+                return QVariant();
         }
 
     return QVariant();
@@ -180,65 +184,67 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
         return retval;
 
     switch (index.column()) {
-    case static_cast<int>(Competitor::Field::CMF_BIB):
-        uval = value.toUInt(&retval);
-        if (retval && uval) {
-            int maxLeg = this->getMaxLeg(uval, index.row());
-            startList[index.row()].setBib(uval);
-            startList[index.row()].setClub(this->getClub(uval));
-            startList[index.row()].setTeam(this->getTeam(uval));
-            startList[index.row()].setOffset(maxLeg, true);
-        } else {
-            retval = false;
-        }
-        break;
-    case static_cast<int>(Competitor::Field::CMF_SURNAME):
-        startList[index.row()].setSurname(value.toString().simplified());
-        retval = true;
-        break;
-    case static_cast<int>(Competitor::Field::CMF_NAME):
-        startList[index.row()].setName(value.toString().simplified());
-        retval = true;
-        break;
-    case static_cast<int>(Competitor::Field::CMF_SEX):
-        try {
-            Competitor::Sex sex = CRHelper::toSex(value.toString().trimmed());
-            startList[index.row()].setSex(sex);
+        using enum Competitor::Field;
+
+        case static_cast<int>(CMF_BIB):
+            uval = value.toUInt(&retval);
+            if (retval && uval) {
+                int maxLeg = this->getMaxLeg(uval, index.row());
+                startList[index.row()].setBib(uval);
+                startList[index.row()].setClub(this->getClub(uval));
+                startList[index.row()].setTeam(this->getTeam(uval));
+                startList[index.row()].setOffset(maxLeg, true);
+            } else {
+                retval = false;
+            }
+            break;
+        case static_cast<int>(CMF_SURNAME):
+            startList[index.row()].setSurname(value.toString().simplified());
             retval = true;
-        } catch (ChronoRaceException &e) {
-            emit error(e.getMessage());
-            retval = false;
-        }
-        break;
-    case static_cast<int>(Competitor::Field::CMF_YEAR):
-        uval = value.toUInt(&retval);
-        if (retval) startList[index.row()].setYear(uval);
-        break;
-    case static_cast<int>(Competitor::Field::CMF_CLUB):
-        //NOSONAR uval = startList[index.row()].getBib();
-        //NOSONAR if (uval == 0) {
-            startList[index.row()].setClub(value.toString().simplified());
-        //NOSONAR } else {
-        //NOSONAR     this->setClub(uval, value.toString().simplified());
-        //NOSONAR }
-        emit newClub(startList[index.row()].getClub());
-        retval = true;
-        break;
-    case static_cast<int>(Competitor::Field::CMF_TEAM):
-        uval = startList[index.row()].getBib();
-        if (uval == 0) {
-            startList[index.row()].setTeam(value.toString().simplified());
-        } else {
-            this->setTeam(uval, value.toString().simplified());
-        }
-        retval = true;
-        break;
-    case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
-        startList[index.row()].setOffset(CRHelper::toOffset(value.toString().simplified()));
-        retval = true;
-        break;
-    default:
-        break;
+            break;
+        case static_cast<int>(CMF_NAME):
+            startList[index.row()].setName(value.toString().simplified());
+            retval = true;
+            break;
+        case static_cast<int>(CMF_SEX):
+            try {
+                Competitor::Sex sex = CRHelper::toSex(value.toString().trimmed());
+                startList[index.row()].setSex(sex);
+                retval = true;
+            } catch (ChronoRaceException &e) {
+                emit error(e.getMessage());
+                retval = false;
+            }
+            break;
+        case static_cast<int>(CMF_YEAR):
+            uval = value.toUInt(&retval);
+            if (retval) startList[index.row()].setYear(uval);
+            break;
+        case static_cast<int>(CMF_CLUB):
+            //NOSONAR uval = startList[index.row()].getBib();
+            //NOSONAR if (uval == 0) {
+                startList[index.row()].setClub(value.toString().simplified());
+            //NOSONAR } else {
+            //NOSONAR     this->setClub(uval, value.toString().simplified());
+            //NOSONAR }
+            emit newClub(startList[index.row()].getClub());
+            retval = true;
+            break;
+        case static_cast<int>(CMF_TEAM):
+            uval = startList[index.row()].getBib();
+            if (uval == 0) {
+                startList[index.row()].setTeam(value.toString().simplified());
+            } else {
+                this->setTeam(uval, value.toString().simplified());
+            }
+            retval = true;
+            break;
+        case static_cast<int>(CMF_OFFSET_LEG):
+            startList[index.row()].setOffset(CRHelper::toOffset(value.toString().simplified()));
+            retval = true;
+            break;
+        default:
+            break;
     }
 
     if (retval)
@@ -254,24 +260,26 @@ QVariant StartListModel::headerData(int section, Qt::Orientation orientation, in
 
     if (orientation == Qt::Horizontal)
         switch (section) {
-        case static_cast<int>(Competitor::Field::CMF_BIB):
-            return QString("%1").arg(tr("Bib"));
-        case static_cast<int>(Competitor::Field::CMF_SURNAME):
-            return QString("%1").arg(tr("Last name"));
-        case static_cast<int>(Competitor::Field::CMF_NAME):
-            return QString("%1").arg(tr("First name"));
-        case static_cast<int>(Competitor::Field::CMF_SEX):
-            return QString("%1").arg(tr("Sex"));
-        case static_cast<int>(Competitor::Field::CMF_YEAR):
-            return QString("%1").arg(tr("Year"));
-        case static_cast<int>(Competitor::Field::CMF_CLUB):
-            return QString("%1").arg(tr("Club"));
-        case static_cast<int>(Competitor::Field::CMF_TEAM):
-            return QString("%1").arg(tr("Team"));
-        case static_cast<int>(Competitor::Field::CMF_OFFSET_LEG):
-            return QString("%1").arg(tr("Start time/Leg"));
-        default:
-            return QString("%1").arg(section + 1);
+            using enum Competitor::Field;
+
+            case static_cast<int>(CMF_BIB):
+                return QString("%1").arg(tr("Bib"));
+            case static_cast<int>(CMF_SURNAME):
+                return QString("%1").arg(tr("Last name"));
+            case static_cast<int>(CMF_NAME):
+                return QString("%1").arg(tr("First name"));
+            case static_cast<int>(CMF_SEX):
+                return QString("%1").arg(tr("Sex"));
+            case static_cast<int>(CMF_YEAR):
+                return QString("%1").arg(tr("Year"));
+            case static_cast<int>(CMF_CLUB):
+                return QString("%1").arg(tr("Club"));
+            case static_cast<int>(CMF_TEAM):
+                return QString("%1").arg(tr("Team"));
+            case static_cast<int>(CMF_OFFSET_LEG):
+                return QString("%1").arg(tr("Start time/Leg"));
+            default:
+                return QString("%1").arg(section + 1);
         }
     else
         return QString("%1").arg(section + 1);
@@ -285,9 +293,9 @@ Qt::ItemFlags StartListModel::flags(QModelIndex const &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool StartListModel::insertRows(int position, int rows, QModelIndex const &parent)
+bool StartListModel::insertRows(int position, int rows, QModelIndex const &index)
 {
-    Q_UNUSED(parent)
+    Q_UNUSED(index)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
 
@@ -302,9 +310,9 @@ bool StartListModel::insertRows(int position, int rows, QModelIndex const &paren
     return true;
 }
 
-bool StartListModel::removeRows(int position, int rows, QModelIndex const &parent)
+bool StartListModel::removeRows(int position, int rows, QModelIndex const &index)
 {
-    Q_UNUSED(parent)
+    Q_UNUSED(index)
 
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
     for (int row = 0; row < rows; ++row) {
@@ -321,7 +329,7 @@ void StartListModel::sort(int column, Qt::SortOrder order)
 {
     CompetitorSorter::setSortingField((Competitor::Field) column);
     CompetitorSorter::setSortingOrder(order);
-    std::stable_sort(startList.begin(), startList.end(), CompetitorSorter());
+    std::ranges::stable_sort(startList, CompetitorSorter());
     emit dataChanged(QModelIndex(), QModelIndex());
 }
 

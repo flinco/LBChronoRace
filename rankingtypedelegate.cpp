@@ -21,13 +21,15 @@
 RankingTypeDelegate::RankingTypeDelegate(QObject *parent) :
     QStyledItemDelegate(parent)
 {
+    using enum Ranking::Type;
+
     auto *comboBox = rankingTypeBox.data();
     comboBox->setEditable(false);
     comboBox->setInsertPolicy(QComboBox::NoInsert);
     comboBox->setDuplicatesEnabled(false);
     comboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-    comboBox->addItem(QIcon(":/material/icons/person.svg"), CRHelper::toRankingTypeString(Ranking::Type::INDIVIDUAL), QVariant(CRHelper::toTypeString(Ranking::Type::INDIVIDUAL)));
-    comboBox->addItem(QIcon(":/material/icons/group.svg"), CRHelper::toRankingTypeString(Ranking::Type::CLUB), QVariant(CRHelper::toTypeString(Ranking::Type::CLUB)));
+    comboBox->addItem(QIcon(":/material/icons/person.svg"), CRHelper::toRankingTypeString(INDIVIDUAL), QVariant(CRHelper::toTypeString(INDIVIDUAL)));
+    comboBox->addItem(QIcon(":/material/icons/group.svg"), CRHelper::toRankingTypeString(CLUB), QVariant(CRHelper::toTypeString(CLUB)));
 }
 
 QWidget *RankingTypeDelegate::createEditor(QWidget *parent, QStyleOptionViewItem const &option, QModelIndex const &index) const

@@ -34,10 +34,10 @@ uint RankingsBuilder::loadData()
     prepareStartList();
 
     // sort timings
-    std::sort(timings.begin(), timings.end(), [&](Timing const &t1, Timing const &t2) { return (t1 < t2); } );
+    std::ranges::sort(timings, [&](Timing const &t1, Timing const &t2) { return (t1 < t2); } );
 
     // compute individual general classifications (all included, sorted by bib)
-    for (auto const &timing : timings) {
+    for (auto const &timing : std::as_const(timings)) {
 
         bib = timing.getBib();
         leg = timing.getLeg();

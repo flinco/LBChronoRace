@@ -95,64 +95,64 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
         auto const keyEvent = static_cast<QKeyEvent *>(event);
         auto const keyModifiers = keyEvent->modifiers();
         switch (keyEvent->key()) {
-        case Qt::Key::Key_F10:
-            if (!(keyModifiers & Qt::KeyboardModifier::AltModifier)) {
+            case Qt::Key::Key_F10:
+                if (!(keyModifiers & Qt::KeyboardModifier::AltModifier)) {
+                    retval = QDialog::eventFilter(watched, event);
+                    break;
+                }
+                [[fallthrough]];
+            case Qt::Key::Key_Space:
+                if (updateTimerId != 0)
+                    recordTiming(this->timer.elapsed());
+                break;
+            case Qt::Key::Key_Return:
+                [[fallthrough]];
+            case Qt::Key::Key_Enter:
+                retval = enterPressed();
+                break;
+            case Qt::Key::Key_Backspace:
+                deleteBib();
+                break;
+            case Qt::Key::Key_Delete:
+                if (keyModifiers & Qt::KeyboardModifier::AltModifier)
+                    deleteTiming();
+                else
+                    deleteBib();
+                break;
+            case Qt::Key::Key_0:
+                [[fallthrough]];
+            case Qt::Key::Key_1:
+                [[fallthrough]];
+            case Qt::Key::Key_2:
+                [[fallthrough]];
+            case Qt::Key::Key_3:
+                [[fallthrough]];
+            case Qt::Key::Key_4:
+                [[fallthrough]];
+            case Qt::Key::Key_5:
+                [[fallthrough]];
+            case Qt::Key::Key_6:
+                [[fallthrough]];
+            case Qt::Key::Key_7:
+                [[fallthrough]];
+            case Qt::Key::Key_8:
+                [[fallthrough]];
+            case Qt::Key::Key_9:
+                retval = digitPressed((static_cast<QKeyEvent *>(event))->text());
+                break;
+            case Qt::Key::Key_Up:
+                retval = upPressed();
+                break;
+            case Qt::Key::Key_Down:
+                retval = downPressed();
+                break;
+            case Qt::Key::Key_Escape:
+                if (ui->lockToggle->value() == 0)
+                    retval = QDialog::eventFilter(watched, event);
+                break;
+            default:
                 retval = QDialog::eventFilter(watched, event);
                 break;
-            }
-            [[fallthrough]];
-        case Qt::Key::Key_Space:
-            if (updateTimerId != 0)
-                recordTiming(this->timer.elapsed());
-            break;
-        case Qt::Key::Key_Return:
-            [[fallthrough]];
-        case Qt::Key::Key_Enter:
-            retval = enterPressed();
-            break;
-        case Qt::Key::Key_Backspace:
-            deleteBib();
-            break;
-        case Qt::Key::Key_Delete:
-            if (keyModifiers & Qt::KeyboardModifier::AltModifier)
-                deleteTiming();
-            else
-                deleteBib();
-            break;
-        case Qt::Key::Key_0:
-            [[fallthrough]];
-        case Qt::Key::Key_1:
-            [[fallthrough]];
-        case Qt::Key::Key_2:
-            [[fallthrough]];
-        case Qt::Key::Key_3:
-            [[fallthrough]];
-        case Qt::Key::Key_4:
-            [[fallthrough]];
-        case Qt::Key::Key_5:
-            [[fallthrough]];
-        case Qt::Key::Key_6:
-            [[fallthrough]];
-        case Qt::Key::Key_7:
-            [[fallthrough]];
-        case Qt::Key::Key_8:
-            [[fallthrough]];
-        case Qt::Key::Key_9:
-            retval = digitPressed((static_cast<QKeyEvent *>(event))->text());
-            break;
-        case Qt::Key::Key_Up:
-            retval = upPressed();
-            break;
-        case Qt::Key::Key_Down:
-            retval = downPressed();
-            break;
-        case Qt::Key::Key_Escape:
-            if (ui->lockToggle->value() == 0)
-                retval = QDialog::eventFilter(watched, event);
-            break;
-        default:
-            retval = QDialog::eventFilter(watched, event);
-            break;
         }
     }
 

@@ -355,39 +355,41 @@ int CRLoader::importTimings(QString const &path, bool append)
 void CRLoader::exportModel(Model model, QString const &path)
 {
     switch (model) {
-    case Model::STARTLIST:
-        saveCSV(path, &startListModel);
-        break;
-    case Model::TEAMSLIST:
-        {
-            QFile outFile(path);
-            if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                throw(ChronoRaceException(tr("Error: cannot open %1").arg(path)));
+        using enum CRLoader::Model;
+
+        case STARTLIST:
+            saveCSV(path, &startListModel);
+            break;
+        case TEAMSLIST:
+            {
+                QFile outFile(path);
+                if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                    throw(ChronoRaceException(tr("Error: cannot open %1").arg(path)));
+                }
+                QTextStream outStream(&outFile);
+
+                outStream.setEncoding(CRLoader::getEncoding());
+
+                int rowCount = teamsListModel.rowCount();
+                for (int r = 0; r < rowCount; ++r)
+                    outStream << teamsListModel.data(teamsListModel.index(r, 0, QModelIndex()), Qt::DisplayRole).toString() << Qt::endl;
+
+                outStream.flush();
+                outFile.close();
             }
-            QTextStream outStream(&outFile);
-
-            outStream.setEncoding(CRLoader::getEncoding());
-
-            int rowCount = teamsListModel.rowCount();
-            for (int r = 0; r < rowCount; ++r)
-                outStream << teamsListModel.data(teamsListModel.index(r, 0, QModelIndex()), Qt::DisplayRole).toString() << Qt::endl;
-
-            outStream.flush();
-            outFile.close();
-        }
-        break;
-    case Model::RANKINGS:
-        saveCSV(path, &rankingsModel);
-        break;
-    case Model::CATEGORIES:
-        saveCSV(path, &categoriesModel);
-        break;
-    case Model::TIMINGS:
-        saveCSV(path, &timingsModel);
-        break;
-    default:
-        throw(ChronoRaceException(tr("Unexpected model value %1 (export)").arg(static_cast<int>(model))));
-        break;
+            break;
+        case RANKINGS:
+            saveCSV(path, &rankingsModel);
+            break;
+        case CATEGORIES:
+            saveCSV(path, &categoriesModel);
+            break;
+        case TIMINGS:
+            saveCSV(path, &timingsModel);
+            break;
+        default:
+            throw(ChronoRaceException(tr("Unexpected model value %1 (export)").arg(static_cast<int>(model))));
+            break;
     }
 }
 

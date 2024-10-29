@@ -137,18 +137,20 @@ QString ClassEntry::getNames(CRLoader::Format format) const
     QString retString;
 
     switch (format) {
-    case CRLoader::Format::TEXT:
-        retString = getNamesCommon(false);
-        break;
-    case CRLoader::Format::CSV:
-        retString = getNamesCommon(true);
-        break;
-    case CRLoader::Format::PDF:
-        retString = "***Error***";
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
+        using enum CRLoader::Format;
+
+        case TEXT:
+            retString = getNamesCommon(false);
+            break;
+        case CSV:
+            retString = getNamesCommon(true);
+            break;
+        case PDF:
+            retString = "***Error***";
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
     }
 
     return retString;
@@ -166,26 +168,29 @@ Competitor::Sex ClassEntry::getSex() const
 {
     uint males = 0;
     uint females = 0;
-    Competitor::Sex sex = Competitor::Sex::UNDEFINED;
+
+    using enum Competitor::Sex;
+
+    Competitor::Sex sex = UNDEFINED;
 
     for (auto const &e : entries) {
         switch (e.competitor->getSex()) {
-        case Competitor::Sex::MALE:
-            males++;
-            break;
-        case Competitor::Sex::FEMALE:
-            females++;
-            break;
-        default:
-            throw(ChronoRaceException(tr("Unexpected sex value for bib %1 (%2)").arg(bib).arg(e.competitor->getCompetitorName(CRHelper::nameComposition))));
-            break;
+            case MALE:
+                males++;
+                break;
+            case FEMALE:
+                females++;
+                break;
+            default:
+                throw(ChronoRaceException(tr("Unexpected sex value for bib %1 (%2)").arg(bib).arg(e.competitor->getCompetitorName(CRHelper::nameComposition))));
+                break;
         }
     }
 
     if (males && !females)
-        sex = Competitor::Sex::MALE;
+        sex = MALE;
     else if (!males && females)
-        sex = Competitor::Sex::FEMALE;
+        sex = FEMALE;
 
     return  sex;
 }
@@ -203,20 +208,22 @@ QString ClassEntry::getTimes(CRLoader::Format format, int legRankWidth) const
     QString retString;
 
     switch (format) {
-    case CRLoader::Format::TEXT:
-        for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
-            retString.append(QString("%1(%2) %3").arg((it == entries.constBegin()) ? "" : " - ").arg(it->legRanking, legRankWidth).arg(CRHelper::toTimeString(it->time, it->status), 7));
-        break;
-    case CRLoader::Format::CSV:
-        for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
-            retString.append(QString("%1%2,%3").arg((it == entries.constBegin()) ? "" : ",").arg(it->legRanking).arg(CRHelper::toTimeString(it->time, Timing::Status::CLASSIFIED)));
-        break;
-    case CRLoader::Format::PDF:
-        retString = "***Error***";
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
+        using enum CRLoader::Format;
+
+        case TEXT:
+            for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
+                retString.append(QString("%1(%2) %3").arg((it == entries.constBegin()) ? "" : " - ").arg(it->legRanking, legRankWidth).arg(CRHelper::toTimeString(it->time, it->status), 7));
+            break;
+        case CSV:
+            for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
+                retString.append(QString("%1%2,%3").arg((it == entries.constBegin()) ? "" : ",").arg(it->legRanking).arg(CRHelper::toTimeString(it->time, Timing::Status::CLASSIFIED)));
+            break;
+        case PDF:
+            retString = "***Error***";
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
     }
 
     return retString;
@@ -236,14 +243,14 @@ uint ClassEntry::getTimeValue(uint legIdx) const
         throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
 
     switch (entries[legIdx].status) {
-    case Timing::Status::DNS:
-        return UINT_MAX;
-    case Timing::Status::DNF:
-        return UINT_MAX - 1;
-    //NOSONAR case Timing::Status::DSQ:
-    //NOSONAR     return UINT_MAX - 2;
-    default:
-        return entries[legIdx].time;
+        case Timing::Status::DNS:
+            return UINT_MAX;
+        case Timing::Status::DNF:
+            return UINT_MAX - 1;
+        //NOSONAR case Timing::Status::DSQ:
+        //NOSONAR     return UINT_MAX - 2;
+        default:
+            return entries[legIdx].time;
     }
 }
 
@@ -392,15 +399,15 @@ QStringList ClassEntry::setCategory()
     QStringList messages;
 
     switch (entries.size()) {
-    case 0:
-        messages += tr("No competitors associated to bib %1").arg(bib);
-        break;
-    case 1:
-        ClassEntryHelper::setCategorySingleLeg(this, messages);
-        break;
-    default:
-        ClassEntryHelper::setCategoryMultiLeg(this, messages);
-        break;
+        case 0:
+            messages += tr("No competitors associated to bib %1").arg(bib);
+            break;
+        case 1:
+            ClassEntryHelper::setCategorySingleLeg(this, messages);
+            break;
+        default:
+            ClassEntryHelper::setCategoryMultiLeg(this, messages);
+            break;
     }
 
     return messages;
@@ -416,23 +423,26 @@ QString ClassEntry::getTotalTime(CRLoader::Format format) const
     QString retString;
 
     switch (format) {
-    case CRLoader::Format::TEXT:
-        [[fallthrough]];
-    case CRLoader::Format::CSV:
-        [[fallthrough]];
-    case CRLoader::Format::PDF:
-        if (isDsq())
-            retString = CRHelper::toTimeString(totalTime, Timing::Status::DSQ);
-        else if (isDnf())
-            retString = CRHelper::toTimeString(totalTime, Timing::Status::DNF);
-        else if (isDns())
-            retString = CRHelper::toTimeString(totalTime, Timing::Status::DNS);
-        else
-            retString = CRHelper::toTimeString(totalTime, Timing::Status::CLASSIFIED);
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
+        using enum CRLoader::Format;
+        using enum Timing::Status;
+
+        case TEXT:
+            [[fallthrough]];
+        case CSV:
+            [[fallthrough]];
+        case PDF:
+            if (isDsq())
+                retString = CRHelper::toTimeString(totalTime, DSQ);
+            else if (isDnf())
+                retString = CRHelper::toTimeString(totalTime, DNF);
+            else if (isDns())
+                retString = CRHelper::toTimeString(totalTime, DNS);
+            else
+                retString = CRHelper::toTimeString(totalTime, CLASSIFIED);
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
     }
 
     return retString;
@@ -492,28 +502,30 @@ void ClassEntryHelper::removeImpossibleCategories(QVector<ClassEntryElement> &en
     while (i.hasNext()) {
         cat = i.next();
         switch (cat->getType()) {
-        case Category::Type::MALE:
-            [[fallthrough]];
-        case Category::Type::FEMALE:
-            /* Competitors must all belong to the same Club */
-            if (!allCompetitorsShareTheSameClub(entries, 1, count, club))
-                i.remove();
-            break;
-        case Category::Type::RELAY_X:
-            [[fallthrough]];
-        case Category::Type::RELAY_Y:
-            /* Competitors must belong to different Clubs */
-            if (allCompetitorsShareTheSameClub(entries, 1, count, club))
-                i.remove();
-            break;
-        case Category::Type::RELAY_MF:
-            /* Competitors must have different sex */
-            if (allCompetitorsAreOfTheSameSex(entries, 1, count, sex))
-                i.remove();
-            break;
-        default:
-            Q_UNREACHABLE();
-            break;
+            using enum Category::Type;
+
+            case MALE:
+                [[fallthrough]];
+            case FEMALE:
+                /* Competitors must all belong to the same Club */
+                if (!allCompetitorsShareTheSameClub(entries, 1, count, club))
+                    i.remove();
+                break;
+            case RELAY_X:
+                [[fallthrough]];
+            case RELAY_Y:
+                /* Competitors must belong to different Clubs */
+                if (allCompetitorsShareTheSameClub(entries, 1, count, club))
+                    i.remove();
+                break;
+            case RELAY_MF:
+                /* Competitors must have different sex */
+                if (allCompetitorsAreOfTheSameSex(entries, 1, count, sex))
+                    i.remove();
+                break;
+            default:
+                Q_UNREACHABLE();
+                break;
         }
     }
 }

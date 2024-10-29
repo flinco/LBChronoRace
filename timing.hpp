@@ -92,98 +92,45 @@ public:
     void addOffset(int offset);
     bool isValid() const;
 
-    friend bool operator< (Timing const &lhs, Timing const &rhs)
+    friend auto operator<=>(Timing const &lhs, Timing const &rhs)
     {
-        bool lessThen = false;
-
-        //NOSONAR switch (lhs.status) {
-        //NOSONAR case Status::CLASSIFIED:
-        //NOSONAR     lessThen = ((rhs.status != Status::CLASSIFIED) || (lhs.milliseconds < rhs.seconds));
-        //NOSONAR     break;
-        //NOSONAR case Status::DSQ:
-        //NOSONAR     lessThen = ((rhs.status == Status::DNF) || (rhs.status == Status::DNS));
-        //NOSONAR     break;
-        //NOSONAR case Status::DNF:
-        //NOSONAR     lessThen = (rhs.status == Status::DNS);
-        //NOSONAR     break;
-        //NOSONAR case Status::DNS:
-        //NOSONAR     // nothing to assign
-        //NOSONAR     break;
-        //NOSONAR default:
-        //NOSONAR     Q_UNREACHABLE();
-        //NOSONAR     break;
-        //NOSONAR }
+        /*         +-------------------------------+ *
+         *         |              LHS              | *
+         *         +-------+-------+-------+-------+ *
+         *         | CLASS |  DSQ  |  DNF  |  DNS  | *
+         * +-+-----+-------+-------+-------+-------+ *
+         * | |CLASS|ms<=>ms|ms<=>ms|   >   |   >   | *
+         * | +-----+-------+-------+-------+-------+ *
+         * |R| DSQ |ms<=>ms|ms<=>ms|   >   |   >   | *
+         * |H+-----+-------+-------+-------+-------+ *
+         * |S| DNF |   <   |   <   |   =   |   >   | *
+         * | +-----+-------+-------+-------+-------+ *
+         * | | DNS |   <   |   <   |   <   |   =   | *
+         * +-+-----+-------+-------+-------+-------+ */
 
         switch (lhs.status) {
-        case Status::CLASSIFIED:
-            [[fallthrough]];
-        case Status::DSQ:
-            lessThen = (rhs.status == Status::DNS) || (rhs.status == Status::DNF) || (lhs.milliseconds < rhs.milliseconds);
-            break;
-        case Status::DNF:
-            lessThen = (rhs.status == Status::DNS);
-            break;
-        case Status::DNS:
-            // nothing to assign
-            break;
-        default:
-            Q_UNREACHABLE();
-            break;
+            using enum Timing::Status;
+
+            case CLASSIFIED:
+                [[fallthrough]];
+            case DSQ:
+                if ((rhs.status == DNS) || (rhs.status == DNF))
+                    return std::strong_ordering::less;
+                else
+                    return (lhs.milliseconds <=> rhs.milliseconds);
+            case DNF:
+                if (rhs.status == DNS)
+                    return std::strong_ordering::less;
+                else if (rhs.status == DNF)
+                    return std::strong_ordering::equal;
+                else
+                    return std::strong_ordering::greater;
+            case DNS:
+                return (rhs.status == DNS) ? std::strong_ordering::equal : std::strong_ordering::greater;
+            default:
+                Q_UNREACHABLE();
+                break;
         }
-
-        return lessThen;
-    }
-
-    friend bool operator> (Timing const &lhs, Timing const &rhs)
-    {
-        bool greaterThen = false;
-
-        //NOSONAR switch (lhs.status) {
-        //NOSONAR case Status::CLASSIFIED:
-        //NOSONAR     greaterThen = ((rhs.status == Status::CLASSIFIED) && (lhs.milliseconds > rhs.milliseconds));
-        //NOSONAR     break;
-        //NOSONAR case Status::DSQ:
-        //NOSONAR     greaterThen = (rhs.status == Status::CLASSIFIED);
-        //NOSONAR     break;
-        //NOSONAR case Status::DNF:
-        //NOSONAR     greaterThen = ((rhs.status == Status::CLASSIFIED) || (rhs.status == Status::DSQ));
-        //NOSONAR     break;
-        //NOSONAR case Status::DNS:
-        //NOSONAR     greaterThen = (rhs.status != Status::DNS);
-        //NOSONAR     break;
-        //NOSONAR default:
-        //NOSONAR     Q_UNREACHABLE();
-        //NOSONAR     break;
-        //NOSONAR }
-
-        switch (lhs.status) {
-        case Status::CLASSIFIED:
-            [[fallthrough]];
-        case Status::DSQ:
-            greaterThen = ((rhs.status == Status::CLASSIFIED) || (rhs.status == Status::DSQ)) && (lhs.milliseconds > rhs.milliseconds);
-            break;
-        case Status::DNF:
-            greaterThen = ((rhs.status == Status::CLASSIFIED) || (rhs.status == Status::DSQ));
-            break;
-        case Status::DNS:
-            greaterThen = (rhs.status != Status::DNS);
-            break;
-        default:
-            Q_UNREACHABLE();
-            break;
-        }
-
-        return greaterThen;
-    }
-
-    friend bool operator<=(Timing const &lhs, Timing const &rhs)
-    {
-        return !(lhs > rhs);
-    }
-
-    friend bool operator>=(Timing const &lhs, Timing const &rhs)
-    {
-        return !(lhs < rhs);
     }
 
     static QRegularExpression validatorS;

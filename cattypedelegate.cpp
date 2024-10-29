@@ -21,16 +21,18 @@
 CategoryTypeDelegate::CategoryTypeDelegate(QObject *parent) :
     QStyledItemDelegate(parent)
 {
+    using enum Category::Type;
+
     auto *comboBox = categoryTypeBox.data();
     comboBox->setEditable(false);
     comboBox->setInsertPolicy(QComboBox::NoInsert);
     comboBox->setDuplicatesEnabled(false);
     comboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-    comboBox->addItem(QIcon(":/material/icons/male.svg"), CRHelper::toCategoryTypeString(Category::Type::MALE), CRHelper::toTypeString(Category::Type::MALE));
-    comboBox->addItem(QIcon(":/material/icons/female.svg"), CRHelper::toCategoryTypeString(Category::Type::FEMALE), CRHelper::toTypeString(Category::Type::FEMALE));
-    comboBox->addItem(QIcon(":/material/icons/transgender.svg"), CRHelper::toCategoryTypeString(Category::Type::RELAY_MF), CRHelper::toTypeString(Category::Type::RELAY_MF));
-    comboBox->addItem(QIcon(":/material/icons/male.svg"), CRHelper::toCategoryTypeString(Category::Type::RELAY_Y), CRHelper::toTypeString(Category::Type::RELAY_Y));
-    comboBox->addItem(QIcon(":/material/icons/female.svg"), CRHelper::toCategoryTypeString(Category::Type::RELAY_X), CRHelper::toTypeString(Category::Type::RELAY_X));
+    comboBox->addItem(QIcon(":/material/icons/male.svg"), CRHelper::toCategoryTypeString(MALE), CRHelper::toTypeString(MALE));
+    comboBox->addItem(QIcon(":/material/icons/female.svg"), CRHelper::toCategoryTypeString(FEMALE), CRHelper::toTypeString(FEMALE));
+    comboBox->addItem(QIcon(":/material/icons/transgender.svg"), CRHelper::toCategoryTypeString(RELAY_MF), CRHelper::toTypeString(RELAY_MF));
+    comboBox->addItem(QIcon(":/material/icons/male.svg"), CRHelper::toCategoryTypeString(RELAY_Y), CRHelper::toTypeString(RELAY_Y));
+    comboBox->addItem(QIcon(":/material/icons/female.svg"), CRHelper::toCategoryTypeString(RELAY_X), CRHelper::toTypeString(RELAY_X));
 }
 
 QWidget *CategoryTypeDelegate::createEditor(QWidget *parent, QStyleOptionViewItem const &option, QModelIndex const &index) const

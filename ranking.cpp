@@ -115,17 +115,19 @@ bool Ranking::includes(Category const *category) const
 
 bool RankingSorter::operator() (Ranking const &lhs, Ranking const &rhs) const
 {
-    switch(sortingField) {
-    case Ranking::Field::RTF_FULL_DESCR:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFullDescription() > rhs.getFullDescription()) : (lhs.getFullDescription() < rhs.getFullDescription());
-    case Ranking::Field::RTF_SHORT_DESCR:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getShortDescription() > rhs.getShortDescription()) : (lhs.getShortDescription() < rhs.getShortDescription());
-    case Ranking::Field::RTF_TEAM:
-        [[fallthrough]];
-    case Ranking::Field::RTF_CATEGORIES:
-        [[fallthrough]];
-    default:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
+    switch (sortingField) {
+        using enum Ranking::Field;
+
+        case RTF_FULL_DESCR:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFullDescription() > rhs.getFullDescription()) : (lhs.getFullDescription() < rhs.getFullDescription());
+        case RTF_SHORT_DESCR:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getShortDescription() > rhs.getShortDescription()) : (lhs.getShortDescription() < rhs.getShortDescription());
+        case RTF_TEAM:
+            [[fallthrough]];
+        case RTF_CATEGORIES:
+            [[fallthrough]];
+        default:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }
 
     return false;

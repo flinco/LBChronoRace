@@ -94,24 +94,9 @@ public:
     Category const *getCategory(uint legIdx) const;
     QStringList setCategory();
 
-    friend bool operator< (ClassEntry const &lhs, ClassEntry const &rhs)
+    friend auto operator<=>(ClassEntry const &lhs, ClassEntry const &rhs)
     {
-        return lhs.getTotalTime() <  rhs.getTotalTime();
-    }
-
-    friend bool operator> (ClassEntry const &lhs, ClassEntry const &rhs)
-    {
-        return lhs.getTotalTime() >  rhs.getTotalTime();
-    }
-
-    friend bool operator<=(ClassEntry const &lhs, ClassEntry const &rhs)
-    {
-        return lhs.getTotalTime() <= rhs.getTotalTime();
-    }
-
-    friend bool operator>=(ClassEntry const &lhs, ClassEntry const &rhs)
-    {
-        return lhs.getTotalTime() >= rhs.getTotalTime();
+        return lhs.getTotalTime() <=> rhs.getTotalTime();
     }
 };
 

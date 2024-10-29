@@ -94,27 +94,12 @@ public:
     uint getWeight() const;
     bool isValid() const;
 
-    friend bool operator< (Category const &lhs, Category const &rhs)
+    friend auto operator<=>(Category const &lhs, Category const &rhs)
     {
-        return (lhs.getFullDescription() < rhs.getFullDescription());
+        return (lhs.getFullDescription() <=> rhs.getFullDescription());
     }
 
-    friend bool operator> (Category const &lhs, Category const &rhs)
-    {
-        return (lhs.getFullDescription() > rhs.getFullDescription());
-    }
-
-    friend bool operator<=(Category const &lhs, Category const &rhs)
-    {
-        return !(lhs > rhs);
-    }
-
-    friend bool operator>=(Category const &lhs, Category const &rhs)
-    {
-        return !(lhs < rhs);
-    }
-
-    friend bool operator== (Category const &lhs, Category const &rhs)
+    friend auto operator==(Category const &lhs, Category const &rhs)
     {
         return ((lhs.getFullDescription() == rhs.getFullDescription())
                 && (lhs.getShortDescription() == rhs.getShortDescription()));

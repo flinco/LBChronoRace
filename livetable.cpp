@@ -130,18 +130,20 @@ void LiveTable::addEntry(quint64 values)
     QColor highlightedColor(Qt::red);
 
     switch (this->mode) {
-    case LiveMode::INDIVIDUAL:
-        setTimingIndividual(bib, timing, false);
-        break;
-    case LiveMode::CHRONO:
-        setTimingIndividual(bib, timing, true);
-        break;
-    case LiveMode::RELAY:
-        setTimingRelay(bib, timing, false);
-        break;
-    case LiveMode::CHRONO_RELAY:
-        setTimingRelay(bib, timing, true);
-        break;
+        using enum LiveTable::LiveMode;
+
+        case INDIVIDUAL:
+            setTimingIndividual(bib, timing, false);
+            break;
+        case CHRONO:
+            setTimingIndividual(bib, timing, true);
+            break;
+        case RELAY:
+            setTimingRelay(bib, timing, false);
+            break;
+        case CHRONO_RELAY:
+            setTimingRelay(bib, timing, true);
+            break;
     }
 
     // Restore non-bold font roles
@@ -189,17 +191,19 @@ void LiveTable::removeEntry(quint64 values)
         return;
 
     switch (this->mode) {
-    case LiveMode::INDIVIDUAL:
-        [[fallthrough]];
-    case LiveMode::CHRONO:
-        removeTimingIndividual(bib);
-        break;
-    case LiveMode::RELAY:
-        removeTimingRelay(bib, timing, false);
-        break;
-    case LiveMode::CHRONO_RELAY:
-        removeTimingRelay(bib, timing, true);
-        break;
+        using enum LiveTable::LiveMode;
+
+        case INDIVIDUAL:
+            [[fallthrough]];
+        case CHRONO:
+            removeTimingIndividual(bib);
+            break;
+        case RELAY:
+            removeTimingRelay(bib, timing, false);
+            break;
+        case CHRONO_RELAY:
+            removeTimingRelay(bib, timing, true);
+            break;
     }
 
     model->sort(0, Qt::SortOrder::AscendingOrder);

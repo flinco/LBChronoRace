@@ -41,15 +41,17 @@ RankingsWizard::RankingsWizard(ChronoRaceData *data, QDir *path, RankingsWizardT
     QObject::connect(&rankingsBuilder, &RankingsBuilder::error, this, &RankingsWizard::storeErrorMessage);
 
     switch (this->target) {
-    case RankingsWizardTarget::Rankings:
-        buildRankings();
-        break;
-    case RankingsWizardTarget::StartList:
-        buildStartList();
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
+        using enum RankingsWizard::RankingsWizardTarget;
+
+        case Rankings:
+            buildRankings();
+            break;
+        case StartList:
+            buildStartList();
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
     }
 
     QObject::connect(&formatPage, &RankingsWizardFormat::error, this, &RankingsWizard::forwardErrorMessage);
@@ -326,17 +328,19 @@ void RankingsWizard::print(bool checked)
     messages.clear();
 
     switch (this->target) {
-    case RankingsWizardTarget::StartList:
-        printStartList();
-        break;
-    case RankingsWizardTarget::Rankings:
-        if ((CRLoader::getFormat() != CRLoader::Format::PDF) || (pdfSingleMode == false))
-            printRankingsMultiFile();
-        else
-            printRankingsSingleFile();
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
+        using enum RankingsWizard::RankingsWizardTarget;
+
+        case StartList:
+            printStartList();
+            break;
+        case Rankings:
+            if ((CRLoader::getFormat() != CRLoader::Format::PDF) || (pdfSingleMode == false))
+                printRankingsMultiFile();
+            else
+                printRankingsSingleFile();
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
     }
 }
