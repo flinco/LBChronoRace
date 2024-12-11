@@ -229,31 +229,7 @@ QString CRHelper::toTimeString(uint milliseconds, Timing::Status const status, c
 
     switch (status) {
     case Timing::Status::CLASSIFIED:
-        {
-            auto hr = milliseconds / 3600000;
-            milliseconds %= 3600000;
-            auto min = milliseconds / 60000;
-            milliseconds %= 60000;
-            auto sec = milliseconds / 1000;
-            milliseconds %= 1000;
-
-            switch (accuracy) {
-            case ChronoRaceData::Accuracy::SECOND:
-                retString.append(QString("%1:%2:%3").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec + ((milliseconds < 500) ? 0 : 1), 2, 10, QLatin1Char('0')));
-                break;
-            case ChronoRaceData::Accuracy::TENTH:
-                retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg((milliseconds + 50) / 100, 1, 10, QLatin1Char('0')));
-                break;
-            case ChronoRaceData::Accuracy::HUNDREDTH:
-                retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg((milliseconds + 5) / 10, 2, 10, QLatin1Char('0')));
-                break;
-            case ChronoRaceData::Accuracy::THOUSANDTH:
-                retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg(milliseconds, 3, 10, QLatin1Char('0')));
-                break;
-            default:
-                throw(ChronoRaceException(tr("Invalid accuracy value %1").arg(static_cast<int>(accuracy))));
-            }
-        }
+        retString.append(CRHelper::toTimeString(milliseconds, accuracy));
         break;
     case Timing::Status::DSQ:
         retString.append("DSQ");
@@ -266,6 +242,37 @@ QString CRHelper::toTimeString(uint milliseconds, Timing::Status const status, c
         break;
     default:
         throw(ChronoRaceException(tr("Invalid status value %1").arg(static_cast<int>(status))));
+    }
+
+    return retString;
+}
+
+QString CRHelper::toTimeString(uint milliseconds, ChronoRaceData::Accuracy acc)
+{
+    QString retString { "" };
+
+    auto hr = milliseconds / 3600000;
+    milliseconds %= 3600000;
+    auto min = milliseconds / 60000;
+    milliseconds %= 60000;
+    auto sec = milliseconds / 1000;
+    milliseconds %= 1000;
+
+    switch (acc) {
+    case ChronoRaceData::Accuracy::SECOND:
+        retString.append(QString("%1:%2:%3").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec + ((milliseconds < 500) ? 0 : 1), 2, 10, QLatin1Char('0')));
+        break;
+    case ChronoRaceData::Accuracy::TENTH:
+        retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg((milliseconds + 50) / 100, 1, 10, QLatin1Char('0')));
+        break;
+    case ChronoRaceData::Accuracy::HUNDREDTH:
+        retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg((milliseconds + 5) / 10, 2, 10, QLatin1Char('0')));
+        break;
+    case ChronoRaceData::Accuracy::THOUSANDTH:
+        retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg(milliseconds, 3, 10, QLatin1Char('0')));
+        break;
+    default:
+        throw(ChronoRaceException(tr("Invalid accuracy value %1").arg(static_cast<int>(acc))));
     }
 
     return retString;

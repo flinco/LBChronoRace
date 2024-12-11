@@ -86,6 +86,11 @@ set(PROJECT_SOURCES
     lbchronorace.hpp
     lbcrexception.cpp
     lbcrexception.hpp
+    livetable.cpp
+    livetable.hpp
+    livetable.ui
+    livetablefilterproxymodel.cpp
+    livetablefilterproxymodel.hpp
     multiselectcombobox.cpp
     multiselectcombobox.hpp
     pdfrankingprinter.cpp

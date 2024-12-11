@@ -227,10 +227,6 @@
         <translation>Race Information</translation>
     </message>
     <message>
-        <source>Remove 1st sponsor</source>
-        <translation>Remove 1st sponsor</translation>
-    </message>
-    <message>
         <source>Event</source>
         <translation>Event</translation>
     </message>
@@ -249,14 +245,6 @@
     <message>
         <source>Logo 1 not loaded</source>
         <translation>Logo 1 not loaded</translation>
-    </message>
-    <message>
-        <source>Load 4th sponsor</source>
-        <translation>Load 4th sponsor</translation>
-    </message>
-    <message>
-        <source>Remove 4th sponsor</source>
-        <translation>Remove 4th sponsor</translation>
     </message>
     <message>
         <source>Sponsor 1 not loaded</source>
@@ -279,28 +267,12 @@
         <translation>Relay race</translation>
     </message>
     <message>
-        <source>Load 1st sponsor</source>
-        <translation>Load 1st sponsor</translation>
-    </message>
-    <message>
-        <source>Remove 3rd sponsor</source>
-        <translation>Remove 3rd sponsor</translation>
-    </message>
-    <message>
         <source>Timekeeper 1</source>
         <translation>Timekeeper 1</translation>
     </message>
     <message>
-        <source>Remove 2nd sponsor</source>
-        <translation>Remove 2nd sponsor</translation>
-    </message>
-    <message>
         <source>dd/MM/yyyy</source>
         <translation>dd/MM/yyyy</translation>
-    </message>
-    <message>
-        <source>Load 3rd sponsor</source>
-        <translation>Load 3rd sponsor</translation>
     </message>
     <message>
         <source>Date</source>
@@ -331,28 +303,8 @@
         <translation>Timekeeper 2</translation>
     </message>
     <message>
-        <source>Load 2nd logo</source>
-        <translation>Load 2nd logo</translation>
-    </message>
-    <message>
-        <source>Load 2nd sponsor</source>
-        <translation>Load 2nd sponsor</translation>
-    </message>
-    <message>
-        <source>Remove 1st logo</source>
-        <translation>Remove 1st logo</translation>
-    </message>
-    <message>
         <source>Place</source>
         <translation>Place</translation>
-    </message>
-    <message>
-        <source>Load 1st logo</source>
-        <translation>Load 1st logo</translation>
-    </message>
-    <message>
-        <source>Remove 2nd logo</source>
-        <translation>Remove 2nd logo</translation>
     </message>
     <message>
         <source>Lenght</source>
@@ -534,6 +486,38 @@
         <source>How much accurate the timings will be</source>
         <translation>How much accurate the timings will be</translation>
     </message>
+    <message>
+        <source>Remove</source>
+        <translation>Remove</translation>
+    </message>
+    <message>
+        <source>Load</source>
+        <translation>Load</translation>
+    </message>
+    <message>
+        <source>1st sponsor logo</source>
+        <translation>1st sponsor logo</translation>
+    </message>
+    <message>
+        <source>2nd sponsor logo</source>
+        <translation>2nd sponsor logo</translation>
+    </message>
+    <message>
+        <source>3rd sponsor logo</source>
+        <translation>3rd sponsor logo</translation>
+    </message>
+    <message>
+        <source>4th sponsor logo</source>
+        <translation>4th sponsor logo</translation>
+    </message>
+    <message>
+        <source>Top left logo</source>
+        <translation>Top left logo</translation>
+    </message>
+    <message>
+        <source>Top right logo</source>
+        <translation>Top right logo</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTable</name>
@@ -653,14 +637,6 @@ Continue?</translation>
         <translation>RESET</translation>
     </message>
     <message>
-        <source>LOCK</source>
-        <translation>LOCK</translation>
-    </message>
-    <message>
-        <source>UNLOCK</source>
-        <translation>UNLOCK</translation>
-    </message>
-    <message>
         <source>Bib</source>
         <translation>Bib</translation>
     </message>
@@ -715,6 +691,34 @@ Continue?</translation>
     <message>
         <source>Missing bib for time %1</source>
         <translation>Missing bib for time %1</translation>
+    </message>
+    <message>
+        <source>Buttons lock</source>
+        <translation>Buttons lock</translation>
+    </message>
+    <message>
+        <source>Live View</source>
+        <translation>Live View</translation>
+    </message>
+    <message>
+        <source>Notice:: enter competitors to use the Live View</source>
+        <translation>Notice:: enter competitors to use the Live View</translation>
+    </message>
+    <message>
+        <source>Notice:: Live View cannot be activated on screen %1 since %2px wide (min. required width 1280px)</source>
+        <translation>Notice:: Live View cannot be activated on screen %1 since %2px wide (min. required width 1280px)</translation>
+    </message>
+    <message>
+        <source>Info: closing the Live View</source>
+        <translation>Info: closing the Live View</translation>
+    </message>
+    <message>
+        <source>Select a screen for the Live View</source>
+        <translation>Select a screen for the Live View</translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation>Off</translation>
     </message>
 </context>
 <context>
@@ -1290,6 +1294,70 @@ Are you sure you want to continue?</numerusform>
     <message>
         <source>Select Clubs File</source>
         <translation>Select Clubs File</translation>
+    </message>
+</context>
+<context>
+    <name>LiveTable</name>
+    <message>
+        <source>Bib</source>
+        <comment>long</comment>
+        <translation>Bib</translation>
+    </message>
+    <message>
+        <source>Bib</source>
+        <comment>short</comment>
+        <translation>Bib</translation>
+    </message>
+    <message>
+        <source>Competitor</source>
+        <comment>long</comment>
+        <translation>Competitor</translation>
+    </message>
+    <message>
+        <source>Timing</source>
+        <comment>long</comment>
+        <translation>Timing</translation>
+    </message>
+    <message>
+        <source>Timing</source>
+        <comment>short</comment>
+        <translation>Timing</translation>
+    </message>
+    <message>
+        <source>The Race</source>
+        <translation>The Race</translation>
+    </message>
+    <message>
+        <source>LBChronoRace</source>
+        <translation>LBChronoRace</translation>
+    </message>
+    <message>
+        <source>Enter competitors to use the Live View</source>
+        <translation>Enter competitors to use the Live View</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>short</comment>
+        <translation>Competitor %1</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>long</comment>
+        <translation>Competitor %1</translation>
+    </message>
+    <message>
+        <source>Timing %1</source>
+        <comment>short</comment>
+        <translation>T %1</translation>
+    </message>
+    <message>
+        <source>Timing %1</source>
+        <comment>long</comment>
+        <translation>Timing %1</translation>
+    </message>
+    <message>
+        <source>No screen available for the Live View</source>
+        <translation>No screen available for the Live View</translation>
     </message>
 </context>
 <context>

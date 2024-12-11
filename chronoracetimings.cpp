@@ -21,17 +21,18 @@
 #include <QStandardPaths>
 #include <QKeyEvent>
 #include <QMessageBox>
+#include <QWindow>
+#include <QStringBuilder>
 
 #include "chronoracetimings.hpp"
 #include "crloader.hpp"
 #include "lbcrexception.hpp"
 
-TimingsWorker::TimingsWorker() {
+constexpr char DISPLAY_CHRONO_ZERO[] = "0:00:00";
 
-    QString outPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-    outPath.append("/lbchronorace_XXXXXX.csv");
-
-    QTemporaryFile outFile(outPath);
+TimingsWorker::TimingsWorker()
+{
+    QTemporaryFile outFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation) % "/lbchronorace_XXXXXX.csv");
     if (outFile.open()) {
         timingsFilePath.append(outFile.fileName());
     } else {
@@ -39,7 +40,8 @@ TimingsWorker::TimingsWorker() {
     }
 }
 
-void TimingsWorker::writeToDisk(QString const &buffer) {
+void TimingsWorker::writeToDisk(QString const &buffer)
+{
     QFile outFile(timingsFilePath);
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
         throw(ChronoRaceException(tr("Error: cannot open %1").arg(outFile.fileName())));
@@ -55,15 +57,21 @@ void TimingsWorker::writeToDisk(QString const &buffer) {
     emit writeDone();
 };
 
+/* Static fields */
+QRegularExpression ChronoRaceTimings::screenNameRegEx("^[.\\\\]+(DISPLAY.*)");
 
-ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent) {
-
-    QString startDisplay = "0:00:00";
+ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent)
+{
+    QRegularExpressionMatch match;
 
     ui->setupUi(this);
     qApp->installEventFilter(this);
+    this->setWindowFlag(Qt::CustomizeWindowHint, true);
+    this->setWindowFlag(Qt::WindowCloseButtonHint, false);
 
-    ui->timer->display(startDisplay);
+    ui->timer->display(DISPLAY_CHRONO_ZERO);
+
+    ui->liveViewSelector->setItemIcon(0, QIcon(":/material/icons/hide_image.svg"));
 
     ui->dataArea->setSelectionMode(QAbstractItemView::NoSelection);
 
@@ -76,14 +84,33 @@ ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent) {
     QObject::connect(ui->stopButton,  &QToolButton::clicked, this, &ChronoRaceTimings::stop );
     QObject::connect(ui->resetButton, &QToolButton::clicked, this, &ChronoRaceTimings::reset);
 
-    QObject::connect(ui->lockBox, &QCheckBox::clicked, this, &ChronoRaceTimings::lock);
-    QObject::connect(ui->unlockBox, &QCheckBox::clicked, this, &ChronoRaceTimings::lock);
+    QObject::connect(ui->lockToggle, &QSlider::valueChanged, this, &ChronoRaceTimings::lock);
+    QObject::connect(ui->liveViewSelector, &QComboBox::currentIndexChanged, this, &ChronoRaceTimings::live);
 
     saveToDiskWorker.moveToThread(&saveToDiskThread);
-    connect(this, &ChronoRaceTimings::saveToDisk, &saveToDiskWorker, &TimingsWorker::writeToDisk);
-    connect(&saveToDiskWorker, &TimingsWorker::writeDone, this, &ChronoRaceTimings::clearDiskBuffer);
+    QObject::connect(this, &ChronoRaceTimings::saveToDisk, &saveToDiskWorker, &TimingsWorker::writeToDisk);
+    QObject::connect(&saveToDiskWorker, &TimingsWorker::writeDone, this, &ChronoRaceTimings::clearDiskBuffer);
 
-    ui->unlockBox->hide();
+    QString liveText;
+    QIcon liveIcon;
+    bool screenEnabled;
+    QStandardItemModel const *liveModel;
+    auto liveIndex = this->ui->liveViewSelector->count();
+    for (auto const *screen : QApplication::screens()) {
+        screenEnabled = (screen->size().width() >= 1280);
+
+        match = screenNameRegEx.match(screen->name());
+        liveText = match.hasMatch() ? match.captured(1) : screen->name();
+        liveIcon = QIcon(screenEnabled ? ":/material/icons/image.svg" : ":/material/icons/hide_image.svg");
+
+        this->ui->liveViewSelector->insertItem(liveIndex, liveIcon, liveText, QVariant::fromValue(screen));
+
+        liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
+        liveModel->item(liveIndex)->setEnabled(screenEnabled);
+
+        liveIndex++;
+    }
+
     ui->stopButton->setEnabled(false);
 }
 
@@ -148,7 +175,9 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
             retval = downPressed();
             break;
         case Qt::Key::Key_Escape:
-            if (ui->unlockBox->isHidden())
+            if (ui->liveViewSelector->currentIndex() > 0)
+                ui->liveViewSelector->setCurrentIndex(0);
+            else if (ui->lockToggle->value() == 0)
                 retval = QDialog::eventFilter(watched, event);
             break;
         default:
@@ -186,6 +215,11 @@ void ChronoRaceTimings::timerEvent(QTimerEvent *event) {
 
 void ChronoRaceTimings::accept()
 {
+    ui->liveViewSelector->setCurrentIndex(0);
+
+    if (saveToDiskThread.isRunning())
+        this->stop();
+
     if (QMessageBox::information(this, tr("Save Timings List"),
                                      tr("The timings list will be replaced by the current data.\n"
                                         "Any previously recorded timing will be lost.\n"
@@ -207,6 +241,11 @@ void ChronoRaceTimings::accept()
 
 void ChronoRaceTimings::reject()
 {
+    ui->liveViewSelector->setCurrentIndex(0);
+
+    if (saveToDiskThread.isRunning())
+        this->stop();
+
     if (QMessageBox::information(this, tr("Discard Timings List"),
                                  tr("The current data will be discarded.\n"
                                     "The previously recorded timings list will be preserved.\n"
@@ -221,6 +260,13 @@ void ChronoRaceTimings::reject()
             killTimer(backupTimerId);
             backupTimerId = 0;
         }
+
+        ui->timer->display(DISPLAY_CHRONO_ZERO);
+        currentBibItem = Q_NULLPTR;
+        timingRowCount = 0;
+        ui->dataArea->clearContents();
+        ui->dataArea->setRowCount(0);
+
         QDialog::reject();
     }
 }
@@ -229,6 +275,12 @@ void ChronoRaceTimings::show()
 {
     ui->retranslateUi(this);
     this->setWindowModality(Qt::ApplicationModal);
+
+    if ((this->ui->liveViewSelector->count() > 2) && !CRLoader::getStartList().empty()) {
+        ui->liveViewLabel->setEnabled(true);
+        ui->liveViewSelector->setEnabled(true);
+    }
+
     QDialog::show();
 }
 
@@ -237,13 +289,26 @@ void ChronoRaceTimings::clearDiskBuffer() {
         saveToDiskQueue.removeFirst();
 }
 
+void ChronoRaceTimings::setRaceData(ChronoRaceData const *newRaceData)
+{
+    raceData = newRaceData;
+}
+
 void ChronoRaceTimings::updateCurrentBibItem(QTableWidgetItem *newBibItem)
 {
     if (this->currentBibItem) {
-        if (this->currentBibItem->text().isEmpty())
-            this->currentBibItem->setBackground(Qt::GlobalColor::red);
-        else
-            this->currentBibItem->setBackground(Qt::GlobalColor::green);
+        Qt::GlobalColor itemColor = this->currentBibItem->text().isEmpty() ? Qt::GlobalColor::red : Qt::GlobalColor::green;
+
+        QTableWidgetItem const *timingItem = ui->dataArea->item(this->currentBibItem->row(), 1);
+        quint64 bibLiveValue = this->currentBibItem->data(Qt::ItemDataRole::UserRole).toULongLong();
+        quint64 timingLiveValue = timingItem ? timingItem->data(Qt::ItemDataRole::UserRole).toULongLong() : Q_UINT64_C(0);
+
+        liveTable->removeEntry(timingLiveValue | bibLiveValue);
+        bibLiveValue = ((itemColor == Qt::GlobalColor::green) ? static_cast<quint64>(this->currentBibItem->text().toUInt()) : Q_UINT64_C(0)) & Q_UINT64_C(0xffffffff);
+        this->currentBibItem->setData(Qt::ItemDataRole::UserRole, QVariant(bibLiveValue));
+        liveTable->addEntry(timingLiveValue | bibLiveValue);
+
+        this->currentBibItem->setBackground(itemColor);
     }
 
     this->currentBibItem = newBibItem;
@@ -255,37 +320,50 @@ void ChronoRaceTimings::updateCurrentBibItem(QTableWidgetItem *newBibItem)
 
 void ChronoRaceTimings::recordTiming(qint64 milliseconds)
 {
-    QTableWidgetItem *timingCell;
+    QTableWidgetItem *bibItem;
+    QTableWidgetItem *timingItem;
     Qt::ItemFlags flags;
 
-    auto hr = milliseconds / 3600000;
-    milliseconds %= 3600000;
-    auto min = milliseconds / 60000;
-    milliseconds %= 60000;
-    auto sec = milliseconds / 1000;
-    milliseconds %= 1000;
+    auto bibLiveValue = Q_UINT64_C(0);
+    auto timingLiveValue = (static_cast<quint64>(milliseconds) << 32);
 
-    auto newTiming = QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0')).arg(milliseconds, 3, 10, QChar('0'));
+    auto msec = milliseconds;
+    auto hr = msec / 3600000;
+    msec %= 3600000;
+    auto min = msec / 60000;
+    msec %= 60000;
+    auto sec = msec / 1000;
+    msec %= 1000;
+
+    auto newTiming = QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0')).arg(msec, 3, 10, QChar('0'));
 
     if (timingRowCount == ui->dataArea->rowCount()) {
         ui->dataArea->setRowCount(timingRowCount + 1);
         ui->dataArea->setItem(timingRowCount, 0, new QTableWidgetItem(""));
-        timingCell = ui->dataArea->item(timingRowCount, 0);
+        bibItem = ui->dataArea->item(timingRowCount, 0);
         if (!this->currentBibItem) {
-            updateCurrentBibItem(timingCell);
+            updateCurrentBibItem(bibItem);
         } else {
-            timingCell->setBackground(Qt::GlobalColor::red);
+            bibItem->setBackground(Qt::GlobalColor::red);
         }
-        flags = timingCell->flags();
+        flags = bibItem->flags();
         flags |= Qt::ItemIsEditable;
         flags &= ~(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsUserCheckable);
-        timingCell->setFlags(flags);
+        bibItem->setFlags(flags);
+        bibItem->setData(Qt::ItemDataRole::UserRole, QVariant(bibLiveValue));
+    } else {
+        bibItem = ui->dataArea->item(timingRowCount, 0);
+        bibLiveValue = bibItem->data(Qt::ItemDataRole::UserRole).toULongLong();
     }
     ui->dataArea->setItem(timingRowCount, 1, new QTableWidgetItem(newTiming));
-    timingCell = ui->dataArea->item(timingRowCount, 1);
-    flags = timingCell->flags();
+    timingItem = ui->dataArea->item(timingRowCount, 1);
+    timingItem->setData(Qt::ItemDataRole::UserRole, QVariant(timingLiveValue));
+    flags = timingItem->flags();
     flags &= ~(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsUserCheckable);
-    timingCell->setFlags(flags);
+    timingItem->setFlags(flags);
+
+    liveTable->addEntry(timingLiveValue | bibLiveValue);
+
     ui->dataArea->scrollToBottom();
     timingRowCount += 1;
 }
@@ -293,12 +371,16 @@ void ChronoRaceTimings::recordTiming(qint64 milliseconds)
 void ChronoRaceTimings::deleteTiming()
 {
     QTableWidgetItem *bibItem;
+    QTableWidgetItem const *timingItem;
 
     if (timingRowCount <= 0)
         return;
 
     timingRowCount -= 1;
+    timingItem = ui->dataArea->item(timingRowCount, 1);
     bibItem = ui->dataArea->item(timingRowCount, 0);
+
+    liveTable->removeEntry(timingItem->data(Qt::ItemDataRole::UserRole).toULongLong() | bibItem->data(Qt::ItemDataRole::UserRole).toULongLong());
 
     if (((timingRowCount + 1) == ui->dataArea->rowCount()) && bibItem->text().isEmpty()) {
         int currentBibRow = this->currentBibItem ? this->currentBibItem->row() : -1;
@@ -455,22 +537,49 @@ bool ChronoRaceTimings::downPressed()
     return true;
 }
 
+void ChronoRaceTimings::toggleLiveView()
+{
+    auto const *liveScreen = liveTable->getLiveScreen();
+    if (liveScreen != Q_NULLPTR) {
+        QTableWidgetItem const *bibItem;
+        QTableWidgetItem const *timingItem;
+        int rowCount = ui->dataArea->rowCount();
+
+        liveTable->show();
+
+//NOSONAR #ifdef Q_OS_WIN
+//NOSONAR         liveTable->windowHandle()->setLiveScreen(liveScreen);
+//NOSONAR #else
+        liveTable->windowHandle()->setGeometry(liveScreen->geometry());
+//NOSONAR #endif
+
+        liveTable->setRaceInfo(this->raceData);
+
+        for (int row = 0; row < rowCount; row++) {
+            if (!(bibItem = ui->dataArea->item(row, 0)))
+                continue;
+            if (!(timingItem = ui->dataArea->item(row, 1)))
+                continue;
+            liveTable->addEntry(timingItem->data(Qt::ItemDataRole::UserRole).toULongLong() | bibItem->data(Qt::ItemDataRole::UserRole).toULongLong());
+        }
+    } else {
+        liveTable->hide();
+    }
+}
+
 void ChronoRaceTimings::start()
 {
     saveToDiskThread.start();
 
     this->timer.start();
     if (updateTimerId == 0)
-        updateTimerId = startTimer(100);
+        updateTimerId = startTimer(100, Qt::TimerType::PreciseTimer);
     if (backupTimerId == 0)
-        backupTimerId = startTimer(1000);
+        backupTimerId = startTimer(1000, Qt::TimerType::VeryCoarseTimer);
 
     ui->startButton->setEnabled(false);
     ui->stopButton->setEnabled(true);
     ui->resetButton->setEnabled(false);
-    ui->buttonBox->setEnabled(false);
-    this->setWindowFlag(Qt::WindowCloseButtonHint, false);
-    this->show();
 }
 
 void ChronoRaceTimings::stop()
@@ -490,9 +599,6 @@ void ChronoRaceTimings::stop()
     ui->startButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
     ui->resetButton->setEnabled(true);
-    ui->buttonBox->setEnabled(true);
-    this->setWindowFlag(Qt::WindowCloseButtonHint, true);
-    this->show();
 }
 
 void ChronoRaceTimings::reset()
@@ -503,8 +609,7 @@ void ChronoRaceTimings::reset()
                                     "Continue?"),
                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
         // Yes was clicked
-        QString startDisplay = "0:00:00";
-        ui->timer->display(startDisplay);
+        ui->timer->display(DISPLAY_CHRONO_ZERO);
         currentBibItem = Q_NULLPTR;
         timingRowCount = 0;
         ui->dataArea->clearContents();
@@ -512,32 +617,88 @@ void ChronoRaceTimings::reset()
     }
 }
 
-void ChronoRaceTimings::lock(bool checked)
+void ChronoRaceTimings::lock(int value)
 {
-    if (checked) {
+    if (value) {
         ui->startButton->setEnabled(false);
         ui->stopButton->setEnabled(false);
         ui->resetButton->setEnabled(false);
         ui->buttonBox->setEnabled(false);
-        ui->unlockBox->show();
-        ui->lockBox->hide();
-        ui->lockBox->setChecked(false);
     } else {
         ui->startButton->setEnabled(updateTimerId == 0);
         ui->stopButton->setEnabled(updateTimerId != 0);
         ui->resetButton->setEnabled(updateTimerId == 0);
         ui->buttonBox->setEnabled(true);
-        ui->lockBox->show();
-        ui->unlockBox->hide();
-        ui->unlockBox->setChecked(true);
     }
-    this->setWindowFlag(Qt::WindowCloseButtonHint, !checked);
-    this->show();
+}
+
+void ChronoRaceTimings::live(int index)
+{
+    auto const *oldLiveScreen = liveTable->getLiveScreen();
+
+    liveTable->setLiveScreen(Q_NULLPTR);
+    if (index <= 0) {
+       if (oldLiveScreen != Q_NULLPTR)
+            emit info(tr("Info: closing the Live View"));
+    } else if (auto startList = CRLoader::getStartList(); startList.empty()) {
+        emit error(tr("Notice:: enter competitors to use the Live View"));
+    } else try {
+        liveTable->setLiveScreen(this->ui->liveViewSelector->currentData().value<QScreen const *>());
+        liveTable->setStartList(startList);
+    } catch (ChronoRaceException &e) {
+        emit error(e.getMessage());
+    }
+
+    toggleLiveView();
+
+    if ((liveTable->getLiveScreen() == Q_NULLPTR) && (index > 0))
+        ui->liveViewSelector->setCurrentIndex(0);
 }
 
 void ChronoRaceTimings::bibClicked(QTableWidgetItem *item)
 {
     if (item->column() == 0) {
         updateCurrentBibItem(item);
+    }
+}
+
+void ChronoRaceTimings::screenRemoved(QScreen const *screen)
+{
+    if (auto screenIndex = this->ui->liveViewSelector->findData(QVariant::fromValue(screen)); screenIndex >= 0) {
+
+        this->ui->liveViewSelector->removeItem(screenIndex);
+
+        if (screen == liveTable->getLiveScreen()) {
+            ui->liveViewSelector->setCurrentIndex(0);
+        }
+
+        if ((this->ui->liveViewSelector->count() < 3) || CRLoader::getStartList().empty()) {
+            ui->liveViewSelector->setCurrentIndex(0);
+            ui->liveViewLabel->setEnabled(false);
+            ui->liveViewSelector->setEnabled(false);
+        }
+    }
+}
+
+void ChronoRaceTimings::screenAdded(QScreen const *screen)
+{
+    if (auto screenIndex = this->ui->liveViewSelector->findData(QVariant::fromValue(screen)); screenIndex < 0) {
+        bool screenEnabled = (screen->size().width() >= 1280);
+
+        QRegularExpressionMatch match = screenNameRegEx.match(screen->name());
+        this->ui->liveViewSelector->addItem(QIcon(screenEnabled ? ":/material/icons/image.svg" : ":/material/icons/hide_image.svg"), match.hasMatch() ? match.captured(1) : screen->name(), QVariant::fromValue(screen));
+
+        auto itemCount = this->ui->liveViewSelector->count();
+
+        auto const *liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
+        liveModel->item(itemCount - 1)->setEnabled(screenEnabled);
+
+        if (!screenEnabled)
+            emit error(tr("Notice:: Live View cannot be activated on screen %1 since %2px wide (min. required width 1280px)").arg(screen->name()).arg(screen->size().width()));
+
+        if ((itemCount > 2) && !CRLoader::getStartList().empty()) {
+            ui->liveViewLabel->setEnabled(true);
+            ui->liveViewSelector->setEnabled(true);
+        }
     }
 }

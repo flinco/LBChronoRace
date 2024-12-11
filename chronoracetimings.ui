@@ -270,42 +270,100 @@
           </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="lockButtons">
-           <item>
-            <widget class="QCheckBox" name="lockBox">
-             <property name="focusPolicy">
-              <enum>Qt::FocusPolicy::NoFocus</enum>
-             </property>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="1" column="0">
+            <widget class="QLabel" name="lockOff">
              <property name="toolTip">
               <string>Timer controls are disabled when locked</string>
              </property>
              <property name="text">
-              <string>LOCK</string>
+              <string/>
              </property>
-             <property name="icon">
-              <iconset resource="materialicons.qrc">
-               <normaloff>:/material/icons/lock_open.svg</normaloff>:/material/icons/lock_open.svg</iconset>
+             <property name="pixmap">
+              <pixmap resource="materialicons.qrc">:/material/icons/lock_open.svg</pixmap>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QCheckBox" name="unlockBox">
-             <property name="focusPolicy">
-              <enum>Qt::FocusPolicy::NoFocus</enum>
-             </property>
+           <item row="1" column="2">
+            <widget class="QLabel" name="lockOn">
              <property name="toolTip">
               <string>Timer controls are disabled when locked</string>
              </property>
              <property name="text">
-              <string>UNLOCK</string>
+              <string/>
              </property>
-             <property name="icon">
-              <iconset resource="materialicons.qrc">
-               <normaloff>:/material/icons/lock.svg</normaloff>:/material/icons/lock.svg</iconset>
+             <property name="pixmap">
+              <pixmap resource="materialicons.qrc">:/material/icons/lock.svg</pixmap>
              </property>
-             <property name="checked">
-              <bool>true</bool>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
              </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="3">
+            <widget class="QLabel" name="lockToggleLabel">
+             <property name="toolTip">
+              <string>Timer controls are disabled when locked</string>
+             </property>
+             <property name="text">
+              <string>Buttons lock</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QSlider" name="lockToggle">
+             <property name="toolTip">
+              <string>Timer controls are disabled when locked</string>
+             </property>
+             <property name="maximum">
+              <number>1</number>
+             </property>
+             <property name="pageStep">
+              <number>1</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="tickPosition">
+              <enum>QSlider::TickPosition::TicksBothSides</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0" colspan="3">
+            <widget class="QLabel" name="liveViewLabel">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Select a screen for the Live View</string>
+             </property>
+             <property name="text">
+              <string>Live View</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" colspan="3">
+            <widget class="QComboBox" name="liveViewSelector">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="toolTip">
+              <string>Select a screen for the Live View</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>Off</string>
+              </property>
+             </item>
             </widget>
            </item>
           </layout>
