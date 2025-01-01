@@ -25,7 +25,6 @@
 #include <QGuiApplication>
 #include <QRegularExpression>
 
-#include "chronoracedata.hpp"
 #include "livetable.hpp"
 
 #include "ui_chronoracetimings.h"
@@ -53,7 +52,7 @@ class ChronoRaceTimings : public QDialog
 public:
     explicit ChronoRaceTimings(QWidget *parent = Q_NULLPTR);
 
-    void setRaceData(ChronoRaceData const *newRaceData);
+    void setLiveTable(LiveTable *newLiveTable);
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -64,10 +63,11 @@ public slots:
     void reject() override;
     void show(); //NOSONAR
 
-    void screenRemoved(QScreen const *screen);
-    void screenAdded(QScreen const *screen);
-
     void clearDiskBuffer();
+
+    void addTimeSpan();
+    void subtractTimeSpan();
+    void applyTimeSpan(int offset);
 
 signals:
     void saveToDisk(QString const &);
@@ -76,7 +76,8 @@ signals:
 
 private:
     QScopedPointer<Ui::ChronoRaceTimings> ui { new Ui::ChronoRaceTimings };
-    QScopedPointer<LiveTable> liveTable { new LiveTable };
+
+    LiveTable *liveTable { Q_NULLPTR };
 
     int            timingRowCount { 0 };
 
@@ -89,10 +90,6 @@ private:
     TimingsWorker  saveToDiskWorker;
 
     QTableWidgetItem *currentBibItem { Q_NULLPTR };
-
-    ChronoRaceData const *raceData { Q_NULLPTR };
-
-    static QRegularExpression screenNameRegEx;
 
     void updateCurrentBibItem(QTableWidgetItem *newBibItem);
 
@@ -110,14 +107,11 @@ private:
     bool upPressed();
     bool downPressed();
 
-    void toggleLiveView();
-
 private slots:
     void start();
     void stop();
     void reset();
     void lock(int value);
-    void live(int index);
 
     void bibClicked(QTableWidgetItem *item);
 };

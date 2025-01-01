@@ -43,7 +43,7 @@
     </property>
     <item>
      <layout class="QGridLayout" name="upperArea">
-      <item row="3" column="0">
+      <item row="2" column="2">
        <widget class="QLabel" name="labelCompetitors">
         <property name="text">
          <string>Competitors</string>
@@ -53,7 +53,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="1" column="2">
        <widget class="QLabel" name="labelRankings">
         <property name="text">
          <string>Rankings</string>
@@ -63,7 +63,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
+      <item row="0" column="4" colspan="2">
        <widget class="QPushButton" name="editCategories">
         <property name="enabled">
          <bool>true</bool>
@@ -80,10 +80,10 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="4" column="3">
        <widget class="QLCDNumber" name="counterTimings"/>
       </item>
-      <item row="3" column="1">
+      <item row="2" column="3">
        <widget class="QLCDNumber" name="counterCompetitors">
         <property name="frameShape">
          <enum>QFrame::Shape::Box</enum>
@@ -99,7 +99,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="2">
+      <item row="2" column="4" colspan="2">
        <widget class="QPushButton" name="editStartList">
         <property name="enabled">
          <bool>true</bool>
@@ -116,7 +116,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="4" column="2">
        <widget class="QLabel" name="labelTimings">
         <property name="text">
          <string>Timings</string>
@@ -126,7 +126,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
+      <item row="1" column="0" colspan="2">
        <widget class="QPushButton" name="saveRace">
         <property name="toolTip">
          <string>Save current race data to file</string>
@@ -140,10 +140,10 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="0" column="3">
        <widget class="QLCDNumber" name="counterCategories"/>
       </item>
-      <item row="5" column="2">
+      <item row="4" column="4" colspan="2">
        <widget class="QPushButton" name="editTimings">
         <property name="enabled">
          <bool>true</bool>
@@ -160,7 +160,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item row="0" column="2">
        <widget class="QLabel" name="labelCategories">
         <property name="text">
          <string>Categories</string>
@@ -170,7 +170,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
+      <item row="2" column="0" colspan="2">
        <widget class="QPushButton" name="editRace">
         <property name="toolTip">
          <string>Edit race information, including logos</string>
@@ -184,7 +184,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="2">
+      <item row="3" column="4" colspan="2">
        <widget class="QPushButton" name="editClubsList">
         <property name="enabled">
          <bool>true</bool>
@@ -201,7 +201,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
+      <item row="0" column="0" colspan="2">
        <widget class="QPushButton" name="loadRace">
         <property name="toolTip">
          <string>Load race data from a file</string>
@@ -215,7 +215,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="3" column="2">
        <widget class="QLabel" name="labelTeams">
         <property name="text">
          <string>Clubs</string>
@@ -225,13 +225,13 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="3" column="3">
        <widget class="QLCDNumber" name="counterTeams"/>
       </item>
-      <item row="2" column="1">
+      <item row="1" column="3">
        <widget class="QLCDNumber" name="counterRankings"/>
       </item>
-      <item row="2" column="2">
+      <item row="1" column="4" colspan="2">
        <widget class="QPushButton" name="editRankings">
         <property name="toolTip">
          <string>Add, remove, and change the definition of the rankings</string>
@@ -243,6 +243,34 @@
          <iconset resource="materialicons.qrc">
           <normaloff>:/material/icons/rule.svg</normaloff>:/material/icons/rule.svg</iconset>
         </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QLabel" name="liveViewLabel">
+        <property name="toolTip">
+         <string>Select a screen for the Live View</string>
+        </property>
+        <property name="text">
+         <string>Live View</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QComboBox" name="liveViewSelector">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="toolTip">
+         <string>Select a screen for the Live View</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Off</string>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>

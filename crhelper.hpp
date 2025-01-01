@@ -36,6 +36,9 @@ class CRHelper
 {
     Q_DECLARE_TR_FUNCTIONS(CRHelper)
 
+private:
+    static QWidget *parentWidget;
+
 public:
     static ChronoRaceData::NameComposition nameComposition;
     static ChronoRaceData::Accuracy accuracy;
@@ -66,8 +69,15 @@ public:
     static QString toStatusString(Timing::Status const status);
     static QString toStatusFullString(Timing::Status const status);
 
+    static bool askForAppend(QWidget *parent = Q_NULLPTR);
+
+    static void setParent(QWidget *newParent);
+
 public slots:
     static void updateGlobalData(ChronoRaceData::NameComposition newNameComposition, ChronoRaceData::Accuracy newAccuracy);
+
+    static void actionAbout();
+    static void actionAboutQt();
 };
 
 #endif // CRHELPER_HPP

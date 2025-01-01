@@ -115,6 +115,30 @@
         <source>Invalid accuracy value %1</source>
         <translation>Invalid accuracy value %1</translation>
     </message>
+    <message>
+        <source>Import mode</source>
+        <translation>Import mode</translation>
+    </message>
+    <message>
+        <source>Do you want to replace the entire contents of the table or add data to the existing ones?</source>
+        <translation>Do you want to replace the entire contents of the table or add data to the existing ones?</translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation>Replace</translation>
+    </message>
+    <message>
+        <source>Append</source>
+        <translation>Append</translation>
+    </message>
+    <message>
+        <source>About %1</source>
+        <translation>About %1</translation>
+    </message>
+    <message>
+        <source>About Qt</source>
+        <translation>About Qt</translation>
+    </message>
 </context>
 <context>
     <name>CRLoader</name>
@@ -697,28 +721,39 @@ Continue?</translation>
         <translation>Buttons lock</translation>
     </message>
     <message>
-        <source>Live View</source>
-        <translation>Live View</translation>
+        <source>Time span</source>
+        <translation>Time span</translation>
     </message>
     <message>
-        <source>Notice:: enter competitors to use the Live View</source>
-        <translation>Notice:: enter competitors to use the Live View</translation>
+        <source>Time interval to add up</source>
+        <translation>Time interval to add up</translation>
     </message>
     <message>
-        <source>Notice:: Live View cannot be activated on screen %1 since %2px wide (min. required width 1280px)</source>
-        <translation>Notice:: Live View cannot be activated on screen %1 since %2px wide (min. required width 1280px)</translation>
+        <source>Time interval to subtract</source>
+        <translation>Time interval to subtract</translation>
     </message>
-    <message>
-        <source>Info: closing the Live View</source>
-        <translation>Info: closing the Live View</translation>
+    <message numerus="yes">
+        <source>%n second(s) will be added to all the recorded timings.
+Are you sure you want to continue?</source>
+        <translation>
+            <numerusform>%n second will be added to all the recorded timings.
+Are you sure you want to continue?</numerusform>
+            <numerusform>%n seconds will be added to all the recorded timings.
+Are you sure you want to continue?</numerusform>
+        </translation>
     </message>
-    <message>
-        <source>Select a screen for the Live View</source>
-        <translation>Select a screen for the Live View</translation>
-    </message>
-    <message>
-        <source>Off</source>
-        <translation>Off</translation>
+    <message numerus="yes">
+        <source>%n second(s) will be subtracted from all the recorded timings.
+Timings resulting below 0 will be set to 0:00:00.000.
+Are you sure you want to continue?</source>
+        <translation>
+            <numerusform>%n second will be subtracted from all the recorded timings.
+Timings resulting below 0 will be set to 0:00:00.000.
+Are you sure you want to continue?</numerusform>
+            <numerusform>%n seconds will be subtracted from all the recorded timings.
+Timings resulting below 0 will be set to 0:00:00.000.
+Are you sure you want to continue?</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -887,10 +922,6 @@ Continue?</translation>
         <translation>About &amp;Qt</translation>
     </message>
     <message>
-        <source>About Qt</source>
-        <translation>About Qt</translation>
-    </message>
-    <message>
         <source>&amp;Race</source>
         <translation>&amp;Race</translation>
     </message>
@@ -1009,10 +1040,6 @@ Continue?</translation>
     <message>
         <source>Race saved: %1</source>
         <translation>Race saved: %1</translation>
-    </message>
-    <message>
-        <source>About %1</source>
-        <translation>About %1</translation>
     </message>
     <message>
         <source>Selected encoding: %1</source>
@@ -1201,41 +1228,6 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Subtract an arbitrary amount of time to all the recorded timings</source>
         <translation>Subtract an arbitrary amount of time to all the recorded timings</translation>
     </message>
-    <message>
-        <source>Time span</source>
-        <translation>Time span</translation>
-    </message>
-    <message>
-        <source>Time interval to add up</source>
-        <translation>Time interval to add up</translation>
-    </message>
-    <message>
-        <source>Time interval to subtract</source>
-        <translation>Time interval to subtract</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n second(s) will be added to all the recorded timings.
-Are you sure you want to continue?</source>
-        <translation>
-            <numerusform>%n second will be added to all the recorded timings.
-Are you sure you want to continue?</numerusform>
-            <numerusform>%n seconds will be added to all the recorded timings.
-Are you sure you want to continue?</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n second(s) will be subtracted from all the recorded timings.
-Timings resulting below 0 will be set to 0:00:00.000.
-Are you sure you want to continue?</source>
-        <translation>
-            <numerusform>%n second will be subtracted from all the recorded timings.
-Timings resulting below 0 will be set to 0:00:00.000.
-Are you sure you want to continue?</numerusform>
-            <numerusform>%n seconds will be subtracted from all the recorded timings.
-Timings resulting below 0 will be set to 0:00:00.000.
-Are you sure you want to continue?</numerusform>
-        </translation>
-    </message>
     <message numerus="yes">
         <source>Appended: %n competitor(s)</source>
         <translation>
@@ -1272,28 +1264,36 @@ Are you sure you want to continue?</numerusform>
         </translation>
     </message>
     <message>
-        <source>Import mode</source>
-        <translation>Import mode</translation>
-    </message>
-    <message>
-        <source>Do you want to replace the entire contents of the table or add data to the existing ones?</source>
-        <translation>Do you want to replace the entire contents of the table or add data to the existing ones?</translation>
-    </message>
-    <message>
-        <source>Replace</source>
-        <translation>Replace</translation>
-    </message>
-    <message>
-        <source>Append</source>
-        <translation>Append</translation>
-    </message>
-    <message>
         <source>Clubs File: %1</source>
         <translation>Clubs File: %1</translation>
     </message>
     <message>
         <source>Select Clubs File</source>
         <translation>Select Clubs File</translation>
+    </message>
+    <message>
+        <source>Live View</source>
+        <translation>Live View</translation>
+    </message>
+    <message>
+        <source>Notice:: enter competitors to use the Live View</source>
+        <translation>Notice:: enter competitors to use the Live View</translation>
+    </message>
+    <message>
+        <source>Notice:: Live View cannot be activated on screen %1 since %2px wide (min. required width 1280px)</source>
+        <translation>Notice:: Live View cannot be activated on screen %1 since %2px wide (min. required width 1280px)</translation>
+    </message>
+    <message>
+        <source>Info: closing the Live View</source>
+        <translation>Info: closing the Live View</translation>
+    </message>
+    <message>
+        <source>Select a screen for the Live View</source>
+        <translation>Select a screen for the Live View</translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation>Off</translation>
     </message>
 </context>
 <context>
@@ -1528,16 +1528,16 @@ Are you sure you want to continue?</numerusform>
 <context>
     <name>QMessageBox</name>
     <message>
-        <source>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.&lt;/p&gt;&lt;p&gt;Qt is available under multiple licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Qt licensed under GNU (L)GPL is appropriate for the development of Qt&amp;nbsp;applications provided you can comply with the terms and conditions of the respective licenses.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;http://%2/&quot;&gt;%2&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) %1 The Qt Company Ltd and other contributors.&lt;/p&gt;&lt;p&gt;Qt and the Qt logo are trademarks of The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt is The Qt Company Ltd product developed as an open source project. See &lt;a href=&quot;http://%3/&quot;&gt;%3&lt;/a&gt; for more information.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.&lt;/p&gt;&lt;p&gt;Qt is available under multiple licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Qt licensed under GNU (L)GPL is appropriate for the development of Qt&amp;nbsp;applications provided you can comply with the terms and conditions of the respective licenses.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;http://%2/&quot;&gt;%2&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) %1 The Qt Company Ltd and other contributors.&lt;/p&gt;&lt;p&gt;Qt and the Qt logo are trademarks of The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt is The Qt Company Ltd product developed as an open source project. See &lt;a href=&quot;http://%3/&quot;&gt;%3&lt;/a&gt; for more information.&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.&lt;/p&gt;&lt;p&gt;Qt is available under multiple licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Qt licensed under GNU (L)GPL is appropriate for the development of Qt&amp;nbsp;applications provided you can comply with the terms and conditions of the respective licenses.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;https://%2/&quot;&gt;%2&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) The Qt Company Ltd. and other contributors.&lt;/p&gt;&lt;p&gt;Qt and the Qt logo are trademarks of The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt is The Qt Company Ltd. product developed as an open source project. See &lt;a href=&quot;https://%3/&quot;&gt;%3&lt;/a&gt; for more information.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.&lt;/p&gt;&lt;p&gt;Qt is available under multiple licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Qt licensed under GNU (L)GPL is appropriate for the development of Qt&amp;nbsp;applications provided you can comply with the terms and conditions of the respective licenses.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;https://%2/&quot;&gt;%2&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) The Qt Company Ltd. and other contributors.&lt;/p&gt;&lt;p&gt;Qt and the Qt logo are trademarks of The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt is The Qt Company Ltd. product developed as an open source project. See &lt;a href=&quot;https://%3/&quot;&gt;%3&lt;/a&gt; for more information.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;About %1&lt;/h3&gt;&lt;p&gt;Software for producing the results of footraces.&lt;/p&gt;</source>
         <translation>&lt;h3&gt;About %1&lt;/h3&gt;&lt;p&gt;Software for producing the results of footraces.&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Copyright&amp;copy; 2021-2025&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Copyright&amp;copy; 2021-2025&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</translation>
     </message>
 </context>
 <context>

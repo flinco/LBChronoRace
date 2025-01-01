@@ -312,7 +312,7 @@
               <string>Buttons lock</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignCenter</set>
+              <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignHCenter</set>
              </property>
             </widget>
            </item>
@@ -333,37 +333,6 @@
              <property name="tickPosition">
               <enum>QSlider::TickPosition::TicksBothSides</enum>
              </property>
-            </widget>
-           </item>
-           <item row="2" column="0" colspan="3">
-            <widget class="QLabel" name="liveViewLabel">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="toolTip">
-              <string>Select a screen for the Live View</string>
-             </property>
-             <property name="text">
-              <string>Live View</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0" colspan="3">
-            <widget class="QComboBox" name="liveViewSelector">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="toolTip">
-              <string>Select a screen for the Live View</string>
-             </property>
-             <item>
-              <property name="text">
-               <string>Off</string>
-              </property>
-             </item>
             </widget>
            </item>
           </layout>

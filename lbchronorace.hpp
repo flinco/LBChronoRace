@@ -35,6 +35,7 @@
 #include "rankingcatsdelegate.hpp"
 #include "cattypedelegate.hpp"
 #include "timingstatusdelegate.hpp"
+#include "livetable.hpp"
 
 #ifndef LBCHRONORACE_NAME
 #error "LBCHRONORACE_NAME not set"
@@ -77,6 +78,10 @@ public:
     static uint binFormat;
 
     static QRegularExpression csvFilter;
+    static QRegularExpression screenNameRegEx;
+
+protected:
+    bool event(QEvent *event) override;
 
 public slots:
     void initialize();
@@ -88,6 +93,7 @@ public slots:
 
 private:
     QScopedPointer<Ui::LBChronoRace> ui { new Ui::LBChronoRace };
+    QScopedPointer<LiveTable> liveTable { new LiveTable };
 
     QString raceDataFileName { "" };
     QVector<QString> fileNames;
@@ -110,12 +116,10 @@ private:
     TimingStatusDelegate timingStatusDelegate;
 
     bool loadRaceFile(QString const &fileName);
-    bool askForAppend();
+
+    void toggleLiveView();
 
 private slots:
-    void actionAbout();
-    void actionAboutQt();
-
     void loadRace();
     void saveRace();
     void saveRaceAs();
@@ -126,9 +130,6 @@ private slots:
     void formatSelector(int idx) const;
     void makeStartList();
     void makeRankings();
-
-    void addTimeSpan();
-    void subtractTimeSpan();
 
     void importStartList();
     void importTeamsList();
@@ -142,7 +143,9 @@ private slots:
     void exportCategoriesList();
     void exportTimingsList();
 
-    void applyTimeSpan(int offset);
+    void screenRemoved(QScreen const *screen);
+    void screenAdded(QScreen const *screen);
+    void live(int index);
 };
 
 #endif // LBCHRONORACE_HPP

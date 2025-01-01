@@ -15,11 +15,19 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+#include <QMessageBox>
+
 #include "crhelper.hpp"
 #include "lbcrexception.hpp"
 
+QWidget *CRHelper::parentWidget = Q_NULLPTR;
 ChronoRaceData::NameComposition CRHelper::nameComposition = ChronoRaceData::NameComposition::SURNAME_FIRST;
 ChronoRaceData::Accuracy CRHelper::accuracy = ChronoRaceData::Accuracy::SECOND;
+
+void CRHelper::setParent(QWidget *newParent)
+{
+    parentWidget = newParent;
+}
 
 QString CRHelper::encodingToLabel(QStringConverter::Encoding const &value)
 {
@@ -337,8 +345,79 @@ QString CRHelper::toStatusFullString(Timing::Status const status)
     }
 }
 
+bool CRHelper::askForAppend(QWidget *parent)
+{
+    QMessageBox msgBox(QMessageBox::Icon::Question, tr("Import mode"), tr("Do you want to replace the entire contents of the table or add data to the existing ones?"), QMessageBox::NoButton, parent);
+
+    auto *pButtonReplace = msgBox.addButton(tr("Replace"), QMessageBox::NoRole);
+    QAbstractButton const *pButtonAppend = msgBox.addButton(tr("Append"), QMessageBox::YesRole);
+    msgBox.setDefaultButton(pButtonReplace);
+
+    msgBox.exec();
+    return (msgBox.clickedButton() == pButtonAppend);
+}
+
 void CRHelper::updateGlobalData(ChronoRaceData::NameComposition newNameComposition, ChronoRaceData::Accuracy newAccuracy)
 {
     CRHelper::nameComposition = newNameComposition;
     CRHelper::accuracy = newAccuracy;
+}
+
+void CRHelper::actionAbout()
+{
+    /* The purpose of the following object is to prevent the "About Qt"  *
+     * translation from being removed from the .tr files when refreshed. */
+    QString const translatedTextAboutQtMessage = QMessageBox::tr(
+        "<p>Qt is a C++ toolkit for cross-platform application development.</p>"
+        "<p>Qt provides single-source portability across all major desktop operating systems. "
+        "It is also available for embedded Linux and other embedded and mobile operating systems.</p>"
+        "<p>Qt is available under multiple licensing options designed to accommodate the needs of our various users.</p>"
+        "<p>Qt licensed under our commercial license agreement is appropriate for development of "
+        "proprietary/commercial software where you do not want to share any source code with "
+        "third parties or otherwise cannot comply with the terms of GNU (L)GPL.</p>"
+        "<p>Qt licensed under GNU (L)GPL is appropriate for the development of Qt&nbsp;applications "
+        "provided you can comply with the terms and conditions of the respective licenses.</p>"
+        "<p>Please see <a href=\"https://%2/\">%2</a> for an overview of Qt licensing.</p>"
+        "<p>Copyright (C) The Qt Company Ltd. and other contributors.</p>"
+        "<p>Qt and the Qt logo are trademarks of The Qt Company Ltd.</p>"
+        "<p>Qt is The Qt Company Ltd. product developed as an open source project. "
+        "See <a href=\"https://%3/\">%3</a> for more information.</p>"
+        );
+    std::ignore = translatedTextAboutQtMessage;
+
+    QString const translatedTextAboutCaption = QMessageBox::tr(
+                                                   "<h3>About %1</h3>"
+                                                   "<p>Software for producing the results of footraces.</p>"
+                                                   ).arg(QStringLiteral(LBCHRONORACE_NAME));
+    QString const translatedTextAboutText = QMessageBox::tr(
+                                                "<p>Copyright&copy; 2021-2025</p>"
+                                                "<p>Version: %1 (source code on <a href=\"http://github.com/flinco/LBChronoRace\">GitHub</a>)</p>"
+                                                "<p>Author: Lorenzo Buzzi (<a href=\"mailto:lorenzo@buzzi.pro\">lorenzo@buzzi.pro</a>)</p>"
+                                                "<p>Site: <a href=\"http://www.buzzi.pro/\">http://www.buzzi.pro/</a></p>"
+                                                "<p>%2 is free software: you can redistribute it and/or modify it under the terms of "
+                                                "the GNU General Public License as published by the Free Software Foundation; either "
+                                                "version 3 of the License, or (at your option) any later version.</p>"
+                                                "<p>%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; "
+                                                "without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. "
+                                                "See the GNU General Public License for more details.</p>"
+                                                "<p>You should have received a copy of the GNU General Public License along with %2. "
+                                                "If not, see: <a href=\"https://www.gnu.org/licenses/\">https://www.gnu.org/licenses/</a>.</p>"
+                                                "<p><table><tbody><tr>"
+                                                "<td>If you found this application useful<br>and want to support its development,<br>you can make a donation:</td>"
+                                                "<td><a href=\"https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C\"><img src=\":/images/PayPal_Donate_en.gif\" /></a></td>"
+                                                "</tr></tbody></table></p>"
+                                                ).arg(QStringLiteral(LBCHRONORACE_VERSION), QStringLiteral(LBCHRONORACE_NAME));
+    QMessageBox msgBox(parentWidget);
+    msgBox.setWindowTitle(tr("About %1").arg(QStringLiteral(LBCHRONORACE_NAME)));
+    msgBox.setText(translatedTextAboutCaption);
+    msgBox.setInformativeText(translatedTextAboutText);
+    if (QPixmap pm(QStringLiteral(":/icons/LBChronoRace.png")); !pm.isNull()) {
+        msgBox.setIconPixmap(pm);
+    }
+    msgBox.exec();
+}
+
+void CRHelper::actionAboutQt()
+{
+    QMessageBox::aboutQt(parentWidget, tr("About Qt"));
 }

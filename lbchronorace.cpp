@@ -23,6 +23,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QScreen>
+#include <QWindow>
 
 //NOSONAR #include <QDebug>
 
@@ -30,13 +31,12 @@
 #include "lbcrexception.hpp"
 #include "rankingswizard.hpp"
 #include "crhelper.hpp"
-#include "timespandialog.hpp"
 
 // static members initialization
 QDir LBChronoRace::lastSelectedPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 uint LBChronoRace::binFormat = LBCHRONORACE_BIN_FMT;
 QRegularExpression LBChronoRace::csvFilter("[,;]");
-
+QRegularExpression LBChronoRace::screenNameRegEx("^[.\\\\]+(DISPLAY.*)");
 
 LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QMainWindow(parent),
@@ -53,6 +53,8 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     categoryTypeDelegate(&categoriesTable),
     timingStatusDelegate(&timingsTable)
 {
+    CRHelper::setParent(qobject_cast<QWidget *>(this));
+
     this->fileNames.resize(static_cast<int>(fileNameField::NUM_OF_FIELDS));
 
     this->fileNames[static_cast<int>(fileNameField::STARTLIST)]  = lastSelectedPath.filePath(LBCHRONORACE_STARTLIST_DEFAULT);
@@ -62,6 +64,8 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     this->fileNames[static_cast<int>(fileNameField::TEAMS)]      = lastSelectedPath.filePath(LBCHRONORACE_TEAMLIST_DEFAULT);
 
     ui->setupUi(this);
+
+    ui->liveViewSelector->setItemIcon(0, QIcon(":/material/icons/hide_image.svg"));
 
     QObject::connect(&raceInfo, &ChronoRaceData::globalDataChange, &CRHelper::updateGlobalData);
 
@@ -114,11 +118,10 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(timingsModel, &TimingsModel::error, this, &LBChronoRace::appendErrorMessage);
     timingsModel->setCounter(ui->counterTimings);
 
-    timings.setRaceData(&raceInfo);
     QObject::connect(&timings, &ChronoRaceTimings::info, this, &LBChronoRace::appendInfoMessage);
     QObject::connect(&timings, &ChronoRaceTimings::error, this, &LBChronoRace::appendErrorMessage);
-    QObject::connect(app, &QGuiApplication::screenAdded, &timings, &ChronoRaceTimings::screenAdded);
-    QObject::connect(app, &QGuiApplication::screenRemoved, &timings, &ChronoRaceTimings::screenRemoved);
+    QObject::connect(app, &QGuiApplication::screenAdded, this, &LBChronoRace::screenAdded);
+    QObject::connect(app, &QGuiApplication::screenRemoved, this, &LBChronoRace::screenRemoved);
 
     // react to screen change and resize
     QObject::connect(app, &QGuiApplication::primaryScreenChanged, this, &LBChronoRace::resizeDialogs);
@@ -156,11 +159,13 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionMakeStartList, &QAction::triggered, this, &LBChronoRace::makeStartList);
     QObject::connect(ui->actionCollectTimings, &QAction::triggered, &timings, &ChronoRaceTimings::show);
     QObject::connect(ui->actionMakeRankings, &QAction::triggered, this, &LBChronoRace::makeRankings);
-    QObject::connect(ui->actionAddTimeSpan, &QAction::triggered, this, &LBChronoRace::addTimeSpan);
-    QObject::connect(ui->actionSubtractTimeSpan, &QAction::triggered, this, &LBChronoRace::subtractTimeSpan);
+    QObject::connect(ui->actionAddTimeSpan, &QAction::triggered, &timings, &ChronoRaceTimings::addTimeSpan);
+    QObject::connect(ui->actionSubtractTimeSpan, &QAction::triggered, &timings, &ChronoRaceTimings::subtractTimeSpan);
 
-    QObject::connect(ui->actionAbout, &QAction::triggered, this, &LBChronoRace::actionAbout);
-    QObject::connect(ui->actionAboutQt, &QAction::triggered, this, &LBChronoRace::actionAboutQt);
+    QObject::connect(ui->liveViewSelector, &QComboBox::currentIndexChanged, this, &LBChronoRace::live);
+
+    QObject::connect(ui->actionAbout, &QAction::triggered, &CRHelper::actionAbout);
+    QObject::connect(ui->actionAboutQt, &QAction::triggered, &CRHelper::actionAboutQt);
 
     // tie the views with the related delegate instances
     startListTable.setItemDelegateForColumn(static_cast<int>(Competitor::Field::CMF_SEX), &sexDelegate);
@@ -169,6 +174,30 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     rankingsTable.setItemDelegateForColumn(static_cast<int>(Ranking::Field::RTF_CATEGORIES), &rankingCatsDelegate);
     categoriesTable.setItemDelegateForColumn(static_cast<int>(Category::Field::CTF_TYPE), &categoryTypeDelegate);
     timingsTable.setItemDelegateForColumn(static_cast<int>(Timing::Field::TMF_STATUS), &timingStatusDelegate);
+
+    QRegularExpressionMatch match;
+    QString liveText;
+    QIcon liveIcon;
+    bool screenEnabled;
+    QStandardItemModel const *liveModel;
+    auto liveIndex = this->ui->liveViewSelector->count();
+    for (auto const *screen : QApplication::screens()) {
+        screenEnabled = (screen->size().width() >= 1280);
+
+        match = screenNameRegEx.match(screen->name());
+        liveText = match.hasMatch() ? match.captured(1) : screen->name();
+        liveIcon = QIcon(screenEnabled ? ":/material/icons/image.svg" : ":/material/icons/hide_image.svg");
+
+        this->ui->liveViewSelector->insertItem(liveIndex, liveIcon, liveText, QVariant::fromValue(screen));
+
+        liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
+        liveModel->item(liveIndex)->setEnabled(screenEnabled);
+
+        liveIndex++;
+    }
+
+    if (liveIndex > 2)
+        ui->liveViewSelector->setEnabled(true);
 }
 
 void LBChronoRace::appendInfoMessage(QString const &message) const
@@ -200,7 +229,7 @@ void LBChronoRace::importStartList()
 
     if (!this->fileNames[static_cast<int>(fileNameField::STARTLIST)].isEmpty()) {
         QPair<int, int> count(0, 0);
-        bool append = askForAppend();
+        bool append = CRHelper::askForAppend(this);
         appendInfoMessage(tr("Competitors File: %1").arg(this->fileNames[static_cast<int>(fileNameField::STARTLIST)]));
         try {
             count = CRLoader::importStartList(this->fileNames[static_cast<int>(fileNameField::STARTLIST)], append);
@@ -252,7 +281,7 @@ void LBChronoRace::importRankingsList()
 
     if (!this->fileNames[static_cast<int>(fileNameField::RANKINGS)].isEmpty()) {
         int count = 0;
-        bool append = askForAppend();
+        bool append = CRHelper::askForAppend(this);
         appendInfoMessage(tr("Rankings File: %1").arg(this->fileNames[static_cast<int>(fileNameField::RANKINGS)]));
         try {
             count = CRLoader::importRankings(this->fileNames[static_cast<int>(fileNameField::RANKINGS)], append);
@@ -276,7 +305,7 @@ void LBChronoRace::importCategoriesList()
 
     if (!this->fileNames[static_cast<int>(fileNameField::CATEGORIES)].isEmpty()) {
         int count = 0;
-        bool append = askForAppend();
+        bool append = CRHelper::askForAppend(this);
         appendInfoMessage(tr("Categories File: %1").arg(this->fileNames[static_cast<int>(fileNameField::CATEGORIES)]));
         try {
             count = CRLoader::importCategories(this->fileNames[static_cast<int>(fileNameField::CATEGORIES)], append);
@@ -300,7 +329,7 @@ void LBChronoRace::importTimingsList()
 
     if (!this->fileNames[static_cast<int>(fileNameField::TIMINGS)].isEmpty()) {
         int count = 0;
-        bool append = askForAppend();
+        bool append = CRHelper::askForAppend(this);
         appendInfoMessage(tr("Timings File: %1").arg(this->fileNames[static_cast<int>(fileNameField::TIMINGS)]));
         try {
             count = CRLoader::importTimings(this->fileNames[static_cast<int>(fileNameField::TIMINGS)], append);
@@ -425,21 +454,6 @@ void LBChronoRace::exportTimingsList()
     }
 }
 
-void LBChronoRace::applyTimeSpan(int offset)
-{
-    if (offset > 0) {
-        QString text = tr("%n second(s) will be added to all the recorded timings.\nAre you sure you want to continue?", "", offset); // turn to milliseconds
-        if (QMessageBox::warning(this, QString("Apply Time Span"), text, QMessageBox::StandardButton::Yes, QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes) {
-            (dynamic_cast<TimingsModel *>(CRLoader::getTimingsModel()))->addTimeSpan(offset);
-        }
-    } else if (offset < 0) {
-        QString text = tr("%n second(s) will be subtracted from all the recorded timings.\nTimings resulting below 0 will be set to 0:00:00.000.\nAre you sure you want to continue?", "", -offset); // turn to milliseconds
-        if (QMessageBox::warning(this, QString("Apply Time Span"), text, QMessageBox::StandardButton::Yes, QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes) {
-            (dynamic_cast<TimingsModel *>(CRLoader::getTimingsModel()))->addTimeSpan(offset);
-        }
-    }
-}
-
 void LBChronoRace::initialize() {
     QStringList arguments = QCoreApplication::arguments();
 
@@ -450,6 +464,25 @@ void LBChronoRace::initialize() {
         while (++argument != arguments.constEnd())
             appendErrorMessage(tr("Warning: skipping file %1").arg(*argument));
     }
+}
+
+bool LBChronoRace::event(QEvent *event)
+{
+    bool retval = true;
+
+    if (event->type() == QEvent::KeyPress) {
+        auto const keyEvent = static_cast<QKeyEvent *>(event);
+        if ((keyEvent->key() == Qt::Key::Key_Escape) &&
+            (ui->liveViewSelector->currentIndex() > 0)) {
+            ui->liveViewSelector->setCurrentIndex(0);
+        } else {
+            retval = QMainWindow::event(event);
+        }
+    } else {
+        retval = QMainWindow::event(event);
+    }
+
+    return retval;
 }
 
 void LBChronoRace::show()
@@ -598,16 +631,26 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
     return retval;
 }
 
-bool LBChronoRace::askForAppend()
+void LBChronoRace::toggleLiveView()
 {
-    QMessageBox msgBox(QMessageBox::Icon::Question, tr("Import mode"), tr("Do you want to replace the entire contents of the table or add data to the existing ones?"), QMessageBox::NoButton, this);
+    auto const *liveScreen = liveTable->getLiveScreen();
+    if (liveScreen != Q_NULLPTR) {
 
-    auto *pButtonReplace = msgBox.addButton(tr("Replace"), QMessageBox::NoRole);
-    QAbstractButton const *pButtonAppend = msgBox.addButton(tr("Append"), QMessageBox::YesRole);
-    msgBox.setDefaultButton(pButtonReplace);
+        timings.setLiveTable(liveTable.data());
+        liveTable->setRaceInfo(&raceInfo);
+        liveTable->show();
 
-    msgBox.exec();
-    return (msgBox.clickedButton() == pButtonAppend);
+//NOSONAR #ifdef Q_OS_WIN
+//NOSONAR         liveTable->windowHandle()->setLiveScreen(liveScreen);
+//NOSONAR #else
+        liveTable->windowHandle()->setGeometry(liveScreen->geometry());
+//NOSONAR #endif
+
+
+    } else {
+        timings.setLiveTable(Q_NULLPTR);
+        liveTable->hide();
+    }
 }
 
 void LBChronoRace::loadRace()
@@ -762,95 +805,63 @@ void LBChronoRace::makeRankings()
     }
 }
 
-void LBChronoRace::addTimeSpan()
+void LBChronoRace::screenRemoved(QScreen const *screen)
 {
-    try {
-        TimeSpanDialog addDialog(this, tr("Time span"), tr("Time interval to add up"), false);
+    if (auto screenIndex = this->ui->liveViewSelector->findData(QVariant::fromValue(screen)); screenIndex >= 0) {
 
-        auto const &dialogHandle = QObject::connect(&addDialog, &TimeSpanDialog::applyOffset, this, &LBChronoRace::applyTimeSpan);
+        this->ui->liveViewSelector->removeItem(screenIndex);
 
-        addDialog.setModal(true);
-        addDialog.exec();
+        if (screen == liveTable->getLiveScreen()) {
+            ui->liveViewSelector->setCurrentIndex(0);
+        }
 
-        QObject::disconnect(dialogHandle);
-
-    } catch (ChronoRaceException &e) {
-        appendErrorMessage(e.getMessage());
+        if (this->ui->liveViewSelector->count() < 3) {
+            ui->liveViewSelector->setCurrentIndex(0);
+            ui->liveViewSelector->setEnabled(false);
+        }
     }
 }
 
-void LBChronoRace::subtractTimeSpan()
+void LBChronoRace::screenAdded(QScreen const *screen)
 {
-    try {
-        TimeSpanDialog subDialog(this, tr("Time span"), tr("Time interval to subtract"), true);
+    if (auto screenIndex = this->ui->liveViewSelector->findData(QVariant::fromValue(screen)); screenIndex < 0) {
+        bool screenEnabled = (screen->size().width() >= 1280);
 
-        auto const &dialogHandle = QObject::connect(&subDialog, &TimeSpanDialog::applyOffset, this, &LBChronoRace::applyTimeSpan);
+        QRegularExpressionMatch match = screenNameRegEx.match(screen->name());
+        this->ui->liveViewSelector->addItem(QIcon(screenEnabled ? ":/material/icons/image.svg" : ":/material/icons/hide_image.svg"), match.hasMatch() ? match.captured(1) : screen->name(), QVariant::fromValue(screen));
 
-        subDialog.setModal(true);
-        subDialog.exec();
+        auto itemCount = this->ui->liveViewSelector->count();
 
-        QObject::disconnect(dialogHandle);
+        auto const *liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
+        liveModel->item(itemCount - 1)->setEnabled(screenEnabled);
 
-    } catch (ChronoRaceException &e) {
-        appendErrorMessage(e.getMessage());
+        if (!screenEnabled)
+            appendErrorMessage(tr("Notice:: Live View cannot be activated on screen %1 since %2px wide (min. required width 1280px)").arg(screen->name()).arg(screen->size().width()));
+
+        if (itemCount > 2)
+            ui->liveViewSelector->setEnabled(true);
     }
 }
 
-void LBChronoRace::actionAbout()
+void LBChronoRace::live(int index)
 {
-    /* The purpose of the following object is to prevent the "About Qt"  *
-     * translation from being removed from the .tr files when refreshed. */
-    QString const translatedTextAboutQtMessage = QMessageBox::tr(
-        "<p>Qt is a C++ toolkit for cross-platform application development.</p>"
-        "<p>Qt provides single-source portability across all major desktop operating systems. "
-        "It is also available for embedded Linux and other embedded and mobile operating systems.</p>"
-        "<p>Qt is available under multiple licensing options designed to accommodate the needs of our various users.</p>"
-        "<p>Qt licensed under our commercial license agreement is appropriate for development of "
-        "proprietary/commercial software where you do not want to share any source code with "
-        "third parties or otherwise cannot comply with the terms of GNU (L)GPL.</p>"
-        "<p>Qt licensed under GNU (L)GPL is appropriate for the development of Qt&nbsp;applications "
-        "provided you can comply with the terms and conditions of the respective licenses.</p>"
-        "<p>Please see <a href=\"http://%2/\">%2</a> for an overview of Qt licensing.</p>"
-        "<p>Copyright (C) %1 The Qt Company Ltd and other contributors.</p>"
-        "<p>Qt and the Qt logo are trademarks of The Qt Company Ltd.</p>"
-        "<p>Qt is The Qt Company Ltd product developed as an open source project. "
-        "See <a href=\"http://%3/\">%3</a> for more information.</p>"
-        );
-    std::ignore = translatedTextAboutQtMessage;
+    auto const *oldLiveScreen = liveTable->getLiveScreen();
 
-    QString const translatedTextAboutCaption = QMessageBox::tr(
-        "<h3>About %1</h3>"
-        "<p>Software for producing the results of footraces.</p>"
-        ).arg(QStringLiteral(LBCHRONORACE_NAME));
-    QString const translatedTextAboutText = QMessageBox::tr(
-        "<p>Copyright&copy; 2021-2022</p>"
-        "<p>Version: %1 (source code on <a href=\"http://github.com/flinco/LBChronoRace\">GitHub</a>)</p>"
-        "<p>Author: Lorenzo Buzzi (<a href=\"mailto:lorenzo@buzzi.pro\">lorenzo@buzzi.pro</a>)</p>"
-        "<p>Site: <a href=\"http://www.buzzi.pro/\">http://www.buzzi.pro/</a></p>"
-        "<p>%2 is free software: you can redistribute it and/or modify it under the terms of "
-        "the GNU General Public License as published by the Free Software Foundation; either "
-        "version 3 of the License, or (at your option) any later version.</p>"
-        "<p>%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; "
-        "without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. "
-        "See the GNU General Public License for more details.</p>"
-        "<p>You should have received a copy of the GNU General Public License along with %2. "
-        "If not, see: <a href=\"https://www.gnu.org/licenses/\">https://www.gnu.org/licenses/</a>.</p>"
-        "<p><table><tbody><tr>"
-        "<td>If you found this application useful<br>and want to support its development,<br>you can make a donation:</td>"
-        "<td><a href=\"https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C\"><img src=\":/images/PayPal_Donate_en.gif\" /></a></td>"
-        "</tr></tbody></table></p>"
-        ).arg(QStringLiteral(LBCHRONORACE_VERSION), QStringLiteral(LBCHRONORACE_NAME));
-    QMessageBox msgBox(this);
-    msgBox.setWindowTitle(tr("About %1").arg(QStringLiteral(LBCHRONORACE_NAME)));
-    msgBox.setText(translatedTextAboutCaption);
-    msgBox.setInformativeText(translatedTextAboutText);
-    if (QPixmap pm(QStringLiteral(":/icons/LBChronoRace.png")); !pm.isNull()) {
-        msgBox.setIconPixmap(pm);
-    }
-    msgBox.exec();
-}
+    liveTable->setLiveScreen(Q_NULLPTR);
+    if (index <= 0) {
+        if (oldLiveScreen != Q_NULLPTR)
+            appendInfoMessage(tr("Info: closing the Live View"));
+    } else if (auto startList = CRLoader::getStartList(); startList.empty()) {
+        appendErrorMessage(tr("Notice:: enter competitors to use the Live View"));
+    } else try {
+            liveTable->setLiveScreen(this->ui->liveViewSelector->currentData().value<QScreen const *>());
+            liveTable->setStartList(startList);
+        } catch (ChronoRaceException &e) {
+            appendErrorMessage(e.getMessage());
+        }
 
-void LBChronoRace::actionAboutQt()
-{
-    QMessageBox::aboutQt(this, tr("About Qt"));
+    toggleLiveView();
+
+    if ((liveTable->getLiveScreen() == Q_NULLPTR) && (index > 0))
+        ui->liveViewSelector->setCurrentIndex(0);
 }
