@@ -51,39 +51,3 @@ uint TeamClassEntry::getAverageTiming() const
 {
     return static_cast<uint>(this->totaltime / this->entryList.count());
 }
-
-bool TeamClassEntry::operator< (TeamClassEntry const &rhs) const
-{
-    auto size = this->entryList.size();
-    if (size == rhs.entryList.size()) {
-        //NOSONAR for (int i = 0; i < size; i++) {
-        //NOSONAR     if (*this->entryList[i] < *rhs.entryList.at(i)) return true;
-        //NOSONAR }
-        //NOSONAR return false;
-        return (this->getAverageTiming() < rhs.getAverageTiming());
-    }
-    return (size > rhs.entryList.size());
-}
-
-bool TeamClassEntry::operator> (TeamClassEntry const &rhs) const
-{
-    auto size = this->entryList.size();
-    if (size == rhs.entryList.size()) {
-        //NOSONAR for (int i = 0; i < size; i++) {
-        //NOSONAR     if (*this->entryList[i] > *rhs.entryList.at(i)) return true;
-        //NOSONAR }
-        //NOSONAR return false;
-        return (this->getAverageTiming() > rhs.getAverageTiming());
-    }
-    return (size < rhs.entryList.size());
-}
-
-bool TeamClassEntry::operator<=(TeamClassEntry const &rhs) const
-{
-    return !(*this > rhs);
-}
-
-bool TeamClassEntry::operator>=(TeamClassEntry const &rhs) const
-{
-    return !(*this < rhs);
-}

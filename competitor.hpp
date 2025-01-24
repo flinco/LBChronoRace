@@ -78,8 +78,17 @@ public:
     Competitor() = default;
     explicit Competitor(uint const bib) : bib(bib) { };
 
-    friend QDataStream &operator<<(QDataStream &out, Competitor const &comp);
-    friend QDataStream &operator>>(QDataStream &in, Competitor &comp);
+    QDataStream &cSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, Competitor const &data)
+    {
+        return data.cSerialize(out);
+    }
+
+    QDataStream &cDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, Competitor &data)
+    {
+        return data.cDeserialize(in);
+    }
 
     QString getCompetitorName(ChronoRaceData::NameComposition nameComposition) const;
     QString getCompetitorName(ChronoRaceData::NameComposition nameComposition, int width) const;
@@ -111,10 +120,51 @@ public:
     QList<Category const *> &getCategories();
     void setCategories(QList<Category> const &newCategories);
 
-    bool operator<  (Competitor const &rhs) const;
-    bool operator>  (Competitor const &rhs) const;
-    bool operator<= (Competitor const &rhs) const;
-    bool operator>= (Competitor const &rhs) const;
+    friend bool operator<(Competitor const &lhs, Competitor const &rhs)
+    {
+        if ((lhs.offset < 0) && (lhs.offset != rhs.offset))
+            return qAbs(lhs.offset) < qAbs(rhs.offset);
+
+        if (lhs.bib < rhs.bib)
+            return true;
+
+        if (lhs.bib == rhs.bib) {
+            if (lhs.offset != rhs.offset)
+                return qAbs(lhs.offset) < qAbs(rhs.offset);
+            else
+                return lhs.leg < rhs.leg;
+        }
+
+        return false;
+    }
+
+    friend bool operator>(Competitor const &lhs, Competitor const &rhs)
+    {
+        if ((lhs.offset < 0) && (lhs.offset != rhs.offset))
+            return qAbs(lhs.offset) > qAbs(rhs.offset);
+
+        if (lhs.bib > rhs.bib)
+            return true;
+
+        if (lhs.bib == rhs.bib) {
+            if (lhs.offset != rhs.offset)
+                return qAbs(lhs.offset) > qAbs(rhs.offset);
+            else
+                return lhs.leg > rhs.leg;
+        }
+
+        return false;
+    }
+
+    friend bool operator<=(Competitor const &lhs, Competitor const &rhs)
+    {
+        return !(lhs > rhs);
+    }
+
+    friend bool operator>=(Competitor const &lhs, Competitor const &rhs)
+    {
+        return !(lhs < rhs);
+    }
 };
 
 Competitor::Field &operator++(Competitor::Field &field);

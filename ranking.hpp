@@ -60,8 +60,17 @@ public:
     Ranking() = default;
     explicit Ranking(QString const &team);
 
-    friend QDataStream &operator<<(QDataStream &out, Ranking const &ranking);
-    friend QDataStream &operator>>(QDataStream &in, Ranking &ranking);
+    QDataStream &rSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, Ranking const &data)
+    {
+        return data.rSerialize(out);
+    }
+
+    QDataStream &rDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, Ranking &data)
+    {
+        return data.rDeserialize(in);
+    }
 
     QString const &getFullDescription() const;
     void setFullDescription(QString const &newFullDescription);
@@ -77,10 +86,25 @@ public:
 
     bool includes(Category const *category) const;
 
-    bool operator<  (Ranking const &rhs) const;
-    bool operator>  (Ranking const &rhs) const;
-    bool operator<= (Ranking const &rhs) const;
-    bool operator>= (Ranking const &rhs) const;
+    friend bool operator< (Ranking const &lhs, Ranking const &rhs)
+    {
+        return (!lhs.isTeam() && rhs.isTeam());
+    }
+
+    friend bool operator> (Ranking const &lhs, Ranking const &rhs)
+    {
+        return (lhs.isTeam() && !rhs.isTeam());
+    }
+
+    friend bool operator<=(Ranking const &lhs, Ranking const &rhs)
+    {
+        return !(lhs > rhs);
+    }
+
+    friend bool operator>=(Ranking const &lhs, Ranking const &rhs)
+    {
+        return !(lhs < rhs);
+    }
 };
 
 Ranking::Field &operator++(Ranking::Field &field);

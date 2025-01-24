@@ -18,16 +18,14 @@
 #include "lbchronorace.hpp"
 #include "rankingsmodel.hpp"
 
-QDataStream &operator<<(QDataStream &out, RankingsModel const &data)
-{
-    out << data.rankings;
+QDataStream &RankingsModel::rmSerialize(QDataStream &out) const{
+    out << this->rankings;
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, RankingsModel &data)
-{
-    in >> data.rankings;
+QDataStream &RankingsModel::rmDeserialize(QDataStream &in){
+    in >> this->rankings;
 
     return in;
 }

@@ -32,13 +32,22 @@ public:
     explicit StartListModel(QObject *parent = Q_NULLPTR) : CRTableModel(parent) { };
     StartListModel(QList<Competitor> const &startList, QObject *parent = Q_NULLPTR) : CRTableModel(parent), startList(startList) { };
 
-    friend QDataStream &operator<<(QDataStream &out, StartListModel const &data);
-    friend QDataStream &operator>>(QDataStream &in, StartListModel &data);
+    QDataStream &slmSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, StartListModel const &data)
+    {
+        return data.slmSerialize(out);
+    }
 
-    int rowCount(QModelIndex const &parent = QModelIndex()) const override;
+    QDataStream &slmDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, StartListModel &data)
+    {
+        return data.slmDeserialize(in);
+    }
+
     int columnCount(QModelIndex const &parent = QModelIndex()) const override;
-    QVariant data(QModelIndex const &index, int role) const override;
+    int rowCount(QModelIndex const &parent = QModelIndex()) const override;
     bool setData(QModelIndex const &index, QVariant const &value, int role = Qt::EditRole) override;
+    QVariant data(QModelIndex const &index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
     Qt::ItemFlags flags(QModelIndex const &index) const override;
     bool insertRows(int position, int rows, QModelIndex const &index = QModelIndex()) override;

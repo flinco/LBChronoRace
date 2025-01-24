@@ -20,16 +20,16 @@
 #include "lbcrexception.hpp"
 #include "crhelper.hpp"
 
-QDataStream &operator<<(QDataStream &out, CategoriesModel const &data)
+QDataStream &CategoriesModel::cmSerialize(QDataStream &out) const
 {
-    out << data.categories;
+    out << this->categories;
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, CategoriesModel &data)
+QDataStream &CategoriesModel::cmDeserialize(QDataStream &in)
 {
-    in >> data.categories;
+    in >> this->categories;
 
     return in;
 }

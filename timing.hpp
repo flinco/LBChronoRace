@@ -63,8 +63,17 @@ public:
     Timing() = default;
     explicit Timing(uint const bib) : bib(bib) {  };
 
-    friend QDataStream &operator<<(QDataStream &out, Timing const &timing);
-    friend QDataStream &operator>>(QDataStream &in, Timing &timing);
+    QDataStream &tSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, Timing const &data)
+    {
+        return data.tSerialize(out);
+    }
+
+    QDataStream &tDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, Timing &data)
+    {
+        return data.tDeserialize(in);
+    }
 
     uint getBib() const;
     void setBib(uint newBib);
@@ -83,10 +92,99 @@ public:
     void addOffset(int offset);
     bool isValid() const;
 
-    bool operator<  (Timing const &rhs) const;
-    bool operator>  (Timing const &rhs) const;
-    bool operator<= (Timing const &rhs) const;
-    bool operator>= (Timing const &rhs) const;
+    friend bool operator< (Timing const &lhs, Timing const &rhs)
+    {
+        bool lessThen = false;
+
+        //NOSONAR switch (lhs.status) {
+        //NOSONAR case Status::CLASSIFIED:
+        //NOSONAR     lessThen = ((rhs.status != Status::CLASSIFIED) || (lhs.milliseconds < rhs.seconds));
+        //NOSONAR     break;
+        //NOSONAR case Status::DSQ:
+        //NOSONAR     lessThen = ((rhs.status == Status::DNF) || (rhs.status == Status::DNS));
+        //NOSONAR     break;
+        //NOSONAR case Status::DNF:
+        //NOSONAR     lessThen = (rhs.status == Status::DNS);
+        //NOSONAR     break;
+        //NOSONAR case Status::DNS:
+        //NOSONAR     // nothing to assign
+        //NOSONAR     break;
+        //NOSONAR default:
+        //NOSONAR     Q_UNREACHABLE();
+        //NOSONAR     break;
+        //NOSONAR }
+
+        switch (lhs.status) {
+        case Status::CLASSIFIED:
+            [[fallthrough]];
+        case Status::DSQ:
+            lessThen = (rhs.status == Status::DNS) || (rhs.status == Status::DNF) || (lhs.milliseconds < rhs.milliseconds);
+            break;
+        case Status::DNF:
+            lessThen = (rhs.status == Status::DNS);
+            break;
+        case Status::DNS:
+            // nothing to assign
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
+        }
+
+        return lessThen;
+    }
+
+    friend bool operator> (Timing const &lhs, Timing const &rhs)
+    {
+        bool greaterThen = false;
+
+        //NOSONAR switch (lhs.status) {
+        //NOSONAR case Status::CLASSIFIED:
+        //NOSONAR     greaterThen = ((rhs.status == Status::CLASSIFIED) && (lhs.milliseconds > rhs.milliseconds));
+        //NOSONAR     break;
+        //NOSONAR case Status::DSQ:
+        //NOSONAR     greaterThen = (rhs.status == Status::CLASSIFIED);
+        //NOSONAR     break;
+        //NOSONAR case Status::DNF:
+        //NOSONAR     greaterThen = ((rhs.status == Status::CLASSIFIED) || (rhs.status == Status::DSQ));
+        //NOSONAR     break;
+        //NOSONAR case Status::DNS:
+        //NOSONAR     greaterThen = (rhs.status != Status::DNS);
+        //NOSONAR     break;
+        //NOSONAR default:
+        //NOSONAR     Q_UNREACHABLE();
+        //NOSONAR     break;
+        //NOSONAR }
+
+        switch (lhs.status) {
+        case Status::CLASSIFIED:
+            [[fallthrough]];
+        case Status::DSQ:
+            greaterThen = ((rhs.status == Status::CLASSIFIED) || (rhs.status == Status::DSQ)) && (lhs.milliseconds > rhs.milliseconds);
+            break;
+        case Status::DNF:
+            greaterThen = ((rhs.status == Status::CLASSIFIED) || (rhs.status == Status::DSQ));
+            break;
+        case Status::DNS:
+            greaterThen = (rhs.status != Status::DNS);
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
+        }
+
+        return greaterThen;
+    }
+
+    friend bool operator<=(Timing const &lhs, Timing const &rhs)
+    {
+        return !(lhs > rhs);
+    }
+
+    friend bool operator>=(Timing const &lhs, Timing const &rhs)
+    {
+        return !(lhs < rhs);
+    }
 
     static QRegularExpression validatorS;
     static QRegularExpression validatorMS;

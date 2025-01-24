@@ -20,40 +20,39 @@
 #include "lbcrexception.hpp"
 #include "crhelper.hpp"
 
-QDataStream &operator<<(QDataStream &out, StartListModel const &data)
+QDataStream &StartListModel::slmSerialize(QDataStream &out) const
 {
-    out << data.startList
-        << quint32(data.legCount)
-        << quint32(data.maxBib)
-        << quint32(data.competitorNameWidthMax)
-        << quint32(data.teamNameWidthMax);
+    out << this->startList
+        << quint32(this->legCount)
+        << quint32(this->maxBib)
+        << quint32(this->competitorNameWidthMax)
+        << quint32(this->teamNameWidthMax);
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, StartListModel &data)
-{
-    quint32 legCount;
-    quint32 maxBib;
-    quint32 competitorNameWidthMax;
-    quint32 teamNameWidthMax;
+QDataStream &StartListModel::slmDeserialize(QDataStream &in){
+    quint32 legCount32;
+    quint32 maxBib32;
+    quint32 competitorNameWidthMax32;
+    quint32 teamNameWidthMax32;
 
-    in >> data.startList
-       >> legCount
-       >> maxBib
-       >> competitorNameWidthMax;
+    in >> this->startList
+       >> legCount32
+       >> maxBib32
+       >> competitorNameWidthMax32;
 
     if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v2) {
-        in >> teamNameWidthMax;
+        in >> teamNameWidthMax32;
     } else {
-        teamNameWidthMax = 0;
-        data.refreshCounters(0);
+        teamNameWidthMax32 = 0;
+        this->refreshCounters(0);
     }
 
-    data.legCount = legCount;
-    data.maxBib = maxBib;
-    data.competitorNameWidthMax = competitorNameWidthMax;
-    data.teamNameWidthMax = teamNameWidthMax;
+    this->legCount = legCount32;
+    this->maxBib = maxBib32;
+    this->competitorNameWidthMax = competitorNameWidthMax32;
+    this->teamNameWidthMax = teamNameWidthMax32;
 
     return in;
 }

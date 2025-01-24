@@ -24,23 +24,21 @@ QString           Competitor::empty("");
 Competitor::Field CompetitorSorter::sortingField = Competitor::Field::CMF_FIRST;
 Qt::SortOrder     CompetitorSorter::sortingOrder = Qt::AscendingOrder;
 
-QDataStream &operator<<(QDataStream &out, const Competitor &comp)
-{
-    out << quint32(comp.bib)
-        << comp.surname
-        << comp.name
-        << CRHelper::toSexString(comp.sex)
-        << quint32(comp.year)
-        << comp.club
-        << comp.team
-        << quint32(comp.leg)
-        << qint32(comp.offset);
+QDataStream &Competitor::cSerialize(QDataStream &out) const{
+    out << quint32(this->bib)
+        << this->surname
+        << this->name
+        << CRHelper::toSexString(this->sex)
+        << quint32(this->year)
+        << this->club
+        << this->team
+        << quint32(this->leg)
+        << qint32(this->offset);
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, Competitor &comp)
-{
+QDataStream &Competitor::cDeserialize(QDataStream &in){
     quint32 bib32;
     quint32 year32;
     quint32 leg32;
@@ -48,22 +46,22 @@ QDataStream &operator>>(QDataStream &in, Competitor &comp)
     QString sexStr;
 
     in >> bib32
-       >> comp.surname;
+       >> this->surname;
     if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v4)
-        in >> comp.name;
+        in >> this->name;
     in >> sexStr
        >> year32
-       >> comp.club;
+       >> this->club;
     if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v2)
-      in >> comp.team;
+      in >> this->team;
     in >> leg32
        >> offset32;
 
-    comp.bib    = bib32;
-    comp.sex    = CRHelper::toSex(sexStr);
-    comp.year   = year32;
-    comp.leg    = leg32;
-    comp.offset = offset32;
+    this->bib    = bib32;
+    this->sex    = CRHelper::toSex(sexStr);
+    this->year   = year32;
+    this->leg    = leg32;
+    this->offset = offset32;
 
     return in;
 }
@@ -266,52 +264,6 @@ bool Competitor::isInCategory(Category const *category) const
     }
 
     return true;
-}
-
-bool Competitor::operator< (Competitor const &rhs) const
-{
-    if ((offset < 0) && (offset != rhs.offset))
-        return qAbs(offset) < qAbs(rhs.offset);
-
-    if (bib < rhs.bib)
-        return true;
-
-    if (bib == rhs.bib) {
-        if (offset != rhs.offset)
-            return qAbs(offset) < qAbs(rhs.offset);
-        else
-            return leg < rhs.leg;
-    }
-
-    return false;
-}
-
-bool Competitor::operator> (Competitor const &rhs) const
-{
-    if ((offset < 0) && (offset != rhs.offset))
-        return qAbs(offset) > qAbs(rhs.offset);
-
-    if (bib > rhs.bib)
-        return true;
-
-    if (bib == rhs.bib) {
-        if (offset != rhs.offset)
-            return qAbs(offset) > qAbs(rhs.offset);
-        else
-            return leg > rhs.leg;
-    }
-
-    return false;
-}
-
-bool Competitor::operator<=(Competitor const &rhs) const
-{
-    return !(*this > rhs);
-}
-
-bool Competitor::operator>=(Competitor const &rhs) const
-{
-    return !(*this < rhs);
 }
 
 bool CompetitorSorter::operator() (Competitor const &lhs, Competitor const &rhs) const

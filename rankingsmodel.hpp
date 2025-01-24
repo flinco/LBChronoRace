@@ -34,11 +34,20 @@ public:
     RankingsModel(QList<Ranking> const &rankingsList, QObject *parent = Q_NULLPTR)
         : CRTableModel(parent), rankings(rankingsList) { };
 
-    friend QDataStream &operator<<(QDataStream &out, RankingsModel const &data);
-    friend QDataStream &operator>>(QDataStream &in, RankingsModel &data);
+    QDataStream &rmSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, RankingsModel const &data)
+    {
+        return data.rmSerialize(out);
+    }
 
-    int rowCount(QModelIndex const &parent = QModelIndex()) const override;
+    QDataStream &rmDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, RankingsModel &data)
+    {
+        return data.rmDeserialize(in);
+    }
+
     int columnCount(QModelIndex const &parent = QModelIndex()) const override;
+    int rowCount(QModelIndex const &parent = QModelIndex()) const override;
     QVariant data(QModelIndex const &index, int role) const override;
     bool setData(QModelIndex const &index, QVariant const &value, int role = Qt::EditRole) override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;

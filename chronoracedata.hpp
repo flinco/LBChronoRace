@@ -70,10 +70,23 @@ public:
 
     explicit ChronoRaceData(QWidget *parent = Q_NULLPTR);
 
-    friend QDataStream &operator<<(QDataStream &out, ChronoRaceData const &data);
-    friend QDataStream &operator>>(QDataStream &in, ChronoRaceData &data);
+    QDataStream &crdSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, ChronoRaceData const &data)
+    {
+        return data.crdSerialize(out);
+    }
 
-    friend QTextStream &operator<<(QTextStream &out, ChronoRaceData const &data);
+    QDataStream &crdDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, ChronoRaceData &data)
+    {
+        return data.crdDeserialize(in);
+    }
+
+    QTextStream &crdSerialize(QTextStream &out) const;
+    friend QTextStream &operator<<(QTextStream &out, ChronoRaceData const &data)
+    {
+        return data.crdSerialize(out);
+    }
 
     void saveRaceData();
     void restoreRaceData() const;

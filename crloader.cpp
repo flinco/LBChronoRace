@@ -265,7 +265,6 @@ QList<Timing> const &CRLoader::getTimings()
 int CRLoader::importTeams(QString const &path, bool append)
 {
     int rowCount = 0;
-    int columnCount = 0;
 
     if (append)
         rowCount = teamsListModel.rowCount();
@@ -274,7 +273,7 @@ int CRLoader::importTeams(QString const &path, bool append)
 
     loadCSV(path, &teamsListModel);
 
-    if (columnCount = teamsListModel.columnCount(); columnCount != 1) {
+    if (int columnCount = teamsListModel.columnCount(); columnCount != 1) {
         if (!append)
             teamsListModel.reset();
         throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(1).arg(columnCount)));
@@ -288,7 +287,6 @@ int CRLoader::importTeams(QString const &path, bool append)
 int CRLoader::importCategories(QString const &path, bool append)
 {
     int rowCount = 0;
-    int columnCount = 0;
 
     if (append)
         rowCount = categoriesModel.rowCount();
@@ -297,7 +295,7 @@ int CRLoader::importCategories(QString const &path, bool append)
 
     loadCSV(path, &categoriesModel);
 
-    if (columnCount = categoriesModel.columnCount(); columnCount != static_cast<int>(Category::Field::CTF_COUNT)) {
+    if (int columnCount = categoriesModel.columnCount(); columnCount != static_cast<int>(Category::Field::CTF_COUNT)) {
         if (!append)
             categoriesModel.reset();
         throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Category::Field::CTF_COUNT)).arg(columnCount)));
@@ -311,7 +309,6 @@ int CRLoader::importCategories(QString const &path, bool append)
 int CRLoader::importRankings(QString const &path, bool append)
 {
     int rowCount = 0;
-    int columnCount = 0;
 
     if (append)
         rowCount = rankingsModel.rowCount();
@@ -320,7 +317,7 @@ int CRLoader::importRankings(QString const &path, bool append)
 
     loadCSV(path, &rankingsModel);
 
-    if (columnCount = rankingsModel.columnCount(); columnCount != static_cast<int>(Ranking::Field::RTF_COUNT)) {
+    if (int columnCount = rankingsModel.columnCount(); columnCount != static_cast<int>(Ranking::Field::RTF_COUNT)) {
         if (!append)
             rankingsModel.reset();
         throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Ranking::Field::RTF_COUNT)).arg(columnCount)));
@@ -336,7 +333,6 @@ int CRLoader::importRankings(QString const &path, bool append)
 int CRLoader::importTimings(QString const &path, bool append)
 {
     int rowCount = 0;
-    int columnCount = 0;
 
     if (append)
         rowCount = timingsModel.rowCount();
@@ -345,7 +341,7 @@ int CRLoader::importTimings(QString const &path, bool append)
 
     loadCSV(path, &timingsModel);
 
-    if (columnCount = timingsModel.columnCount(); columnCount != static_cast<int>(Timing::Field::TMF_COUNT)) {
+    if (int columnCount = timingsModel.columnCount(); columnCount != static_cast<int>(Timing::Field::TMF_COUNT)) {
         if (!append)
             timingsModel.reset();
         throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Timing::Field::TMF_COUNT)).arg(columnCount)));

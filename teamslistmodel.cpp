@@ -20,21 +20,19 @@
 #include "lbchronorace.hpp"
 #include "teamslistmodel.hpp"
 
-QDataStream &operator<<(QDataStream &out, TeamsListModel const &data)
-{
+QDataStream &TeamsListModel::tlmSerialize(QDataStream &out) const{
     quint32 v2TeamNameWidthMax = 0;
 
-    out << data.teamsList
+    out << this->teamsList
         << quint32(v2TeamNameWidthMax);
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, TeamsListModel &data)
-{
+QDataStream &TeamsListModel::tlmDeserialize(QDataStream &in){
     quint32 v2TeamNameWidthMax;
 
-    in >> data.teamsList
+    in >> this->teamsList
        >> v2TeamNameWidthMax;
 
     return in;

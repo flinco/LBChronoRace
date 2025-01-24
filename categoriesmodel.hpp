@@ -19,6 +19,7 @@
 #define LBCATEGORIESMODEL_HPP
 
 #include <QObject>
+#include <QList>
 #include <QDataStream>
 
 #include "crtablemodel.hpp"
@@ -34,8 +35,17 @@ public:
     CategoriesModel(QList<Category> const &categoriesList, QObject *parent = Q_NULLPTR)
         : CRTableModel(parent), categories(categoriesList) { };
 
-    friend QDataStream &operator<<(QDataStream &out, CategoriesModel const &data);
-    friend QDataStream &operator>>(QDataStream &in, CategoriesModel &data);
+    QDataStream &cmSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, CategoriesModel const &data)
+    {
+        return data.cmSerialize(out);
+    }
+
+    QDataStream &cmDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, CategoriesModel &data)
+    {
+        return data.cmDeserialize(in);
+    }
 
     int rowCount(QModelIndex const &parent = QModelIndex()) const override;
     int columnCount(QModelIndex const &parent = QModelIndex()) const override;

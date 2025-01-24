@@ -368,7 +368,7 @@ void CRHelper::actionAbout()
     /* The purpose of the following object is to prevent the "About Qt"  *
      * translation from being removed from the .tr files when refreshed. */
     QString const translatedTextAboutQtMessage = QMessageBox::tr(
-        "<p>Qt is a C++ toolkit for cross-platform application development.</p>"
+        "<p>Qt is a C++ toolkit for cross-platform application development.</p>" //NOSONAR
         "<p>Qt provides single-source portability across all major desktop operating systems. "
         "It is also available for embedded Linux and other embedded and mobile operating systems.</p>"
         "<p>Qt is available under multiple licensing options designed to accommodate the needs of our various users.</p>"
@@ -390,7 +390,7 @@ void CRHelper::actionAbout()
                                                    "<p>Software for producing the results of footraces.</p>"
                                                    ).arg(QStringLiteral(LBCHRONORACE_NAME));
     QString const translatedTextAboutText = QMessageBox::tr(
-                                                "<p>Copyright&copy; 2021-2025</p>"
+                                                "<p>Copyright&copy; 2021-2025</p>" //NOSONAR
                                                 "<p>Version: %1 (source code on <a href=\"http://github.com/flinco/LBChronoRace\">GitHub</a>)</p>"
                                                 "<p>Author: Lorenzo Buzzi (<a href=\"mailto:lorenzo@buzzi.pro\">lorenzo@buzzi.pro</a>)</p>"
                                                 "<p>Site: <a href=\"http://www.buzzi.pro/\">http://www.buzzi.pro/</a></p>"

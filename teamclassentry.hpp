@@ -41,10 +41,41 @@ public:
     int getClassEntryCount() const;
     uint getAverageTiming() const;
 
-    bool operator< (TeamClassEntry const &rhs) const;
-    bool operator> (TeamClassEntry const &rhs) const;
-    bool operator<=(TeamClassEntry const &rhs) const;
-    bool operator>=(TeamClassEntry const &rhs) const;
+    friend bool operator<(TeamClassEntry const &lhs, TeamClassEntry const &rhs)
+    {
+        auto size = lhs.entryList.size();
+        if (size == rhs.entryList.size()) {
+            //NOSONAR for (int i = 0; i < size; i++) {
+            //NOSONAR     if (*lhs.entryList[i] < *rhs.entryList.at(i)) return true;
+            //NOSONAR }
+            //NOSONAR return false;
+            return (lhs.getAverageTiming() < rhs.getAverageTiming());
+        }
+        return (size > rhs.entryList.size());
+    }
+
+    friend bool operator>(TeamClassEntry const &lhs, TeamClassEntry const &rhs)
+    {
+        auto size = lhs.entryList.size();
+        if (size == rhs.entryList.size()) {
+            //NOSONAR for (int i = 0; i < size; i++) {
+            //NOSONAR     if (*lhs.entryList[i] > *rhs.entryList.at(i)) return true;
+            //NOSONAR }
+            //NOSONAR return false;
+            return (lhs.getAverageTiming() > rhs.getAverageTiming());
+        }
+        return (size < rhs.entryList.size());
+    }
+
+    friend bool operator<=(TeamClassEntry const &lhs, TeamClassEntry const &rhs)
+    {
+        return !(lhs > rhs);
+    }
+
+    friend bool operator>=(TeamClassEntry const &lhs, TeamClassEntry const &rhs)
+    {
+        return !(lhs < rhs);
+    }
 };
 
 #endif // TEAMCLASSENTRY_HPP

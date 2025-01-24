@@ -23,20 +23,20 @@
 Category::Field CategorySorter::sortingField = Category::Field::CTF_FIRST;
 Qt::SortOrder   CategorySorter::sortingOrder = Qt::AscendingOrder;
 
-QDataStream &operator<<(QDataStream &out, Category const &category)
+QDataStream &Category::cSerialize(QDataStream &out) const
 {
-    out << category.fullDescription
-        << category.shortDescription
-        << quint32(category.type)
-        << quint32(category.toYear)
-        << quint32(category.fromYear)
-        << quint32(category.toBib)
-        << quint32(category.fromBib);
+    out << this->fullDescription
+        << this->shortDescription
+        << quint32(this->type)
+        << quint32(this->toYear)
+        << quint32(this->fromYear)
+        << quint32(this->toBib)
+        << quint32(this->fromBib);
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, Category &category)
+QDataStream &Category::cDeserialize(QDataStream &in)
 {
     quint32 toYear32;
     quint32 fromYear32;
@@ -51,25 +51,25 @@ QDataStream &operator>>(QDataStream &in, Category &category)
            >> sexStr
            >> toYear32
            >> fromYear32
-           >> category.fullDescription
-           >> category.shortDescription;
+           >> this->fullDescription
+           >> this->shortDescription;
 
         switch (CRHelper::toSex(sexStr)) {
         case Competitor::Sex::MALE:
-            category.type = Category::Type::MALE;
+            this->type = Category::Type::MALE;
             break;
         case Competitor::Sex::FEMALE:
-            category.type = Category::Type::FEMALE;
+            this->type = Category::Type::FEMALE;
             break;
         case Competitor::Sex::UNDEFINED:
-            category.type = Category::Type::RELAY_MF;
+            this->type = Category::Type::RELAY_MF;
             break;
         }
     } else {
         qint32 type32;
 
-        in >> category.fullDescription
-           >> category.shortDescription
+        in >> this->fullDescription
+           >> this->shortDescription
            >> type32
            >> toYear32
            >> fromYear32;
@@ -87,25 +87,20 @@ QDataStream &operator>>(QDataStream &in, Category &category)
         case static_cast<quint32>(Category::Type::RELAY_Y):
             [[fallthrough]];
         case static_cast<quint32>(Category::Type::RELAY_X):
-            category.type = static_cast<Category::Type>(type32);
+            this->type = static_cast<Category::Type>(type32);
             break;
         default:
-            category.illegalType(type32);
+            throw(ChronoRaceException(tr("Illegal category type '%1'").arg(type32)));
             break;
         }
     }
 
-    category.toYear   = toYear32;
-    category.fromYear = fromYear32;
-    category.toBib    = toBib32;
-    category.fromBib  = fromBib32;
+    this->toYear   = toYear32;
+    this->fromYear = fromYear32;
+    this->toBib    = toBib32;
+    this->fromBib  = fromBib32;
 
     return in;
-}
-
-void Category::illegalType(quint32 value) const
-{
-    throw(ChronoRaceException(tr("Illegal category type '%1'").arg(value)));
 }
 
 QString const &Category::getFullDescription() const
@@ -218,32 +213,6 @@ uint Category::getWeight() const
 bool Category::isValid() const
 {
     return (!fullDescription.isEmpty() && !shortDescription.isEmpty());
-}
-
-bool Category::operator< (Category const &rhs) const
-{
-    return (this->getFullDescription() < rhs.getFullDescription());
-}
-
-bool Category::operator> (Category const &rhs) const
-{
-    return (this->getFullDescription() > rhs.getFullDescription());
-}
-
-bool Category::operator<=(Category const &rhs) const
-{
-    return !(*this > rhs);
-}
-
-bool Category::operator>=(Category const &rhs) const
-{
-    return !(*this < rhs);
-}
-
-bool Category::operator== (Category const &rhs) const
-{
-    return ((this->getFullDescription() == rhs.getFullDescription())
-         && (this->getShortDescription() == rhs.getShortDescription()));
 }
 
 bool CategorySorter::operator() (Category const &lhs, Category const &rhs) const

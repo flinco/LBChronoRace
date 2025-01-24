@@ -30,26 +30,24 @@ Ranking::Ranking(QString const &team)
     }
 }
 
-QDataStream &operator<<(QDataStream &out, Ranking const &ranking)
-{
-    out << ranking.fullDescription
-        << ranking.shortDescription
-        << qint32(ranking.team)
-        << ranking.categories;
+QDataStream &Ranking::rSerialize(QDataStream &out) const{
+    out << this->fullDescription
+        << this->shortDescription
+        << qint32(this->team)
+        << this->categories;
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, Ranking &ranking)
-{
+QDataStream &Ranking::rDeserialize(QDataStream &in){
     qint32  team32;
 
-    in >> ranking.fullDescription
-       >> ranking.shortDescription
+    in >> this->fullDescription
+       >> this->shortDescription
        >> team32
-       >> ranking.categories;
+       >> this->categories;
 
-    ranking.team = static_cast<bool>(team32);
+    this->team = static_cast<bool>(team32);
 
     return in;
 }
@@ -113,26 +111,6 @@ bool Ranking::isValid() const
 bool Ranking::includes(Category const *category) const
 {
     return ((category != Q_NULLPTR) && (this->categories.indexOf(category->getShortDescription()) >= 0));
-}
-
-bool Ranking::operator< (Ranking const &rhs) const
-{
-    return (!this->isTeam() && rhs.isTeam());
-}
-
-bool Ranking::operator> (Ranking const &rhs) const
-{
-    return (this->isTeam() && !rhs.isTeam());
-}
-
-bool Ranking::operator<=(Ranking const &rhs) const
-{
-    return !(*this > rhs);
-}
-
-bool Ranking::operator>=(Ranking const &rhs) const
-{
-    return !(*this < rhs);
 }
 
 bool RankingSorter::operator() (Ranking const &lhs, Ranking const &rhs) const

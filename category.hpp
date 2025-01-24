@@ -62,13 +62,20 @@ private:
     QString fullDescription { "" };
     QString shortDescription { "" };
 
-    void illegalType(quint32 value) const;
-
 public:
     Category() = default;
 
-    friend QDataStream &operator<<(QDataStream &out, Category const &category);
-    friend QDataStream &operator>>(QDataStream &in, Category &category);
+    QDataStream &cSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, Category const &data)
+    {
+        return data.cSerialize(out);
+    }
+
+    QDataStream &cDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, Category &data)
+    {
+        return data.cDeserialize(in);
+    }
 
     QString const &getFullDescription() const;
     void setFullDescription(QString const &newFullDescription);
@@ -87,11 +94,31 @@ public:
     uint getWeight() const;
     bool isValid() const;
 
-    bool operator<  (Category const &rhs) const;
-    bool operator>  (Category const &rhs) const;
-    bool operator<= (Category const &rhs) const;
-    bool operator>= (Category const &rhs) const;
-    bool operator== (Category const &rhs) const;
+    friend bool operator< (Category const &lhs, Category const &rhs)
+    {
+        return (lhs.getFullDescription() < rhs.getFullDescription());
+    }
+
+    friend bool operator> (Category const &lhs, Category const &rhs)
+    {
+        return (lhs.getFullDescription() > rhs.getFullDescription());
+    }
+
+    friend bool operator<=(Category const &lhs, Category const &rhs)
+    {
+        return !(lhs > rhs);
+    }
+
+    friend bool operator>=(Category const &lhs, Category const &rhs)
+    {
+        return !(lhs < rhs);
+    }
+
+    friend bool operator== (Category const &lhs, Category const &rhs)
+    {
+        return ((lhs.getFullDescription() == rhs.getFullDescription())
+                && (lhs.getShortDescription() == rhs.getShortDescription()));
+    }
 };
 
 Category::Field &operator++(Category::Field &field);

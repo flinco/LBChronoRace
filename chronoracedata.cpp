@@ -88,92 +88,92 @@ ChronoRaceData::ChronoRaceData(QWidget *parent) : QDialog(parent)
     this->stringFields[static_cast<int>(StringField::ACCURACY)] = ui->accuracy->currentText();
 }
 
-QDataStream &operator<<(QDataStream &out, ChronoRaceData const &data)
+QDataStream &ChronoRaceData::crdSerialize(QDataStream &out) const
 {
-    out << data.leftLogo.pixmap
-        << data.rightLogo.pixmap
-        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::EVENT)]
-        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::PLACE)]
-        << data.date
-        << data.startTime
-        << qint32(data.raceTypeIdx)
-        << qint32(data.resultsIdx)
-        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::REFEREE)]
-        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_1)]
-        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_2)]
-        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_3)]
-        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::ORGANIZATION)]
-        << data.sponsorLogo1.pixmap
-        << data.sponsorLogo2.pixmap
-        << data.sponsorLogo3.pixmap
-        << data.sponsorLogo4.pixmap
-        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)]
-        << data.stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)]
-        << quint32(data.nameCompositionIdx)
-        << quint32(data.accuracyIdx);
+    out << this->leftLogo.pixmap
+        << this->rightLogo.pixmap
+        << this->stringFields[static_cast<int>(ChronoRaceData::StringField::EVENT)]
+        << this->stringFields[static_cast<int>(ChronoRaceData::StringField::PLACE)]
+        << this->date
+        << this->startTime
+        << qint32(this->raceTypeIdx)
+        << qint32(this->resultsIdx)
+        << this->stringFields[static_cast<int>(ChronoRaceData::StringField::REFEREE)]
+        << this->stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_1)]
+        << this->stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_2)]
+        << this->stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_3)]
+        << this->stringFields[static_cast<int>(ChronoRaceData::StringField::ORGANIZATION)]
+        << this->sponsorLogo1.pixmap
+        << this->sponsorLogo2.pixmap
+        << this->sponsorLogo3.pixmap
+        << this->sponsorLogo4.pixmap
+        << this->stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)]
+        << this->stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)]
+        << quint32(this->nameCompositionIdx)
+        << quint32(this->accuracyIdx);
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, ChronoRaceData &data)
+QDataStream &ChronoRaceData::crdDeserialize(QDataStream &in)
 {
     qint32 raceTypeIdx32;
     qint32 resultsIdx32;
     qint32 nameCompositionIdx32 = 0;
     qint32 accuracyIdx32 = 0;
 
-    in >> data.leftLogo.pixmap
-       >> data.rightLogo.pixmap
-       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::EVENT)]
-       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::PLACE)]
-       >> data.date
-       >> data.startTime
+    in >> this->leftLogo.pixmap
+       >> this->rightLogo.pixmap
+       >> this->stringFields[static_cast<int>(ChronoRaceData::StringField::EVENT)]
+       >> this->stringFields[static_cast<int>(ChronoRaceData::StringField::PLACE)]
+       >> this->date
+       >> this->startTime
        >> raceTypeIdx32
        >> resultsIdx32
-       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::REFEREE)]
-       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_1)]
-       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_2)]
-       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_3)]
-       >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::ORGANIZATION)]
-       >> data.sponsorLogo1.pixmap
-       >> data.sponsorLogo2.pixmap
-       >> data.sponsorLogo3.pixmap
-       >> data.sponsorLogo4.pixmap;
+       >> this->stringFields[static_cast<int>(ChronoRaceData::StringField::REFEREE)]
+       >> this->stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_1)]
+       >> this->stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_2)]
+       >> this->stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_3)]
+       >> this->stringFields[static_cast<int>(ChronoRaceData::StringField::ORGANIZATION)]
+       >> this->sponsorLogo1.pixmap
+       >> this->sponsorLogo2.pixmap
+       >> this->sponsorLogo3.pixmap
+       >> this->sponsorLogo4.pixmap;
 
     if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v1)
-        in >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)]
-           >> data.stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)];
+        in >> this->stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)]
+           >> this->stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)];
 
     if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v4)
         in >> nameCompositionIdx32
            >> accuracyIdx32;
 
-    data.raceTypeIdx = raceTypeIdx32;
-    data.resultsIdx = resultsIdx32;
+    this->raceTypeIdx = raceTypeIdx32;
+    this->resultsIdx = resultsIdx32;
 
-    data.nameCompositionIdx = nameCompositionIdx32;
-    data.accuracyIdx = accuracyIdx32;
+    this->nameCompositionIdx = nameCompositionIdx32;
+    this->accuracyIdx = accuracyIdx32;
 
-    data.ui->raceType->setCurrentIndex(data.raceTypeIdx);
-    data.stringFields[static_cast<int>(ChronoRaceData::StringField::RACE_TYPE)] = data.ui->raceType->currentText();
+    this->ui->raceType->setCurrentIndex(this->raceTypeIdx);
+    this->stringFields[static_cast<int>(ChronoRaceData::StringField::RACE_TYPE)] = this->ui->raceType->currentText();
 
-    data.ui->results->setCurrentIndex(data.resultsIdx);
-    data.stringFields[static_cast<int>(ChronoRaceData::StringField::RESULTS)] = data.ui->results->currentText();
+    this->ui->results->setCurrentIndex(this->resultsIdx);
+    this->stringFields[static_cast<int>(ChronoRaceData::StringField::RESULTS)] = this->ui->results->currentText();
 
-    data.ui->nameComposition->setCurrentIndex(data.nameCompositionIdx);
-    data.stringFields[static_cast<int>(ChronoRaceData::StringField::NAME_COMPOSITION)] = data.ui->nameComposition->currentText();
+    this->ui->nameComposition->setCurrentIndex(this->nameCompositionIdx);
+    this->stringFields[static_cast<int>(ChronoRaceData::StringField::NAME_COMPOSITION)] = this->ui->nameComposition->currentText();
 
-    data.ui->accuracy->setCurrentIndex(data.accuracyIdx);
-    data.stringFields[static_cast<int>(ChronoRaceData::StringField::ACCURACY)] = data.ui->accuracy->currentText();
+    this->ui->accuracy->setCurrentIndex(this->accuracyIdx);
+    this->stringFields[static_cast<int>(ChronoRaceData::StringField::ACCURACY)] = this->ui->accuracy->currentText();
 
     return in;
 }
 
-QTextStream &operator<<(QTextStream &out, ChronoRaceData const &data)
+QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
 {
     static QRegularExpression re("\n|\r\n|\r");
 
-    QStringList organizationLines = data.stringFields[static_cast<int>(ChronoRaceData::StringField::ORGANIZATION)].split(re);
+    QStringList organizationLines = this->stringFields[static_cast<int>(ChronoRaceData::StringField::ORGANIZATION)].split(re);
     QString headColumn = QObject::tr("Organization") + ": ";
 
     for (auto const &line : organizationLines) {
@@ -185,102 +185,102 @@ QTextStream &operator<<(QTextStream &out, ChronoRaceData const &data)
         headColumn.fill(' ');
     }
 
-    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::EVENT)].isEmpty()) {
+    if (!this->stringFields[static_cast<int>(ChronoRaceData::StringField::EVENT)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Event") + ": ";
         out.setFieldWidth(0);
-        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::EVENT)] << Qt::endl;
+        out << this->stringFields[static_cast<int>(ChronoRaceData::StringField::EVENT)] << Qt::endl;
     }
 
-    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::PLACE)].isEmpty()) {
+    if (!this->stringFields[static_cast<int>(ChronoRaceData::StringField::PLACE)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Place") + ": ";
         out.setFieldWidth(0);
-        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::PLACE)] << Qt::endl;
+        out << this->stringFields[static_cast<int>(ChronoRaceData::StringField::PLACE)] << Qt::endl;
     }
 
-    if (data.date.isValid()) {
+    if (this->date.isValid()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Date") + ": ";
         out.setFieldWidth(0);
-        out << data.date.toString("dd/MM/yyyy") << Qt::endl;
+        out << this->date.toString("dd/MM/yyyy") << Qt::endl;
     }
 
-    if (data.startTime.isValid()) {
+    if (this->startTime.isValid()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Start Time") + ": ";
         out.setFieldWidth(0);
-        out << data.startTime.toString("H:mm") << Qt::endl;
+        out << this->startTime.toString("H:mm") << Qt::endl;
     }
 
-    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::RACE_TYPE)].isEmpty()) {
+    if (!this->stringFields[static_cast<int>(ChronoRaceData::StringField::RACE_TYPE)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Race Type") + ": ";
         out.setFieldWidth(0);
-        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::RACE_TYPE)] << Qt::endl;
+        out << this->stringFields[static_cast<int>(ChronoRaceData::StringField::RACE_TYPE)] << Qt::endl;
     }
 
-    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)].isEmpty()) {
+    if (!this->stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Length") + ": ";
         out.setFieldWidth(0);
-        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)] << Qt::endl;
+        out << this->stringFields[static_cast<int>(ChronoRaceData::StringField::LENGTH)] << Qt::endl;
     }
 
-    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)].isEmpty()) {
+    if (!this->stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Elevation Gain") + ": ";
         out.setFieldWidth(0);
-        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)] << Qt::endl;
+        out << this->stringFields[static_cast<int>(ChronoRaceData::StringField::ELEVATION_GAIN)] << Qt::endl;
     }
 
-    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::REFEREE)].isEmpty()) {
+    if (!this->stringFields[static_cast<int>(ChronoRaceData::StringField::REFEREE)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Referee") + ": ";
         out.setFieldWidth(0);
-        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::REFEREE)] << Qt::endl;
+        out << this->stringFields[static_cast<int>(ChronoRaceData::StringField::REFEREE)] << Qt::endl;
     }
 
-    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_1)].isEmpty()) {
+    if (!this->stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_1)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Timekeeper 1") + ": ";
         out.setFieldWidth(0);
-        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_1)] << Qt::endl;
+        out << this->stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_1)] << Qt::endl;
     }
 
-    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_2)].isEmpty()) {
+    if (!this->stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_2)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Timekeeper 2") + ": ";
         out.setFieldWidth(0);
-        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_2)] << Qt::endl;
+        out << this->stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_2)] << Qt::endl;
     }
 
-    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_3)].isEmpty()) {
+    if (!this->stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_3)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Timekeeper 3") + ": ";
         out.setFieldWidth(0);
-        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_3)] << Qt::endl;
+        out << this->stringFields[static_cast<int>(ChronoRaceData::StringField::TIMEKEEPER_3)] << Qt::endl;
     }
 
     out << Qt::endl;
 
-    if (!data.stringFields[static_cast<int>(ChronoRaceData::StringField::RESULTS)].isEmpty()) {
+    if (!this->stringFields[static_cast<int>(ChronoRaceData::StringField::RESULTS)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << QObject::tr("Results") + ": ";
         out.setFieldWidth(0);
-        out << data.stringFields[static_cast<int>(ChronoRaceData::StringField::RESULTS)] << Qt::endl;
+        out << this->stringFields[static_cast<int>(ChronoRaceData::StringField::RESULTS)] << Qt::endl;
     }
 
     return out;

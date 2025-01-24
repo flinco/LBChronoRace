@@ -36,7 +36,7 @@
 QDir LBChronoRace::lastSelectedPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 uint LBChronoRace::binFormat = LBCHRONORACE_BIN_FMT;
 QRegularExpression LBChronoRace::csvFilter("[,;]");
-QRegularExpression LBChronoRace::screenNameRegEx("^[.\\\\]+(DISPLAY.*)");
+QRegularExpression LBChronoRace::screenNameRegEx(R"(^[.\\]+(DISPLAY.*))");
 
 LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QMainWindow(parent),

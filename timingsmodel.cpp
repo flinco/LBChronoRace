@@ -22,16 +22,14 @@
 #include "lbcrexception.hpp"
 #include "crhelper.hpp"
 
-QDataStream &operator<<(QDataStream &out, TimingsModel const  &data)
-{
-    out << data.timings;
+QDataStream &TimingsModel::tmSerialize(QDataStream &out) const{
+    out << this->timings;
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, TimingsModel &data)
-{
-    in >> data.timings;
+QDataStream &TimingsModel::tmDeserialize(QDataStream &in){
+    in >> this->timings;
 
     return in;
 }

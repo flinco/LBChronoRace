@@ -23,18 +23,16 @@
 Timing::Field TimingSorter::sortingField = Timing::Field::TMF_TIME;
 Qt::SortOrder TimingSorter::sortingOrder = Qt::AscendingOrder;
 
-QDataStream &operator<<(QDataStream &out, Timing const &timing)
-{
-    out << quint32(timing.bib)
-        << quint32(timing.leg)
-        << quint32(timing.milliseconds)
-        << qint32(timing.status);
+QDataStream &Timing::tSerialize(QDataStream &out) const{
+    out << quint32(this->bib)
+        << quint32(this->leg)
+        << quint32(this->milliseconds)
+        << qint32(this->status);
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, Timing &timing)
-{
+QDataStream &Timing::tDeserialize(QDataStream &in){
     quint32 bib32;
     quint32 leg32;
     quint32 millis32;
@@ -45,27 +43,27 @@ QDataStream &operator>>(QDataStream &in, Timing &timing)
        >> millis32
        >> status32;
 
-    timing.bib          = bib32;
-    timing.leg          = leg32;
-    timing.milliseconds = (LBChronoRace::binFormat < LBCHRONORACE_BIN_FMT_v5) ? millis32 * 1000 : millis32;
+    this->bib          = bib32;
+    this->leg          = leg32;
+    this->milliseconds = (LBChronoRace::binFormat < LBCHRONORACE_BIN_FMT_v5) ? millis32 * 1000 : millis32;
 
     switch (status32) {
     case static_cast<qint32>(Timing::Status::DNS):
-        timing.status = Timing::Status::DNS;
+        this->status = Timing::Status::DNS;
         break;
     case static_cast<qint32>(Timing::Status::DNF):
-        timing.status = Timing::Status::DNF;
+        this->status = Timing::Status::DNF;
         break;
     case static_cast<qint32>(Timing::Status::DSQ):
-        timing.status = (LBChronoRace::binFormat < LBCHRONORACE_BIN_FMT_v4) ? Timing::Status::CLASSIFIED : Timing::Status::DSQ;
+        this->status = (LBChronoRace::binFormat < LBCHRONORACE_BIN_FMT_v4) ? Timing::Status::CLASSIFIED : Timing::Status::DSQ;
         break;
     case static_cast<qint32>(Timing::Status::CLASSIFIED):
-        timing.status = Timing::Status::CLASSIFIED;
+        this->status = Timing::Status::CLASSIFIED;
         break;
     default:
         /* Since tr() cannot be used here, let's use classified just
          * to avoid loosing the recorded timing value (if any).  */
-        timing.status = Timing::Status::CLASSIFIED;
+        this->status = Timing::Status::CLASSIFIED;
         break;
     }
 
@@ -170,26 +168,25 @@ QString Timing::getTiming() const
 
 void Timing::setTiming(QString const &timing)
 {
-    QRegularExpressionMatch match;
     uint msecs = 0u;
 
-    if (match = Timing::validatorS.match(timing); match.hasMatch()) {
+    if (QRegularExpressionMatch match = Timing::validatorS.match(timing); match.hasMatch()) {
 
         msecs = (1000 * toMillis(match.captured("sec")))
               + toMillis(match.captured("ms"), true);
 
-    } else if (match = Timing::validatorMS.match(timing); match.hasMatch()) {
+    } else if (QRegularExpressionMatch matchMS = Timing::validatorMS.match(timing); matchMS.hasMatch()) {
 
-        msecs = (60000 * toMillis(match.captured("min")))
-              + (1000 * toMillis(match.captured("sec")))
-              + toMillis(match.captured("ms"), true);
+        msecs = (60000 * toMillis(matchMS.captured("min")))
+              + (1000 * toMillis(matchMS.captured("sec")))
+              + toMillis(matchMS.captured("ms"), true);
 
-    } else if (match = Timing::validatorHMS.match(timing); match.hasMatch()) {
+    } else if (QRegularExpressionMatch matchHMS = Timing::validatorHMS.match(timing); matchHMS.hasMatch()) {
 
-        msecs = (3600000 * toMillis(match.captured("hr")))
-              + (60000 * toMillis(match.captured("min")))
-              + (1000 * toMillis(match.captured("sec")))
-              + toMillis(match.captured("ms"), true);
+        msecs = (3600000 * toMillis(matchHMS.captured("hr")))
+              + (60000 * toMillis(matchHMS.captured("min")))
+              + (1000 * toMillis(matchHMS.captured("sec")))
+              + toMillis(matchHMS.captured("ms"), true);
 
     } else {
         throw(ChronoRaceException(tr("Warning: illegal timing value '%1' for bib '%2'").arg(timing).arg(this->bib)));
@@ -216,100 +213,6 @@ void Timing::addOffset(int offset)
 bool Timing::isValid() const
 {
     return ((bib != 0u) && ((status == Status::DNS) || (status == Status::DNF) || (status == Status::DSQ) || ((status == Status::CLASSIFIED) && (this->milliseconds != 0u))));
-}
-
-bool Timing::operator< (Timing const &rhs) const
-{
-    bool lessThen = false;
-
-    //NOSONAR switch (this->status) {
-    //NOSONAR case Status::CLASSIFIED:
-    //NOSONAR     lessThen = ((rhs.status != Status::CLASSIFIED) || (this->milliseconds < rhs.seconds));
-    //NOSONAR     break;
-    //NOSONAR case Status::DSQ:
-    //NOSONAR     lessThen = ((rhs.status == Status::DNF) || (rhs.status == Status::DNS));
-    //NOSONAR     break;
-    //NOSONAR case Status::DNF:
-    //NOSONAR     lessThen = (rhs.status == Status::DNS);
-    //NOSONAR     break;
-    //NOSONAR case Status::DNS:
-    //NOSONAR     // nothing to assign
-    //NOSONAR     break;
-    //NOSONAR default:
-    //NOSONAR     Q_UNREACHABLE();
-    //NOSONAR     break;
-    //NOSONAR }
-
-    switch (this->status) {
-    case Status::CLASSIFIED:
-        [[fallthrough]];
-    case Status::DSQ:
-        lessThen = (rhs.status == Status::DNS) || (rhs.status == Status::DNF) || (this->milliseconds < rhs.milliseconds);
-        break;
-    case Status::DNF:
-        lessThen = (rhs.status == Status::DNS);
-        break;
-    case Status::DNS:
-        // nothing to assign
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
-    }
-
-    return lessThen;
-}
-
-bool Timing::operator> (Timing const &rhs) const
-{
-    bool greaterThen = false;
-
-    //NOSONAR switch (this->status) {
-    //NOSONAR case Status::CLASSIFIED:
-    //NOSONAR     greaterThen = ((rhs.status == Status::CLASSIFIED) && (this->milliseconds > rhs.milliseconds));
-    //NOSONAR     break;
-    //NOSONAR case Status::DSQ:
-    //NOSONAR     greaterThen = (rhs.status == Status::CLASSIFIED);
-    //NOSONAR     break;
-    //NOSONAR case Status::DNF:
-    //NOSONAR     greaterThen = ((rhs.status == Status::CLASSIFIED) || (rhs.status == Status::DSQ));
-    //NOSONAR     break;
-    //NOSONAR case Status::DNS:
-    //NOSONAR     greaterThen = (rhs.status != Status::DNS);
-    //NOSONAR     break;
-    //NOSONAR default:
-    //NOSONAR     Q_UNREACHABLE();
-    //NOSONAR     break;
-    //NOSONAR }
-
-    switch (this->status) {
-    case Status::CLASSIFIED:
-        [[fallthrough]];
-    case Status::DSQ:
-        greaterThen = ((rhs.status == Status::CLASSIFIED) || (rhs.status == Status::DSQ)) && (this->milliseconds > rhs.milliseconds);
-        break;
-    case Status::DNF:
-        greaterThen = ((rhs.status == Status::CLASSIFIED) || (rhs.status == Status::DSQ));
-        break;
-    case Status::DNS:
-        greaterThen = (rhs.status != Status::DNS);
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
-    }
-
-    return greaterThen;
-}
-
-bool Timing::operator<=(Timing const &rhs) const
-{
-    return !(*this > rhs);
-}
-
-bool Timing::operator>=(Timing const &rhs) const
-{
-    return !(*this < rhs);
 }
 
 bool TimingSorter::operator() (Timing const &lhs, Timing const &rhs) const

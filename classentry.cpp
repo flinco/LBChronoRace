@@ -449,11 +449,6 @@ QString ClassEntry::getDiffTimeTxt(uint referenceTime) const
         return CRHelper::toTimeString(referenceTime - totalTime, Timing::Status::CLASSIFIED, "-");
 }
 
-bool ClassEntry::operator< (ClassEntry const &rhs) const { return getTotalTime() <  rhs.getTotalTime(); }
-bool ClassEntry::operator> (ClassEntry const &rhs) const { return getTotalTime() >  rhs.getTotalTime(); }
-bool ClassEntry::operator<=(ClassEntry const &rhs) const { return getTotalTime() <= rhs.getTotalTime(); }
-bool ClassEntry::operator>=(ClassEntry const &rhs) const { return getTotalTime() >= rhs.getTotalTime(); }
-
 bool ClassEntryHelper::allCompetitorsShareTheSameClub(QVector<ClassEntryElement> const &entries, qsizetype fromLeg, qsizetype toLeg, QString const &club)
 {
     Competitor const *competitor;
