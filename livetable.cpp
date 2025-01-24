@@ -155,7 +155,7 @@ void LiveTable::addEntry(quint64 values)
     }
 
     // Set bold font roles
-    for (QStandardItem *item : this->lastRowItems) {
+    for (QStandardItem *item : std::as_const(this->lastRowItems)) {
         //NOSONAR highlightedFont = QFont(item->font());
         //NOSONAR highlightedFont.setBold(true);
         //NOSONAR item->setData(highlightedFont, Qt::FontRole);
@@ -349,8 +349,9 @@ void LiveTable::removeTimingIndividual(uint bib)
 
         auto row = indexes.first().row();
 
-        for (auto const *newItem : model->takeRow(row)) {
-            if (this->lastRowItems.contains(newItem)) {
+        QList<QStandardItem *> rowItems = model->takeRow(row);
+        for (QList<QStandardItem *>::const_iterator newItem = rowItems.constBegin(); newItem != rowItems.constEnd(); newItem++) {
+            if (this->lastRowItems.contains(*newItem)) {
                 this->lastRowItems.clear();
                 break;
             }
@@ -376,7 +377,7 @@ void LiveTable::setTimingRelay(uint bib, uint timing, bool chrono)
         QList<Competitor> competitors(this->startList.values(bib));
         QMap<int, Competitor const *> offsets;
 
-        for (auto const &comp : competitors)
+        for (auto const &comp : std::as_const(competitors))
             offsets.insert(chrono ? (1000 * comp.getOffset()) : -comp.getOffset(), &comp);
 
         this->lastRowItems.reserve(columnCount);
@@ -417,7 +418,7 @@ void LiveTable::removeTimingRelay(uint bib, uint timing, bool chrono)
 
         auto rowItems = model->takeRow(indexes.first().row());
 
-        for (auto const *newItem : rowItems) {
+        for (auto const *newItem : std::as_const(rowItems)) {
             if (this->lastRowItems.contains(newItem)) {
                 this->lastRowItems.clear();
                 break;

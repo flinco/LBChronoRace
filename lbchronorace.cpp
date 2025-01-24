@@ -181,14 +181,15 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     bool screenEnabled;
     QStandardItemModel const *liveModel;
     auto liveIndex = this->ui->liveViewSelector->count();
-    for (auto const *screen : QApplication::screens()) {
-        screenEnabled = (screen->size().width() >= 1280);
+    QList<QScreen *> screenList = QApplication::screens();
+    for (QList<QScreen *>::const_iterator screenIt = screenList.constBegin(); screenIt != screenList.constEnd(); screenIt++) {
+        screenEnabled = ((*screenIt)->size().width() >= 1280);
 
-        match = screenNameRegEx.match(screen->name());
-        liveText = match.hasMatch() ? match.captured(1) : screen->name();
+        match = screenNameRegEx.match((*screenIt)->name());
+        liveText = match.hasMatch() ? match.captured(1) : (*screenIt)->name();
         liveIcon = QIcon(screenEnabled ? ":/material/icons/image.svg" : ":/material/icons/hide_image.svg");
 
-        this->ui->liveViewSelector->insertItem(liveIndex, liveIcon, liveText, QVariant::fromValue(screen));
+        this->ui->liveViewSelector->insertItem(liveIndex, liveIcon, liveText, QVariant::fromValue(*screenIt));
 
         liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
         liveModel->item(liveIndex)->setEnabled(screenEnabled);

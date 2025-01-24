@@ -425,7 +425,7 @@ void CRLoader::checkString(QAbstractTableModel *model, QString &token, QChar cha
                 throw(ChronoRaceException(tr("Wrong number of elements in CSV row; expected %1 - found %2").arg(columnCount).arg(standardItemList.size())));
             }
             model->insertRow(rowCount, QModelIndex());
-            for (auto const &item : standardItemList) {
+            for (auto const &item : std::as_const(standardItemList)) {
                 model->setData(model->index(rowCount, columnIndex, QModelIndex()), item, Qt::EditRole);
                 columnIndex++;
             }

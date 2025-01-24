@@ -72,7 +72,7 @@ void StartListModel::refreshCounters(int r)
     maxBib = 0;
     competitorNameWidthMax = 0;
     teamNameWidthMax = 0;
-    for (auto const &comp : startList) {
+    for (auto const &comp : std::as_const(startList)) {
         bib = comp.getBib();
         offset = comp.getOffset();
         leg = static_cast<uint>((offset < 0) ? qAbs(offset) : 1);

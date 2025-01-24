@@ -320,7 +320,7 @@ void RankingsWizard::print(bool checked)
 {
     Q_UNUSED(checked)
 
-    for (auto const &message : messages)
+    for (auto const &message : std::as_const(messages))
         if (!message.isEmpty())
             emit error(message);
     messages.clear();

@@ -1058,7 +1058,7 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
     // Sponsor logos
     int l = 0;
     rectWidth = this->areaWidth / static_cast<qreal>(sponsors.size());
-    for (auto const &sponsor : sponsors) {
+    for (auto const &sponsor : std::as_const(sponsors)) {
         writeRect.setX((rectWidth * l++) + toHdots(1.0));
         writeRect.setY(toVdots(-35.0));
         writeRect.setWidth(rectWidth  - toHdots(2.0));

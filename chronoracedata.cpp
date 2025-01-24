@@ -176,7 +176,7 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
     QStringList organizationLines = this->stringFields[static_cast<int>(ChronoRaceData::StringField::ORGANIZATION)].split(re);
     QString headColumn = QObject::tr("Organization") + ": ";
 
-    for (auto const &line : organizationLines) {
+    for (auto const &line : std::as_const(organizationLines)) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
         out << headColumn;
