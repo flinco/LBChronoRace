@@ -21,6 +21,7 @@
 #include <QGuiApplication>
 #include <QMainWindow>
 #include <QDir>
+#include <QString>
 #include <QScopedPointer>
 #include <QRegularExpression>
 
@@ -36,7 +37,11 @@
 #include "cattypedelegate.hpp"
 #include "timingstatusdelegate.hpp"
 #include "livetable.hpp"
+#include "recentraces.hpp"
 
+#ifndef LBCHRONORACE_ORGANIZATION
+#error "LBCHRONORACE_ORGANIZATION not set"
+#endif
 #ifndef LBCHRONORACE_NAME
 #error "LBCHRONORACE_NAME not set"
 #endif
@@ -94,6 +99,7 @@ public slots:
 private:
     QScopedPointer<Ui::LBChronoRace> ui { new Ui::LBChronoRace };
     QScopedPointer<LiveTable> liveTable { new LiveTable };
+    QScopedPointer<RecentRaces> recentRaces { Q_NULLPTR };
 
     QString raceDataFileName { "" };
     QVector<QString> fileNames;
@@ -121,6 +127,7 @@ private:
 
 private slots:
     void loadRace();
+    void openRace(QString const &path);
     void saveRace();
     void saveRaceAs();
 

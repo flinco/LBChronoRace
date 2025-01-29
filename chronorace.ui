@@ -462,7 +462,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>20</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -475,6 +475,9 @@
     <addaction name="actionLoadRace"/>
     <addaction name="actionSaveRace"/>
     <addaction name="actionSaveRaceAs"/>
+    <addaction name="separator"/>
+    <addaction name="actionRecentRaces"/>
+    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -754,6 +757,11 @@
    </property>
    <property name="toolTip">
     <string>Subtract an arbitrary amount of time to all the recorded timings</string>
+   </property>
+  </action>
+  <action name="actionRecentRaces">
+   <property name="text">
+    <string>Recent Races</string>
    </property>
   </action>
  </widget>

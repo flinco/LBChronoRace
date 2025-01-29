@@ -39,6 +39,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 COMPONENTS Core Gui Widgets LinguistTools REQUIRED)
 
+add_compile_definitions(LBCHRONORACE_ORGANIZATION=\"LoBuSoft\")
 add_compile_definitions(LBCHRONORACE_NAME=\"${PROJECT_NAME}\")
 if(${PROJECT_UPDATE} EQUAL 0)
     add_compile_definitions(LBCHRONORACE_VERSION=\"${PROJECT_VERSION}\")
@@ -115,6 +116,8 @@ set(PROJECT_SOURCES
     rankingswizardselection.hpp
     rankingtypedelegate.cpp
     rankingtypedelegate.hpp
+    recentraces.cpp
+    recentraces.hpp
     startlistmodel.cpp
     startlistmodel.hpp
     teamclassentry.cpp

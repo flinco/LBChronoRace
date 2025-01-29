@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include <QString>
+#include <QStringList>
 #include <QStandardPaths>
 #include <QFile>
 #include <QFileInfo>
@@ -146,7 +146,6 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionLoadRace, &QAction::triggered, this, &LBChronoRace::loadRace);
     QObject::connect(ui->actionSaveRace, &QAction::triggered, this, &LBChronoRace::saveRace);
     QObject::connect(ui->actionSaveRaceAs, &QAction::triggered, this, &LBChronoRace::saveRaceAs);
-    QObject::connect(ui->actionQuit, &QAction::triggered, this, &QApplication::quit);
     QObject::connect(ui->actionEditRace, &QAction::triggered, &raceInfo, &ChronoRaceData::show);
     QObject::connect(ui->actionEditStartList, &QAction::triggered, &startListTable, &ChronoRaceTable::show);
     QObject::connect(ui->actionEditTeams, &QAction::triggered, &teamsTable, &ChronoRaceTable::show);
@@ -199,6 +198,15 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
 
     if (liveIndex > 2)
         ui->liveViewSelector->setEnabled(true);
+
+    recentRaces.reset(new RecentRaces(ui->menuFile));
+    ui->actionRecentRaces->setMenu(recentRaces->getMenu());
+    recentRaces->readSettings();
+    QObject::connect(recentRaces.data(), &RecentRaces::triggered, this, &LBChronoRace::openRace);
+
+    // Ensure that the quit actions are executed in the desired order
+    QObject::connect(ui->actionQuit, &QAction::triggered, recentRaces.data(), &RecentRaces::writeSettings);
+    QObject::connect(ui->actionQuit, &QAction::triggered, this, &QApplication::quit);
 }
 
 void LBChronoRace::appendInfoMessage(QString const &message) const
@@ -455,7 +463,8 @@ void LBChronoRace::exportTimingsList()
     }
 }
 
-void LBChronoRace::initialize() {
+void LBChronoRace::initialize()
+{
     QStringList arguments = QCoreApplication::arguments();
 
     auto argument = arguments.constBegin();
@@ -661,8 +670,17 @@ void LBChronoRace::loadRace()
                                      lastSelectedPath.absolutePath(),
                                      tr("ChronoRace Data (*.crd)")));
 
-    if (loadRaceFile(fileName))
-        raceDataFileName = fileName;
+    openRace(fileName);
+}
+
+void LBChronoRace::openRace(QString const &path)
+{
+    if (loadRaceFile(path)) {
+        raceDataFileName = path;
+
+        // Update recent races list
+        recentRaces->update(raceDataFileName);
+    }
 }
 
 void LBChronoRace::saveRace()
@@ -708,6 +726,9 @@ void LBChronoRace::saveRace()
             lastSelectedPath = raceDataFileInfo.absoluteDir();
             setWindowTitle(QString(tr(LBCHRONORACE_NAME) + " - " + raceDataFileInfo.fileName()));
             appendInfoMessage(tr("Race saved: %1").arg(raceDataFileName));
+
+            // Update recent races list
+            recentRaces->update(raceDataFileName);
         } else {
             QMessageBox::information(this, tr("Unable to open file"), raceDataFile.errorString());
             raceDataFileName.clear();

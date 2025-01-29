@@ -1295,6 +1295,10 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Off</source>
         <translation>Off</translation>
     </message>
+    <message>
+        <source>Recent Races</source>
+        <translation>Recent Races</translation>
+    </message>
 </context>
 <context>
     <name>LiveTable</name>
@@ -1783,6 +1787,13 @@ publishing</translation>
     <message>
         <source>You can exclude some of the generated rankings.</source>
         <translation>You can exclude some of the generated rankings.</translation>
+    </message>
+</context>
+<context>
+    <name>RecentRaces</name>
+    <message>
+        <source>Clear</source>
+        <translation>Clear</translation>
     </message>
 </context>
 <context>

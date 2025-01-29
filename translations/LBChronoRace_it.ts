@@ -1295,6 +1295,10 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Off</source>
         <translation>Spenta</translation>
     </message>
+    <message>
+        <source>Recent Races</source>
+        <translation>Gare Recenti</translation>
+    </message>
 </context>
 <context>
     <name>LiveTable</name>
@@ -1783,6 +1787,13 @@ la pubblicazione</translation>
     <message>
         <source>You can exclude some of the generated rankings.</source>
         <translation>Puoi escludere alcune dalle classifiche generate.</translation>
+    </message>
+</context>
+<context>
+    <name>RecentRaces</name>
+    <message>
+        <source>Clear</source>
+        <translation>Svuota lista</translation>
     </message>
 </context>
 <context>
