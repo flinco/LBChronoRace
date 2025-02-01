@@ -441,14 +441,13 @@ void ChronoRaceTimings::deleteBib()
 
 void ChronoRaceTimings::saveTimings()
 {
-    int r;
-    int c;
-
     QTableWidgetItem const *bib;
     QTableWidgetItem const *time;
 
-    CRLoader::clearTimings();
-    for (r = 0, c = 0; r < ui->dataArea->rowCount(); r++) {
+    using enum CRLoader::Action;
+
+    CRLoader::addTiming(BEGIN);
+    for (int r = 0; r < ui->dataArea->rowCount(); r++) {
 
         bib = ui->dataArea->item(r, 0);
         time = ui->dataArea->item(r, 1);
@@ -461,9 +460,9 @@ void ChronoRaceTimings::saveTimings()
             emit error(tr("Missing time for bib %1").arg(bib->text()));
         }
 
-        CRLoader::addTiming(bib ? bib->text() : "0", time ? time->text() : "0:00:00.000");
-        c++;
+        CRLoader::addTiming(ADD, bib ? bib->text() : "0", time ? time->text() : "0:00:00.000");
     }
+    CRLoader::addTiming(END);
 }
 
 void ChronoRaceTimings::stepUp()

@@ -238,23 +238,50 @@ uint CRLoader::getTeamNameWidthMax()
     return startListModel.getTeamNameWidthMax();
 }
 
-void CRLoader::clearTimings()
+void CRLoader::addTiming(Action action, QString const &bib, QString const &timing)
 {
-    timingsModel.reset();
-}
+    using enum CRLoader::Action;
 
-void CRLoader::addTiming(QString const &bib, QString const &timing)
-{
-    QString temp;
+    if (action == ADD) {
+        QString temp;
 
-    temp = bib;
-    checkString(&timingsModel, temp, ',');
-    temp = "0";
-    checkString(&timingsModel, temp, ',');
-    temp = timing;
-    checkString(&timingsModel, temp, ',');
-    temp = "CLS";
-    checkString(&timingsModel, temp);
+        temp = bib;
+        checkString(&timingsModel, temp, ',');
+        temp = "0";
+        checkString(&timingsModel, temp, ',');
+        temp = timing;
+        checkString(&timingsModel, temp, ',');
+        temp = "CLS";
+        checkString(&timingsModel, temp);
+    } else if (action == END) {
+        QString temp;
+
+        QList<Competitor> startList { startListModel.getStartList() };
+
+        // Remove all items for which a time has been recorded from the starting list
+        for (auto const &time : std::as_const(timingsModel.getTimings())) {
+            if (auto result = std::ranges::find_if(startList, [time](Competitor const &comp) { return comp.getBib() == time.getBib(); });
+                result != startList.end()) {
+                startList.erase(result);
+            }
+        }
+
+        // Add any remaining competitor as DNF
+        for (auto const &comp : std::as_const(startList)) {
+            temp = QString::number(comp.getBib());
+            checkString(&timingsModel, temp, ',');
+            temp = "0";
+            checkString(&timingsModel, temp, ',');
+            temp = "0:00:00.000";
+            checkString(&timingsModel, temp, ',');
+            temp = "DNF";
+            checkString(&timingsModel, temp);
+        }
+    } else if (action == BEGIN) {
+        timingsModel.reset();
+    } else {
+        throw(ChronoRaceException(tr("Unexpected acition value %1 (add timing)").arg(static_cast<int>(action))));
+    }
 }
 
 QList<Timing> const &CRLoader::getTimings()

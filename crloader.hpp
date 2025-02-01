@@ -60,6 +60,13 @@ public:
         TIMINGS
     };
 
+    enum class Action
+    {
+        BEGIN,
+        ADD,
+        END
+    };
+
 private:
     static StartListModel              startListModel;
     static TeamsListModel              teamsListModel;
@@ -85,8 +92,7 @@ public:
     static uint getStartListBibMax();
     static uint getStartListNameWidthMax();
     static uint getTeamNameWidthMax();
-    static void clearTimings();
-    static void addTiming(QString const &bib, QString const &timing);
+    static void addTiming(Action action, QString const &bib = QString(), QString const &timing = QString());
     static QList<Timing> const &getTimings();
     static int importTeams(QString const &path, bool append = false);
     static int importCategories(QString const &path, bool append = false);

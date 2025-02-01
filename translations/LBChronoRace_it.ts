@@ -158,6 +158,10 @@
         <source>Unexpected model value %1 (export)</source>
         <translation>Valore modello inatteso %1 (esportazione)</translation>
     </message>
+    <message>
+        <source>Unexpected acition value %1 (add timing)</source>
+        <translation>Valore azione inatteso %1 (aggiunta tempo)</translation>
+    </message>
 </context>
 <context>
     <name>CSVRankingPrinter</name>

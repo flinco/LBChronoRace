@@ -158,6 +158,10 @@
         <source>Unexpected model value %1 (export)</source>
         <translation>Unexpected model value %1 (export)</translation>
     </message>
+    <message>
+        <source>Unexpected acition value %1 (add timing)</source>
+        <translation>Unexpected acition value %1 (add timing)</translation>
+    </message>
 </context>
 <context>
     <name>CSVRankingPrinter</name>
