@@ -25,6 +25,7 @@
 #include <QDataStream>
 #include <QTextStream>
 #include <QVector>
+#include <QPixmap>
 
 #include "ui_chronoracedata.h"
 #include "chronoracelogo.hpp"
@@ -50,6 +51,37 @@ public:
         ACCURACY         = 11,
         ORGANIZATION     = 12,
         NUM_OF_FIELDS    = 13
+    };
+
+    enum class IndexField
+    {
+        RACE_TYPE        = 0,
+        RESULTS          = 1,
+        NAME_COMPOSITION = 2,
+        ACCURACY         = 3
+    };
+
+    enum class LogoField
+    {
+        LEFT             = 0,
+        RIGHT            = 1,
+        SPONSOR_1        = 2,
+        SPONSOR_2        = 3,
+        SPONSOR_3        = 4,
+        SPONSOR_4        = 5
+    };
+
+    enum class RaceType
+    {
+        MASS_START    = 0,
+        TIMED_RACE    = 1,
+        RELAY_RACE    = 2
+    };
+
+    enum class Results
+    {
+        UNOFFICIAL    = 0,
+        OFFICIAL      = 1
     };
 
     enum class NameComposition
@@ -93,24 +125,22 @@ public:
 
     QPixmap getLeftLogo() const;
     QPixmap getRightLogo() const;
-    QString getEvent() const;
-    QString getPlace() const;
     QDate   getDate() const;
     QTime   getStartTime() const;
-    QString getRaceType() const;
-    QString getResults() const;
-    QString getReferee() const;
-    QString getTimeKeeper(uint idx) const;
-    QString getOrganization() const;
-    QString getLength() const;
-    QString getElevationGain() const;
+    QString getField(ChronoRaceData::StringField field) const;
     QVector<QPixmap> getSponsorLogos() const;
+
+    void setField(ChronoRaceData::IndexField field, int newIndex);
+    void setField(ChronoRaceData::StringField field, QString const &newValue);
+    void setField(ChronoRaceData::LogoField field, QPixmap const &newValue);
+    void setRaceDate(QDate const &newDate);
+    void setStartTime(QTime const &newStartTime);
 
     void getGlobalData(ChronoRaceData::NameComposition *gNameComposition, ChronoRaceData::Accuracy *gAccuracy) const;
 
 public slots:
     void loadLogo(QLabel *label = Q_NULLPTR);
-    void deleteLogo(QLabel *label = Q_NULLPTR) const;
+    void removeLogo(QLabel *label = Q_NULLPTR) const;
 
     void accept() override;
     void reject() override;
@@ -135,6 +165,7 @@ private:
 
 signals:
     void globalDataChange(ChronoRaceData::NameComposition, ChronoRaceData::Accuracy);
+    void error(QString const &);
 };
 
 #endif // CHRONORACEDATA_HPP

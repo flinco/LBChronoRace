@@ -24,9 +24,9 @@
 
 #include "chronoracedata.hpp"
 #include "rankingsbuilder.hpp"
-#include "rankingswizardformat.hpp"
-#include "rankingswizardmode.hpp"
-#include "rankingswizardselection.hpp"
+#include "wizards/rankingswizardformat.hpp"
+#include "wizards/rankingswizardmode.hpp"
+#include "wizards/rankingswizardselection.hpp"
 
 class RankingsWizard : public QWizard
 {

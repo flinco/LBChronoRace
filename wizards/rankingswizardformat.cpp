@@ -18,8 +18,8 @@
 #include <QLabel>
 
 #include "crloader.hpp"
-#include "rankingswizard.hpp"
-#include "rankingswizardformat.hpp"
+#include "wizards/rankingswizard.hpp"
+#include "wizards/rankingswizardformat.hpp"
 #include "crhelper.hpp"
 
 RankingsWizardFormat::RankingsWizardFormat(QWidget *parent) :

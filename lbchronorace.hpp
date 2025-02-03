@@ -126,6 +126,7 @@ private:
     void toggleLiveView();
 
 private slots:
+    void newRace();
     void loadRace();
     void openRace(QString const &path);
     void saveRace();
@@ -144,11 +145,7 @@ private slots:
     void importCategoriesList();
     void importTimingsList();
 
-    void exportStartList();
-    void exportTeamList();
-    void exportRankingsList();
-    void exportCategoriesList();
-    void exportTimingsList();
+    void exportList();
 
     void screenRemoved(QScreen const *screen);
     void screenAdded(QScreen const *screen);

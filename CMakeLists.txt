@@ -106,14 +106,6 @@ set(PROJECT_SOURCES
     rankingprinter.hpp
     rankingsmodel.cpp
     rankingsmodel.hpp
-    rankingswizard.cpp
-    rankingswizard.hpp
-    rankingswizardformat.cpp
-    rankingswizardformat.hpp
-    rankingswizardmode.cpp
-    rankingswizardmode.hpp
-    rankingswizardselection.cpp
-    rankingswizardselection.hpp
     rankingtypedelegate.cpp
     rankingtypedelegate.hpp
     recentraces.cpp
@@ -133,7 +125,17 @@ set(PROJECT_SOURCES
     timingstatusdelegate.cpp
     timingstatusdelegate.hpp
     txtrankingprinter.cpp
-    txtrankingprinter.hpp)
+    txtrankingprinter.hpp
+    wizards/newracewizard.cpp
+    wizards/newracewizard.hpp
+    wizards/rankingswizard.cpp
+    wizards/rankingswizard.hpp
+    wizards/rankingswizardformat.cpp
+    wizards/rankingswizardformat.hpp
+    wizards/rankingswizardmode.cpp
+    wizards/rankingswizardmode.hpp
+    wizards/rankingswizardselection.cpp
+    wizards/rankingswizardselection.hpp)
 
 # Translations
 set(TS_FILES

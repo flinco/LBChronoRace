@@ -546,6 +546,18 @@
         <source>Top right logo</source>
         <translation>Logo destro</translation>
     </message>
+    <message>
+        <source>Error: index field to be set unknown</source>
+        <translation>Errore: campo di tipo indice sconosciuto</translation>
+    </message>
+    <message>
+        <source>Error: string field to be set unknown</source>
+        <translation>Errore: campo di tipo stringa sconosciuto</translation>
+    </message>
+    <message>
+        <source>Error: logo field to be set unknown</source>
+        <translation>Errore: campo di tipo logo sconosciuto</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTable</name>
@@ -1303,6 +1315,26 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Recent Races</source>
         <translation>Gare Recenti</translation>
     </message>
+    <message>
+        <source>Start with a new race file</source>
+        <translation>Crea un nuovo file gara</translation>
+    </message>
+    <message>
+        <source>New Race</source>
+        <translation>Nuova Gara</translation>
+    </message>
+    <message>
+        <source>&amp;New</source>
+        <translation>&amp;Nuovo</translation>
+    </message>
+    <message>
+        <source>N</source>
+        <translation>N</translation>
+    </message>
+    <message>
+        <source>Error: table to be exported unknown</source>
+        <translation>Errore: tabella da esportare sconosciuta</translation>
+    </message>
 </context>
 <context>
     <name>LiveTable</name>
@@ -1373,6 +1405,347 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Search…</source>
         <translation>Cerca…</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizard</name>
+    <message>
+        <source>New Race Wizard</source>
+        <translation>Procedura guidata Nuova Gara</translation>
+    </message>
+    <message>
+        <source>Null race data pointer</source>
+        <translation>Puntatore ai dati gara nullo</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardAuxData</name>
+    <message>
+        <source>Auxiliary Race Information</source>
+        <translation>Informazioni Gara Ausiliarie</translation>
+    </message>
+    <message>
+        <source>This information is optional, but makes the ranking more professional.</source>
+        <translation>Queste informazioni sono opzionali, ma rendono la classifica più professionale.</translation>
+    </message>
+    <message>
+        <source>Referee</source>
+        <translation>Giudice</translation>
+    </message>
+    <message>
+        <source>The race referee</source>
+        <translation>Il giudice di gara</translation>
+    </message>
+    <message>
+        <source>Timekeeper 1</source>
+        <translation>Cronometrista 1</translation>
+    </message>
+    <message>
+        <source>The first timekeeper of the race</source>
+        <translation>Il primo cronometrista</translation>
+    </message>
+    <message>
+        <source>The name of the first timekeeper of the race</source>
+        <translation>Il nome del primo cronometrista</translation>
+    </message>
+    <message>
+        <source>Timekeeper 2</source>
+        <translation>Cronometrista 2</translation>
+    </message>
+    <message>
+        <source>The second timekeeper of the race</source>
+        <translation>Il secondo cronometrista</translation>
+    </message>
+    <message>
+        <source>The name of the second timekeeper of the race</source>
+        <translation>Il nome del secondo cronometrista</translation>
+    </message>
+    <message>
+        <source>Timekeeper 3</source>
+        <translation>Cronometrista 3</translation>
+    </message>
+    <message>
+        <source>The thirs timekeeper of the race</source>
+        <translation>Il terzo cronometrista</translation>
+    </message>
+    <message>
+        <source>The name of the third timekeeper of the race</source>
+        <translation>Il nome del terzo cronometrista</translation>
+    </message>
+    <message>
+        <source>Length</source>
+        <translation>Lunghezza</translation>
+    </message>
+    <message>
+        <source>The length of the race</source>
+        <translation>La lunghezza della gara</translation>
+    </message>
+    <message>
+        <source>The length of the race (usually in m or km)</source>
+        <translation>La lunghezza della gara (normalmente in m o km)</translation>
+    </message>
+    <message>
+        <source>Elevation Gain</source>
+        <translation>Dislivello</translation>
+    </message>
+    <message>
+        <source>The elevation gain of the race</source>
+        <translation>Il dislivello del percorso</translation>
+    </message>
+    <message>
+        <source>The elevation gain of the race (usually in m)</source>
+        <translation>Il dislivello del percorso (normalmente in m)</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardLogos</name>
+    <message>
+        <source>Select Logo</source>
+        <translation>Seleziona Logo</translation>
+    </message>
+    <message>
+        <source>Images (*.png *.xpm *.jpg *.gif);;All Files (*)</source>
+        <translation>Immagini (*.png *.xpm *.jpg *.gif);;Tutti i file (*)</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardMainData</name>
+    <message>
+        <source>General Race Information</source>
+        <translation>Informazioni Generali Gara</translation>
+    </message>
+    <message>
+        <source>Please enter a name for the event, the place, date, time, and race type.</source>
+        <translation>Inserisci un nome per l&apos;evento, luogo, data, orario e tipo di gara.</translation>
+    </message>
+    <message>
+        <source>Event</source>
+        <translation>Evento</translation>
+    </message>
+    <message>
+        <source>The name of the race</source>
+        <translation>Il nome della gara</translation>
+    </message>
+    <message>
+        <source>Place</source>
+        <translation>Luogo</translation>
+    </message>
+    <message>
+        <source>Where the competition will take place</source>
+        <translation>Dove sarà disputata la gara</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Data</translation>
+    </message>
+    <message>
+        <source>What day will the competition take place</source>
+        <translation>La data in cui la gara sarà disputata</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>Tempo</translation>
+    </message>
+    <message>
+        <source>What time the race will take place</source>
+        <translation>L&apos;orario di inizio della gara</translation>
+    </message>
+    <message>
+        <source>Race Type</source>
+        <translation>Tipo gara</translation>
+    </message>
+    <message>
+        <source>Mass start</source>
+        <translation>Partenza in linea</translation>
+    </message>
+    <message>
+        <source>Timed race</source>
+        <translation>A cronometro</translation>
+    </message>
+    <message>
+        <source>Relay race</source>
+        <translation>Staffetta</translation>
+    </message>
+    <message>
+        <source>What kind of race will be</source>
+        <translation>La tipologia di gara</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardOrganization</name>
+    <message>
+        <source>Race Organizing Committe Information</source>
+        <translation>Informazioni sul Comitato Organizzatore</translation>
+    </message>
+    <message>
+        <source>Organization</source>
+        <translation>Organizzazione</translation>
+    </message>
+    <message>
+        <source>General information about the organizing committee of the race</source>
+        <translation>Informazioni generali sul Comitato Organizzatore della gara</translation>
+    </message>
+    <message>
+        <source>This information is optional, but makes the ranking more professional.</source>
+        <translation>Queste informazioni sono opzionali, ma rendono la classifica più professionale.</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardRaceLogos</name>
+    <message>
+        <source>Race Logos</source>
+        <translation>Loghi Gara</translation>
+    </message>
+    <message>
+        <source>Race logos are optional, but make the ranking more professional.</source>
+        <translation>I loghi gara sono opzionali, ma rendono la classifica più professionale.</translation>
+    </message>
+    <message>
+        <source>Left Logo</source>
+        <translation>Logo Sinistro</translation>
+    </message>
+    <message>
+        <source>Logo 1 not loaded</source>
+        <translation>1° logo non caricato</translation>
+    </message>
+    <message>
+        <source>The logo in the upper left corner of the PDF</source>
+        <translation>Il logo nell&apos;angolo superiore sinistro del PDF</translation>
+    </message>
+    <message>
+        <source>Load</source>
+        <translation>Carica</translation>
+    </message>
+    <message>
+        <source>Add a logo in the upper left corner of the PDF</source>
+        <translation>Aggiunge il logo nell&apos;angolo superiore sinistro del PDF</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Rimuovi</translation>
+    </message>
+    <message>
+        <source>Removes the logo from the upper left corner of the PDF</source>
+        <translation>Elimina il logo dall&apos;angolo superiore sinistro del PDF</translation>
+    </message>
+    <message>
+        <source>Right Logo</source>
+        <translation>Logio Destro</translation>
+    </message>
+    <message>
+        <source>Logo 2 not loaded</source>
+        <translation>2° logo non caricato</translation>
+    </message>
+    <message>
+        <source>The logo in the upper right corner of the PDF</source>
+        <translation>Il logo nell&apos;angolo superiore destro del PDF</translation>
+    </message>
+    <message>
+        <source>Add a logo in the upper right corner of the PDF</source>
+        <translation>Aggiunge il logo nell&apos;angolo superiore destro del PDF</translation>
+    </message>
+    <message>
+        <source>Removes the logo from the upper right corner of the PDF</source>
+        <translation>Elimina il logo dall&apos;angolo superiore destro del PDF</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardSponsorLogos</name>
+    <message>
+        <source>Sponsor Logos</source>
+        <translation>Loghi Sponsor</translation>
+    </message>
+    <message>
+        <source>Sponsor logos are optional, but make the ranking more professional.</source>
+        <translation>I loghi sponsor sono opzionali, ma rendono la classifica più professionale.</translation>
+    </message>
+    <message>
+        <source>1st sponsor logo</source>
+        <translation>1° logo sponsor</translation>
+    </message>
+    <message>
+        <source>Sponsor 1 not loaded</source>
+        <translation>1° sponsor non caricato</translation>
+    </message>
+    <message>
+        <source>First sponsor logo (at the bottom of the PDF)</source>
+        <translation>Il logo del primo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Load</source>
+        <translation>Carica</translation>
+    </message>
+    <message>
+        <source>Add the first sponsor logo (at the bottom of the PDF)</source>
+        <translation>Aggiunge il logo del primo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Rimuovi</translation>
+    </message>
+    <message>
+        <source>Remove the first sponsor logo (from the bottom of the PDF)</source>
+        <translation>Elimina il logo del primo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>2nd sponsor logo</source>
+        <translation>2° logo sponsor</translation>
+    </message>
+    <message>
+        <source>Sponsor 2 not loaded</source>
+        <translation>2° sponsor non caricato</translation>
+    </message>
+    <message>
+        <source>Second sponsor logo (at the bottom of the PDF)</source>
+        <translation>Il logo del secondo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Add the second sponsor logo (at the bottom of the PDF)</source>
+        <translation>Aggiunge il logo del secondo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the second sponsor logo (from the bottom of the PDF)</source>
+        <translation>Elimina il logo del secondo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>3rd sponsor logo</source>
+        <translation>3° logo sponsor</translation>
+    </message>
+    <message>
+        <source>Sponsor 3 not loaded</source>
+        <translation>3° sponsor non caricato</translation>
+    </message>
+    <message>
+        <source>Third sponsor logo (at the bottom of the PDF)</source>
+        <translation>Il logo del terzo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Add the third sponsor logo (at the bottom of the PDF)</source>
+        <translation>Aggiunge il logo del terzo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the third sponsor logo (from the bottom of the PDF)</source>
+        <translation>Elimina il logo del terzo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>4th sponsor logo</source>
+        <translation>4° logo sponsor</translation>
+    </message>
+    <message>
+        <source>Sponsor 4 not loaded</source>
+        <translation>4° sponsor non caricato</translation>
+    </message>
+    <message>
+        <source>Fourth sponsor logo (at the bottom of the PDF)</source>
+        <translation>Il logo del quarto sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Add the fourth sponsor logo (at the bottom of the PDF)</source>
+        <translation>Aggiunge il logo del quarto sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the fourth sponsor logo (from the bottom of the PDF)</source>
+        <translation>Elimina il logo del quarto sponsor (dalla parte inferiore del PDF)</translation>
     </message>
 </context>
 <context>

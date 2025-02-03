@@ -59,5 +59,6 @@
         <file>icons/space_bar.svg</file>
         <file>icons/history.svg</file>
         <file>icons/update.svg</file>
+        <file>icons/note_add.svg</file>
     </qresource>
 </RCC>

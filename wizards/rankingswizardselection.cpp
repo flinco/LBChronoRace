@@ -16,8 +16,8 @@
  *****************************************************************************/
 
 #include "crloader.hpp"
-#include "rankingswizard.hpp"
-#include "rankingswizardselection.hpp"
+#include "wizards/rankingswizard.hpp"
+#include "wizards/rankingswizardselection.hpp"
 
 RankingsWizardSelection::RankingsWizardSelection(QWidget *parent) :
     QWizardPage(parent),

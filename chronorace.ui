@@ -126,7 +126,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="2">
+      <item row="2" column="0" colspan="2">
        <widget class="QPushButton" name="saveRace">
         <property name="toolTip">
          <string>Save current race data to file</string>
@@ -170,7 +170,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0" colspan="2">
+      <item row="3" column="0" colspan="2">
        <widget class="QPushButton" name="editRace">
         <property name="toolTip">
          <string>Edit race information, including logos</string>
@@ -202,6 +202,20 @@
        </widget>
       </item>
       <item row="0" column="0" colspan="2">
+       <widget class="QPushButton" name="newRace">
+        <property name="toolTip">
+         <string>Start with a new race file</string>
+        </property>
+        <property name="text">
+         <string>New Race</string>
+        </property>
+        <property name="icon">
+         <iconset resource="materialicons.qrc">
+          <normaloff>:/material/icons/note_add.svg</normaloff>:/material/icons/note_add.svg</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
        <widget class="QPushButton" name="loadRace">
         <property name="toolTip">
          <string>Load race data from a file</string>
@@ -245,7 +259,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="2">
+      <item row="4" column="0">
        <widget class="QLabel" name="liveViewLabel">
         <property name="toolTip">
          <string>Select a screen for the Live View</string>
@@ -254,11 +268,11 @@
          <string>Live View</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignmentFlag::AlignCenter</set>
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
        </widget>
       </item>
-      <item row="4" column="0" colspan="2">
+      <item row="4" column="1">
        <widget class="QComboBox" name="liveViewSelector">
         <property name="enabled">
          <bool>false</bool>
@@ -472,6 +486,7 @@
     <property name="toolTipsVisible">
      <bool>false</bool>
     </property>
+    <addaction name="actionNewRace"/>
     <addaction name="actionLoadRace"/>
     <addaction name="actionSaveRace"/>
     <addaction name="actionSaveRaceAs"/>
@@ -518,6 +533,21 @@
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
+  <action name="actionNewRace">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/note_add.svg</normaloff>:/material/icons/note_add.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;New</string>
+   </property>
+   <property name="toolTip">
+    <string>Start with a new race file</string>
+   </property>
+   <property name="shortcut">
+    <string>N</string>
+   </property>
+  </action>
   <action name="actionQuit">
    <property name="icon">
     <iconset resource="materialicons.qrc">
@@ -767,6 +797,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
+  <tabstop>newRace</tabstop>
   <tabstop>loadRace</tabstop>
   <tabstop>saveRace</tabstop>
   <tabstop>editRace</tabstop>

@@ -50,32 +50,32 @@ ChronoRaceData::ChronoRaceData(QWidget *parent) : QDialog(parent)
     QObject::connect(ui->loadLeftLogo, &QPushButton::clicked, &this->leftLogo, &ChronoRaceLogo::loadLogo);
     QObject::connect(ui->removeLeftLogo, &QPushButton::clicked, &this->leftLogo, &ChronoRaceLogo::removeLogo);
     QObject::connect(&this->leftLogo, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
-    QObject::connect(&this->leftLogo, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::deleteLogo);
+    QObject::connect(&this->leftLogo, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::removeLogo);
 
     QObject::connect(ui->loadRightLogo, &QPushButton::clicked, &this->rightLogo, &ChronoRaceLogo::loadLogo);
     QObject::connect(ui->removeRightLogo, &QPushButton::clicked, &this->rightLogo, &ChronoRaceLogo::removeLogo);
     QObject::connect(&this->rightLogo, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
-    QObject::connect(&this->rightLogo, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::deleteLogo);
+    QObject::connect(&this->rightLogo, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::removeLogo);
 
     QObject::connect(ui->loadSponsorLogo1, &QPushButton::clicked, &this->sponsorLogo1, &ChronoRaceLogo::loadLogo);
     QObject::connect(ui->removeSponsorLogo1, &QPushButton::clicked, &this->sponsorLogo1, &ChronoRaceLogo::removeLogo);
     QObject::connect(&this->sponsorLogo1, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
-    QObject::connect(&this->sponsorLogo1, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::deleteLogo);
+    QObject::connect(&this->sponsorLogo1, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::removeLogo);
 
     QObject::connect(ui->loadSponsorLogo2, &QPushButton::clicked, &this->sponsorLogo2, &ChronoRaceLogo::loadLogo);
     QObject::connect(ui->removeSponsorLogo2, &QPushButton::clicked, &this->sponsorLogo2, &ChronoRaceLogo::removeLogo);
     QObject::connect(&this->sponsorLogo2, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
-    QObject::connect(&this->sponsorLogo2, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::deleteLogo);
+    QObject::connect(&this->sponsorLogo2, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::removeLogo);
 
     QObject::connect(ui->loadSponsorLogo3, &QPushButton::clicked, &this->sponsorLogo3, &ChronoRaceLogo::loadLogo);
     QObject::connect(ui->removeSponsorLogo3, &QPushButton::clicked, &this->sponsorLogo3, &ChronoRaceLogo::removeLogo);
     QObject::connect(&this->sponsorLogo3, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
-    QObject::connect(&this->sponsorLogo3, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::deleteLogo);
+    QObject::connect(&this->sponsorLogo3, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::removeLogo);
 
     QObject::connect(ui->loadSponsorLogo4, &QPushButton::clicked, &this->sponsorLogo4, &ChronoRaceLogo::loadLogo);
     QObject::connect(ui->removeSponsorLogo4, &QPushButton::clicked, &this->sponsorLogo4, &ChronoRaceLogo::removeLogo);
     QObject::connect(&this->sponsorLogo4, &ChronoRaceLogo::logoLoaded, this, &ChronoRaceData::loadLogo);
-    QObject::connect(&this->sponsorLogo4, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::deleteLogo);
+    QObject::connect(&this->sponsorLogo4, &ChronoRaceLogo::logoRemoved, this, &ChronoRaceData::removeLogo);
 
     ui->nameComposition->setCurrentIndex(this->nameCompositionIdx);
     this->stringFields[static_cast<int>(StringField::NAME_COMPOSITION)] = ui->nameComposition->currentText();
@@ -394,7 +394,7 @@ void ChronoRaceData::loadLogo(QLabel *label)
     }
 }
 
-void ChronoRaceData::deleteLogo(QLabel *label) const
+void ChronoRaceData::removeLogo(QLabel *label) const
 {
     if (label) {
         label->setPixmap(QPixmap());
@@ -429,52 +429,6 @@ void ChronoRaceData::getGlobalData(ChronoRaceData::NameComposition *gNameComposi
         *gAccuracy = static_cast<ChronoRaceData::Accuracy>(this->accuracyIdx);
 }
 
-QString ChronoRaceData::getElevationGain() const
-{
-    return this->stringFields[static_cast<int>(StringField::ELEVATION_GAIN)];
-}
-
-QString ChronoRaceData::getLength() const
-{
-    return this->stringFields[static_cast<int>(StringField::LENGTH)];
-}
-
-QString ChronoRaceData::getOrganization() const
-{
-    return this->stringFields[static_cast<int>(StringField::ORGANIZATION)];
-}
-
-QString ChronoRaceData::getTimeKeeper(uint idx) const
-{
-    switch (idx) {
-        using enum ChronoRaceData::StringField;
-
-        case 0:
-            return this->stringFields[static_cast<int>(TIMEKEEPER_1)];
-        case 1:
-            return this->stringFields[static_cast<int>(TIMEKEEPER_2)];
-        case 2:
-            return this->stringFields[static_cast<int>(TIMEKEEPER_3)];
-        default:
-            return QString();
-    }
-}
-
-QString ChronoRaceData::getReferee() const
-{
-    return this->stringFields[static_cast<int>(StringField::REFEREE)];
-}
-
-QString ChronoRaceData::getResults() const
-{
-    return this->stringFields[static_cast<int>(StringField::RESULTS)];
-}
-
-QString ChronoRaceData::getRaceType() const
-{
-    return this->stringFields[static_cast<int>(StringField::RACE_TYPE)];
-}
-
 QTime ChronoRaceData::getStartTime() const
 {
     return startTime;
@@ -483,11 +437,6 @@ QTime ChronoRaceData::getStartTime() const
 QDate ChronoRaceData::getDate() const
 {
     return date;
-}
-
-QString ChronoRaceData::getPlace() const
-{
-    return this->stringFields[static_cast<int>(StringField::PLACE)];
 }
 
 QPixmap ChronoRaceData::getLeftLogo() const
@@ -500,7 +449,140 @@ QPixmap ChronoRaceData::getRightLogo() const
     return this->rightLogo.pixmap;
 }
 
-QString ChronoRaceData::getEvent() const
+QString ChronoRaceData::getField(ChronoRaceData::StringField field) const
 {
-    return this->stringFields[static_cast<int>(StringField::EVENT)];
+    switch (field) {
+        using enum ChronoRaceData::StringField;
+
+        case EVENT:
+            [[fallthrough]];
+        case PLACE:
+            [[fallthrough]];
+        case REFEREE:
+            [[fallthrough]];
+        case TIMEKEEPER_1:
+            [[fallthrough]];
+        case TIMEKEEPER_2:
+            [[fallthrough]];
+        case TIMEKEEPER_3:
+            [[fallthrough]];
+        case LENGTH:
+            [[fallthrough]];
+        case ELEVATION_GAIN:
+            [[fallthrough]];
+        case ORGANIZATION:
+            [[fallthrough]];
+        case RACE_TYPE:
+            [[fallthrough]];
+        case RESULTS:
+            return this->stringFields[static_cast<qsizetype>(field)];
+            break;
+        default:
+            return QString();
+            break;
+    }
+}
+
+void ChronoRaceData::setField(ChronoRaceData::IndexField field, int newIndex)
+{
+    switch (field) {
+        using enum ChronoRaceData::IndexField;
+
+        case RACE_TYPE:
+            if (newIndex < ui->raceType->count()) {
+                this->raceTypeIdx = newIndex;
+                this->stringFields[static_cast<qsizetype>(ChronoRaceData::StringField::RACE_TYPE)] = ui->raceType->itemText(newIndex);
+            }
+            break;
+        case RESULTS:
+            if (newIndex < ui->results->count()) {
+                this->resultsIdx = newIndex;
+                this->stringFields[static_cast<qsizetype>(ChronoRaceData::StringField::RESULTS)] = ui->results->itemText(newIndex);
+            }
+            break;
+        case NAME_COMPOSITION:
+            if (newIndex < ui->nameComposition->count()) {
+                this->nameCompositionIdx = newIndex;
+                this->stringFields[static_cast<qsizetype>(ChronoRaceData::StringField::NAME_COMPOSITION)] = ui->nameComposition->itemText(newIndex);
+            }
+            break;
+        case ACCURACY:
+            if (newIndex < ui->accuracy->count()) {
+                this->accuracyIdx = newIndex;
+                this->stringFields[static_cast<qsizetype>(ChronoRaceData::StringField::ACCURACY)] = ui->accuracy->itemText(newIndex);
+            }
+            break;
+        default:
+            emit error(tr("Error: index field to be set unknown"));
+            break;
+    }
+}
+
+void ChronoRaceData::setField(ChronoRaceData::StringField field, QString const &newValue)
+{
+    switch (field) {
+        using enum ChronoRaceData::StringField;
+
+        case EVENT:
+            [[fallthrough]];
+        case PLACE:
+            [[fallthrough]];
+        case REFEREE:
+            [[fallthrough]];
+        case TIMEKEEPER_1:
+            [[fallthrough]];
+        case TIMEKEEPER_2:
+            [[fallthrough]];
+        case TIMEKEEPER_3:
+            [[fallthrough]];
+        case LENGTH:
+            [[fallthrough]];
+        case ELEVATION_GAIN:
+            [[fallthrough]];
+        case ORGANIZATION:
+            this->stringFields[static_cast<qsizetype>(field)] = newValue;
+            break;
+        default:
+            emit error(tr("Error: string field to be set unknown"));
+            break;
+    }
+}
+
+void ChronoRaceData::setField(ChronoRaceData::LogoField field, QPixmap const &newValue)
+{
+    switch (field) {
+        using enum ChronoRaceData::LogoField;
+
+        case LEFT:
+            this->leftLogo.pixmap = newValue;
+            break;
+        case RIGHT:
+            this->rightLogo.pixmap = newValue;
+            break;
+        case SPONSOR_1:
+            this->sponsorLogo1.pixmap = newValue;
+            break;
+        case SPONSOR_2:
+            this->sponsorLogo2.pixmap = newValue;
+            break;
+        case SPONSOR_3:
+            this->sponsorLogo3.pixmap = newValue;
+            break;
+        case SPONSOR_4:
+            this->sponsorLogo4.pixmap = newValue;
+            break;
+        default:
+            emit error(tr("Error: logo field to be set unknown"));
+            break;
+    }
+}
+
+void ChronoRaceData::setRaceDate(QDate const &newDate)
+{
+    this->date = newDate;
+}
+
+void ChronoRaceData::setStartTime(QTime const &newStartTime)
+{
+    this->startTime = newStartTime;
 }

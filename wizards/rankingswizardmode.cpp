@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "rankingswizard.hpp"
-#include "rankingswizardmode.hpp"
+#include "wizards/rankingswizard.hpp"
+#include "wizards/rankingswizardmode.hpp"
 
 RankingsWizardMode::RankingsWizardMode(QWidget *parent) :
     QWizardPage(parent),

@@ -1024,6 +1024,8 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
     QString createdWith = tr("Created with %1 %2").arg(QStringLiteral(LBCHRONORACE_NAME),
                                                        QStringLiteral(LBCHRONORACE_VERSION));
 
+    using enum ChronoRaceData::StringField;
+
     // Horizontal lines
     if (page == 1) {
         // Page 1
@@ -1078,17 +1080,17 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
         painter.setFont(rnkFontBoldItal);
         writeRect.setTopLeft(QPointF(toHdots(24.0), toVdots(0.5)));
         writeRect.setBottomRight(QPointF(toHdots(-24.0), toVdots(15.0)));
-        painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo->getEvent());
+        painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo->getField(EVENT));
         painter.setFont(rnkFontItalic);
         writeRect.setTopLeft(QPointF(toHdots(24.0), toVdots(15.0)));
         writeRect.setBottomRight(QPointF(toHdots(-24.0), toVdots(25.0)));
-        painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo->getPlace() + " - " + QLocale::system().toString(raceInfo->getDate(), "dddd dd/MM/yyyy"));
+        painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo->getField(PLACE) + " - " + QLocale::system().toString(raceInfo->getDate(), "dddd dd/MM/yyyy"));
     } else {
         rnkFontBoldItal.setPointSize(14);
         painter.setFont(rnkFontBoldItal);
         writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(0.5)));
         writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(15.0)));
-        painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo->getEvent() + " - " + raceInfo->getPlace() + " - " + raceInfo->getDate().toString("dd/MM/yyyy"));
+        painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo->getField(EVENT) + " - " + raceInfo->getField(PLACE) + " - " + raceInfo->getDate().toString("dd/MM/yyyy"));
         writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(15.0)));
         writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(25.0)));
         painter.drawText(writeRect.toRect(), Qt::AlignCenter, fullDescription);
@@ -1098,7 +1100,7 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
     writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(-40.5)));
     if (!startList) {
         writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-35.0)));
-        painter.drawText(writeRect.toRect(), Qt::AlignHCenter | Qt::AlignTop, tr("Results") + ":\u00a0" + raceInfo->getResults());
+        painter.drawText(writeRect.toRect(), Qt::AlignHCenter | Qt::AlignTop, tr("Results") + ":\u00a0" + raceInfo->getField(RESULTS));
     }
     writeRect.setBottomRight(QPointF(toHdots(30.0), toVdots(-35.0)));
     painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, tr("Page %n", "", page) + " " + tr("of %n", "", pages));
@@ -1113,21 +1115,21 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
         writeRect.setTopLeft(boundingRect.topRight());
         textOptions.setWrapMode(QTextOption::WordWrap);
         textOptions.setAlignment(Qt::AlignLeft | Qt::AlignTop);
-        painter.drawText(writeRect, raceInfo->getOrganization(), textOptions);
+        painter.drawText(writeRect, raceInfo->getField(ORGANIZATION), textOptions);
         // Type, start time, length and elevation gin
         writeRect.setTopLeft(QPointF(this->areaWidth * 0.5, toVdots(26.0)));
         writeRect.setBottomRight(QPointF((this->areaWidth * 0.75) - toHdots(5.0), toVdots(38.5)));
         painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, tr("Race Type") + ":\u00a0\n" + tr("Start Time") + ":\u00a0\n" + tr("Length") + ":\u00a0\n" + tr("Elevation Gain") + ":\u00a0", &boundingRect);
         writeRect.setTopLeft(boundingRect.topRight());
         textOptions.setWrapMode(QTextOption::WordWrap);
-        painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, raceInfo->getRaceType() + "\n" + raceInfo->getStartTime().toString("hh:mm") + "\n" + raceInfo->getLength() + "\n" + raceInfo->getElevationGain());
+        painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, raceInfo->getField(RACE_TYPE) + "\n" + raceInfo->getStartTime().toString("hh:mm") + "\n" + raceInfo->getField(LENGTH) + "\n" + raceInfo->getField(ELEVATION_GAIN));
         // Referee and Timekeeper 1, 2 and 3
         writeRect.setTopLeft(QPointF(this->areaWidth * 0.75, toVdots(26.0)));
         writeRect.setBottomRight(QPointF(this->areaWidth - toHdots(5.0), toVdots(38.5)));
         painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, tr("Referee") + ":\u00a0\n" + tr("Timekeeper 1") + ":\u00a0\n" + tr("Timekeeper 2") + ":\u00a0\n" + tr("Timekeeper 3") + ":\u00a0", &boundingRect);
         writeRect.setTopLeft(boundingRect.topRight());
         textOptions.setWrapMode(QTextOption::WordWrap);
-        painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, raceInfo->getReferee() + "\n" + raceInfo->getTimeKeeper(0) + "\n" + raceInfo->getTimeKeeper(1) + "\n" + raceInfo->getTimeKeeper(2));
+        painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, raceInfo->getField(REFEREE) + "\n" + raceInfo->getField(TIMEKEEPER_1) + "\n" + raceInfo->getField(TIMEKEEPER_2) + "\n" + raceInfo->getField(TIMEKEEPER_3));
         // Description
         rnkFontBold.setPointSize(18);
         painter.setFont(rnkFontBold);
@@ -1159,6 +1161,8 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
 //NOSONAR     // Created with
 //NOSONAR     QString createdWith = tr("Created with %1 %2").arg(QStringLiteral(LBCHRONORACE_NAME),
 //NOSONAR                                                        QStringLiteral(LBCHRONORACE_VERSION));
+
+//NOSONAR     using enum ChronoRaceData::StringField;
 
 //NOSONAR     // Horizontal lines
 //NOSONAR     if (page == 1) {
@@ -1213,17 +1217,17 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
 //NOSONAR         painter.setFont(rnkFontBoldItal);
 //NOSONAR         writeRect.setTopLeft(QPointF(toHdots(24.0), toVdots(0.5)));
 //NOSONAR         writeRect.setBottomRight(QPointF(toHdots(-24.0), toVdots(15.0)));
-//NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo->getEvent());
+//NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo->getField(EVENT));
 //NOSONAR         painter.setFont(rnkFontItalic);
 //NOSONAR         writeRect.setTopLeft(QPointF(toHdots(24.0), toVdots(15.0)));
 //NOSONAR         writeRect.setBottomRight(QPointF(toHdots(-24.0), toVdots(25.0)));
-//NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo->getPlace() + " - " + QLocale::system().toString(raceInfo->getDate(), "dddd dd/MM/yyyy"));
+//NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo->getField(PLACE) + " - " + QLocale::system().toString(raceInfo->getDate(), "dddd dd/MM/yyyy"));
 //NOSONAR     } else {
 //NOSONAR         rnkFontBoldItal.setPointSize(14);
 //NOSONAR         painter.setFont(rnkFontBoldItal);
 //NOSONAR         writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(0.5)));
 //NOSONAR         writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(15.0)));
-//NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo->getEvent() + " - " + raceInfo->getPlace() + " - " + raceInfo->getDate().toString("dd/MM/yyyy"));
+//NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignCenter, raceInfo->getField(EVENT) + " - " + raceInfo->getField(PLACE) + " - " + raceInfo->getDate().toString("dd/MM/yyyy"));
 //NOSONAR         writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(15.0)));
 //NOSONAR         writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(25.0)));
 //NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignCenter, fullDescription);
@@ -1233,7 +1237,7 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
 //NOSONAR     writeRect.setTopLeft(QPointF(toHdots(0.0), toVdots(-40.5)));
 //NOSONAR     if (!startList) {
 //NOSONAR         writeRect.setBottomRight(QPointF(this->areaWidth, toVdots(-35.0)));
-//NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignHCenter | Qt::AlignTop, tr("Results") + ":\u00a0" + raceInfo->getResults());
+//NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignHCenter | Qt::AlignTop, tr("Results") + ":\u00a0" + raceInfo->getField(RESULTS));
 //NOSONAR     }
 //NOSONAR     writeRect.setBottomRight(QPointF(toHdots(30.0), toVdots(-35.0)));
 //NOSONAR     painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, tr("Page %n", "", page) + " " + tr("of %n", "", pages));
@@ -1248,21 +1252,21 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
 //NOSONAR         writeRect.setTopLeft(boundingRect.topRight());
 //NOSONAR         textOptions.setWrapMode(QTextOption::WordWrap);
 //NOSONAR         textOptions.setAlignment(Qt::AlignLeft | Qt::AlignTop);
-//NOSONAR         painter.drawText(writeRect, raceInfo->getOrganization(), textOptions);
+//NOSONAR         painter.drawText(writeRect, raceInfo->getField(ORGANIZATION), textOptions);
 //NOSONAR         // Type, start time, length and elevation gin
 //NOSONAR         writeRect.setTopLeft(QPointF(this->areaWidth * 0.5, toVdots(26.0)));
 //NOSONAR         writeRect.setBottomRight(QPointF((this->areaWidth * 0.75) - toHdots(5.0), toVdots(38.5)));
 //NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, tr("Race Type") + ":\u00a0\n" + tr("Start Time") + ":\u00a0\n" + tr("Length") + ":\u00a0\n" + tr("Elevation Gain") + ":\u00a0", &boundingRect);
 //NOSONAR         writeRect.setTopLeft(boundingRect.topRight());
 //NOSONAR         textOptions.setWrapMode(QTextOption::WordWrap);
-//NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, raceInfo->getRaceType() + "\n" + raceInfo->getStartTime().toString("hh:mm") + "\n" + raceInfo->getLength() + "\n" + raceInfo->getElevationGain());
+//NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, raceInfo->getField(RACE_TYPE) + "\n" + raceInfo->getStartTime().toString("hh:mm") + "\n" + raceInfo->getField(LENGTH) + "\n" + raceInfo->getField(ELEVATION_GAIN));
 //NOSONAR         // Referee and Timekeeper 1, 2 and 3
 //NOSONAR         writeRect.setTopLeft(QPointF(this->areaWidth * 0.75, toVdots(26.0)));
 //NOSONAR         writeRect.setBottomRight(QPointF(this->areaWidth - toHdots(5.0), toVdots(38.5)));
 //NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, tr("Referee") + ":\u00a0\n" + tr("Timekeeper 1") + ":\u00a0\n" + tr("Timekeeper 2") + ":\u00a0\n" + tr("Timekeeper 3") + ":\u00a0", &boundingRect);
 //NOSONAR         writeRect.setTopLeft(boundingRect.topRight());
 //NOSONAR         textOptions.setWrapMode(QTextOption::WordWrap);
-//NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, raceInfo->getReferee() + "\n" + raceInfo->getTimeKeeper1() + "\n" + raceInfo->getTimeKeeper2() + "\n" + raceInfo->getTimeKeeper3());
+//NOSONAR         painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignTop, raceInfo->getField(REFEREE) + "\n" + raceInfo->getField(TIMEKEEPER_1) + "\n" + raceInfo->getField(TIMEKEEPER_2) + "\n" + raceInfo->getField(TIMEKEEPER_3));
 //NOSONAR         // Description
 //NOSONAR         rnkFontBold.setPointSize(18);
 //NOSONAR         painter.setFont(rnkFontBold);

@@ -21,7 +21,7 @@
 
 #include "crloader.hpp"
 #include "lbcrexception.hpp"
-#include "rankingswizard.hpp"
+#include "wizards/rankingswizard.hpp"
 #include "rankingprinter.hpp"
 
 RankingsWizard::RankingsWizard(ChronoRaceData *data, QDir *path, RankingsWizardTarget target) :
@@ -163,7 +163,7 @@ void RankingsWizard::printStartList()
             auto const &infoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &RankingsWizard::forwardInfoMessage);
             auto const &errorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &RankingsWizard::forwardErrorMessage);
 
-            printer->init(&startListFileName, raceData->getEvent(), tr("Start List"));
+            printer->init(&startListFileName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Start List"));
 
             // print the startlist
             printer->printStartList(startList);
@@ -210,7 +210,7 @@ void RankingsWizard::printRankingsSingleFile()
         auto const &printerInfoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &RankingsWizard::forwardInfoMessage);
         auto const &printerErrorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &RankingsWizard::forwardErrorMessage);
 
-        printer->init(&rankingsFileName, raceData->getEvent(), tr("Results"));
+        printer->init(&rankingsFileName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Results"));
 
         // now print each ranking
         for (auto &rankingItem : rankingsList) {
@@ -284,7 +284,7 @@ void RankingsWizard::printRankingsMultiFile()
                 continue;
 
             outFileBaseName = QDir(rankingsBasePath).filePath(QString("class%1_%2").arg(k, rWidth, 10, QChar('0')).arg(rankingItem.categories->getShortDescription()));
-            printer->init(&outFileBaseName, raceData->getEvent(), tr("Results") + " - " + rankingItem.categories->getFullDescription());
+            printer->init(&outFileBaseName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Results") + " - " + rankingItem.categories->getFullDescription());
 
             if (rankingItem.categories->isTeam()) {
                 // build the ranking

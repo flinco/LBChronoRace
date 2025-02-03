@@ -67,8 +67,8 @@ void LiveTable::setRaceInfo(const ChronoRaceData *raceData)
     QPixmap rightLogo;
 
     if (raceData) {
-        title = raceData->getEvent();
-        racePlace = raceData->getPlace();
+        title = raceData->getField(ChronoRaceData::StringField::EVENT);
+        racePlace = raceData->getField(ChronoRaceData::StringField::PLACE);
         raceDate = QLocale::system().toString(raceData->getDate(), "dddd dd/MM/yyyy");
 
         leftLogo = raceData->getLeftLogo();

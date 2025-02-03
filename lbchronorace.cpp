@@ -29,7 +29,8 @@
 
 #include "lbchronorace.hpp"
 #include "lbcrexception.hpp"
-#include "rankingswizard.hpp"
+#include "wizards/newracewizard.hpp"
+#include "wizards/rankingswizard.hpp"
 #include "crhelper.hpp"
 
 // static members initialization
@@ -68,12 +69,13 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     ui->liveViewSelector->setItemIcon(0, QIcon(":/material/icons/hide_image.svg"));
 
     QObject::connect(&raceInfo, &ChronoRaceData::globalDataChange, &CRHelper::updateGlobalData);
+    QObject::connect(&raceInfo, &ChronoRaceData::error, this, &LBChronoRace::appendErrorMessage);
 
     auto *startListModel = dynamic_cast<StartListModel *>(CRLoader::getStartListModel());
     startListTable.setWindowTitle(tr("Competitors"));
     startListTable.setModel(startListModel);
     QObject::connect(&startListTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importStartList);
-    QObject::connect(&startListTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportStartList);
+    QObject::connect(&startListTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportList);
     QObject::connect(&startListTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
     QObject::connect(startListModel, &StartListModel::error, this, &LBChronoRace::appendErrorMessage);
     startListModel->setCounter(ui->counterCompetitors);
@@ -83,7 +85,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     teamsTable.setWindowTitle(tr("Clubs List"));
     teamsTable.setModel(teamsListModel);
     QObject::connect(&teamsTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importTeamsList);
-    QObject::connect(&teamsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportTeamList);
+    QObject::connect(&teamsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportList);
     QObject::connect(&teamsTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
     teamsListModel->setCounter(ui->counterTeams);
 
@@ -94,7 +96,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     rankingsTable.setWindowTitle(tr("Rankings"));
     rankingsTable.setModel(rankingsModel);
     QObject::connect(&rankingsTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importRankingsList);
-    QObject::connect(&rankingsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportRankingsList);
+    QObject::connect(&rankingsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportList);
     QObject::connect(&rankingsTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
     QObject::connect(rankingsModel, &RankingsModel::error, this, &LBChronoRace::appendErrorMessage);
     rankingsModel->setCounter(ui->counterRankings);
@@ -103,7 +105,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     categoriesTable.setWindowTitle(tr("Categories"));
     categoriesTable.setModel(categoriesModel);
     QObject::connect(&categoriesTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importCategoriesList);
-    QObject::connect(&categoriesTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportCategoriesList);
+    QObject::connect(&categoriesTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportList);
     QObject::connect(&categoriesTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
     QObject::connect(categoriesModel, &CategoriesModel::error, this, &LBChronoRace::appendErrorMessage);
     rankingCatsDelegate.setCategories(categoriesModel);
@@ -113,7 +115,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     timingsTable.setWindowTitle(tr("Timings List"));
     timingsTable.setModel(timingsModel);
     QObject::connect(&timingsTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importTimingsList);
-    QObject::connect(&timingsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportTimingsList);
+    QObject::connect(&timingsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportList);
     QObject::connect(&timingsTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
     QObject::connect(timingsModel, &TimingsModel::error, this, &LBChronoRace::appendErrorMessage);
     timingsModel->setCounter(ui->counterTimings);
@@ -129,6 +131,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
 
     //NOSONAR ui->makeRankingsPDF->setEnabled(false);
 
+    QObject::connect(ui->newRace, &QPushButton::clicked, this, &LBChronoRace::newRace);
     QObject::connect(ui->loadRace, &QPushButton::clicked, this, &LBChronoRace::loadRace);
     QObject::connect(ui->saveRace, &QPushButton::clicked, this, &LBChronoRace::saveRace);
     QObject::connect(ui->editRace, &QPushButton::clicked, &raceInfo, &ChronoRaceData::show);
@@ -143,6 +146,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->collectTimings, &QPushButton::clicked, &timings, &ChronoRaceTimings::show);
     QObject::connect(ui->makeRankings, &QPushButton::clicked, this, &LBChronoRace::makeRankings);
 
+    QObject::connect(ui->actionNewRace, &QAction::triggered, this, &LBChronoRace::newRace);
     QObject::connect(ui->actionLoadRace, &QAction::triggered, this, &LBChronoRace::loadRace);
     QObject::connect(ui->actionSaveRace, &QAction::triggered, this, &LBChronoRace::saveRace);
     QObject::connect(ui->actionSaveRaceAs, &QAction::triggered, this, &LBChronoRace::saveRaceAs);
@@ -363,114 +367,60 @@ void LBChronoRace::importTimingsList()
     }
 }
 
-void LBChronoRace::exportStartList()
+void LBChronoRace::exportList()
 {
     using enum LBChronoRace::fileNameField;
 
-    this->fileNames[static_cast<int>(STARTLIST)] = QDir::toNativeSeparators(
-        QFileDialog::getSaveFileName(this, tr("Select Competitors"),
-                                     lastSelectedPath.absolutePath(),
-                                     tr("CSV (*.csv)")));
+    int tableIndex = -1;
+    QString userHint;
+    CRLoader::Model model;
+    QString message;
 
-    if (!this->fileNames[static_cast<int>(STARTLIST)].isEmpty()) {
-
-        if (!this->fileNames[static_cast<int>(STARTLIST)].endsWith(".csv", Qt::CaseInsensitive))
-            this->fileNames[static_cast<int>(STARTLIST)].append(".csv");
-
-        try {
-            CRLoader::exportModel(CRLoader::Model::STARTLIST, this->fileNames[static_cast<int>(STARTLIST)]);
-            appendInfoMessage(tr("Competitors File saved: %1").arg(this->fileNames[static_cast<int>(STARTLIST)]));
-            lastSelectedPath = QFileInfo(this->fileNames[static_cast<int>(STARTLIST)]).absoluteDir();
-        }  catch (ChronoRaceException &e) {
-            appendErrorMessage(e.getMessage());
-        }
+    if (ChronoRaceTable const *senderObject = qobject_cast<ChronoRaceTable *>(sender());
+        &startListTable == senderObject) {
+        tableIndex = static_cast<int>(STARTLIST);
+        userHint = tr("Select Competitors");
+        model = CRLoader::Model::STARTLIST;
+        message = tr("Competitors File saved: %1");
+    } else if (&teamsTable == senderObject) {
+        tableIndex = static_cast<int>(TEAMS);
+        userHint = tr("Select Clubs List");
+        model = CRLoader::Model::TEAMSLIST;
+        message = tr("Teams File saved: %1");
+    } else if (&rankingsTable == senderObject) {
+        tableIndex = static_cast<int>(RANKINGS);
+        userHint = tr("Select Rankings File");
+        model = CRLoader::Model::RANKINGS;
+        message = tr("Rankings File saved: %1");
+    } else if (&categoriesTable == senderObject) {
+        tableIndex = static_cast<int>(CATEGORIES);
+        userHint = tr("Select Categories File");
+        model = CRLoader::Model::CATEGORIES;
+        message = tr("Categories File saved: %1");
+    } else if (&timingsTable == senderObject) {
+        tableIndex = static_cast<int>(TIMINGS);
+        userHint = tr("Select Timings File");
+        model = CRLoader::Model::TIMINGS;
+        message = tr("Timings File saved: %1");
+    } else {
+        appendErrorMessage(tr("Error: table to be exported unknown"));
+        return;
     }
-}
 
-void LBChronoRace::exportTeamList()
-{
-    using enum LBChronoRace::fileNameField;
-
-    this->fileNames[static_cast<int>(TEAMS)] = QDir::toNativeSeparators(
-        QFileDialog::getSaveFileName(this, tr("Select Clubs List"),
+    this->fileNames[tableIndex] = QDir::toNativeSeparators(
+        QFileDialog::getSaveFileName(this, userHint,
                                      lastSelectedPath.absolutePath(),
                                      tr("CSV (*.csv)")));
 
-    if (!this->fileNames[static_cast<int>(TEAMS)].isEmpty()) {
+    if (!this->fileNames[tableIndex].isEmpty()) {
 
-        if (!this->fileNames[static_cast<int>(TEAMS)].endsWith(".csv", Qt::CaseInsensitive))
-            this->fileNames[static_cast<int>(TEAMS)].append(".csv");
-
-        try {
-            CRLoader::exportModel(CRLoader::Model::TEAMSLIST, this->fileNames[static_cast<int>(TEAMS)]);
-            appendInfoMessage(tr("Teams File saved: %1").arg(this->fileNames[static_cast<int>(TEAMS)]));
-            lastSelectedPath = QFileInfo(this->fileNames[static_cast<int>(TEAMS)]).absoluteDir();
-        }  catch (ChronoRaceException &e) {
-            appendErrorMessage(e.getMessage());
-        }
-    }
-}
-
-void LBChronoRace::exportRankingsList()
-{
-    this->fileNames[static_cast<int>(fileNameField::RANKINGS)] = QDir::toNativeSeparators(
-        QFileDialog::getSaveFileName(this, tr("Select Rankings File"),
-                                     lastSelectedPath.absolutePath(),
-                                     tr("CSV (*.csv)")));
-
-    if (!this->fileNames[static_cast<int>(fileNameField::RANKINGS)].isEmpty()) {
-
-        if (!this->fileNames[static_cast<int>(fileNameField::RANKINGS)].endsWith(".csv", Qt::CaseInsensitive))
-            this->fileNames[static_cast<int>(fileNameField::RANKINGS)].append(".csv");
+        if (!this->fileNames[tableIndex].endsWith(".csv", Qt::CaseInsensitive))
+            this->fileNames[tableIndex].append(".csv");
 
         try {
-            CRLoader::exportModel(CRLoader::Model::RANKINGS, this->fileNames[static_cast<int>(fileNameField::RANKINGS)]);
-            appendInfoMessage(tr("Rankings File saved: %1").arg(this->fileNames[static_cast<int>(fileNameField::RANKINGS)]));
-            lastSelectedPath = QFileInfo(this->fileNames[static_cast<int>(fileNameField::RANKINGS)]).absoluteDir();
-        }  catch (ChronoRaceException &e) {
-            appendErrorMessage(e.getMessage());
-        }
-    }
-}
-
-void LBChronoRace::exportCategoriesList()
-{
-    this->fileNames[static_cast<int>(fileNameField::CATEGORIES)] = QDir::toNativeSeparators(
-        QFileDialog::getSaveFileName(this, tr("Select Categories File"),
-                                     lastSelectedPath.absolutePath(),
-                                     tr("CSV (*.csv)")));
-
-    if (!this->fileNames[static_cast<int>(fileNameField::CATEGORIES)].isEmpty()) {
-
-        if (!this->fileNames[static_cast<int>(fileNameField::CATEGORIES)].endsWith(".csv", Qt::CaseInsensitive))
-            this->fileNames[static_cast<int>(fileNameField::CATEGORIES)].append(".csv");
-
-        try {
-            CRLoader::exportModel(CRLoader::Model::CATEGORIES, this->fileNames[static_cast<int>(fileNameField::CATEGORIES)]);
-            appendInfoMessage(tr("Categories File saved: %1").arg(this->fileNames[static_cast<int>(fileNameField::CATEGORIES)]));
-            lastSelectedPath = QFileInfo(this->fileNames[static_cast<int>(fileNameField::CATEGORIES)]).absoluteDir();
-        }  catch (ChronoRaceException &e) {
-            appendErrorMessage(e.getMessage());
-        }
-    }
-}
-
-void LBChronoRace::exportTimingsList()
-{
-    this->fileNames[static_cast<int>(fileNameField::TIMINGS)] = QDir::toNativeSeparators(
-        QFileDialog::getSaveFileName(this, tr("Select Timings File"),
-                                     lastSelectedPath.absolutePath(),
-                                     tr("CSV (*.csv)")));
-
-    if (!this->fileNames[static_cast<int>(fileNameField::TIMINGS)].isEmpty()) {
-
-        if (!this->fileNames[static_cast<int>(fileNameField::TIMINGS)].endsWith(".csv", Qt::CaseInsensitive))
-            this->fileNames[static_cast<int>(fileNameField::TIMINGS)].append(".csv");
-
-        try {
-            CRLoader::exportModel(CRLoader::Model::TIMINGS, this->fileNames[static_cast<int>(fileNameField::TIMINGS)]);
-            appendInfoMessage(tr("Timings File saved: %1").arg(this->fileNames[static_cast<int>(fileNameField::TIMINGS)]));
-            lastSelectedPath = QFileInfo(this->fileNames[static_cast<int>(fileNameField::TIMINGS)]).absoluteDir();
+            CRLoader::exportModel(model, this->fileNames[tableIndex]);
+            appendInfoMessage(message.arg(this->fileNames[tableIndex]));
+            lastSelectedPath = QFileInfo(this->fileNames[tableIndex]).absoluteDir();
         }  catch (ChronoRaceException &e) {
             appendErrorMessage(e.getMessage());
         }
@@ -678,6 +628,16 @@ void LBChronoRace::toggleLiveView()
     } else {
         timings.setLiveTable(Q_NULLPTR);
         liveTable->hide();
+    }
+}
+
+void LBChronoRace::newRace()
+{
+    try {
+        NewRaceWizard newRaceWizard(&raceInfo, this);
+        newRaceWizard.exec();
+    } catch (ChronoRaceException &e) {
+        appendErrorMessage(e.getMessage());
     }
 }
 
