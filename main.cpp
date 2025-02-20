@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     if (qtbaseTranslator.load(lbcrLocale, QStringLiteral("qtbase"), QStringLiteral("_"), translationsDir))
         QApplication::installTranslator(&qtbaseTranslator);
 
-    if (lbcrTranslator.load(lbcrLocale, QStringLiteral(LBCHRONORACE_NAME), QStringLiteral("_"), QStringLiteral(":/i18n")))
+    if (lbcrTranslator.load(lbcrLocale, QStringLiteral("lbchronorace"), QStringLiteral("_"), QStringLiteral(":/i18n")))
         QApplication::installTranslator(&lbcrTranslator);
 
     splash.showMessage("Loading styles…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);

@@ -18,6 +18,8 @@
 #ifndef CATEGORY_HPP
 #define CATEGORY_HPP
 
+#include <version>
+
 #include <QCoreApplication>
 #include <QDataStream>
 
@@ -96,7 +98,12 @@ public:
 
     friend auto operator<=>(Category const &lhs, Category const &rhs)
     {
+        /* Workaround for MacOS Xcode */
+#if defined(__cpp_impl_three_way_comparison) && !defined(__cpp_lib_three_way_comparison)
+        return compareThreeWay(lhs.getFullDescription(), rhs.getFullDescription());
+#else
         return (lhs.getFullDescription() <=> rhs.getFullDescription());
+#endif
     }
 
     friend auto operator==(Category const &lhs, Category const &rhs)

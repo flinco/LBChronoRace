@@ -19,7 +19,7 @@
 
 #include(CMakePrintHelpers)
 
-add_custom_target("${CMAKE_PROJECT_NAME}Installer"
+add_custom_target(installer
     COMMENT "Setting up the tree for the Qt Installer Framework")
 
 # External tools
@@ -106,7 +106,7 @@ set(WIN_DEPLOY_TS_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/packages/pro.buzzi.lbchronorace/meta/it.ts")
 set_source_files_properties(${WIN_DEPLOY_TS_FILES}
     PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/meta")
-qt_add_translations("${CMAKE_PROJECT_NAME}Installer"
+qt_add_translations(installer
     TS_FILES ${WIN_DEPLOY_TS_FILES}
     QM_FILES_OUTPUT_VARIABLE WIN_DEPLOY_QM_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/packages/pro.buzzi.lbchronorace/meta/installscript.qs")
@@ -155,29 +155,30 @@ foreach(SAMPLE_CONTENT ${WIN_DEPLOY_SAMPLES_CONTENTS})
 endforeach()
 
 # Application executable (copy)
-add_custom_command(TARGET "${CMAKE_PROJECT_NAME}Installer" PRE_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>" ${WIN_DEPLOY_TARGET_DIR}
-    DEPENDS "$<TARGET_FILE:${CMAKE_PROJECT_NAME}>"
+add_custom_command(TARGET installer PRE_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:${LBCHRONORACE_BIN}>" ${WIN_DEPLOY_TARGET_DIR}
+    DEPENDS "$<TARGET_FILE:${LBCHRONORACE_BIN}>"
     COMMENT "Copy executable into the installer directory")
 
 # Populate the installer tree with the runtime dependencies
+string(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_UPPER)
 if(CMAKE_BUILD_TYPE_UPPER STREQUAL "DEBUG")
     set(WINDEPLOYQT_ARGS "--debug")
 else()
     set(WINDEPLOYQT_ARGS "--release")
 endif()
 cmake_path(GET CMAKE_CXX_COMPILER PARENT_PATH _GXX_BIN_DIR)
-add_custom_command(TARGET "${CMAKE_PROJECT_NAME}Installer" POST_BUILD
+add_custom_command(TARGET installer POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E
         env PATH="${_GXX_BIN_DIR}" ${WINDEPLOYQT_EXECUTABLE}
         --qmldir ${CMAKE_SOURCE_DIR}
         ${WINDEPLOYQT_ARGS}
         --dir ${WIN_DEPLOY_TARGET_DIR}
-        "${WIN_DEPLOY_TARGET_DIR}/$<TARGET_FILE_NAME:${CMAKE_PROJECT_NAME}>"
+        "${WIN_DEPLOY_TARGET_DIR}/$<TARGET_FILE_NAME:${LBCHRONORACE_BIN}>"
     COMMENT "Deploying ${CMAKE_PROJECT_NAME}...")
 
 # Build the installer
-add_custom_command(TARGET "${CMAKE_PROJECT_NAME}Installer" POST_BUILD
+add_custom_command(TARGET installer POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E
         env ${QTIFW_BINARYCREATOR_EXECUTABLE}
         -c "config/config.xml"

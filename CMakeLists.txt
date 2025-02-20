@@ -42,8 +42,10 @@ find_package(Qt6 COMPONENTS Core Gui Widgets LinguistTools REQUIRED)
 add_compile_definitions(LBCHRONORACE_ORGANIZATION=\"LoBuSoft\")
 add_compile_definitions(LBCHRONORACE_NAME=\"${PROJECT_NAME}\")
 if(${PROJECT_UPDATE} EQUAL 0)
+    set(PROJECT_VERSION_STRING ${PROJECT_VERSION})
     add_compile_definitions(LBCHRONORACE_VERSION=\"${PROJECT_VERSION}\")
 else()
+    set(PROJECT_VERSION_STRING ${PROJECT_VERSION}.${PROJECT_UPDATE})
     add_compile_definitions(LBCHRONORACE_VERSION=\"${PROJECT_VERSION}\ update\ ${PROJECT_UPDATE}\")
 endif()
 
@@ -139,8 +141,8 @@ set(PROJECT_SOURCES
 
 # Translations
 set(TS_FILES
-    translations/${CMAKE_PROJECT_NAME}_en.ts
-    translations/${CMAKE_PROJECT_NAME}_it.ts)
+    translations/lbchronorace_en.ts
+    translations/lbchronorace_it.ts)
 
 # Fonts (as big resources)
 set(FONT_FILES
@@ -181,7 +183,10 @@ list(APPEND PROJECT_SOURCES materialicons.qrc)
 list(APPEND PROJECT_SOURCES images.qrc)
 
 if(WIN32)
+    set(LBCHRONORACE_BIN ${CMAKE_PROJECT_NAME}) # Used also by the Windows Installer CMake code
+
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.rc")
+
     qt_add_executable(${CMAKE_PROJECT_NAME} WIN32
         ${PROJECT_SOURCES}
         ${APP_ICON_RESOURCE_WINDOWS}
@@ -191,9 +196,24 @@ if(WIN32)
         ${ICON_FILES}
         ${PROJECT_ICONS})
 
+    set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+        WIN32_EXECUTABLE TRUE)
+
     # Create the installer tree
     add_subdirectory(installer)
+elseif(APPLE)
+    set(LBCHRONORACE_BIN lbchronorace)
+
+    qt_add_executable(${CMAKE_PROJECT_NAME} MACOSX_BUNDLE
+        ${PROJECT_SOURCES}
+        ${TS_FILES}
+        ${FONT_FILES}
+        ${PROJECT_FONTS}
+        ${ICON_FILES}
+        ${PROJECT_ICONS})
 else()
+    set(LBCHRONORACE_BIN lbchronorace)
+
     qt_add_executable(${CMAKE_PROJECT_NAME}
         ${PROJECT_SOURCES}
         ${TS_FILES}
@@ -203,15 +223,19 @@ else()
         ${PROJECT_ICONS})
 endif()
 
+# The name of the executable binary
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
+    OUTPUT_NAME ${LBCHRONORACE_BIN})
+
 # Translations
-qt_add_lupdate(${CMAKE_PROJECT_NAME} TS_FILES ${TS_FILES}
+qt_add_lupdate(TS_FILES ${TS_FILES}
     SOURCES ${PROJECT_SOURCES})
-qt_add_lrelease(${CMAKE_PROJECT_NAME}
-    TS_FILES ${TS_FILES}
+qt_add_lrelease(TS_FILES ${TS_FILES}
     QM_FILES_OUTPUT_VARIABLE QM_FILES)
 qt_add_resources(${CMAKE_PROJECT_NAME} "translations"
     PREFIX "/i18n"
     BASE ${CMAKE_BINARY_DIR}
     FILES ${QM_FILES})
 
+# Linked Qt libraries
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
