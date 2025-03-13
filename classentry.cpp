@@ -74,7 +74,7 @@ void ClassEntry::setBib(uint newBib)
 QString ClassEntry::getName(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     return entries[legIdx].competitor ? entries[legIdx].competitor->getCompetitorName(CRHelper::nameComposition) : ClassEntry::empty;
 }
@@ -159,7 +159,7 @@ QString ClassEntry::getNames(CRLoader::Format format) const
 uint ClassEntry::getYear(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     return (entries[legIdx].competitor) ? entries[legIdx].competitor->getYear() : 0;
 }
@@ -182,7 +182,7 @@ Competitor::Sex ClassEntry::getSex() const
                 females++;
                 break;
             default:
-                throw(ChronoRaceException(tr("Unexpected sex value for bib %1 (%2)").arg(bib).arg(e.competitor->getCompetitorName(CRHelper::nameComposition))));
+                throw(ChronoRaceException(tr("Invalid sex value for bib %1 (%2)").arg(bib).arg(e.competitor->getCompetitorName(CRHelper::nameComposition))));
                 break;
         }
     }
@@ -198,7 +198,7 @@ Competitor::Sex ClassEntry::getSex() const
 Competitor::Sex ClassEntry::getSex(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     return (entries[legIdx].competitor) ? entries[legIdx].competitor->getSex() : Competitor::Sex::UNDEFINED;
 }
@@ -232,7 +232,7 @@ QString ClassEntry::getTimes(CRLoader::Format format, int legRankWidth) const
 QString ClassEntry::getTime(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     return CRHelper::toTimeString(entries[legIdx].time, entries[legIdx].status);
 }
@@ -240,7 +240,7 @@ QString ClassEntry::getTime(uint legIdx) const
 uint ClassEntry::getTimeValue(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     switch (entries[legIdx].status) {
         case Timing::Status::DNS:
@@ -268,7 +268,7 @@ void ClassEntry::setTime(Competitor *comp, Timing const &timing, QStringList &me
     auto legIndex = static_cast<int>((legHint > 0) ? (legHint - 1) : entries.size());
 
     if ((offset < 0) && (legIndex + 1 != qAbs(offset)))
-        messages << tr("Leg mismatch for bib %1: detected %2 overriding competitor declared %3").arg(bib).arg(legIndex + 1).arg(qAbs(offset));
+        messages << tr("Leg mismatch for bib %1: found %2 overriding competitor declared %3").arg(bib).arg(legIndex + 1).arg(qAbs(offset));
 
     while (entries.size() <= legIndex) {
         // add slots to entry vector
@@ -306,7 +306,7 @@ void ClassEntry::setTime(Competitor *comp, Timing const &timing, QStringList &me
 uint ClassEntry::getLegRanking(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     return entries[legIdx].legRanking;
 }
@@ -314,7 +314,7 @@ uint ClassEntry::getLegRanking(uint legIdx) const
 void ClassEntry::setLegRanking(uint legIdx, uint ranking)
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     entries[legIdx].legRanking = ranking;
 }
@@ -389,7 +389,7 @@ Category const *ClassEntry::getCategory() const
 Category const *ClassEntry::getCategory(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     return (entries[legIdx].competitor) ? entries[legIdx].competitor->getCategory() : Q_NULLPTR;
 }
@@ -400,7 +400,7 @@ QStringList ClassEntry::setCategory()
 
     switch (entries.size()) {
         case 0:
-            messages += tr("No competitors associated to bib %1").arg(bib);
+            messages += tr("No competitor associated with bib %1").arg(bib);
             break;
         case 1:
             ClassEntryHelper::setCategorySingleLeg(this, messages);

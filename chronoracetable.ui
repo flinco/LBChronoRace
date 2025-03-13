@@ -43,7 +43,7 @@
      <item>
       <widget class="QPushButton" name="rowAdd">
        <property name="toolTip">
-        <string>Add an empty row to the table</string>
+        <string>Add an empty row</string>
        </property>
        <property name="text">
         <string>Add Row</string>
@@ -57,10 +57,10 @@
      <item>
       <widget class="QPushButton" name="rowDel">
        <property name="toolTip">
-        <string>Delete a row from the table</string>
+        <string>Remove a row from the table</string>
        </property>
        <property name="text">
-        <string>Delete Row</string>
+        <string>Remove Row</string>
        </property>
        <property name="icon">
         <iconset resource="materialicons.qrc">

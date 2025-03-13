@@ -36,7 +36,7 @@ TimingsWorker::TimingsWorker()
     if (outFile.open()) {
         timingsFilePath.append(outFile.fileName());
     } else {
-        throw(ChronoRaceException(tr("Error: cannot open %1").arg(outFile.fileName())));
+        throw(ChronoRaceException(tr("Error: unable to open %1").arg(outFile.fileName())));
     }
 }
 
@@ -44,7 +44,7 @@ void TimingsWorker::writeToDisk(QString const &buffer)
 {
     QFile outFile(timingsFilePath);
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
-        throw(ChronoRaceException(tr("Error: cannot open %1").arg(outFile.fileName())));
+        throw(ChronoRaceException(tr("Error: unable to open %1").arg(outFile.fileName())));
     }
     QTextStream outStream(&outFile);
 
@@ -55,7 +55,7 @@ void TimingsWorker::writeToDisk(QString const &buffer)
     outFile.close();
 
     emit writeDone();
-};
+}
 
 ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent)
 {

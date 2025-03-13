@@ -97,7 +97,7 @@
    <item row="6" column="0">
     <widget class="QLabel" name="labelLength">
      <property name="text">
-      <string>Lenght</string>
+      <string>Length</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
@@ -198,7 +198,7 @@
    <item row="6" column="7">
     <widget class="QComboBox" name="accuracy">
      <property name="toolTip">
-      <string>How much accurate the timings will be</string>
+      <string>How accurate the timings will be</string>
      </property>
      <property name="currentText">
       <string notr="true">h:mm:ss</string>
@@ -267,7 +267,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Event</string>
+      <string>Event name</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
@@ -722,7 +722,7 @@
    <item row="1" column="6">
     <widget class="QPushButton" name="loadRightLogo">
      <property name="toolTip">
-      <string>Add the logo in the upper right corner of the PDF</string>
+      <string>Add a logo in the upper right corner of the PDF</string>
      </property>
      <property name="text">
       <string>Load</string>

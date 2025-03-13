@@ -99,7 +99,7 @@ uint Timing::toMillis(const QString &token, bool countDigits) const
         }
 
         if (!converted)
-            throw(ChronoRaceException(tr("Warning: illegal timing value '%1' for bib '%2'").arg(token).arg(this->bib)));
+            throw(ChronoRaceException(tr("Warning: invalid timing value '%1' for bib '%2'").arg(token).arg(this->bib)));
     }
 
     return val;
@@ -191,7 +191,7 @@ void Timing::setTiming(QString const &timing)
               + toMillis(matchHMS.captured("ms"), true);
 
     } else {
-        throw(ChronoRaceException(tr("Warning: illegal timing value '%1' for bib '%2'").arg(timing).arg(this->bib)));
+        throw(ChronoRaceException(tr("Warning: invalid timing value '%1' for bib '%2'").arg(timing).arg(this->bib)));
     }
 
     if ((this->milliseconds = msecs)) {

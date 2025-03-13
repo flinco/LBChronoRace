@@ -119,15 +119,15 @@ QVariant CategoriesModel::data(QModelIndex const &index, int role) const
             using enum Category::Field;
 
             case static_cast<int>(CTF_TYPE):
-                return QVariant(tr("Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)"));
+                return QVariant(tr("Male Individual/Relay [M], Female Individual/Relay [F], Mixed M/F Relay [U], Male Mixed Club Relay [Y], or Female Mixed Club Relay [X]"));
             case static_cast<int>(CTF_TO_YEAR):
-                return QVariant(tr("The category will include competitors born up to and including this year (i.e. 2000); set to 0 to disable this constraint"));
+                return QVariant(tr("The category includes competitors born in or before this year (e.g., 2000); set to 0 to disable this constraint"));
             case static_cast<int>(CTF_FROM_YEAR):
-                return QVariant(tr("The category will include competitors born from this year (i.e. 1982); set to 0 to disable this constraint"));
+                return QVariant(tr("The category includes competitors born in or after this year (e.g., 1982); set to 0 to disable this constraint"));
             case static_cast<int>(CTF_TO_BIB):
-                return QVariant(tr("The category will include competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint"));
+                return QVariant(tr("The category includes competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint"));
             case static_cast<int>(CTF_FROM_BIB):
-                return QVariant(tr("The category will include competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint"));
+                return QVariant(tr("The category includes competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint"));
             case static_cast<int>(CTF_FULL_DESCR):
                 return QVariant(tr("Full category name"));
             case static_cast<int>(CTF_SHORT_DESCR):

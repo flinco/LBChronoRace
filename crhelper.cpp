@@ -39,7 +39,7 @@ QString CRHelper::encodingToLabel(QStringConverter::Encoding const &value)
         case Latin1:
             return tr("ISO-8859-1 (Latin-1)");
         default:
-            return tr("Unsupported encoding %1").arg(static_cast<int>(value));
+            return tr("The encoding format %1 is not supported").arg(static_cast<int>(value));
     }
 }
 
@@ -51,7 +51,7 @@ QString CRHelper::formatToLabel(CRLoader::Format const &value)
         case PDF:
             return tr("PDF");
         case TEXT:
-            return tr("Text");
+            return tr("Plain text");
         case CSV:
             return tr("CSV");
         default:
@@ -64,7 +64,7 @@ Competitor::Sex CRHelper::toSex(QString const &sex)
     using enum Competitor::Sex;
 
     if (sex.length() != 1) {
-        throw(ChronoRaceException(tr("Illegal sex '%1'").arg(sex)));
+        throw(ChronoRaceException(tr("Invalid sex '%1'").arg(sex)));
     } else {
         if (sex.compare("M", Qt::CaseInsensitive) == 0)
             return MALE;
@@ -164,7 +164,7 @@ Ranking::Type CRHelper::toRankingType(QString  const &type)
     else if (type.compare("T", Qt::CaseInsensitive) == 0)
         return CLUB;
     else
-        throw(ChronoRaceException(tr("Illegal type '%1'").arg(type)));
+        throw(ChronoRaceException(tr("Invalid type '%1'").arg(type)));
 }
 
 QString CRHelper::toTypeString(Ranking::Type const type)
@@ -196,7 +196,7 @@ Category::Type CRHelper::toCategoryType(QString const &type)
     else if (type.compare("X", Qt::CaseInsensitive) == 0)
         return RELAY_X;
     else
-        throw(ChronoRaceException(tr("Illegal type '%1'").arg(type)));
+        throw(ChronoRaceException(tr("Invalid type '%1'").arg(type)));
 }
 
 QString CRHelper::toTypeString(Category::Type const type)
@@ -245,9 +245,9 @@ QString CRHelper::toCategoryTypeString(Category::Type const type)
         case RELAY_MF:
             return tr("Mixed Relay (M/F)");
         case RELAY_Y:
-            return tr("Mixed Clubs Relay (M)");
+            return tr("Mixed Club Relay (M)");
         case RELAY_X:
-            return tr("Mixed Clubs Relay (F)");
+            return tr("Mixed Club Relay (F)");
         default:
             throw(ChronoRaceException(tr("Unexpected Type enum value '%1'").arg(static_cast<int>(type))));
     }
@@ -330,7 +330,7 @@ Timing::Status CRHelper::toTimingStatus(QString const &status)
     else if (status.compare("DNS", Qt::CaseInsensitive) == 0)
         return DNS;
     else
-        throw(ChronoRaceException(tr("Illegal status value '%1'").arg(status)));
+        throw(ChronoRaceException(tr("Invalid status value '%1'").arg(status)));
 }
 
 QString CRHelper::toStatusString(Timing::Status const status)
@@ -379,7 +379,7 @@ QString CRHelper::toStatusFullString(Timing::Status const status)
 
 bool CRHelper::askForAppend(QWidget *parent)
 {
-    QMessageBox msgBox(QMessageBox::Icon::Question, tr("Import mode"), tr("Do you want to replace the entire contents of the table or add data to the existing ones?"), QMessageBox::NoButton, parent);
+    QMessageBox msgBox(QMessageBox::Icon::Question, tr("Import method"), tr("Do you want to replace the table data or add new entries?"), QMessageBox::NoButton, parent);
 
     auto *pButtonReplace = msgBox.addButton(tr("Replace"), QMessageBox::NoRole);
     QAbstractButton const *pButtonAppend = msgBox.addButton(tr("Append"), QMessageBox::YesRole);

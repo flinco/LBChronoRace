@@ -190,10 +190,10 @@
          <bool>true</bool>
         </property>
         <property name="toolTip">
-         <string>See the list of the clubs (that cannot be changed)</string>
+         <string>View the list of the clubs (that cannot be changed)</string>
         </property>
         <property name="text">
-         <string>View Clubs List</string>
+         <string>View Clubs</string>
         </property>
         <property name="icon">
          <iconset resource="materialicons.qrc">
@@ -262,10 +262,10 @@
       <item row="4" column="0">
        <widget class="QLabel" name="liveViewLabel">
         <property name="toolTip">
-         <string>Select a screen for the Live View</string>
+         <string>Select a screen for the Live Rankings</string>
         </property>
         <property name="text">
-         <string>Live View</string>
+         <string>Live Rankings</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
@@ -278,7 +278,7 @@
          <bool>false</bool>
         </property>
         <property name="toolTip">
-         <string>Select a screen for the Live View</string>
+         <string>Select a screen for the Live Rankings</string>
         </property>
         <item>
          <property name="text">
@@ -329,7 +329,7 @@
         <item>
          <widget class="QLabel" name="labelErrorDisplay">
           <property name="text">
-           <string>Warnings/Errors</string>
+           <string>Warnings and Errors</string>
           </property>
          </widget>
         </item>
@@ -366,7 +366,7 @@
         <item>
          <widget class="QPushButton" name="importTimings">
           <property name="toolTip">
-           <string>Load the timings collected and exported in another PC</string>
+           <string>Load timings collected and exported in another PC</string>
           </property>
           <property name="text">
            <string>Import Timings from another PC</string>
@@ -410,7 +410,7 @@
            <string>Generate start list</string>
           </property>
           <property name="text">
-           <string>Make Start List</string>
+           <string>Generate Start List</string>
           </property>
           <property name="icon">
            <iconset resource="materialicons.qrc">
@@ -430,10 +430,10 @@
            </sizepolicy>
           </property>
           <property name="toolTip">
-           <string>Collect timings and bibs</string>
+           <string>Record timings and bibs</string>
           </property>
           <property name="text">
-           <string>Collect Timings</string>
+           <string>Record Timings</string>
           </property>
           <property name="icon">
            <iconset resource="materialicons.qrc">
@@ -456,7 +456,7 @@
            <string>Generate results</string>
           </property>
           <property name="text">
-           <string>Make Results</string>
+           <string>Generate Results</string>
           </property>
           <property name="icon">
            <iconset resource="materialicons.qrc">
@@ -476,7 +476,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>19</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -635,7 +635,7 @@
     <string>Cl&amp;ubs</string>
    </property>
    <property name="toolTip">
-    <string>See the list of the clubs (that cannot be changed)</string>
+    <string>View the list of the clubs (that cannot be changed)</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -690,7 +690,7 @@
     <string>Import Timings</string>
    </property>
    <property name="toolTip">
-    <string>Load the timings collected and exported in another PC</string>
+    <string>Load timings collected and exported in another PC</string>
    </property>
   </action>
   <action name="actionExportTimings">
@@ -711,7 +711,7 @@
      <normaloff>:/material/icons/sports.svg</normaloff>:/material/icons/sports.svg</iconset>
    </property>
    <property name="text">
-    <string>Make Start List</string>
+    <string>Generate Start List</string>
    </property>
    <property name="toolTip">
     <string>Generate start list</string>
@@ -723,10 +723,10 @@
      <normaloff>:/material/icons/timer_play.svg</normaloff>:/material/icons/timer_play.svg</iconset>
    </property>
    <property name="text">
-    <string>Collect Timings</string>
+    <string>Record Timings</string>
    </property>
    <property name="toolTip">
-    <string>Collect timings and bibs</string>
+    <string>Record timings and bibs</string>
    </property>
   </action>
   <action name="actionMakeRankings">
@@ -735,7 +735,7 @@
      <normaloff>:/material/icons/sports_score.svg</normaloff>:/material/icons/sports_score.svg</iconset>
    </property>
    <property name="text">
-    <string>Make Results</string>
+    <string>Generate Results</string>
    </property>
    <property name="toolTip">
     <string>Generate results</string>

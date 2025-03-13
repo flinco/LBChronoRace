@@ -121,7 +121,7 @@ void CRLoader::saveCSV(QString const &filePath, QAbstractTableModel const *model
 
     QFile outFile(filePath);
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        throw(ChronoRaceException(tr("Error: cannot open %1").arg(filePath)));
+        throw(ChronoRaceException(tr("Error: unable to open %1").arg(filePath)));
     }
     QTextStream outStream(&outFile);
 
@@ -194,7 +194,7 @@ QPair<int, int> CRLoader::importStartList(QString const &path, bool append)
     if (int columnCount = startListModel.columnCount(); columnCount != static_cast<int>(Competitor::Field::CMF_COUNT)) {
         if (!append)
             startListModel.reset();
-        throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Competitor::Field::CMF_COUNT)).arg(columnCount)));
+        throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(static_cast<int>(Competitor::Field::CMF_COUNT)).arg(columnCount)));
     }
 
     if (append) {
@@ -280,7 +280,7 @@ void CRLoader::addTiming(Action action, QString const &bib, QString const &timin
     } else if (action == BEGIN) {
         timingsModel.reset();
     } else {
-        throw(ChronoRaceException(tr("Unexpected acition value %1 (add timing)").arg(static_cast<int>(action))));
+        throw(ChronoRaceException(tr("Unexpected action value: %1 (add timing)").arg(static_cast<int>(action))));
     }
 }
 
@@ -303,7 +303,7 @@ int CRLoader::importTeams(QString const &path, bool append)
     if (int columnCount = teamsListModel.columnCount(); columnCount != 1) {
         if (!append)
             teamsListModel.reset();
-        throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(1).arg(columnCount)));
+        throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(1).arg(columnCount)));
     }
 
     rowCount = teamsListModel.rowCount() - (append ? rowCount : 0);
@@ -325,7 +325,7 @@ int CRLoader::importCategories(QString const &path, bool append)
     if (int columnCount = categoriesModel.columnCount(); columnCount != static_cast<int>(Category::Field::CTF_COUNT)) {
         if (!append)
             categoriesModel.reset();
-        throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Category::Field::CTF_COUNT)).arg(columnCount)));
+        throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(static_cast<int>(Category::Field::CTF_COUNT)).arg(columnCount)));
     }
 
     rowCount = categoriesModel.rowCount() - (append ? rowCount : 0);
@@ -347,7 +347,7 @@ int CRLoader::importRankings(QString const &path, bool append)
     if (int columnCount = rankingsModel.columnCount(); columnCount != static_cast<int>(Ranking::Field::RTF_COUNT)) {
         if (!append)
             rankingsModel.reset();
-        throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Ranking::Field::RTF_COUNT)).arg(columnCount)));
+        throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(static_cast<int>(Ranking::Field::RTF_COUNT)).arg(columnCount)));
     }
 
     rowCount = rankingsModel.rowCount() - (append ? rowCount : 0);
@@ -371,7 +371,7 @@ int CRLoader::importTimings(QString const &path, bool append)
     if (int columnCount = timingsModel.columnCount(); columnCount != static_cast<int>(Timing::Field::TMF_COUNT)) {
         if (!append)
             timingsModel.reset();
-        throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Timing::Field::TMF_COUNT)).arg(columnCount)));
+        throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(static_cast<int>(Timing::Field::TMF_COUNT)).arg(columnCount)));
     }
 
     rowCount = timingsModel.rowCount() - (append ? rowCount : 0);
@@ -391,7 +391,7 @@ void CRLoader::exportModel(Model model, QString const &path)
             {
                 QFile outFile(path);
                 if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                    throw(ChronoRaceException(tr("Error: cannot open %1").arg(path)));
+                    throw(ChronoRaceException(tr("Error: unable to open %1").arg(path)));
                 }
                 QTextStream outStream(&outFile);
 
@@ -415,7 +415,7 @@ void CRLoader::exportModel(Model model, QString const &path)
             saveCSV(path, &timingsModel);
             break;
         default:
-            throw(ChronoRaceException(tr("Unexpected model value %1 (export)").arg(static_cast<int>(model))));
+            throw(ChronoRaceException(tr("Unexpected model value: %1 (export)").arg(static_cast<int>(model))));
             break;
     }
 }
@@ -451,7 +451,7 @@ void CRLoader::checkString(QAbstractTableModel *model, QString &token, QChar cha
             int columnIndex = 0;
             int rowCount = model->rowCount();
             if (int columnCount = model->columnCount(); columnCount != standardItemList.size()) {
-                throw(ChronoRaceException(tr("Wrong number of elements in CSV row; expected %1 - found %2").arg(columnCount).arg(standardItemList.size())));
+                throw(ChronoRaceException(tr("Incorrect number of elements in CSV row; expected %1 - found %2").arg(columnCount).arg(standardItemList.size())));
             }
             model->insertRow(rowCount, QModelIndex());
             for (auto const &item : std::as_const(standardItemList)) {

@@ -94,7 +94,7 @@ QDataStream &Category::cDeserialize(QDataStream &in)
                 this->type = static_cast<Category::Type>(type32);
                 break;
             default:
-                throw(ChronoRaceException(tr("Illegal category type '%1'").arg(type32)));
+                throw(ChronoRaceException(tr("Invalid category type '%1'").arg(type32)));
                 break;
         }
     }

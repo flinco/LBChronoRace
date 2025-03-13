@@ -233,13 +233,13 @@ void LiveTable::setStartList(QList<Competitor> const &newStartList)
         model->insertColumns(columnCount, columns - columnCount);
 
     if (liveScreen == Q_NULLPTR)
-        throw(ChronoRaceException(tr("No screen available for the Live View")));
+        throw(ChronoRaceException(tr("No screen available for the Live Rankings")));
 
     auto margins = this->ui->highTable->contentsMargins();
     auto fullWidth = liveScreen->availableSize().width();
     auto availableWidth = fullWidth - ((columns + 1) * (margins.left() + margins.right()));
     if (count <= 0) {
-        throw(ChronoRaceException(tr("Enter competitors to use the Live View")));
+        throw(ChronoRaceException(tr("Enter competitors to use the Live Rankings")));
     } else if (count == 1) {
         this->mode = (values.at(0).getOffset() < 0) ? LiveMode::INDIVIDUAL : LiveMode::CHRONO;
         model->setHeaderData(0, Qt::Horizontal, tr("Bib", "long"), Qt::DisplayRole);

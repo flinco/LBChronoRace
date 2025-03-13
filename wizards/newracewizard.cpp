@@ -82,7 +82,7 @@ NewRaceWizardMainData::NewRaceWizardMainData(QWidget *parent) : QWizardPage(pare
     raceType->addItem(tr("Mass start"));
     raceType->addItem(tr("Timed race"));
     raceType->addItem(tr("Relay race"));
-    raceType->setToolTip(tr("What kind of race will be"));
+    raceType->setToolTip(tr("What kind of race it will be"));
     registerField("maindata.raceType", raceType);
 
     widgetPtr = Q_NULLPTR;
@@ -92,8 +92,8 @@ NewRaceWizardOrganization::NewRaceWizardOrganization(QWidget *parent) : QWizardP
 {
     QPointer<QWidget> widgetPtr(Q_NULLPTR);
 
-    setTitle(tr("Race Organizing Committe Information"));
-    setSubTitle(tr("This information is optional, but makes the ranking more professional."));
+    setTitle(tr("Race Organizing Committee Information"));
+    setSubTitle(tr("This information is optional, but it makes the ranking look more professional."));
 
     this->setLayout(new QFormLayout(this));
     auto *layout = qobject_cast<QFormLayout *>(this->layout());
@@ -112,8 +112,8 @@ NewRaceWizardAuxData::NewRaceWizardAuxData(QWidget *parent) : QWizardPage(parent
 {
     QPointer<QWidget> widgetPtr(Q_NULLPTR);
 
-    setTitle(tr("Auxiliary Race Information"));
-    setSubTitle(tr("This information is optional, but makes the ranking more professional."));
+    setTitle(tr("Additional Race Information"));
+    setSubTitle(tr("This information is optional, but it makes the ranking look more professional."));
 
     this->setLayout(new QFormLayout(this));
     auto *layout = qobject_cast<QFormLayout *>(this->layout());
@@ -142,7 +142,7 @@ NewRaceWizardAuxData::NewRaceWizardAuxData(QWidget *parent) : QWizardPage(parent
     widgetPtr = new QLineEdit;
     layout->addRow(new QLabel(tr("Timekeeper 3")), widgetPtr.data());
     auto *timeKeeper3 = qobject_cast<QLineEdit *>(layout->itemAt(3, QFormLayout::ItemRole::FieldRole)->widget());
-    timeKeeper3->setPlaceholderText(tr("The thirs timekeeper of the race"));
+    timeKeeper3->setPlaceholderText(tr("The third timekeeper of the race"));
     timeKeeper3->setToolTip(tr("The name of the third timekeeper of the race"));
     registerField("auxdata.timeKeeper3", timeKeeper3);
 
@@ -317,7 +317,7 @@ NewRaceWizardRaceLogos::NewRaceWizardRaceLogos(QWidget *parent) : NewRaceWizardL
     QIcon iconRemove;
 
     setTitle(tr("Race Logos"));
-    setSubTitle(tr("Race logos are optional, but make the ranking more professional."));
+    setSubTitle(tr("Race logos are optional, but they make the ranking look more professional."));
 
     iconLoad.addFile(QString::fromUtf8(":/material/icons/add_photo_alternate.svg"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
     iconRemove.addFile(QString::fromUtf8(":/material/icons/hide_image.svg"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
@@ -390,7 +390,7 @@ NewRaceWizardSponsorLogos::NewRaceWizardSponsorLogos(QWidget *parent) : NewRaceW
     QIcon iconRemove;
 
     setTitle(tr("Sponsor Logos"));
-    setSubTitle(tr("Sponsor logos are optional, but make the ranking more professional."));
+    setSubTitle(tr("Sponsor logos are optional, but they make the ranking look more professional."));
 
     iconLoad.addFile(QString::fromUtf8(":/material/icons/add_photo_alternate.svg"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
     iconRemove.addFile(QString::fromUtf8(":/material/icons/hide_image.svg"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
@@ -576,6 +576,6 @@ void NewRaceWizard::updateRaceData(bool checked)
         raceData->setField(ChronoRaceData::IndexField::NAME_COMPOSITION, 0);
         raceData->setField(ChronoRaceData::IndexField::ACCURACY, 0);
     } else {
-        throw(ChronoRaceException(tr("Null race data pointer")));
+        throw(ChronoRaceException(tr("Error: race information not initialized")));
     }
 }

@@ -12,16 +12,16 @@
         <translation>ISO-8859-1 (Latin-1)</translation>
     </message>
     <message>
-        <source>Unsupported encoding %1</source>
-        <translation>Unsupported encoding %1</translation>
+        <source>The encoding format %1 is not supported</source>
+        <translation>The encoding format %1 is not supported</translation>
     </message>
     <message>
         <source>PDF</source>
         <translation>PDF</translation>
     </message>
     <message>
-        <source>Text</source>
-        <translation>Text</translation>
+        <source>Plain text</source>
+        <translation>Plain text</translation>
     </message>
     <message>
         <source>CSV</source>
@@ -32,8 +32,8 @@
         <translation>Unknown format %1</translation>
     </message>
     <message>
-        <source>Illegal sex &apos;%1&apos;</source>
-        <translation>Illegal sex &apos;%1&apos;</translation>
+        <source>Invalid sex &apos;%1&apos;</source>
+        <translation>Invalid sex &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Unexpected Sex enum value &apos;%1&apos;</source>
@@ -52,8 +52,8 @@
         <translation>Not set</translation>
     </message>
     <message>
-        <source>Illegal type &apos;%1&apos;</source>
-        <translation>Illegal type &apos;%1&apos;</translation>
+        <source>Invalid type &apos;%1&apos;</source>
+        <translation>Invalid type &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Unexpected Type enum value &apos;%1&apos;</source>
@@ -80,11 +80,11 @@
         <translation>Mixed Relay (M/F)</translation>
     </message>
     <message>
-        <source>Mixed Clubs Relay (M)</source>
+        <source>Mixed Club Relay (M)</source>
         <translation>Mixed Clubs Relay (M)</translation>
     </message>
     <message>
-        <source>Mixed Clubs Relay (F)</source>
+        <source>Mixed Club Relay (F)</source>
         <translation>Mixed Clubs Relay (F)</translation>
     </message>
     <message>
@@ -92,8 +92,8 @@
         <translation>Invalid status value %1</translation>
     </message>
     <message>
-        <source>Illegal status value &apos;%1&apos;</source>
-        <translation>Illegal status value &apos;%1&apos;</translation>
+        <source>Invalid status value &apos;%1&apos;</source>
+        <translation>Invalid status value &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Classified</source>
@@ -116,12 +116,12 @@
         <translation>Invalid accuracy value %1</translation>
     </message>
     <message>
-        <source>Import mode</source>
-        <translation>Import mode</translation>
+        <source>Import method</source>
+        <translation>Import method</translation>
     </message>
     <message>
-        <source>Do you want to replace the entire contents of the table or add data to the existing ones?</source>
-        <translation>Do you want to replace the entire contents of the table or add data to the existing ones?</translation>
+        <source>Do you want to replace the table data or add new entries?</source>
+        <translation>Do you want to replace the table data or add new entries?</translation>
     </message>
     <message>
         <source>Replace</source>
@@ -143,24 +143,24 @@
 <context>
     <name>CRLoader</name>
     <message>
-        <source>Error: cannot open %1</source>
-        <translation>Error: cannot open %1</translation>
+        <source>Error: unable to open %1</source>
+        <translation>Error: unable to open %1</translation>
     </message>
     <message>
-        <source>Wrong number of columns; expected %1 - found %2</source>
-        <translation>Wrong number of columns; expected %1 - found %2</translation>
+        <source>Incorrect number of columns; expected %1 - found %2</source>
+        <translation>Incorrect number of columns; expected %1 - found %2</translation>
     </message>
     <message>
-        <source>Wrong number of elements in CSV row; expected %1 - found %2</source>
-        <translation>Wrong number of elements in CSV row; expected %1 - found %2</translation>
+        <source>Incorrect number of elements in CSV row; expected %1 - found %2</source>
+        <translation>Incorrect number of elements in CSV row; expected %1 - found %2</translation>
     </message>
     <message>
-        <source>Unexpected model value %1 (export)</source>
-        <translation>Unexpected model value %1 (export)</translation>
+        <source>Unexpected model value: %1 (export)</source>
+        <translation>Unexpected model value: %1 (export)</translation>
     </message>
     <message>
-        <source>Unexpected acition value %1 (add timing)</source>
-        <translation>Unexpected acition value %1 (add timing)</translation>
+        <source>Unexpected action value: %1 (add timing)</source>
+        <translation>Unexpected action value: %1 (add timing)</translation>
     </message>
 </context>
 <context>
@@ -170,27 +170,27 @@
         <translation>CSV (*.csv)</translation>
     </message>
     <message>
-        <source>Error: cannot open %1</source>
-        <translation>Error: cannot open %1</translation>
+        <source>Error: unable to open %1</source>
+        <translation>Error: unable to open %1</translation>
     </message>
     <message>
-        <source>Error: no file name supplied</source>
-        <translation>Error: no file name supplied</translation>
+        <source>Error: no file name provided</source>
+        <translation>Error: no file name provided</translation>
     </message>
     <message>
-        <source>Error: writing attempt on closed file</source>
-        <translation>Error: writing attempt on closed file</translation>
+        <source>Error: attempted to write to a closed file</source>
+        <translation>Error: attempted to write to a closed file</translation>
     </message>
 </context>
 <context>
     <name>CategoriesModel</name>
     <message>
-        <source>The category will include competitors born up to and including this year (i.e. 2000); set to 0 to disable this constraint</source>
-        <translation>The category will include competitors born up to and including this year (i.e. 2000); set to 0 to disable this constraint</translation>
+        <source>The category includes competitors born in or before this year (e.g., 2000); set to 0 to disable this constraint</source>
+        <translation>The category includes competitors born in or before this year (e.g., 2000); set to 0 to disable this constraint</translation>
     </message>
     <message>
-        <source>The category will include competitors born from this year (i.e. 1982); set to 0 to disable this constraint</source>
-        <translation>The category will include competitors born from this year (i.e. 1982); set to 0 to disable this constraint</translation>
+        <source>The category includes competitors born in or after this year (e.g., 1982); set to 0 to disable this constraint</source>
+        <translation>The category includes competitors born in or after this year (e.g., 1982); set to 0 to disable this constraint</translation>
     </message>
     <message>
         <source>Full category name</source>
@@ -225,27 +225,27 @@
         <translation>Category Short Name</translation>
     </message>
     <message>
-        <source>Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)</source>
-        <translation>Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)</translation>
+        <source>Male Individual/Relay [M], Female Individual/Relay [F], Mixed M/F Relay [U], Male Mixed Club Relay [Y], or Female Mixed Club Relay [X]</source>
+        <translation>Male Individual/Relay [M], Female Individual/Relay [F], Mixed M/F Relay [U], Male Mixed Club Relay [Y], or Female Mixed Club Relay [X]</translation>
     </message>
     <message>
         <source>Type</source>
         <translation>Type</translation>
     </message>
     <message>
-        <source>The category will include competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint</source>
-        <translation>The category will include competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint</translation>
+        <source>The category includes competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint</source>
+        <translation>The category includes competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint</translation>
     </message>
     <message>
-        <source>The category will include competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint</source>
-        <translation>The category will include competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint</translation>
+        <source>The category includes competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint</source>
+        <translation>The category includes competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint</translation>
     </message>
 </context>
 <context>
     <name>Category</name>
     <message>
-        <source>Illegal category type &apos;%1&apos;</source>
-        <translation>Illegal category type &apos;%1&apos;</translation>
+        <source>Invalid category type &apos;%1&apos;</source>
+        <translation>Invalid category type &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -255,8 +255,8 @@
         <translation>Race Information</translation>
     </message>
     <message>
-        <source>Event</source>
-        <translation>Event</translation>
+        <source>Event name</source>
+        <translation>Event name</translation>
     </message>
     <message>
         <source>Unofficial</source>
@@ -335,8 +335,8 @@
         <translation>Place</translation>
     </message>
     <message>
-        <source>Lenght</source>
-        <translation>Lenght</translation>
+        <source>Length</source>
+        <translation>Length</translation>
     </message>
     <message>
         <source>Race Type</source>
@@ -455,8 +455,8 @@
         <translation>The event name, used as title in the rankings</translation>
     </message>
     <message>
-        <source>Add the logo in the upper right corner of the PDF</source>
-        <translation>Add the logo in the upper right corner of the PDF</translation>
+        <source>Add a logo in the upper right corner of the PDF</source>
+        <translation>Add a logo in the upper right corner of the PDF</translation>
     </message>
     <message>
         <source>Add the second sponsor logo (at the bottom of the PDF)</source>
@@ -511,8 +511,8 @@
         <translation>Accuracy</translation>
     </message>
     <message>
-        <source>How much accurate the timings will be</source>
-        <translation>How much accurate the timings will be</translation>
+        <source>How accurate the timings will be</source>
+        <translation>How accurate the timings will be</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -562,20 +562,20 @@
 <context>
     <name>ChronoRaceTable</name>
     <message>
-        <source>Add an empty row to the table</source>
-        <translation>Add an empty row to the table</translation>
+        <source>Add an empty row</source>
+        <translation>Add an empty row</translation>
     </message>
     <message>
         <source>Add Row</source>
         <translation>Add Row</translation>
     </message>
     <message>
-        <source>Delete a row from the table</source>
-        <translation>Delete a row from the table</translation>
+        <source>Remove a row from the table</source>
+        <translation>Remove a row from the table</translation>
     </message>
     <message>
-        <source>Delete Row</source>
-        <translation>Delete Row</translation>
+        <source>Remove Row</source>
+        <translation>Remove Row</translation>
     </message>
     <message>
         <source>Import data from a CSV file</source>
@@ -775,24 +775,24 @@ Are you sure you want to continue?</numerusform>
 <context>
     <name>ClassEntry</name>
     <message>
-        <source>Nonexistent leg %1 for bib %2</source>
-        <translation>Nonexistent leg %1 for bib %2</translation>
+        <source>Leg %1 does not exist for bib %2</source>
+        <translation>Leg %1 does not exist for bib %2</translation>
     </message>
     <message>
-        <source>Leg mismatch for bib %1: detected %2 overriding competitor declared %3</source>
-        <translation>Leg mismatch for bib %1: detected %2 overriding competitor declared %3</translation>
+        <source>Leg mismatch for bib %1: found %2 overriding competitor declared %3</source>
+        <translation>Leg mismatch for bib %1: found %2 overriding competitor declared %3</translation>
     </message>
     <message>
         <source>Competitor mismatch for bib %1: found %2 replaced by %3</source>
         <translation>Competitor mismatch for bib %1: found %2 replaced by %3</translation>
     </message>
     <message>
-        <source>Unexpected sex value for bib %1 (%2)</source>
-        <translation>Unexpected sex value for bib %1 (%2)</translation>
+        <source>Invalid sex value for bib %1 (%2)</source>
+        <translation>Invalid sex value for bib %1 (%2)</translation>
     </message>
     <message>
-        <source>No competitors associated to bib %1</source>
-        <translation>No competitors associated to bib %1</translation>
+        <source>No competitor associated with bib %1</source>
+        <translation>No competitors associated with bib %1</translation>
     </message>
     <message>
         <source>No category fits the competitor with bib %1 - %2</source>
@@ -822,8 +822,8 @@ Are you sure you want to continue?</numerusform>
         <translation>Edit Race Information</translation>
     </message>
     <message>
-        <source>View Clubs List</source>
-        <translation>View Clubs List</translation>
+        <source>View Clubs</source>
+        <translation>View Clubs</translation>
     </message>
     <message>
         <source>Competitors</source>
@@ -862,24 +862,24 @@ Are you sure you want to continue?</numerusform>
         <translation>Information</translation>
     </message>
     <message>
-        <source>Warnings/Errors</source>
-        <translation>Warnings/Errors</translation>
+        <source>Warnings and Errors</source>
+        <translation>Warnings and Errors</translation>
     </message>
     <message>
-        <source>Make Start List</source>
-        <translation>Make Start List</translation>
+        <source>Generate Start List</source>
+        <translation>Generate Start List</translation>
     </message>
     <message>
-        <source>Collect timings and bibs</source>
-        <translation>Collect timings and bibs</translation>
+        <source>Record timings and bibs</source>
+        <translation>Record timings and bibs</translation>
     </message>
     <message>
-        <source>Collect Timings</source>
-        <translation>Collect Timings</translation>
+        <source>Record Timings</source>
+        <translation>Record Timings</translation>
     </message>
     <message>
-        <source>Make Results</source>
-        <translation>Make Results</translation>
+        <source>Generate Results</source>
+        <translation>Generate Results</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -1114,8 +1114,8 @@ Are you sure you want to continue?</numerusform>
         <translation>Save current race data to a new file</translation>
     </message>
     <message>
-        <source>See the list of the clubs (that cannot be changed)</source>
-        <translation>See the list of the clubs (that cannot be changed)</translation>
+        <source>View the list of the clubs (that cannot be changed)</source>
+        <translation>View the list of the clubs (that cannot be changed)</translation>
     </message>
     <message>
         <source>Cl&amp;ubs</source>
@@ -1126,8 +1126,8 @@ Are you sure you want to continue?</numerusform>
         <translation>Clubs</translation>
     </message>
     <message>
-        <source>Load the timings collected and exported in another PC</source>
-        <translation>Load the timings collected and exported in another PC</translation>
+        <source>Load timings collected and exported in another PC</source>
+        <translation>Load timings collected and exported in another PC</translation>
     </message>
     <message>
         <source>Import Timings from another PC</source>
@@ -1288,24 +1288,24 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Select Clubs File</translation>
     </message>
     <message>
-        <source>Live View</source>
-        <translation>Live View</translation>
+        <source>Live Rankings</source>
+        <translation>Live Rankings</translation>
     </message>
     <message>
-        <source>Notice:: enter competitors to use the Live View</source>
-        <translation>Notice:: enter competitors to use the Live View</translation>
+        <source>Notice:: enter competitors to use the Live Rankings</source>
+        <translation>Notice:: enter competitors to use the Live Rankings</translation>
     </message>
     <message>
-        <source>Notice:: Live View cannot be activated on screen %1 since %2px wide (min. required width 1280px)</source>
-        <translation>Notice:: Live View cannot be activated on screen %1 since %2px wide (min. required width 1280px)</translation>
+        <source>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</source>
+        <translation>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</translation>
     </message>
     <message>
-        <source>Info: closing the Live View</source>
-        <translation>Info: closing the Live View</translation>
+        <source>Info: closing the Live Rankings</source>
+        <translation>Info: closing the Live Rankings</translation>
     </message>
     <message>
-        <source>Select a screen for the Live View</source>
-        <translation>Select a screen for the Live View</translation>
+        <source>Select a screen for the Live Rankings</source>
+        <translation>Select a screen for the Live Rankings</translation>
     </message>
     <message>
         <source>Off</source>
@@ -1332,8 +1332,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>N</translation>
     </message>
     <message>
-        <source>Error: table to be exported unknown</source>
-        <translation>Error: table to be exported unknown</translation>
+        <source>Error: table to export is unknown</source>
+        <translation>Error: table to export is unknown</translation>
     </message>
 </context>
 <context>
@@ -1372,8 +1372,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>LBChronoRace</translation>
     </message>
     <message>
-        <source>Enter competitors to use the Live View</source>
-        <translation>Enter competitors to use the Live View</translation>
+        <source>Enter competitors to use the Live Rankings</source>
+        <translation>Enter competitors to use the Live Rankings</translation>
     </message>
     <message>
         <source>Competitor %1</source>
@@ -1396,8 +1396,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Timing %1</translation>
     </message>
     <message>
-        <source>No screen available for the Live View</source>
-        <translation>No screen available for the Live View</translation>
+        <source>No screen available for the Live Rankings</source>
+        <translation>No screen available for the Live Rankings</translation>
     </message>
 </context>
 <context>
@@ -1414,19 +1414,19 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>New Race Wizard</translation>
     </message>
     <message>
-        <source>Null race data pointer</source>
-        <translation>Null race data pointer</translation>
+        <source>Error: race information not initialized</source>
+        <translation>Error: race information not initialized</translation>
     </message>
 </context>
 <context>
     <name>NewRaceWizardAuxData</name>
     <message>
-        <source>Auxiliary Race Information</source>
-        <translation>Auxiliary Race Information</translation>
+        <source>Additional Race Information</source>
+        <translation>Additional Race Information</translation>
     </message>
     <message>
-        <source>This information is optional, but makes the ranking more professional.</source>
-        <translation>This information is optional, but makes the ranking more professional.</translation>
+        <source>This information is optional, but it makes the ranking look more professional.</source>
+        <translation>This information is optional, but it makes the ranking look more professional.</translation>
     </message>
     <message>
         <source>Referee</source>
@@ -1465,8 +1465,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Timekeeper 3</translation>
     </message>
     <message>
-        <source>The thirs timekeeper of the race</source>
-        <translation>The thirs timekeeper of the race</translation>
+        <source>The third timekeeper of the race</source>
+        <translation>The third timekeeper of the race</translation>
     </message>
     <message>
         <source>The name of the third timekeeper of the race</source>
@@ -1506,6 +1506,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Images (*.png *.xpm *.jpg *.gif);;All Files (*)</source>
         <translation>Images (*.png *.xpm *.jpg *.gif);;All Files (*)</translation>
+    </message>
+    <message>
+        <source>Load</source>
+        <translation>Load</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Remove</translation>
     </message>
 </context>
 <context>
@@ -1567,15 +1575,15 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Relay race</translation>
     </message>
     <message>
-        <source>What kind of race will be</source>
-        <translation>What kind of race will be</translation>
+        <source>What kind of race it will be</source>
+        <translation>What kind of race it will be</translation>
     </message>
 </context>
 <context>
     <name>NewRaceWizardOrganization</name>
     <message>
-        <source>Race Organizing Committe Information</source>
-        <translation>Race Organizing Committe Information</translation>
+        <source>Race Organizing Committee Information</source>
+        <translation>Race Organizing Committee Information</translation>
     </message>
     <message>
         <source>Organization</source>
@@ -1586,8 +1594,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>General information about the organizing committee of the race</translation>
     </message>
     <message>
-        <source>This information is optional, but makes the ranking more professional.</source>
-        <translation>This information is optional, but makes the ranking more professional.</translation>
+        <source>This information is optional, but it makes the ranking look more professional.</source>
+        <translation>This information is optional, but it makes the ranking look more professional.</translation>
     </message>
 </context>
 <context>
@@ -1597,8 +1605,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Race Logos</translation>
     </message>
     <message>
-        <source>Race logos are optional, but make the ranking more professional.</source>
-        <translation>Race logos are optional, but make the ranking more professional.</translation>
+        <source>Race logos are optional, but they make the ranking look more professional.</source>
+        <translation>Race logos are optional, but they make the ranking look more professional.</translation>
     </message>
     <message>
         <source>Left Logo</source>
@@ -1613,16 +1621,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>The logo in the upper left corner of the PDF</translation>
     </message>
     <message>
-        <source>Load</source>
-        <translation>Load</translation>
-    </message>
-    <message>
         <source>Add a logo in the upper left corner of the PDF</source>
         <translation>Add a logo in the upper left corner of the PDF</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Remove</translation>
     </message>
     <message>
         <source>Removes the logo from the upper left corner of the PDF</source>
@@ -1656,8 +1656,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Sponsor Logos</translation>
     </message>
     <message>
-        <source>Sponsor logos are optional, but make the ranking more professional.</source>
-        <translation>Sponsor logos are optional, but make the ranking more professional.</translation>
+        <source>Sponsor logos are optional, but they make the ranking look more professional.</source>
+        <translation>Sponsor logos are optional, but they make the ranking look more professional.</translation>
     </message>
     <message>
         <source>1st sponsor logo</source>
@@ -1672,16 +1672,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>First sponsor logo (at the bottom of the PDF)</translation>
     </message>
     <message>
-        <source>Load</source>
-        <translation>Load</translation>
-    </message>
-    <message>
         <source>Add the first sponsor logo (at the bottom of the PDF)</source>
         <translation>Add the first sponsor logo (at the bottom of the PDF)</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation>Remove</translation>
     </message>
     <message>
         <source>Remove the first sponsor logo (from the bottom of the PDF)</source>
@@ -1886,8 +1878,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Error: cannot start drawing PDF</translation>
     </message>
     <message>
-        <source>Error: no file name supplied</source>
-        <translation>Error: no file name supplied</translation>
+        <source>Error: no file name provided</source>
+        <translation>Error: no file name provided</translation>
     </message>
     <message>
         <source>Error: drawing attempt on inactive painter</source>
@@ -1979,8 +1971,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
 <context>
     <name>Ranking</name>
     <message>
-        <source>Illegal ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
-        <translation>Illegal ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</translation>
+        <source>Invalid ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
+        <translation>Invalid ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</translation>
     </message>
 </context>
 <context>
@@ -2258,16 +2250,16 @@ publishing</translation>
         </translation>
     </message>
     <message>
-        <source>Error: cannot open %1</source>
-        <translation>Error: cannot open %1</translation>
+        <source>Error: unable to open %1</source>
+        <translation>Error: unable to open %1</translation>
     </message>
     <message>
-        <source>Error: no file name supplied</source>
-        <translation>Error: no file name supplied</translation>
+        <source>Error: no file name provided</source>
+        <translation>Error: no file name provided</translation>
     </message>
     <message>
-        <source>Error: writing attempt on closed file</source>
-        <translation>Error: writing attempt on closed file</translation>
+        <source>Error: attempted to write to a closed file</source>
+        <translation>Error: attempted to write to a closed file</translation>
     </message>
 </context>
 <context>
@@ -2277,8 +2269,8 @@ publishing</translation>
         <translation>Requested index %1 exceeds the number of available entries %2</translation>
     </message>
     <message>
-        <source>Unexpected club: expected %1 - found %2</source>
-        <translation>Unexpected club: expected %1 - found %2</translation>
+        <source>Invalid club: expected %1 - found %2</source>
+        <translation>Invalid club: expected %1 - found %2</translation>
     </message>
 </context>
 <context>
@@ -2314,8 +2306,8 @@ publishing</translation>
 <context>
     <name>Timing</name>
     <message>
-        <source>Warning: illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
-        <translation>Warning: illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</translation>
+        <source>Warning: invalid timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
+        <translation>Warning: invalid timing value &apos;%1&apos; for bib &apos;%2&apos;</translation>
     </message>
 </context>
 <context>
@@ -2356,8 +2348,8 @@ publishing</translation>
 <context>
     <name>TimingsWorker</name>
     <message>
-        <source>Error: cannot open %1</source>
-        <translation>Error: cannot open %1</translation>
+        <source>Error: unable to open %1</source>
+        <translation>Error: unable to open %1</translation>
     </message>
 </context>
 </TS>

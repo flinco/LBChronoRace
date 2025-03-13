@@ -24,7 +24,7 @@ Qt::SortOrder  RankingSorter::sortingOrder = Qt::AscendingOrder;
 Ranking::Ranking(QString const &team)
 {
     if (team.length() != 1) {
-        throw(ChronoRaceException(tr("Illegal ranking type - expected 'I' or 'T' - found %1").arg(team)));
+        throw(ChronoRaceException(tr("Invalid ranking type - expected 'I' or 'T' - found %1").arg(team)));
     } else {
         this->team = (team.compare("T", Qt::CaseInsensitive) == 0);
     }

@@ -36,7 +36,7 @@ void TeamClassEntry::setClassEntry(ClassEntry *entry)
     if (this->entryList.isEmpty()) {
         this->club = entry->getClub();
     } else if (this->club.compare(entry->getClub()) != 0) {
-        throw(ChronoRaceException(tr("Unexpected club: expected %1 - found %2").arg(this->club, entry->getClub())));
+        throw(ChronoRaceException(tr("Invalid club: expected %1 - found %2").arg(this->club, entry->getClub())));
     }
     this->entryList.push_back(entry);
     this->totaltime += entry->getTotalTime();

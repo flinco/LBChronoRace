@@ -403,7 +403,7 @@ void LBChronoRace::exportList()
         model = CRLoader::Model::TIMINGS;
         message = tr("Timings File saved: %1");
     } else {
-        appendErrorMessage(tr("Error: table to be exported unknown"));
+        appendErrorMessage(tr("Error: table to export is unknown"));
         return;
     }
 
@@ -836,7 +836,7 @@ void LBChronoRace::screenAdded(QScreen const *screen)
         liveModel->item(itemCount - 1)->setEnabled(screenEnabled);
 
         if (!screenEnabled)
-            appendErrorMessage(tr("Notice:: Live View cannot be activated on screen %1 since %2px wide (min. required width 1280px)").arg(screen->name()).arg(screen->size().width()));
+            appendErrorMessage(tr("Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)").arg(screen->name()).arg(screen->size().width()));
 
         if (itemCount > 2)
             ui->liveViewSelector->setEnabled(true);
@@ -850,9 +850,9 @@ void LBChronoRace::live(int index)
     liveTable->setLiveScreen(Q_NULLPTR);
     if (index <= 0) {
         if (oldLiveScreen != Q_NULLPTR)
-            appendInfoMessage(tr("Info: closing the Live View"));
+            appendInfoMessage(tr("Info: closing the Live Rankings"));
     } else if (auto startList = CRLoader::getStartList(); startList.empty()) {
-        appendErrorMessage(tr("Notice:: enter competitors to use the Live View"));
+        appendErrorMessage(tr("Notice:: enter competitors to use the Live Rankings"));
     } else try {
             liveTable->setLiveScreen(this->ui->liveViewSelector->currentData().value<QScreen const *>());
             liveTable->setStartList(startList);

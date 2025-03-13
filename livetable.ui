@@ -24,7 +24,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string notr="true">Live View</string>
+   <string notr="true">Live Rankings</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(85, 170, 255);</string>

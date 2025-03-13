@@ -53,7 +53,7 @@ void PDFRankingPrinter::init(QString *outFileName, QString const &title, QString
     Q_ASSERT(!painter.isActive());
 
     if (outFileName == Q_NULLPTR) {
-        emit error(tr("Error: no file name supplied"));
+        emit error(tr("Error: no file name provided"));
         return;
     }
 

@@ -29,7 +29,7 @@ void CSVRankingPrinter::init(QString *outFileName, QString const &title, QString
     Q_UNUSED(subject)
 
     if (outFileName == Q_NULLPTR) {
-        throw(ChronoRaceException(tr("Error: no file name supplied")));
+        throw(ChronoRaceException(tr("Error: no file name provided")));
     }
 
     // append the .csv extension if missing
@@ -37,7 +37,7 @@ void CSVRankingPrinter::init(QString *outFileName, QString const &title, QString
 
     csvFile.setFileName(*outFileName);
     if (!csvFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        throw(ChronoRaceException(tr("Error: cannot open %1").arg(*outFileName)));
+        throw(ChronoRaceException(tr("Error: unable to open %1").arg(*outFileName)));
     }
     csvStream.setDevice(&csvFile);
     csvStream.setEncoding(CRLoader::getEncoding());
@@ -46,7 +46,7 @@ void CSVRankingPrinter::init(QString *outFileName, QString const &title, QString
 void CSVRankingPrinter::printStartList(QList<Competitor const *> const &startList)
 {
     if (!csvFile.isOpen()) {
-        throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
+        throw(ChronoRaceException(tr("Error: attempted to write to a closed file")));
     }
 
     int offset;
@@ -80,7 +80,7 @@ void CSVRankingPrinter::printRanking(Ranking const &categories, QList<ClassEntry
     static Position position;
 
     if (!csvFile.isOpen()) {
-        throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
+        throw(ChronoRaceException(tr("Error: attempted to write to a closed file")));
     }
 
     using enum CRLoader::Format;
@@ -110,7 +110,7 @@ void CSVRankingPrinter::printRanking(Ranking const &categories, QList<ClassEntry
 void CSVRankingPrinter::printRanking(Ranking const &categories, QList<TeamClassEntry const *> const &ranking)
 {
     if (!csvFile.isOpen()) {
-        throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
+        throw(ChronoRaceException(tr("Error: attempted to write to a closed file")));
     }
 
     using enum CRLoader::Format;
