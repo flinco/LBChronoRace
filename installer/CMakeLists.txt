@@ -43,16 +43,7 @@ set(_QTIFW_PATHS
   "C:/Qt/Tools/QtInstallerFramework")
 set(_QTIFW_SUFFIXES
   "bin"
-  "4.0/bin"
-  "4.1/bin"
-  "4.2/bin"
-  "4.3/bin"
-  "4.4/bin"
-  "4.5/bin"
-  "4.6/bin"
-  "4.7/bin"
-  "4.8/bin"
-  "4.9/bin")
+  "4.10/bin")
 find_program(QTIFW_BINARYCREATOR_EXECUTABLE
   NAMES binarycreator
   PATHS ${_QTIFW_PATHS}
@@ -104,12 +95,24 @@ file(COPY "${CMAKE_SOURCE_DIR}/images/lbchronorace-sample.png" DESTINATION "${CM
 set(WIN_DEPLOY_TS_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/packages/pro.buzzi.lbchronorace/meta/en.ts"
     "${CMAKE_CURRENT_SOURCE_DIR}/packages/pro.buzzi.lbchronorace/meta/it.ts")
-set_source_files_properties(${WIN_DEPLOY_TS_FILES}
-    PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/meta")
 qt_add_translations(installer
     TS_FILES ${WIN_DEPLOY_TS_FILES}
-    QM_FILES_OUTPUT_VARIABLE WIN_DEPLOY_QM_FILES
-    "${CMAKE_CURRENT_SOURCE_DIR}/packages/pro.buzzi.lbchronorace/meta/installscript.qs")
+    QM_FILES_OUTPUT_VARIABLE WIN_DEPLOY_QM_FILES)
+foreach(_QM_FILE ${WIN_DEPLOY_QM_FILES})
+    get_filename_component(_QM_NAME "${_QM_FILE}" NAME)
+    set(_QM_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/meta/${_QM_NAME}")
+
+    add_custom_command(
+        OUTPUT ${_QM_OUTPUT}
+        COMMAND ${CMAKE_COMMAND} -E copy "${_QM_FILE}" "${_QM_OUTPUT}"
+        DEPENDS ${_QM_FILE}
+        COMMENT "Copying translation file: ${_QM_NAME}"
+    )
+list(APPEND INSTALLED_QM_FILES ${_QM_OUTPUT})
+endforeach()
+
+add_custom_target(install_qms ALL DEPENDS ${INSTALLED_QM_FILES})
+add_dependencies(installer install_qms)
 
 # Installer license files (moving to Windows newline style)
 file(GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/meta/license.txt"
@@ -179,6 +182,7 @@ add_custom_command(TARGET installer POST_BUILD
     COMMENT "Deploying ${CMAKE_PROJECT_NAME}...")
 
 # Build the installer
+# consider building an on-line installer or examine the possibility to use --hybrid
 add_custom_command(TARGET installer POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E
         env ${QTIFW_BINARYCREATOR_EXECUTABLE}

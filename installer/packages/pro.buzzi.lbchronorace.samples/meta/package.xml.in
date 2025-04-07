@@ -8,6 +8,7 @@
     <ReleaseDate>2024-10-24</ReleaseDate>
     <Name>pro.buzzi.lbchronorace.samples</Name>
     <Dependencies>pro.buzzi.lbchronorace</Dependencies>
+    <!--<AutoDependOn>pro.buzzi.lbchronorace</AutoDependOn>-->
     <Default>true</Default>
     <ForcedInstallation>false</ForcedInstallation>
     <Essential>false</Essential>

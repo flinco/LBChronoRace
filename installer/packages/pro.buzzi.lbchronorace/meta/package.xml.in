@@ -8,33 +8,33 @@
     <ReleaseDate>@BUILD_DATE@</ReleaseDate>
     <Name>pro.buzzi.lbchronorace</Name>
     <Dependencies>com.microsoft.vcredist</Dependencies>
+    <!--<AutoDependOn>com.microsoft.vcredist</AutoDependOn>-->
     <!--<Virtual>false</Virtual>-->
+    <!--<SortingPriority>10</SortingPriority>-->
     <Licenses>
         <License name="GNU GPLv3" file="license.txt" />
-        <License name="GNU GPLv3 (italiano)" file="license_it.txt" />
+        <!--<License name="GNU GPLv3 (italiano)" file="license_it.txt" />-->
     </Licenses>
     <!--
     <Script>installscript.qs</Script>
     <UserInterfaces>
         <UserInterface>registerfilecheckboxform.ui</UserInterface>
     </UserInterfaces>
+    -->
     <Translations>
         <Translation>en.qm</Translation>
         <Translation>it.qm</Translation>
     </Translations>
-    -->
-    <!--<DownloadableArchives>component2.7z, component2a.7z</DownloadableArchives>-->
-    <!--<AutoDependOn>com.vendor.root.component3</AutoDependOn>-->
-    <!--<SortingPriority>10</SortingPriority>-->
     <!--<UpdateText>This changed compared to the last release</UpdateText>-->
-    <!--
-    <Default>script</Default>
-    -->
-    <ForcedInstallation>true</ForcedInstallation>
-    <!--<ForcedUpdate>false</ForcedUpdate>-->
+    <!--<Default>script</Default>-->
     <Essential>true</Essential>
+    <ForcedInstallation>true</ForcedInstallation>
+    <ForcedUpdate>true</ForcedUpdate>
+    <!--<Replaces>pro.buzzi.lbchronorace2old</Replaces>-->
+    <!--<DownloadableArchives>component2.7z,component2a.7z</DownloadableArchives>-->
+    <!--<RequiresAdminRights>true</RequiresAdminRights>-->
     <!--<Checkable>true</Checkable>-->
-    <!--<Replaces>com.vendor.root.component2old</Replaces>-->
+    <ExpandedByDefault>true</ExpandedByDefault>
     <Operations>
         <Operation name="CreateShortcut">
             <Argument>@at@TargetDir@at@\LBChronoRace.exe</Argument>

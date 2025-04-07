@@ -13,18 +13,45 @@
     <!-- TODO: prepare something wide and short that fits this area  -->
     <!--<PageListPixmap>LBChronoRace-32.png</PageListPixmap>-->
     <!--<Watermark>watermark.png</Watermark>-->
+    <!--<Banner>banner.png</Banner>-->
     <!--<Background>background.png</Background>-->
     <ProductImages>
         <ProductImage>
             <Image>lbchronorace-sample.png</Image>
+            <Url>http://www.buzzi.pro/lbchronorace.html</Url>
         </ProductImage>
         <ProductImage>
             <Image>lbchronorace-preview.png</Image>
+            <Url>http://www.buzzi.pro/lbchronorace.html</Url>
         </ProductImage>
     </ProductImages>
+    <!--<TitleColor>#88FF33</TitleColor>-->
     <RunProgram>@at@TargetDir@at@/LBChronoRace</RunProgram>
+    <!--<RunProgramArguments>-->
+    <!--    <Argument>arg1</Argument>-->
+    <!--    <Argument>arg2</Argument>-->
+    <!--</RunProgramArguments>-->
+    <!--<RunProgramDescription>Run LBChronoRace now.</RunProgramDescription>-->
     <StartMenuDir>LBChronoRace</StartMenuDir>
     <TargetDir>@at@ApplicationsDirX64@at@/LBChronoRace</TargetDir>
+    <MaintenanceToolName>LBChronoRaceInstaller</MaintenanceToolName>
+    <!--<MaintenanceToolIniFile>LBChronoRaceInstaller.ini</MaintenanceToolIniFile>-->
+    <!--<RemoveTargetDir>true</RemoveTargetDir>-->
+    <!--<AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>-->
+    <!--<DisableAuthorizationFallback>false</DisableAuthorizationFallback>-->
+    <!--<DisableCommandLineInterface>false</DisableCommandLineInterface>-->
+    <!--<AllowRepositoriesForOfflineInstaller>true</AllowRepositoriesForOfflineInstaller>-->
+    <!--<AllowSpaceInPath>true</AllowSpaceInPath>-->
+    <!--<DependsOnLocalInstallerBinary>false</DependsOnLocalInstallerBinary>-->
+    <!--<TargetConfigurationFile>components.xml</TargetConfigurationFile>-->
+    <!--
+    <Translations>
+        <Translation>ifw_it</Translation>
+        <Translation>qt_it</Translation>
+    </Translations>
+    -->
+    <!--<CreateLocalRepository>true</CreateLocalRepository>-->
     <InstallActionColumnVisible>true</InstallActionColumnVisible>
     <ControlScript>uninstall.qs</ControlScript>
+    <!--<SupportsModify>true</SupportsModify>-->
 </Installer>
