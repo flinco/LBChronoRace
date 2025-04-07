@@ -174,6 +174,7 @@ add_custom_command(TARGET installer POST_BUILD
         --qmldir ${CMAKE_SOURCE_DIR}
         ${WINDEPLOYQT_ARGS}
         --dir ${WIN_DEPLOY_TARGET_DIR}
+        --no-compiler-runtime
         "${WIN_DEPLOY_TARGET_DIR}/$<TARGET_FILE_NAME:${LBCHRONORACE_BIN}>"
     COMMENT "Deploying ${CMAKE_PROJECT_NAME}...")
 
