@@ -53,8 +53,8 @@ public:
     void setLiveScreen(QScreen const *screen);
 
 private:
-    QMultiHash<uint, Competitor> startList;
-    QList<QStandardItem *> lastRowItems;
+    QMultiHash<uint, Competitor> startList { };
+    QList<QStandardItem *> lastRowItems { };
 
     QScopedPointer<Ui::LiveTable> ui { new Ui::LiveTable };
     QScopedPointer<QStandardItemModel> model { new QStandardItemModel };
@@ -65,14 +65,20 @@ private:
 
     QScreen const *liveScreen { Q_NULLPTR };
 
-    void setTimingIndividual(uint bib, uint timing, bool chrono);
-    void removeTimingIndividual(uint bib);
+    void setEntry(quint64 values, bool add);
 
-    void setTimingRelay(uint bib, uint timing, bool chrono);
+    void addTimingIndividual(uint bib, uint timing, bool chrono);
+    void removeTimingIndividual(uint bib, uint timing, bool chrono);
+
+    void addTimingRelay(uint bib, uint timing, bool chrono);
     void removeTimingRelay(uint bib, uint timing, bool chrono);
 
-    void insertTimingRelay(uint timing, bool chrono) const;
+    void insertTimingRelay(uint timing, bool chrono, QList<QVariant> &extraTimings) const;
+    void eraseTimingRelay(uint timing, bool chrono, QList<QVariant> &extraTimings);
     void updateTimingRelay(bool chrono) const;
+
+    static void pushTiming(QList<QVariant> &list, uint timing);
+    static bool popTiming(QList<QVariant> &list, uint timing);
 };
 
 #endif // LIVETABLE_HPP

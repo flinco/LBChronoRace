@@ -114,99 +114,12 @@ void LiveTable::setRaceInfo(const ChronoRaceData *raceData)
 
 void LiveTable::addEntry(quint64 values)
 {
-    auto bib = static_cast<uint>(values & Q_UINT64_C(0xffffffff));
-    auto timing = static_cast<uint>(values >> 32);
-
-    if ((bib == 0) || (timing == 0))
-        return;
-
-    if (!this->startList.contains(bib))
-        return;
-
-    QList oldItems(this->lastRowItems);
-    //NOSONAR QVariant fontRole;
-    //NOSONAR QFont boldFont;
-    QVariant colorRole;
-    QColor highlightedColor(Qt::red);
-
-    switch (this->mode) {
-        using enum LiveTable::LiveMode;
-
-        case INDIVIDUAL:
-            setTimingIndividual(bib, timing, false);
-            break;
-        case CHRONO:
-            setTimingIndividual(bib, timing, true);
-            break;
-        case RELAY:
-            setTimingRelay(bib, timing, false);
-            break;
-        case CHRONO_RELAY:
-            setTimingRelay(bib, timing, true);
-            break;
-    }
-
-    // Restore non-bold font roles
-    for (QStandardItem *item : oldItems) {
-        //NOSONAR fontRole = item->data(Qt::FontRole);
-        //NOSONAR fontRole.clear();
-        //NOSONAR item->setData(fontRole, Qt::FontRole);
-        colorRole = item->data(Qt::ForegroundRole);
-        colorRole.clear();
-        item->setData(colorRole, Qt::ForegroundRole);
-    }
-
-    // Set bold font roles
-    for (QStandardItem *item : std::as_const(this->lastRowItems)) {
-        //NOSONAR highlightedFont = QFont(item->font());
-        //NOSONAR highlightedFont.setBold(true);
-        //NOSONAR item->setData(highlightedFont, Qt::FontRole);
-        item->setData(highlightedColor, Qt::ForegroundRole);
-    }
-
-    model->sort(0, Qt::SortOrder::AscendingOrder);
-
-    if (!this->lastRowItems.isEmpty()) {
-        auto const &index = lowProxyModel->mapFromSource(model->indexFromItem(this->lastRowItems[0]));
-        auto row = index.isValid() ? index.row() : -1;
-
-        if (row < 3)
-            this->ui->lowTable->scrollToTop();
-        else if (row + 1 == lowProxyModel->rowCount())
-            this->ui->lowTable->scrollToBottom();
-        else
-            this->ui->lowTable->scrollTo(index, QAbstractItemView::PositionAtCenter);
-    }
+    setEntry(values, true);
 }
 
 void LiveTable::removeEntry(quint64 values)
 {
-    auto bib = static_cast<uint>(values & Q_UINT64_C(0xffffffff));
-    auto timing = static_cast<uint>(values >> 32);
-
-    if ((bib == 0) || (timing == 0))
-        return;
-
-    if (!this->startList.contains(bib))
-        return;
-
-    switch (this->mode) {
-        using enum LiveTable::LiveMode;
-
-        case INDIVIDUAL:
-            [[fallthrough]];
-        case CHRONO:
-            removeTimingIndividual(bib);
-            break;
-        case RELAY:
-            removeTimingRelay(bib, timing, false);
-            break;
-        case CHRONO_RELAY:
-            removeTimingRelay(bib, timing, true);
-            break;
-    }
-
-    model->sort(0, Qt::SortOrder::AscendingOrder);
+    setEntry(values, false);
 }
 
 void LiveTable::setStartList(QList<Competitor> const &newStartList)
@@ -313,7 +226,85 @@ void LiveTable::setLiveScreen(QScreen const *screen)
     this->liveScreen = screen;
 }
 
-void LiveTable::setTimingIndividual(uint bib, uint timing, bool chrono)
+void LiveTable::setEntry(quint64 values, bool add)
+{
+    auto bib = static_cast<uint>(values & Q_UINT64_C(0xffffffff));
+    auto timing = static_cast<uint>(values >> 32);
+
+    if ((bib == 0) || (timing == 0))
+        return;
+
+    if (!this->startList.contains(bib))
+        return;
+
+    //NOSONAR QVariant fontRole;
+    //NOSONAR QFont boldFont;
+    QVariant colorRole;
+    QColor highlightedColor(Qt::red);
+
+    // Restore non-bold font roles
+    for (QStandardItem *item : std::as_const(this->lastRowItems)) {
+        //NOSONAR fontRole = item->data(Qt::FontRole);
+        //NOSONAR fontRole.clear();
+        //NOSONAR item->setData(fontRole, Qt::FontRole);
+        colorRole = item->data(Qt::ForegroundRole);
+        colorRole.clear();
+        item->setData(colorRole, Qt::ForegroundRole);
+    }
+
+    switch (this->mode) {
+        using enum LiveTable::LiveMode;
+
+    case INDIVIDUAL:
+        if (add)
+            addTimingIndividual(bib, timing, false);
+        else
+            removeTimingIndividual(bib, timing, false);
+        break;
+    case CHRONO:
+        if (add)
+            addTimingIndividual(bib, timing, true);
+        else
+            removeTimingIndividual(bib, timing, true);
+        break;
+    case RELAY:
+        if (add)
+            addTimingRelay(bib, timing, false);
+        else
+            removeTimingRelay(bib, timing, false);
+        break;
+    case CHRONO_RELAY:
+        if (add)
+            addTimingRelay(bib, timing, true);
+        else
+            removeTimingRelay(bib, timing, true);
+        break;
+    }
+
+    // Set bold font roles
+    for (QStandardItem *item : std::as_const(this->lastRowItems)) {
+        //NOSONAR highlightedFont = QFont(item->font());
+        //NOSONAR highlightedFont.setBold(true);
+        //NOSONAR item->setData(highlightedFont, Qt::FontRole);
+        item->setData(highlightedColor, Qt::ForegroundRole);
+    }
+
+    model->sort(0, Qt::SortOrder::AscendingOrder);
+
+    if (!this->lastRowItems.isEmpty()) {
+        auto const &index = lowProxyModel->mapFromSource(model->indexFromItem(this->lastRowItems[0]));
+        auto row = index.isValid() ? index.row() : -1;
+
+        if (row < 3)
+            this->ui->lowTable->scrollToTop();
+        else if (row + 1 == lowProxyModel->rowCount())
+            this->ui->lowTable->scrollToBottom();
+        else
+            this->ui->lowTable->scrollTo(index, QAbstractItemView::PositionAtCenter);
+    }
+}
+
+void LiveTable::addTimingIndividual(uint bib, uint timing, bool chrono)
 {
 #ifdef QT_QML_DEBUG
     qDebug() << "Adding " << (chrono ? "chrono " : "individual ") << bib << " - " << timing;
@@ -337,35 +328,101 @@ void LiveTable::setTimingIndividual(uint bib, uint timing, bool chrono)
     if (chrono)
         timing -= this->lastRowItems[1]->data(Qt::UserRole).toUInt();
 
+    if (this->lastRowItems[0]->data(Qt::UserRole).isNull()) {
+        /* Timing not present for this bib */
+        this->lastRowItems[0]->setData(QVariant(timing), Qt::UserRole);
+    } else {
+        QList<QVariant> extraTimings;
+        if (!this->lastRowItems[2]->data(Qt::UserRole).isNull())
+            extraTimings = this->lastRowItems[2]->data(Qt::UserRole).toList();
+
+        if (uint prevTiming = this->lastRowItems[0]->data(Qt::UserRole).toUInt(); timing < prevTiming) {
+            /* Higher timing already present for this bib */
+            LiveTable::pushTiming(extraTimings, prevTiming); // push the previous timing in the list
+            this->lastRowItems[0]->setData(QVariant(timing), Qt::UserRole); // store new timing
+        } else {
+            /* Lower timing already present for this bib */
+            LiveTable::pushTiming(extraTimings, timing); // push the new timing in the extra list
+            timing = prevTiming; // keep the previous timing in the user interface
+        }
+
+        this->lastRowItems[2]->setData(QVariant(extraTimings), Qt::UserRole);
+    }
+
     this->lastRowItems[2]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
-    this->lastRowItems[0]->setData(QVariant(timing), Qt::UserRole);
 
     model->appendRow(this->lastRowItems);
 }
 
-void LiveTable::removeTimingIndividual(uint bib)
+void LiveTable::removeTimingIndividual(uint bib, uint timing, bool chrono)
 {
 #ifdef QT_QML_DEBUG
-    qDebug() << "Removing row " << bib;
+    qDebug() << "Removing " << (chrono ? "chrono " : "individual ") << bib << " - " << timing;
 #endif
 
-    if (auto indexes = model->match(model->index(0, 0), Qt::DisplayRole, QString::number(bib), 1, Qt::MatchExactly); !indexes.empty()) {
+    auto indexes = model->match(model->index(0, 0), Qt::DisplayRole, QString::number(bib), 1, Qt::MatchExactly);
 
-        auto row = indexes.first().row();
+    if (indexes.empty()) {
+        /* This should never happen... in any case do nothing else */
+        return;
+    }
 
-        QList<QStandardItem *> rowItems = model->takeRow(row);
-        for (QList<QStandardItem *>::const_iterator newItem = rowItems.constBegin(); newItem != rowItems.constEnd(); newItem++) {
-            if (this->lastRowItems.contains(*newItem)) {
-                this->lastRowItems.clear();
-                break;
-            }
+    QList<QVariant> extraTimings;
+
+    this->lastRowItems.clear();
+    this->lastRowItems = model->takeRow(indexes.first().row());
+
+    if (!this->lastRowItems[2]->data(Qt::UserRole).isNull())
+        extraTimings = this->lastRowItems[2]->data(Qt::UserRole).toList();
+
+    if (chrono)
+        timing -= this->lastRowItems[1]->data(Qt::UserRole).toUInt();
+
+    /* A timing MUST be present for this bib */
+    if (this->lastRowItems[0]->data(Qt::UserRole).toUInt() == timing) {
+        /* Timing match found; remove it from the item */
+        this->lastRowItems[0]->setData(QVariant(), Qt::UserRole);
+        timing = 0;
+    }
+
+    if (!extraTimings.isEmpty()) {
+        if (timing == 0) {
+            /* The timing has been removed from the item, try to
+             * replace it with the first extra timing available */
+            timing = extraTimings.takeAt(0).toUInt();
+        } else if (LiveTable::popTiming(extraTimings, timing)) {
+            /* The timing has NOT been removed from the item, but
+             * it has been removed from the extra timings */
+            timing = 0;
+        } else {
+            /* The timing has NOT been removed from the item, but
+             * it is NOT present among the extra timings; this
+             * should never happen... in any case do nothing else */
+            timing = 0;
         }
 
-        model->removeRow(row);
+        /* Push the extra timings back */
+        if (extraTimings.isEmpty())
+            this->lastRowItems[2]->setData(QVariant(), Qt::UserRole);
+        else
+            this->lastRowItems[2]->setData(QVariant(extraTimings), Qt::UserRole);
+    }
+
+    auto nullItem = this->lastRowItems[0]->data(Qt::UserRole).isNull();
+    if (!nullItem || (timing != 0)) {
+        if (nullItem) {
+            /* A timing has been extracted from the extra
+             * timings; set it as the displayed timing */
+            this->lastRowItems[0]->setData(QVariant(timing), Qt::UserRole);
+            this->lastRowItems[2]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
+        }
+
+        /* A timing is still present in the item */
+        model->appendRow(this->lastRowItems);
     }
 }
 
-void LiveTable::setTimingRelay(uint bib, uint timing, bool chrono)
+void LiveTable::addTimingRelay(uint bib, uint timing, bool chrono)
 {
     int column;
     auto columnCount = model->columnCount();
@@ -373,6 +430,8 @@ void LiveTable::setTimingRelay(uint bib, uint timing, bool chrono)
 #ifdef QT_QML_DEBUG
     qDebug() << "Adding " << (chrono ? "chrono relay " : "relay ") << bib << " - " << timing;
 #endif
+
+    QList<QVariant> extraTimings;
 
     this->lastRowItems.clear();
     if (auto indexes = model->match(model->index(0, 0), Qt::DisplayRole, QString::number(bib), 1, Qt::MatchExactly); !indexes.empty()) {
@@ -402,9 +461,19 @@ void LiveTable::setTimingRelay(uint bib, uint timing, bool chrono)
         this->lastRowItems << new QStandardItem(QString());
     }
 
-    insertTimingRelay(timing, chrono);
+    if (!this->lastRowItems[columnCount - 1]->data(Qt::UserRole).isNull()) {
+        extraTimings = this->lastRowItems[columnCount - 1]->data(Qt::UserRole).toList();
+    }
+
+    insertTimingRelay(timing, chrono, extraTimings);
 
     updateTimingRelay(chrono);
+
+    /* Push the extra timings back */
+    if (extraTimings.isEmpty())
+        this->lastRowItems[columnCount - 1]->setData(QVariant(), Qt::UserRole);
+    else
+        this->lastRowItems[columnCount - 1]->setData(QVariant(extraTimings), Qt::UserRole);
 
     model->appendRow(this->lastRowItems);
 }
@@ -415,44 +484,47 @@ void LiveTable::removeTimingRelay(uint bib, uint timing, bool chrono)
     qDebug() << "Removing " << (chrono ? "chrono relay " : "relay ") << bib << " - " << timing;
 #endif
 
-    if (auto indexes = model->match(model->index(0, 0), Qt::DisplayRole, QString::number(bib), 1, Qt::MatchExactly); !indexes.empty()) {
+    auto indexes = model->match(model->index(0, 0), Qt::DisplayRole, QString::number(bib), 1, Qt::MatchExactly);
 
-        int column;
-        auto columnCount = model->columnCount();
+    if (indexes.empty()) {
+        /* This should never happen... in any case do nothing else */
+        return;
+    }
 
-        auto rowItems = model->takeRow(indexes.first().row());
+    auto columnCount = model->columnCount();
+    QList<QVariant> extraTimings;
 
-        for (auto const *newItem : std::as_const(rowItems)) {
-            if (this->lastRowItems.contains(newItem)) {
-                this->lastRowItems.clear();
-                break;
-            }
+    this->lastRowItems.clear();
+    this->lastRowItems = model->takeRow(indexes.first().row());
+
+    if (!this->lastRowItems[columnCount - 1]->data(Qt::UserRole).isNull()) {
+        extraTimings = this->lastRowItems[columnCount - 1]->data(Qt::UserRole).toList();
+        if (LiveTable::popTiming(extraTimings, timing)) {
+            /* The timing is present in (and removed from) the extra timings */
+            timing = 0;
         }
+    }
 
-        // Find a matching item
-        for (column = 2; column < columnCount; column += 2)
-            if (!rowItems[column]->data(Qt::UserRole).isNull() &&
-                (rowItems[column]->data(Qt::UserRole).toUInt() == timing))
-                break;
+    if (timing != 0) {
+        eraseTimingRelay(timing, chrono, extraTimings);
+    }
 
-        // Shift the contents
-        while (column < columnCount) {
-            rowItems[column]->setData((column + 2 < columnCount) ? rowItems[column + 2]->data(Qt::UserRole) : QVariant(), Qt::UserRole);
-            column += 2;
-        }
+    if (this->lastRowItems[2]->data(Qt::UserRole).isNull()) {
+        this->lastRowItems.clear();
+    } else {
+        updateTimingRelay(chrono);
 
-        if (rowItems[2]->data(Qt::UserRole).isNull()) {
-            rowItems.clear();
-        } else {
-            if (this->lastRowItems.isEmpty())
-                this->lastRowItems = rowItems;
-            updateTimingRelay(chrono);
-            model->appendRow(rowItems);
-        }
+        /* Push the extra timings back */
+        if (extraTimings.isEmpty())
+            this->lastRowItems[columnCount - 1]->setData(QVariant(), Qt::UserRole);
+        else
+            this->lastRowItems[columnCount - 1]->setData(QVariant(extraTimings), Qt::UserRole);
+
+        model->appendRow(this->lastRowItems);
     }
 }
 
-void LiveTable::insertTimingRelay(uint timing, bool chrono) const
+void LiveTable::insertTimingRelay(uint timing, bool chrono, QList<QVariant> &extraTimings) const
 {
     auto columnCount = model->columnCount();
     for (qsizetype column = 2; column < columnCount; column += 2) {
@@ -464,6 +536,7 @@ void LiveTable::insertTimingRelay(uint timing, bool chrono) const
                 timing -= (column == 2) ? 0 : this->lastRowItems[column - 2]->data(Qt::UserRole).toUInt();
             }
             this->lastRowItems[column]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
+            timing = 0;
             break;
         } else if (uint prevTiming = this->lastRowItems[column]->data(Qt::UserRole).toUInt(); timing < prevTiming) {
             this->lastRowItems[column]->setData(QVariant(timing), Qt::UserRole);
@@ -475,6 +548,50 @@ void LiveTable::insertTimingRelay(uint timing, bool chrono) const
             this->lastRowItems[column]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
             timing = prevTiming;
         }
+    }
+
+    if (timing != 0) {
+        LiveTable::pushTiming(extraTimings, timing); // push the timing in the extra list
+    }
+}
+
+void LiveTable::eraseTimingRelay(uint timing, bool chrono, QList<QVariant> &extraTimings)
+{
+    int column;
+    auto columnCount = model->columnCount();
+
+    /* Find a matching item */
+    for (column = 2; column < columnCount; column += 2) {
+        if (this->lastRowItems[column]->data(Qt::UserRole).toUInt() == timing) {
+            /* Timing match found */
+            break;
+        }
+    }
+
+    /* Shift the contents */
+    while (column < columnCount) {
+        if ((column + 2 < columnCount) && !this->lastRowItems[column + 2]->data(Qt::UserRole).isNull()) {
+            timing = this->lastRowItems[column + 2]->data(Qt::UserRole).toUInt();
+        } else if (!extraTimings.isEmpty()) {
+            timing = extraTimings.takeAt(0).toUInt();
+        } else {
+            timing = 0;
+        }
+
+        if (timing != 0) {
+            this->lastRowItems[column]->setData(QVariant(timing), Qt::UserRole);
+            if (chrono) {
+                timing -= this->lastRowItems[column - 1]->data(Qt::UserRole).toUInt();
+            } else {
+                timing -= (column == 2) ? 0 : this->lastRowItems[column - 2]->data(Qt::UserRole).toUInt();
+            }
+            this->lastRowItems[column]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
+        } else {
+            this->lastRowItems[column]->setData(QVariant(), Qt::UserRole);
+            this->lastRowItems[column]->setText(QString());
+        }
+
+        column += 2;
     }
 }
 
@@ -499,4 +616,40 @@ void LiveTable::updateTimingRelay(bool chrono) const
 
     this->lastRowItems[columnCount - 1]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
     this->lastRowItems[0]->setData(QVariant(sortTiming), Qt::UserRole);
+}
+
+void LiveTable::pushTiming(QList<QVariant> &list, uint timing)
+{
+    QVariant value = QVariant::fromValue(timing);
+    qsizetype index;
+
+    /* Walk backwards to find the correct insertion point */
+    for (index = list.isEmpty() ? 0 : list.size(); index > 0; index--) {
+        if (timing >= list[index - 1].toUInt()) {
+                break;
+        }
+    }
+
+    /* Insert the value at the computed position */
+    list.insert(index, value);
+}
+
+bool LiveTable::popTiming(QList<QVariant> &list, uint timing)
+{
+    bool retval = false;
+
+    QList<QVariant>::ConstIterator it = list.constBegin();
+    while (it != list.constEnd()) {
+
+        /* Try to find a matching timing */
+        if (it->toUInt() == timing) {
+            list.erase(it);
+            retval = true;
+            break;
+        }
+
+        it++;
+    }
+
+    return retval;
 }
