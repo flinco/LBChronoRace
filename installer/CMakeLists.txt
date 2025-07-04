@@ -25,25 +25,19 @@ add_custom_target(installer
 # External tools
 get_target_property(QMAKE_EXECUTABLE Qt::qmake IMPORTED_LOCATION)
 get_filename_component(_QT_BIN_DIR ${QMAKE_EXECUTABLE} DIRECTORY)
+
 # Look for 'windeployqt'
 find_program(WINDEPLOYQT_EXECUTABLE
     NAMES windeployqt
     HINTS "${_QT_BIN_DIR}"
     REQUIRED
     DOC "The Windows deployment tool")
+
 # Look for 'binarycreator'
 set(_QTIFW_PATHS
-  "${QTIFWDIR}"
-  "$ENV{QTIFWDIR}"
-  "${QTDIR}"
-  "$ENV{QTIFWDIR}"
-  "$ENV{HOMEDRIVE}/Qt"
-  "C:/Qt"
-  "C:/Qt/Tools"
-  "C:/Qt/Tools/QtInstallerFramework")
-set(_QTIFW_SUFFIXES
-  "bin"
-  "4.10/bin")
+  "${QTIFWDIR}" "$ENV{QTIFWDIR}" "${QTDIR}" "$ENV{QTIFWDIR}"
+  "$ENV{HOMEDRIVE}/Qt" "C:/Qt" "C:/Qt/Tools" "C:/Qt/Tools/QtInstallerFramework")
+set(_QTIFW_SUFFIXES "bin" "4.10/bin")
 find_program(QTIFW_BINARYCREATOR_EXECUTABLE
   NAMES binarycreator
   PATHS ${_QTIFW_PATHS}
@@ -53,12 +47,9 @@ find_program(QTIFW_BINARYCREATOR_EXECUTABLE
 mark_as_advanced(WINDEPLOYQT_EXECUTABLE QTIFW_BINARYCREATOR_EXECUTABLE)
 
 # Convenience path variables
-#set(WIN_DEPLOY_DIR "${CMAKE_CURRENT_BINARY_DIR}/installer")
 set(WIN_DEPLOY_TARGET_DIR "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/data")
 set(WIN_DEPLOY_SAMPLES_DIR "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace.samples/data")
-set(WIN_DEPLOY_DIRS
-    "config"
-    "packages")
+set(WIN_DEPLOY_DIRS "config" "packages")
 
 # Cleanup
 foreach(WIN_DEPLOY_DIR ${WIN_DEPLOY_DIRS})
@@ -72,24 +63,22 @@ file(COPY ${WIN_DEPLOY_DIRS} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}"
 
 # Copy the XMLs: replacing the version and date placeholders but preserve other ones
 set(at "@" CACHE STRING "QTIFW @ placeholder")
-file(GLOB_RECURSE WIN_DEPLOY_CONFIG_XML
-    RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-    "*.xml.in")
-foreach(WIN_DEPLOY_CONFIG_XML_IN ${WIN_DEPLOY_CONFIG_XML})
-    cmake_path(REMOVE_EXTENSION WIN_DEPLOY_CONFIG_XML_IN LAST_ONLY
-        OUTPUT_VARIABLE WIN_DEPLOY_CONFIG_XML_OUT)
-    configure_file(${WIN_DEPLOY_CONFIG_XML_IN} ${WIN_DEPLOY_CONFIG_XML_OUT}
-        NEWLINE_STYLE WIN32)
+file(GLOB_RECURSE WIN_DEPLOY_CONFIG_XML RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.xml.in")
+foreach(IN_FILE ${WIN_DEPLOY_CONFIG_XML})
+    cmake_path(REMOVE_EXTENSION IN_FILE LAST_ONLY OUTPUT_VARIABLE OUT_FILE)
+    configure_file(${IN_FILE} ${OUT_FILE} NEWLINE_STYLE WIN32)
 endforeach()
 unset(at CACHE)
 
 # Installer images and icons
-file(COPY "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.ico" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
-file(COPY "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-32.png" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
-file(COPY "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-64.png" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
-file(COPY "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-128.png" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
-file(COPY "${CMAKE_SOURCE_DIR}/images/lbchronorace-preview.png" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
-file(COPY "${CMAKE_SOURCE_DIR}/images/lbchronorace-sample.png" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
+file(COPY
+    "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.ico"
+    "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-32.png"
+    "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-64.png"
+    "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-128.png"
+    "${CMAKE_SOURCE_DIR}/images/lbchronorace-preview.png"
+    "${CMAKE_SOURCE_DIR}/images/lbchronorace-sample.png"
+    DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")
 
 # Installer translations
 set(WIN_DEPLOY_TS_FILES
@@ -98,20 +87,20 @@ set(WIN_DEPLOY_TS_FILES
 qt_add_translations(installer
     TS_FILES ${WIN_DEPLOY_TS_FILES}
     QM_FILES_OUTPUT_VARIABLE WIN_DEPLOY_QM_FILES)
-foreach(_QM_FILE ${WIN_DEPLOY_QM_FILES})
-    get_filename_component(_QM_NAME "${_QM_FILE}" NAME)
-    set(_QM_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/meta/${_QM_NAME}")
+
+foreach(QM_FILE ${WIN_DEPLOY_QM_FILES})
+    get_filename_component(QM_NAME "${QM_FILE}" NAME)
+    set(QM_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/meta/${QM_NAME}")
 
     add_custom_command(
-        OUTPUT ${_QM_OUTPUT}
-        COMMAND ${CMAKE_COMMAND} -E copy "${_QM_FILE}" "${_QM_OUTPUT}"
-        DEPENDS ${_QM_FILE}
-        COMMENT "Copying translation file: ${_QM_NAME}"
-    )
-list(APPEND INSTALLED_QM_FILES ${_QM_OUTPUT})
+        OUTPUT ${QM_OUTPUT}
+        COMMAND ${CMAKE_COMMAND} -E copy "${QM_FILE}" "${QM_OUTPUT}"
+        DEPENDS ${QM_FILE}
+        COMMENT "Copying translation file: ${QM_NAME}")
+    list(APPEND INSTALLED_QM_FILES ${QM_OUTPUT})
 endforeach()
 
-add_custom_target(install_qms ALL DEPENDS ${INSTALLED_QM_FILES})
+add_custom_target(install_qms DEPENDS ${INSTALLED_QM_FILES})
 add_dependencies(installer install_qms)
 
 # Installer license files (moving to Windows newline style)
@@ -128,31 +117,28 @@ file(GENERATE OUTPUT "${WIN_DEPLOY_TARGET_DIR}/GPLv3.txt"
     NEWLINE_STYLE WIN32)
 
 # Application icons
-file(GLOB WIN_DEPLOY_ICONS
-    LIST_DIRECTORIES false
-    "${CMAKE_SOURCE_DIR}/icons/*.ico")
+file(GLOB WIN_DEPLOY_ICONS LIST_DIRECTORIES false "${CMAKE_SOURCE_DIR}/icons/*.ico")
 file(COPY ${WIN_DEPLOY_ICONS} DESTINATION ${WIN_DEPLOY_TARGET_DIR})
 
-# Data samples (moving to Windows newline style)
+# Data samples
 file(MAKE_DIRECTORY "${WIN_DEPLOY_SAMPLES_DIR}/samples")
 file(GLOB_RECURSE WIN_DEPLOY_SAMPLES_CONTENTS
     LIST_DIRECTORIES true RELATIVE "${CMAKE_SOURCE_DIR}/samples"
     "${CMAKE_SOURCE_DIR}/samples/*")
 foreach(SAMPLE_CONTENT ${WIN_DEPLOY_SAMPLES_CONTENTS})
     cmake_path(ABSOLUTE_PATH SAMPLE_CONTENT BASE_DIRECTORY "${CMAKE_SOURCE_DIR}/samples"
-        OUTPUT_VARIABLE SAMPLE_CONTENT_IN)
+        OUTPUT_VARIABLE IN_PATH)
     cmake_path(ABSOLUTE_PATH SAMPLE_CONTENT BASE_DIRECTORY "${WIN_DEPLOY_SAMPLES_DIR}/samples"
-        OUTPUT_VARIABLE SAMPLE_CONTENT_OUT)
-    if(IS_DIRECTORY ${SAMPLE_CONTENT_IN})
-        file(MAKE_DIRECTORY ${SAMPLE_CONTENT_OUT})
+        OUTPUT_VARIABLE OUT_PATH)
+
+    if(IS_DIRECTORY ${IN_PATH})
+        file(MAKE_DIRECTORY ${OUT_PATH})
     else()
-        cmake_path(GET SAMPLE_CONTENT EXTENSION LAST_ONLY EXTENSION_CRD)
-        if("${EXTENSION_CRD}" STREQUAL ".crd")
-            file(COPY_FILE ${SAMPLE_CONTENT_IN} ${SAMPLE_CONTENT_OUT})
+        cmake_path(GET SAMPLE_CONTENT EXTENSION LAST_ONLY EXT)
+        if("${EXT}" STREQUAL ".crd")
+            file(COPY_FILE ${IN_PATH} ${OUT_PATH})
         else()
-            file(GENERATE OUTPUT ${SAMPLE_CONTENT_OUT}
-                INPUT ${SAMPLE_CONTENT_IN}
-                NEWLINE_STYLE WIN32)
+            file(GENERATE OUTPUT ${OUT_PATH} INPUT ${IN_PATH} NEWLINE_STYLE WIN32)
         endif()
     endif()
 endforeach()
@@ -161,7 +147,8 @@ endforeach()
 add_custom_command(TARGET installer PRE_BUILD
     COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:${LBCHRONORACE_BIN}>" ${WIN_DEPLOY_TARGET_DIR}
     DEPENDS "$<TARGET_FILE:${LBCHRONORACE_BIN}>"
-    COMMENT "Copy executable into the installer directory")
+    COMMENT "Copy executable into the installer directory"
+    USES_TERMINAL)
 
 # Populate the installer tree with the runtime dependencies
 string(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_UPPER)
@@ -170,23 +157,55 @@ if(CMAKE_BUILD_TYPE_UPPER STREQUAL "DEBUG")
 else()
     set(WINDEPLOYQT_ARGS "--release")
 endif()
+
 cmake_path(GET CMAKE_CXX_COMPILER PARENT_PATH _GXX_BIN_DIR)
 add_custom_command(TARGET installer POST_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E
-        env PATH="${_GXX_BIN_DIR}" ${WINDEPLOYQT_EXECUTABLE}
+    COMMAND "${CMAKE_COMMAND}" -E env PATH="${_GXX_BIN_DIR}" ${WINDEPLOYQT_EXECUTABLE}
         --qmldir ${CMAKE_SOURCE_DIR}
         ${WINDEPLOYQT_ARGS}
         --dir ${WIN_DEPLOY_TARGET_DIR}
         --no-compiler-runtime
         "${WIN_DEPLOY_TARGET_DIR}/$<TARGET_FILE_NAME:${LBCHRONORACE_BIN}>"
-    COMMENT "Deploying ${CMAKE_PROJECT_NAME}...")
+    COMMENT "Deploying ${CMAKE_PROJECT_NAME}..."
+    USES_TERMINAL)
 
 # Build the installer
 # consider building an on-line installer or examine the possibility to use --hybrid
 add_custom_command(TARGET installer POST_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E
-        env ${QTIFW_BINARYCREATOR_EXECUTABLE}
+    COMMAND "${CMAKE_COMMAND}" -E env ${QTIFW_BINARYCREATOR_EXECUTABLE}
         -c "config/config.xml"
         -p "packages"
-        -v "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer-${PROJECT_VERSION}u${PROJECT_UPDATE}${CMAKE_EXECUTABLE_SUFFIX}"
-    COMMENT "Crearting ${CMAKE_PROJECT_NAME} installer")
+        -v "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer${CMAKE_EXECUTABLE_SUFFIX}"
+    COMMENT "Crearting ${CMAKE_PROJECT_NAME} installer"
+    USES_TERMINAL)
+
+# Build the launcher that set AllUsers
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/launcher.rc.in
+    ${CMAKE_CURRENT_BINARY_DIR}/launcher.rc
+    @ONLY)
+
+set(INSTALLER_BINARY "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer${CMAKE_EXECUTABLE_SUFFIX}")
+set(LAUNCHER_OUTPUT "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer-${PROJECT_VERSION}u${PROJECT_UPDATE}${CMAKE_EXECUTABLE_SUFFIX}")
+
+# Embed the installer in the launcher executable
+set(INSTALLER_RC "${CMAKE_CURRENT_BINARY_DIR}/installer.rc")
+file(WRITE ${INSTALLER_RC} "#include \"launcher.hpp\"\n\nIDR_INSTALLER_BIN RCDATA \"${INSTALLER_BINARY}\"\n")
+
+# Create the launcher executable
+set(APP_ICON_RESOURCE_LAUNCHER "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.rc")
+set(APP_VERSION_RESOURCE_LAUNCHER "${CMAKE_CURRENT_BINARY_DIR}/launcher.rc")
+if(CMAKE_BUILD_TYPE_UPPER STREQUAL "DEBUG")
+set_source_files_properties(${APP_VERSION_RESOURCE_LAUNCHER} PROPERTIES COMPILE_DEFINITIONS QT_QML_DEBUG)
+endif()
+add_executable(launcher WIN32 EXCLUDE_FROM_ALL
+    "${CMAKE_SOURCE_DIR}/installer/launcher.cpp"
+    ${APP_ICON_RESOURCE_LAUNCHER}
+    ${APP_VERSION_RESOURCE_LAUNCHER}
+    ${INSTALLER_RC})
+set_target_properties(launcher PROPERTIES
+    WIN32_EXECUTABLE TRUE
+    RUNTIME_OUTPUT_NAME "${CMAKE_PROJECT_NAME}Installer-${PROJECT_VERSION}u${PROJECT_UPDATE}"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+target_include_directories(launcher PRIVATE ${CMAKE_BINARY_DIR})
+add_dependencies(launcher installer)
