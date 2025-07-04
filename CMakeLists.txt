@@ -32,112 +32,116 @@ set(PROJECT_UPDATE 1)
 string(TIMESTAMP BUILD_DATE "%Y-%m-%d" UTC)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 COMPONENTS Core Gui Widgets LinguistTools REQUIRED)
+qt_standard_project_setup(REQUIRES 6.8
+    I18N_TRANSLATED_LANGUAGES it)
 
-add_compile_definitions(LBCHRONORACE_ORGANIZATION=\"LoBuSoft\")
-add_compile_definitions(LBCHRONORACE_NAME=\"${PROJECT_NAME}\")
+set(PROJECT_ORGANIZATION "LoBuSoft")
+set(PROJECT_VERSION_STRING "${PROJECT_VERSION}u${PROJECT_UPDATE}")
 if(${PROJECT_UPDATE} EQUAL 0)
-    set(PROJECT_VERSION_STRING ${PROJECT_VERSION})
-    add_compile_definitions(LBCHRONORACE_VERSION=\"${PROJECT_VERSION}\")
+    set(LBCHRONORACE_VERSION_STRING "${PROJECT_VERSION}")
 else()
-    set(PROJECT_VERSION_STRING ${PROJECT_VERSION}.${PROJECT_UPDATE})
-    add_compile_definitions(LBCHRONORACE_VERSION=\"${PROJECT_VERSION}\ update\ ${PROJECT_UPDATE}\")
+    set(LBCHRONORACE_VERSION_STRING "${PROJECT_VERSION} update ${PROJECT_UPDATE}")
 endif()
 
-
-set(PROJECT_SOURCES
-    main.cpp
-    categoriesmodel.cpp
+set(HEADER_FILES
     categoriesmodel.hpp
-    category.cpp
     category.hpp
-    cattypedelegate.cpp
     cattypedelegate.hpp
-    chronorace.ui
-    chronoracedata.cpp
     chronoracedata.hpp
-    chronoracedata.ui
-    chronoracelogo.cpp
     chronoracelogo.hpp
-    chronoracetable.cpp
     chronoracetable.hpp
-    chronoracetable.ui
-    chronoracetimings.cpp
     chronoracetimings.hpp
-    chronoracetimings.ui
-    classentry.cpp
     classentry.hpp
-    clubdelegate.cpp
     clubdelegate.hpp
-    competitor.cpp
     competitor.hpp
-    compsexdelegate.cpp
     compsexdelegate.hpp
-    crhelper.cpp
     crhelper.hpp
-    crloader.cpp
     crloader.hpp
     crtablemodel.hpp
-    csvrankingprinter.cpp
     csvrankingprinter.hpp
-    lbchronorace.cpp
     lbchronorace.hpp
-    lbcrexception.cpp
     lbcrexception.hpp
-    livetable.cpp
     livetable.hpp
-    livetable.ui
-    livetablefilterproxymodel.cpp
     livetablefilterproxymodel.hpp
-    multiselectcombobox.cpp
     multiselectcombobox.hpp
-    pdfrankingprinter.cpp
     pdfrankingprinter.hpp
-    ranking.cpp
     ranking.hpp
-    rankingcatsdelegate.cpp
     rankingcatsdelegate.hpp
-    rankingsbuilder.cpp
     rankingsbuilder.hpp
-    rankingprinter.cpp
     rankingprinter.hpp
-    rankingsmodel.cpp
     rankingsmodel.hpp
-    rankingtypedelegate.cpp
     rankingtypedelegate.hpp
-    recentraces.cpp
     recentraces.hpp
-    startlistmodel.cpp
     startlistmodel.hpp
-    teamclassentry.cpp
     teamclassentry.hpp
-    teamslistmodel.cpp
     teamslistmodel.hpp
-    timespandialog.cpp
     timespandialog.hpp
-    timing.cpp
     timing.hpp
-    timingsmodel.cpp
     timingsmodel.hpp
-    timingstatusdelegate.cpp
     timingstatusdelegate.hpp
-    txtrankingprinter.cpp
     txtrankingprinter.hpp
-    wizards/newracewizard.cpp
     wizards/newracewizard.hpp
-    wizards/rankingswizard.cpp
     wizards/rankingswizard.hpp
-    wizards/rankingswizardformat.cpp
     wizards/rankingswizardformat.hpp
-    wizards/rankingswizardmode.cpp
     wizards/rankingswizardmode.hpp
-    wizards/rankingswizardselection.cpp
     wizards/rankingswizardselection.hpp)
+
+set(SOURCE_FILES
+    main.cpp
+    categoriesmodel.cpp
+    category.cpp
+    cattypedelegate.cpp
+    chronoracedata.cpp
+    chronoracelogo.cpp
+    chronoracetable.cpp
+    chronoracetimings.cpp
+    classentry.cpp
+    clubdelegate.cpp
+    competitor.cpp
+    compsexdelegate.cpp
+    crhelper.cpp
+    crloader.cpp
+    csvrankingprinter.cpp
+    lbchronorace.cpp
+    lbcrexception.cpp
+    livetable.cpp
+    livetablefilterproxymodel.cpp
+    multiselectcombobox.cpp
+    pdfrankingprinter.cpp
+    ranking.cpp
+    rankingcatsdelegate.cpp
+    rankingsbuilder.cpp
+    rankingprinter.cpp
+    rankingsmodel.cpp
+    rankingtypedelegate.cpp
+    recentraces.cpp
+    startlistmodel.cpp
+    teamclassentry.cpp
+    teamslistmodel.cpp
+    timespandialog.cpp
+    timing.cpp
+    timingsmodel.cpp
+    timingstatusdelegate.cpp
+    txtrankingprinter.cpp
+    wizards/newracewizard.cpp
+    wizards/rankingswizard.cpp
+    wizards/rankingswizardformat.cpp
+    wizards/rankingswizardmode.cpp
+    wizards/rankingswizardselection.cpp)
+
+set(UI_FILES
+    chronorace.ui
+    chronoracedata.ui
+    chronoracetable.ui
+    chronoracetimings.ui
+    livetable.ui)
+
+set(PROJECT_SOURCES
+    ${HEADER_FILES}
+    ${SOURCE_FILES}
+    ${UI_FILES})
 
 # Translations
 set(TS_FILES
@@ -183,13 +187,24 @@ list(APPEND PROJECT_SOURCES materialicons.qrc)
 list(APPEND PROJECT_SOURCES images.qrc)
 
 if(WIN32)
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/crversion.rc.in
+        ${CMAKE_CURRENT_BINARY_DIR}/crversion.rc
+        @ONLY)
+
     set(LBCHRONORACE_BIN ${CMAKE_PROJECT_NAME}) # Used also by the Windows Installer CMake code
 
-    set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.rc")
+    set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/icons/LBChronoRace.rc")
+    set(APP_VERSION_RESOURCE_WINDOWS "${CMAKE_CURRENT_BINARY_DIR}/crversion.rc")
+    string(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_UPPER)
+    if(CMAKE_BUILD_TYPE_UPPER STREQUAL "DEBUG")
+        set_source_files_properties(${APP_VERSION_RESOURCE_WINDOWS} PROPERTIES COMPILE_DEFINITIONS QT_QML_DEBUG)
+    endif()
 
     qt_add_executable(${CMAKE_PROJECT_NAME} WIN32
         ${PROJECT_SOURCES}
         ${APP_ICON_RESOURCE_WINDOWS}
+        ${APP_VERSION_RESOURCE_WINDOWS}
         ${TS_FILES}
         ${FONT_FILES}
         ${PROJECT_FONTS}
@@ -222,6 +237,12 @@ else()
         ${ICON_FILES}
         ${PROJECT_ICONS})
 endif()
+target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
+    LBCHRONORACE_ORGANIZATION=\"${PROJECT_ORGANIZATION}\"
+    LBCHRONORACE_NAME=\"${PROJECT_NAME}\"
+    LBCHRONORACE_VERSION=\"${LBCHRONORACE_VERSION_STRING}\")
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_20)
 
 # The name of the executable binary
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
