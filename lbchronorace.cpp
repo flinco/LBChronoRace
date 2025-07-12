@@ -667,6 +667,8 @@ void LBChronoRace::openRace(QString const &path)
     if (loadRaceFile(path)) {
         raceDataFileName = path;
 
+        ui->errorDisplay->clear();
+
         // Update recent races list
         recentRaces->update(raceDataFileName);
     }
