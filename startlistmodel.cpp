@@ -76,7 +76,7 @@ void StartListModel::refreshCounters(int r)
         bib = comp.getBib();
         offset = comp.getOffset();
         leg = static_cast<uint>((offset < 0) ? qAbs(offset) : 1);
-        nameWidth = static_cast<uint>(comp.getName().simplified().length());
+        nameWidth = static_cast<uint>(comp.getCompetitorName(CRHelper::nameComposition).simplified().length());
         clubWidth = static_cast<uint>(comp.getClub().simplified().length());
         teamWidth = static_cast<uint>(comp.getTeam().simplified().length());
 
