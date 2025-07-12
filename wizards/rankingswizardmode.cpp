@@ -15,31 +15,35 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef RANKINGSWIZARDMODE_H
-#define RANKINGSWIZARDMODE_H
+#include "wizards/rankingswizard.hpp"
+#include "wizards/rankingswizardmode.hpp"
 
-#include <QWizardPage>
-#include <QVBoxLayout>
-#include <QRadioButton>
-
-class RankingsWizardMode : public QWizardPage
+RankingsWizardMode::RankingsWizardMode(QWidget *parent) :
+    QWizardPage(parent),
+    singleFile(parent),
+    multiFile(parent)
 {
-    Q_OBJECT
+    setTitle(tr("Single/multiple files"));
+    setSubTitle(tr("How many PDFs do you want?"));
 
-public:
-    explicit RankingsWizardMode(QWidget *parent = Q_NULLPTR);
+    singleFile.setText(tr("One single file containing all rankings"));
+    singleFile.setChecked(true);
+    layout.addWidget(&singleFile);
 
-private:
-    QVBoxLayout layout;
+    multiFile.setText(tr("A separate file for each ranking"));
+    multiFile.setChecked(false);
+    layout.addWidget(&multiFile);
 
-    QRadioButton singleFile;
-    QRadioButton multiFile;
+    setLayout(&layout);
 
-private slots:
-    void toggleSingleMode(bool checked) const;
+    QObject::connect(&singleFile, &QRadioButton::toggled, this, &RankingsWizardMode::toggleSingleMode);
+}
 
-signals:
-    void error(QString const &message);
-};
+void RankingsWizardMode::toggleSingleMode(bool checked) const
+{
+    RankingsWizard *parentWizard;
 
-#endif // RANKINGSWIZARDMODE_H
+    if ((parentWizard = qobject_cast<RankingsWizard *>(wizard()))) {
+        parentWizard->setPdfSingleMode(checked);
+    }
+}

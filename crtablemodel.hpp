@@ -15,18 +15,39 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CRTABLEMODEL_H
-#define CRTABLEMODEL_H
+#ifndef CRTABLEMODEL_HPP
+#define CRTABLEMODEL_HPP
 
 #include <QAbstractTableModel>
+#include <QLCDNumber>
 
 class CRTableModel : public QAbstractTableModel
 {
     Q_OBJECT
     using QAbstractTableModel::QAbstractTableModel;
 
+public:
+    void setCounter(QLCDNumber *newCounter);
+
+private:
+    QLCDNumber *counter { Q_NULLPTR };
+
+protected:
+    virtual void refreshDisplayCounter() final;
+
 public slots:
     virtual void refreshCounters(int r) = 0;
 };
 
-#endif // CRTABLEMODEL_H
+inline void CRTableModel::setCounter(QLCDNumber *newCounter)
+{
+    counter = newCounter;
+}
+
+inline void CRTableModel::refreshDisplayCounter()
+{
+    if (counter != Q_NULLPTR)
+        counter->display(rowCount(QModelIndex()));
+}
+
+#endif // CRTABLEMODEL_HPP

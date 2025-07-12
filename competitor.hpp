@@ -15,14 +15,15 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef COMPETITOR_H
-#define COMPETITOR_H
+#ifndef COMPETITOR_HPP
+#define COMPETITOR_HPP
 
 #include <QCoreApplication>
 #include <QDataStream>
 #include <QString>
 #include <QList>
 
+#include "chronoracedata.hpp"
 #include "category.hpp"
 
 namespace competitor {
@@ -46,20 +47,22 @@ public:
     {
         CMF_FIRST      = 0,
         CMF_BIB        = 0,
-        CMF_NAME       = 1,
-        CMF_SEX        = 2,
-        CMF_YEAR       = 3,
-        CMF_CLUB       = 4,
-        CMF_TEAM       = 5,
-        CMF_OFFSET_LEG = 6,
-        CMF_LAST       = 6,
-        CMF_COUNT      = 7
+        CMF_SURNAME    = 1,
+        CMF_NAME       = 2,
+        CMF_SEX        = 3,
+        CMF_YEAR       = 4,
+        CMF_CLUB       = 5,
+        CMF_TEAM       = 6,
+        CMF_OFFSET_LEG = 7,
+        CMF_LAST       = 7,
+        CMF_COUNT      = 8
     };
 
 private:
     static QString empty;
 
     uint    bib { 0u };
+    QString surname { "" };
     QString name { "" };
     Sex     sex { Sex::UNDEFINED };
     uint    year { 1900 };
@@ -75,11 +78,23 @@ public:
     Competitor() = default;
     explicit Competitor(uint const bib) : bib(bib) { };
 
-    friend QDataStream &operator<<(QDataStream &out, Competitor const &comp);
-    friend QDataStream &operator>>(QDataStream &in, Competitor &comp);
+    QDataStream &cSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, Competitor const &data)
+    {
+        return data.cSerialize(out);
+    }
 
+    QDataStream &cDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, Competitor &data)
+    {
+        return data.cDeserialize(in);
+    }
+
+    QString getCompetitorName(ChronoRaceData::NameComposition nameComposition) const;
+    QString getCompetitorName(ChronoRaceData::NameComposition nameComposition, int width) const;
+    QString const &getSurname() const;
+    void setSurname(QString const &newSurname);
     QString const &getName() const;
-    QString getName(int width) const;
     void setName(QString const &newName);
     uint getBib() const;
     void setBib(uint newBib);
@@ -98,18 +113,27 @@ public:
     uint getLeg() const;
     void setLeg(uint newLeg);
     int getOffset() const;
-    void setOffset(int newOffset);
-    void setOffset(int const *newOffset);
+    void setOffset(int newOffset, bool maxLeg = false);
     bool isValid() const;
 
     Category const *getCategory() const;
     QList<Category const *> &getCategories();
     void setCategories(QList<Category> const &newCategories);
 
-    bool operator<  (Competitor const &rhs) const;
-    bool operator>  (Competitor const &rhs) const;
-    bool operator<= (Competitor const &rhs) const;
-    bool operator>= (Competitor const &rhs) const;
+    friend auto operator<=>(Competitor const &lhs, Competitor const &rhs)
+    {
+        if ((lhs.offset < 0) && (lhs.offset != rhs.offset))
+            return qAbs(lhs.offset) <=> qAbs(rhs.offset);
+
+        if (lhs.bib == rhs.bib) {
+            if (lhs.offset != rhs.offset)
+                return qAbs(lhs.offset) <=> qAbs(rhs.offset);
+            else
+                return lhs.leg <=> rhs.leg;
+        }
+
+        return lhs.bib <=> rhs.bib;
+    }
 };
 
 Competitor::Field &operator++(Competitor::Field &field);
@@ -130,4 +154,4 @@ public:
     bool operator() (Competitor const &lhs, Competitor const &rhs) const;
 };
 
-#endif // COMPETITOR_H
+#endif // COMPETITOR_HPP

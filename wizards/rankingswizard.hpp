@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef RANKINGSWIZARD_H
-#define RANKINGSWIZARD_H
+#ifndef RANKINGSWIZARD_HPP
+#define RANKINGSWIZARD_HPP
 
 #include <QDir>
 #include <QWizard>
@@ -24,9 +24,9 @@
 
 #include "chronoracedata.hpp"
 #include "rankingsbuilder.hpp"
-#include "rankingswizardformat.hpp"
-#include "rankingswizardmode.hpp"
-#include "rankingswizardselection.hpp"
+#include "wizards/rankingswizardformat.hpp"
+#include "wizards/rankingswizardmode.hpp"
+#include "wizards/rankingswizardselection.hpp"
 
 class RankingsWizard : public QWizard
 {
@@ -77,17 +77,20 @@ private:
     void printRankingsSingleFile();
     void printRankingsMultiFile();
 
+    bool openFileAtEnd { true };
+
     QStringList messages { };
 
 private slots:
+    void setOpenFileAtEnd(bool open);
     void forwardInfoMessage(QString const &message);
     void forwardErrorMessage(QString const &message);
     void storeErrorMessage(QString const &message);
     void print(bool checked);
 
 signals:
-    void info(QString const &message);
-    void error(QString const &message);
+    void info(QString const &);
+    void error(QString const &);
 };
 
-#endif // RANKINGSWIZARD_H
+#endif // RANKINGSWIZARD_HPP

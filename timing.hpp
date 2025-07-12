@@ -15,12 +15,13 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef TIMING_H
-#define TIMING_H
+#ifndef TIMING_HPP
+#define TIMING_HPP
 
 #include <QCoreApplication>
 #include <QDataStream>
 #include <QString>
+#include <QRegularExpression>
 
 namespace timing {
 class Timing;
@@ -53,15 +54,26 @@ public:
 private:
     uint   bib { 0u };
     uint   leg { 0u };
-    uint   seconds { 0u };
+    uint   milliseconds { 0u };
     Status status { Status::CLASSIFIED };
+
+    uint toMillis(QString const &token, bool countDigits = false) const;
 
 public:
     Timing() = default;
     explicit Timing(uint const bib) : bib(bib) {  };
 
-    friend QDataStream &operator<<(QDataStream &out, Timing const &timing);
-    friend QDataStream &operator>>(QDataStream &in, Timing &timing);
+    QDataStream &tSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, Timing const &data)
+    {
+        return data.tSerialize(out);
+    }
+
+    QDataStream &tDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, Timing &data)
+    {
+        return data.tDeserialize(in);
+    }
 
     uint getBib() const;
     void setBib(uint newBib);
@@ -73,16 +85,57 @@ public:
     Status getStatus() const;
     void setStatus(Status newStatus);
     void setStatus(QString const &newStatus);
-    uint getSeconds() const;
+    uint getMilliseconds() const;
     QString getTiming() const;
     void setTiming(QString const &timing);
     void setTiming(char const *timing);
+    void addOffset(int offset);
     bool isValid() const;
 
-    bool operator<  (Timing const &rhs) const;
-    bool operator>  (Timing const &rhs) const;
-    bool operator<= (Timing const &rhs) const;
-    bool operator>= (Timing const &rhs) const;
+    friend auto operator<=>(Timing const &lhs, Timing const &rhs)
+    {
+        /*         +-------------------------------+ *
+         *         |              LHS              | *
+         *         +-------+-------+-------+-------+ *
+         *         | CLASS |  DSQ  |  DNF  |  DNS  | *
+         * +-+-----+-------+-------+-------+-------+ *
+         * | |CLASS|ms<=>ms|ms<=>ms|   >   |   >   | *
+         * | +-----+-------+-------+-------+-------+ *
+         * |R| DSQ |ms<=>ms|ms<=>ms|   >   |   >   | *
+         * |H+-----+-------+-------+-------+-------+ *
+         * |S| DNF |   <   |   <   |   =   |   >   | *
+         * | +-----+-------+-------+-------+-------+ *
+         * | | DNS |   <   |   <   |   <   |   =   | *
+         * +-+-----+-------+-------+-------+-------+ */
+
+        switch (lhs.status) {
+            using enum Timing::Status;
+
+            case CLASSIFIED:
+                [[fallthrough]];
+            case DSQ:
+                if ((rhs.status == DNS) || (rhs.status == DNF))
+                    return std::strong_ordering::less;
+                else
+                    return (lhs.milliseconds <=> rhs.milliseconds);
+            case DNF:
+                if (rhs.status == DNS)
+                    return std::strong_ordering::less;
+                else if (rhs.status == DNF)
+                    return std::strong_ordering::equal;
+                else
+                    return std::strong_ordering::greater;
+            case DNS:
+                return (rhs.status == DNS) ? std::strong_ordering::equal : std::strong_ordering::greater;
+            default:
+                Q_UNREACHABLE();
+                break;
+        }
+    }
+
+    static QRegularExpression validatorS;
+    static QRegularExpression validatorMS;
+    static QRegularExpression validatorHMS;
 };
 
 Timing::Field &operator++(Timing::Field &field);
@@ -103,4 +156,4 @@ public:
     bool operator() (Timing const &lhs, Timing const &rhs) const;
 };
 
-#endif // TIMING_H
+#endif // TIMING_HPP

@@ -18,16 +18,14 @@
 #include "lbchronorace.hpp"
 #include "rankingsmodel.hpp"
 
-QDataStream &operator<<(QDataStream &out, RankingsModel const &data)
-{
-    out << data.rankings;
+QDataStream &RankingsModel::rmSerialize(QDataStream &out) const{
+    out << this->rankings;
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, RankingsModel &data)
-{
-    in >> data.rankings;
+QDataStream &RankingsModel::rmDeserialize(QDataStream &in){
+    in >> this->rankings;
 
     return in;
 }
@@ -63,42 +61,48 @@ QVariant RankingsModel::data(QModelIndex const &index, int role) const
 
     if (role == Qt::DisplayRole)
         switch (index.column()) {
-        case static_cast<int>(Ranking::Field::RTF_FULL_DESCR):
-            return QVariant(rankings.at(index.row()).getFullDescription());
-        case static_cast<int>(Ranking::Field::RTF_SHORT_DESCR):
-            return QVariant(rankings.at(index.row()).getShortDescription());
-        case static_cast<int>(Ranking::Field::RTF_TEAM):
-            return QVariant(rankings.at(index.row()).isTeam() ? tr("T") : tr("I"));
-        case static_cast<int>(Ranking::Field::RTF_CATEGORIES):
-            return QVariant(rankings.at(index.row()).getCategories().join('+'));
-        default:
-            return QVariant();
+            using enum Ranking::Field;
+
+            case static_cast<int>(RTF_FULL_DESCR):
+                return QVariant(rankings.at(index.row()).getFullDescription());
+            case static_cast<int>(RTF_SHORT_DESCR):
+                return QVariant(rankings.at(index.row()).getShortDescription());
+            case static_cast<int>(RTF_TEAM):
+                return QVariant(rankings.at(index.row()).isTeam() ? tr("T") : tr("I"));
+            case static_cast<int>(RTF_CATEGORIES):
+                return QVariant(rankings.at(index.row()).getCategories().join('+'));
+            default:
+                return QVariant();
         }
     else if (role == Qt::EditRole)
         switch (index.column()) {
-        case static_cast<int>(Ranking::Field::RTF_FULL_DESCR):
-            return QVariant(rankings.at(index.row()).getFullDescription());
-        case static_cast<int>(Ranking::Field::RTF_SHORT_DESCR):
-            return QVariant(rankings.at(index.row()).getShortDescription());
-        case static_cast<int>(Ranking::Field::RTF_TEAM):
-            return QVariant(rankings.at(index.row()).isTeam() ? tr("T") : tr("I"));
-        case static_cast<int>(Ranking::Field::RTF_CATEGORIES):
-            return QVariant(rankings.at(index.row()).getCategories());
-        default:
-            return QVariant();
+            using enum Ranking::Field;
+
+            case static_cast<int>(RTF_FULL_DESCR):
+                return QVariant(rankings.at(index.row()).getFullDescription());
+            case static_cast<int>(RTF_SHORT_DESCR):
+                return QVariant(rankings.at(index.row()).getShortDescription());
+            case static_cast<int>(RTF_TEAM):
+                return QVariant(rankings.at(index.row()).isTeam() ? tr("T") : tr("I"));
+            case static_cast<int>(RTF_CATEGORIES):
+                return QVariant(rankings.at(index.row()).getCategories());
+            default:
+                return QVariant();
         }
     else if (role == Qt::ToolTipRole)
         switch (index.column()) {
-        case static_cast<int>(Ranking::Field::RTF_FULL_DESCR):
-            return QVariant(tr("Full ranking name"));
-        case static_cast<int>(Ranking::Field::RTF_SHORT_DESCR):
-            return QVariant(tr("Short ranking name"));
-        case static_cast<int>(Ranking::Field::RTF_TEAM):
-            return QVariant(tr("Individual/Relay (I) or Club (T)"));
-        case static_cast<int>(Ranking::Field::RTF_CATEGORIES):
-            return QVariant(tr("The ranking will include all the categories listed here"));
-        default:
-            return QVariant();
+            using enum Ranking::Field;
+
+            case static_cast<int>(RTF_FULL_DESCR):
+                return QVariant(tr("Full ranking name"));
+            case static_cast<int>(RTF_SHORT_DESCR):
+                return QVariant(tr("Short ranking name"));
+            case static_cast<int>(RTF_TEAM):
+                return QVariant(tr("Individual/Relay (I) or Club (T)"));
+            case static_cast<int>(RTF_CATEGORIES):
+                return QVariant(tr("The ranking will include all the categories listed here"));
+            default:
+                return QVariant();
         }
 
     return QVariant();
@@ -118,22 +122,24 @@ bool RankingsModel::setData(QModelIndex const &index, QVariant const &value, int
         return retval;
 
     switch (index.column()) {
-    case static_cast<int>(Ranking::Field::RTF_FULL_DESCR):
-        rankings[index.row()].setFullDescription(value.toString().simplified());
-        retval = true;
-        break;
-    case static_cast<int>(Ranking::Field::RTF_SHORT_DESCR):
-        rankings[index.row()].setShortDescription(value.toString().simplified());
-        retval = true;
-        break;
-    case static_cast<int>(Ranking::Field::RTF_TEAM):
-        rankings[index.row()].setTeam(QString::compare(value.toString().trimmed(), "T", Qt::CaseInsensitive) == 0);
-        break;
-    case static_cast<int>(Ranking::Field::RTF_CATEGORIES):
-        rankings[index.row()].setCategories(value.toStringList());
-        break;
-    default:
-        break;
+        using enum Ranking::Field;
+
+        case static_cast<int>(RTF_FULL_DESCR):
+            rankings[index.row()].setFullDescription(value.toString().simplified());
+            retval = true;
+            break;
+        case static_cast<int>(RTF_SHORT_DESCR):
+            rankings[index.row()].setShortDescription(value.toString().simplified());
+            retval = true;
+            break;
+        case static_cast<int>(RTF_TEAM):
+            rankings[index.row()].setTeam(QString::compare(value.toString().trimmed(), "T", Qt::CaseInsensitive) == 0);
+            break;
+        case static_cast<int>(RTF_CATEGORIES):
+            rankings[index.row()].setCategories(value.toStringList());
+            break;
+        default:
+            break;
     }
 
     if (retval) emit dataChanged(index, index);
@@ -148,16 +154,18 @@ QVariant RankingsModel::headerData(int section, Qt::Orientation orientation, int
 
     if (orientation == Qt::Horizontal)
         switch (section) {
-        case static_cast<int>(Ranking::Field::RTF_FULL_DESCR):
-            return QString("%1").arg(tr("Ranking Full Name"));
-        case static_cast<int>(Ranking::Field::RTF_SHORT_DESCR):
-            return QString("%1").arg(tr("Ranking Short Name"));
-        case static_cast<int>(Ranking::Field::RTF_TEAM):
-            return QString("%1").arg(tr("Individual/Club"));
-        case static_cast<int>(Ranking::Field::RTF_CATEGORIES):
-            return QString("%1").arg(tr("Categories"));
-        default:
-            return QString("%1").arg(section + 1);
+            using enum Ranking::Field;
+
+            case static_cast<int>(RTF_FULL_DESCR):
+                return QString("%1").arg(tr("Ranking Full Name"));
+            case static_cast<int>(RTF_SHORT_DESCR):
+                return QString("%1").arg(tr("Ranking Short Name"));
+            case static_cast<int>(RTF_TEAM):
+                return QString("%1").arg(tr("Individual/Club"));
+            case static_cast<int>(RTF_CATEGORIES):
+                return QString("%1").arg(tr("Categories"));
+            default:
+                return QString("%1").arg(section + 1);
         }
     else
         return QString("%1").arg(section + 1);
@@ -171,10 +179,9 @@ Qt::ItemFlags RankingsModel::flags(QModelIndex const &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool RankingsModel::insertRows(int position, int rows, QModelIndex const &parent)
+bool RankingsModel::insertRows(int position, int rows, QModelIndex const &index)
 {
-
-    Q_UNUSED(parent)
+    Q_UNUSED(index)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
 
@@ -183,13 +190,15 @@ bool RankingsModel::insertRows(int position, int rows, QModelIndex const &parent
     }
 
     endInsertRows();
+
+    refreshDisplayCounter();
+
     return true;
 }
 
-bool RankingsModel::removeRows(int position, int rows, QModelIndex const &parent)
+bool RankingsModel::removeRows(int position, int rows, QModelIndex const &index)
 {
-
-    Q_UNUSED(parent)
+    Q_UNUSED(index)
 
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
 
@@ -198,6 +207,9 @@ bool RankingsModel::removeRows(int position, int rows, QModelIndex const &parent
     }
 
     endRemoveRows();
+
+    refreshDisplayCounter();
+
     return true;
 }
 
@@ -206,7 +218,7 @@ void RankingsModel::sort(int column, Qt::SortOrder order)
 
     RankingSorter::setSortingField((Ranking::Field) column);
     RankingSorter::setSortingOrder(order);
-    std::stable_sort(rankings.begin(), rankings.end(), RankingSorter());
+    std::ranges::stable_sort(rankings, RankingSorter());
     emit dataChanged(QModelIndex(), QModelIndex());
 }
 
@@ -215,6 +227,8 @@ void RankingsModel::reset()
     beginResetModel();
     rankings.clear();
     endResetModel();
+
+    refreshDisplayCounter();
 }
 
 void RankingsModel::parseCategories()

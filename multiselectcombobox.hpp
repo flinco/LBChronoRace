@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef MULTISELECTCOMBOBOX_H
-#define MULTISELECTCOMBOBOX_H
+#ifndef MULTISELECTCOMBOBOX_HPP
+#define MULTISELECTCOMBOBOX_HPP
 
 #include <QComboBox>
 #include <QListWidget>
@@ -57,11 +57,11 @@ protected:
     void keyPressEvent(QKeyEvent *aEvent) override;
 
 private:
-    void stateChanged(int aState);
+    void stateChanged(Qt::CheckState aState);
     void onSearch(QString const &aSearchString) const;
     void itemClicked(int aIndex) const;
 
     QScopedPointer<QListWidget> mListWidget;
 };
 
-#endif // MULTISELECTCOMBOBOX_H
+#endif // MULTISELECTCOMBOBOX_HPP

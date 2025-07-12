@@ -1,0 +1,40 @@
+version: 2.1
+
+jobs:
+  build:
+    macos: # Use macOS image with Xcode (adjust the version if needed)
+      xcode: "16.2.0"
+    resource_class: macos.m1.medium.gen1
+    #resource_class: m2pro.medium
+    environment:
+      PATH: "/usr/local/opt/qt/bin:$PATH"
+    steps:
+      - checkout  # Clone the repository
+
+      # Step 1: Install Homebrew and Qt6
+      - run:
+          name: Install Homebrew
+          command: |
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      - run:
+          name: Install Qt6 and CMake
+          command: |
+            brew install qt cmake vulkan-headers
+            echo 'export PATH="/usr/local/opt/qt/bin:$PATH"' >> ~/.bash_profile
+            source ~/.bash_profile
+
+      # Step 2: Configure the project with CMake
+      - run:
+          name: Configure the build with CMake
+          command: |
+            mkdir build
+            cd build
+            cmake -DCMAKE_PREFIX_PATH=$(brew --prefix qt) ..  # Configure the project
+            make  # Build the project
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+

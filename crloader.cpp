@@ -121,7 +121,7 @@ void CRLoader::saveCSV(QString const &filePath, QAbstractTableModel const *model
 
     QFile outFile(filePath);
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        throw(ChronoRaceException(tr("Error: cannot open %1").arg(filePath)));
+        throw(ChronoRaceException(tr("Error: unable to open %1").arg(filePath)));
     }
     QTextStream outStream(&outFile);
 
@@ -176,20 +176,36 @@ void CRLoader::loadRaceData(QDataStream &in)
     timingsModel.refreshCounters(0);
 }
 
-QPair<int, int> CRLoader::importStartList(QString const &path)
+QPair<int, int> CRLoader::importStartList(QString const &path, bool append)
 {
-    startListModel.reset();
-    teamsListModel.reset();
+    int startListCount = 0;
+    int teamsListCount = 0;
 
-    loadCSV(path, &startListModel);
-    int rowCount = startListModel.rowCount();
-
-    if (int columnCount = startListModel.columnCount(); columnCount != static_cast<int>(Competitor::Field::CMF_COUNT)) {
+    if (append) {
+        startListCount = startListModel.rowCount();
+        teamsListCount = teamsListModel.rowCount();
+    } else {
         startListModel.reset();
-        throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Competitor::Field::CMF_COUNT)).arg(columnCount)));
+        teamsListModel.reset();
     }
 
-    return QPair<int, int>(rowCount, teamsListModel.rowCount());
+    loadCSV(path, &startListModel);
+
+    if (int columnCount = startListModel.columnCount(); columnCount != static_cast<int>(Competitor::Field::CMF_COUNT)) {
+        if (!append)
+            startListModel.reset();
+        throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(static_cast<int>(Competitor::Field::CMF_COUNT)).arg(columnCount)));
+    }
+
+    if (append) {
+        startListCount = startListModel.rowCount() - startListCount;
+        teamsListCount = teamsListModel.rowCount() - teamsListCount;
+    } else {
+        startListCount = startListModel.rowCount();
+        teamsListCount = teamsListModel.rowCount();
+    }
+
+    return QPair<int, int>(startListCount, teamsListCount);
 }
 
 QList<Competitor> CRLoader::getStartList()
@@ -222,23 +238,50 @@ uint CRLoader::getTeamNameWidthMax()
     return startListModel.getTeamNameWidthMax();
 }
 
-void CRLoader::clearTimings()
+void CRLoader::addTiming(Action action, QString const &bib, QString const &timing)
 {
-    timingsModel.reset();
-}
+    using enum CRLoader::Action;
 
-void CRLoader::addTiming(QString const &bib, QString const &timing)
-{
-    QString temp;
+    if (action == ADD) {
+        QString temp;
 
-    temp = bib;
-    checkString(&timingsModel, temp, ',');
-    temp = "0";
-    checkString(&timingsModel, temp, ',');
-    temp = timing;
-    checkString(&timingsModel, temp, ',');
-    temp = "CLS";
-    checkString(&timingsModel, temp);
+        temp = bib;
+        checkString(&timingsModel, temp, ',');
+        temp = "0";
+        checkString(&timingsModel, temp, ',');
+        temp = timing;
+        checkString(&timingsModel, temp, ',');
+        temp = "CLS";
+        checkString(&timingsModel, temp);
+    } else if (action == END) {
+        QString temp;
+
+        QList<Competitor> startList { startListModel.getStartList() };
+
+        // Remove all items for which a time has been recorded from the starting list
+        for (auto const &time : std::as_const(timingsModel.getTimings())) {
+            if (auto result = std::ranges::find_if(startList, [time](Competitor const &comp) { return comp.getBib() == time.getBib(); });
+                result != startList.end()) {
+                startList.erase(result);
+            }
+        }
+
+        // Add any remaining competitor as DNF
+        for (auto const &comp : std::as_const(startList)) {
+            temp = QString::number(comp.getBib());
+            checkString(&timingsModel, temp, ',');
+            temp = "0";
+            checkString(&timingsModel, temp, ',');
+            temp = "0:00:00.000";
+            checkString(&timingsModel, temp, ',');
+            temp = "DNF";
+            checkString(&timingsModel, temp);
+        }
+    } else if (action == BEGIN) {
+        timingsModel.reset();
+    } else {
+        throw(ChronoRaceException(tr("Unexpected action value: %1 (add timing)").arg(static_cast<int>(action))));
+    }
 }
 
 QList<Timing> const &CRLoader::getTimings()
@@ -246,44 +289,92 @@ QList<Timing> const &CRLoader::getTimings()
     return timingsModel.getTimings();
 }
 
-int CRLoader::importModel(Model model, QString const &path)
+int CRLoader::importTeams(QString const &path, bool append)
 {
     int rowCount = 0;
-    int columnCount = 0;
 
-    switch (model) {
-    case Model::RANKINGS:
-        rankingsModel.reset();
-        loadCSV(path, &rankingsModel);
-        rowCount = rankingsModel.rowCount();
-        if (columnCount = rankingsModel.columnCount(); columnCount != static_cast<int>(Ranking::Field::RTF_COUNT)) {
-            rankingsModel.reset();
-            throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Ranking::Field::RTF_COUNT)).arg(columnCount)));
-        }
-        rankingsModel.parseCategories();
-        break;
-    case Model::CATEGORIES:
-        categoriesModel.reset();
-        loadCSV(path, &categoriesModel);
-        rowCount = categoriesModel.rowCount();
-        if (columnCount = categoriesModel.columnCount(); columnCount != static_cast<int>(Category::Field::CTF_COUNT)) {
-            categoriesModel.reset();
-            throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Category::Field::CTF_COUNT)).arg(columnCount)));
-        }
-        break;
-    case Model::TIMINGS:
-        timingsModel.reset();
-        loadCSV(path, &timingsModel);
-        rowCount = timingsModel.rowCount();
-        if (columnCount = timingsModel.columnCount(); columnCount != static_cast<int>(Timing::Field::TMF_COUNT)) {
-            timingsModel.reset();
-            throw(ChronoRaceException(tr("Wrong number of columns; expected %1 - found %2").arg(static_cast<int>(Timing::Field::TMF_COUNT)).arg(columnCount)));
-        }
-        break;
-    default:
-        throw(ChronoRaceException(tr("Unexpected model value %1 (import)").arg(static_cast<int>(model))));
-        break;
+    if (append)
+        rowCount = teamsListModel.rowCount();
+    else
+        teamsListModel.reset();
+
+    loadCSV(path, &teamsListModel);
+
+    if (int columnCount = teamsListModel.columnCount(); columnCount != 1) {
+        if (!append)
+            teamsListModel.reset();
+        throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(1).arg(columnCount)));
     }
+
+    rowCount = teamsListModel.rowCount() - (append ? rowCount : 0);
+
+    return rowCount;
+}
+
+int CRLoader::importCategories(QString const &path, bool append)
+{
+    int rowCount = 0;
+
+    if (append)
+        rowCount = categoriesModel.rowCount();
+    else
+        categoriesModel.reset();
+
+    loadCSV(path, &categoriesModel);
+
+    if (int columnCount = categoriesModel.columnCount(); columnCount != static_cast<int>(Category::Field::CTF_COUNT)) {
+        if (!append)
+            categoriesModel.reset();
+        throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(static_cast<int>(Category::Field::CTF_COUNT)).arg(columnCount)));
+    }
+
+    rowCount = categoriesModel.rowCount() - (append ? rowCount : 0);
+
+    return rowCount;
+}
+
+int CRLoader::importRankings(QString const &path, bool append)
+{
+    int rowCount = 0;
+
+    if (append)
+        rowCount = rankingsModel.rowCount();
+    else
+        rankingsModel.reset();
+
+    loadCSV(path, &rankingsModel);
+
+    if (int columnCount = rankingsModel.columnCount(); columnCount != static_cast<int>(Ranking::Field::RTF_COUNT)) {
+        if (!append)
+            rankingsModel.reset();
+        throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(static_cast<int>(Ranking::Field::RTF_COUNT)).arg(columnCount)));
+    }
+
+    rowCount = rankingsModel.rowCount() - (append ? rowCount : 0);
+
+    rankingsModel.parseCategories();
+
+    return rowCount;
+}
+
+int CRLoader::importTimings(QString const &path, bool append)
+{
+    int rowCount = 0;
+
+    if (append)
+        rowCount = timingsModel.rowCount();
+    else
+        timingsModel.reset();
+
+    loadCSV(path, &timingsModel);
+
+    if (int columnCount = timingsModel.columnCount(); columnCount != static_cast<int>(Timing::Field::TMF_COUNT)) {
+        if (!append)
+            timingsModel.reset();
+        throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(static_cast<int>(Timing::Field::TMF_COUNT)).arg(columnCount)));
+    }
+
+    rowCount = timingsModel.rowCount() - (append ? rowCount : 0);
 
     return rowCount;
 }
@@ -291,39 +382,41 @@ int CRLoader::importModel(Model model, QString const &path)
 void CRLoader::exportModel(Model model, QString const &path)
 {
     switch (model) {
-    case Model::STARTLIST:
-        saveCSV(path, &startListModel);
-        break;
-    case Model::TEAMSLIST:
-        {
-            QFile outFile(path);
-            if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                throw(ChronoRaceException(tr("Error: cannot open %1").arg(path)));
+        using enum CRLoader::Model;
+
+        case STARTLIST:
+            saveCSV(path, &startListModel);
+            break;
+        case TEAMSLIST:
+            {
+                QFile outFile(path);
+                if (!outFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                    throw(ChronoRaceException(tr("Error: unable to open %1").arg(path)));
+                }
+                QTextStream outStream(&outFile);
+
+                outStream.setEncoding(CRLoader::getEncoding());
+
+                int rowCount = teamsListModel.rowCount();
+                for (int r = 0; r < rowCount; ++r)
+                    outStream << teamsListModel.data(teamsListModel.index(r, 0, QModelIndex()), Qt::DisplayRole).toString() << Qt::endl;
+
+                outStream.flush();
+                outFile.close();
             }
-            QTextStream outStream(&outFile);
-
-            outStream.setEncoding(CRLoader::getEncoding());
-
-            int rowCount = teamsListModel.rowCount();
-            for (int r = 0; r < rowCount; ++r)
-                outStream << teamsListModel.data(teamsListModel.index(r, 0, QModelIndex()), Qt::DisplayRole).toString() << Qt::endl;
-
-            outStream.flush();
-            outFile.close();
-        }
-        break;
-    case Model::RANKINGS:
-        saveCSV(path, &rankingsModel);
-        break;
-    case Model::CATEGORIES:
-        saveCSV(path, &categoriesModel);
-        break;
-    case Model::TIMINGS:
-        saveCSV(path, &timingsModel);
-        break;
-    default:
-        throw(ChronoRaceException(tr("Unexpected model value %1 (export)").arg(static_cast<int>(model))));
-        break;
+            break;
+        case RANKINGS:
+            saveCSV(path, &rankingsModel);
+            break;
+        case CATEGORIES:
+            saveCSV(path, &categoriesModel);
+            break;
+        case TIMINGS:
+            saveCSV(path, &timingsModel);
+            break;
+        default:
+            throw(ChronoRaceException(tr("Unexpected model value: %1 (export)").arg(static_cast<int>(model))));
+            break;
     }
 }
 
@@ -358,10 +451,10 @@ void CRLoader::checkString(QAbstractTableModel *model, QString &token, QChar cha
             int columnIndex = 0;
             int rowCount = model->rowCount();
             if (int columnCount = model->columnCount(); columnCount != standardItemList.size()) {
-                throw(ChronoRaceException(tr("Wrong number of elements in CSV row; expected %1 - found %2").arg(columnCount).arg(standardItemList.size())));
+                throw(ChronoRaceException(tr("Incorrect number of elements in CSV row; expected %1 - found %2").arg(columnCount).arg(standardItemList.size())));
             }
             model->insertRow(rowCount, QModelIndex());
-            for (auto const &item : standardItemList) {
+            for (auto const &item : std::as_const(standardItemList)) {
                 model->setData(model->index(rowCount, columnIndex, QModelIndex()), item, Qt::EditRole);
                 columnIndex++;
             }

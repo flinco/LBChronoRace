@@ -12,16 +12,16 @@
         <translation>ISO-8859-1 (Latin-1)</translation>
     </message>
     <message>
-        <source>Unsupported encoding %1</source>
-        <translation>Codifica %1 non supportata</translation>
+        <source>The encoding format %1 is not supported</source>
+        <translation>Formato di codifica %1 non supportato</translation>
     </message>
     <message>
         <source>PDF</source>
         <translation>PDF</translation>
     </message>
     <message>
-        <source>Text</source>
-        <translation>Testo</translation>
+        <source>Plain text</source>
+        <translation>File di testo</translation>
     </message>
     <message>
         <source>CSV</source>
@@ -32,12 +32,12 @@
         <translation>Formato sconosciuto %1</translation>
     </message>
     <message>
-        <source>Illegal sex &apos;%1&apos;</source>
+        <source>Invalid sex &apos;%1&apos;</source>
         <translation>Sesso non valido &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Unexpected Sex enum value &apos;%1&apos;</source>
-        <translation>Valore enumerazione Sex &apos;%1&apos; non valido</translation>
+        <translation>Valore enumerazzione Sex &apos;%1&apos; imprevisto</translation>
     </message>
     <message>
         <source>Male</source>
@@ -52,12 +52,12 @@
         <translation>Non impostato</translation>
     </message>
     <message>
-        <source>Illegal type &apos;%1&apos;</source>
+        <source>Invalid type &apos;%1&apos;</source>
         <translation>Tipo non valido &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Unexpected Type enum value &apos;%1&apos;</source>
-        <translation>Valore enumerazione Tipo &apos;%1&apos; non valido</translation>
+        <translation>Valore enumerazione Tipo &apos;%1&apos; imprevisto</translation>
     </message>
     <message>
         <source>Individual/Relay</source>
@@ -80,19 +80,19 @@
         <translation>Staffetta Mista (M/F)</translation>
     </message>
     <message>
-        <source>Mixed Clubs Relay (M)</source>
-        <translation>Staffetta Mista di Società (M)</translation>
+        <source>Mixed Club Relay (M)</source>
+        <translation>Staffetta Mista (Società - M)</translation>
     </message>
     <message>
-        <source>Mixed Clubs Relay (F)</source>
-        <translation>Staffetta Mista di Società (F)</translation>
+        <source>Mixed Club Relay (F)</source>
+        <translation>Staffetta Mista (Società - F)</translation>
     </message>
     <message>
         <source>Invalid status value %1</source>
         <translation>Valore di stato %1 non valido</translation>
     </message>
     <message>
-        <source>Illegal status value &apos;%1&apos;</source>
+        <source>Invalid status value &apos;%1&apos;</source>
         <translation>Stato concorrente &apos;%1&apos; non valido</translation>
     </message>
     <message>
@@ -111,28 +111,56 @@
         <source>Did not start</source>
         <translation>Non partito</translation>
     </message>
+    <message>
+        <source>Invalid accuracy value %1</source>
+        <translation>Valore di precisione %1 non valido</translation>
+    </message>
+    <message>
+        <source>Import method</source>
+        <translation>Modalità importazione</translation>
+    </message>
+    <message>
+        <source>Do you want to replace the table data or add new entries?</source>
+        <translation>Sostituire l&apos;intero contenuto della tabella o aggiungere dati a quelli esistenti?</translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation>Sostituire</translation>
+    </message>
+    <message>
+        <source>Append</source>
+        <translation>Aggiungere</translation>
+    </message>
+    <message>
+        <source>About %1</source>
+        <translation>Informazioni su %1</translation>
+    </message>
+    <message>
+        <source>About Qt</source>
+        <translation>Informazioni su Qt</translation>
+    </message>
 </context>
 <context>
     <name>CRLoader</name>
     <message>
-        <source>Error: cannot open %1</source>
-        <translation>Errore: impossibile aprire %1</translation>
+        <source>Error: unable to open %1</source>
+        <translation>Errore: impossibile aprire il file %1</translation>
     </message>
     <message>
-        <source>Wrong number of columns; expected %1 - found %2</source>
-        <translation>Numero colonne errato - atteso %1 - trovato %2</translation>
+        <source>Incorrect number of columns; expected %1 - found %2</source>
+        <translation>Numero di colonne errato: attese %1 - trovate %2</translation>
     </message>
     <message>
-        <source>Wrong number of elements in CSV row; expected %1 - found %2</source>
-        <translation>Numero elementi errato nel CSV row; atteso %1 - trovato %2</translation>
+        <source>Incorrect number of elements in CSV row; expected %1 - found %2</source>
+        <translation>Numero di elementi errato nella riga CSV: attesi %1 - trovati %2</translation>
     </message>
     <message>
-        <source>Unexpected model value %1 (import)</source>
-        <translation>Valore modello inatteso %1 (importazione)</translation>
+        <source>Unexpected model value: %1 (export)</source>
+        <translation>Valore del modello inatteso: %1 (esportazione)</translation>
     </message>
     <message>
-        <source>Unexpected model value %1 (export)</source>
-        <translation>Valore modello inatteso %1 (esportazione)</translation>
+        <source>Unexpected action value: %1 (add timing)</source>
+        <translation>Valore dell&apos;azione inatteso: %1 (aggiunta tempo)</translation>
     </message>
 </context>
 <context>
@@ -142,43 +170,51 @@
         <translation>CSV (*.csv)</translation>
     </message>
     <message>
-        <source>Error: cannot open %1</source>
-        <translation>Errore: impossibile aprire %1</translation>
+        <source>Error: unable to open %1</source>
+        <translation>Errore: impossibile aprire il file %1</translation>
     </message>
     <message>
-        <source>Error: no file name supplied</source>
-        <translation>Errore: nessun nome file</translation>
+        <source>Error: no file name provided</source>
+        <translation>Errore: nessun nome file specificato</translation>
     </message>
     <message>
-        <source>Error: writing attempt on closed file</source>
-        <translation>Errore: tentativo di scrittura su file non aperto</translation>
+        <source>Error: attempted to write to a closed file</source>
+        <translation>Errore: tentativo di scrittura su un file chiuso</translation>
     </message>
 </context>
 <context>
     <name>CategoriesModel</name>
     <message>
-        <source>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</source>
-        <translation>La categoria include concorrenti nati fino a quest&apos;anno incluso (es. 2000); 0 per disabilitare</translation>
+        <source>The category includes competitors born in or before this year (e.g., 2000); set to 0 to disable this constraint</source>
+        <translation>La categoria include i concorrenti nati fino all&apos;anno indicato (es. 2000); impostare a 0 per disabilitare il vincolo</translation>
     </message>
     <message>
-        <source>The category will include competitors born from this year (i.e. 1982); to disable</source>
-        <translation>La categoria include concorrenti nati da quest&apos;anno incluso (es. 1982); 0 per disabilitare</translation>
+        <source>The category includes competitors born in or after this year (e.g., 1982); set to 0 to disable this constraint</source>
+        <translation>La categoria include i concorrenti nati a partire dall&apos;anno indicato (es. 1982); impostare a 0 per disabilitare il vincolo</translation>
     </message>
     <message>
         <source>Full category name</source>
-        <translation>Nome categoria</translation>
+        <translation>Nome completo della categoria</translation>
     </message>
     <message>
         <source>Short category name</source>
-        <translation>Abbreviazione categoria</translation>
+        <translation>Nome abbreviato della categoria</translation>
     </message>
     <message>
-        <source>Up to</source>
-        <translation>Fino al</translation>
+        <source>Born up to</source>
+        <translation>Nati fino al</translation>
     </message>
     <message>
-        <source>From</source>
-        <translation>Dal</translation>
+        <source>Born from</source>
+        <translation>Nati dal</translation>
+    </message>
+    <message>
+        <source>Bib up to</source>
+        <translation>Fino al pettorale</translation>
+    </message>
+    <message>
+        <source>Bib from</source>
+        <translation>Dal pettorale</translation>
     </message>
     <message>
         <source>Category Full Name</source>
@@ -189,19 +225,27 @@
         <translation>Abbreviazione Categoria</translation>
     </message>
     <message>
-        <source>Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)</source>
-        <translation>Individuale/Staffetta Maschile (M), Individuale/Staffetta Femminile (F), Staffetta Mista M/F (X), Staffetta Mista di Società M (Y) o Staffetta Mista di Società F (X)</translation>
+        <source>Male Individual/Relay [M], Female Individual/Relay [F], Mixed M/F Relay [U], Male Mixed Club Relay [Y], or Female Mixed Club Relay [X]</source>
+        <translation>Individuale/Staffetta Maschile [M], Individuale/Staffetta Femminile [F], Staffetta Mista M/F [U], Staffetta Mista (Società - M) [Y] o Staffetta Mista (Società - F) [X]</translation>
     </message>
     <message>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
+    <message>
+        <source>The category includes competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint</source>
+        <translation>La categoria include concorrenti con un pettorale minore o uguale al valore indicato (es. 200); impostare a 0 per disabilitare il vincolo</translation>
+    </message>
+    <message>
+        <source>The category includes competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint</source>
+        <translation>La categoria include concorrenti con un pettorale maggiore o uguale al valore indicato (es. 200); impostare a 0 per disabilitare il vincolo</translation>
+    </message>
 </context>
 <context>
     <name>Category</name>
     <message>
-        <source>Illegal category type &apos;%1&apos;</source>
-        <translation>Tipo categoria illegale &apos;%1&apos;</translation>
+        <source>Invalid category type &apos;%1&apos;</source>
+        <translation>Tipo di categoria &apos;%1&apos; non valido</translation>
     </message>
 </context>
 <context>
@@ -211,12 +255,8 @@
         <translation>Informazioni Gara</translation>
     </message>
     <message>
-        <source>Remove 1st sponsor</source>
-        <translation>Rimuovi 1° sponsor</translation>
-    </message>
-    <message>
-        <source>Event</source>
-        <translation>Evento</translation>
+        <source>Event name</source>
+        <translation>Nome evento</translation>
     </message>
     <message>
         <source>Unofficial</source>
@@ -233,14 +273,6 @@
     <message>
         <source>Logo 1 not loaded</source>
         <translation>1° logo non caricato</translation>
-    </message>
-    <message>
-        <source>Load 4th sponsor</source>
-        <translation>Carica 4° sponsor</translation>
-    </message>
-    <message>
-        <source>Remove 4th sponsor</source>
-        <translation>Rimuovi 4° sponsor</translation>
     </message>
     <message>
         <source>Sponsor 1 not loaded</source>
@@ -263,28 +295,12 @@
         <translation>Staffetta</translation>
     </message>
     <message>
-        <source>Load 1st sponsor</source>
-        <translation>Carica 1° sponsor</translation>
-    </message>
-    <message>
-        <source>Remove 3rd sponsor</source>
-        <translation>Rimuovi 3° sponsor</translation>
-    </message>
-    <message>
         <source>Timekeeper 1</source>
         <translation>Cronometrista 1</translation>
     </message>
     <message>
-        <source>Remove 2nd sponsor</source>
-        <translation>Rimuovi 2° sponsor</translation>
-    </message>
-    <message>
         <source>dd/MM/yyyy</source>
         <translation>dd/MM/yyyy</translation>
-    </message>
-    <message>
-        <source>Load 3rd sponsor</source>
-        <translation>Carica 3° sponsor</translation>
     </message>
     <message>
         <source>Date</source>
@@ -304,42 +320,22 @@
     </message>
     <message>
         <source>Referee</source>
-        <translation>Giudice</translation>
+        <translation>Giudice di gara</translation>
     </message>
     <message>
         <source>Organization</source>
-        <translation>Organizzazione</translation>
+        <translation>Ente organizzatore</translation>
     </message>
     <message>
         <source>Timekeeper 2</source>
         <translation>Cronometrista 2</translation>
     </message>
     <message>
-        <source>Load 2nd logo</source>
-        <translation>Carica 2° Logo</translation>
-    </message>
-    <message>
-        <source>Load 2nd sponsor</source>
-        <translation>Carica 2° sponsor</translation>
-    </message>
-    <message>
-        <source>Remove 1st logo</source>
-        <translation>Rimuovi 1° logo</translation>
-    </message>
-    <message>
         <source>Place</source>
-        <translation>Luogo</translation>
+        <translation>Località</translation>
     </message>
     <message>
-        <source>Load 1st logo</source>
-        <translation>Carica 1° Logo</translation>
-    </message>
-    <message>
-        <source>Remove 2nd logo</source>
-        <translation>Rimuovi 2° logo</translation>
-    </message>
-    <message>
-        <source>Lenght</source>
+        <source>Length</source>
         <translation>Lunghezza</translation>
     </message>
     <message>
@@ -352,7 +348,7 @@
     </message>
     <message>
         <source>Start Time</source>
-        <translation>Orario partenza</translation>
+        <translation>Ora di partenza</translation>
     </message>
     <message>
         <source>Results</source>
@@ -360,7 +356,7 @@
     </message>
     <message>
         <source>Select Logo</source>
-        <translation>Seleziona Logo</translation>
+        <translation>Seleziona un logo</translation>
     </message>
     <message>
         <source>Images (*.png *.xpm *.jpg *.gif);;All Files (*)</source>
@@ -368,7 +364,7 @@
     </message>
     <message>
         <source>Remove the first sponsor logo (from the bottom of the PDF)</source>
-        <translation>Elimina il logo del primo sponsor (dalla parte inferiore del PDF)</translation>
+        <translation>Rimuovi il logo del primo sponsor (dal fondo del PDF)</translation>
     </message>
     <message>
         <source>A small label at the bottom of the rankings</source>
@@ -380,7 +376,7 @@
     </message>
     <message>
         <source>Fourth sponsor logo (at the bottom of the PDF)</source>
-        <translation>Il logo del quarto sponsor (dalla parte inferiore del PDF)</translation>
+        <translation>Il logo del quarto sponsor (nel fondo del PDF)</translation>
     </message>
     <message>
         <source>The name of the first timekeeper (optional)</source>
@@ -396,15 +392,15 @@
     </message>
     <message>
         <source>Add the fourth sponsor logo (at the bottom of the PDF)</source>
-        <translation>Aggiunge il logo del quarto sponsor (dalla parte inferiore del PDF)</translation>
+        <translation>Aggiungi il logo del quarto sponsor (nel fondo del PDF)</translation>
     </message>
     <message>
         <source>Remove the fourth sponsor logo (from the bottom of the PDF)</source>
-        <translation>Elimina il logo del quarto sponsor (dalla parte inferiore del PDF)</translation>
+        <translation>Rimuovi il logo del quarto sponsor (dal fondo del PDF)</translation>
     </message>
     <message>
         <source>First sponsor logo (at the bottom of the PDF)</source>
-        <translation>Il logo del primo sponsor (dalla parte inferiore del PDF)</translation>
+        <translation>Il logo del primo sponsor (nel fondo del PDF)</translation>
     </message>
     <message>
         <source>Where the event takes place, used as subtitle in the rankings</source>
@@ -416,15 +412,15 @@
     </message>
     <message>
         <source>Add the first sponsor logo (at the bottom of the PDF)</source>
-        <translation>Aggiunge il logo del primo sponsor (dalla parte inferiore del PDF)</translation>
+        <translation>Aggiungi il logo del primo sponsor (nel fondo del PDF)</translation>
     </message>
     <message>
         <source>Remove the third sponsor logo (from the bottom of the PDF)</source>
-        <translation>Elimina il logo del terzo sponsor (dalla parte inferiore del PDF)</translation>
+        <translation>Rimuovi il logo del terzo sponsor (dal fondo del PDF)</translation>
     </message>
     <message>
         <source>Remove the second sponsor logo (from the bottom of the PDF)</source>
-        <translation>Elimina il logo del secondo sponsor (dalla parte inferiore del PDF)</translation>
+        <translation>Rimuovi il logo del secondo sponsor (dal fondo del PDF)</translation>
     </message>
     <message>
         <source>What time the event starts (important if Race Type is set to &apos;Timed race&apos;)</source>
@@ -436,15 +432,15 @@
     </message>
     <message>
         <source>Add the third sponsor logo (at the bottom of the PDF)</source>
-        <translation>Aggiunge il logo del terzo sponsor (dalla parte inferiore del PDF)</translation>
+        <translation>Aggiungi il logo del terzo sponsor (nel fondo del PDF)</translation>
     </message>
     <message>
         <source>Second sponsor logo (at the bottom of the PDF)</source>
-        <translation>Il logo del secondo sponsor (dalla parte inferiore del PDF)</translation>
+        <translation>Il logo del secondo sponsor (nel fondo del PDF)</translation>
     </message>
     <message>
         <source>Third sponsor logo (at the bottom of the PDF)</source>
-        <translation>Il logo del terzo sponsor (dalla parte inferiore del PDF)</translation>
+        <translation>Il logo del terzo sponsor (nel fondo del PDF)</translation>
     </message>
     <message>
         <source>The logo in the upper right corner of the PDF</source>
@@ -459,24 +455,24 @@
         <translation>Il nome dell&apos;evento, usato come titolo nelle classifiche</translation>
     </message>
     <message>
-        <source>Add the logo in the upper right corner of the PDF</source>
-        <translation>Aggiunge il logo nell&apos;angolo superiore destro del PDF</translation>
+        <source>Add a logo in the upper right corner of the PDF</source>
+        <translation>Aggiungi un logo nell&apos;angolo superiore destro del PDF</translation>
     </message>
     <message>
         <source>Add the second sponsor logo (at the bottom of the PDF)</source>
-        <translation>Aggiunge il logo del secondo sponsor (dalla parte inferiore del PDF)</translation>
+        <translation>Aggiungi il logo del secondo sponsor (nel fondo del PDF)</translation>
     </message>
     <message>
         <source>Removes the logo from the upper left corner of the PDF</source>
-        <translation>Elimina il logo dall&apos;angolo superiore sinistro del PDF</translation>
+        <translation>Rimuovi il logo dall&apos;angolo superiore sinistro del PDF</translation>
     </message>
     <message>
         <source>Add a logo in the upper left corner of the PDF</source>
-        <translation>Aggiunge il logo nell&apos;angolo superiore sinistro del PDF</translation>
+        <translation>Aggiungi il logo nell&apos;angolo superiore sinistro del PDF</translation>
     </message>
     <message>
         <source>Removes the logo from the upper right corner of the PDF</source>
-        <translation>Elimina il logo dall&apos;angolo superiore destro del PDF</translation>
+        <translation>Rimuovi il logo dall&apos;angolo superiore destro del PDF</translation>
     </message>
     <message>
         <source>The length of the race (optional)</source>
@@ -486,28 +482,104 @@
         <source>The elevation gain of the race course (optional)</source>
         <translation>Il dislivello del percorso di gara (opzionale)</translation>
     </message>
+    <message>
+        <source>Competitor</source>
+        <translation>Concorrente</translation>
+    </message>
+    <message>
+        <source>How the name of the competitor is built</source>
+        <translation>Formato del nome del concorrente</translation>
+    </message>
+    <message>
+        <source>Surname Name</source>
+        <translation>Cognome Nome</translation>
+    </message>
+    <message>
+        <source>Name Surname</source>
+        <translation>Nome Cognome</translation>
+    </message>
+    <message>
+        <source>Surname (only)</source>
+        <translation>Solo Cognome</translation>
+    </message>
+    <message>
+        <source>Name (only)</source>
+        <translation>Solo Nome</translation>
+    </message>
+    <message>
+        <source>Accuracy</source>
+        <translation>Precisione</translation>
+    </message>
+    <message>
+        <source>How accurate the timings will be</source>
+        <translation>Livello di precisione del cronometraggio</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Rimuovi</translation>
+    </message>
+    <message>
+        <source>Load</source>
+        <translation>Carica</translation>
+    </message>
+    <message>
+        <source>1st sponsor logo</source>
+        <translation>1° logo sponsor</translation>
+    </message>
+    <message>
+        <source>2nd sponsor logo</source>
+        <translation>2° logo sponsor</translation>
+    </message>
+    <message>
+        <source>3rd sponsor logo</source>
+        <translation>3° logo sponsor</translation>
+    </message>
+    <message>
+        <source>4th sponsor logo</source>
+        <translation>4° logo sponsor</translation>
+    </message>
+    <message>
+        <source>Top left logo</source>
+        <translation>Logo sinistro</translation>
+    </message>
+    <message>
+        <source>Top right logo</source>
+        <translation>Logo destro</translation>
+    </message>
+    <message>
+        <source>Error: index field to be set unknown</source>
+        <translation>Errore: campo di tipo indice sconosciuto</translation>
+    </message>
+    <message>
+        <source>Error: string field to be set unknown</source>
+        <translation>Errore: campo di tipo stringa sconosciuto</translation>
+    </message>
+    <message>
+        <source>Error: logo field to be set unknown</source>
+        <translation>Errore: campo di tipo logo sconosciuto</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTable</name>
     <message>
-        <source>Add an empty row to the table</source>
-        <translation>Inserisci riga vuota nella tabella</translation>
+        <source>Add an empty row</source>
+        <translation>Aggiungi riga vuota</translation>
     </message>
     <message>
         <source>Add Row</source>
         <translation>Aggiungi Riga</translation>
     </message>
     <message>
-        <source>Delete a row from the table</source>
-        <translation>Cancella riga dalla tabella</translation>
+        <source>Remove a row from the table</source>
+        <translation>Rimuovi riga dalla tabella</translation>
     </message>
     <message>
-        <source>Delete Row</source>
-        <translation>Cancella Riga</translation>
+        <source>Remove Row</source>
+        <translation>Rimuovi Riga</translation>
     </message>
     <message>
         <source>Import data from a CSV file</source>
-        <translation>Importa dati da un file CSV</translation>
+        <translation>Importa i dati da un file CSV</translation>
     </message>
     <message>
         <source>Import</source>
@@ -515,7 +587,7 @@
     </message>
     <message>
         <source>Export data to a CSV file</source>
-        <translation>Esporta dati in un file CSV</translation>
+        <translation>Esporta i dati in un file CSV</translation>
     </message>
     <message>
         <source>Export</source>
@@ -558,7 +630,7 @@ Procedere?</translation>
     <name>ChronoRaceTimings</name>
     <message>
         <source>Race Timings Recorder</source>
-        <translation>Registratore Tempi</translation>
+        <translation>Cronometro Gara</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;to record a &lt;span style=&quot; font-style:italic;&quot;&gt;Timing&lt;/span&gt;,&lt;br&gt;press the &lt;span style=&quot; font-weight:700;&quot;&gt;SPACE BAR&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -603,14 +675,6 @@ Procedere?</translation>
     <message>
         <source>RESET</source>
         <translation>AZZERA</translation>
-    </message>
-    <message>
-        <source>LOCK</source>
-        <translation>BLOCCA</translation>
-    </message>
-    <message>
-        <source>UNLOCK</source>
-        <translation>SBLOCCA</translation>
     </message>
     <message>
         <source>Bib</source>
@@ -668,28 +732,67 @@ Continuare?</translation>
         <source>Missing bib for time %1</source>
         <translation>Pettorale mancante per il tempo %1</translation>
     </message>
+    <message>
+        <source>Buttons lock</source>
+        <translation>Blocco pulsanti</translation>
+    </message>
+    <message>
+        <source>Time span</source>
+        <translation>Quantità di tempo</translation>
+    </message>
+    <message>
+        <source>Time interval to add up</source>
+        <translation>Quantità di tempo da aggiungere</translation>
+    </message>
+    <message>
+        <source>Time interval to subtract</source>
+        <translation>Quantità di tempo da sottrarre</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n second(s) will be added to all the recorded timings.
+Are you sure you want to continue?</source>
+        <translation>
+            <numerusform>%n secondo sarà aggiunto a tutti i tempi registrati.
+Sei sicuro di voler continuare?</numerusform>
+            <numerusform>%n secondi saranno aggiunti a tutti i tempi registrati.
+Sei sicuro di voler continuare?</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n second(s) will be subtracted from all the recorded timings.
+Timings resulting below 0 will be set to 0:00:00.000.
+Are you sure you want to continue?</source>
+        <translation>
+            <numerusform>%n secondo sarà sottratto da tutti i tempi registrati.
+Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.000.
+Sei sicuro di voler continuare?</numerusform>
+            <numerusform>%n secondi saranno sottratti da tutti i tempi registrati.
+Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.000.
+Sei sicuro di voler continuare?</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>ClassEntry</name>
     <message>
-        <source>Nonexistent leg %1 for bib %2</source>
-        <translation>Frazione %1 inesistente per il pettorale %2</translation>
+        <source>Leg %1 does not exist for bib %2</source>
+        <translation>La frazione %1 non esiste per il pettorale %2</translation>
     </message>
     <message>
-        <source>Leg mismatch for bib %1: detected %2 overriding competitor declared %3</source>
-        <translation>Frazione incompatibile per il pettorale %1: il valor riscontrato %2 sarà usato al posto di quello dichiarato nel concorrente %3</translation>
+        <source>Leg mismatch for bib %1: found %2 overriding competitor declared %3</source>
+        <translation>Frazione incompatibile per il pettorale %1: il valore riscontrato %2 sarà usato al posto di quello dichiarato nel concorrente %3</translation>
     </message>
     <message>
         <source>Competitor mismatch for bib %1: found %2 replaced by %3</source>
         <translation>Concorrente incompatibile per il pettorale %1: quello riscontrato %2 sarà rimpiazzato da %3</translation>
     </message>
     <message>
-        <source>Unexpected sex value for bib %1 (%2)</source>
-        <translation>Valore sesso inatteso per il pettorale &apos;%1&apos; (%2)</translation>
+        <source>Invalid sex value for bib %1 (%2)</source>
+        <translation>Valore sesso non valido per il pettorale &apos;%1&apos; (%2)</translation>
     </message>
     <message>
-        <source>No competitors associated to bib %1</source>
-        <translation>Nessun concorrente asscoiato al pettorale %1</translation>
+        <source>No competitor associated with bib %1</source>
+        <translation>Nessun concorrente associato al pettorale %1</translation>
     </message>
     <message>
         <source>No category fits the competitor with bib %1 - %2</source>
@@ -719,8 +822,8 @@ Continuare?</translation>
         <translation>Modifica Informazioni Gara</translation>
     </message>
     <message>
-        <source>View Clubs List</source>
-        <translation>Visualizza Lista Società</translation>
+        <source>View Clubs</source>
+        <translation>Visualizza Società</translation>
     </message>
     <message>
         <source>Competitors</source>
@@ -747,8 +850,8 @@ Continuare?</translation>
         <translation>Carica Gara</translation>
     </message>
     <message>
-        <source>Edit Start List</source>
-        <translation>Modifica Ordine di Partenza</translation>
+        <source>Edit Competitors</source>
+        <translation>Modifica Concorrenti</translation>
     </message>
     <message>
         <source>Save Race</source>
@@ -759,23 +862,23 @@ Continuare?</translation>
         <translation>Informazioni</translation>
     </message>
     <message>
-        <source>Warnings/Errors</source>
-        <translation>Avvisi/Errori</translation>
+        <source>Warnings and Errors</source>
+        <translation>Avvisi ed Errori</translation>
     </message>
     <message>
-        <source>Make Start List</source>
+        <source>Generate Start List</source>
         <translation>Genera Ordine di Partenza</translation>
     </message>
     <message>
-        <source>Collect timings and bibs</source>
+        <source>Record timings and bibs</source>
         <translation>Registra tempi e pettorali</translation>
     </message>
     <message>
-        <source>Collect Timings</source>
+        <source>Record Timings</source>
         <translation>Registra Tempi</translation>
     </message>
     <message>
-        <source>Make Results</source>
+        <source>Generate Results</source>
         <translation>Genera Classifiche</translation>
     </message>
     <message>
@@ -799,8 +902,8 @@ Continuare?</translation>
         <translation>Q</translation>
     </message>
     <message>
-        <source>&amp;Start List</source>
-        <translation>&amp;Ordine di Partenza</translation>
+        <source>C&amp;ompetitors</source>
+        <translation>C&amp;oncorrenti</translation>
     </message>
     <message>
         <source>&amp;Categories</source>
@@ -835,10 +938,6 @@ Continuare?</translation>
         <translation>Informazioni su &amp;Qt</translation>
     </message>
     <message>
-        <source>About Qt</source>
-        <translation>Informazioni su Qt</translation>
-    </message>
-    <message>
         <source>&amp;Race</source>
         <translation>Ga&amp;ra</translation>
     </message>
@@ -847,28 +946,24 @@ Continuare?</translation>
         <translation>Salva come</translation>
     </message>
     <message>
-        <source>Start List</source>
-        <translation>Ordine di Partenza</translation>
-    </message>
-    <message>
         <source>Clubs List</source>
-        <translation>Lista Società</translation>
+        <translation>Elenco Società</translation>
     </message>
     <message>
         <source>Timings List</source>
-        <translation>Lista Tempi</translation>
+        <translation>Elenco Tempi</translation>
     </message>
     <message>
         <source>CSV (*.csv)</source>
         <translation>CSV (*.csv)</translation>
     </message>
     <message>
-        <source>Select Start List</source>
-        <translation>Seleziona Ordine di Partenza</translation>
+        <source>Select Competitors</source>
+        <translation>Seleziona Concorrenti</translation>
     </message>
     <message>
-        <source>Start List File: %1</source>
-        <translation>File Ordine di Partenza: %1</translation>
+        <source>Competitors File: %1</source>
+        <translation>File dei Concorrenti: %1</translation>
     </message>
     <message numerus="yes">
         <source>Loaded: %n competitor(s)</source>
@@ -878,19 +973,19 @@ Continuare?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <source>Loaded: %n team(s)</source>
+        <source>Loaded: %n club(s)</source>
         <translation>
-            <numerusform>Caricata: %n squadra</numerusform>
-            <numerusform>Caricate: %n squadre</numerusform>
+            <numerusform>Caricata: %n società</numerusform>
+            <numerusform>Caricate: %n società</numerusform>
         </translation>
     </message>
     <message>
         <source>Select Categories File</source>
-        <translation>Seleziona File Categorie</translation>
+        <translation>Seleziona File delle Categorie</translation>
     </message>
     <message>
         <source>Categories File: %1</source>
-        <translation>File Categorie: %1</translation>
+        <translation>File delle Categorie: %1</translation>
     </message>
     <message numerus="yes">
         <source>Loaded: %n category(s)</source>
@@ -901,11 +996,11 @@ Continuare?</translation>
     </message>
     <message>
         <source>Select Timings File</source>
-        <translation>Seleziona File Tempi</translation>
+        <translation>Seleziona File dei Tempi</translation>
     </message>
     <message>
         <source>Timings File: %1</source>
-        <translation>File Tempi: %1</translation>
+        <translation>File dei Tempi: %1</translation>
     </message>
     <message numerus="yes">
         <source>Loaded: %n timing(s)</source>
@@ -915,24 +1010,24 @@ Continuare?</translation>
         </translation>
     </message>
     <message>
-        <source>Start List File saved: %1</source>
-        <translation>File Ordine di Partenza salvato: %1</translation>
+        <source>Competitors File saved: %1</source>
+        <translation>File dei Concorrenti salvato: %1</translation>
     </message>
     <message>
         <source>Select Clubs List</source>
-        <translation>Seleziona Clubs Squadre</translation>
+        <translation>Seleziona Elenco Società</translation>
     </message>
     <message>
         <source>Teams File saved: %1</source>
-        <translation>File Squadre salvato: %1</translation>
+        <translation>File delle Squadre salvato: %1</translation>
     </message>
     <message>
         <source>Categories File saved: %1</source>
-        <translation>File Categorie salvato: %1</translation>
+        <translation>File delle Categorie salvato: %1</translation>
     </message>
     <message>
         <source>Timings File saved: %1</source>
-        <translation>File Tempi salvato: %1</translation>
+        <translation>File dei Tempi salvato: %1</translation>
     </message>
     <message>
         <source>Warning: skipping file %1</source>
@@ -956,15 +1051,11 @@ Continuare?</translation>
     </message>
     <message>
         <source>Race Data File Error</source>
-        <translation>Errore File Dati Gara</translation>
+        <translation>Errore nel File Dati Gara</translation>
     </message>
     <message>
         <source>Race saved: %1</source>
         <translation>Gara salvata: %1</translation>
-    </message>
-    <message>
-        <source>About %1</source>
-        <translation>Informazioni su %1</translation>
     </message>
     <message>
         <source>Selected encoding: %1</source>
@@ -976,19 +1067,19 @@ Continuare?</translation>
     </message>
     <message>
         <source>Edit race information, including logos</source>
-        <translation>Modifica le informazioni sulla gara, compresi i loghi</translation>
+        <translation>Modifica le informazioni della gara, inclusi i loghi</translation>
     </message>
     <message>
         <source>Add, remove, and change the race timings</source>
-        <translation>Aggiunge, rimuove e modifica i tempi di gara</translation>
+        <translation>Aggiungi, rimuovi e modifica i tempi di gara</translation>
     </message>
     <message>
         <source>Add, remove, and change the definition of the categories</source>
-        <translation>Aggiunge, rimuove e modifica la definizione delle categorie</translation>
+        <translation>Aggiungi, rimuovi e modifica la definizione delle categorie</translation>
     </message>
     <message>
         <source>Add, remove, and change competitors</source>
-        <translation>Aggiunge, rimuove e modifica i concorrenti</translation>
+        <translation>Aggiungi, rimuovi e modifica i concorrenti</translation>
     </message>
     <message>
         <source>General information messages generated by the application</source>
@@ -1016,15 +1107,15 @@ Continuare?</translation>
     </message>
     <message>
         <source>Save current race data to file</source>
-        <translation>Salva i dati di gara in un file</translation>
+        <translation>Salva i dati di gara su file</translation>
     </message>
     <message>
         <source>Save current race data to a new file</source>
-        <translation>Salva i dati di gara in un nuovo file</translation>
+        <translation>Salva i dati di gara su un nuovo file</translation>
     </message>
     <message>
-        <source>See the list of the clubs (that cannot be changed)</source>
-        <translation>Visualizza l&apos;elenco delle società (che non può essere modificato)</translation>
+        <source>View the list of the clubs (that cannot be changed)</source>
+        <translation>Visualizza l&apos;elenco delle società (non modificabile da qui)</translation>
     </message>
     <message>
         <source>Cl&amp;ubs</source>
@@ -1035,7 +1126,7 @@ Continuare?</translation>
         <translation>Società</translation>
     </message>
     <message>
-        <source>Load the timings collected and exported in another PC</source>
+        <source>Load timings collected and exported in another PC</source>
         <translation>Carica i tempi registrati ed esportati in un altro PC</translation>
     </message>
     <message>
@@ -1064,7 +1155,7 @@ Continuare?</translation>
     </message>
     <message>
         <source>Set encoding for CSV and Plain Text</source>
-        <translation>Imposta codifica per CSV e Testo</translation>
+        <translation>Imposta codifica per CSV e Testo semplice</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -1072,7 +1163,7 @@ Continuare?</translation>
     </message>
     <message>
         <source>CSV and Plain Text Encoding</source>
-        <translation>Codifica CVS e Testo</translation>
+        <translation>Codifica CSV e Testo semplice</translation>
     </message>
     <message>
         <source>Rankings</source>
@@ -1080,7 +1171,7 @@ Continuare?</translation>
     </message>
     <message>
         <source>Add, remove, and change the definition of the rankings</source>
-        <translation>Aggiunge, rimuove e modifica la definizione delle classifiche</translation>
+        <translation>Aggiungi, rimuovi e modifica la definizione delle classifiche</translation>
     </message>
     <message>
         <source>Edit Rankings</source>
@@ -1088,11 +1179,11 @@ Continuare?</translation>
     </message>
     <message>
         <source>Select Rankings File</source>
-        <translation>Seleziona File Classifiche</translation>
+        <translation>Seleziona File delle Classifiche</translation>
     </message>
     <message>
         <source>Rankings File: %1</source>
-        <translation>File Classifiche: %1</translation>
+        <translation>File delle Classifiche: %1</translation>
     </message>
     <message numerus="yes">
         <source>Loaded: %n ranking(s)</source>
@@ -1103,17 +1194,17 @@ Continuare?</translation>
     </message>
     <message>
         <source>Rankings File saved: %1</source>
-        <translation>File Classifiche salvato: %1</translation>
+        <translation>File delle Classifiche salvato: %1</translation>
     </message>
     <message>
         <source>Data format %1 not supported.
 Please update the application.</source>
         <translation>Formato dati %1 non supportato.
-Aggiornare l&amp;apos;applicazione.</translation>
+Aggiorna l&amp;apos;applicazione.</translation>
     </message>
     <message>
         <source>Unexpected encoding value (fall back to the default)</source>
-        <translation>Valore codifica inatteso (ripiego sulla codifica predefinita)</translation>
+        <translation>Valore codifica inatteso (utilizzo la codifica predefinita)</translation>
     </message>
     <message>
         <source>Unexpected encoding value (encoding not changed)</source>
@@ -1121,25 +1212,192 @@ Aggiornare l&amp;apos;applicazione.</translation>
     </message>
     <message>
         <source>Race Data File Format</source>
-        <translation>Formato File Dati Gara</translation>
+        <translation>Formato del File Dati Gara</translation>
     </message>
     <message>
         <source>This Race Data File was saved with a previous release of the application.
 The definitions of Categories and Rankings must be reviewed and corrected.</source>
-        <translation>Il File Dati Gara è stato salvato con una precedente versione dell&apos;applicazione.
+        <translation>Il File Dati Gara è stato salvato con una versione precedente dell&apos;applicazione.
 Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</translation>
     </message>
     <message>
-        <source>Unknown encoding %1; loaded saved</source>
-        <translation type="obsolete">Codifica sconosciuta %1; </translation>
-    </message>
-    <message>
         <source>Unknown encoding %1; default saved</source>
-        <translation>Codifica sconosciuta %1; codifca predefinita salvata</translation>
+        <translation>Codifica sconosciuta %1; salvata quella predefinita</translation>
     </message>
     <message>
         <source>Unknown encoding %1; loaded default</source>
-        <translation>Codifica sconosciuta %1; codifca predefinita caricata</translation>
+        <translation>Codifica sconosciuta %1; caricata quella predefinita</translation>
+    </message>
+    <message>
+        <source>Add time span</source>
+        <translation>Somma intervallo di tempo</translation>
+    </message>
+    <message>
+        <source>Add an arbitrary amount of time to all the recorded timings</source>
+        <translation>Aggiungi una quantità arbitraria di tempo a tutti i tempi registrati</translation>
+    </message>
+    <message>
+        <source>Subtract time span</source>
+        <translation>Sottrai intervallo di tempo</translation>
+    </message>
+    <message>
+        <source>Subtract an arbitrary amount of time to all the recorded timings</source>
+        <translation>Sottrai una quantità arbitraria di tempo da tutti i tempi registrati</translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n competitor(s)</source>
+        <translation>
+            <numerusform>Aggiunto: %n concorrente</numerusform>
+            <numerusform>Aggiunti: %n concorrenti</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n club(s)</source>
+        <translation>
+            <numerusform>Aggiunta: %n società</numerusform>
+            <numerusform>Aggiunte: %n società</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n ranking(s)</source>
+        <translation>
+            <numerusform>Aggiunta: %n classifica</numerusform>
+            <numerusform>Aggiunte: %n classifiche</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n category(s)</source>
+        <translation>
+            <numerusform>Aggiunta: %n categoria</numerusform>
+            <numerusform>Aggiunte: %n categorie</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n timing(s)</source>
+        <translation>
+            <numerusform>Aggiunto: %n tempo</numerusform>
+            <numerusform>Aggiunti: %n tempi</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Clubs File: %1</source>
+        <translation>File delle Società: %1</translation>
+    </message>
+    <message>
+        <source>Select Clubs File</source>
+        <translation>Seleziona File delle Società</translation>
+    </message>
+    <message>
+        <source>Live Rankings</source>
+        <translation>Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Notice:: enter competitors to use the Live Rankings</source>
+        <translation>Avviso:: per utilizzare la &apos;Classifica dal vivo&apos; inserire i concorrenti</translation>
+    </message>
+    <message>
+        <source>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</source>
+        <translation>Avviso:: Classifica dal vivo non può essere attivata sullo schermo %1 poiché largo %2px (larghezza min. necessaria 1280px)</translation>
+    </message>
+    <message>
+        <source>Info: closing the Live Rankings</source>
+        <translation>Info: finestra &apos;Classifica dal vivo&apos; chiusa</translation>
+    </message>
+    <message>
+        <source>Select a screen for the Live Rankings</source>
+        <translation>Seleziona uno schermo per la Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation>Disattivata</translation>
+    </message>
+    <message>
+        <source>Recent Races</source>
+        <translation>Gare Recenti</translation>
+    </message>
+    <message>
+        <source>Start with a new race file</source>
+        <translation>Crea un nuovo file gara</translation>
+    </message>
+    <message>
+        <source>New Race</source>
+        <translation>Nuova Gara</translation>
+    </message>
+    <message>
+        <source>&amp;New</source>
+        <translation>&amp;Nuovo</translation>
+    </message>
+    <message>
+        <source>N</source>
+        <translation>N</translation>
+    </message>
+    <message>
+        <source>Error: table to export is unknown</source>
+        <translation>Errore: tabella da esportare sconosciuta</translation>
+    </message>
+</context>
+<context>
+    <name>LiveTable</name>
+    <message>
+        <source>Bib</source>
+        <comment>long</comment>
+        <translation>Pettorale</translation>
+    </message>
+    <message>
+        <source>Bib</source>
+        <comment>short</comment>
+        <translation>Pett</translation>
+    </message>
+    <message>
+        <source>Competitor</source>
+        <comment>long</comment>
+        <translation>Concorrente</translation>
+    </message>
+    <message>
+        <source>Timing</source>
+        <comment>long</comment>
+        <translation>Tempo</translation>
+    </message>
+    <message>
+        <source>Timing</source>
+        <comment>short</comment>
+        <translation>Tempo</translation>
+    </message>
+    <message>
+        <source>The Race</source>
+        <translation>La Gara</translation>
+    </message>
+    <message>
+        <source>LBChronoRace</source>
+        <translation>LBChronoRace</translation>
+    </message>
+    <message>
+        <source>Enter competitors to use the Live Rankings</source>
+        <translation>Per utilizzare la &apos;Classifica dal vivo&apos; inserire i concorrenti</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>short</comment>
+        <translation>Concorrente %1</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>long</comment>
+        <translation>Concorrente %1</translation>
+    </message>
+    <message>
+        <source>Timing %1</source>
+        <comment>short</comment>
+        <translation>T %1</translation>
+    </message>
+    <message>
+        <source>Timing %1</source>
+        <comment>long</comment>
+        <translation>Tempo %1</translation>
+    </message>
+    <message>
+        <source>No screen available for the Live Rankings</source>
+        <translation>Schermo non disponibile per la Classifica dal vivo</translation>
     </message>
 </context>
 <context>
@@ -1147,6 +1405,339 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Search…</source>
         <translation>Cerca…</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizard</name>
+    <message>
+        <source>New Race Wizard</source>
+        <translation>Creazione guidata Nuova Gara</translation>
+    </message>
+    <message>
+        <source>Error: race information not initialized</source>
+        <translation>Errore: dati di gara non inizializzati</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardAuxData</name>
+    <message>
+        <source>Additional Race Information</source>
+        <translation>Informazioni aggiuntive sulla Gara</translation>
+    </message>
+    <message>
+        <source>This information is optional, but it makes the ranking look more professional.</source>
+        <translation>Informazioni opzionali, utili a rendere più completo il file di gara.</translation>
+    </message>
+    <message>
+        <source>Referee</source>
+        <translation>Giudice</translation>
+    </message>
+    <message>
+        <source>The race referee</source>
+        <translation>Il giudice di gara</translation>
+    </message>
+    <message>
+        <source>Timekeeper 1</source>
+        <translation>Cronometrista 1</translation>
+    </message>
+    <message>
+        <source>The first timekeeper of the race</source>
+        <translation>Il primo cronometrista</translation>
+    </message>
+    <message>
+        <source>The name of the first timekeeper of the race</source>
+        <translation>Il nome del primo cronometrista</translation>
+    </message>
+    <message>
+        <source>Timekeeper 2</source>
+        <translation>Cronometrista 2</translation>
+    </message>
+    <message>
+        <source>The second timekeeper of the race</source>
+        <translation>Il secondo cronometrista</translation>
+    </message>
+    <message>
+        <source>The name of the second timekeeper of the race</source>
+        <translation>Il nome del secondo cronometrista</translation>
+    </message>
+    <message>
+        <source>Timekeeper 3</source>
+        <translation>Cronometrista 3</translation>
+    </message>
+    <message>
+        <source>The third timekeeper of the race</source>
+        <translation>Il terzo cronometrista</translation>
+    </message>
+    <message>
+        <source>The name of the third timekeeper of the race</source>
+        <translation>Il nome del terzo cronometrista</translation>
+    </message>
+    <message>
+        <source>Length</source>
+        <translation>Lunghezza</translation>
+    </message>
+    <message>
+        <source>The length of the race</source>
+        <translation>La lunghezza della gara</translation>
+    </message>
+    <message>
+        <source>The length of the race (usually in m or km)</source>
+        <translation>La lunghezza della gara (normalmente in m o km)</translation>
+    </message>
+    <message>
+        <source>Elevation Gain</source>
+        <translation>Dislivello</translation>
+    </message>
+    <message>
+        <source>The elevation gain of the race</source>
+        <translation>Il dislivello del percorso</translation>
+    </message>
+    <message>
+        <source>The elevation gain of the race (usually in m)</source>
+        <translation>Il dislivello del percorso (normalmente in m)</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardLogos</name>
+    <message>
+        <source>Select Logo</source>
+        <translation>Seleziona Logo</translation>
+    </message>
+    <message>
+        <source>Images (*.png *.xpm *.jpg *.gif);;All Files (*)</source>
+        <translation>Immagini (*.png *.xpm *.jpg *.gif);;Tutti i file (*)</translation>
+    </message>
+    <message>
+        <source>Load</source>
+        <translation>Carica</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Rimuovi</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardMainData</name>
+    <message>
+        <source>General Race Information</source>
+        <translation>Informazioni Generali Gara</translation>
+    </message>
+    <message>
+        <source>Please enter a name for the event, the place, date, time, and race type.</source>
+        <translation>Inserisci un nome per l&apos;evento, luogo, data, orario e tipo di gara.</translation>
+    </message>
+    <message>
+        <source>Event</source>
+        <translation>Evento</translation>
+    </message>
+    <message>
+        <source>The name of the race</source>
+        <translation>Il nome della gara</translation>
+    </message>
+    <message>
+        <source>Place</source>
+        <translation>Luogo</translation>
+    </message>
+    <message>
+        <source>Where the competition will take place</source>
+        <translation>Luogo di svolgimento della gara</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Data</translation>
+    </message>
+    <message>
+        <source>What day will the competition take place</source>
+        <translation>Il giorno in cui la gara sarà disputata</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>Orario</translation>
+    </message>
+    <message>
+        <source>What time the race will take place</source>
+        <translation>A che ora si svolgerà la gara</translation>
+    </message>
+    <message>
+        <source>Race Type</source>
+        <translation>Tipo di gara</translation>
+    </message>
+    <message>
+        <source>Mass start</source>
+        <translation>Partenza in linea</translation>
+    </message>
+    <message>
+        <source>Timed race</source>
+        <translation>A cronometro</translation>
+    </message>
+    <message>
+        <source>Relay race</source>
+        <translation>Staffetta</translation>
+    </message>
+    <message>
+        <source>What kind of race it will be</source>
+        <translation>Tipo di gara da selezionare</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardOrganization</name>
+    <message>
+        <source>Race Organizing Committee Information</source>
+        <translation>Informazioni sul Comitato Organizzatore</translation>
+    </message>
+    <message>
+        <source>Organization</source>
+        <translation>Organizzazione</translation>
+    </message>
+    <message>
+        <source>General information about the organizing committee of the race</source>
+        <translation>Informazioni generali sul Comitato Organizzatore della gara</translation>
+    </message>
+    <message>
+        <source>This information is optional, but it makes the ranking look more professional.</source>
+        <translation>Queste informazioni sono opzionali, ma rendono la classifica più professionale.</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardRaceLogos</name>
+    <message>
+        <source>Race Logos</source>
+        <translation>Loghi Gara</translation>
+    </message>
+    <message>
+        <source>Race logos are optional, but they make the ranking look more professional.</source>
+        <translation>I loghi gara sono opzionali, ma rendono la classifica più professionale.</translation>
+    </message>
+    <message>
+        <source>Left Logo</source>
+        <translation>Logo Sinistro</translation>
+    </message>
+    <message>
+        <source>Logo 1 not loaded</source>
+        <translation>1° logo non caricato</translation>
+    </message>
+    <message>
+        <source>The logo in the upper left corner of the PDF</source>
+        <translation>Il logo nell&apos;angolo superiore sinistro del PDF</translation>
+    </message>
+    <message>
+        <source>Add a logo in the upper left corner of the PDF</source>
+        <translation>Aggiungi un logo nell&apos;angolo superiore sinistro del PDF</translation>
+    </message>
+    <message>
+        <source>Removes the logo from the upper left corner of the PDF</source>
+        <translation>Elimina il logo dall&apos;angolo superiore sinistro del PDF</translation>
+    </message>
+    <message>
+        <source>Right Logo</source>
+        <translation>Logio Destro</translation>
+    </message>
+    <message>
+        <source>Logo 2 not loaded</source>
+        <translation>2° logo non caricato</translation>
+    </message>
+    <message>
+        <source>The logo in the upper right corner of the PDF</source>
+        <translation>Il logo nell&apos;angolo superiore destro del PDF</translation>
+    </message>
+    <message>
+        <source>Add a logo in the upper right corner of the PDF</source>
+        <translation>Aggiungi un logo nell&apos;angolo superiore destro del PDF</translation>
+    </message>
+    <message>
+        <source>Removes the logo from the upper right corner of the PDF</source>
+        <translation>Elimina il logo dall&apos;angolo superiore destro del PDF</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardSponsorLogos</name>
+    <message>
+        <source>Sponsor Logos</source>
+        <translation>Loghi Sponsor</translation>
+    </message>
+    <message>
+        <source>Sponsor logos are optional, but they make the ranking look more professional.</source>
+        <translation>I loghi sponsor sono opzionali, ma rendono la classifica più professionale.</translation>
+    </message>
+    <message>
+        <source>1st sponsor logo</source>
+        <translation>1° logo sponsor</translation>
+    </message>
+    <message>
+        <source>Sponsor 1 not loaded</source>
+        <translation>1° sponsor non caricato</translation>
+    </message>
+    <message>
+        <source>First sponsor logo (at the bottom of the PDF)</source>
+        <translation>Il logo del primo sponsor (nella parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Add the first sponsor logo (at the bottom of the PDF)</source>
+        <translation>Aggiungi il logo del primo sponsor (nella parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the first sponsor logo (from the bottom of the PDF)</source>
+        <translation>Elimina il logo del primo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>2nd sponsor logo</source>
+        <translation>2° logo sponsor</translation>
+    </message>
+    <message>
+        <source>Sponsor 2 not loaded</source>
+        <translation>2° sponsor non caricato</translation>
+    </message>
+    <message>
+        <source>Second sponsor logo (at the bottom of the PDF)</source>
+        <translation>Il logo del secondo sponsor (nella parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Add the second sponsor logo (at the bottom of the PDF)</source>
+        <translation>Aggiungi il logo del secondo sponsor (nella parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the second sponsor logo (from the bottom of the PDF)</source>
+        <translation>Elimina il logo del secondo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>3rd sponsor logo</source>
+        <translation>3° logo sponsor</translation>
+    </message>
+    <message>
+        <source>Sponsor 3 not loaded</source>
+        <translation>3° sponsor non caricato</translation>
+    </message>
+    <message>
+        <source>Third sponsor logo (at the bottom of the PDF)</source>
+        <translation>Il logo del terzo sponsor (nella parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Add the third sponsor logo (at the bottom of the PDF)</source>
+        <translation>Aggiungi il logo del terzo sponsor (nella parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the third sponsor logo (from the bottom of the PDF)</source>
+        <translation>Elimina il logo del terzo sponsor (dalla parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>4th sponsor logo</source>
+        <translation>4° logo sponsor</translation>
+    </message>
+    <message>
+        <source>Sponsor 4 not loaded</source>
+        <translation>4° sponsor non caricato</translation>
+    </message>
+    <message>
+        <source>Fourth sponsor logo (at the bottom of the PDF)</source>
+        <translation>Il logo del quarto sponsor (nella parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Add the fourth sponsor logo (at the bottom of the PDF)</source>
+        <translation>Aggiungi il logo del quarto sponsor (nella parte inferiore del PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the fourth sponsor logo (from the bottom of the PDF)</source>
+        <translation>Elimina il logo del quarto sponsor (dalla parte inferiore del PDF)</translation>
     </message>
 </context>
 <context>
@@ -1287,8 +1878,8 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Errore: scrittura su PDF impossibile</translation>
     </message>
     <message>
-        <source>Error: no file name supplied</source>
-        <translation>Errore: nessun nome file</translation>
+        <source>Error: no file name provided</source>
+        <translation>Errore: nessun nome file specificato</translation>
     </message>
     <message>
         <source>Error: drawing attempt on inactive painter</source>
@@ -1310,16 +1901,16 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
 <context>
     <name>QMessageBox</name>
     <message>
-        <source>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.&lt;/p&gt;&lt;p&gt;Qt is available under multiple licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Qt licensed under GNU (L)GPL is appropriate for the development of Qt&amp;nbsp;applications provided you can comply with the terms and conditions of the respective licenses.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;http://%2/&quot;&gt;%2&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) %1 The Qt Company Ltd and other contributors.&lt;/p&gt;&lt;p&gt;Qt and the Qt logo are trademarks of The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt is The Qt Company Ltd product developed as an open source project. See &lt;a href=&quot;http://%3/&quot;&gt;%3&lt;/a&gt; for more information.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Qt è un insieme di strumenti per lo sviluppo di applicazioni C++ multi piattaforma.&lt;/p&gt;&lt;p&gt;Qt permette la portabilità dei singoli sorgenti su tutti i sistemi operativi desktop più diffusi. Supporta inoltre Linux embedded e altri sistemi operativi embedded e cellulari.&lt;/p&gt;&lt;p&gt;Qt è disponibile con diversi tipi di licenza, ognuna adatta alle necessità di diverse tipologie di utenti.&lt;/p&gt;&lt;p&gt;La licenza commerciale di Qt è adatta per lo sviluppo di software proprietari/commerciali per i queli non si vuole condividere il codice sorgente con terze parti e quindi non essere conformi con le condizioni imposte dalle licenze GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Le licenze GNU (L)GPL sono idonee allo sviluppo di applicazioni&amp;nbsp;Qt purché ne siano rispettati i termini e le condizioni.&lt;/p&gt;&lt;p&gt;Si veda &lt;a href=&quot;http://%2/&quot;&gt;%2&lt;/a&gt; per ulteriori informazioni sulle licenze Qt.&lt;/p&gt;&lt;p&gt;Copyright (C) %1 The Qt Company Ltd e altri collaboratori.&lt;/p&gt;&lt;p&gt;Qt e il logo&amp;nbsp;Qt sonno marchi registrati da The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt è il prodotto sviluppato come progetto open source da The Qt Company Ltd. Si veda &lt;a href=&quot;http://%3/&quot;&gt;%3&lt;/a&gt; per ulteriori informazioni.&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.&lt;/p&gt;&lt;p&gt;Qt is available under multiple licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Qt licensed under GNU (L)GPL is appropriate for the development of Qt&amp;nbsp;applications provided you can comply with the terms and conditions of the respective licenses.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;https://%2/&quot;&gt;%2&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) The Qt Company Ltd. and other contributors.&lt;/p&gt;&lt;p&gt;Qt and the Qt logo are trademarks of The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt is The Qt Company Ltd. product developed as an open source project. See &lt;a href=&quot;https://%3/&quot;&gt;%3&lt;/a&gt; for more information.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Qt è un insieme di strumenti per lo sviluppo di applicazioni C++ multi piattaforma.&lt;/p&gt;&lt;p&gt;Qt permette la portabilità dei singoli sorgenti su tutti i sistemi operativi desktop più diffusi. Supporta inoltre Linux embedded e altri sistemi operativi embedded e cellulari.&lt;/p&gt;&lt;p&gt;Qt è disponibile con diversi tipi di licenza, ognuna adatta alle necessità di diverse tipologie di utenti.&lt;/p&gt;&lt;p&gt;La licenza commerciale di Qt è adatta per lo sviluppo di software proprietari/commerciali per i queli non si vuole condividere il codice sorgente con terze parti e quindi non essere conformi con le condizioni imposte dalle licenze GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Le licenze GNU (L)GPL sono idonee allo sviluppo di applicazioni&amp;nbsp;Qt purché ne siano rispettati i termini e le condizioni.&lt;/p&gt;&lt;p&gt;Si veda &lt;a href=&quot;https://%2/&quot;&gt;%2&lt;/a&gt; per ulteriori informazioni sulle licenze Qt.&lt;/p&gt;&lt;p&gt;Copyright (C) The Qt Company Ltd. e altri collaboratori.&lt;/p&gt;&lt;p&gt;Qt e il logo&amp;nbsp;Qt sonno marchi registrati da The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt è il prodotto sviluppato come progetto open source da The Qt Company Ltd. Si veda &lt;a href=&quot;https://%3/&quot;&gt;%3&lt;/a&gt; per ulteriori informazioni.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;About %1&lt;/h3&gt;&lt;p&gt;Software for producing the results of footraces.&lt;/p&gt;</source>
         <translation>&lt;h3&gt;Informazioni su %1&lt;/h3&gt;&lt;p&gt;Software per produrre classifiche di corse podistiche.&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Versione: %1 (codice sorgente su &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Autore: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Sito: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 è software libero; ne è consentita la redistribuzione e/o modifica entro i termini della GNU General Public License, come pubblicata dalla Free Software Foundation, versione 3 o successiva.&lt;/p&gt;&lt;p&gt;%2 è distribuito sperando sia utile, ma SENZA ALCUNA GARANZIA, espressa o implicita, di COMMERCIABILITÀ o di IDONEITÀ AD UNO SCOPO PARTICOLARE. Si veda la GNU General Public License per ulteriori dettagli.&lt;/p&gt;&lt;p&gt;Se non di dovesse aver ricevuto una copia della GNU General Public License insieme a %2, si veda &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;Se trovi utile questa applicazione&lt;br&gt;e vuoi sostenerne lo sviluppo,&lt;br&gt;puoi fare una donazione:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=B3TPDBK3ZF5YJ&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_it.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Copyright&amp;copy; 2021-2025&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Copyright&amp;copy; 2021-2025&lt;/p&gt;&lt;p&gt;Versione: %1 (codice sorgente su &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Autore: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Sito: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 è software libero; ne è consentita la redistribuzione e/o modifica entro i termini della GNU General Public License, come pubblicata dalla Free Software Foundation, versione 3 o successiva.&lt;/p&gt;&lt;p&gt;%2 è distribuito sperando sia utile, ma SENZA ALCUNA GARANZIA, espressa o implicita, di COMMERCIABILITÀ o di IDONEITÀ AD UNO SCOPO PARTICOLARE. Si veda la GNU General Public License per ulteriori dettagli.&lt;/p&gt;&lt;p&gt;Se non di dovesse aver ricevuto una copia della GNU General Public License insieme a %2, si veda &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;Se trovi utile questa applicazione&lt;br&gt;e vuoi sostenerne lo sviluppo,&lt;br&gt;puoi fare una donazione:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=B3TPDBK3ZF5YJ&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_it.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1342,7 +1933,7 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     </message>
     <message>
         <source>Start Time</source>
-        <translation>Orario partenza</translation>
+        <translation>Orario di partenza</translation>
     </message>
     <message>
         <source>Race Type</source>
@@ -1380,8 +1971,8 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
 <context>
     <name>Ranking</name>
     <message>
-        <source>Illegal ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
-        <translation>Tipo classifica errato - atteso &apos;I&apos; o &apos;T&apos; - trovato %1</translation>
+        <source>Invalid ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
+        <translation>Tipo di classifica non valido - atteso &apos;I&apos; o &apos;T&apos; - trovato %1</translation>
     </message>
 </context>
 <context>
@@ -1395,7 +1986,7 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <name>RankingsBuilder</name>
     <message>
         <source>Competitor not found for bib %1</source>
-        <translation>Concorrente non trovato per il pettorale %1</translation>
+        <translation>Nessun concorrente trovato per il pettorale %1</translation>
     </message>
     <message>
         <source>Bib %1 not inserted in results; check for possible duplicated entries</source>
@@ -1411,7 +2002,7 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     </message>
     <message>
         <source>Warning: missing or extra legs for bib %1 or %2</source>
-        <translation>Frazione extra o mancante per il pettorale %1 o %2</translation>
+        <translation>Attenzione: numero di frazioni non coerente per il pettorale %1 o %2</translation>
     </message>
 </context>
 <context>
@@ -1434,7 +2025,7 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     </message>
     <message>
         <source>Individual/Relay (I) or Club (T)</source>
-        <translation>Individuale/Staffetta (I) or Società (T)</translation>
+        <translation>Individuale/Staffetta (I) o Società (T)</translation>
     </message>
     <message>
         <source>The ranking will include all the categories listed here</source>
@@ -1461,19 +2052,23 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <name>RankingsWizard</name>
     <message>
         <source>Rankings Wizard</source>
-        <translation>Procedura guidata classifiche</translation>
+        <translation>Creazione guidata classifiche</translation>
     </message>
     <message>
         <source>Select Start List File</source>
-        <translation>Seleziona file Ordine di Partenza</translation>
+        <translation>Seleziona il file dell&apos;Ordine di Partenza</translation>
     </message>
     <message>
         <source>Generated Start List: %1</source>
-        <translation>Generato Ordine di Partenza: %1</translation>
+        <translation>Ordine di Partenza generato: %1</translation>
     </message>
     <message>
         <source>Select Results Destination Folder</source>
-        <translation>Seleziona Cartella Destinazione Classifiche</translation>
+        <translation>Seleziona la Cartella Destinazione Classifiche</translation>
+    </message>
+    <message>
+        <source>Warning: please select a destination file name</source>
+        <translation>Attenzione: selezionare un nome per il file di destinazione</translation>
     </message>
     <message>
         <source>Warning: please select a destination folder</source>
@@ -1485,11 +2080,11 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     </message>
     <message>
         <source>Select Results Destination File</source>
-        <translation>Seleziona File Destinazione Classifiche</translation>
+        <translation>Seleziona il File Destinazione Classifiche</translation>
     </message>
     <message>
         <source>Generated Results: %1</source>
-        <translation>Generate Classifiche: %1</translation>
+        <translation>Classifiche generate: %1</translation>
     </message>
     <message>
         <source>Start List</source>
@@ -1499,16 +2094,20 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Results</source>
         <translation>Risultati</translation>
     </message>
+    <message>
+        <source>Trying to open: %1</source>
+        <translation>Apertura file: %1</translation>
+    </message>
 </context>
 <context>
     <name>RankingsWizardFormat</name>
     <message>
         <source>Start List file format</source>
-        <translation>Formato file Ordine di Partenza</translation>
+        <translation>Formato del file Ordine di Partenza</translation>
     </message>
     <message>
         <source>Rankings file format</source>
-        <translation>Formato file Classifica</translation>
+        <translation>Formato del file Classifica</translation>
     </message>
     <message>
         <source>Please select a file format and, if required, an encoding type.</source>
@@ -1522,16 +2121,22 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Encoding</source>
         <translation>Codifica</translation>
     </message>
+    <message>
+        <source>Open file after
+publishing</source>
+        <translation>Apri file dopo
+la pubblicazione</translation>
+    </message>
 </context>
 <context>
     <name>RankingsWizardMode</name>
     <message>
         <source>Single/multiple files</source>
-        <translation>File singolo/multiplo</translation>
+        <translation>Un file o più file</translation>
     </message>
     <message>
         <source>One single file containing all rankings</source>
-        <translation>Un singolo file contenente tutte le classifiche</translation>
+        <translation>Tutte le classifiche in un solo file</translation>
     </message>
     <message>
         <source>A separate file for each ranking</source>
@@ -1539,7 +2144,7 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     </message>
     <message>
         <source>How many PDFs do you want?</source>
-        <translation>Quanti PDF desideri?</translation>
+        <translation>Quanti PDF vuoi generare?</translation>
     </message>
 </context>
 <context>
@@ -1554,14 +2159,21 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     </message>
 </context>
 <context>
+    <name>RecentRaces</name>
+    <message>
+        <source>Clear</source>
+        <translation>Svuota elenco</translation>
+    </message>
+</context>
+<context>
     <name>StartListModel</name>
     <message>
         <source>Bib number (not 0)</source>
-        <translation>Pettorale (non 0)</translation>
+        <translation>Numero di pettorale (non 0)</translation>
     </message>
     <message>
         <source>Competitor name</source>
-        <translation>Nome concorrente</translation>
+        <translation>Nome del concorrente</translation>
     </message>
     <message>
         <source>Male (M) or Female (F)</source>
@@ -1573,7 +2185,7 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     </message>
     <message>
         <source>Team name</source>
-        <translation>Nome squadra</translation>
+        <translation>Nome della squadra</translation>
     </message>
     <message>
         <source>Start time offset or leg (to set the leg put a &apos;-&apos; sign before the leg number)</source>
@@ -1582,10 +2194,6 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Bib</source>
         <translation>Pettorale</translation>
-    </message>
-    <message>
-        <source>Competitor</source>
-        <translation>Concorrente</translation>
     </message>
     <message>
         <source>Sex</source>
@@ -1605,18 +2213,30 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     </message>
     <message>
         <source>Club name</source>
-        <translation>Nome società</translation>
+        <translation>Nome della società</translation>
     </message>
     <message>
         <source>Club</source>
         <translation>Società</translation>
+    </message>
+    <message>
+        <source>Competitor surname</source>
+        <translation>Cognome concorrente</translation>
+    </message>
+    <message>
+        <source>Last name</source>
+        <translation>Cognome</translation>
+    </message>
+    <message>
+        <source>First name</source>
+        <translation>Nome</translation>
     </message>
 </context>
 <context>
     <name>TXTRankingPrinter</name>
     <message>
         <source>Plain Text (*.txt)</source>
-        <translation>Testo (*.txt)</translation>
+        <translation>Testo semplice (*.txt)</translation>
     </message>
     <message>
         <source>Start List</source>
@@ -1630,26 +2250,26 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         </translation>
     </message>
     <message>
-        <source>Error: cannot open %1</source>
-        <translation>Errore: impossibile aprire %1</translation>
+        <source>Error: unable to open %1</source>
+        <translation>Errore: impossibile aprire il file %1</translation>
     </message>
     <message>
-        <source>Error: no file name supplied</source>
-        <translation>Error: nessun nome file</translation>
+        <source>Error: no file name provided</source>
+        <translation>Errore: nessun nome file specificato</translation>
     </message>
     <message>
-        <source>Error: writing attempt on closed file</source>
-        <translation>Errore: tentativo di scrittura su file non aperto</translation>
+        <source>Error: attempted to write to a closed file</source>
+        <translation>Errore: tentativo di scrittura su un file chiuso</translation>
     </message>
 </context>
 <context>
     <name>TeamClassEntry</name>
     <message>
         <source>Requested index %1 exceeds the number of available entries %2</source>
-        <translation>L&apos;elemento richiesto %1 supera il numero di elementi disponibili %2</translation>
+        <translation>L&apos;indice richiesto %1 supera il numero di elementi disponibili %2</translation>
     </message>
     <message>
-        <source>Unexpected club: expected %1 - found %2</source>
+        <source>Invalid club: expected %1 - found %2</source>
         <translation>Società non valida: attesa %1 - trovata %2</translation>
     </message>
 </context>
@@ -1665,17 +2285,36 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     </message>
 </context>
 <context>
+    <name>TimeSpanDialog</name>
+    <message>
+        <source>Number of hours to add up or subtract</source>
+        <translation>Numero di ore da sommare o sottrarre</translation>
+    </message>
+    <message>
+        <source>Number of minutes to add up or subtract</source>
+        <translation>Numero di minuti da sommare o sottrarre</translation>
+    </message>
+    <message>
+        <source>Number of seconds to add up or subtract</source>
+        <translation>Numero di secondi da sommare o sottrarre</translation>
+    </message>
+    <message>
+        <source>Number of milliseconds to add up or subtract</source>
+        <translation>Numero di millisecondi da sommare o sottrarre</translation>
+    </message>
+</context>
+<context>
     <name>Timing</name>
     <message>
-        <source>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
-        <translation>Valore cronometrico &apos;%1&apos; non valido per il pettorale &apos;%2&apos;</translation>
+        <source>Warning: invalid timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
+        <translation>Attenzione: valore cronometrico &apos;%1&apos; non valido per il pettorale &apos;%2&apos;</translation>
     </message>
 </context>
 <context>
     <name>TimingsModel</name>
     <message>
         <source>Bib number (not 0)</source>
-        <translation>Numero pettorale (non 0)</translation>
+        <translation>Numero di pettorale (non 0)</translation>
     </message>
     <message>
         <source>Leg number (0 for automatic detection)</source>
@@ -1709,8 +2348,8 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
 <context>
     <name>TimingsWorker</name>
     <message>
-        <source>Error: cannot open %1</source>
-        <translation>Errore: impossibile aprire %1</translation>
+        <source>Error: unable to open %1</source>
+        <translation>Errore: impossibile aprire il file %1</translation>
     </message>
 </context>
 </TS>

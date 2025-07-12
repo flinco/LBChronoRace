@@ -39,8 +39,8 @@ void ClassEntryElement::addNames(bool csvFormat, bool first, QString &entryStrin
 
     if (c)
         entryString += csvFormat ?
-                    formatNameCSV(first, c->getName(), CRHelper::toSexString(c->getSex()), QString::number(c->getYear())) :
-                    formatNameTxt(first, c->getName(static_cast<int>(emptyName.size())), CRHelper::toSexString(c->getSex()), QString::number(c->getYear()));
+                    formatNameCSV(first, c->getCompetitorName(CRHelper::nameComposition), CRHelper::toSexString(c->getSex()), QString::number(c->getYear())) :
+                    formatNameTxt(first, c->getCompetitorName(CRHelper::nameComposition, static_cast<int>(emptyName.size())), CRHelper::toSexString(c->getSex()), QString::number(c->getYear()));
     else
         entryString += csvFormat ?
                     formatNameCSV(first, emptyName, CRHelper::toSexString(Competitor::Sex::UNDEFINED), QString("0")) :
@@ -74,9 +74,9 @@ void ClassEntry::setBib(uint newBib)
 QString ClassEntry::getName(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
-    return entries[legIdx].competitor ? entries[legIdx].competitor->getName() : ClassEntry::empty;
+    return entries[legIdx].competitor ? entries[legIdx].competitor->getCompetitorName(CRHelper::nameComposition) : ClassEntry::empty;
 }
 
 QString ClassEntry::getNamesCommon(bool csvFormat) const
@@ -101,7 +101,7 @@ QString ClassEntry::getNamesCommon(bool csvFormat) const
         // avoid duplicates
         skip = false;
         for (int j = 0; c && (j < i); j++) {
-            if ((skip = entries[j].competitor && (entries[j].competitor->getName().compare(c->getName()) == 0)))
+            if ((skip = entries[j].competitor && (entries[j].competitor->getCompetitorName(CRHelper::nameComposition).compare(c->getCompetitorName(CRHelper::nameComposition)) == 0)))
                 break;
         }
 
@@ -137,18 +137,20 @@ QString ClassEntry::getNames(CRLoader::Format format) const
     QString retString;
 
     switch (format) {
-    case CRLoader::Format::TEXT:
-        retString = getNamesCommon(false);
-        break;
-    case CRLoader::Format::CSV:
-        retString = getNamesCommon(true);
-        break;
-    case CRLoader::Format::PDF:
-        retString = "***Error***";
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
+        using enum CRLoader::Format;
+
+        case TEXT:
+            retString = getNamesCommon(false);
+            break;
+        case CSV:
+            retString = getNamesCommon(true);
+            break;
+        case PDF:
+            retString = "***Error***";
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
     }
 
     return retString;
@@ -157,7 +159,7 @@ QString ClassEntry::getNames(CRLoader::Format format) const
 uint ClassEntry::getYear(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     return (entries[legIdx].competitor) ? entries[legIdx].competitor->getYear() : 0;
 }
@@ -166,26 +168,29 @@ Competitor::Sex ClassEntry::getSex() const
 {
     uint males = 0;
     uint females = 0;
-    Competitor::Sex sex = Competitor::Sex::UNDEFINED;
+
+    using enum Competitor::Sex;
+
+    Competitor::Sex sex = UNDEFINED;
 
     for (auto const &e : entries) {
         switch (e.competitor->getSex()) {
-        case Competitor::Sex::MALE:
-            males++;
-            break;
-        case Competitor::Sex::FEMALE:
-            females++;
-            break;
-        default:
-            throw(ChronoRaceException(tr("Unexpected sex value for bib %1 (%2)").arg(bib).arg(e.competitor->getName())));
-            break;
+            case MALE:
+                males++;
+                break;
+            case FEMALE:
+                females++;
+                break;
+            default:
+                throw(ChronoRaceException(tr("Invalid sex value for bib %1 (%2)").arg(bib).arg(e.competitor->getCompetitorName(CRHelper::nameComposition))));
+                break;
         }
     }
 
     if (males && !females)
-        sex = Competitor::Sex::MALE;
+        sex = MALE;
     else if (!males && females)
-        sex = Competitor::Sex::FEMALE;
+        sex = FEMALE;
 
     return  sex;
 }
@@ -193,7 +198,7 @@ Competitor::Sex ClassEntry::getSex() const
 Competitor::Sex ClassEntry::getSex(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     return (entries[legIdx].competitor) ? entries[legIdx].competitor->getSex() : Competitor::Sex::UNDEFINED;
 }
@@ -203,20 +208,22 @@ QString ClassEntry::getTimes(CRLoader::Format format, int legRankWidth) const
     QString retString;
 
     switch (format) {
-    case CRLoader::Format::TEXT:
-        for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
-            retString.append(QString("%1(%2) %3").arg((it == entries.constBegin()) ? "" : " - ").arg(it->legRanking, legRankWidth).arg(CRHelper::toTimeString(it->time, it->status), 7));
-        break;
-    case CRLoader::Format::CSV:
-        for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
-            retString.append(QString("%1%2,%3").arg((it == entries.constBegin()) ? "" : ",").arg(it->legRanking).arg(CRHelper::toTimeString(it->time, Timing::Status::CLASSIFIED)));
-        break;
-    case CRLoader::Format::PDF:
-        retString = "***Error***";
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
+        using enum CRLoader::Format;
+
+        case TEXT:
+            for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
+                retString.append(QString("%1(%2) %3").arg((it == entries.constBegin()) ? "" : " - ").arg(it->legRanking, legRankWidth).arg(CRHelper::toTimeString(it->time, it->status), 7));
+            break;
+        case CSV:
+            for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
+                retString.append(QString("%1%2,%3").arg((it == entries.constBegin()) ? "" : ",").arg(it->legRanking).arg(CRHelper::toTimeString(it->time, Timing::Status::CLASSIFIED)));
+            break;
+        case PDF:
+            retString = "***Error***";
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
     }
 
     return retString;
@@ -225,7 +232,7 @@ QString ClassEntry::getTimes(CRLoader::Format format, int legRankWidth) const
 QString ClassEntry::getTime(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     return CRHelper::toTimeString(entries[legIdx].time, entries[legIdx].status);
 }
@@ -233,17 +240,17 @@ QString ClassEntry::getTime(uint legIdx) const
 uint ClassEntry::getTimeValue(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     switch (entries[legIdx].status) {
-    case Timing::Status::DNS:
-        return UINT_MAX;
-    case Timing::Status::DNF:
-        return UINT_MAX - 1;
-    //NOSONAR case Timing::Status::DSQ:
-    //NOSONAR     return UINT_MAX - 2;
-    default:
-        return entries[legIdx].time;
+        case Timing::Status::DNS:
+            return UINT_MAX;
+        case Timing::Status::DNF:
+            return UINT_MAX - 1;
+        //NOSONAR case Timing::Status::DSQ:
+        //NOSONAR     return UINT_MAX - 2;
+        default:
+            return entries[legIdx].time;
     }
 }
 
@@ -261,7 +268,7 @@ void ClassEntry::setTime(Competitor *comp, Timing const &timing, QStringList &me
     auto legIndex = static_cast<int>((legHint > 0) ? (legHint - 1) : entries.size());
 
     if ((offset < 0) && (legIndex + 1 != qAbs(offset)))
-        messages << tr("Leg mismatch for bib %1: detected %2 overriding competitor declared %3").arg(bib).arg(legIndex + 1).arg(qAbs(offset));
+        messages << tr("Leg mismatch for bib %1: found %2 overriding competitor declared %3").arg(bib).arg(legIndex + 1).arg(qAbs(offset));
 
     while (entries.size() <= legIndex) {
         // add slots to entry vector
@@ -269,11 +276,11 @@ void ClassEntry::setTime(Competitor *comp, Timing const &timing, QStringList &me
     }
 
     if (entries[legIndex].competitor && (entries[legIndex].competitor != comp))
-        messages << tr("Competitor mismatch for bib %1: found %2 replaced by %3").arg(QString::number(bib), entries[legIndex].competitor->getName(), comp->getName());
+        messages << tr("Competitor mismatch for bib %1: found %2 replaced by %3").arg(QString::number(bib), entries[legIndex].competitor->getCompetitorName(CRHelper::nameComposition), comp->getCompetitorName(CRHelper::nameComposition));
 
     entries[legIndex].competitor = comp;
     entries[legIndex].status = timing.getStatus();
-    entries[legIndex].time = timing.getSeconds();
+    entries[legIndex].time = timing.getMilliseconds();
     if (isDnf()) {
         totalTime = UINT_MAX - 1;
     } else if (isDns()) {
@@ -282,16 +289,16 @@ void ClassEntry::setTime(Competitor *comp, Timing const &timing, QStringList &me
         if (offset < 0) {
             // no offset; use standard timing logic
             // good for both individual and relay races
-            uint seconds = entries[legIndex].time;
+            uint millis = entries[legIndex].time;
             entries[legIndex].time -= totalTime;
-            totalTime = seconds;
+            totalTime = millis;
         } else {
             // competitor with offset; maybe individual
             // race without mass start or relay race with
             // timings sum
-            uint seconds = entries[legIndex].time - static_cast<uint>(offset);
-            entries[legIndex].time = seconds;
-            totalTime += seconds;
+            uint millis = entries[legIndex].time - (static_cast<uint>(offset) * 1000);
+            entries[legIndex].time = millis;
+            totalTime += millis;
         }
     }
 }
@@ -299,7 +306,7 @@ void ClassEntry::setTime(Competitor *comp, Timing const &timing, QStringList &me
 uint ClassEntry::getLegRanking(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     return entries[legIdx].legRanking;
 }
@@ -307,33 +314,9 @@ uint ClassEntry::getLegRanking(uint legIdx) const
 void ClassEntry::setLegRanking(uint legIdx, uint ranking)
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     entries[legIdx].legRanking = ranking;
-}
-
-uint ClassEntry::getFromYear() const
-{
-    uint fromYear = UINT_MAX;
-
-    for (auto const &it : entries) {
-        if (it.competitor)
-            fromYear = (fromYear > it.competitor->getYear()) ? it.competitor->getYear() : fromYear;
-    }
-
-    return fromYear;
-}
-
-uint ClassEntry::getToYear() const
-{
-    uint toYear = 0u;
-
-    for (auto const &it : entries) {
-        if (it.competitor)
-            toYear = (toYear < it.competitor->getYear()) ? it.competitor->getYear() : toYear;
-    }
-
-    return toYear;
 }
 
 QString ClassEntry::getClub() const
@@ -406,7 +389,7 @@ Category const *ClassEntry::getCategory() const
 Category const *ClassEntry::getCategory(uint legIdx) const
 {
     if (static_cast<qsizetype>(legIdx) >= entries.size())
-        throw(ChronoRaceException(tr("Nonexistent leg %1 for bib %2").arg(legIdx + 1).arg(bib)));
+        throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
     return (entries[legIdx].competitor) ? entries[legIdx].competitor->getCategory() : Q_NULLPTR;
 }
@@ -416,15 +399,15 @@ QStringList ClassEntry::setCategory()
     QStringList messages;
 
     switch (entries.size()) {
-    case 0:
-        messages += tr("No competitors associated to bib %1").arg(bib);
-        break;
-    case 1:
-        ClassEntryHelper::setCategorySingleLeg(this, messages);
-        break;
-    default:
-        ClassEntryHelper::setCategoryMultiLeg(this, messages);
-        break;
+        case 0:
+            messages += tr("No competitor associated with bib %1").arg(bib);
+            break;
+        case 1:
+            ClassEntryHelper::setCategorySingleLeg(this, messages);
+            break;
+        default:
+            ClassEntryHelper::setCategoryMultiLeg(this, messages);
+            break;
     }
 
     return messages;
@@ -440,23 +423,26 @@ QString ClassEntry::getTotalTime(CRLoader::Format format) const
     QString retString;
 
     switch (format) {
-    case CRLoader::Format::TEXT:
-        [[fallthrough]];
-    case CRLoader::Format::CSV:
-        [[fallthrough]];
-    case CRLoader::Format::PDF:
-        if (isDsq())
-            retString = CRHelper::toTimeString(totalTime, Timing::Status::DSQ);
-        else if (isDnf())
-            retString = CRHelper::toTimeString(totalTime, Timing::Status::DNF);
-        else if (isDns())
-            retString = CRHelper::toTimeString(totalTime, Timing::Status::DNS);
-        else
-            retString = CRHelper::toTimeString(totalTime, Timing::Status::CLASSIFIED);
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
+        using enum CRLoader::Format;
+        using enum Timing::Status;
+
+        case TEXT:
+            [[fallthrough]];
+        case CSV:
+            [[fallthrough]];
+        case PDF:
+            if (isDsq())
+                retString = CRHelper::toTimeString(totalTime, DSQ);
+            else if (isDnf())
+                retString = CRHelper::toTimeString(totalTime, DNF);
+            else if (isDns())
+                retString = CRHelper::toTimeString(totalTime, DNS);
+            else
+                retString = CRHelper::toTimeString(totalTime, CLASSIFIED);
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
     }
 
     return retString;
@@ -472,11 +458,6 @@ QString ClassEntry::getDiffTimeTxt(uint referenceTime) const
     else
         return CRHelper::toTimeString(referenceTime - totalTime, Timing::Status::CLASSIFIED, "-");
 }
-
-bool ClassEntry::operator< (ClassEntry const &rhs) const { return getTotalTime() <  rhs.getTotalTime(); }
-bool ClassEntry::operator> (ClassEntry const &rhs) const { return getTotalTime() >  rhs.getTotalTime(); }
-bool ClassEntry::operator<=(ClassEntry const &rhs) const { return getTotalTime() <= rhs.getTotalTime(); }
-bool ClassEntry::operator>=(ClassEntry const &rhs) const { return getTotalTime() >= rhs.getTotalTime(); }
 
 bool ClassEntryHelper::allCompetitorsShareTheSameClub(QVector<ClassEntryElement> const &entries, qsizetype fromLeg, qsizetype toLeg, QString const &club)
 {
@@ -521,28 +502,30 @@ void ClassEntryHelper::removeImpossibleCategories(QVector<ClassEntryElement> &en
     while (i.hasNext()) {
         cat = i.next();
         switch (cat->getType()) {
-        case Category::Type::MALE:
-            [[fallthrough]];
-        case Category::Type::FEMALE:
-            /* Competitors must all belong to the same Club */
-            if (!allCompetitorsShareTheSameClub(entries, 1, count, club))
-                i.remove();
-            break;
-        case Category::Type::RELAY_X:
-            [[fallthrough]];
-        case Category::Type::RELAY_Y:
-            /* Competitors must belong to different Clubs */
-            if (allCompetitorsShareTheSameClub(entries, 1, count, club))
-                i.remove();
-            break;
-        case Category::Type::RELAY_MF:
-            /* Competitors must have different sex */
-            if (allCompetitorsAreOfTheSameSex(entries, 1, count, sex))
-                i.remove();
-            break;
-        default:
-            Q_UNREACHABLE();
-            break;
+            using enum Category::Type;
+
+            case MALE:
+                [[fallthrough]];
+            case FEMALE:
+                /* Competitors must all belong to the same Club */
+                if (!allCompetitorsShareTheSameClub(entries, 1, count, club))
+                    i.remove();
+                break;
+            case RELAY_X:
+                [[fallthrough]];
+            case RELAY_Y:
+                /* Competitors must belong to different Clubs */
+                if (allCompetitorsShareTheSameClub(entries, 1, count, club))
+                    i.remove();
+                break;
+            case RELAY_MF:
+                /* Competitors must have different sex */
+                if (allCompetitorsAreOfTheSameSex(entries, 1, count, sex))
+                    i.remove();
+                break;
+            default:
+                Q_UNREACHABLE();
+                break;
         }
     }
 }
@@ -597,7 +580,7 @@ void ClassEntryHelper::removeLowerWeigthCategories(QList<Category const *> &cate
 void ClassEntryHelper::setCategorySingleLeg(ClassEntry *entry, QStringList &messages)
 {
     Competitor *comp = entry->entries[0].competitor;
-    QString const &name = comp->getName();
+    QString const &name = comp->getCompetitorName(CRHelper::nameComposition);
 
     if (QList<Category const *> &categories = comp->getCategories(); categories.isEmpty()) {
         messages += tr("No category fits the competitor with bib %1 - %2").arg(entry->bib).arg(name);
@@ -637,7 +620,7 @@ void ClassEntryHelper::setCategoryMultiLeg(ClassEntry *entry, QStringList &messa
         /* Category must be present in all the legs */
         for (leg = 1; leg < count; leg++) {
             if (!entries->at(leg).hasCategory(cat)) {
-                qDebug() <<  tr("Dropping category '%1' associated to competitor %2 - bib %3 - leg 1").arg(i.peekPrevious()->getFullDescription(), comp->getName(), QString::number(entry->bib));
+                qDebug() <<  tr("Dropping category '%1' associated to competitor %2 - bib %3 - leg 1").arg(i.peekPrevious()->getFullDescription(), comp->getCompetitorName(CRHelper::nameComposition), QString::number(entry->bib));
                 i.remove();
                 break;
             }
@@ -645,7 +628,7 @@ void ClassEntryHelper::setCategoryMultiLeg(ClassEntry *entry, QStringList &messa
     }
 
     /* Slim down the list removing categories having same type but lower weight */
-    removeLowerWeigthCategories(comp->getCategories(), comp->getName(), entry->bib);
+    removeLowerWeigthCategories(comp->getCategories(), comp->getCompetitorName(CRHelper::nameComposition), entry->bib);
 
     /* Slim down the list of all other legs using the first one as reference */
     for (leg = 1; leg < count; leg++) {
@@ -655,7 +638,7 @@ void ClassEntryHelper::setCategoryMultiLeg(ClassEntry *entry, QStringList &messa
         i = comp->getCategories();
         while (i.hasNext()) {
             if (!entry->entries[0].hasCategory(i.next())) {
-                qDebug() <<  tr("Dropping category '%1' associated to competitor %2 - bib %3 - leg 1").arg(i.peekPrevious()->getFullDescription(), comp->getName(), QString::number(entry->bib));
+                qDebug() <<  tr("Dropping category '%1' associated to competitor %2 - bib %3 - leg 1").arg(i.peekPrevious()->getFullDescription(), comp->getCompetitorName(CRHelper::nameComposition), QString::number(entry->bib));
                 i.remove();
             }
         }

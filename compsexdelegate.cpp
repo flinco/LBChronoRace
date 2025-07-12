@@ -21,14 +21,16 @@
 CompetitorSexDelegate::CompetitorSexDelegate(QObject *parent) :
     QStyledItemDelegate(parent)
 {
+    using enum Competitor::Sex;
+
     auto *comboBox = competitorSexBox.data();
     comboBox->setEditable(false);
     comboBox->setInsertPolicy(QComboBox::NoInsert);
     comboBox->setDuplicatesEnabled(false);
     comboBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
-    comboBox->addItem(QIcon(":/material/icons/unknown_med.svg"), CRHelper::toSexFullString(Competitor::Sex::UNDEFINED), CRHelper::toSexString(Competitor::Sex::UNDEFINED));
-    comboBox->addItem(QIcon(":/material/icons/male.svg"), CRHelper::toSexFullString(Competitor::Sex::MALE), CRHelper::toSexString(Competitor::Sex::MALE));
-    comboBox->addItem(QIcon(":/material/icons/female.svg"), CRHelper::toSexFullString(Competitor::Sex::FEMALE), CRHelper::toSexString(Competitor::Sex::FEMALE));
+    comboBox->addItem(QIcon(":/material/icons/unknown_med.svg"), CRHelper::toSexFullString(UNDEFINED), CRHelper::toSexString(UNDEFINED));
+    comboBox->addItem(QIcon(":/material/icons/male.svg"), CRHelper::toSexFullString(MALE), CRHelper::toSexString(MALE));
+    comboBox->addItem(QIcon(":/material/icons/female.svg"), CRHelper::toSexFullString(FEMALE), CRHelper::toSexString(FEMALE));
 }
 
 QWidget *CompetitorSexDelegate::createEditor(QWidget *parent, QStyleOptionViewItem const &option, QModelIndex const &index) const

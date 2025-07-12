@@ -15,13 +15,14 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CRHELPER_H
-#define CRHELPER_H
+#ifndef CRHELPER_HPP
+#define CRHELPER_HPP
 
 #include <QCoreApplication>
 #include <QString>
 
 #include "crloader.hpp"
+#include "chronoracedata.hpp"
 #include "competitor.hpp"
 #include "ranking.hpp"
 #include "category.hpp"
@@ -35,7 +36,13 @@ class CRHelper
 {
     Q_DECLARE_TR_FUNCTIONS(CRHelper)
 
+private:
+    static QWidget *parentWidget;
+
 public:
+    static ChronoRaceData::NameComposition nameComposition;
+    static ChronoRaceData::Accuracy accuracy;
+
     static QString encodingToLabel(QStringConverter::Encoding const &value);
     static QString formatToLabel(CRLoader::Format const &value);
 
@@ -54,12 +61,23 @@ public:
     static QString toRankingTypeString(Ranking::Type type);
     static QString toCategoryTypeString(Category::Type const type);
 
-    static QString toTimeString(uint const seconds, Timing::Status const status, char const *prefix = Q_NULLPTR);
+    static QString toTimeString(uint milliseconds, Timing::Status const status, char const *prefix = Q_NULLPTR);
+    static QString toTimeString(uint milliseconds, ChronoRaceData::Accuracy acc);
     static QString toTimeString(Timing const &timing);
 
     static Timing::Status toTimingStatus(QString const &status);
     static QString toStatusString(Timing::Status const status);
     static QString toStatusFullString(Timing::Status const status);
+
+    static bool askForAppend(QWidget *parent = Q_NULLPTR);
+
+    static void setParent(QWidget *newParent);
+
+public slots:
+    static void updateGlobalData(ChronoRaceData::NameComposition newNameComposition, ChronoRaceData::Accuracy newAccuracy);
+
+    static void actionAbout();
+    static void actionAboutQt();
 };
 
-#endif // CRHELPER_H
+#endif // CRHELPER_HPP

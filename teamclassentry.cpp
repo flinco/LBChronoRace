@@ -36,9 +36,10 @@ void TeamClassEntry::setClassEntry(ClassEntry *entry)
     if (this->entryList.isEmpty()) {
         this->club = entry->getClub();
     } else if (this->club.compare(entry->getClub()) != 0) {
-        throw(ChronoRaceException(tr("Unexpected club: expected %1 - found %2").arg(this->club, entry->getClub())));
+        throw(ChronoRaceException(tr("Invalid club: expected %1 - found %2").arg(this->club, entry->getClub())));
     }
     this->entryList.push_back(entry);
+    this->totaltime += entry->getTotalTime();
 }
 
 int TeamClassEntry::getClassEntryCount() const
@@ -46,36 +47,7 @@ int TeamClassEntry::getClassEntryCount() const
     return static_cast<int>(this->entryList.size());
 }
 
-bool TeamClassEntry::operator< (TeamClassEntry const &rhs)
+uint TeamClassEntry::getAverageTiming() const
 {
-    auto size = this->entryList.size();
-    if (size == rhs.entryList.size()) {
-        for (int i = 0; i < size; i++) {
-            if (*this->entryList[i] < *rhs.entryList.at(i)) return true;
-        }
-        return false;
-    }
-    return (size > rhs.entryList.size());
-}
-
-bool TeamClassEntry::operator> (TeamClassEntry const &rhs)
-{
-    auto size = this->entryList.size();
-    if (size == rhs.entryList.size()) {
-        for (int i = 0; i < size; i++) {
-            if (*this->entryList[i] > *rhs.entryList.at(i)) return true;
-        }
-        return false;
-    }
-    return (size < rhs.entryList.size());
-}
-
-bool TeamClassEntry::operator<=(TeamClassEntry const &rhs)
-{
-    return !(*this > rhs);
-}
-
-bool TeamClassEntry::operator>=(TeamClassEntry const &rhs)
-{
-    return !(*this < rhs);
+    return static_cast<uint>(this->totaltime / this->entryList.count());
 }

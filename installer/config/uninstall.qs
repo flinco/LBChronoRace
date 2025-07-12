@@ -2,7 +2,10 @@ function Controller() {
 }
 
 Controller.prototype.TargetDirectoryPageCallback = function() {
-    var uninstaller = installer.toNativeSeparators(installer.value("TargetDir") + "/maintenancetool.exe");
+    var targetDir = installer.value("TargetDir");
+    var uninstaller = installer.toNativeSeparators(targetDir + "/LBChronoRaceInstaller.exe");
+    if (!installer.fileExists(uninstaller))
+      uninstaller = installer.toNativeSeparators(targetDir + "/maintenancetool.exe");
     if (installer.fileExists(uninstaller)) {
         console.log("Try uninstalling previous version...");
         var isAdmin = installer.hasAdminRights();

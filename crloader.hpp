@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CRLOADER_H
-#define CRLOADER_H
+#ifndef CRLOADER_HPP
+#define CRLOADER_HPP
 
 #include <QCoreApplication>
 #include <QString>
@@ -60,6 +60,13 @@ public:
         TIMINGS
     };
 
+    enum class Action
+    {
+        BEGIN,
+        ADD,
+        END
+    };
+
 private:
     static StartListModel              startListModel;
     static TeamsListModel              teamsListModel;
@@ -78,17 +85,19 @@ private:
 public:
     static void saveRaceData(QDataStream &out);
     static void loadRaceData(QDataStream &in);
-    static QPair<int, int> importStartList(QString const &path);
+    static QPair<int, int> importStartList(QString const &path, bool append = false);
     static QList<Competitor> getStartList();
     static uint getStartListLegs();
     static void setStartListLegs(uint leg);
     static uint getStartListBibMax();
     static uint getStartListNameWidthMax();
     static uint getTeamNameWidthMax();
-    static void clearTimings();
-    static void addTiming(QString const &bib, QString const &timing);
+    static void addTiming(Action action, QString const &bib = QString(), QString const &timing = QString());
     static QList<Timing> const &getTimings();
-    static int importModel(Model model, QString const &path);
+    static int importTeams(QString const &path, bool append = false);
+    static int importCategories(QString const &path, bool append = false);
+    static int importRankings(QString const &path, bool append = false);
+    static int importTimings(QString const &path, bool append = false);
     static void exportModel(Model model, QString const &path);
     static QList<Ranking> const &getRankings();
     static QList<Category> const &getCategories();
@@ -105,4 +114,4 @@ public:
     static QStringList getClubs();
 };
 
-#endif // CRLOADER_H
+#endif // CRLOADER_HPP

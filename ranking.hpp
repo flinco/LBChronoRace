@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef RANKING_H
-#define RANKING_H
+#ifndef RANKING_HPP
+#define RANKING_HPP
 
 #include <QString>
 #include <QStringList>
@@ -60,8 +60,17 @@ public:
     Ranking() = default;
     explicit Ranking(QString const &team);
 
-    friend QDataStream &operator<<(QDataStream &out, Ranking const &ranking);
-    friend QDataStream &operator>>(QDataStream &in, Ranking &ranking);
+    QDataStream &rSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, Ranking const &data)
+    {
+        return data.rSerialize(out);
+    }
+
+    QDataStream &rDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, Ranking &data)
+    {
+        return data.rDeserialize(in);
+    }
 
     QString const &getFullDescription() const;
     void setFullDescription(QString const &newFullDescription);
@@ -77,10 +86,15 @@ public:
 
     bool includes(Category const *category) const;
 
-    bool operator<  (Ranking const &rhs) const;
-    bool operator>  (Ranking const &rhs) const;
-    bool operator<= (Ranking const &rhs) const;
-    bool operator>= (Ranking const &rhs) const;
+    friend auto operator<=>(Ranking const &lhs, Ranking const &rhs)
+    {
+        auto lIsTeam = lhs.isTeam();
+
+        if (lIsTeam == rhs.isTeam())
+            return std::strong_ordering::equivalent;
+
+        return (!lIsTeam) ? std::strong_ordering::less : std::strong_ordering::greater;
+    }
 };
 
 Ranking::Field &operator++(Ranking::Field &field);
@@ -101,4 +115,4 @@ public:
     bool operator() (Ranking const &lhs, Ranking const &rhs) const;
 };
 
-#endif // RANKING_H
+#endif // RANKING_HPP

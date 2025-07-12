@@ -15,12 +15,13 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef LBCHRONORACE_H
-#define LBCHRONORACE_H
+#ifndef LBCHRONORACE_HPP
+#define LBCHRONORACE_HPP
 
 #include <QGuiApplication>
 #include <QMainWindow>
 #include <QDir>
+#include <QString>
 #include <QScopedPointer>
 #include <QRegularExpression>
 
@@ -35,7 +36,12 @@
 #include "rankingcatsdelegate.hpp"
 #include "cattypedelegate.hpp"
 #include "timingstatusdelegate.hpp"
+#include "livetable.hpp"
+#include "recentraces.hpp"
 
+#ifndef LBCHRONORACE_ORGANIZATION
+#error "LBCHRONORACE_ORGANIZATION not set"
+#endif
 #ifndef LBCHRONORACE_NAME
 #error "LBCHRONORACE_NAME not set"
 #endif
@@ -53,43 +59,50 @@ constexpr uint LBCHRONORACE_BIN_FMT_v1 = 1u;
 constexpr uint LBCHRONORACE_BIN_FMT_v2 = 2u;
 constexpr uint LBCHRONORACE_BIN_FMT_v3 = 3u;
 constexpr uint LBCHRONORACE_BIN_FMT_v4 = 4u;
-#define LBCHRONORACE_BIN_FMT LBCHRONORACE_BIN_FMT_v4
+constexpr uint LBCHRONORACE_BIN_FMT_v5 = 5u;
+#define LBCHRONORACE_BIN_FMT LBCHRONORACE_BIN_FMT_v5
 
 class LBChronoRace : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    enum class fileNameField
+    {
+        CATEGORIES    = 0,
+        RANKINGS      = 1,
+        STARTLIST     = 2,
+        TEAMS         = 3,
+        TIMINGS       = 4,
+        NUM_OF_FIELDS = 5
+    };
+
     explicit LBChronoRace(QWidget *parent = Q_NULLPTR, QGuiApplication const *app = Q_NULLPTR);
 
     static QDir lastSelectedPath;
     static uint binFormat;
 
     static QRegularExpression csvFilter;
+    static QRegularExpression screenNameRegEx;
+
+protected:
+    bool event(QEvent *event) override;
 
 public slots:
     void initialize();
     void show(); //NOSONAR
     void resizeDialogs(QScreen const *screen);
 
-    void setCounterTeams(int count) const;
-    void setCounterCompetitors(int count) const;
-    void setCounterRankings(int count) const;
-    void setCounterCategories(int count) const;
-    void setCounterTimings(int count) const;
-
     void appendInfoMessage(QString const &message) const;
     void appendErrorMessage(QString const &message) const;
 
 private:
     QScopedPointer<Ui::LBChronoRace> ui { new Ui::LBChronoRace };
+    QScopedPointer<LiveTable> liveTable { new LiveTable };
+    QScopedPointer<RecentRaces> recentRaces { Q_NULLPTR };
 
     QString raceDataFileName { "" };
-    QString startListFileName;
-    QString timingsFileName;
-    QString rankingsFileName;
-    QString categoriesFileName;
-    QString teamsFileName;
+    QVector<QString> fileNames;
 
     ChronoRaceData raceInfo;
 
@@ -110,11 +123,12 @@ private:
 
     bool loadRaceFile(QString const &fileName);
 
-private slots:
-    void actionAbout();
-    void actionAboutQt();
+    void toggleLiveView();
 
+private slots:
+    void newRace();
     void loadRace();
+    void openRace(QString const &path);
     void saveRace();
     void saveRaceAs();
 
@@ -126,15 +140,16 @@ private slots:
     void makeRankings();
 
     void importStartList();
+    void importTeamsList();
     void importRankingsList();
     void importCategoriesList();
     void importTimingsList();
 
-    void exportStartList();
-    void exportTeamList();
-    void exportRankingsList();
-    void exportCategoriesList();
-    void exportTimingsList();
+    void exportList();
+
+    void screenRemoved(QScreen const *screen);
+    void screenAdded(QScreen const *screen);
+    void live(int index);
 };
 
-#endif // LBCHRONORACE_H
+#endif // LBCHRONORACE_HPP

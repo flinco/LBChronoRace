@@ -18,19 +18,22 @@
 #include <QLabel>
 
 #include "crloader.hpp"
-#include "rankingswizard.hpp"
-#include "rankingswizardformat.hpp"
+#include "wizards/rankingswizard.hpp"
+#include "wizards/rankingswizardformat.hpp"
 #include "crhelper.hpp"
 
 RankingsWizardFormat::RankingsWizardFormat(QWidget *parent) :
     QWizardPage(parent),
     fileFormat(parent),
-    fileEncoding(parent)
+    fileEncoding(parent),
+    fileOpen(parent)
 {
+    using enum CRLoader::Format;
+
     auto formatIdx = static_cast<int>(CRLoader::getFormat());
-    fileFormat.insertItem(static_cast<int>(CRLoader::Format::PDF), CRHelper::formatToLabel(CRLoader::Format::PDF));
-    fileFormat.insertItem(static_cast<int>(CRLoader::Format::TEXT), CRHelper::formatToLabel(CRLoader::Format::TEXT));
-    fileFormat.insertItem(static_cast<int>(CRLoader::Format::CSV), CRHelper::formatToLabel(CRLoader::Format::CSV));
+    fileFormat.insertItem(static_cast<int>(PDF), CRHelper::formatToLabel(PDF));
+    fileFormat.insertItem(static_cast<int>(TEXT), CRHelper::formatToLabel(TEXT));
+    fileFormat.insertItem(static_cast<int>(CSV), CRHelper::formatToLabel(CSV));
     fileFormat.setCurrentIndex(formatIdx);
     layout.addRow(new QLabel(tr("Format")), &fileFormat);
 
@@ -39,9 +42,14 @@ RankingsWizardFormat::RankingsWizardFormat(QWidget *parent) :
     fileEncoding.setCurrentText(CRHelper::encodingToLabel(CRLoader::getEncoding()));
     layout.addRow(new QLabel(tr("Encoding")), &fileEncoding);
 
+    fileOpen.setCheckState(Qt::CheckState::Checked);
+    layout.addRow(new QLabel(tr("Open file after\npublishing")), &fileOpen);
+    layout.setAlignment(&fileOpen, Qt::AlignmentFlag::AlignLeft | Qt::AlignmentFlag::AlignVCenter);
+
     formatChange(formatIdx);
     connect(&fileFormat, &QComboBox::currentIndexChanged, this, &RankingsWizardFormat::formatChange);
     connect(&fileEncoding, &QComboBox::currentIndexChanged, this, &RankingsWizardFormat::encodingChange);
+    connect(&fileOpen, &QCheckBox::checkStateChanged, this, &RankingsWizardFormat::openChange);
 
     setLayout(&layout);
 }
@@ -74,25 +82,32 @@ int RankingsWizardFormat::nextId() const
 void RankingsWizardFormat::formatChange(int index)
 {
     switch (index) {
-    case static_cast<int>(CRLoader::Format::PDF):
-        fileEncoding.setEnabled(false);
-        CRLoader::setFormat(CRLoader::Format::PDF);
-        break;
-    case static_cast<int>(CRLoader::Format::TEXT):
-        fileEncoding.setEnabled(true);
-        CRLoader::setFormat(CRLoader::Format::TEXT);
-        break;
-    case static_cast<int>(CRLoader::Format::CSV):
-        fileEncoding.setEnabled(true);
-        CRLoader::setFormat(CRLoader::Format::CSV);
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
+        using enum CRLoader::Format;
+
+        case static_cast<int>(PDF):
+            fileEncoding.setEnabled(false);
+            CRLoader::setFormat(PDF);
+            break;
+        case static_cast<int>(TEXT):
+            fileEncoding.setEnabled(true);
+            CRLoader::setFormat(TEXT);
+            break;
+        case static_cast<int>(CSV):
+            fileEncoding.setEnabled(true);
+            CRLoader::setFormat(CSV);
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
     }
 }
 
 void RankingsWizardFormat::encodingChange(int index) const
 {
     CRLoader::setEncoding(fileEncoding.itemData(index, Qt::UserRole).value<QStringConverter::Encoding>());
+}
+
+void RankingsWizardFormat::openChange(Qt::CheckState state)
+{
+    emit notifyOpenChange(state == Qt::CheckState::Checked);
 }

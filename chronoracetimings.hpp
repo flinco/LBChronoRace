@@ -15,13 +15,17 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CHRONORACETIMINGS_H
-#define CHRONORACETIMINGS_H
+#ifndef CHRONORACETIMINGS_HPP
+#define CHRONORACETIMINGS_HPP
 
 #include <QDialog>
 #include <QTimerEvent>
 #include <QElapsedTimer>
 #include <QThread>
+#include <QGuiApplication>
+#include <QRegularExpression>
+
+#include "livetable.hpp"
 
 #include "ui_chronoracetimings.h"
 
@@ -48,6 +52,8 @@ class ChronoRaceTimings : public QDialog
 public:
     explicit ChronoRaceTimings(QWidget *parent = Q_NULLPTR);
 
+    void setLiveTable(LiveTable *newLiveTable);
+
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
     void timerEvent(QTimerEvent *event) override;
@@ -59,13 +65,19 @@ public slots:
 
     void clearDiskBuffer();
 
+    void addTimeSpan();
+    void subtractTimeSpan();
+    void applyTimeSpan(int offset);
+
 signals:
-    void newTimingsCount(int count);
-    void saveToDisk(QString const &buffer);
-    void error(QString const &message);
+    void saveToDisk(QString const &);
+    void info(QString const &);
+    void error(QString const &);
 
 private:
     QScopedPointer<Ui::ChronoRaceTimings> ui { new Ui::ChronoRaceTimings };
+
+    LiveTable *liveTable { Q_NULLPTR };
 
     int            timingRowCount { 0 };
 
@@ -81,7 +93,7 @@ private:
 
     void updateCurrentBibItem(QTableWidgetItem *newBibItem);
 
-    void recordTiming(qint64 seconds);
+    void recordTiming(qint64 milliseconds);
     void deleteTiming();
     void deleteBib();
 
@@ -99,9 +111,9 @@ private slots:
     void start();
     void stop();
     void reset();
-    void lock(bool checked);
+    void lock(int value);
 
     void bibClicked(QTableWidgetItem *item);
 };
 
-#endif // CHRONORACETIMINGS_H
+#endif // CHRONORACETIMINGS_HPP

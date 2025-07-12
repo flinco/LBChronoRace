@@ -34,7 +34,7 @@ ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
     QObject::connect(ui->modelImport, &QPushButton::clicked, this, &ChronoRaceTable::modelImport);
     QObject::connect(ui->modelExport, &QPushButton::clicked, this, &ChronoRaceTable::modelExport);
     QObject::connect(ui->dialogSave, &QPushButton::clicked, this, &ChronoRaceTable::saveRaceData);
-    QObject::connect(ui->dialogQuit, &QPushButton::clicked, this, &ChronoRaceTable::dialogQuit);
+    QObject::connect(ui->dialogQuit, &QPushButton::clicked, this, &ChronoRaceTable::close);
 }
 
 QAbstractTableModel *ChronoRaceTable::getModel() const
@@ -54,8 +54,8 @@ void ChronoRaceTable::disableButtons() const
     ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->rowAdd->setEnabled(false);
     ui->rowDel->setEnabled(false);
-    ui->modelImport->setEnabled(false);
-    //ui->modelExport->setEnabled(false); //NOSONAR
+    //NOSONAR ui->modelImport->setEnabled(false);
+    //NOSONAR ui->modelExport->setEnabled(false);
 }
 
 void ChronoRaceTable::setItemDelegateForColumn(int column, QAbstractItemDelegate *delegate)
@@ -115,12 +115,6 @@ void ChronoRaceTable::modelExport()
                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes) == QMessageBox::Yes) {
         emit modelExported();
     }
-}
-
-void ChronoRaceTable::dialogQuit()
-{
-    emit newRowCount(ui->tableView->model()->rowCount());
-    this->close();
 }
 
 void ChronoRaceTable::dialogSave()

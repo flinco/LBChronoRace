@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef TEAMCLASSENTRY_H
-#define TEAMCLASSENTRY_H
+#ifndef TEAMCLASSENTRY_HPP
+#define TEAMCLASSENTRY_HPP
 
 #include "classentry.hpp"
 
@@ -32,16 +32,28 @@ private:
     QString               club { "" };
     QVector<ClassEntry *> entryList { };
 
+    quint64 totaltime { Q_UINT64_C(0) };
+
 public:
     QString const &getClub() const;
     ClassEntry *getClassEntry(int index) const;
     void setClassEntry(ClassEntry *entry);
     int getClassEntryCount() const;
+    uint getAverageTiming() const;
 
-    bool operator< (TeamClassEntry const &rhs);
-    bool operator> (TeamClassEntry const &rhs);
-    bool operator<=(TeamClassEntry const &rhs);
-    bool operator>=(TeamClassEntry const &rhs);
+    friend auto operator<=>(TeamClassEntry const &lhs, TeamClassEntry const &rhs)
+    {
+        auto lsize = lhs.entryList.size();
+        auto rsize = rhs.entryList.size();
+        if (lsize == rsize) {
+            //NOSONAR for (int i = 0; i < lsize; i++) {
+            //NOSONAR     if (*lhs.entryList[i] < *rhs.entryList.at(i)) return true;
+            //NOSONAR }
+            //NOSONAR return false;
+            return (lhs.getAverageTiming() <=> rhs.getAverageTiming());
+        }
+        return (rsize <=> lsize);
+    }
 };
 
-#endif // TEAMCLASSENTRY_H
+#endif // TEAMCLASSENTRY_HPP

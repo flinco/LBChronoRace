@@ -24,158 +24,32 @@
    <iconset>
     <normaloff>:/LBChronoRace.ico</normaloff>:/LBChronoRace.ico</iconset>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="9" column="0">
-    <widget class="QPushButton" name="removeSponsorLogo1">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="1,1,1,1,1,1,1,1">
+   <item row="2" column="1" colspan="3">
+    <widget class="QLineEdit" name="referee">
      <property name="toolTip">
-      <string>Remove the first sponsor logo (from the bottom of the PDF)</string>
+      <string>The name of the race referee (optional)</string>
      </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLineEdit" name="length">
+     <property name="toolTip">
+      <string>The length of the race (optional)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="4">
+    <widget class="QLabel" name="labelDate">
      <property name="text">
-      <string>Remove 1st sponsor</string>
+      <string>Date</string>
      </property>
-     <property name="icon">
-      <iconset resource="materialicons.qrc">
-       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0" rowspan="2">
-    <spacer name="logosSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="labelEvent">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Event</string>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="5" column="7">
-    <widget class="QComboBox" name="results">
-     <property name="toolTip">
-      <string>A small label at the bottom of the rankings</string>
-     </property>
-     <item>
-      <property name="text">
-       <string>Unofficial</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Official</string>
-      </property>
-     </item>
-    </widget>
-   </item>
-   <item row="5" column="1" colspan="3">
-    <widget class="QLineEdit" name="timeKeeper3">
-     <property name="toolTip">
-      <string>The name of the third timekeeper (optional)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="7" rowspan="4">
-    <widget class="QLabel" name="sponsorLogo4">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="toolTip">
-      <string>Fourth sponsor logo (at the bottom of the PDF)</string>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="text">
-      <string>Sponsor 4 not loaded</string>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1" colspan="3">
-    <widget class="QLineEdit" name="timeKeeper1">
-     <property name="toolTip">
-      <string>The name of the first timekeeper (optional)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1" colspan="3">
-    <widget class="QLineEdit" name="timeKeeper2">
-     <property name="toolTip">
-      <string>The name of the second timekeeper (optional)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="5" rowspan="4">
-    <widget class="QLabel" name="leftLogo">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="toolTip">
-      <string>The logo in the upper left corner of the PDF</string>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="text">
-      <string>Logo 1 not loaded</string>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="6">
-    <widget class="QPushButton" name="loadSponsorLogo4">
-     <property name="toolTip">
-      <string>Add the fourth sponsor logo (at the bottom of the PDF)</string>
-     </property>
-     <property name="text">
-      <string>Load 4th sponsor</string>
-     </property>
-     <property name="icon">
-      <iconset resource="materialicons.qrc">
-       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="6">
-    <widget class="QPushButton" name="removeSponsorLogo4">
-     <property name="toolTip">
-      <string>Remove the fourth sponsor logo (from the bottom of the PDF)</string>
-     </property>
-     <property name="text">
-      <string>Remove 4th sponsor</string>
-     </property>
-     <property name="icon">
-      <iconset resource="materialicons.qrc">
-       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="1" rowspan="4">
+   <item row="8" column="1" rowspan="6">
     <widget class="QLabel" name="sponsorLogo1">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
@@ -187,7 +61,7 @@
       <string>First sponsor logo (at the bottom of the PDF)</string>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::Shape::Box</enum>
      </property>
      <property name="text">
       <string>Sponsor 1 not loaded</string>
@@ -197,27 +71,46 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="labelTimekeeper3">
-     <property name="text">
-      <string>Timekeeper 3</string>
-     </property>
-    </widget>
-   </item>
-   <item row="14" column="0" colspan="8">
-    <widget class="QDialogButtonBox" name="buttonBox">
+   <item row="12" column="0" rowspan="2">
+    <spacer name="logosSpacer">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="6" column="4">
+    <widget class="QLabel" name="labelNameComposition">
+     <property name="text">
+      <string>Competitor</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" colspan="3">
-    <widget class="QLineEdit" name="place">
-     <property name="toolTip">
-      <string>Where the event takes place, used as subtitle in the rankings</string>
+   <item row="6" column="0">
+    <widget class="QLabel" name="labelLength">
+     <property name="text">
+      <string>Length</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="labelOrganization">
+     <property name="text">
+      <string>Organization</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTop|Qt::AlignmentFlag::AlignTrailing</set>
      </property>
     </widget>
    </item>
@@ -243,134 +136,13 @@
      </item>
     </widget>
    </item>
-   <item row="8" column="0">
-    <widget class="QPushButton" name="loadSponsorLogo1">
-     <property name="toolTip">
-      <string>Add the first sponsor logo (at the bottom of the PDF)</string>
-     </property>
+   <item row="5" column="6">
+    <widget class="QLabel" name="labelResults">
      <property name="text">
-      <string>Load 1st sponsor</string>
+      <string>Results</string>
      </property>
-     <property name="icon">
-      <iconset resource="materialicons.qrc">
-       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="4">
-    <widget class="QPushButton" name="removeSponsorLogo3">
-     <property name="toolTip">
-      <string>Remove the third sponsor logo (from the bottom of the PDF)</string>
-     </property>
-     <property name="text">
-      <string>Remove 3rd sponsor</string>
-     </property>
-     <property name="icon">
-      <iconset resource="materialicons.qrc">
-       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="labelTimekeeper1">
-     <property name="text">
-      <string>Timekeeper 1</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="2">
-    <widget class="QPushButton" name="removeSponsorLogo2">
-     <property name="toolTip">
-      <string>Remove the second sponsor logo (from the bottom of the PDF)</string>
-     </property>
-     <property name="text">
-      <string>Remove 2nd sponsor</string>
-     </property>
-     <property name="icon">
-      <iconset resource="materialicons.qrc">
-       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="7">
-    <widget class="QTimeEdit" name="startTime">
-     <property name="toolTip">
-      <string>What time the event starts (important if Race Type is set to 'Timed race')</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="5">
-    <widget class="QDateEdit" name="date">
-     <property name="toolTip">
-      <string>When the event takes place</string>
-     </property>
-     <property name="displayFormat">
-      <string>dd/MM/yyyy</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="4">
-    <widget class="QPushButton" name="loadSponsorLogo3">
-     <property name="toolTip">
-      <string>Add the third sponsor logo (at the bottom of the PDF)</string>
-     </property>
-     <property name="text">
-      <string>Load 3rd sponsor</string>
-     </property>
-     <property name="icon">
-      <iconset resource="materialicons.qrc">
-       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="4">
-    <widget class="QLabel" name="labelDate">
-     <property name="text">
-      <string>Date</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="3" rowspan="4">
-    <widget class="QLabel" name="sponsorLogo2">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="toolTip">
-      <string>Second sponsor logo (at the bottom of the PDF)</string>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="text">
-      <string>Sponsor 2 not loaded</string>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="5" rowspan="4">
-    <widget class="QLabel" name="sponsorLogo3">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="toolTip">
-      <string>Third sponsor logo (at the bottom of the PDF)</string>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="text">
-      <string>Sponsor 3 not loaded</string>
-     </property>
-     <property name="scaledContents">
-      <bool>true</bool>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
     </widget>
    </item>
@@ -386,7 +158,7 @@
       <string>The logo in the upper right corner of the PDF</string>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::Shape::Box</enum>
      </property>
      <property name="text">
       <string>Logo 2 not loaded</string>
@@ -396,27 +168,163 @@
      </property>
     </widget>
    </item>
+   <item row="6" column="5">
+    <widget class="QComboBox" name="nameComposition">
+     <property name="toolTip">
+      <string>How the name of the competitor is built</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Surname Name</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Name Surname</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Surname (only)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Name (only)</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="6" column="7">
+    <widget class="QComboBox" name="accuracy">
+     <property name="toolTip">
+      <string>How accurate the timings will be</string>
+     </property>
+     <property name="currentText">
+      <string notr="true">h:mm:ss</string>
+     </property>
+     <item>
+      <property name="text">
+       <string notr="true">h:mm:ss</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">h:mm:ss.d</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">h:mm:ss.cc</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">h:mm:ss.mmm</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="14" column="0" colspan="8">
+    <spacer name="bottomSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="6">
+    <widget class="QLabel" name="labelStartTime">
+     <property name="text">
+      <string>Start Time</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelPlace">
+     <property name="text">
+      <string>Place</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelEvent">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Event name</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="4">
+    <widget class="QLabel" name="labelRaceType">
+     <property name="text">
+      <string>Race Type</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="labelTimekeeper1">
+     <property name="text">
+      <string>Timekeeper 1</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="0">
     <widget class="QLabel" name="labelReferee">
      <property name="text">
       <string>Referee</string>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
     </widget>
    </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="labelOrganization">
+   <item row="6" column="6">
+    <widget class="QLabel" name="labelAccuracy">
      <property name="text">
-      <string>Organization</string>
+      <string>Accuracy</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="2" column="1" colspan="3">
-    <widget class="QLineEdit" name="referee">
+   <item row="11" column="6">
+    <widget class="QPushButton" name="removeSponsorLogo4">
      <property name="toolTip">
-      <string>The name of the race referee (optional)</string>
+      <string>Remove the fourth sponsor logo (from the bottom of the PDF)</string>
+     </property>
+     <property name="text">
+      <string>Remove</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
      </property>
     </widget>
    </item>
@@ -427,135 +335,34 @@
      </property>
     </widget>
    </item>
-   <item row="12" column="0" colspan="8">
-    <spacer name="bottomSpacer">
+   <item row="6" column="3">
+    <widget class="QLineEdit" name="elevationGain">
+     <property name="toolTip">
+      <string>The elevation gain of the race course (optional)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="3">
+    <widget class="QLineEdit" name="place">
+     <property name="toolTip">
+      <string>Where the event takes place, used as subtitle in the rankings</string>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="0" colspan="8">
+    <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="labelTimekeeper2">
-     <property name="text">
-      <string>Timekeeper 2</string>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
      </property>
     </widget>
    </item>
-   <item row="0" column="6">
-    <widget class="QPushButton" name="loadRightLogo">
+   <item row="4" column="7">
+    <widget class="QTimeEdit" name="startTime">
      <property name="toolTip">
-      <string>Add the logo in the upper right corner of the PDF</string>
-     </property>
-     <property name="text">
-      <string>Load 2nd logo</string>
-     </property>
-     <property name="icon">
-      <iconset resource="materialicons.qrc">
-       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="2">
-    <widget class="QPushButton" name="loadSponsorLogo2">
-     <property name="toolTip">
-      <string>Add the second sponsor logo (at the bottom of the PDF)</string>
-     </property>
-     <property name="text">
-      <string>Load 2nd sponsor</string>
-     </property>
-     <property name="icon">
-      <iconset resource="materialicons.qrc">
-       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="4">
-    <widget class="QPushButton" name="removeLeftLogo">
-     <property name="toolTip">
-      <string>Removes the logo from the upper left corner of the PDF</string>
-     </property>
-     <property name="text">
-      <string>Remove 1st logo</string>
-     </property>
-     <property name="icon">
-      <iconset resource="materialicons.qrc">
-       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="labelPlace">
-     <property name="text">
-      <string>Place</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="4">
-    <widget class="QPushButton" name="loadLeftLogo">
-     <property name="toolTip">
-      <string>Add a logo in the upper left corner of the PDF</string>
-     </property>
-     <property name="text">
-      <string>Load 1st logo</string>
-     </property>
-     <property name="icon">
-      <iconset resource="materialicons.qrc">
-       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="6">
-    <widget class="QPushButton" name="removeRightLogo">
-     <property name="toolTip">
-      <string>Removes the logo from the upper right corner of the PDF</string>
-     </property>
-     <property name="text">
-      <string>Remove 2nd logo</string>
-     </property>
-     <property name="icon">
-      <iconset resource="materialicons.qrc">
-       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="labelLength">
-     <property name="text">
-      <string>Lenght</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="4">
-    <widget class="QLabel" name="labelRaceType">
-     <property name="text">
-      <string>Race Type</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="4">
-    <widget class="QLabel" name="labelElevationGain">
-     <property name="text">
-      <string>Elevation Gain</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="6">
-    <widget class="QLabel" name="labelStartTime">
-     <property name="text">
-      <string>Start Time</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="6">
-    <widget class="QLabel" name="labelResults">
-     <property name="text">
-      <string>Results</string>
+      <string>What time the event starts (important if Race Type is set to 'Timed race')</string>
      </property>
     </widget>
    </item>
@@ -566,17 +373,383 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="1" colspan="3">
-    <widget class="QLineEdit" name="length">
+   <item row="11" column="0">
+    <widget class="QPushButton" name="removeSponsorLogo1">
      <property name="toolTip">
-      <string>The length of the race (optional)</string>
+      <string>Remove the first sponsor logo (from the bottom of the PDF)</string>
+     </property>
+     <property name="text">
+      <string>Remove</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
      </property>
     </widget>
    </item>
-   <item row="6" column="5" colspan="3">
-    <widget class="QLineEdit" name="elevationGain">
+   <item row="8" column="3" rowspan="6">
+    <widget class="QLabel" name="sponsorLogo2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="toolTip">
-      <string>The elevation gain of the race course (optional)</string>
+      <string>Second sponsor logo (at the bottom of the PDF)</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::Box</enum>
+     </property>
+     <property name="text">
+      <string>Sponsor 2 not loaded</string>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="7">
+    <widget class="QComboBox" name="results">
+     <property name="toolTip">
+      <string>A small label at the bottom of the rankings</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Unofficial</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Official</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="8" column="7" rowspan="6">
+    <widget class="QLabel" name="sponsorLogo4">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>Fourth sponsor logo (at the bottom of the PDF)</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::Box</enum>
+     </property>
+     <property name="text">
+      <string>Sponsor 4 not loaded</string>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="labelTimekeeper2">
+     <property name="text">
+      <string>Timekeeper 2</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="2">
+    <widget class="QPushButton" name="removeSponsorLogo2">
+     <property name="toolTip">
+      <string>Remove the second sponsor logo (from the bottom of the PDF)</string>
+     </property>
+     <property name="text">
+      <string>Remove</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="5" rowspan="4">
+    <widget class="QLabel" name="leftLogo">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>The logo in the upper left corner of the PDF</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::Box</enum>
+     </property>
+     <property name="text">
+      <string>Logo 1 not loaded</string>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="2">
+    <widget class="QLabel" name="labelElevationGain">
+     <property name="text">
+      <string>Elevation Gain</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1" colspan="3">
+    <widget class="QLineEdit" name="timeKeeper2">
+     <property name="toolTip">
+      <string>The name of the second timekeeper (optional)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="4">
+    <widget class="QPushButton" name="removeSponsorLogo3">
+     <property name="toolTip">
+      <string>Remove the third sponsor logo (from the bottom of the PDF)</string>
+     </property>
+     <property name="text">
+      <string>Remove</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="5" rowspan="6">
+    <widget class="QLabel" name="sponsorLogo3">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>Third sponsor logo (at the bottom of the PDF)</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::Box</enum>
+     </property>
+     <property name="text">
+      <string>Sponsor 3 not loaded</string>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="3">
+    <widget class="QLineEdit" name="timeKeeper1">
+     <property name="toolTip">
+      <string>The name of the first timekeeper (optional)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1" colspan="3">
+    <widget class="QLineEdit" name="timeKeeper3">
+     <property name="toolTip">
+      <string>The name of the third timekeeper (optional)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="labelTimekeeper3">
+     <property name="text">
+      <string>Timekeeper 3</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="5">
+    <widget class="QDateEdit" name="date">
+     <property name="toolTip">
+      <string>When the event takes place</string>
+     </property>
+     <property name="displayFormat">
+      <string>dd/MM/yyyy</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="6">
+    <widget class="QPushButton" name="loadSponsorLogo4">
+     <property name="toolTip">
+      <string>Add the fourth sponsor logo (at the bottom of the PDF)</string>
+     </property>
+     <property name="text">
+      <string>Load</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="4">
+    <widget class="QPushButton" name="loadSponsorLogo3">
+     <property name="toolTip">
+      <string>Add the third sponsor logo (at the bottom of the PDF)</string>
+     </property>
+     <property name="text">
+      <string>Load</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="2">
+    <widget class="QPushButton" name="loadSponsorLogo2">
+     <property name="toolTip">
+      <string>Add the second sponsor logo (at the bottom of the PDF)</string>
+     </property>
+     <property name="text">
+      <string>Load</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <widget class="QPushButton" name="loadSponsorLogo1">
+     <property name="toolTip">
+      <string>Add the first sponsor logo (at the bottom of the PDF)</string>
+     </property>
+     <property name="text">
+      <string>Load</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>1st sponsor logo</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="2">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>2nd sponsor logo</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="4">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>3rd sponsor logo</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="6">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>4th sponsor logo</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="4">
+    <widget class="QPushButton" name="removeLeftLogo">
+     <property name="toolTip">
+      <string>Removes the logo from the upper left corner of the PDF</string>
+     </property>
+     <property name="text">
+      <string>Remove</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4">
+    <widget class="QPushButton" name="loadLeftLogo">
+     <property name="toolTip">
+      <string>Add a logo in the upper left corner of the PDF</string>
+     </property>
+     <property name="text">
+      <string>Load</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="6">
+    <widget class="QPushButton" name="removeRightLogo">
+     <property name="toolTip">
+      <string>Removes the logo from the upper right corner of the PDF</string>
+     </property>
+     <property name="text">
+      <string>Remove</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/hide_image.svg</normaloff>:/material/icons/hide_image.svg</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="6">
+    <widget class="QPushButton" name="loadRightLogo">
+     <property name="toolTip">
+      <string>Add a logo in the upper right corner of the PDF</string>
+     </property>
+     <property name="text">
+      <string>Load</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/add_photo_alternate.svg</normaloff>:/material/icons/add_photo_alternate.svg</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Top left logo</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="6">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Top right logo</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
     </widget>
    </item>
@@ -585,10 +758,6 @@
  <tabstops>
   <tabstop>event</tabstop>
   <tabstop>place</tabstop>
-  <tabstop>loadLeftLogo</tabstop>
-  <tabstop>removeLeftLogo</tabstop>
-  <tabstop>loadRightLogo</tabstop>
-  <tabstop>removeRightLogo</tabstop>
   <tabstop>referee</tabstop>
   <tabstop>timeKeeper1</tabstop>
   <tabstop>timeKeeper2</tabstop>
@@ -599,15 +768,9 @@
   <tabstop>results</tabstop>
   <tabstop>length</tabstop>
   <tabstop>elevationGain</tabstop>
+  <tabstop>nameComposition</tabstop>
+  <tabstop>accuracy</tabstop>
   <tabstop>organization</tabstop>
-  <tabstop>loadSponsorLogo1</tabstop>
-  <tabstop>removeSponsorLogo1</tabstop>
-  <tabstop>loadSponsorLogo2</tabstop>
-  <tabstop>removeSponsorLogo2</tabstop>
-  <tabstop>loadSponsorLogo3</tabstop>
-  <tabstop>removeSponsorLogo3</tabstop>
-  <tabstop>loadSponsorLogo4</tabstop>
-  <tabstop>removeSponsorLogo4</tabstop>
  </tabstops>
  <resources>
   <include location="materialicons.qrc"/>

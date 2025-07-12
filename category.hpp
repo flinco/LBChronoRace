@@ -15,8 +15,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CATEGORY_H
-#define CATEGORY_H
+#ifndef CATEGORY_HPP
+#define CATEGORY_HPP
+
+#include <version>
 
 #include <QCoreApplication>
 #include <QDataStream>
@@ -47,43 +49,68 @@ public:
         CTF_TYPE        = 2,
         CTF_FROM_YEAR   = 3,
         CTF_TO_YEAR     = 4,
-        CTF_LAST        = 4,
-        CTF_COUNT       = 5
+        CTF_FROM_BIB    = 5,
+        CTF_TO_BIB      = 6,
+        CTF_LAST        = 6,
+        CTF_COUNT       = 7
     };
 
 private:
     Type type { Type::MALE };
     uint toYear { 0u };
     uint fromYear { 0u };
+    uint toBib { 0u };
+    uint fromBib { 0u };
     QString fullDescription { "" };
     QString shortDescription { "" };
-
-    void illegalType(quint32 value) const;
 
 public:
     Category() = default;
 
-    friend QDataStream &operator<<(QDataStream &out, Category const &category);
-    friend QDataStream &operator>>(QDataStream &in, Category &category);
+    QDataStream &cSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, Category const &data)
+    {
+        return data.cSerialize(out);
+    }
 
-    uint getFromYear() const;
-    void setFromYear(uint newFromYear);
+    QDataStream &cDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, Category &data)
+    {
+        return data.cDeserialize(in);
+    }
+
     QString const &getFullDescription() const;
     void setFullDescription(QString const &newFullDescription);
     Type getType() const;
     void setType(Type const newType);
     QString const &getShortDescription() const;
     void setShortDescription(QString const &newShortDescription);
+    uint getFromYear() const;
+    void setFromYear(uint newFromYear);
     uint getToYear() const;
     void setToYear(unsigned int newToYear);
+    uint getFromBib() const;
+    void setFromBib(uint newFromBib);
+    uint getToBib() const;
+    void setToBib(unsigned int newToBib);
     uint getWeight() const;
     bool isValid() const;
 
-    bool operator<  (Category const &rhs) const;
-    bool operator>  (Category const &rhs) const;
-    bool operator<= (Category const &rhs) const;
-    bool operator>= (Category const &rhs) const;
-    bool operator== (Category const &rhs) const;
+    friend auto operator<=>(Category const &lhs, Category const &rhs)
+    {
+        /* Workaround for MacOS Xcode */
+#if defined(__cpp_impl_three_way_comparison) && !defined(__cpp_lib_three_way_comparison)
+        return compareThreeWay(lhs.getFullDescription(), rhs.getFullDescription());
+#else
+        return (lhs.getFullDescription() <=> rhs.getFullDescription());
+#endif
+    }
+
+    friend auto operator==(Category const &lhs, Category const &rhs)
+    {
+        return ((lhs.getFullDescription() == rhs.getFullDescription())
+                && (lhs.getShortDescription() == rhs.getShortDescription()));
+    }
 };
 
 Category::Field &operator++(Category::Field &field);
@@ -104,4 +131,4 @@ public:
     bool operator() (Category const &lhs, Category const &rhs) const;
 };
 
-#endif // CATEGORY_H
+#endif // CATEGORY_HPP

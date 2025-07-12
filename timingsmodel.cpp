@@ -22,16 +22,14 @@
 #include "lbcrexception.hpp"
 #include "crhelper.hpp"
 
-QDataStream &operator<<(QDataStream &out, TimingsModel const  &data)
-{
-    out << data.timings;
+QDataStream &TimingsModel::tmSerialize(QDataStream &out) const{
+    out << this->timings;
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, TimingsModel &data)
-{
-    in >> data.timings;
+QDataStream &TimingsModel::tmDeserialize(QDataStream &in){
+    in >> this->timings;
 
     return in;
 }
@@ -43,7 +41,6 @@ void TimingsModel::refreshCounters(int r)
 
 int TimingsModel::rowCount(QModelIndex const &parent) const
 {
-
     Q_UNUSED(parent)
 
     return static_cast<int>(timings.count());
@@ -51,7 +48,6 @@ int TimingsModel::rowCount(QModelIndex const &parent) const
 
 int TimingsModel::columnCount(QModelIndex const &parent) const
 {
-
     Q_UNUSED(parent)
 
     return static_cast<int>(Timing::Field::TMF_COUNT);
@@ -67,29 +63,33 @@ QVariant TimingsModel::data(QModelIndex const &index, int role) const
 
     if ((role == Qt::DisplayRole) || (role == Qt::EditRole))
         switch (index.column()) {
-        case static_cast<int>(Timing::Field::TMF_BIB):
-            return QVariant(timings.at(index.row()).getBib());
-        case static_cast<int>(Timing::Field::TMF_LEG):
-            return QVariant(timings.at(index.row()).getLeg());
-        case static_cast<int>(Timing::Field::TMF_TIME):
-            return QVariant(timings.at(index.row()).getTiming());
-        case static_cast<int>(Timing::Field::TMF_STATUS):
-            return QVariant(CRHelper::toStatusString(timings.at(index.row()).getStatus()));
-        default:
-            return QVariant();
+            using enum Timing::Field;
+
+            case static_cast<int>(TMF_BIB):
+                return QVariant(timings.at(index.row()).getBib());
+            case static_cast<int>(TMF_LEG):
+                return QVariant(timings.at(index.row()).getLeg());
+            case static_cast<int>(TMF_TIME):
+                return QVariant(timings.at(index.row()).getTiming());
+            case static_cast<int>(TMF_STATUS):
+                return QVariant(CRHelper::toStatusString(timings.at(index.row()).getStatus()));
+            default:
+                return QVariant();
         }
     else if (role == Qt::ToolTipRole)
         switch (index.column()) {
-        case static_cast<int>(Timing::Field::TMF_BIB):
-            return QVariant(tr("Bib number (not 0)"));
-        case static_cast<int>(Timing::Field::TMF_LEG):
-            return QVariant(tr("Leg number (0 for automatic detection)"));
-        case static_cast<int>(Timing::Field::TMF_TIME):
-            return QVariant(tr("Timing (i.e. 0:45:23)"));
-        case static_cast<int>(Timing::Field::TMF_STATUS):
-            return QVariant(tr("Classified (CLS), Disqualified (DSQ), Did not finish (DNF), or Did not start (DNS)"));
-        default:
-            return QVariant();
+            using enum Timing::Field;
+
+            case static_cast<int>(TMF_BIB):
+                return QVariant(tr("Bib number (not 0)"));
+            case static_cast<int>(TMF_LEG):
+                return QVariant(tr("Leg number (0 for automatic detection)"));
+            case static_cast<int>(TMF_TIME):
+                return QVariant(tr("Timing (i.e. 0:45:23)"));
+            case static_cast<int>(TMF_STATUS):
+                return QVariant(tr("Classified (CLS), Disqualified (DSQ), Did not finish (DNF), or Did not start (DNS)"));
+            default:
+                return QVariant();
         }
     else
         return QVariant();
@@ -110,38 +110,40 @@ bool TimingsModel::setData(QModelIndex const &index, QVariant const &value, int 
 
     uint uval;
     switch (index.column()) {
-    case static_cast<int>(Timing::Field::TMF_BIB):
-        uval = value.toUInt(&retval);
-        if (retval && uval)
-            timings[index.row()].setBib(uval);
-        else
-            retval = false;
-        break;
-    case static_cast<int>(Timing::Field::TMF_LEG):
-        uval = value.toUInt(&retval);
-        if (retval)
-            timings[index.row()].setLeg(uval);
-        break;
-    case static_cast<int>(Timing::Field::TMF_TIME):
-        try {
-            timings[index.row()].setTiming(value.toString().trimmed());
-            retval = true;
-        } catch (ChronoRaceException &e) {
-            emit error(e.getMessage());
-            retval = false;
-        }
-        break;
-    case static_cast<int>(Timing::Field::TMF_STATUS):
-        try {
-            timings[index.row()].setStatus(value.toString().trimmed());
-            retval = true;
-        } catch (ChronoRaceException &e) {
-            emit error(e.getMessage());
-            retval = false;
-        }
-        break;
-    default:
-        break;
+        using enum Timing::Field;
+
+        case static_cast<int>(TMF_BIB):
+            uval = value.toUInt(&retval);
+            if (retval && uval)
+                timings[index.row()].setBib(uval);
+            else
+                retval = false;
+            break;
+        case static_cast<int>(TMF_LEG):
+            uval = value.toUInt(&retval);
+            if (retval)
+               timings[index.row()].setLeg(uval);
+           break;
+        case static_cast<int>(TMF_TIME):
+            try {
+                timings[index.row()].setTiming(value.toString().trimmed());
+                retval = true;
+            } catch (ChronoRaceException &e) {
+                emit error(e.getMessage());
+                retval = false;
+            }
+            break;
+        case static_cast<int>(TMF_STATUS):
+            try {
+                timings[index.row()].setStatus(value.toString().trimmed());
+                retval = true;
+            } catch (ChronoRaceException &e) {
+                emit error(e.getMessage());
+                retval = false;
+            }
+            break;
+        default:
+            break;
     }
 
     if (retval) emit dataChanged(index, index);
@@ -156,16 +158,18 @@ QVariant TimingsModel::headerData(int section, Qt::Orientation orientation, int 
 
     if (orientation == Qt::Horizontal)
         switch (section) {
-        case static_cast<int>(Timing::Field::TMF_BIB):
-            return QString("%1").arg(tr("Bib"));
-        case static_cast<int>(Timing::Field::TMF_LEG):
-            return QString("%1").arg(tr("Leg"));
-        case static_cast<int>(Timing::Field::TMF_TIME):
-            return QString("%1").arg(tr("Timing"));
-        case static_cast<int>(Timing::Field::TMF_STATUS):
-            return QString("%1").arg(tr("Status"));
-        default:
-            return QString("%1").arg(section + 1);
+            using enum Timing::Field;
+
+            case static_cast<int>(TMF_BIB):
+                return QString("%1").arg(tr("Bib"));
+            case static_cast<int>(TMF_LEG):
+                return QString("%1").arg(tr("Leg"));
+            case static_cast<int>(TMF_TIME):
+                return QString("%1").arg(tr("Timing"));
+            case static_cast<int>(TMF_STATUS):
+                return QString("%1").arg(tr("Status"));
+            default:
+                return QString("%1").arg(section + 1);
         }
     else
         return QString("%1").arg(section + 1);
@@ -179,9 +183,9 @@ Qt::ItemFlags TimingsModel::flags(QModelIndex const &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool TimingsModel::insertRows(int position, int rows, QModelIndex const &parent) {
-
-    Q_UNUSED(parent)
+bool TimingsModel::insertRows(int position, int rows, QModelIndex const &index)
+{
+    Q_UNUSED(index)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
 
@@ -190,13 +194,15 @@ bool TimingsModel::insertRows(int position, int rows, QModelIndex const &parent)
     }
 
     endInsertRows();
+
+    refreshDisplayCounter();
+
     return true;
 }
 
-bool TimingsModel::removeRows(int position, int rows, QModelIndex const &parent)
+bool TimingsModel::removeRows(int position, int rows, QModelIndex const &index)
 {
-
-    Q_UNUSED(parent)
+    Q_UNUSED(index)
 
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
 
@@ -205,15 +211,17 @@ bool TimingsModel::removeRows(int position, int rows, QModelIndex const &parent)
     }
 
     endRemoveRows();
+
+    refreshDisplayCounter();
+
     return true;
 }
 
 void TimingsModel::sort(int column, Qt::SortOrder order)
 {
-
     TimingSorter::setSortingField((Timing::Field) column);
     TimingSorter::setSortingOrder(order);
-    std::stable_sort(timings.begin(), timings.end(), TimingSorter());
+    std::ranges::stable_sort(timings, TimingSorter());
     emit dataChanged(QModelIndex(), QModelIndex());
 }
 
@@ -221,9 +229,19 @@ void TimingsModel::reset() {
     beginResetModel();
     timings.clear();
     endResetModel();
+
+    refreshDisplayCounter();
 }
 
 QList<Timing> const &TimingsModel::getTimings() const
 {
     return timings;
+}
+
+void TimingsModel::addTimeSpan(int offset)
+{
+    for (auto r = 0; r < timings.count(); r++) {
+        timings[r].addOffset(offset);
+        setData(this->index(r, static_cast<int>(Timing::Field::TMF_TIME)), QVariant(timings[r].getTiming()), Qt::EditRole);
+    }
 }

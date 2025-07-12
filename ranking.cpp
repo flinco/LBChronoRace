@@ -24,32 +24,30 @@ Qt::SortOrder  RankingSorter::sortingOrder = Qt::AscendingOrder;
 Ranking::Ranking(QString const &team)
 {
     if (team.length() != 1) {
-        throw(ChronoRaceException(tr("Illegal ranking type - expected 'I' or 'T' - found %1").arg(team)));
+        throw(ChronoRaceException(tr("Invalid ranking type - expected 'I' or 'T' - found %1").arg(team)));
     } else {
         this->team = (team.compare("T", Qt::CaseInsensitive) == 0);
     }
 }
 
-QDataStream &operator<<(QDataStream &out, Ranking const &ranking)
-{
-    out << ranking.fullDescription
-        << ranking.shortDescription
-        << qint32(ranking.team)
-        << ranking.categories;
+QDataStream &Ranking::rSerialize(QDataStream &out) const{
+    out << this->fullDescription
+        << this->shortDescription
+        << qint32(this->team)
+        << this->categories;
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, Ranking &ranking)
-{
+QDataStream &Ranking::rDeserialize(QDataStream &in){
     qint32  team32;
 
-    in >> ranking.fullDescription
-       >> ranking.shortDescription
+    in >> this->fullDescription
+       >> this->shortDescription
        >> team32
-       >> ranking.categories;
+       >> this->categories;
 
-    ranking.team = static_cast<bool>(team32);
+    this->team = static_cast<bool>(team32);
 
     return in;
 }
@@ -115,39 +113,21 @@ bool Ranking::includes(Category const *category) const
     return ((category != Q_NULLPTR) && (this->categories.indexOf(category->getShortDescription()) >= 0));
 }
 
-bool Ranking::operator< (Ranking const &rhs) const
-{
-    return (!this->isTeam() && rhs.isTeam());
-}
-
-bool Ranking::operator> (Ranking const &rhs) const
-{
-    return (this->isTeam() && !rhs.isTeam());
-}
-
-bool Ranking::operator<=(Ranking const &rhs) const
-{
-    return !(*this > rhs);
-}
-
-bool Ranking::operator>=(Ranking const &rhs) const
-{
-    return !(*this < rhs);
-}
-
 bool RankingSorter::operator() (Ranking const &lhs, Ranking const &rhs) const
 {
-    switch(sortingField) {
-    case Ranking::Field::RTF_FULL_DESCR:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFullDescription() > rhs.getFullDescription()) : (lhs.getFullDescription() < rhs.getFullDescription());
-    case Ranking::Field::RTF_SHORT_DESCR:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getShortDescription() > rhs.getShortDescription()) : (lhs.getShortDescription() < rhs.getShortDescription());
-    case Ranking::Field::RTF_TEAM:
-        [[fallthrough]];
-    case Ranking::Field::RTF_CATEGORIES:
-        [[fallthrough]];
-    default:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
+    switch (sortingField) {
+        using enum Ranking::Field;
+
+        case RTF_FULL_DESCR:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFullDescription() > rhs.getFullDescription()) : (lhs.getFullDescription() < rhs.getFullDescription());
+        case RTF_SHORT_DESCR:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getShortDescription() > rhs.getShortDescription()) : (lhs.getShortDescription() < rhs.getShortDescription());
+        case RTF_TEAM:
+            [[fallthrough]];
+        case RTF_CATEGORIES:
+            [[fallthrough]];
+        default:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }
 
     return false;

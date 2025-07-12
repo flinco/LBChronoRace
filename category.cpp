@@ -23,21 +23,25 @@
 Category::Field CategorySorter::sortingField = Category::Field::CTF_FIRST;
 Qt::SortOrder   CategorySorter::sortingOrder = Qt::AscendingOrder;
 
-QDataStream &operator<<(QDataStream &out, Category const &category)
+QDataStream &Category::cSerialize(QDataStream &out) const
 {
-    out << category.fullDescription
-        << category.shortDescription
-        << quint32(category.type)
-        << quint32(category.toYear)
-        << quint32(category.fromYear);
+    out << this->fullDescription
+        << this->shortDescription
+        << quint32(this->type)
+        << quint32(this->toYear)
+        << quint32(this->fromYear)
+        << quint32(this->toBib)
+        << quint32(this->fromBib);
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, Category &category)
+QDataStream &Category::cDeserialize(QDataStream &in)
 {
     quint32 toYear32;
     quint32 fromYear32;
+    quint32 toBib32 = 0;
+    quint32 fromBib32 = 0;
 
     if (LBChronoRace::binFormat < LBCHRONORACE_BIN_FMT_v4) {
         qint32  team32;
@@ -47,66 +51,60 @@ QDataStream &operator>>(QDataStream &in, Category &category)
            >> sexStr
            >> toYear32
            >> fromYear32
-           >> category.fullDescription
-           >> category.shortDescription;
+           >> this->fullDescription
+           >> this->shortDescription;
 
         switch (CRHelper::toSex(sexStr)) {
-        case Competitor::Sex::MALE:
-            category.type = Category::Type::MALE;
-            break;
-        case Competitor::Sex::FEMALE:
-            category.type = Category::Type::FEMALE;
-            break;
-        case Competitor::Sex::UNDEFINED:
-            category.type = Category::Type::RELAY_MF;
-            break;
+            using enum Competitor::Sex;
+
+            case MALE:
+                this->type = Category::Type::MALE;
+                break;
+            case FEMALE:
+                this->type = Category::Type::FEMALE;
+                break;
+            case UNDEFINED:
+                this->type = Category::Type::RELAY_MF;
+                break;
         }
     } else {
         qint32 type32;
 
-        in >> category.fullDescription
-           >> category.shortDescription
+        in >> this->fullDescription
+           >> this->shortDescription
            >> type32
            >> toYear32
            >> fromYear32;
+        if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v4)
+            in >> toBib32
+               >> fromBib32;
 
         switch (type32) {
-        case static_cast<quint32>(Category::Type::MALE):
-            [[fallthrough]];
-        case static_cast<quint32>(Category::Type::FEMALE):
-            [[fallthrough]];
-        case static_cast<quint32>(Category::Type::RELAY_MF):
-            [[fallthrough]];
-        case static_cast<quint32>(Category::Type::RELAY_Y):
-            [[fallthrough]];
-        case static_cast<quint32>(Category::Type::RELAY_X):
-            category.type = static_cast<Category::Type>(type32);
-            break;
-        default:
-            category.illegalType(type32);
-            break;
+            using enum Category::Type;
+
+            case static_cast<quint32>(MALE):
+                [[fallthrough]];
+            case static_cast<quint32>(FEMALE):
+                [[fallthrough]];
+            case static_cast<quint32>(RELAY_MF):
+                [[fallthrough]];
+            case static_cast<quint32>(RELAY_Y):
+                [[fallthrough]];
+            case static_cast<quint32>(RELAY_X):
+                this->type = static_cast<Category::Type>(type32);
+                break;
+            default:
+                throw(ChronoRaceException(tr("Invalid category type '%1'").arg(type32)));
+                break;
         }
     }
 
-    category.toYear   = toYear32;
-    category.fromYear = fromYear32;
+    this->toYear   = toYear32;
+    this->fromYear = fromYear32;
+    this->toBib    = toBib32;
+    this->fromBib  = fromBib32;
 
     return in;
-}
-
-void Category::illegalType(quint32 value) const
-{
-    throw(ChronoRaceException(tr("Illegal category type '%1'").arg(value)));
-}
-
-uint Category::getFromYear() const
-{
-    return fromYear;
-}
-
-void Category::setFromYear(uint newFromYear)
-{
-    this->fromYear = newFromYear;
 }
 
 QString const &Category::getFullDescription() const
@@ -139,6 +137,16 @@ void Category::setShortDescription(QString const &newShortDescription)
     this->shortDescription = newShortDescription;
 }
 
+uint Category::getFromYear() const
+{
+    return fromYear;
+}
+
+void Category::setFromYear(uint newFromYear)
+{
+    this->fromYear = newFromYear;
+}
+
 uint Category::getToYear() const
 {
     return toYear;
@@ -149,32 +157,60 @@ void Category::setToYear(uint newToYear)
     this->toYear = newToYear;
 }
 
+uint Category::getFromBib() const
+{
+    return fromBib;
+}
+
+void Category::setFromBib(uint newFromBib)
+{
+    this->fromBib = newFromBib;
+}
+
+uint Category::getToBib() const
+{
+    return toBib;
+}
+
+void Category::setToBib(uint newToBib)
+{
+    this->toYear = newToBib;
+}
+
 uint Category::getWeight() const
 {
     uint weight = 0u;
 
     if (this->fromYear)
-        weight++;
+        weight += 1;
 
     if (this->toYear)
-        weight++;
+        weight += 1;
+
+    if (this->fromBib)
+        weight += 2;
+
+    if (this->toBib)
+        weight += 2;
 
     //NOSONAR switch (this->type) {
-    //NOSONAR case Category::Type::RELAY_Y:
-    //NOSONAR     [[fallthrough]];
-    //NOSONAR case Category::Type::RELAY_X:
-    //NOSONAR     weight++;
-    //NOSONAR     break;
-    //NOSONAR case Category::Type::MALE:
-    //NOSONAR     [[fallthrough]];
-    //NOSONAR case Category::Type::FEMALE:
-    //NOSONAR     [[fallthrough]];
-    //NOSONAR case Category::Type::RELAY_MF:
-    //NOSONAR     // do nothing
-    //NOSONAR     break;
-    //NOSONAR default:
-    //NOSONAR     Q_UNREACHABLE();
-    //NOSONAR     break;
+    //NOSONAR     using enum Category::Type;
+    //NOSONAR
+    //NOSONAR     case RELAY_Y:
+    //NOSONAR         [[fallthrough]];
+    //NOSONAR     case RELAY_X:
+    //NOSONAR         weight++;
+    //NOSONAR         break;
+    //NOSONAR     case MALE:
+    //NOSONAR         [[fallthrough]];
+    //NOSONAR     case FEMALE:
+    //NOSONAR         [[fallthrough]];
+    //NOSONAR     case RELAY_MF:
+    //NOSONAR         // do nothing
+    //NOSONAR         break;
+    //NOSONAR     default:
+    //NOSONAR         Q_UNREACHABLE();
+    //NOSONAR         break;
     //NOSONAR }
 
     return weight;
@@ -185,47 +221,27 @@ bool Category::isValid() const
     return (!fullDescription.isEmpty() && !shortDescription.isEmpty());
 }
 
-bool Category::operator< (Category const &rhs) const
-{
-    return (this->getFullDescription() < rhs.getFullDescription());
-}
-
-bool Category::operator> (Category const &rhs) const
-{
-    return (this->getFullDescription() > rhs.getFullDescription());
-}
-
-bool Category::operator<=(Category const &rhs) const
-{
-    return !(*this > rhs);
-}
-
-bool Category::operator>=(Category const &rhs) const
-{
-    return !(*this < rhs);
-}
-
-bool Category::operator== (Category const &rhs) const
-{
-    return ((this->getFullDescription() == rhs.getFullDescription())
-         && (this->getShortDescription() == rhs.getShortDescription()));
-}
-
 bool CategorySorter::operator() (Category const &lhs, Category const &rhs) const
 {
     switch(sortingField) {
-    case Category::Field::CTF_TYPE:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getType() > rhs.getType()) : (lhs.getType() < rhs.getType());
-    case Category::Field::CTF_TO_YEAR:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getToYear() > rhs.getToYear()) : (lhs.getToYear() < rhs.getToYear());
-    case Category::Field::CTF_FROM_YEAR:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFromYear() > rhs.getFromYear()) : (lhs.getFromYear() < rhs.getFromYear());
-    case Category::Field::CTF_FULL_DESCR:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFullDescription() > rhs.getFullDescription()) : (lhs.getFullDescription() < rhs.getFullDescription());
-    case Category::Field::CTF_SHORT_DESCR:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs.getShortDescription() > rhs.getShortDescription()) : (lhs.getShortDescription() < rhs.getShortDescription());
-    default:
-        return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
+        using enum Category::Field;
+
+        case CTF_TYPE:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getType() > rhs.getType()) : (lhs.getType() < rhs.getType());
+        case CTF_TO_YEAR:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getToYear() > rhs.getToYear()) : (lhs.getToYear() < rhs.getToYear());
+        case CTF_FROM_YEAR:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFromYear() > rhs.getFromYear()) : (lhs.getFromYear() < rhs.getFromYear());
+        case CTF_TO_BIB:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getToBib() > rhs.getToBib()) : (lhs.getToBib() < rhs.getToBib());
+        case CTF_FROM_BIB:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFromBib() > rhs.getFromBib()) : (lhs.getFromBib() < rhs.getFromBib());
+        case CTF_FULL_DESCR:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getFullDescription() > rhs.getFullDescription()) : (lhs.getFullDescription() < rhs.getFullDescription());
+        case CTF_SHORT_DESCR:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getShortDescription() > rhs.getShortDescription()) : (lhs.getShortDescription() < rhs.getShortDescription());
+        default:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);
     }
 
     return false;

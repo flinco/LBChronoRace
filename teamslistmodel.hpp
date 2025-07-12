@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef LBTEAMSLISTMODEL_H
-#define LBTEAMSLISTMODEL_H
+#ifndef LBTEAMSLISTMODEL_HPP
+#define LBTEAMSLISTMODEL_HPP
 
 #include <QObject>
 #include <QList>
@@ -31,15 +31,24 @@ class TeamsListModel : public CRTableModel
 public:
     explicit TeamsListModel(QObject *parent = Q_NULLPTR) : CRTableModel(parent) { };
 
-    friend QDataStream &operator<<(QDataStream &out, TeamsListModel const &data);
-    friend QDataStream &operator>>(QDataStream &in, TeamsListModel &data);
+    QDataStream &tlmSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, TeamsListModel const &data)
+    {
+        return data.tlmSerialize(out);
+    }
+
+    QDataStream &tlmDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, TeamsListModel &data)
+    {
+        return data.tlmDeserialize(in);
+    }
 
     int rowCount(QModelIndex const &parent = QModelIndex()) const override;
     int columnCount(QModelIndex const &parent = QModelIndex()) const override;
+    Qt::ItemFlags flags(QModelIndex const &index) const override;
     QVariant data(QModelIndex const &index, int role) const override;
     bool setData(QModelIndex const &index, QVariant const &value, int role = Qt::EditRole) override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-    Qt::ItemFlags flags(QModelIndex const &index) const override;
     bool insertRows(int position, int rows, QModelIndex const &index = QModelIndex()) override;
     bool removeRows(int position, int rows, QModelIndex const &index = QModelIndex()) override;
     void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) override;
@@ -56,4 +65,4 @@ private:
     QList<QString> teamsList;
 };
 
-#endif // LBTEAMSLISTMODEL_H
+#endif // LBTEAMSLISTMODEL_HPP

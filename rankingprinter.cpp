@@ -24,18 +24,20 @@
 QScopedPointer<RankingPrinter> RankingPrinter::getRankingPrinter(CRLoader::Format format, uint indexFieldWidth, uint bibFieldWidth)
 {
     switch (format) {
-    case CRLoader::Format::PDF:
-        return QScopedPointer<RankingPrinter>(new PDFRankingPrinter(indexFieldWidth, bibFieldWidth));
-        break;
-    case CRLoader::Format::CSV:
-        return QScopedPointer<RankingPrinter>(new CSVRankingPrinter(indexFieldWidth, bibFieldWidth));
-        break;
-    case CRLoader::Format::TEXT:
-        return QScopedPointer<RankingPrinter>(new TXTRankingPrinter(indexFieldWidth, bibFieldWidth));
-        break;
-    default:
-        throw(ChronoRaceException(tr("Error: unknown rankings format %1").arg(static_cast<int>(format))));
-        break;
+        using enum CRLoader::Format;
+
+        case PDF:
+            return QScopedPointer<RankingPrinter>(new PDFRankingPrinter(indexFieldWidth, bibFieldWidth));
+            break;
+        case CSV:
+            return QScopedPointer<RankingPrinter>(new CSVRankingPrinter(indexFieldWidth, bibFieldWidth));
+            break;
+        case TEXT:
+            return QScopedPointer<RankingPrinter>(new TXTRankingPrinter(indexFieldWidth, bibFieldWidth));
+            break;
+        default:
+            throw(ChronoRaceException(tr("Error: unknown rankings format %1").arg(static_cast<int>(format))));
+            break;
     }
 }
 

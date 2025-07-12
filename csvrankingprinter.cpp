@@ -29,7 +29,7 @@ void CSVRankingPrinter::init(QString *outFileName, QString const &title, QString
     Q_UNUSED(subject)
 
     if (outFileName == Q_NULLPTR) {
-        throw(ChronoRaceException(tr("Error: no file name supplied")));
+        throw(ChronoRaceException(tr("Error: no file name provided")));
     }
 
     // append the .csv extension if missing
@@ -37,7 +37,7 @@ void CSVRankingPrinter::init(QString *outFileName, QString const &title, QString
 
     csvFile.setFileName(*outFileName);
     if (!csvFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        throw(ChronoRaceException(tr("Error: cannot open %1").arg(*outFileName)));
+        throw(ChronoRaceException(tr("Error: unable to open %1").arg(*outFileName)));
     }
     csvStream.setDevice(&csvFile);
     csvStream.setEncoding(CRLoader::getEncoding());
@@ -46,7 +46,7 @@ void CSVRankingPrinter::init(QString *outFileName, QString const &title, QString
 void CSVRankingPrinter::printStartList(QList<Competitor const *> const &startList)
 {
     if (!csvFile.isOpen()) {
-        throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
+        throw(ChronoRaceException(tr("Error: attempted to write to a closed file")));
     }
 
     int offset;
@@ -56,7 +56,7 @@ void CSVRankingPrinter::printStartList(QList<Competitor const *> const &startLis
         i++;
         csvStream << i << ",";
         csvStream << competitor->getBib() << ",";
-        csvStream << competitor->getName() << ",";
+        csvStream << competitor->getCompetitorName(CRHelper::nameComposition) << ",";
         csvStream << competitor->getTeam() << ",";
         csvStream << competitor->getYear() << ",";
         csvStream << CRHelper::toSexString(competitor->getSex()) << ",";
@@ -80,8 +80,10 @@ void CSVRankingPrinter::printRanking(Ranking const &categories, QList<ClassEntry
     static Position position;
 
     if (!csvFile.isOpen()) {
-        throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
+        throw(ChronoRaceException(tr("Error: attempted to write to a closed file")));
     }
+
+    using enum CRLoader::Format;
 
     int i = 0;
     int prevPosNumber = 0;
@@ -90,16 +92,16 @@ void CSVRankingPrinter::printRanking(Ranking const &categories, QList<ClassEntry
     csvStream << categories.getShortDescription() << Qt::endl;
     for (auto const c : ranking) {
         i++;
-        currTime = c->getTotalTime(CRLoader::Format::CSV);
+        currTime = c->getTotalTime(CSV);
         if ((currPosNumber = position.getCurrentPositionNumber(i, currTime)) == 0)
             currPosNumber = prevPosNumber;
         else
             prevPosNumber = currPosNumber;
         csvStream << currPosNumber << ",";
         csvStream << c->getBib() << ",";
-        csvStream << c->getNames(CRLoader::Format::CSV) << ",";
+        csvStream << c->getNames(CSV) << ",";
         if (CRLoader::getStartListLegs() > 1)
-            csvStream << c->getTimes(CRLoader::Format::CSV) << ",";
+            csvStream << c->getTimes(CSV) << ",";
         csvStream << currTime << Qt::endl;
     }
     csvStream << Qt::endl;
@@ -108,20 +110,24 @@ void CSVRankingPrinter::printRanking(Ranking const &categories, QList<ClassEntry
 void CSVRankingPrinter::printRanking(Ranking const &categories, QList<TeamClassEntry const *> const &ranking)
 {
     if (!csvFile.isOpen()) {
-        throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
+        throw(ChronoRaceException(tr("Error: attempted to write to a closed file")));
     }
 
+    using enum CRLoader::Format;
+
+    int count;
     int i = 0;
     csvStream << categories.getShortDescription() << Qt::endl;
     for (auto const r : ranking) {
         i++;
-        for (int j = 0; j < r->getClassEntryCount(); j++) {
+        count = r->getClassEntryCount();
+        for (int j = 0; j < count; j++) {
             csvStream << i << ",";
             csvStream << r->getClassEntry(j)->getBib() << ",";
-            csvStream << r->getClassEntry(j)->getNames(CRLoader::Format::CSV) << ",";
+            csvStream << r->getClassEntry(j)->getNames(CSV) << ",";
             if (CRLoader::getStartListLegs() > 1)
-                csvStream << r->getClassEntry(j)->getTimes(CRLoader::Format::CSV) << ",";
-            csvStream << r->getClassEntry(j)->getTotalTime(CRLoader::Format::CSV) << Qt::endl;
+                csvStream << r->getClassEntry(j)->getTimes(CSV) << ",";
+            csvStream << r->getClassEntry(j)->getTotalTime(CSV) << Qt::endl;
         }
     }
     csvStream << Qt::endl;

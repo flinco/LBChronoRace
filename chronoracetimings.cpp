@@ -21,28 +21,30 @@
 #include <QStandardPaths>
 #include <QKeyEvent>
 #include <QMessageBox>
+#include <QStringBuilder>
 
 #include "chronoracetimings.hpp"
+#include "timespandialog.hpp"
 #include "crloader.hpp"
 #include "lbcrexception.hpp"
 
-TimingsWorker::TimingsWorker() {
+constexpr char DISPLAY_CHRONO_ZERO[] = "0:00:00";
 
-    QString outPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-    outPath.append("/lbchronorace_XXXXXX.csv");
-
-    QTemporaryFile outFile(outPath);
+TimingsWorker::TimingsWorker()
+{
+    QTemporaryFile outFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation) % "/lbchronorace_XXXXXX.csv");
     if (outFile.open()) {
         timingsFilePath.append(outFile.fileName());
     } else {
-        throw(ChronoRaceException(tr("Error: cannot open %1").arg(outFile.fileName())));
+        throw(ChronoRaceException(tr("Error: unable to open %1").arg(outFile.fileName())));
     }
 }
 
-void TimingsWorker::writeToDisk(QString const &buffer) {
+void TimingsWorker::writeToDisk(QString const &buffer)
+{
     QFile outFile(timingsFilePath);
     if (!outFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
-        throw(ChronoRaceException(tr("Error: cannot open %1").arg(outFile.fileName())));
+        throw(ChronoRaceException(tr("Error: unable to open %1").arg(outFile.fileName())));
     }
     QTextStream outStream(&outFile);
 
@@ -53,17 +55,16 @@ void TimingsWorker::writeToDisk(QString const &buffer) {
     outFile.close();
 
     emit writeDone();
-};
+}
 
-
-ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent) {
-
-    QString startDisplay = "0:00:00";
-
+ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent)
+{
     ui->setupUi(this);
     qApp->installEventFilter(this);
+    this->setWindowFlag(Qt::CustomizeWindowHint, true);
+    this->setWindowFlag(Qt::WindowCloseButtonHint, false);
 
-    ui->timer->display(startDisplay);
+    ui->timer->display(DISPLAY_CHRONO_ZERO);
 
     ui->dataArea->setSelectionMode(QAbstractItemView::NoSelection);
 
@@ -76,14 +77,12 @@ ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent) {
     QObject::connect(ui->stopButton,  &QToolButton::clicked, this, &ChronoRaceTimings::stop );
     QObject::connect(ui->resetButton, &QToolButton::clicked, this, &ChronoRaceTimings::reset);
 
-    QObject::connect(ui->lockBox, &QCheckBox::clicked, this, &ChronoRaceTimings::lock);
-    QObject::connect(ui->unlockBox, &QCheckBox::clicked, this, &ChronoRaceTimings::lock);
+    QObject::connect(ui->lockToggle, &QSlider::valueChanged, this, &ChronoRaceTimings::lock);
 
     saveToDiskWorker.moveToThread(&saveToDiskThread);
-    connect(this, &ChronoRaceTimings::saveToDisk, &saveToDiskWorker, &TimingsWorker::writeToDisk);
-    connect(&saveToDiskWorker, &TimingsWorker::writeDone, this, &ChronoRaceTimings::clearDiskBuffer);
+    QObject::connect(this, &ChronoRaceTimings::saveToDisk, &saveToDiskWorker, &TimingsWorker::writeToDisk);
+    QObject::connect(&saveToDiskWorker, &TimingsWorker::writeDone, this, &ChronoRaceTimings::clearDiskBuffer);
 
-    ui->unlockBox->hide();
     ui->stopButton->setEnabled(false);
 }
 
@@ -96,57 +95,64 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
         auto const keyEvent = static_cast<QKeyEvent *>(event);
         auto const keyModifiers = keyEvent->modifiers();
         switch (keyEvent->key()) {
-        case Qt::Key::Key_Space:
-            if (updateTimerId != 0)
-                recordTiming(this->timer.elapsed() / 1000);
-            break;
-        case Qt::Key::Key_Return:
-            [[fallthrough]];
-        case Qt::Key::Key_Enter:
-            retval = enterPressed();
-            break;
-        case Qt::Key::Key_Backspace:
-            deleteBib();
-        case Qt::Key::Key_Delete:
-            if (keyModifiers & Qt::KeyboardModifier::AltModifier)
-                deleteTiming();
-            else
+            case Qt::Key::Key_F10:
+                if (!(keyModifiers & Qt::KeyboardModifier::AltModifier)) {
+                    retval = QDialog::eventFilter(watched, event);
+                    break;
+                }
+                [[fallthrough]];
+            case Qt::Key::Key_Space:
+                if (updateTimerId != 0)
+                    recordTiming(this->timer.elapsed());
+                break;
+            case Qt::Key::Key_Return:
+                [[fallthrough]];
+            case Qt::Key::Key_Enter:
+                retval = enterPressed();
+                break;
+            case Qt::Key::Key_Backspace:
                 deleteBib();
-            break;
-        case Qt::Key::Key_0:
-            [[fallthrough]];
-        case Qt::Key::Key_1:
-            [[fallthrough]];
-        case Qt::Key::Key_2:
-            [[fallthrough]];
-        case Qt::Key::Key_3:
-            [[fallthrough]];
-        case Qt::Key::Key_4:
-            [[fallthrough]];
-        case Qt::Key::Key_5:
-            [[fallthrough]];
-        case Qt::Key::Key_6:
-            [[fallthrough]];
-        case Qt::Key::Key_7:
-            [[fallthrough]];
-        case Qt::Key::Key_8:
-            [[fallthrough]];
-        case Qt::Key::Key_9:
-            retval = digitPressed((static_cast<QKeyEvent *>(event))->text());
-            break;
-        case Qt::Key::Key_Up:
-            retval = upPressed();
-            break;
-        case Qt::Key::Key_Down:
-            retval = downPressed();
-            break;
-        case Qt::Key::Key_Escape:
-            if (ui->unlockBox->isHidden())
+                break;
+            case Qt::Key::Key_Delete:
+                if (keyModifiers & Qt::KeyboardModifier::AltModifier)
+                    deleteTiming();
+                else
+                    deleteBib();
+                break;
+            case Qt::Key::Key_0:
+                [[fallthrough]];
+            case Qt::Key::Key_1:
+                [[fallthrough]];
+            case Qt::Key::Key_2:
+                [[fallthrough]];
+            case Qt::Key::Key_3:
+                [[fallthrough]];
+            case Qt::Key::Key_4:
+                [[fallthrough]];
+            case Qt::Key::Key_5:
+                [[fallthrough]];
+            case Qt::Key::Key_6:
+                [[fallthrough]];
+            case Qt::Key::Key_7:
+                [[fallthrough]];
+            case Qt::Key::Key_8:
+                [[fallthrough]];
+            case Qt::Key::Key_9:
+                retval = digitPressed((static_cast<QKeyEvent *>(event))->text());
+                break;
+            case Qt::Key::Key_Up:
+                retval = upPressed();
+                break;
+            case Qt::Key::Key_Down:
+                retval = downPressed();
+                break;
+            case Qt::Key::Key_Escape:
+                if (ui->lockToggle->value() == 0)
+                    retval = QDialog::eventFilter(watched, event);
+                break;
+            default:
                 retval = QDialog::eventFilter(watched, event);
-            break;
-        default:
-            retval = QDialog::eventFilter(watched, event);
-            break;
+                break;
         }
     }
 
@@ -179,6 +185,9 @@ void ChronoRaceTimings::timerEvent(QTimerEvent *event) {
 
 void ChronoRaceTimings::accept()
 {
+    if (saveToDiskThread.isRunning())
+        this->stop();
+
     if (QMessageBox::information(this, tr("Save Timings List"),
                                      tr("The timings list will be replaced by the current data.\n"
                                         "Any previously recorded timing will be lost.\n"
@@ -200,6 +209,9 @@ void ChronoRaceTimings::accept()
 
 void ChronoRaceTimings::reject()
 {
+    if (saveToDiskThread.isRunning())
+        this->stop();
+
     if (QMessageBox::information(this, tr("Discard Timings List"),
                                  tr("The current data will be discarded.\n"
                                     "The previously recorded timings list will be preserved.\n"
@@ -214,6 +226,13 @@ void ChronoRaceTimings::reject()
             killTimer(backupTimerId);
             backupTimerId = 0;
         }
+
+        ui->timer->display(DISPLAY_CHRONO_ZERO);
+        currentBibItem = Q_NULLPTR;
+        timingRowCount = 0;
+        ui->dataArea->clearContents();
+        ui->dataArea->setRowCount(0);
+
         QDialog::reject();
     }
 }
@@ -222,6 +241,7 @@ void ChronoRaceTimings::show()
 {
     ui->retranslateUi(this);
     this->setWindowModality(Qt::ApplicationModal);
+
     QDialog::show();
 }
 
@@ -230,13 +250,77 @@ void ChronoRaceTimings::clearDiskBuffer() {
         saveToDiskQueue.removeFirst();
 }
 
+void ChronoRaceTimings::addTimeSpan()
+{
+    try {
+        TimeSpanDialog addDialog(this, tr("Time span"), tr("Time interval to add up"), false);
+
+        auto const &dialogHandle = QObject::connect(&addDialog, &TimeSpanDialog::applyOffset, this, &ChronoRaceTimings::applyTimeSpan);
+
+        addDialog.setModal(true);
+        addDialog.exec();
+
+        QObject::disconnect(dialogHandle);
+
+    } catch (ChronoRaceException &e) {
+        emit error(e.getMessage());
+    }
+}
+
+void ChronoRaceTimings::subtractTimeSpan()
+{
+    try {
+        TimeSpanDialog subDialog(this, tr("Time span"), tr("Time interval to subtract"), true);
+
+        auto const &dialogHandle = QObject::connect(&subDialog, &TimeSpanDialog::applyOffset, this, &ChronoRaceTimings::applyTimeSpan);
+
+        subDialog.setModal(true);
+        subDialog.exec();
+
+        QObject::disconnect(dialogHandle);
+
+    } catch (ChronoRaceException &e) {
+        emit error(e.getMessage());
+    }
+}
+
+void ChronoRaceTimings::applyTimeSpan(int offset)
+{
+    if (offset > 0) {
+        QString text = tr("%n second(s) will be added to all the recorded timings.\nAre you sure you want to continue?", "", offset); // turn to milliseconds
+        if (QMessageBox::warning(this, QString("Apply Time Span"), text, QMessageBox::StandardButton::Yes, QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes) {
+            (dynamic_cast<TimingsModel *>(CRLoader::getTimingsModel()))->addTimeSpan(offset);
+        }
+    } else if (offset < 0) {
+        QString text = tr("%n second(s) will be subtracted from all the recorded timings.\nTimings resulting below 0 will be set to 0:00:00.000.\nAre you sure you want to continue?", "", -offset); // turn to milliseconds
+        if (QMessageBox::warning(this, QString("Apply Time Span"), text, QMessageBox::StandardButton::Yes, QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes) {
+            (dynamic_cast<TimingsModel *>(CRLoader::getTimingsModel()))->addTimeSpan(offset);
+        }
+    }
+}
+
+void ChronoRaceTimings::setLiveTable(LiveTable *newLiveTable)
+{
+    liveTable = newLiveTable;
+}
+
 void ChronoRaceTimings::updateCurrentBibItem(QTableWidgetItem *newBibItem)
 {
     if (this->currentBibItem) {
-        if (this->currentBibItem->text().isEmpty())
-            this->currentBibItem->setBackground(Qt::GlobalColor::red);
-        else
-            this->currentBibItem->setBackground(Qt::GlobalColor::green);
+        Qt::GlobalColor itemColor = this->currentBibItem->text().isEmpty() ? Qt::GlobalColor::red : Qt::GlobalColor::green;
+
+        QTableWidgetItem const *timingItem = ui->dataArea->item(this->currentBibItem->row(), 1);
+        quint64 bibLiveValue = this->currentBibItem->data(Qt::ItemDataRole::UserRole).toULongLong();
+        quint64 timingLiveValue = timingItem ? timingItem->data(Qt::ItemDataRole::UserRole).toULongLong() : Q_UINT64_C(0);
+
+        if (liveTable != Q_NULLPTR)
+            liveTable->removeEntry(timingLiveValue | bibLiveValue);
+        bibLiveValue = ((itemColor == Qt::GlobalColor::green) ? static_cast<quint64>(this->currentBibItem->text().toUInt()) : Q_UINT64_C(0)) & Q_UINT64_C(0xffffffff);
+        this->currentBibItem->setData(Qt::ItemDataRole::UserRole, QVariant(bibLiveValue));
+        if (liveTable != Q_NULLPTR)
+            liveTable->addEntry(timingLiveValue | bibLiveValue);
+
+        this->currentBibItem->setBackground(itemColor);
     }
 
     this->currentBibItem = newBibItem;
@@ -246,32 +330,53 @@ void ChronoRaceTimings::updateCurrentBibItem(QTableWidgetItem *newBibItem)
     }
 }
 
-void ChronoRaceTimings::recordTiming(qint64 seconds)
+void ChronoRaceTimings::recordTiming(qint64 milliseconds)
 {
-    QTableWidgetItem *timingCell;
+    QTableWidgetItem *bibItem;
+    QTableWidgetItem *timingItem;
     Qt::ItemFlags flags;
 
-    auto newTiming = QString("%1:%2:%3").arg(seconds / 3600).arg(seconds / 60, 2, 10, QChar('0')).arg(seconds % 60, 2, 10, QChar('0'));
+    auto bibLiveValue = Q_UINT64_C(0);
+    auto timingLiveValue = (static_cast<quint64>(milliseconds) << 32);
+
+    auto msec = milliseconds;
+    auto hr = msec / 3600000;
+    msec %= 3600000;
+    auto min = msec / 60000;
+    msec %= 60000;
+    auto sec = msec / 1000;
+    msec %= 1000;
+
+    auto newTiming = QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QChar('0')).arg(sec, 2, 10, QChar('0')).arg(msec, 3, 10, QChar('0'));
 
     if (timingRowCount == ui->dataArea->rowCount()) {
         ui->dataArea->setRowCount(timingRowCount + 1);
         ui->dataArea->setItem(timingRowCount, 0, new QTableWidgetItem(""));
-        timingCell = ui->dataArea->item(timingRowCount, 0);
+        bibItem = ui->dataArea->item(timingRowCount, 0);
         if (!this->currentBibItem) {
-            updateCurrentBibItem(timingCell);
+            updateCurrentBibItem(bibItem);
         } else {
-            timingCell->setBackground(Qt::GlobalColor::red);
+            bibItem->setBackground(Qt::GlobalColor::red);
         }
-        flags = timingCell->flags();
+        flags = bibItem->flags();
         flags |= Qt::ItemIsEditable;
         flags &= ~(Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsUserCheckable);
-        timingCell->setFlags(flags);
+        bibItem->setFlags(flags);
+        bibItem->setData(Qt::ItemDataRole::UserRole, QVariant(bibLiveValue));
+    } else {
+        bibItem = ui->dataArea->item(timingRowCount, 0);
+        bibLiveValue = bibItem->data(Qt::ItemDataRole::UserRole).toULongLong();
     }
     ui->dataArea->setItem(timingRowCount, 1, new QTableWidgetItem(newTiming));
-    timingCell = ui->dataArea->item(timingRowCount, 1);
-    flags = timingCell->flags();
+    timingItem = ui->dataArea->item(timingRowCount, 1);
+    timingItem->setData(Qt::ItemDataRole::UserRole, QVariant(timingLiveValue));
+    flags = timingItem->flags();
     flags &= ~(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsUserCheckable);
-    timingCell->setFlags(flags);
+    timingItem->setFlags(flags);
+
+    if (liveTable != Q_NULLPTR)
+        liveTable->addEntry(timingLiveValue | bibLiveValue);
+
     ui->dataArea->scrollToBottom();
     timingRowCount += 1;
 }
@@ -279,12 +384,17 @@ void ChronoRaceTimings::recordTiming(qint64 seconds)
 void ChronoRaceTimings::deleteTiming()
 {
     QTableWidgetItem *bibItem;
+    QTableWidgetItem const *timingItem;
 
     if (timingRowCount <= 0)
         return;
 
     timingRowCount -= 1;
+    timingItem = ui->dataArea->item(timingRowCount, 1);
     bibItem = ui->dataArea->item(timingRowCount, 0);
+
+    if (liveTable != Q_NULLPTR)
+        liveTable->removeEntry(timingItem->data(Qt::ItemDataRole::UserRole).toULongLong() | bibItem->data(Qt::ItemDataRole::UserRole).toULongLong());
 
     if (((timingRowCount + 1) == ui->dataArea->rowCount()) && bibItem->text().isEmpty()) {
         int currentBibRow = this->currentBibItem ? this->currentBibItem->row() : -1;
@@ -331,14 +441,13 @@ void ChronoRaceTimings::deleteBib()
 
 void ChronoRaceTimings::saveTimings()
 {
-    int r;
-    int c;
-
     QTableWidgetItem const *bib;
     QTableWidgetItem const *time;
 
-    CRLoader::clearTimings();
-    for (r = 0, c = 0; r < ui->dataArea->rowCount(); r++) {
+    using enum CRLoader::Action;
+
+    CRLoader::addTiming(BEGIN);
+    for (int r = 0; r < ui->dataArea->rowCount(); r++) {
 
         bib = ui->dataArea->item(r, 0);
         time = ui->dataArea->item(r, 1);
@@ -351,11 +460,9 @@ void ChronoRaceTimings::saveTimings()
             emit error(tr("Missing time for bib %1").arg(bib->text()));
         }
 
-        CRLoader::addTiming(bib ? bib->text() : "0", time ? time->text() : "0:00:00");
-        c++;
+        CRLoader::addTiming(ADD, bib ? bib->text() : "0", time ? time->text() : "0:00:00.000");
     }
-
-    emit newTimingsCount(c);
+    CRLoader::addTiming(END);
 }
 
 void ChronoRaceTimings::stepUp()
@@ -449,16 +556,13 @@ void ChronoRaceTimings::start()
 
     this->timer.start();
     if (updateTimerId == 0)
-        updateTimerId = startTimer(100);
+        updateTimerId = startTimer(100, Qt::TimerType::PreciseTimer);
     if (backupTimerId == 0)
-        backupTimerId = startTimer(1000);
+        backupTimerId = startTimer(1000, Qt::TimerType::VeryCoarseTimer);
 
     ui->startButton->setEnabled(false);
     ui->stopButton->setEnabled(true);
     ui->resetButton->setEnabled(false);
-    ui->buttonBox->setEnabled(false);
-    this->setWindowFlag(Qt::WindowCloseButtonHint, false);
-    this->show();
 }
 
 void ChronoRaceTimings::stop()
@@ -478,9 +582,6 @@ void ChronoRaceTimings::stop()
     ui->startButton->setEnabled(true);
     ui->stopButton->setEnabled(false);
     ui->resetButton->setEnabled(true);
-    ui->buttonBox->setEnabled(true);
-    this->setWindowFlag(Qt::WindowCloseButtonHint, true);
-    this->show();
 }
 
 void ChronoRaceTimings::reset()
@@ -491,8 +592,7 @@ void ChronoRaceTimings::reset()
                                     "Continue?"),
                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
         // Yes was clicked
-        QString startDisplay = "0:00:00";
-        ui->timer->display(startDisplay);
+        ui->timer->display(DISPLAY_CHRONO_ZERO);
         currentBibItem = Q_NULLPTR;
         timingRowCount = 0;
         ui->dataArea->clearContents();
@@ -500,27 +600,19 @@ void ChronoRaceTimings::reset()
     }
 }
 
-void ChronoRaceTimings::lock(bool checked)
+void ChronoRaceTimings::lock(int value)
 {
-    if (checked) {
+    if (value) {
         ui->startButton->setEnabled(false);
         ui->stopButton->setEnabled(false);
         ui->resetButton->setEnabled(false);
         ui->buttonBox->setEnabled(false);
-        ui->unlockBox->show();
-        ui->lockBox->hide();
-        ui->lockBox->setChecked(false);
     } else {
         ui->startButton->setEnabled(updateTimerId == 0);
         ui->stopButton->setEnabled(updateTimerId != 0);
         ui->resetButton->setEnabled(updateTimerId == 0);
         ui->buttonBox->setEnabled(true);
-        ui->lockBox->show();
-        ui->unlockBox->hide();
-        ui->unlockBox->setChecked(true);
     }
-    this->setWindowFlag(Qt::WindowCloseButtonHint, !checked);
-    this->show();
 }
 
 void ChronoRaceTimings::bibClicked(QTableWidgetItem *item)

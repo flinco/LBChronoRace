@@ -23,6 +23,7 @@
 #include <QWindow>
 #include <QIcon>
 #include <QTimer>
+#include <QSplashScreen>
 
 #ifdef Q_OS_WIN
 #include <QStyleFactory>
@@ -31,6 +32,12 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+    QSplashScreen splash(QPixmap(":/images/lbchronorace-splash.png"));
+    splash.setWindowFlag(Qt::WindowStaysOnTopHint, true);
+    splash.show();
+
+    splash.showMessage("Loading tranlations…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
 
     QLocale lbcrLocale;
     QTranslator qtTranslator;
@@ -45,14 +52,16 @@ int main(int argc, char *argv[])
     if (qtbaseTranslator.load(lbcrLocale, QStringLiteral("qtbase"), QStringLiteral("_"), translationsDir))
         QApplication::installTranslator(&qtbaseTranslator);
 
-    if (lbcrTranslator.load(lbcrLocale, QStringLiteral(LBCHRONORACE_NAME), QStringLiteral("_"), QStringLiteral(":/i18n")))
+    if (lbcrTranslator.load(lbcrLocale, QStringLiteral("lbchronorace"), QStringLiteral("_"), QStringLiteral(":/i18n")))
         QApplication::installTranslator(&lbcrTranslator);
 
+    splash.showMessage("Loading styles…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
 #ifdef Q_OS_WIN
     app.setStyle(QStyleFactory::create("Fusion"));
     //app.setStyle(QStyleFactory::create("WindowsVista"));
 #endif
 
+    splash.showMessage("Loading fonts…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
     QFontDatabase::addApplicationFont(":/fonts/LiberationMono-Bold.ttf");
     QFontDatabase::addApplicationFont(":/fonts/LiberationMono-BoldItalic.ttf");
     QFontDatabase::addApplicationFont(":/fonts/LiberationMono-Italic.ttf");
@@ -66,13 +75,23 @@ int main(int argc, char *argv[])
     QFontDatabase::addApplicationFont(":/fonts/LiberationSerif-Italic.ttf");
     QFontDatabase::addApplicationFont(":/fonts/LiberationSerif-Regular.ttf");
 
+    splash.showMessage("Initializing…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
     LBChronoRace w(Q_NULLPTR, &app);
     QTimer::singleShot(0, &w, &LBChronoRace::initialize);
     w.show();
 
+    splash.showMessage("Setting icons…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
     foreach (auto win, app.allWindows()) {
        win->setIcon(QIcon(":/icons/LBChronoRace.ico"));
     }
+
+    splash.showMessage("Application ready!", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
+
+#ifdef QT_QML_DEBUG
+    splash.finish(&w);
+#else
+    QTimer::singleShot(2000, &splash, &QWidget::close);
+#endif
 
     return QApplication::exec();
 }

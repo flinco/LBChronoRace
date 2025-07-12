@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef RANKINGSWIZARDSELECTION_H
-#define RANKINGSWIZARDSELECTION_H
+#ifndef RANKINGSWIZARDSELECTION_HPP
+#define RANKINGSWIZARDSELECTION_HPP
 
 #include <QWizardPage>
 #include <QVBoxLayout>
@@ -54,7 +54,7 @@ private slots:
     void toggleSkipRanking(QListWidgetItem const *item) const;
 
 signals:
-    void error(QString const &message);
+    void error(QString const &);
 };
 
-#endif // RANKINGSWIZARDSELECTION_H
+#endif // RANKINGSWIZARDSELECTION_HPP

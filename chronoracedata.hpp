@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CHRONORACEDATA_H
-#define CHRONORACEDATA_H
+#ifndef CHRONORACEDATA_HPP
+#define CHRONORACEDATA_HPP
 
 #include <QDialog>
 #include <QDate>
@@ -25,6 +25,7 @@
 #include <QDataStream>
 #include <QTextStream>
 #include <QVector>
+#include <QPixmap>
 
 #include "ui_chronoracedata.h"
 #include "chronoracelogo.hpp"
@@ -36,50 +37,110 @@ class ChronoRaceData : public QDialog
 public:
     enum class StringField
     {
-        EVENT          = 0,
-        PLACE          = 1,
-        RACE_TYPE      = 2,
-        RESULTS        = 3,
-        REFEREE        = 4,
-        TIMEKEEPER_1   = 5,
-        TIMEKEEPER_2   = 6,
-        TIMEKEEPER_3   = 7,
-        LENGTH         = 8,
-        ELEVATION_GAIN = 9,
-        ORGANIZATION   = 10,
-        NUM_OF_FIELDS  = 11
+        EVENT            = 0,
+        PLACE            = 1,
+        RACE_TYPE        = 2,
+        RESULTS          = 3,
+        REFEREE          = 4,
+        TIMEKEEPER_1     = 5,
+        TIMEKEEPER_2     = 6,
+        TIMEKEEPER_3     = 7,
+        LENGTH           = 8,
+        ELEVATION_GAIN   = 9,
+        NAME_COMPOSITION = 10,
+        ACCURACY         = 11,
+        ORGANIZATION     = 12,
+        NUM_OF_FIELDS    = 13
+    };
+
+    enum class IndexField
+    {
+        RACE_TYPE        = 0,
+        RESULTS          = 1,
+        NAME_COMPOSITION = 2,
+        ACCURACY         = 3
+    };
+
+    enum class LogoField
+    {
+        LEFT             = 0,
+        RIGHT            = 1,
+        SPONSOR_1        = 2,
+        SPONSOR_2        = 3,
+        SPONSOR_3        = 4,
+        SPONSOR_4        = 5
+    };
+
+    enum class RaceType
+    {
+        MASS_START    = 0,
+        TIMED_RACE    = 1,
+        RELAY_RACE    = 2
+    };
+
+    enum class Results
+    {
+        UNOFFICIAL    = 0,
+        OFFICIAL      = 1
+    };
+
+    enum class NameComposition
+    {
+        SURNAME_FIRST = 0,
+        NAME_FIRST    = 1,
+        SURNAME_ONLY  = 2,
+        NAME_ONLY     = 3
+    };
+
+    enum class Accuracy
+    {
+        SECOND     = 0,
+        TENTH      = 1,
+        HUNDREDTH  = 2,
+        THOUSANDTH = 3
     };
 
     explicit ChronoRaceData(QWidget *parent = Q_NULLPTR);
 
-    friend QDataStream &operator<<(QDataStream &out, ChronoRaceData const &data);
-    friend QDataStream &operator>>(QDataStream &in, ChronoRaceData &data);
+    QDataStream &crdSerialize(QDataStream &out) const;
+    friend QDataStream &operator<<(QDataStream &out, ChronoRaceData const &data)
+    {
+        return data.crdSerialize(out);
+    }
 
-    friend QTextStream &operator<<(QTextStream &out, ChronoRaceData const &data);
+    QDataStream &crdDeserialize(QDataStream &in);
+    friend QDataStream &operator>>(QDataStream &in, ChronoRaceData &data)
+    {
+        return data.crdDeserialize(in);
+    }
+
+    QTextStream &crdSerialize(QTextStream &out) const;
+    friend QTextStream &operator<<(QTextStream &out, ChronoRaceData const &data)
+    {
+        return data.crdSerialize(out);
+    }
 
     void saveRaceData();
     void restoreRaceData() const;
 
     QPixmap getLeftLogo() const;
     QPixmap getRightLogo() const;
-    QString getEvent() const;
-    QString getPlace() const;
     QDate   getDate() const;
     QTime   getStartTime() const;
-    QString getRaceType() const;
-    QString getResults() const;
-    QString getReferee() const;
-    QString getTimeKeeper(uint idx) const;
-    QString getOrganization() const;
-    QString getLength() const;
-    QString getElevationGain() const;
+    QString getField(ChronoRaceData::StringField field) const;
     QVector<QPixmap> getSponsorLogos() const;
 
-    void setBinFormat(uint format);
+    void setField(ChronoRaceData::IndexField field, int newIndex);
+    void setField(ChronoRaceData::StringField field, QString const &newValue);
+    void setField(ChronoRaceData::LogoField field, QPixmap const &newValue);
+    void setRaceDate(QDate const &newDate);
+    void setStartTime(QTime const &newStartTime);
+
+    void getGlobalData(ChronoRaceData::NameComposition *gNameComposition, ChronoRaceData::Accuracy *gAccuracy) const;
 
 public slots:
     void loadLogo(QLabel *label = Q_NULLPTR);
-    void deleteLogo(QLabel *label = Q_NULLPTR) const;
+    void removeLogo(QLabel *label = Q_NULLPTR) const;
 
     void accept() override;
     void reject() override;
@@ -88,13 +149,12 @@ public slots:
 private:
     QScopedPointer<Ui::ChronoRaceData> ui { new Ui::ChronoRaceData };
 
-    // Binary format for the loader
-    uint    binFmt;
-
     QDate   date { QDate::currentDate() };
     QTime   startTime { 0, 0 };
     int     raceTypeIdx { 0 };
     int     resultsIdx { 0 };
+    int     nameCompositionIdx { 0 };
+    int     accuracyIdx { 0 };
     QVector<QString> stringFields;
     ChronoRaceLogo leftLogo;
     ChronoRaceLogo rightLogo;
@@ -102,6 +162,10 @@ private:
     ChronoRaceLogo sponsorLogo2;
     ChronoRaceLogo sponsorLogo3;
     ChronoRaceLogo sponsorLogo4;
+
+signals:
+    void globalDataChange(ChronoRaceData::NameComposition, ChronoRaceData::Accuracy);
+    void error(QString const &);
 };
 
-#endif // CHRONORACEDATA_H
+#endif // CHRONORACEDATA_HPP

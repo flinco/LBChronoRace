@@ -24,22 +24,21 @@ QString           Competitor::empty("");
 Competitor::Field CompetitorSorter::sortingField = Competitor::Field::CMF_FIRST;
 Qt::SortOrder     CompetitorSorter::sortingOrder = Qt::AscendingOrder;
 
-QDataStream &operator<<(QDataStream &out, const Competitor &comp)
-{
-    out << quint32(comp.bib)
-        << comp.name
-        << CRHelper::toSexString(comp.sex)
-        << quint32(comp.year)
-        << comp.club
-        << comp.team
-        << quint32(comp.leg)
-        << qint32(comp.offset);
+QDataStream &Competitor::cSerialize(QDataStream &out) const{
+    out << quint32(this->bib)
+        << this->surname
+        << this->name
+        << CRHelper::toSexString(this->sex)
+        << quint32(this->year)
+        << this->club
+        << this->team
+        << quint32(this->leg)
+        << qint32(this->offset);
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, Competitor &comp)
-{
+QDataStream &Competitor::cDeserialize(QDataStream &in){
     quint32 bib32;
     quint32 year32;
     quint32 leg32;
@@ -47,32 +46,62 @@ QDataStream &operator>>(QDataStream &in, Competitor &comp)
     QString sexStr;
 
     in >> bib32
-       >> comp.name
-       >> sexStr
+       >> this->surname;
+    if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v4)
+        in >> this->name;
+    in >> sexStr
        >> year32
-       >> comp.club;
+       >> this->club;
     if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v2)
-      in >> comp.team;
+      in >> this->team;
     in >> leg32
        >> offset32;
 
-    comp.bib    = bib32;
-    comp.sex    = CRHelper::toSex(sexStr);
-    comp.year   = year32;
-    comp.leg    = leg32;
-    comp.offset = offset32;
+    this->bib    = bib32;
+    this->sex    = CRHelper::toSex(sexStr);
+    this->year   = year32;
+    this->leg    = leg32;
+    this->offset = offset32;
 
     return in;
+}
+
+QString Competitor::getCompetitorName(ChronoRaceData::NameComposition nameComposition) const
+{
+    switch (nameComposition) {
+        using enum ChronoRaceData::NameComposition;
+
+        case NAME_FIRST:
+            return QString("%1 %2").arg(this->name, this->surname);
+        case SURNAME_FIRST:
+            return QString("%1 %2").arg(this->surname, this->name);
+        case SURNAME_ONLY:
+            return QString("%1").arg(this->surname);
+        case NAME_ONLY:
+            return QString("%1").arg(this->name);
+        default:
+            Q_UNREACHABLE();
+    }
+}
+
+QString Competitor::getCompetitorName(ChronoRaceData::NameComposition nameComposition, int width) const
+{
+    return QString("%1").arg(getCompetitorName(nameComposition), -width);
+}
+
+QString const &Competitor::getSurname() const
+{
+    return surname;
+}
+
+void Competitor::setSurname(QString const &newSurname)
+{
+    this->surname = newSurname;
 }
 
 QString const &Competitor::getName() const
 {
     return name;
-}
-
-QString Competitor::getName(int width) const
-{
-    return QString("%1").arg(this->name, -width);
 }
 
 void Competitor::setName(QString const &newName)
@@ -167,15 +196,10 @@ int Competitor::getOffset() const
     return offset;
 }
 
-void Competitor::setOffset(int newOffset)
+void Competitor::setOffset(int newOffset, bool maxLeg)
 {
-    this->offset = newOffset;
-}
-
-void Competitor::setOffset(int const *newOffset)
-{
-    if (newOffset)
-        this->offset = *newOffset;
+    if (!maxLeg || (newOffset < 0))
+        this->offset = newOffset;
 }
 
 bool Competitor::isValid() const
@@ -210,6 +234,8 @@ bool Competitor::isInCategory(Category const *category) const
 
     uint fromYear = category->getFromYear();
     uint toYear = category->getToYear();
+    uint fromBib = category->getFromBib();
+    uint toBib = category->getToBib();
 
     if ((fromYear != 0) && (this->year < fromYear))
         return false;
@@ -217,87 +243,51 @@ bool Competitor::isInCategory(Category const *category) const
     if ((toYear != 0) && (toYear < this->year))
         return false;
 
+    if ((fromBib != 0) && (this->bib < fromBib))
+        return false;
+
+    if ((toBib != 0) && (toBib < this->bib))
+        return false;
+
     Category::Type type = category->getType();
     switch (this->sex) {
-    case Competitor::Sex::MALE:
-        if ((type == Category::Type::FEMALE) || (type == Category::Type::RELAY_X))
+        case Competitor::Sex::MALE:
+            if ((type == Category::Type::FEMALE) || (type == Category::Type::RELAY_X))
+                return false;
+            break;
+        case Competitor::Sex::FEMALE:
+            if ((type == Category::Type::MALE) || (type == Category::Type::RELAY_Y))
+                return false;
+            break;
+        case Competitor::Sex::UNDEFINED:
             return false;
-        break;
-    case Competitor::Sex::FEMALE:
-        if ((type == Category::Type::MALE) || (type == Category::Type::RELAY_Y))
-            return false;
-        break;
-    case Competitor::Sex::UNDEFINED:
-        return false;
-    default:
-        Q_UNREACHABLE();
+        default:
+            Q_UNREACHABLE();
     }
 
     return true;
 }
 
-bool Competitor::operator< (Competitor const &rhs) const
-{
-    if ((offset < 0) && (offset != rhs.offset))
-        return qAbs(offset) < qAbs(rhs.offset);
-
-    if (bib < rhs.bib)
-        return true;
-
-    if (bib == rhs.bib) {
-        if (offset != rhs.offset)
-            return qAbs(offset) < qAbs(rhs.offset);
-        else
-            return leg < rhs.leg;
-    }
-
-    return false;
-}
-
-bool Competitor::operator> (Competitor const &rhs) const
-{
-    if ((offset < 0) && (offset != rhs.offset))
-        return qAbs(offset) > qAbs(rhs.offset);
-
-    if (bib > rhs.bib)
-        return true;
-
-    if (bib == rhs.bib) {
-        if (offset != rhs.offset)
-            return qAbs(offset) > qAbs(rhs.offset);
-        else
-            return leg > rhs.leg;
-    }
-
-    return false;
-}
-
-bool Competitor::operator<=(Competitor const &rhs) const
-{
-    return !(*this > rhs);
-}
-
-bool Competitor::operator>=(Competitor const &rhs) const
-{
-    return !(*this < rhs);
-}
-
 bool CompetitorSorter::operator() (Competitor const &lhs, Competitor const &rhs) const
 {
     switch(sortingField) {
-        case Competitor::Field::CMF_NAME:
+        using enum Competitor::Field;
+
+        case CMF_SURNAME:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getSurname() > rhs.getSurname()) : (lhs.getSurname() < rhs.getSurname());
+        case CMF_NAME:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getName() > rhs.getName()) : (lhs.getName() < rhs.getName());
-        case Competitor::Field::CMF_SEX:
+        case CMF_SEX:
             return (sortingOrder == Qt::DescendingOrder) ? (CRHelper::toSexString(lhs.getSex()) > CRHelper::toSexString(rhs.getSex())) : (CRHelper::toSexString(lhs.getSex()) < CRHelper::toSexString(rhs.getSex()));
-        case Competitor::Field::CMF_YEAR:
+        case CMF_YEAR:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getYear() > rhs.getYear()) : (lhs.getYear() < rhs.getYear());
-        case Competitor::Field::CMF_CLUB:
+        case CMF_CLUB:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getClub() > rhs.getClub()) : (lhs.getClub() < rhs.getClub());
-        case Competitor::Field::CMF_TEAM:
+        case CMF_TEAM:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs.getTeam() > rhs.getTeam()) : (lhs.getTeam() < rhs.getTeam());
-        case Competitor::Field::CMF_BIB:
-            [[fallthrough]];
-        case Competitor::Field::CMF_OFFSET_LEG:
+        case CMF_BIB:
+            return (sortingOrder == Qt::DescendingOrder) ? (lhs.getBib() > rhs.getBib()) : (lhs.getBib() < rhs.getBib());
+        case CMF_OFFSET_LEG:
             [[fallthrough]];
         default:
             return (sortingOrder == Qt::DescendingOrder) ? (lhs > rhs) : (lhs < rhs);

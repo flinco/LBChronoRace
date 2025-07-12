@@ -16,10 +16,12 @@
  *****************************************************************************/
 
 #include <QFileDialog>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include "crloader.hpp"
 #include "lbcrexception.hpp"
-#include "rankingswizard.hpp"
+#include "wizards/rankingswizard.hpp"
 #include "rankingprinter.hpp"
 
 RankingsWizard::RankingsWizard(ChronoRaceData *data, QDir *path, RankingsWizardTarget target) :
@@ -39,18 +41,21 @@ RankingsWizard::RankingsWizard(ChronoRaceData *data, QDir *path, RankingsWizardT
     QObject::connect(&rankingsBuilder, &RankingsBuilder::error, this, &RankingsWizard::storeErrorMessage);
 
     switch (this->target) {
-    case RankingsWizardTarget::Rankings:
-        buildRankings();
-        break;
-    case RankingsWizardTarget::StartList:
-        buildStartList();
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
+        using enum RankingsWizard::RankingsWizardTarget;
+
+        case Rankings:
+            buildRankings();
+            break;
+        case StartList:
+            buildStartList();
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
     }
 
     QObject::connect(&formatPage, &RankingsWizardFormat::error, this, &RankingsWizard::forwardErrorMessage);
+    QObject::connect(&formatPage, &RankingsWizardFormat::notifyOpenChange, this, &RankingsWizard::setOpenFileAtEnd);
     QObject::connect(&modePage, &RankingsWizardMode::error, this, &RankingsWizard::forwardErrorMessage);
     QObject::connect(&selectionPage, &RankingsWizardSelection::error, this, &RankingsWizard::forwardErrorMessage);
 
@@ -113,6 +118,11 @@ void RankingsWizard::buildRankings()
     }
 }
 
+void RankingsWizard::setOpenFileAtEnd(bool open)
+{
+    openFileAtEnd = open;
+}
+
 void RankingsWizard::forwardInfoMessage(QString const &message)
 {
     emit info(message);
@@ -153,15 +163,21 @@ void RankingsWizard::printStartList()
             auto const &infoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &RankingsWizard::forwardInfoMessage);
             auto const &errorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &RankingsWizard::forwardErrorMessage);
 
-            printer->init(&startListFileName, raceData->getEvent(), tr("Start List"));
+            printer->init(&startListFileName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Start List"));
 
             // print the startlist
             printer->printStartList(startList);
 
             if (printer->finalize()) {
                 QFileInfo outFileInfo(startListFileName);
-                emit info(tr("Generated Start List: %1").arg(QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
+                QString outFilePath = QDir::toNativeSeparators(outFileInfo.absoluteFilePath());
+                emit info(tr("Generated Start List: %1").arg(outFilePath));
                 lastSelectedPath->setPath(outFileInfo.absoluteDir().absolutePath());
+
+                if (this->openFileAtEnd) {
+                    emit info(tr("Trying to open: %1").arg(outFilePath));
+                    QDesktopServices::openUrl(QUrl::fromLocalFile(outFilePath));
+                }
             }
 
             // cleanup
@@ -189,12 +205,12 @@ void RankingsWizard::printRankingsSingleFile()
                                                                 printer->getFileFilter());
 
         if (rankingsFileName.isEmpty())
-            throw(ChronoRaceException(tr("Warning: please select a destination folder")));
+            throw(ChronoRaceException(tr("Warning: please select a destination file name")));
 
         auto const &printerInfoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &RankingsWizard::forwardInfoMessage);
         auto const &printerErrorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &RankingsWizard::forwardErrorMessage);
 
-        printer->init(&rankingsFileName, raceData->getEvent(), tr("Results"));
+        printer->init(&rankingsFileName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Results"));
 
         // now print each ranking
         for (auto &rankingItem : rankingsList) {
@@ -216,8 +232,14 @@ void RankingsWizard::printRankingsSingleFile()
 
         if (printer->finalize()) {
             QFileInfo outFileInfo(rankingsFileName);
-            emit info(tr("Generated Results: %1").arg(QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
+            QString outFilePath = QDir::toNativeSeparators(outFileInfo.absoluteFilePath());
+            emit info(tr("Generated Results: %1").arg(outFilePath));
             lastSelectedPath->setPath(outFileInfo.absoluteDir().absolutePath());
+
+            if (this->openFileAtEnd) {
+                emit info(tr("Trying to open: %1").arg(outFilePath));
+                QDesktopServices::openUrl(QUrl::fromLocalFile(outFilePath));
+            }
         }
 
         // cleanup
@@ -262,7 +284,7 @@ void RankingsWizard::printRankingsMultiFile()
                 continue;
 
             outFileBaseName = QDir(rankingsBasePath).filePath(QString("class%1_%2").arg(k, rWidth, 10, QChar('0')).arg(rankingItem.categories->getShortDescription()));
-            printer->init(&outFileBaseName, raceData->getEvent(), tr("Results") + " - " + rankingItem.categories->getFullDescription());
+            printer->init(&outFileBaseName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Results") + " - " + rankingItem.categories->getFullDescription());
 
             if (rankingItem.categories->isTeam()) {
                 // build the ranking
@@ -278,7 +300,13 @@ void RankingsWizard::printRankingsMultiFile()
 
             if (printer->finalize()) {
                 QFileInfo outFileInfo(outFileBaseName);
-                emit info(tr("Generated Results '%1': %2").arg(rankingItem.categories->getFullDescription(), QDir::toNativeSeparators(outFileInfo.absoluteFilePath())));
+                QString outFilePath = QDir::toNativeSeparators(outFileInfo.absoluteFilePath());
+                emit info(tr("Generated Results '%1': %2").arg(rankingItem.categories->getFullDescription(), outFilePath));
+
+                if (this->openFileAtEnd) {
+                    emit info(tr("Trying to open: %1").arg(outFilePath));
+                    QDesktopServices::openUrl(QUrl::fromLocalFile(outFilePath));
+                }
             }
         }
 
@@ -294,23 +322,25 @@ void RankingsWizard::print(bool checked)
 {
     Q_UNUSED(checked)
 
-    for (auto const &message : messages)
+    for (auto const &message : std::as_const(messages))
         if (!message.isEmpty())
             emit error(message);
     messages.clear();
 
     switch (this->target) {
-    case RankingsWizardTarget::StartList:
-        printStartList();
-        break;
-    case RankingsWizardTarget::Rankings:
-        if ((CRLoader::getFormat() != CRLoader::Format::PDF) || (pdfSingleMode == false))
-            printRankingsMultiFile();
-        else
-            printRankingsSingleFile();
-        break;
-    default:
-        Q_UNREACHABLE();
-        break;
+        using enum RankingsWizard::RankingsWizardTarget;
+
+        case StartList:
+            printStartList();
+            break;
+        case Rankings:
+            if ((CRLoader::getFormat() != CRLoader::Format::PDF) || (pdfSingleMode == false))
+                printRankingsMultiFile();
+            else
+                printRankingsSingleFile();
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
     }
 }

@@ -15,35 +15,39 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include "rankingswizard.hpp"
-#include "rankingswizardmode.hpp"
+#ifndef RANKINGSWIZARDFORMAT_HPP
+#define RANKINGSWIZARDFORMAT_HPP
 
-RankingsWizardMode::RankingsWizardMode(QWidget *parent) :
-    QWizardPage(parent),
-    singleFile(parent),
-    multiFile(parent)
+#include <QWizardPage>
+#include <QFormLayout>
+#include <QComboBox>
+#include <QCheckBox>
+
+class RankingsWizardFormat : public QWizardPage
 {
-    setTitle(tr("Single/multiple files"));
-    setSubTitle(tr("How many PDFs do you want?"));
+    Q_OBJECT
 
-    singleFile.setText(tr("One single file containing all rankings"));
-    singleFile.setChecked(true);
-    layout.addWidget(&singleFile);
+public:
+    explicit RankingsWizardFormat(QWidget *parent = Q_NULLPTR);
 
-    multiFile.setText(tr("A separate file for each ranking"));
-    multiFile.setChecked(false);
-    layout.addWidget(&multiFile);
+    void initializePage() override;
+    int nextId() const override;
 
-    setLayout(&layout);
+private:
+    QFormLayout layout;
 
-    QObject::connect(&singleFile, &QRadioButton::toggled, this, &RankingsWizardMode::toggleSingleMode);
-}
+    QComboBox fileFormat;
+    QComboBox fileEncoding;
+    QCheckBox fileOpen;
 
-void RankingsWizardMode::toggleSingleMode(bool checked) const
-{
-    RankingsWizard *parentWizard;
+private slots:
+    void formatChange(int index);
+    void encodingChange(int index) const;
+    void openChange(Qt::CheckState state);
 
-    if ((parentWizard = qobject_cast<RankingsWizard *>(wizard()))) {
-        parentWizard->setPdfSingleMode(checked);
-    }
-}
+signals:
+    void error(QString const &);
+    void notifyOpenChange(bool);
+};
+
+#endif // RANKINGSWIZARDFORMAT_HPP

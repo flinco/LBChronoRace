@@ -43,7 +43,7 @@
     </property>
     <item>
      <layout class="QGridLayout" name="upperArea">
-      <item row="3" column="0">
+      <item row="2" column="2">
        <widget class="QLabel" name="labelCompetitors">
         <property name="text">
          <string>Competitors</string>
@@ -53,7 +53,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="1" column="2">
        <widget class="QLabel" name="labelRankings">
         <property name="text">
          <string>Rankings</string>
@@ -63,7 +63,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
+      <item row="0" column="4" colspan="2">
        <widget class="QPushButton" name="editCategories">
         <property name="enabled">
          <bool>true</bool>
@@ -80,10 +80,10 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="4" column="3">
        <widget class="QLCDNumber" name="counterTimings"/>
       </item>
-      <item row="3" column="1">
+      <item row="2" column="3">
        <widget class="QLCDNumber" name="counterCompetitors">
         <property name="frameShape">
          <enum>QFrame::Shape::Box</enum>
@@ -99,7 +99,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="2">
+      <item row="2" column="4" colspan="2">
        <widget class="QPushButton" name="editStartList">
         <property name="enabled">
          <bool>true</bool>
@@ -108,7 +108,7 @@
          <string>Add, remove, and change competitors</string>
         </property>
         <property name="text">
-         <string>Edit Start List</string>
+         <string>Edit Competitors</string>
         </property>
         <property name="icon">
          <iconset resource="materialicons.qrc">
@@ -116,7 +116,7 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="4" column="2">
        <widget class="QLabel" name="labelTimings">
         <property name="text">
          <string>Timings</string>
@@ -126,7 +126,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
+      <item row="2" column="0" colspan="2">
        <widget class="QPushButton" name="saveRace">
         <property name="toolTip">
          <string>Save current race data to file</string>
@@ -140,10 +140,10 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="0" column="3">
        <widget class="QLCDNumber" name="counterCategories"/>
       </item>
-      <item row="5" column="2">
+      <item row="4" column="4" colspan="2">
        <widget class="QPushButton" name="editTimings">
         <property name="enabled">
          <bool>true</bool>
@@ -160,7 +160,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item row="0" column="2">
        <widget class="QLabel" name="labelCategories">
         <property name="text">
          <string>Categories</string>
@@ -170,7 +170,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="2">
+      <item row="3" column="0" colspan="2">
        <widget class="QPushButton" name="editRace">
         <property name="toolTip">
          <string>Edit race information, including logos</string>
@@ -184,16 +184,16 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="2">
+      <item row="3" column="4" colspan="2">
        <widget class="QPushButton" name="editClubsList">
         <property name="enabled">
          <bool>true</bool>
         </property>
         <property name="toolTip">
-         <string>See the list of the clubs (that cannot be changed)</string>
+         <string>View the list of the clubs (that cannot be changed)</string>
         </property>
         <property name="text">
-         <string>View Clubs List</string>
+         <string>View Clubs</string>
         </property>
         <property name="icon">
          <iconset resource="materialicons.qrc">
@@ -201,7 +201,21 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
+      <item row="0" column="0" colspan="2">
+       <widget class="QPushButton" name="newRace">
+        <property name="toolTip">
+         <string>Start with a new race file</string>
+        </property>
+        <property name="text">
+         <string>New Race</string>
+        </property>
+        <property name="icon">
+         <iconset resource="materialicons.qrc">
+          <normaloff>:/material/icons/note_add.svg</normaloff>:/material/icons/note_add.svg</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
        <widget class="QPushButton" name="loadRace">
         <property name="toolTip">
          <string>Load race data from a file</string>
@@ -215,7 +229,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="3" column="2">
        <widget class="QLabel" name="labelTeams">
         <property name="text">
          <string>Clubs</string>
@@ -225,13 +239,13 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="3" column="3">
        <widget class="QLCDNumber" name="counterTeams"/>
       </item>
-      <item row="2" column="1">
+      <item row="1" column="3">
        <widget class="QLCDNumber" name="counterRankings"/>
       </item>
-      <item row="2" column="2">
+      <item row="1" column="4" colspan="2">
        <widget class="QPushButton" name="editRankings">
         <property name="toolTip">
          <string>Add, remove, and change the definition of the rankings</string>
@@ -243,6 +257,34 @@
          <iconset resource="materialicons.qrc">
           <normaloff>:/material/icons/rule.svg</normaloff>:/material/icons/rule.svg</iconset>
         </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="liveViewLabel">
+        <property name="toolTip">
+         <string>Select a screen for the Live Rankings</string>
+        </property>
+        <property name="text">
+         <string>Live Rankings</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QComboBox" name="liveViewSelector">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="toolTip">
+         <string>Select a screen for the Live Rankings</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Off</string>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>
@@ -287,7 +329,7 @@
         <item>
          <widget class="QLabel" name="labelErrorDisplay">
           <property name="text">
-           <string>Warnings/Errors</string>
+           <string>Warnings and Errors</string>
           </property>
          </widget>
         </item>
@@ -324,7 +366,7 @@
         <item>
          <widget class="QPushButton" name="importTimings">
           <property name="toolTip">
-           <string>Load the timings collected and exported in another PC</string>
+           <string>Load timings collected and exported in another PC</string>
           </property>
           <property name="text">
            <string>Import Timings from another PC</string>
@@ -368,7 +410,7 @@
            <string>Generate start list</string>
           </property>
           <property name="text">
-           <string>Make Start List</string>
+           <string>Generate Start List</string>
           </property>
           <property name="icon">
            <iconset resource="materialicons.qrc">
@@ -388,10 +430,10 @@
            </sizepolicy>
           </property>
           <property name="toolTip">
-           <string>Collect timings and bibs</string>
+           <string>Record timings and bibs</string>
           </property>
           <property name="text">
-           <string>Collect Timings</string>
+           <string>Record Timings</string>
           </property>
           <property name="icon">
            <iconset resource="materialicons.qrc">
@@ -414,7 +456,7 @@
            <string>Generate results</string>
           </property>
           <property name="text">
-           <string>Make Results</string>
+           <string>Generate Results</string>
           </property>
           <property name="icon">
            <iconset resource="materialicons.qrc">
@@ -444,9 +486,13 @@
     <property name="toolTipsVisible">
      <bool>false</bool>
     </property>
+    <addaction name="actionNewRace"/>
     <addaction name="actionLoadRace"/>
     <addaction name="actionSaveRace"/>
     <addaction name="actionSaveRaceAs"/>
+    <addaction name="separator"/>
+    <addaction name="actionRecentRaces"/>
+    <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -479,12 +525,29 @@
     <addaction name="actionMakeRankings"/>
     <addaction name="separator"/>
     <addaction name="actionSetEncoding"/>
+    <addaction name="actionAddTimeSpan"/>
+    <addaction name="actionSubtractTimeSpan"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
+  <action name="actionNewRace">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/note_add.svg</normaloff>:/material/icons/note_add.svg</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;New</string>
+   </property>
+   <property name="toolTip">
+    <string>Start with a new race file</string>
+   </property>
+   <property name="shortcut">
+    <string>N</string>
+   </property>
+  </action>
   <action name="actionQuit">
    <property name="icon">
     <iconset resource="materialicons.qrc">
@@ -503,7 +566,7 @@
      <normaloff>:/material/icons/user_attributes.svg</normaloff>:/material/icons/user_attributes.svg</iconset>
    </property>
    <property name="text">
-    <string>&amp;Start List</string>
+    <string>C&amp;ompetitors</string>
    </property>
    <property name="toolTip">
     <string>Add, remove, and change competitors</string>
@@ -572,7 +635,7 @@
     <string>Cl&amp;ubs</string>
    </property>
    <property name="toolTip">
-    <string>See the list of the clubs (that cannot be changed)</string>
+    <string>View the list of the clubs (that cannot be changed)</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -627,7 +690,7 @@
     <string>Import Timings</string>
    </property>
    <property name="toolTip">
-    <string>Load the timings collected and exported in another PC</string>
+    <string>Load timings collected and exported in another PC</string>
    </property>
   </action>
   <action name="actionExportTimings">
@@ -648,7 +711,7 @@
      <normaloff>:/material/icons/sports.svg</normaloff>:/material/icons/sports.svg</iconset>
    </property>
    <property name="text">
-    <string>Make Start List</string>
+    <string>Generate Start List</string>
    </property>
    <property name="toolTip">
     <string>Generate start list</string>
@@ -660,10 +723,10 @@
      <normaloff>:/material/icons/timer_play.svg</normaloff>:/material/icons/timer_play.svg</iconset>
    </property>
    <property name="text">
-    <string>Collect Timings</string>
+    <string>Record Timings</string>
    </property>
    <property name="toolTip">
-    <string>Collect timings and bibs</string>
+    <string>Record timings and bibs</string>
    </property>
   </action>
   <action name="actionMakeRankings">
@@ -672,7 +735,7 @@
      <normaloff>:/material/icons/sports_score.svg</normaloff>:/material/icons/sports_score.svg</iconset>
    </property>
    <property name="text">
-    <string>Make Results</string>
+    <string>Generate Results</string>
    </property>
    <property name="toolTip">
     <string>Generate results</string>
@@ -702,9 +765,39 @@
     <string>Add, remove, and change the definition of the rankings</string>
    </property>
   </action>
+  <action name="actionAddTimeSpan">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/update.svg</normaloff>:/material/icons/update.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Add time span</string>
+   </property>
+   <property name="toolTip">
+    <string>Add an arbitrary amount of time to all the recorded timings</string>
+   </property>
+  </action>
+  <action name="actionSubtractTimeSpan">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/history.svg</normaloff>:/material/icons/history.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Subtract time span</string>
+   </property>
+   <property name="toolTip">
+    <string>Subtract an arbitrary amount of time to all the recorded timings</string>
+   </property>
+  </action>
+  <action name="actionRecentRaces">
+   <property name="text">
+    <string>Recent Races</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
+  <tabstop>newRace</tabstop>
   <tabstop>loadRace</tabstop>
   <tabstop>saveRace</tabstop>
   <tabstop>editRace</tabstop>

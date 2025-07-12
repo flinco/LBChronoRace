@@ -12,16 +12,16 @@
         <translation>ISO-8859-1 (Latin-1)</translation>
     </message>
     <message>
-        <source>Unsupported encoding %1</source>
-        <translation>Unsupported encoding %1</translation>
+        <source>The encoding format %1 is not supported</source>
+        <translation>The encoding format %1 is not supported</translation>
     </message>
     <message>
         <source>PDF</source>
         <translation>PDF</translation>
     </message>
     <message>
-        <source>Text</source>
-        <translation>Text</translation>
+        <source>Plain text</source>
+        <translation>Plain text</translation>
     </message>
     <message>
         <source>CSV</source>
@@ -32,8 +32,8 @@
         <translation>Unknown format %1</translation>
     </message>
     <message>
-        <source>Illegal sex &apos;%1&apos;</source>
-        <translation>Illegal sex &apos;%1&apos;</translation>
+        <source>Invalid sex &apos;%1&apos;</source>
+        <translation>Invalid sex &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Unexpected Sex enum value &apos;%1&apos;</source>
@@ -52,8 +52,8 @@
         <translation>Not set</translation>
     </message>
     <message>
-        <source>Illegal type &apos;%1&apos;</source>
-        <translation>Illegal type &apos;%1&apos;</translation>
+        <source>Invalid type &apos;%1&apos;</source>
+        <translation>Invalid type &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Unexpected Type enum value &apos;%1&apos;</source>
@@ -80,11 +80,11 @@
         <translation>Mixed Relay (M/F)</translation>
     </message>
     <message>
-        <source>Mixed Clubs Relay (M)</source>
+        <source>Mixed Club Relay (M)</source>
         <translation>Mixed Clubs Relay (M)</translation>
     </message>
     <message>
-        <source>Mixed Clubs Relay (F)</source>
+        <source>Mixed Club Relay (F)</source>
         <translation>Mixed Clubs Relay (F)</translation>
     </message>
     <message>
@@ -92,8 +92,8 @@
         <translation>Invalid status value %1</translation>
     </message>
     <message>
-        <source>Illegal status value &apos;%1&apos;</source>
-        <translation>Illegal status value &apos;%1&apos;</translation>
+        <source>Invalid status value &apos;%1&apos;</source>
+        <translation>Invalid status value &apos;%1&apos;</translation>
     </message>
     <message>
         <source>Classified</source>
@@ -111,28 +111,56 @@
         <source>Did not start</source>
         <translation>Did not start</translation>
     </message>
+    <message>
+        <source>Invalid accuracy value %1</source>
+        <translation>Invalid accuracy value %1</translation>
+    </message>
+    <message>
+        <source>Import method</source>
+        <translation>Import method</translation>
+    </message>
+    <message>
+        <source>Do you want to replace the table data or add new entries?</source>
+        <translation>Do you want to replace the table data or add new entries?</translation>
+    </message>
+    <message>
+        <source>Replace</source>
+        <translation>Replace</translation>
+    </message>
+    <message>
+        <source>Append</source>
+        <translation>Append</translation>
+    </message>
+    <message>
+        <source>About %1</source>
+        <translation>About %1</translation>
+    </message>
+    <message>
+        <source>About Qt</source>
+        <translation>About Qt</translation>
+    </message>
 </context>
 <context>
     <name>CRLoader</name>
     <message>
-        <source>Error: cannot open %1</source>
-        <translation>Error: cannot open %1</translation>
+        <source>Error: unable to open %1</source>
+        <translation>Error: unable to open %1</translation>
     </message>
     <message>
-        <source>Wrong number of columns; expected %1 - found %2</source>
-        <translation>Wrong number of columns; expected %1 - found %2</translation>
+        <source>Incorrect number of columns; expected %1 - found %2</source>
+        <translation>Incorrect number of columns; expected %1 - found %2</translation>
     </message>
     <message>
-        <source>Wrong number of elements in CSV row; expected %1 - found %2</source>
-        <translation>Wrong number of elements in CSV row; expected %1 - found %2</translation>
+        <source>Incorrect number of elements in CSV row; expected %1 - found %2</source>
+        <translation>Incorrect number of elements in CSV row; expected %1 - found %2</translation>
     </message>
     <message>
-        <source>Unexpected model value %1 (import)</source>
-        <translation>Unexpected model value %1 (import)</translation>
+        <source>Unexpected model value: %1 (export)</source>
+        <translation>Unexpected model value: %1 (export)</translation>
     </message>
     <message>
-        <source>Unexpected model value %1 (export)</source>
-        <translation>Unexpected model value %1 (export)</translation>
+        <source>Unexpected action value: %1 (add timing)</source>
+        <translation>Unexpected action value: %1 (add timing)</translation>
     </message>
 </context>
 <context>
@@ -142,27 +170,27 @@
         <translation>CSV (*.csv)</translation>
     </message>
     <message>
-        <source>Error: cannot open %1</source>
-        <translation>Error: cannot open %1</translation>
+        <source>Error: unable to open %1</source>
+        <translation>Error: unable to open %1</translation>
     </message>
     <message>
-        <source>Error: no file name supplied</source>
-        <translation>Error: no file name supplied</translation>
+        <source>Error: no file name provided</source>
+        <translation>Error: no file name provided</translation>
     </message>
     <message>
-        <source>Error: writing attempt on closed file</source>
-        <translation>Error: writing attempt on closed file</translation>
+        <source>Error: attempted to write to a closed file</source>
+        <translation>Error: attempted to write to a closed file</translation>
     </message>
 </context>
 <context>
     <name>CategoriesModel</name>
     <message>
-        <source>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</source>
-        <translation>The category will include competitors born up to and including this year (i.e. 2000); 0 to disable</translation>
+        <source>The category includes competitors born in or before this year (e.g., 2000); set to 0 to disable this constraint</source>
+        <translation>The category includes competitors born in or before this year (e.g., 2000); set to 0 to disable this constraint</translation>
     </message>
     <message>
-        <source>The category will include competitors born from this year (i.e. 1982); to disable</source>
-        <translation>The category will include competitors born from this year (i.e. 1982); to disable</translation>
+        <source>The category includes competitors born in or after this year (e.g., 1982); set to 0 to disable this constraint</source>
+        <translation>The category includes competitors born in or after this year (e.g., 1982); set to 0 to disable this constraint</translation>
     </message>
     <message>
         <source>Full category name</source>
@@ -173,12 +201,20 @@
         <translation>Short category name</translation>
     </message>
     <message>
-        <source>Up to</source>
-        <translation>Up to</translation>
+        <source>Born up to</source>
+        <translation>Born up to</translation>
     </message>
     <message>
-        <source>From</source>
-        <translation>From</translation>
+        <source>Born from</source>
+        <translation>Born from</translation>
+    </message>
+    <message>
+        <source>Bib up to</source>
+        <translation>Bib up to</translation>
+    </message>
+    <message>
+        <source>Bib from</source>
+        <translation>Bib from</translation>
     </message>
     <message>
         <source>Category Full Name</source>
@@ -189,19 +225,27 @@
         <translation>Category Short Name</translation>
     </message>
     <message>
-        <source>Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)</source>
-        <translation>Male Individual/Relay (M), Female Individual/Relay (F), Mixed M/F Relay (X), Male Mixed Clubs Relay (Y), or Female Mixed Clubs Relay (Y)</translation>
+        <source>Male Individual/Relay [M], Female Individual/Relay [F], Mixed M/F Relay [U], Male Mixed Club Relay [Y], or Female Mixed Club Relay [X]</source>
+        <translation>Male Individual/Relay [M], Female Individual/Relay [F], Mixed M/F Relay [U], Male Mixed Club Relay [Y], or Female Mixed Club Relay [X]</translation>
     </message>
     <message>
         <source>Type</source>
         <translation>Type</translation>
     </message>
+    <message>
+        <source>The category includes competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint</source>
+        <translation>The category includes competitors with a bib number less than or equal to this (i.e. 200); set to 0 to disable this constraint</translation>
+    </message>
+    <message>
+        <source>The category includes competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint</source>
+        <translation>The category includes competitors with a bib number greater than or equal to this (i.e. 200); set to 0 to disable this constraint</translation>
+    </message>
 </context>
 <context>
     <name>Category</name>
     <message>
-        <source>Illegal category type &apos;%1&apos;</source>
-        <translation>Illegal category type &apos;%1&apos;</translation>
+        <source>Invalid category type &apos;%1&apos;</source>
+        <translation>Invalid category type &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -211,12 +255,8 @@
         <translation>Race Information</translation>
     </message>
     <message>
-        <source>Remove 1st sponsor</source>
-        <translation>Remove 1st sponsor</translation>
-    </message>
-    <message>
-        <source>Event</source>
-        <translation>Event</translation>
+        <source>Event name</source>
+        <translation>Event name</translation>
     </message>
     <message>
         <source>Unofficial</source>
@@ -233,14 +273,6 @@
     <message>
         <source>Logo 1 not loaded</source>
         <translation>Logo 1 not loaded</translation>
-    </message>
-    <message>
-        <source>Load 4th sponsor</source>
-        <translation>Load 4th sponsor</translation>
-    </message>
-    <message>
-        <source>Remove 4th sponsor</source>
-        <translation>Remove 4th sponsor</translation>
     </message>
     <message>
         <source>Sponsor 1 not loaded</source>
@@ -263,28 +295,12 @@
         <translation>Relay race</translation>
     </message>
     <message>
-        <source>Load 1st sponsor</source>
-        <translation>Load 1st sponsor</translation>
-    </message>
-    <message>
-        <source>Remove 3rd sponsor</source>
-        <translation>Remove 3rd sponsor</translation>
-    </message>
-    <message>
         <source>Timekeeper 1</source>
         <translation>Timekeeper 1</translation>
     </message>
     <message>
-        <source>Remove 2nd sponsor</source>
-        <translation>Remove 2nd sponsor</translation>
-    </message>
-    <message>
         <source>dd/MM/yyyy</source>
         <translation>dd/MM/yyyy</translation>
-    </message>
-    <message>
-        <source>Load 3rd sponsor</source>
-        <translation>Load 3rd sponsor</translation>
     </message>
     <message>
         <source>Date</source>
@@ -315,32 +331,12 @@
         <translation>Timekeeper 2</translation>
     </message>
     <message>
-        <source>Load 2nd logo</source>
-        <translation>Load 2nd logo</translation>
-    </message>
-    <message>
-        <source>Load 2nd sponsor</source>
-        <translation>Load 2nd sponsor</translation>
-    </message>
-    <message>
-        <source>Remove 1st logo</source>
-        <translation>Remove 1st logo</translation>
-    </message>
-    <message>
         <source>Place</source>
         <translation>Place</translation>
     </message>
     <message>
-        <source>Load 1st logo</source>
-        <translation>Load 1st logo</translation>
-    </message>
-    <message>
-        <source>Remove 2nd logo</source>
-        <translation>Remove 2nd logo</translation>
-    </message>
-    <message>
-        <source>Lenght</source>
-        <translation>Lenght</translation>
+        <source>Length</source>
+        <translation>Length</translation>
     </message>
     <message>
         <source>Race Type</source>
@@ -459,8 +455,8 @@
         <translation>The event name, used as title in the rankings</translation>
     </message>
     <message>
-        <source>Add the logo in the upper right corner of the PDF</source>
-        <translation>Add the logo in the upper right corner of the PDF</translation>
+        <source>Add a logo in the upper right corner of the PDF</source>
+        <translation>Add a logo in the upper right corner of the PDF</translation>
     </message>
     <message>
         <source>Add the second sponsor logo (at the bottom of the PDF)</source>
@@ -486,24 +482,100 @@
         <source>The elevation gain of the race course (optional)</source>
         <translation>The elevation gain of the race course (optional)</translation>
     </message>
+    <message>
+        <source>Competitor</source>
+        <translation>Competitor</translation>
+    </message>
+    <message>
+        <source>How the name of the competitor is built</source>
+        <translation>How the name of the competitor is built</translation>
+    </message>
+    <message>
+        <source>Surname Name</source>
+        <translation>Last name First name</translation>
+    </message>
+    <message>
+        <source>Name Surname</source>
+        <translation>First name Last name</translation>
+    </message>
+    <message>
+        <source>Surname (only)</source>
+        <translation>Last name (only)</translation>
+    </message>
+    <message>
+        <source>Name (only)</source>
+        <translation>First name (only)</translation>
+    </message>
+    <message>
+        <source>Accuracy</source>
+        <translation>Accuracy</translation>
+    </message>
+    <message>
+        <source>How accurate the timings will be</source>
+        <translation>How accurate the timings will be</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Remove</translation>
+    </message>
+    <message>
+        <source>Load</source>
+        <translation>Load</translation>
+    </message>
+    <message>
+        <source>1st sponsor logo</source>
+        <translation>1st sponsor logo</translation>
+    </message>
+    <message>
+        <source>2nd sponsor logo</source>
+        <translation>2nd sponsor logo</translation>
+    </message>
+    <message>
+        <source>3rd sponsor logo</source>
+        <translation>3rd sponsor logo</translation>
+    </message>
+    <message>
+        <source>4th sponsor logo</source>
+        <translation>4th sponsor logo</translation>
+    </message>
+    <message>
+        <source>Top left logo</source>
+        <translation>Top left logo</translation>
+    </message>
+    <message>
+        <source>Top right logo</source>
+        <translation>Top right logo</translation>
+    </message>
+    <message>
+        <source>Error: index field to be set unknown</source>
+        <translation>Error: index field to be set unknown</translation>
+    </message>
+    <message>
+        <source>Error: string field to be set unknown</source>
+        <translation>Error: string field to be set unknown</translation>
+    </message>
+    <message>
+        <source>Error: logo field to be set unknown</source>
+        <translation>Error: logo field to be set unknown</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTable</name>
     <message>
-        <source>Add an empty row to the table</source>
-        <translation>Add an empty row to the table</translation>
+        <source>Add an empty row</source>
+        <translation>Add an empty row</translation>
     </message>
     <message>
         <source>Add Row</source>
         <translation>Add Row</translation>
     </message>
     <message>
-        <source>Delete a row from the table</source>
-        <translation>Delete a row from the table</translation>
+        <source>Remove a row from the table</source>
+        <translation>Remove a row from the table</translation>
     </message>
     <message>
-        <source>Delete Row</source>
-        <translation>Delete Row</translation>
+        <source>Remove Row</source>
+        <translation>Remove Row</translation>
     </message>
     <message>
         <source>Import data from a CSV file</source>
@@ -605,14 +677,6 @@ Continue?</translation>
         <translation>RESET</translation>
     </message>
     <message>
-        <source>LOCK</source>
-        <translation>LOCK</translation>
-    </message>
-    <message>
-        <source>UNLOCK</source>
-        <translation>UNLOCK</translation>
-    </message>
-    <message>
         <source>Bib</source>
         <translation>Bib</translation>
     </message>
@@ -668,28 +732,67 @@ Continue?</translation>
         <source>Missing bib for time %1</source>
         <translation>Missing bib for time %1</translation>
     </message>
+    <message>
+        <source>Buttons lock</source>
+        <translation>Buttons lock</translation>
+    </message>
+    <message>
+        <source>Time span</source>
+        <translation>Time span</translation>
+    </message>
+    <message>
+        <source>Time interval to add up</source>
+        <translation>Time interval to add up</translation>
+    </message>
+    <message>
+        <source>Time interval to subtract</source>
+        <translation>Time interval to subtract</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n second(s) will be added to all the recorded timings.
+Are you sure you want to continue?</source>
+        <translation>
+            <numerusform>%n second will be added to all the recorded timings.
+Are you sure you want to continue?</numerusform>
+            <numerusform>%n seconds will be added to all the recorded timings.
+Are you sure you want to continue?</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n second(s) will be subtracted from all the recorded timings.
+Timings resulting below 0 will be set to 0:00:00.000.
+Are you sure you want to continue?</source>
+        <translation>
+            <numerusform>%n second will be subtracted from all the recorded timings.
+Timings resulting below 0 will be set to 0:00:00.000.
+Are you sure you want to continue?</numerusform>
+            <numerusform>%n seconds will be subtracted from all the recorded timings.
+Timings resulting below 0 will be set to 0:00:00.000.
+Are you sure you want to continue?</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>ClassEntry</name>
     <message>
-        <source>Nonexistent leg %1 for bib %2</source>
-        <translation>Nonexistent leg %1 for bib %2</translation>
+        <source>Leg %1 does not exist for bib %2</source>
+        <translation>Leg %1 does not exist for bib %2</translation>
     </message>
     <message>
-        <source>Leg mismatch for bib %1: detected %2 overriding competitor declared %3</source>
-        <translation>Leg mismatch for bib %1: detected %2 overriding competitor declared %3</translation>
+        <source>Leg mismatch for bib %1: found %2 overriding competitor declared %3</source>
+        <translation>Leg mismatch for bib %1: found %2 overriding competitor declared %3</translation>
     </message>
     <message>
         <source>Competitor mismatch for bib %1: found %2 replaced by %3</source>
         <translation>Competitor mismatch for bib %1: found %2 replaced by %3</translation>
     </message>
     <message>
-        <source>Unexpected sex value for bib %1 (%2)</source>
-        <translation>Unexpected sex value for bib %1 (%2)</translation>
+        <source>Invalid sex value for bib %1 (%2)</source>
+        <translation>Invalid sex value for bib %1 (%2)</translation>
     </message>
     <message>
-        <source>No competitors associated to bib %1</source>
-        <translation>No competitors associated to bib %1</translation>
+        <source>No competitor associated with bib %1</source>
+        <translation>No competitors associated with bib %1</translation>
     </message>
     <message>
         <source>No category fits the competitor with bib %1 - %2</source>
@@ -719,8 +822,8 @@ Continue?</translation>
         <translation>Edit Race Information</translation>
     </message>
     <message>
-        <source>View Clubs List</source>
-        <translation>View Clubs List</translation>
+        <source>View Clubs</source>
+        <translation>View Clubs</translation>
     </message>
     <message>
         <source>Competitors</source>
@@ -747,8 +850,8 @@ Continue?</translation>
         <translation>Load Race</translation>
     </message>
     <message>
-        <source>Edit Start List</source>
-        <translation>Edit Start List</translation>
+        <source>Edit Competitors</source>
+        <translation>Edit Competitors</translation>
     </message>
     <message>
         <source>Save Race</source>
@@ -759,24 +862,24 @@ Continue?</translation>
         <translation>Information</translation>
     </message>
     <message>
-        <source>Warnings/Errors</source>
-        <translation>Warnings/Errors</translation>
+        <source>Warnings and Errors</source>
+        <translation>Warnings and Errors</translation>
     </message>
     <message>
-        <source>Make Start List</source>
-        <translation>Make Start List</translation>
+        <source>Generate Start List</source>
+        <translation>Generate Start List</translation>
     </message>
     <message>
-        <source>Collect timings and bibs</source>
-        <translation>Collect timings and bibs</translation>
+        <source>Record timings and bibs</source>
+        <translation>Record timings and bibs</translation>
     </message>
     <message>
-        <source>Collect Timings</source>
-        <translation>Collect Timings</translation>
+        <source>Record Timings</source>
+        <translation>Record Timings</translation>
     </message>
     <message>
-        <source>Make Results</source>
-        <translation>Make Results</translation>
+        <source>Generate Results</source>
+        <translation>Generate Results</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -799,8 +902,8 @@ Continue?</translation>
         <translation>Q</translation>
     </message>
     <message>
-        <source>&amp;Start List</source>
-        <translation>&amp;Start List</translation>
+        <source>C&amp;ompetitors</source>
+        <translation>C&amp;ompetitors</translation>
     </message>
     <message>
         <source>&amp;Categories</source>
@@ -835,20 +938,12 @@ Continue?</translation>
         <translation>About &amp;Qt</translation>
     </message>
     <message>
-        <source>About Qt</source>
-        <translation>About Qt</translation>
-    </message>
-    <message>
         <source>&amp;Race</source>
         <translation>&amp;Race</translation>
     </message>
     <message>
         <source>Save as</source>
         <translation>Save as</translation>
-    </message>
-    <message>
-        <source>Start List</source>
-        <translation>Start List</translation>
     </message>
     <message>
         <source>Clubs List</source>
@@ -863,12 +958,12 @@ Continue?</translation>
         <translation>CSV (*.csv)</translation>
     </message>
     <message>
-        <source>Select Start List</source>
-        <translation>Select Start List</translation>
+        <source>Select Competitors</source>
+        <translation>Select Competitors</translation>
     </message>
     <message>
-        <source>Start List File: %1</source>
-        <translation>Start List File: %1</translation>
+        <source>Competitors File: %1</source>
+        <translation>Competitors File: %1</translation>
     </message>
     <message numerus="yes">
         <source>Loaded: %n competitor(s)</source>
@@ -878,10 +973,10 @@ Continue?</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <source>Loaded: %n team(s)</source>
+        <source>Loaded: %n club(s)</source>
         <translation>
-            <numerusform>Loaded: %n team</numerusform>
-            <numerusform>Loaded: %n teams</numerusform>
+            <numerusform>Loaded: %n club</numerusform>
+            <numerusform>Loaded: %n clubs</numerusform>
         </translation>
     </message>
     <message>
@@ -915,8 +1010,8 @@ Continue?</translation>
         </translation>
     </message>
     <message>
-        <source>Start List File saved: %1</source>
-        <translation>Start List File saved: %1</translation>
+        <source>Competitors File saved: %1</source>
+        <translation>Competitors File saved: %1</translation>
     </message>
     <message>
         <source>Select Clubs List</source>
@@ -961,10 +1056,6 @@ Continue?</translation>
     <message>
         <source>Race saved: %1</source>
         <translation>Race saved: %1</translation>
-    </message>
-    <message>
-        <source>About %1</source>
-        <translation>About %1</translation>
     </message>
     <message>
         <source>Selected encoding: %1</source>
@@ -1023,8 +1114,8 @@ Continue?</translation>
         <translation>Save current race data to a new file</translation>
     </message>
     <message>
-        <source>See the list of the clubs (that cannot be changed)</source>
-        <translation>See the list of the clubs (that cannot be changed)</translation>
+        <source>View the list of the clubs (that cannot be changed)</source>
+        <translation>View the list of the clubs (that cannot be changed)</translation>
     </message>
     <message>
         <source>Cl&amp;ubs</source>
@@ -1035,8 +1126,8 @@ Continue?</translation>
         <translation>Clubs</translation>
     </message>
     <message>
-        <source>Load the timings collected and exported in another PC</source>
-        <translation>Load the timings collected and exported in another PC</translation>
+        <source>Load timings collected and exported in another PC</source>
+        <translation>Load timings collected and exported in another PC</translation>
     </message>
     <message>
         <source>Import Timings from another PC</source>
@@ -1130,10 +1221,6 @@ The definitions of Categories and Rankings must be reviewed and corrected.</sour
 The definitions of Categories and Rankings must be reviewed and corrected.</translation>
     </message>
     <message>
-        <source>Unknown encoding %1; loaded saved</source>
-        <translation type="obsolete">Unknown encoding %1; loaded saved</translation>
-    </message>
-    <message>
         <source>Unknown encoding %1; default saved</source>
         <translation>Unknown encoding %1; default saved</translation>
     </message>
@@ -1141,12 +1228,516 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Unknown encoding %1; loaded default</source>
         <translation>Unknown encoding %1; loaded default</translation>
     </message>
+    <message>
+        <source>Add time span</source>
+        <translation>Add time span</translation>
+    </message>
+    <message>
+        <source>Add an arbitrary amount of time to all the recorded timings</source>
+        <translation>Add an arbitrary amount of time to all the recorded timings</translation>
+    </message>
+    <message>
+        <source>Subtract time span</source>
+        <translation>Subtract time span</translation>
+    </message>
+    <message>
+        <source>Subtract an arbitrary amount of time to all the recorded timings</source>
+        <translation>Subtract an arbitrary amount of time to all the recorded timings</translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n competitor(s)</source>
+        <translation>
+            <numerusform>Appended: %n competitor</numerusform>
+            <numerusform>Appended: %n competitors</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n club(s)</source>
+        <translation>
+            <numerusform>Appended: %n club</numerusform>
+            <numerusform>Appended: %n clubs</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n ranking(s)</source>
+        <translation>
+            <numerusform>Appended: %n ranking</numerusform>
+            <numerusform>Appended: %n rankings</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n category(s)</source>
+        <translation>
+            <numerusform>Appended: %n category</numerusform>
+            <numerusform>Appended: %n categories</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>Appended: %n timing(s)</source>
+        <translation>
+            <numerusform>Appended: %n timing</numerusform>
+            <numerusform>Appended: %n timings</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Clubs File: %1</source>
+        <translation>Clubs File: %1</translation>
+    </message>
+    <message>
+        <source>Select Clubs File</source>
+        <translation>Select Clubs File</translation>
+    </message>
+    <message>
+        <source>Live Rankings</source>
+        <translation>Live Rankings</translation>
+    </message>
+    <message>
+        <source>Notice:: enter competitors to use the Live Rankings</source>
+        <translation>Notice:: enter competitors to use the Live Rankings</translation>
+    </message>
+    <message>
+        <source>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</source>
+        <translation>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</translation>
+    </message>
+    <message>
+        <source>Info: closing the Live Rankings</source>
+        <translation>Info: closing the Live Rankings</translation>
+    </message>
+    <message>
+        <source>Select a screen for the Live Rankings</source>
+        <translation>Select a screen for the Live Rankings</translation>
+    </message>
+    <message>
+        <source>Off</source>
+        <translation>Off</translation>
+    </message>
+    <message>
+        <source>Recent Races</source>
+        <translation>Recent Races</translation>
+    </message>
+    <message>
+        <source>Start with a new race file</source>
+        <translation>Start with a new race file</translation>
+    </message>
+    <message>
+        <source>New Race</source>
+        <translation>New Race</translation>
+    </message>
+    <message>
+        <source>&amp;New</source>
+        <translation>&amp;New</translation>
+    </message>
+    <message>
+        <source>N</source>
+        <translation>N</translation>
+    </message>
+    <message>
+        <source>Error: table to export is unknown</source>
+        <translation>Error: table to export is unknown</translation>
+    </message>
+</context>
+<context>
+    <name>LiveTable</name>
+    <message>
+        <source>Bib</source>
+        <comment>long</comment>
+        <translation>Bib</translation>
+    </message>
+    <message>
+        <source>Bib</source>
+        <comment>short</comment>
+        <translation>Bib</translation>
+    </message>
+    <message>
+        <source>Competitor</source>
+        <comment>long</comment>
+        <translation>Competitor</translation>
+    </message>
+    <message>
+        <source>Timing</source>
+        <comment>long</comment>
+        <translation>Timing</translation>
+    </message>
+    <message>
+        <source>Timing</source>
+        <comment>short</comment>
+        <translation>Timing</translation>
+    </message>
+    <message>
+        <source>The Race</source>
+        <translation>The Race</translation>
+    </message>
+    <message>
+        <source>LBChronoRace</source>
+        <translation>LBChronoRace</translation>
+    </message>
+    <message>
+        <source>Enter competitors to use the Live Rankings</source>
+        <translation>Enter competitors to use the Live Rankings</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>short</comment>
+        <translation>Competitor %1</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>long</comment>
+        <translation>Competitor %1</translation>
+    </message>
+    <message>
+        <source>Timing %1</source>
+        <comment>short</comment>
+        <translation>T %1</translation>
+    </message>
+    <message>
+        <source>Timing %1</source>
+        <comment>long</comment>
+        <translation>Timing %1</translation>
+    </message>
+    <message>
+        <source>No screen available for the Live Rankings</source>
+        <translation>No screen available for the Live Rankings</translation>
+    </message>
 </context>
 <context>
     <name>MultiSelectComboBox</name>
     <message>
         <source>Search…</source>
         <translation>Search…</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizard</name>
+    <message>
+        <source>New Race Wizard</source>
+        <translation>New Race Wizard</translation>
+    </message>
+    <message>
+        <source>Error: race information not initialized</source>
+        <translation>Error: race information not initialized</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardAuxData</name>
+    <message>
+        <source>Additional Race Information</source>
+        <translation>Additional Race Information</translation>
+    </message>
+    <message>
+        <source>This information is optional, but it makes the ranking look more professional.</source>
+        <translation>This information is optional, but it makes the ranking look more professional.</translation>
+    </message>
+    <message>
+        <source>Referee</source>
+        <translation>Referee</translation>
+    </message>
+    <message>
+        <source>The race referee</source>
+        <translation>The race referee</translation>
+    </message>
+    <message>
+        <source>Timekeeper 1</source>
+        <translation>Timekeeper 1</translation>
+    </message>
+    <message>
+        <source>The first timekeeper of the race</source>
+        <translation>The first timekeeper of the race</translation>
+    </message>
+    <message>
+        <source>The name of the first timekeeper of the race</source>
+        <translation>The name of the first timekeeper of the race</translation>
+    </message>
+    <message>
+        <source>Timekeeper 2</source>
+        <translation>Timekeeper 2</translation>
+    </message>
+    <message>
+        <source>The second timekeeper of the race</source>
+        <translation>The second timekeeper of the race</translation>
+    </message>
+    <message>
+        <source>The name of the second timekeeper of the race</source>
+        <translation>The name of the second timekeeper of the race</translation>
+    </message>
+    <message>
+        <source>Timekeeper 3</source>
+        <translation>Timekeeper 3</translation>
+    </message>
+    <message>
+        <source>The third timekeeper of the race</source>
+        <translation>The third timekeeper of the race</translation>
+    </message>
+    <message>
+        <source>The name of the third timekeeper of the race</source>
+        <translation>The name of the third timekeeper of the race</translation>
+    </message>
+    <message>
+        <source>Length</source>
+        <translation>Length</translation>
+    </message>
+    <message>
+        <source>The length of the race</source>
+        <translation>The length of the race</translation>
+    </message>
+    <message>
+        <source>The length of the race (usually in m or km)</source>
+        <translation>The length of the race (usually in m or km)</translation>
+    </message>
+    <message>
+        <source>Elevation Gain</source>
+        <translation>Elevation Gain</translation>
+    </message>
+    <message>
+        <source>The elevation gain of the race</source>
+        <translation>The elevation gain of the race</translation>
+    </message>
+    <message>
+        <source>The elevation gain of the race (usually in m)</source>
+        <translation>The elevation gain of the race (usually in m)</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardLogos</name>
+    <message>
+        <source>Select Logo</source>
+        <translation>Select Logo</translation>
+    </message>
+    <message>
+        <source>Images (*.png *.xpm *.jpg *.gif);;All Files (*)</source>
+        <translation>Images (*.png *.xpm *.jpg *.gif);;All Files (*)</translation>
+    </message>
+    <message>
+        <source>Load</source>
+        <translation>Load</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Remove</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardMainData</name>
+    <message>
+        <source>General Race Information</source>
+        <translation>General Race Information</translation>
+    </message>
+    <message>
+        <source>Please enter a name for the event, the place, date, time, and race type.</source>
+        <translation>Please enter a name for the event, the place, date, time, and race type.</translation>
+    </message>
+    <message>
+        <source>Event</source>
+        <translation>Event</translation>
+    </message>
+    <message>
+        <source>The name of the race</source>
+        <translation>The name of the race</translation>
+    </message>
+    <message>
+        <source>Place</source>
+        <translation>Place</translation>
+    </message>
+    <message>
+        <source>Where the competition will take place</source>
+        <translation>Where the competition will take place</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <source>What day will the competition take place</source>
+        <translation>What day will the competition take place</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>Time</translation>
+    </message>
+    <message>
+        <source>What time the race will take place</source>
+        <translation>What time the race will take place</translation>
+    </message>
+    <message>
+        <source>Race Type</source>
+        <translation>Race Type</translation>
+    </message>
+    <message>
+        <source>Mass start</source>
+        <translation>Mass start</translation>
+    </message>
+    <message>
+        <source>Timed race</source>
+        <translation>Timed race</translation>
+    </message>
+    <message>
+        <source>Relay race</source>
+        <translation>Relay race</translation>
+    </message>
+    <message>
+        <source>What kind of race it will be</source>
+        <translation>What kind of race it will be</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardOrganization</name>
+    <message>
+        <source>Race Organizing Committee Information</source>
+        <translation>Race Organizing Committee Information</translation>
+    </message>
+    <message>
+        <source>Organization</source>
+        <translation>Organization</translation>
+    </message>
+    <message>
+        <source>General information about the organizing committee of the race</source>
+        <translation>General information about the organizing committee of the race</translation>
+    </message>
+    <message>
+        <source>This information is optional, but it makes the ranking look more professional.</source>
+        <translation>This information is optional, but it makes the ranking look more professional.</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardRaceLogos</name>
+    <message>
+        <source>Race Logos</source>
+        <translation>Race Logos</translation>
+    </message>
+    <message>
+        <source>Race logos are optional, but they make the ranking look more professional.</source>
+        <translation>Race logos are optional, but they make the ranking look more professional.</translation>
+    </message>
+    <message>
+        <source>Left Logo</source>
+        <translation>Left Logo</translation>
+    </message>
+    <message>
+        <source>Logo 1 not loaded</source>
+        <translation>Logo 1 not loaded</translation>
+    </message>
+    <message>
+        <source>The logo in the upper left corner of the PDF</source>
+        <translation>The logo in the upper left corner of the PDF</translation>
+    </message>
+    <message>
+        <source>Add a logo in the upper left corner of the PDF</source>
+        <translation>Add a logo in the upper left corner of the PDF</translation>
+    </message>
+    <message>
+        <source>Removes the logo from the upper left corner of the PDF</source>
+        <translation>Removes the logo from the upper left corner of the PDF</translation>
+    </message>
+    <message>
+        <source>Right Logo</source>
+        <translation>Right Logo</translation>
+    </message>
+    <message>
+        <source>Logo 2 not loaded</source>
+        <translation>Logo 2 not loaded</translation>
+    </message>
+    <message>
+        <source>The logo in the upper right corner of the PDF</source>
+        <translation>The logo in the upper right corner of the PDF</translation>
+    </message>
+    <message>
+        <source>Add a logo in the upper right corner of the PDF</source>
+        <translation>Add a logo in the upper right corner of the PDF</translation>
+    </message>
+    <message>
+        <source>Removes the logo from the upper right corner of the PDF</source>
+        <translation>Removes the logo from the upper right corner of the PDF</translation>
+    </message>
+</context>
+<context>
+    <name>NewRaceWizardSponsorLogos</name>
+    <message>
+        <source>Sponsor Logos</source>
+        <translation>Sponsor Logos</translation>
+    </message>
+    <message>
+        <source>Sponsor logos are optional, but they make the ranking look more professional.</source>
+        <translation>Sponsor logos are optional, but they make the ranking look more professional.</translation>
+    </message>
+    <message>
+        <source>1st sponsor logo</source>
+        <translation>1st sponsor logo</translation>
+    </message>
+    <message>
+        <source>Sponsor 1 not loaded</source>
+        <translation>Sponsor 1 not loaded</translation>
+    </message>
+    <message>
+        <source>First sponsor logo (at the bottom of the PDF)</source>
+        <translation>First sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Add the first sponsor logo (at the bottom of the PDF)</source>
+        <translation>Add the first sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the first sponsor logo (from the bottom of the PDF)</source>
+        <translation>Remove the first sponsor logo (from the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>2nd sponsor logo</source>
+        <translation>2nd sponsor logo</translation>
+    </message>
+    <message>
+        <source>Sponsor 2 not loaded</source>
+        <translation>Sponsor 2 not loaded</translation>
+    </message>
+    <message>
+        <source>Second sponsor logo (at the bottom of the PDF)</source>
+        <translation>Second sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Add the second sponsor logo (at the bottom of the PDF)</source>
+        <translation>Add the second sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the second sponsor logo (from the bottom of the PDF)</source>
+        <translation>Remove the second sponsor logo (from the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>3rd sponsor logo</source>
+        <translation>3rd sponsor logo</translation>
+    </message>
+    <message>
+        <source>Sponsor 3 not loaded</source>
+        <translation>Sponsor 3 not loaded</translation>
+    </message>
+    <message>
+        <source>Third sponsor logo (at the bottom of the PDF)</source>
+        <translation>Third sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Add the third sponsor logo (at the bottom of the PDF)</source>
+        <translation>Add the third sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the third sponsor logo (from the bottom of the PDF)</source>
+        <translation>Remove the third sponsor logo (from the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>4th sponsor logo</source>
+        <translation>4th sponsor logo</translation>
+    </message>
+    <message>
+        <source>Sponsor 4 not loaded</source>
+        <translation>Sponsor 4 not loaded</translation>
+    </message>
+    <message>
+        <source>Fourth sponsor logo (at the bottom of the PDF)</source>
+        <translation>Fourth sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Add the fourth sponsor logo (at the bottom of the PDF)</source>
+        <translation>Add the fourth sponsor logo (at the bottom of the PDF)</translation>
+    </message>
+    <message>
+        <source>Remove the fourth sponsor logo (from the bottom of the PDF)</source>
+        <translation>Remove the fourth sponsor logo (from the bottom of the PDF)</translation>
     </message>
 </context>
 <context>
@@ -1287,8 +1878,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Error: cannot start drawing PDF</translation>
     </message>
     <message>
-        <source>Error: no file name supplied</source>
-        <translation>Error: no file name supplied</translation>
+        <source>Error: no file name provided</source>
+        <translation>Error: no file name provided</translation>
     </message>
     <message>
         <source>Error: drawing attempt on inactive painter</source>
@@ -1310,16 +1901,16 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
 <context>
     <name>QMessageBox</name>
     <message>
-        <source>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.&lt;/p&gt;&lt;p&gt;Qt is available under multiple licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Qt licensed under GNU (L)GPL is appropriate for the development of Qt&amp;nbsp;applications provided you can comply with the terms and conditions of the respective licenses.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;http://%2/&quot;&gt;%2&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) %1 The Qt Company Ltd and other contributors.&lt;/p&gt;&lt;p&gt;Qt and the Qt logo are trademarks of The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt is The Qt Company Ltd product developed as an open source project. See &lt;a href=&quot;http://%3/&quot;&gt;%3&lt;/a&gt; for more information.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.&lt;/p&gt;&lt;p&gt;Qt is available under multiple licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Qt licensed under GNU (L)GPL is appropriate for the development of Qt&amp;nbsp;applications provided you can comply with the terms and conditions of the respective licenses.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;http://%2/&quot;&gt;%2&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) %1 The Qt Company Ltd and other contributors.&lt;/p&gt;&lt;p&gt;Qt and the Qt logo are trademarks of The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt is The Qt Company Ltd product developed as an open source project. See &lt;a href=&quot;http://%3/&quot;&gt;%3&lt;/a&gt; for more information.&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.&lt;/p&gt;&lt;p&gt;Qt is available under multiple licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Qt licensed under GNU (L)GPL is appropriate for the development of Qt&amp;nbsp;applications provided you can comply with the terms and conditions of the respective licenses.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;https://%2/&quot;&gt;%2&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) The Qt Company Ltd. and other contributors.&lt;/p&gt;&lt;p&gt;Qt and the Qt logo are trademarks of The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt is The Qt Company Ltd. product developed as an open source project. See &lt;a href=&quot;https://%3/&quot;&gt;%3&lt;/a&gt; for more information.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.&lt;/p&gt;&lt;p&gt;Qt is available under multiple licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of GNU (L)GPL.&lt;/p&gt;&lt;p&gt;Qt licensed under GNU (L)GPL is appropriate for the development of Qt&amp;nbsp;applications provided you can comply with the terms and conditions of the respective licenses.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;https://%2/&quot;&gt;%2&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) The Qt Company Ltd. and other contributors.&lt;/p&gt;&lt;p&gt;Qt and the Qt logo are trademarks of The Qt Company Ltd.&lt;/p&gt;&lt;p&gt;Qt is The Qt Company Ltd. product developed as an open source project. See &lt;a href=&quot;https://%3/&quot;&gt;%3&lt;/a&gt; for more information.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;About %1&lt;/h3&gt;&lt;p&gt;Software for producing the results of footraces.&lt;/p&gt;</source>
         <translation>&lt;h3&gt;About %1&lt;/h3&gt;&lt;p&gt;Software for producing the results of footraces.&lt;/p&gt;</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Copyright&amp;copy; 2021-2022&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Copyright&amp;copy; 2021-2025&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Copyright&amp;copy; 2021-2025&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1380,8 +1971,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
 <context>
     <name>Ranking</name>
     <message>
-        <source>Illegal ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
-        <translation>Illegal ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</translation>
+        <source>Invalid ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</source>
+        <translation>Invalid ranking type - expected &apos;I&apos; or &apos;T&apos; - found %1</translation>
     </message>
 </context>
 <context>
@@ -1476,6 +2067,10 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Select Results Destination Folder</translation>
     </message>
     <message>
+        <source>Warning: please select a destination file name</source>
+        <translation>Warning: please select a destination file name</translation>
+    </message>
+    <message>
         <source>Warning: please select a destination folder</source>
         <translation>Warning: please select a destination folder</translation>
     </message>
@@ -1499,6 +2094,10 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Results</source>
         <translation>Results</translation>
     </message>
+    <message>
+        <source>Trying to open: %1</source>
+        <translation>Trying to open: %1</translation>
+    </message>
 </context>
 <context>
     <name>RankingsWizardFormat</name>
@@ -1521,6 +2120,12 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Encoding</source>
         <translation>Encoding</translation>
+    </message>
+    <message>
+        <source>Open file after
+publishing</source>
+        <translation>Open file after
+publishing</translation>
     </message>
 </context>
 <context>
@@ -1554,6 +2159,13 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     </message>
 </context>
 <context>
+    <name>RecentRaces</name>
+    <message>
+        <source>Clear</source>
+        <translation>Clear</translation>
+    </message>
+</context>
+<context>
     <name>StartListModel</name>
     <message>
         <source>Bib number (not 0)</source>
@@ -1584,10 +2196,6 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Bib</translation>
     </message>
     <message>
-        <source>Competitor</source>
-        <translation>Competitor</translation>
-    </message>
-    <message>
         <source>Sex</source>
         <translation>Sex</translation>
     </message>
@@ -1611,6 +2219,18 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Club</source>
         <translation>Club</translation>
     </message>
+    <message>
+        <source>Competitor surname</source>
+        <translation>Competitor surname</translation>
+    </message>
+    <message>
+        <source>Last name</source>
+        <translation>Last name</translation>
+    </message>
+    <message>
+        <source>First name</source>
+        <translation>First name</translation>
+    </message>
 </context>
 <context>
     <name>TXTRankingPrinter</name>
@@ -1630,16 +2250,16 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         </translation>
     </message>
     <message>
-        <source>Error: cannot open %1</source>
-        <translation>Error: cannot open %1</translation>
+        <source>Error: unable to open %1</source>
+        <translation>Error: unable to open %1</translation>
     </message>
     <message>
-        <source>Error: no file name supplied</source>
-        <translation>Error: no file name supplied</translation>
+        <source>Error: no file name provided</source>
+        <translation>Error: no file name provided</translation>
     </message>
     <message>
-        <source>Error: writing attempt on closed file</source>
-        <translation>Error: writing attempt on closed file</translation>
+        <source>Error: attempted to write to a closed file</source>
+        <translation>Error: attempted to write to a closed file</translation>
     </message>
 </context>
 <context>
@@ -1649,8 +2269,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Requested index %1 exceeds the number of available entries %2</translation>
     </message>
     <message>
-        <source>Unexpected club: expected %1 - found %2</source>
-        <translation>Unexpected club: expected %1 - found %2</translation>
+        <source>Invalid club: expected %1 - found %2</source>
+        <translation>Invalid club: expected %1 - found %2</translation>
     </message>
 </context>
 <context>
@@ -1665,10 +2285,29 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     </message>
 </context>
 <context>
+    <name>TimeSpanDialog</name>
+    <message>
+        <source>Number of hours to add up or subtract</source>
+        <translation>Number of hours to add up or subtract</translation>
+    </message>
+    <message>
+        <source>Number of minutes to add up or subtract</source>
+        <translation>Number of minutes to add up or subtract</translation>
+    </message>
+    <message>
+        <source>Number of seconds to add up or subtract</source>
+        <translation>Number of seconds to add up or subtract</translation>
+    </message>
+    <message>
+        <source>Number of milliseconds to add up or subtract</source>
+        <translation>Number of milliseconds to add up or subtract</translation>
+    </message>
+</context>
+<context>
     <name>Timing</name>
     <message>
-        <source>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
-        <translation>Illegal timing value &apos;%1&apos; for bib &apos;%2&apos;</translation>
+        <source>Warning: invalid timing value &apos;%1&apos; for bib &apos;%2&apos;</source>
+        <translation>Warning: invalid timing value &apos;%1&apos; for bib &apos;%2&apos;</translation>
     </message>
 </context>
 <context>
@@ -1709,8 +2348,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
 <context>
     <name>TimingsWorker</name>
     <message>
-        <source>Error: cannot open %1</source>
-        <translation>Error: cannot open %1</translation>
+        <source>Error: unable to open %1</source>
+        <translation>Error: unable to open %1</translation>
     </message>
 </context>
 </TS>

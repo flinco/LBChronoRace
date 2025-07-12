@@ -20,21 +20,19 @@
 #include "lbchronorace.hpp"
 #include "teamslistmodel.hpp"
 
-QDataStream &operator<<(QDataStream &out, TeamsListModel const &data)
-{
+QDataStream &TeamsListModel::tlmSerialize(QDataStream &out) const{
     quint32 v2TeamNameWidthMax = 0;
 
-    out << data.teamsList
+    out << this->teamsList
         << quint32(v2TeamNameWidthMax);
 
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, TeamsListModel &data)
-{
+QDataStream &TeamsListModel::tlmDeserialize(QDataStream &in){
     quint32 v2TeamNameWidthMax;
 
-    in >> data.teamsList
+    in >> this->teamsList
        >> v2TeamNameWidthMax;
 
     return in;
@@ -116,10 +114,9 @@ Qt::ItemFlags TeamsListModel::flags(QModelIndex const &index) const
     return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool TeamsListModel::insertRows(int position, int rows, QModelIndex const &parent)
+bool TeamsListModel::insertRows(int position, int rows, QModelIndex const &index)
 {
-
-    Q_UNUSED(parent)
+    Q_UNUSED(index)
 
     beginInsertRows(QModelIndex(), position, position + rows - 1);
     for (int row = 0; row < rows; ++row) {
@@ -127,18 +124,22 @@ bool TeamsListModel::insertRows(int position, int rows, QModelIndex const &paren
     }
     endInsertRows();
 
+    refreshDisplayCounter();
+
     return true;
 }
 
-bool TeamsListModel::removeRows(int position, int rows, QModelIndex const &parent)
+bool TeamsListModel::removeRows(int position, int rows, QModelIndex const &index)
 {
-    Q_UNUSED(parent)
+    Q_UNUSED(index)
 
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
     for (int row = 0; row < rows; ++row) {
         teamsList.removeAt(position);
     }
     endRemoveRows();
+
+    refreshDisplayCounter();
 
     return true;
 }
@@ -147,9 +148,9 @@ void TeamsListModel::sort(int column, Qt::SortOrder order)
 {
 
     if (column == 0) {
-        std::stable_sort(teamsList.begin(), teamsList.end());
+        std::ranges::stable_sort(teamsList);
         if (order == Qt::DescendingOrder)
-            std::reverse(teamsList.begin(), teamsList.end());
+            std::ranges::reverse(teamsList);
         emit dataChanged(QModelIndex(), QModelIndex());
     }
 }
@@ -158,6 +159,8 @@ void TeamsListModel::reset() {
     beginResetModel();
     teamsList.clear();
     endResetModel();
+
+    refreshDisplayCounter();
 }
 
 void TeamsListModel::addTeam(QString const &team)
@@ -166,6 +169,8 @@ void TeamsListModel::addTeam(QString const &team)
         int rowCount = this->rowCount();
         this->insertRow(rowCount, QModelIndex());
         this->setData(this->index(rowCount, 0, QModelIndex()), QVariant(team), Qt::EditRole);
+
+        refreshDisplayCounter();
     }
 }
 

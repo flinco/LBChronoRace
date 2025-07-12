@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (C) 2021 by Lorenzo Buzzi (lorenzo@buzzi.pro)                   *
+ * Copyright (C) 2024 by Lorenzo Buzzi (lorenzo@buzzi.pro)                   *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU General Public License as published by      *
@@ -15,35 +15,28 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef RANKINGSWIZARDFORMAT_H
-#define RANKINGSWIZARDFORMAT_H
+#ifndef LIVETABLEFILTERPROXYMODEL_H
+#define LIVETABLEFILTERPROXYMODEL_H
 
-#include <QWizardPage>
-#include <QFormLayout>
-#include <QComboBox>
+#include <QObject>
+#include <QSortFilterProxyModel>
 
-class RankingsWizardFormat : public QWizardPage
+class LiveTableFilterProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
-
 public:
-    explicit RankingsWizardFormat(QWidget *parent = Q_NULLPTR);
+    explicit LiveTableFilterProxyModel(QObject *parent = Q_NULLPTR);
 
-    void initializePage() override;
-    int nextId() const override;
+    void setMinRow(int newMinRow);
+
+    void setMaxRow(int newMaxRow);
+
+protected:
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
 private:
-    QFormLayout layout;
-
-    QComboBox fileFormat;
-    QComboBox fileEncoding;
-
-private slots:
-    void formatChange(int index);
-    void encodingChange(int index) const;
-
-signals:
-    void error(QString const &message);
+    int minRow { -1 };
+    int maxRow { -1 };
 };
 
-#endif // RANKINGSWIZARDFORMAT_H
+#endif // LIVETABLEFILTERPROXYMODEL_H

@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CHRONORACETABLE_H
-#define CHRONORACETABLE_H
+#ifndef CHRONORACETABLE_HPP
+#define CHRONORACETABLE_HPP
 
 #include <QDialog>
 
@@ -38,7 +38,6 @@ public:
 private slots:
     void rowAdd() const;
     void rowDel() const;
-    void dialogQuit();
     void dialogSave();
 
 public slots:
@@ -47,7 +46,6 @@ public slots:
     void modelExport();
 
 signals:
-    void newRowCount(int count);
     void modelImported();
     void modelExported();
     void saveRaceData();
@@ -56,4 +54,4 @@ private:
     QScopedPointer<Ui::ChronoRaceTable> ui { new Ui::ChronoRaceTable };
 };
 
-#endif // CHRONORACETABLE_H
+#endif // CHRONORACETABLE_HPP

@@ -30,7 +30,7 @@ void TXTRankingPrinter::init(QString *outFileName, QString const &title, QString
     Q_UNUSED(subject)
 
     if (outFileName == Q_NULLPTR) {
-        throw(ChronoRaceException(tr("Error: no file name supplied")));
+        throw(ChronoRaceException(tr("Error: no file name provided")));
     }
 
     // append the .txt extension if missing
@@ -38,7 +38,7 @@ void TXTRankingPrinter::init(QString *outFileName, QString const &title, QString
 
     txtFile.setFileName(*outFileName);
     if (!txtFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        throw(ChronoRaceException(tr("Error: cannot open %1").arg(*outFileName)));
+        throw(ChronoRaceException(tr("Error: unable to open %1").arg(*outFileName)));
     }
     txtStream.setDevice(&txtFile);
     txtStream.setEncoding(CRLoader::getEncoding());
@@ -47,7 +47,7 @@ void TXTRankingPrinter::init(QString *outFileName, QString const &title, QString
 void TXTRankingPrinter::printStartList(QList<Competitor const *> const &startList)
 {
     if (!txtFile.isOpen()) {
-        throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
+        throw(ChronoRaceException(tr("Error: attempted to write to a closed file")));
     }
 
     auto nWidth = CRLoader::getStartListNameWidthMax();
@@ -87,7 +87,7 @@ void TXTRankingPrinter::printStartList(QList<Competitor const *> const &startLis
         txtStream << competitor->getBib();
         txtStream.setFieldWidth(0);
         txtStream << " - ";
-        txtStream << competitor->getName(nWidth);
+        txtStream << competitor->getCompetitorName(CRHelper::nameComposition, nWidth);
         txtStream << " - ";
         txtStream << competitor->getTeam(tWidth);
         txtStream << " - ";
@@ -109,7 +109,7 @@ void TXTRankingPrinter::printRanking(Ranking const &categories, QList<ClassEntry
     static Position position;
 
     if (!txtFile.isOpen()) {
-        throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
+        throw(ChronoRaceException(tr("Error: attempted to write to a closed file")));
     }
 
     int i = 0;
@@ -148,16 +148,18 @@ void TXTRankingPrinter::printRanking(Ranking const &categories, QList<ClassEntry
 void TXTRankingPrinter::printRanking(Ranking const &categories, QList<TeamClassEntry const *> const &ranking)
 {
     if (!txtFile.isOpen()) {
-        throw(ChronoRaceException(tr("Error: writing attempt on closed file")));
+        throw(ChronoRaceException(tr("Error: attempted to write to a closed file")));
     }
 
+    int count;
     int i = 0;
     ChronoRaceData const *raceInfo = getRaceInfo();
     txtStream << *raceInfo << Qt::endl; // add header
     txtStream << categories.getFullDescription() << Qt::endl;
     for (auto const r : ranking) {
         i++;
-        for (int j = 0; j < r->getClassEntryCount(); j++) {
+        count = r->getClassEntryCount();
+        for (int j = 0; j < count; j++) {
             if (j == 0) {
                 txtStream.setFieldWidth(getIndexFieldWidth());
                 txtStream.setFieldAlignment(QTextStream::AlignRight);

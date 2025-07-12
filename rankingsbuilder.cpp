@@ -34,10 +34,10 @@ uint RankingsBuilder::loadData()
     prepareStartList();
 
     // sort timings
-    std::sort(timings.begin(), timings.end(), [&](Timing const &t1, Timing const &t2) { return (t1 < t2); } );
+    std::ranges::sort(timings, [&](Timing const &t1, Timing const &t2) { return (t1 < t2); } );
 
     // compute individual general classifications (all included, sorted by bib)
-    for (auto const &timing : timings) {
+    for (auto const &timing : std::as_const(timings)) {
 
         bib = timing.getBib();
         leg = timing.getLeg();
@@ -115,7 +115,7 @@ QList<ClassEntry const *> &RankingsBuilder::fillRanking(QList<ClassEntry const *
 
     ranking.clear();
     ranking.reserve(tmpRanking.size());
-    for (ClassEntry const *classEntry : tmpRanking) {
+    for (ClassEntry const *classEntry : std::as_const(tmpRanking)) {
         ranking.append(classEntry);
     }
 
@@ -165,7 +165,7 @@ QList<TeamClassEntry const *> &RankingsBuilder::fillRanking(QList<TeamClassEntry
     // copy and return the team rankings
     ranking.clear();
     ranking.reserve(sortedTeamRanking.size());
-    for (TeamClassEntry const *teamClassEntry : sortedTeamRanking) {
+    for (TeamClassEntry const *teamClassEntry : std::as_const(sortedTeamRanking)) {
         ranking.append(teamClassEntry);
     }
 

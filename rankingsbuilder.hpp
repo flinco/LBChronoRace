@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef RANKINGSBUILDER_H
-#define RANKINGSBUILDER_H
+#ifndef RANKINGSBUILDER_HPP
+#define RANKINGSBUILDER_HPP
 
 #include <QObject>
 #include <QList>
@@ -52,7 +52,7 @@ private:
     QList<QMap<QString, TeamClassEntry>> rankingsByTeam { };
 
 signals:
-    void error(QString const &message);
+    void error(QString const &);
 };
 
-#endif // RANKINGSBUILDER_H
+#endif // RANKINGSBUILDER_HPP

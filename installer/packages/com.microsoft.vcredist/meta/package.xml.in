@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package>
-    <DisplayName>Microsoft Visual C++ 2022 Redistributable (x64)</DisplayName>
-    <Description>Microsoft Visual C++ 2022 64-bit redistributable installation package</Description>
-    <Version>14.40.33810.0</Version>
-    <ReleaseDate>2024-05-27</ReleaseDate>
+    <DisplayName>Microsoft Visual C++ 2015-2022 Redistributable (x64)</DisplayName>
+    <Description>Microsoft Visual C++ 2015-2022 64-bit redistributable installation package</Description>
+    <Version>14.44.35208.0</Version>
+    <ReleaseDate>2025-05-24</ReleaseDate>
     <Virtual>true</Virtual>
     <ForcedInstallation>true</ForcedInstallation>
     <Operations>

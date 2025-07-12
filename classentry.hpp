@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CLASSENTRY_H
-#define CLASSENTRY_H
+#ifndef CLASSENTRY_HPP
+#define CLASSENTRY_HPP
 
 #include <QVector>
 #include <QString>
@@ -80,8 +80,6 @@ public:
     void setTime(Competitor *comp, Timing const &timing, QStringList &messages);
     uint getLegRanking(uint legIdx) const;
     void setLegRanking(uint legIdx, uint ranking);
-    uint getFromYear() const;
-    uint getToYear() const;
     QString getClub() const;
     QString getTeam() const;
     QString getClubsAndTeam() const;
@@ -96,10 +94,10 @@ public:
     Category const *getCategory(uint legIdx) const;
     QStringList setCategory();
 
-    bool operator< (ClassEntry const &rhs) const;
-    bool operator> (ClassEntry const &rhs) const;
-    bool operator<=(ClassEntry const &rhs) const;
-    bool operator>=(ClassEntry const &rhs) const;
+    friend auto operator<=>(ClassEntry const &lhs, ClassEntry const &rhs)
+    {
+        return lhs.getTotalTime() <=> rhs.getTotalTime();
+    }
 };
 
 class ClassEntryHelper {
@@ -116,4 +114,4 @@ public:
     static void setCategoryMultiLeg(ClassEntry *entry, QStringList &messages);
 };
 
-#endif // CLASSENTRY_H
+#endif // CLASSENTRY_HPP
