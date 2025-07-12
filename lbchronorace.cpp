@@ -237,14 +237,16 @@ void LBChronoRace::importStartList()
 {
     using enum LBChronoRace::fileNameField;
 
+    auto senderObject = qobject_cast<ChronoRaceTable *>(sender());
+
     this->fileNames[static_cast<int>(STARTLIST)] = QDir::toNativeSeparators(
-        QFileDialog::getOpenFileName(this, tr("Select Competitors"),
+        QFileDialog::getOpenFileName(senderObject, tr("Select Competitors"),
                                      lastSelectedPath.absolutePath(),
                                      tr("CSV (*.csv)")));
 
     if (!this->fileNames[static_cast<int>(STARTLIST)].isEmpty()) {
         QPair<int, int> count(0, 0);
-        bool append = CRHelper::askForAppend(this);
+        bool append = CRHelper::askForAppend(senderObject);
         appendInfoMessage(tr("Competitors File: %1").arg(this->fileNames[static_cast<int>(STARTLIST)]));
         try {
             count = CRLoader::importStartList(this->fileNames[static_cast<int>(STARTLIST)], append);
@@ -266,8 +268,10 @@ void LBChronoRace::importTeamsList()
 {
     using enum LBChronoRace::fileNameField;
 
+    auto senderObject = qobject_cast<ChronoRaceTable *>(sender());
+
     this->fileNames[static_cast<int>(TEAMS)] = QDir::toNativeSeparators(
-        QFileDialog::getOpenFileName(this, tr("Select Clubs File"),
+        QFileDialog::getOpenFileName(senderObject, tr("Select Clubs File"),
                                      lastSelectedPath.absolutePath(),
                                      tr("CSV (*.csv)")));
 
@@ -293,14 +297,16 @@ void LBChronoRace::importRankingsList()
 {
     using enum LBChronoRace::fileNameField;
 
+    auto senderObject = qobject_cast<ChronoRaceTable *>(sender());
+
     this->fileNames[static_cast<int>(RANKINGS)] = QDir::toNativeSeparators(
-        QFileDialog::getOpenFileName(this, tr("Select Rankings File"),
+        QFileDialog::getOpenFileName(senderObject, tr("Select Rankings File"),
                                      lastSelectedPath.absolutePath(),
                                      tr("CSV (*.csv)")));
 
     if (!this->fileNames[static_cast<int>(RANKINGS)].isEmpty()) {
         int count = 0;
-        bool append = CRHelper::askForAppend(this);
+        bool append = CRHelper::askForAppend(senderObject);
         appendInfoMessage(tr("Rankings File: %1").arg(this->fileNames[static_cast<int>(RANKINGS)]));
         try {
             count = CRLoader::importRankings(this->fileNames[static_cast<int>(RANKINGS)], append);
@@ -319,14 +325,16 @@ void LBChronoRace::importCategoriesList()
 {
     using enum LBChronoRace::fileNameField;
 
+    auto senderObject = qobject_cast<ChronoRaceTable *>(sender());
+
     this->fileNames[static_cast<int>(CATEGORIES)] = QDir::toNativeSeparators(
-        QFileDialog::getOpenFileName(this, tr("Select Categories File"),
+        QFileDialog::getOpenFileName(senderObject, tr("Select Categories File"),
                                      lastSelectedPath.absolutePath(),
                                      tr("CSV (*.csv)")));
 
     if (!this->fileNames[static_cast<int>(CATEGORIES)].isEmpty()) {
         int count = 0;
-        bool append = CRHelper::askForAppend(this);
+        bool append = CRHelper::askForAppend(senderObject);
         appendInfoMessage(tr("Categories File: %1").arg(this->fileNames[static_cast<int>(CATEGORIES)]));
         try {
             count = CRLoader::importCategories(this->fileNames[static_cast<int>(CATEGORIES)], append);
@@ -345,14 +353,16 @@ void LBChronoRace::importTimingsList()
 {
     using enum LBChronoRace::fileNameField;
 
+    auto senderObject = qobject_cast<ChronoRaceTable *>(sender());
+
     this->fileNames[static_cast<int>(TIMINGS)] = QDir::toNativeSeparators(
-        QFileDialog::getOpenFileName(this, tr("Select Timings File"),
+        QFileDialog::getOpenFileName(senderObject, tr("Select Timings File"),
                                      lastSelectedPath.absolutePath(),
                                      tr("CSV (*.csv)")));
 
     if (!this->fileNames[static_cast<int>(TIMINGS)].isEmpty()) {
         int count = 0;
-        bool append = CRHelper::askForAppend(this);
+        bool append = CRHelper::askForAppend(senderObject);
         appendInfoMessage(tr("Timings File: %1").arg(this->fileNames[static_cast<int>(TIMINGS)]));
         try {
             count = CRLoader::importTimings(this->fileNames[static_cast<int>(TIMINGS)], append);
@@ -376,8 +386,9 @@ void LBChronoRace::exportList()
     CRLoader::Model model;
     QString message;
 
-    if (ChronoRaceTable const *senderObject = qobject_cast<ChronoRaceTable *>(sender());
-        &startListTable == senderObject) {
+    auto senderObject = qobject_cast<ChronoRaceTable *>(sender());
+
+    if (&startListTable == senderObject) {
         tableIndex = static_cast<int>(STARTLIST);
         userHint = tr("Select Competitors");
         model = CRLoader::Model::STARTLIST;
@@ -408,7 +419,7 @@ void LBChronoRace::exportList()
     }
 
     this->fileNames[tableIndex] = QDir::toNativeSeparators(
-        QFileDialog::getSaveFileName(this, userHint,
+        QFileDialog::getSaveFileName(senderObject, userHint,
                                      lastSelectedPath.absolutePath(),
                                      tr("CSV (*.csv)")));
 
