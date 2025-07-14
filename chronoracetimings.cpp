@@ -103,7 +103,7 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
                 [[fallthrough]];
             case Qt::Key::Key_Space:
                 if (updateTimerId != 0)
-                    recordTiming(this->timer.elapsed());
+                    recordTiming(this->timerOffset + this->timer.elapsed());
                 break;
             case Qt::Key::Key_Return:
                 [[fallthrough]];
@@ -161,7 +161,10 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
 
 void ChronoRaceTimings::timerEvent(QTimerEvent *event) {
 
-    if (event->timerId() == backupTimerId) {
+    if (this->timerPaused)
+        return;
+
+    if (auto timerId = event->timerId(); timerId == backupTimerId) {
         QString buffer;
         QTextStream outStream(&buffer);
         QTableWidgetItem const *item0;
@@ -176,8 +179,8 @@ void ChronoRaceTimings::timerEvent(QTimerEvent *event) {
         saveToDiskQueue.append(buffer);
 
         emit saveToDisk(saveToDiskQueue.constLast());
-    } else if (event->timerId() == updateTimerId) {
-        qint64 elapsed = this->timer.elapsed() / 1000;
+    } else if (timerId == updateTimerId) {
+        qint64 elapsed = (this->timerOffset + this->timer.elapsed()) / 1000;
 
         ui->timer->display(QString("%1:%2:%3").arg(elapsed / 3600).arg((elapsed % 3600) / 60, 2, 10, QChar('0')).arg(elapsed % 60, 2, 10, QChar('0')));
     }
@@ -241,6 +244,9 @@ void ChronoRaceTimings::show()
 {
     ui->retranslateUi(this);
     this->setWindowModality(Qt::ApplicationModal);
+
+    this->timerOffset = Q_INT64_C(0);
+    this->timerPaused = false;
 
     QDialog::show();
 }
@@ -554,12 +560,23 @@ void ChronoRaceTimings::start()
 {
     saveToDiskThread.start();
 
-    this->timer.start();
+    if (this->timerPaused) {
+        qint64 offset = this->timer.restart();
+        this->timerPaused = false;
+
+        emit info(tr("Stopwatch: resumed after %1:%2:%3.%4").arg(offset / 3600000).arg((offset % 3600000) / 60000, 2, 10, QChar('0')).arg((offset % 60000) / 1000, 2, 10, QChar('0')).arg(offset % 1000, 3, 10, QChar('0')));
+    } else {
+        this->timer.start();
+
+        emit info(tr("Stopwatch: started"));
+    }
+
     if (updateTimerId == 0)
         updateTimerId = startTimer(100, Qt::TimerType::PreciseTimer);
     if (backupTimerId == 0)
         backupTimerId = startTimer(1000, Qt::TimerType::VeryCoarseTimer);
 
+    ui->startButton->setText(tr("RESUME"));
     ui->startButton->setEnabled(false);
     ui->stopButton->setEnabled(true);
     ui->resetButton->setEnabled(false);
@@ -567,6 +584,13 @@ void ChronoRaceTimings::start()
 
 void ChronoRaceTimings::stop()
 {
+    qint64 offset = this->timerOffset + this->timer.restart();
+
+    emit info(tr("Stopwatch: paused at %1:%2:%3.%4").arg(offset / 3600000).arg((offset % 3600000) / 60000, 2, 10, QChar('0')).arg((offset % 60000) / 1000, 2, 10, QChar('0')).arg(offset % 1000, 3, 10, QChar('0')));
+
+    this->timerOffset = offset;
+    this->timerPaused = true;
+
     saveToDiskThread.quit();
     saveToDiskThread.wait();
 
@@ -597,6 +621,11 @@ void ChronoRaceTimings::reset()
         timingRowCount = 0;
         ui->dataArea->clearContents();
         ui->dataArea->setRowCount(0);
+        ui->startButton->setText(tr("START"));
+        this->timerOffset = Q_INT64_C(0);
+        this->timerPaused = false;
+
+        emit info(tr("Stopwatch: reset"));
     }
 }
 

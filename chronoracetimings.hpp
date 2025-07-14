@@ -84,6 +84,8 @@ private:
     int            updateTimerId  { 0 };
     int            backupTimerId  { 0 };
     QElapsedTimer  timer;
+    qint64         timerOffset    { Q_INT64_C(0) };
+    bool           timerPaused    { false };
 
     QList<QString> saveToDiskQueue;
     QThread        saveToDiskThread;
