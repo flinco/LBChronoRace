@@ -771,6 +771,26 @@ Timings resulting below 0 will be set to 0:00:00.000.
 Are you sure you want to continue?</numerusform>
         </translation>
     </message>
+    <message>
+        <source>RESUME</source>
+        <translation>RESUME</translation>
+    </message>
+    <message>
+        <source>Stopwatch: resumed after %1:%2:%3.%4</source>
+        <translation>Stopwatch: resumed after %1:%2:%3.%4</translation>
+    </message>
+    <message>
+        <source>Stopwatch: paused at %1:%2:%3.%4</source>
+        <translation>Stopwatch: paused at %1:%2:%3.%4</translation>
+    </message>
+    <message>
+        <source>Stopwatch: started</source>
+        <translation>Stopwatch: started</translation>
+    </message>
+    <message>
+        <source>Stopwatch: reset</source>
+        <translation>Stopwatch: reset</translation>
+    </message>
 </context>
 <context>
     <name>ClassEntry</name>

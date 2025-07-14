@@ -771,6 +771,26 @@ Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.000.
 Sei sicuro di voler continuare?</numerusform>
         </translation>
     </message>
+    <message>
+        <source>RESUME</source>
+        <translation>RIPRENDI</translation>
+    </message>
+    <message>
+        <source>Stopwatch: resumed after %1:%2:%3.%4</source>
+        <translation>Cronometro: ripreso dopo %1:%2:%3.%4</translation>
+    </message>
+    <message>
+        <source>Stopwatch: paused at %1:%2:%3.%4</source>
+        <translation>Cronometro: in pausa a %1:%2:%3.%4</translation>
+    </message>
+    <message>
+        <source>Stopwatch: started</source>
+        <translation>Cronometro: avviato</translation>
+    </message>
+    <message>
+        <source>Stopwatch: reset</source>
+        <translation>Cronometro: azzerato</translation>
+    </message>
 </context>
 <context>
     <name>ClassEntry</name>
