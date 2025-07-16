@@ -2,8 +2,8 @@
 <Package>
     <DisplayName>Microsoft Visual C++ 2015-2022 Redistributable (x64)</DisplayName>
     <Description>Microsoft Visual C++ 2015-2022 64-bit redistributable installation package</Description>
-    <Version>14.44.35208.0</Version>
-    <ReleaseDate>2025-05-24</ReleaseDate>
+    <Version>14.44.35211.0</Version>
+    <ReleaseDate>2025-06-17</ReleaseDate>
     <Virtual>true</Virtual>
     <ForcedInstallation>true</ForcedInstallation>
     <Operations>
