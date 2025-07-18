@@ -15,58 +15,25 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#include <QFile>
-
 #include "recentraces.hpp"
+#include "crsettings.hpp"
 
 constexpr int LBCHRONORACE_MAX_RECENT = 9;
 
-RecentRaces::RecentRaces(QMenu *parent)
+RecentRaces::RecentRaces(QMenu *newMenu)
 {
-    menu.reset(new QMenu(parent));
+    this->menu = newMenu;
 }
 
-QMenu *RecentRaces::getMenu()
+void RecentRaces::loadMenu()
 {
-    return menu.data();
-}
-
-void RecentRaces::readSettings()
-{
-    QFile recentFile;
-    QString recentPath;
-
-    recentRaces.clear();
-    int size = settings.beginReadArray("RecentRaces");
-    for (int i = 0; i < size; ++i) {
-        settings.setArrayIndex(i);
-
-        recentPath = settings.value("path").toString();
-        recentFile.setFileName(recentPath);
-
-        if (!recentFile.exists())
-            continue;
-
-        recentRaces.append(recentPath);
-    }
-    settings.endArray();
-
+    CRSettings::readRecent(recentRaces);
     rebuildMenu();
 }
 
-void RecentRaces::writeSettings()
+void RecentRaces::store()
 {
-    int i = 0;
-
-    // Save recent races list
-    settings.beginWriteArray("RecentRaces");
-    for (auto const &recentRacePath : std::as_const(recentRaces)) {
-        settings.setArrayIndex(i);
-        settings.setValue("path", recentRacePath);
-        if (++i == LBCHRONORACE_MAX_RECENT)
-            break;
-    }
-    settings.endArray();
+    CRSettings::writeRecent(recentRaces);
 }
 
 void RecentRaces::update(const QString &path)

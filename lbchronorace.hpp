@@ -38,6 +38,7 @@
 #include "timingstatusdelegate.hpp"
 #include "livetable.hpp"
 #include "recentraces.hpp"
+#include "languages.hpp"
 
 #ifndef LBCHRONORACE_ORGANIZATION
 #error "LBCHRONORACE_ORGANIZATION not set"
@@ -87,6 +88,7 @@ public:
 
 protected:
     bool event(QEvent *event) override;
+    void changeEvent(QEvent *event) override;
 
 public slots:
     void initialize();
@@ -100,6 +102,8 @@ private:
     QScopedPointer<Ui::LBChronoRace> ui { new Ui::LBChronoRace };
     QScopedPointer<LiveTable> liveTable { new LiveTable };
     QScopedPointer<RecentRaces> recentRaces { Q_NULLPTR };
+    QScopedPointer<Languages> languages { Q_NULLPTR };
+
 
     QString raceDataFileName { "" };
     QVector<QString> fileNames;
