@@ -1355,6 +1355,22 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Error: table to export is unknown</source>
         <translation>Error: table to export is unknown</translation>
     </message>
+    <message>
+        <source>Change application language</source>
+        <translation>Change application language</translation>
+    </message>
+    <message>
+        <source>Set Language</source>
+        <translation>Set Language</translation>
+    </message>
+    <message>
+        <source>English</source>
+        <translation>English</translation>
+    </message>
+    <message>
+        <source>Italian</source>
+        <translation>Italian</translation>
+    </message>
 </context>
 <context>
     <name>LiveTable</name>
