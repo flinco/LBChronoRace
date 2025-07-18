@@ -486,12 +486,24 @@
     <property name="toolTipsVisible">
      <bool>false</bool>
     </property>
+    <widget class="QMenu" name="menuRecentRaces">
+     <property name="toolTip">
+      <string>Change application language</string>
+     </property>
+     <property name="title">
+      <string>Recent Races</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/overview.svg</normaloff>:/material/icons/overview.svg</iconset>
+     </property>
+    </widget>
     <addaction name="actionNewRace"/>
     <addaction name="actionLoadRace"/>
     <addaction name="actionSaveRace"/>
     <addaction name="actionSaveRaceAs"/>
     <addaction name="separator"/>
-    <addaction name="actionRecentRaces"/>
+    <addaction name="menuRecentRaces"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -517,6 +529,18 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <widget class="QMenu" name="menuSetLanguage">
+     <property name="toolTip">
+      <string>Change application language</string>
+     </property>
+     <property name="title">
+      <string>Set Language</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/language.svg</normaloff>:/material/icons/language.svg</iconset>
+     </property>
+    </widget>
     <addaction name="actionImportTimings"/>
     <addaction name="actionExportTimings"/>
     <addaction name="separator"/>
@@ -524,6 +548,7 @@
     <addaction name="actionCollectTimings"/>
     <addaction name="actionMakeRankings"/>
     <addaction name="separator"/>
+    <addaction name="menuSetLanguage"/>
     <addaction name="actionSetEncoding"/>
     <addaction name="actionAddTimeSpan"/>
     <addaction name="actionSubtractTimeSpan"/>
@@ -789,9 +814,28 @@
     <string>Subtract an arbitrary amount of time to all the recorded timings</string>
    </property>
   </action>
-  <action name="actionRecentRaces">
+  <action name="actionEnglish">
+   <property name="icon">
+    <iconset resource="flags.qrc">
+     <normaloff>:/flags/gb.svg</normaloff>:/flags/gb.svg</iconset>
+   </property>
    <property name="text">
-    <string>Recent Races</string>
+    <string>English</string>
+   </property>
+   <property name="toolTip">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionItalian">
+   <property name="icon">
+    <iconset resource="flags.qrc">
+     <normaloff>:/flags/it.svg</normaloff>:/flags/it.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Italian</string>
+   </property>
+   <property name="toolTip">
+    <string>Italian</string>
    </property>
   </action>
  </widget>
@@ -809,6 +853,7 @@
  </tabstops>
  <resources>
   <include location="materialicons.qrc"/>
+  <include location="flags.qrc"/>
  </resources>
  <connections/>
 </ui>

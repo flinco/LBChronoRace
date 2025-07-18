@@ -60,5 +60,7 @@
         <file>icons/history.svg</file>
         <file>icons/update.svg</file>
         <file>icons/note_add.svg</file>
+        <file>icons/language.svg</file>
+        <file>icons/overview.svg</file>
     </qresource>
 </RCC>

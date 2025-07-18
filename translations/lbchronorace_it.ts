@@ -1355,6 +1355,22 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Error: table to export is unknown</source>
         <translation>Errore: tabella da esportare sconosciuta</translation>
     </message>
+    <message>
+        <source>Change application language</source>
+        <translation>Cambia lingua applicazione</translation>
+    </message>
+    <message>
+        <source>Set Language</source>
+        <translation>Cambia lingua</translation>
+    </message>
+    <message>
+        <source>English</source>
+        <translation>Inglese</translation>
+    </message>
+    <message>
+        <source>Italian</source>
+        <translation>Italiano</translation>
+    </message>
 </context>
 <context>
     <name>LiveTable</name>
