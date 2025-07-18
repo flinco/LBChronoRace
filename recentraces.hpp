@@ -19,7 +19,6 @@
 #define RECENTRACES_HPP
 
 #include <QObject>
-#include <QScopedPointer>
 #include <QSettings>
 #include <QList>
 #include <QMenu>
@@ -28,11 +27,11 @@
 class RecentRaces : public QObject
 {
     Q_OBJECT
-public:
-    explicit RecentRaces(QMenu *parent);
 
-    QMenu *getMenu();
-    void readSettings();
+public:
+    explicit RecentRaces(QMenu *newMenu);
+
+    void loadMenu();
 
     void update(QString const &path);
 
@@ -40,9 +39,7 @@ signals:
     void triggered(QString const &);
 
 private:
-    QSettings settings { QSettings::Format::NativeFormat, QSettings::Scope::UserScope, QStringLiteral(LBCHRONORACE_ORGANIZATION), QStringLiteral(LBCHRONORACE_NAME) };
-
-    QScopedPointer<QMenu> menu { Q_NULLPTR };
+    QMenu *menu { Q_NULLPTR };
     QStringList recentRaces;
 
     QAction const *clearAction { Q_NULLPTR };
@@ -51,7 +48,7 @@ private:
     void rebuildMenu();
 
 public slots:
-    void writeSettings();
+    void store();
 
 private slots:
     void load();

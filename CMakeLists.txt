@@ -59,8 +59,10 @@ set(HEADER_FILES
     compsexdelegate.hpp
     crhelper.hpp
     crloader.hpp
+    crsettings.hpp
     crtablemodel.hpp
     csvrankingprinter.hpp
+    languages.hpp
     lbchronorace.hpp
     lbcrexception.hpp
     livetable.hpp
@@ -103,7 +105,9 @@ set(SOURCE_FILES
     compsexdelegate.cpp
     crhelper.cpp
     crloader.cpp
+    crsettings.cpp
     csvrankingprinter.cpp
+    languages.cpp
     lbchronorace.cpp
     lbcrexception.cpp
     livetable.cpp
@@ -182,6 +186,9 @@ set_property(SOURCE icons.qrc PROPERTY SKIP_AUTORCC ON)
 
 # Google Material Icons (as standard resource)
 list(APPEND PROJECT_SOURCES materialicons.qrc)
+
+# Flags (as standard resource)
+list(APPEND PROJECT_SOURCES flags.qrc)
 
 # Images (as standard resource)
 list(APPEND PROJECT_SOURCES images.qrc)

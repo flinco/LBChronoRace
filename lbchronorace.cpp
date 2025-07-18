@@ -32,6 +32,7 @@
 #include "wizards/newracewizard.hpp"
 #include "wizards/rankingswizard.hpp"
 #include "crhelper.hpp"
+#include "languages.hpp"
 
 // static members initialization
 QDir LBChronoRace::lastSelectedPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
@@ -203,13 +204,17 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     if (liveIndex > 2)
         ui->liveViewSelector->setEnabled(true);
 
-    recentRaces.reset(new RecentRaces(ui->menuFile));
-    ui->actionRecentRaces->setMenu(recentRaces->getMenu());
-    recentRaces->readSettings();
+    // Recent races menu
+    recentRaces.reset(new RecentRaces(ui->menuRecentRaces));
+    recentRaces->loadMenu();
     QObject::connect(recentRaces.data(), &RecentRaces::triggered, this, &LBChronoRace::openRace);
 
+    // Languages menu
+    languages.reset(new Languages(ui->menuSetLanguage));
+    languages->loadMenu();
+
     // Ensure that the quit actions are executed in the desired order
-    QObject::connect(ui->actionQuit, &QAction::triggered, recentRaces.data(), &RecentRaces::writeSettings);
+    QObject::connect(ui->actionQuit, &QAction::triggered, recentRaces.data(), &RecentRaces::store);
     QObject::connect(ui->actionQuit, &QAction::triggered, this, &QApplication::quit);
 }
 
@@ -468,6 +473,23 @@ bool LBChronoRace::event(QEvent *event)
     }
 
     return retval;
+}
+
+void LBChronoRace::changeEvent(QEvent *event)
+{
+    QEvent::Type type = (event == Q_NULLPTR) ? QEvent::None : event->type();
+
+    if (type == QEvent::LanguageChange) {
+        // this event is send if a translator is loaded
+        ui->retranslateUi(this);
+    } else if (type == QEvent::LocaleChange) {
+        // this event is send, if the system, language changes
+        QString locale = QLocale::system().name();
+        locale.truncate(locale.lastIndexOf('_'));
+        Languages::loadLanguage(locale);
+    }
+
+    QMainWindow::changeEvent(event);
 }
 
 void LBChronoRace::show()
