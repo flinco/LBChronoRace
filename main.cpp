@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     splash.setWindowFlag(Qt::WindowStaysOnTopHint, true);
     splash.show();
 
-    splash.showMessage("Loading tranlations…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
+    splash.showMessage("Loading translations…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
 
     QLocale lbcrLocale;
     QTranslator qtTranslator;
