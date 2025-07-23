@@ -20,6 +20,11 @@
 
 #include <QAbstractTableModel>
 #include <QLCDNumber>
+#include <QTableView>
+#include <QStyleOptionViewItem>
+#include <QAbstractItemDelegate>
+#include <QModelIndex>
+#include <QSize>
 
 class CRTableModel : public QAbstractTableModel
 {
@@ -29,11 +34,18 @@ class CRTableModel : public QAbstractTableModel
 public:
     void setCounter(QLCDNumber *newCounter);
 
+    virtual void resizeHeaders(QTableView *table) = 0;
+
+    bool needsResizing();
+    void setResizing();
+
 private:
     QLCDNumber *counter { Q_NULLPTR };
+    bool resize { true };
 
 protected:
     virtual void refreshDisplayCounter() final;
+    int computeSizeHintForColumn(QTableView const *view, int column) const;
 
 public slots:
     virtual void refreshCounters(int r) = 0;
@@ -44,10 +56,44 @@ inline void CRTableModel::setCounter(QLCDNumber *newCounter)
     counter = newCounter;
 }
 
+inline bool CRTableModel::needsResizing()
+{
+    bool retval = resize;
+
+    resize = false;
+
+    return retval;
+}
+
+inline void CRTableModel::setResizing()
+{
+    resize = true;
+}
+
 inline void CRTableModel::refreshDisplayCounter()
 {
     if (counter != Q_NULLPTR)
         counter->display(rowCount(QModelIndex()));
+}
+
+inline int CRTableModel::computeSizeHintForColumn(QTableView const *view, int column) const
+{
+    int maxWidth = 0;
+    QAbstractItemModel const *model = view->model();
+    QStyleOptionViewItem option;
+    option.initFrom(view);
+
+    QAbstractItemDelegate const *delegate = view->itemDelegateForColumn(column);
+    if (!delegate)
+        delegate = view->itemDelegate(); // fallback
+
+    for (int row = 0; row < model->rowCount(); ++row) {
+        QModelIndex idx = model->index(row, column);
+        QSize size = delegate->sizeHint(option, idx);
+        maxWidth = qMax(maxWidth, size.width());
+    }
+
+    return maxWidth;
 }
 
 #endif // CRTABLEMODEL_HPP

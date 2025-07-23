@@ -39,6 +39,56 @@ void CategoriesModel::refreshCounters(int r)
     Q_UNUSED(r)
 }
 
+void CategoriesModel::resizeHeaders(QTableView *table)
+{
+    using enum Category::Field;
+
+    Q_ASSERT(table != Q_NULLPTR);
+
+    QHeaderView* header = table->horizontalHeader();
+
+    // Start with ResizeToContents to calculate proper size hints
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
+    table->resizeColumnsToContents();
+
+    int const totalWidth = table->viewport()->width();
+
+    // Compute minimum width for "small" and "medium" columns
+    QList<int> contentWidths;
+    for (auto col = static_cast<int>(CTF_FIRST); col < static_cast<int>(CTF_COUNT); ++col)
+        contentWidths << computeSizeHintForColumn(table, col);
+
+    // --- Columns 3–6: desired width = 9% but not less than the contents
+    auto const desiredSmallWidth = static_cast<int>(totalWidth * 0.09);
+    for (auto col = static_cast<int>(CTF_FROM_YEAR); col <= static_cast<int>(CTF_TO_BIB); ++col) {
+        header->setSectionResizeMode(col, QHeaderView::Fixed);
+        header->resizeSection(col, qMax(desiredSmallWidth, contentWidths[col]));
+    }
+
+    // --- Column 1 (CTF_SHORT_DESCR): 1.5x times one of the narrow columns (after recomputing)
+    int const actualSmallWidth = header->sectionSize(static_cast<int>(CTF_FROM_YEAR)); // dopo applicazione reale
+    int col1Width = qMax(int(actualSmallWidth * 1.5), contentWidths[static_cast<int>(CTF_SHORT_DESCR)]);
+    header->setSectionResizeMode(static_cast<int>(CTF_SHORT_DESCR), QHeaderView::Fixed);
+    header->resizeSection(static_cast<int>(CTF_SHORT_DESCR), col1Width);
+
+    // --- Column 2 (CTF_TYPE): delegate controls width
+    header->setSectionResizeMode(static_cast<int>(CTF_TYPE), QHeaderView::ResizeToContents);
+
+    // --- Space left for column 0 (CTF_FULL_DESCR)
+    int availableWidth = totalWidth;
+    for (auto col = static_cast<int>(CTF_SHORT_DESCR); col < static_cast<int>(CTF_COUNT); ++col)
+        availableWidth -= header->sectionSize(col);
+
+    // Non less than the contents
+    int col0width = qMax(availableWidth, contentWidths[static_cast<int>(CTF_FULL_DESCR)]);
+    header->setSectionResizeMode(static_cast<int>(CTF_FULL_DESCR), QHeaderView::Interactive);
+    header->resizeSection(static_cast<int>(CTF_FULL_DESCR), col0width);
+
+    // Final cleanup
+    header->setStretchLastSection(false);
+    header->setSectionsMovable(false);
+}
+
 int CategoriesModel::rowCount(QModelIndex const &parent) const
 {
 
@@ -289,6 +339,7 @@ void CategoriesModel::reset()
     categories.clear();
     endResetModel();
 
+    CRTableModel::setResizing();
     refreshDisplayCounter();
 }
 

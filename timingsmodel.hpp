@@ -44,6 +44,8 @@ public:
         return data.tmDeserialize(in);
     }
 
+    void resizeHeaders(QTableView *table) final;
+
     int columnCount(QModelIndex const &parent = QModelIndex()) const override;
     int rowCount(QModelIndex const &parent = QModelIndex()) const override;
     bool setData(QModelIndex const &index, QVariant const &value, int role = Qt::EditRole) override;

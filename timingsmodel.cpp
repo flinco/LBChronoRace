@@ -39,6 +39,13 @@ void TimingsModel::refreshCounters(int r)
     Q_UNUSED(r)
 }
 
+void TimingsModel::resizeHeaders(QTableView *table)
+{
+    Q_ASSERT(table != Q_NULLPTR);
+
+    table->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::ResizeToContents);
+}
+
 int TimingsModel::rowCount(QModelIndex const &parent) const
 {
     Q_UNUSED(parent)
@@ -225,11 +232,13 @@ void TimingsModel::sort(int column, Qt::SortOrder order)
     emit dataChanged(QModelIndex(), QModelIndex());
 }
 
-void TimingsModel::reset() {
+void TimingsModel::reset()
+{
     beginResetModel();
     timings.clear();
     endResetModel();
 
+    CRTableModel::setResizing();
     refreshDisplayCounter();
 }
 
