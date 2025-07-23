@@ -43,6 +43,27 @@ void TeamsListModel::refreshCounters(int r)
     Q_UNUSED(r)
 }
 
+void TeamsListModel::resizeHeaders(QTableView *table)
+{
+    Q_ASSERT(table != nullptr);
+
+    QHeaderView* header = table->horizontalHeader();
+
+    // Force interactive resize mode (user can adjust the column)
+    header->setSectionResizeMode(QHeaderView::Interactive);
+
+    // Compute 50% of the available viewport width
+    int const minWidth = table->viewport()->width() / 2;
+
+    // Ensure column is at least minWidth
+    if (int currentWidth = header->sectionSize(0); currentWidth < minWidth)
+        header->resizeSection(0, minWidth);
+
+    // Optional: prevent stretching or moving
+    header->setStretchLastSection(false);
+    header->setSectionsMovable(false);
+}
+
 int TeamsListModel::rowCount(QModelIndex const &parent) const
 {
     Q_UNUSED(parent)
@@ -155,11 +176,13 @@ void TeamsListModel::sort(int column, Qt::SortOrder order)
     }
 }
 
-void TeamsListModel::reset() {
+void TeamsListModel::reset()
+{
     beginResetModel();
     teamsList.clear();
     endResetModel();
 
+    CRTableModel::setResizing();
     refreshDisplayCounter();
 }
 

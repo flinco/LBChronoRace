@@ -30,6 +30,53 @@ QDataStream &RankingsModel::rmDeserialize(QDataStream &in){
     return in;
 }
 
+void RankingsModel::resizeHeaders(QTableView *table)
+{
+    using enum Ranking::Field;
+
+    Q_ASSERT(table != Q_NULLPTR);
+
+    QHeaderView* header = table->horizontalHeader();
+
+    // Start with ResizeToContents to calculate proper size hints
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
+    table->resizeColumnsToContents();
+
+    int const totalWidth = table->viewport()->width();
+
+    // Compute size hint widths for all columns
+    QList<int> contentWidths;
+    for (auto col = static_cast<int>(RTF_FIRST); col < static_cast<int>(RTF_COUNT); ++col)
+        contentWidths << computeSizeHintForColumn(table, col);
+
+    // --- Column 2 (RTF_TEAM): delegate controls width
+    header->setSectionResizeMode(static_cast<int>(RTF_TEAM), QHeaderView::ResizeToContents);
+
+    // --- Column 3 (RTF_CATEGORIES): at least 2× column 2, but still based on delegate
+    int teamWidth = header->sectionSize(static_cast<int>(RTF_TEAM));
+    int minCategoriesWidth = qMax(teamWidth * 2, contentWidths[static_cast<int>(RTF_CATEGORIES)]);
+    header->setSectionResizeMode(static_cast<int>(RTF_CATEGORIES), QHeaderView::Fixed);
+    header->resizeSection(static_cast<int>(RTF_CATEGORIES), minCategoriesWidth);
+
+    // --- Column 1 (RTF_SHORT_DESCR): based on title only (fixed)
+    int shortDescrWidth = qMax(header->sectionSize(static_cast<int>(RTF_SHORT_DESCR)), contentWidths[static_cast<int>(RTF_SHORT_DESCR)]);
+    header->setSectionResizeMode(static_cast<int>(RTF_SHORT_DESCR), QHeaderView::Fixed);
+    header->resizeSection(static_cast<int>(RTF_SHORT_DESCR), shortDescrWidth);
+
+    // --- Column 0 (RTF_FULL_DESCR): takes remaining space, no smaller than content
+    int availableWidth = totalWidth;
+    for (auto col = static_cast<int>(RTF_SHORT_DESCR); col < static_cast<int>(RTF_COUNT); ++col)
+        availableWidth -= header->sectionSize(col);
+
+    int fullDescrWidth = qMax(availableWidth, contentWidths[static_cast<int>(RTF_FULL_DESCR)]);
+    header->setSectionResizeMode(static_cast<int>(RTF_FULL_DESCR), QHeaderView::Interactive);
+    header->resizeSection(static_cast<int>(RTF_FULL_DESCR), fullDescrWidth);
+
+    // --- Final cleanup
+    header->setStretchLastSection(false);
+    header->setSectionsMovable(false);
+}
+
 void RankingsModel::refreshCounters(int r)
 {
     Q_UNUSED(r)
@@ -228,6 +275,7 @@ void RankingsModel::reset()
     rankings.clear();
     endResetModel();
 
+    CRTableModel::setResizing();
     refreshDisplayCounter();
 }
 
