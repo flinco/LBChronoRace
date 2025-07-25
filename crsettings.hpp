@@ -21,6 +21,7 @@
 #include <QCoreApplication>
 #include <QString>
 #include <QSettings>
+#include <QKeyCombination>
 
 namespace crsettings {
     class CRSettings;
@@ -33,6 +34,8 @@ class CRSettings
 public:
     static QString getLanguage();
     static void setLanguage(QString const &language);
+    static QKeyCombination getTriggerKey();
+    static void setTriggerKey(QKeyCombination const &key);
     static void readRecent(QStringList &recentRaces);
     static void writeRecent(QStringList const &recentRaces);
 

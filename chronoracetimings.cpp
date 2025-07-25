@@ -26,6 +26,7 @@
 #include "chronoracetimings.hpp"
 #include "timespandialog.hpp"
 #include "crloader.hpp"
+#include "crsettings.hpp"
 #include "lbcrexception.hpp"
 
 constexpr char DISPLAY_CHRONO_ZERO[] = "0:00:00";
@@ -91,16 +92,17 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
     bool retval = true;
     if (!this->isVisible() || (event->type() != QEvent::Type::KeyPress)) {
         retval = QDialog::eventFilter(watched, event);
-    } else {
-        auto const keyEvent = static_cast<QKeyEvent *>(event);
-        auto const keyModifiers = keyEvent->modifiers();
-        switch (keyEvent->key()) {
-            case Qt::Key::Key_F10:
-                if (!(keyModifiers & Qt::KeyboardModifier::AltModifier)) {
-                    retval = QDialog::eventFilter(watched, event);
-                    break;
-                }
-                [[fallthrough]];
+    } else if (auto const keyCombination = static_cast<QKeyEvent *>(event)->keyCombination(); keyCombination == triggerKey) {
+        if (updateTimerId != 0)
+            recordTiming(this->timerOffset + this->timer.elapsed());
+    } else if (auto const keyModifiers = keyCombination.keyboardModifiers(); keyModifiers.testFlag(Qt::KeyboardModifier::AltModifier)) {
+        if (keyCombination.key() == Qt::Key::Key_Delete) {
+            deleteTiming();
+        } else {
+            retval = QDialog::eventFilter(watched, event);
+        }
+    } else if (keyModifiers.testFlag(Qt::KeyboardModifier::KeypadModifier) || keyModifiers.testFlag(Qt::KeyboardModifier::NoModifier)) {
+        switch (keyCombination.key()) {
             case Qt::Key::Key_Space:
                 if (updateTimerId != 0)
                     recordTiming(this->timerOffset + this->timer.elapsed());
@@ -111,13 +113,9 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
                 retval = enterPressed();
                 break;
             case Qt::Key::Key_Backspace:
-                deleteBib();
-                break;
+                [[fallthrough]];
             case Qt::Key::Key_Delete:
-                if (keyModifiers & Qt::KeyboardModifier::AltModifier)
-                    deleteTiming();
-                else
-                    deleteBib();
+                deleteBib();
                 break;
             case Qt::Key::Key_0:
                 [[fallthrough]];
@@ -242,6 +240,8 @@ void ChronoRaceTimings::reject()
 
 void ChronoRaceTimings::show()
 {
+    triggerKey = CRSettings::getTriggerKey();
+
     ui->retranslateUi(this);
     this->setWindowModality(Qt::ApplicationModal);
 
