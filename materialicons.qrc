@@ -62,5 +62,6 @@
         <file>icons/note_add.svg</file>
         <file>icons/language.svg</file>
         <file>icons/overview.svg</file>
+        <file>icons/unknown_2.svg</file>
     </qresource>
 </RCC>

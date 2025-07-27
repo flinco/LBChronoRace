@@ -748,28 +748,19 @@ Continue?</translation>
         <source>Time interval to subtract</source>
         <translation>Time interval to subtract</translation>
     </message>
-    <message numerus="yes">
-        <source>%n second(s) will be added to all the recorded timings.
+    <message>
+        <source>%1 s and %2 ms will be added to all the recorded timings.
 Are you sure you want to continue?</source>
-        <translation>
-            <numerusform>%n second will be added to all the recorded timings.
-Are you sure you want to continue?</numerusform>
-            <numerusform>%n seconds will be added to all the recorded timings.
-Are you sure you want to continue?</numerusform>
-        </translation>
+        <translation>%1 s and %2 ms will be added to all the recorded timings.
+Are you sure you want to continue?</translation>
     </message>
-    <message numerus="yes">
-        <source>%n second(s) will be subtracted from all the recorded timings.
+    <message>
+        <source>%1 s and %2 ms will be subtracted from all the recorded timings.
 Timings resulting below 0 will be set to 0:00:00.000.
 Are you sure you want to continue?</source>
-        <translation>
-            <numerusform>%n second will be subtracted from all the recorded timings.
+        <translation>%1 s and %2 ms will be subtracted from all the recorded timings.
 Timings resulting below 0 will be set to 0:00:00.000.
-Are you sure you want to continue?</numerusform>
-            <numerusform>%n seconds will be subtracted from all the recorded timings.
-Timings resulting below 0 will be set to 0:00:00.000.
-Are you sure you want to continue?</numerusform>
-        </translation>
+Are you sure you want to continue?</translation>
     </message>
     <message>
         <source>RESUME</source>
@@ -1370,6 +1361,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Italian</source>
         <translation>Italian</translation>
+    </message>
+    <message>
+        <source>Add or subtract an arbitrary amount of time to all the recorded timings</source>
+        <translation>Add or subtract an arbitrary amount of time to all the recorded timings</translation>
+    </message>
+    <message>
+        <source>Adjust Timings</source>
+        <translation>Adjust Timings</translation>
     </message>
 </context>
 <context>

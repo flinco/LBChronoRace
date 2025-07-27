@@ -541,8 +541,23 @@
        <normaloff>:/material/icons/language.svg</normaloff>:/material/icons/language.svg</iconset>
      </property>
     </widget>
+    <widget class="QMenu" name="menuAdjust_Timings">
+     <property name="toolTip">
+      <string>Add or subtract an arbitrary amount of time to all the recorded timings</string>
+     </property>
+     <property name="title">
+      <string>Adjust Timings</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/unknown_2.svg</normaloff>:/material/icons/unknown_2.svg</iconset>
+     </property>
+     <addaction name="actionAddTimeSpan"/>
+     <addaction name="actionSubtractTimeSpan"/>
+    </widget>
     <addaction name="actionImportTimings"/>
     <addaction name="actionExportTimings"/>
+    <addaction name="menuAdjust_Timings"/>
     <addaction name="separator"/>
     <addaction name="actionMakeStartList"/>
     <addaction name="actionCollectTimings"/>
@@ -550,8 +565,6 @@
     <addaction name="separator"/>
     <addaction name="menuSetLanguage"/>
     <addaction name="actionSetEncoding"/>
-    <addaction name="actionAddTimeSpan"/>
-    <addaction name="actionSubtractTimeSpan"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>

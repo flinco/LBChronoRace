@@ -748,28 +748,19 @@ Continuare?</translation>
         <source>Time interval to subtract</source>
         <translation>Quantità di tempo da sottrarre</translation>
     </message>
-    <message numerus="yes">
-        <source>%n second(s) will be added to all the recorded timings.
+    <message>
+        <source>%1 s and %2 ms will be added to all the recorded timings.
 Are you sure you want to continue?</source>
-        <translation>
-            <numerusform>%n secondo sarà aggiunto a tutti i tempi registrati.
-Sei sicuro di voler continuare?</numerusform>
-            <numerusform>%n secondi saranno aggiunti a tutti i tempi registrati.
-Sei sicuro di voler continuare?</numerusform>
-        </translation>
+        <translation>%1 s e %2 ms saranno aggiunti a tutti i tempi registrati.
+Sei sicuro di voler continuare?</translation>
     </message>
-    <message numerus="yes">
-        <source>%n second(s) will be subtracted from all the recorded timings.
+    <message>
+        <source>%1 s and %2 ms will be subtracted from all the recorded timings.
 Timings resulting below 0 will be set to 0:00:00.000.
 Are you sure you want to continue?</source>
-        <translation>
-            <numerusform>%n secondo sarà sottratto da tutti i tempi registrati.
+        <translation>%1 s e %2 ms saranno sottratti da tutti i tempi registrati.
 Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.000.
-Sei sicuro di voler continuare?</numerusform>
-            <numerusform>%n secondi saranno sottratti da tutti i tempi registrati.
-Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.000.
-Sei sicuro di voler continuare?</numerusform>
-        </translation>
+Sei sicuro di voler continuare?</translation>
     </message>
     <message>
         <source>RESUME</source>
@@ -1370,6 +1361,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Italian</source>
         <translation>Italiano</translation>
+    </message>
+    <message>
+        <source>Add or subtract an arbitrary amount of time to all the recorded timings</source>
+        <translation>Aggiungi o sottrai una quantità arbitraria di tempo da tutti i tempi registrati</translation>
+    </message>
+    <message>
+        <source>Adjust Timings</source>
+        <translation>Aggiusta Tempi</translation>
     </message>
 </context>
 <context>

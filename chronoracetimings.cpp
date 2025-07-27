@@ -293,12 +293,12 @@ void ChronoRaceTimings::subtractTimeSpan()
 void ChronoRaceTimings::applyTimeSpan(int offset)
 {
     if (offset > 0) {
-        QString text = tr("%n second(s) will be added to all the recorded timings.\nAre you sure you want to continue?", "", offset); // turn to milliseconds
+        QString text = tr("%1 s and %2 ms will be added to all the recorded timings.\nAre you sure you want to continue?").arg(offset / 1000).arg(offset % 1000);
         if (QMessageBox::warning(this, QString("Apply Time Span"), text, QMessageBox::StandardButton::Yes, QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes) {
             (dynamic_cast<TimingsModel *>(CRLoader::getTimingsModel()))->addTimeSpan(offset);
         }
     } else if (offset < 0) {
-        QString text = tr("%n second(s) will be subtracted from all the recorded timings.\nTimings resulting below 0 will be set to 0:00:00.000.\nAre you sure you want to continue?", "", -offset); // turn to milliseconds
+        QString text = tr("%1 s and %2 ms will be subtracted from all the recorded timings.\nTimings resulting below 0 will be set to 0:00:00.000.\nAre you sure you want to continue?").arg(-offset / 1000).arg(-offset % 1000);
         if (QMessageBox::warning(this, QString("Apply Time Span"), text, QMessageBox::StandardButton::Yes, QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes) {
             (dynamic_cast<TimingsModel *>(CRLoader::getTimingsModel()))->addTimeSpan(offset);
         }

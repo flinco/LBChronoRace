@@ -250,6 +250,8 @@ QList<Timing> const &TimingsModel::getTimings() const
 void TimingsModel::addTimeSpan(int offset)
 {
     for (auto r = 0; r < timings.count(); r++) {
+        if (timings[r].isDns() || timings[r].isDnf())
+            continue;
         timings[r].addOffset(offset);
         setData(this->index(r, static_cast<int>(Timing::Field::TMF_TIME)), QVariant(timings[r].getTiming()), Qt::EditRole);
     }
