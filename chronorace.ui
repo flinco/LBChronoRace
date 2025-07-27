@@ -565,6 +565,7 @@
     <addaction name="separator"/>
     <addaction name="menuSetLanguage"/>
     <addaction name="actionSetEncoding"/>
+    <addaction name="actionConfigureTrigger"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -849,6 +850,18 @@
    </property>
    <property name="toolTip">
     <string>Italian</string>
+   </property>
+  </action>
+  <action name="actionConfigureTrigger">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/switch_access_3.svg</normaloff>:/material/icons/switch_access_3.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Configure Trigger</string>
+   </property>
+   <property name="toolTip">
+    <string>Detect and store the external hardware trigger key</string>
    </property>
   </action>
  </widget>

@@ -128,12 +128,13 @@ private:
 private slots:
     void newRace();
     void loadRace();
-    void openRace(QString const &path);
     void openRecentRace(QAction const *action);
     void saveRace();
     void saveRaceAs();
 
     void setEncoding();
+
+    void setupTrigger();
 
     void encodingSelector(int idx) const;
     void formatSelector(int idx) const;

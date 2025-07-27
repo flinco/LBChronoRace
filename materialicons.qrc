@@ -63,5 +63,6 @@
         <file>icons/language.svg</file>
         <file>icons/overview.svg</file>
         <file>icons/unknown_2.svg</file>
+        <file>icons/switch_access_3.svg</file>
     </qresource>
 </RCC>

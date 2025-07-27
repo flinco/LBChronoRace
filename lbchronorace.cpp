@@ -35,6 +35,7 @@
 #include "crhelper.hpp"
 #include "recentraces.hpp"
 #include "languages.hpp"
+#include "triggerkeydialog.hpp"
 
 // static members initialization
 QDir LBChronoRace::lastSelectedPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
@@ -162,6 +163,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionImportTimings, &QAction::triggered, &timingsTable, &ChronoRaceTable::modelImport);
     QObject::connect(ui->actionExportTimings, &QAction::triggered, &timingsTable, &ChronoRaceTable::modelExport);
     QObject::connect(ui->actionSetEncoding, &QAction::triggered, this, &LBChronoRace::setEncoding);
+    QObject::connect(ui->actionConfigureTrigger, &QAction::triggered, this, &LBChronoRace::setupTrigger);
     QObject::connect(ui->actionMakeStartList, &QAction::triggered, this, &LBChronoRace::makeStartList);
     QObject::connect(ui->actionCollectTimings, &QAction::triggered, &timings, &ChronoRaceTimings::show);
     QObject::connect(ui->actionMakeRankings, &QAction::triggered, this, &LBChronoRace::makeRankings);
@@ -680,13 +682,8 @@ void LBChronoRace::loadRace()
                                      lastSelectedPath.absolutePath(),
                                      tr("ChronoRace Data (*.crd)")));
 
-    openRace(fileName);
-}
-
-void LBChronoRace::openRace(QString const &path)
-{
-    if (loadRaceFile(path)) {
-        raceDataFileName = path;
+    if (loadRaceFile(fileName)) {
+        raceDataFileName = fileName;
 
         ui->errorDisplay->clear();
 
@@ -697,8 +694,17 @@ void LBChronoRace::openRace(QString const &path)
 
 void LBChronoRace::openRecentRace(QAction const *action)
 {
-    if (action != Q_NULLPTR)
-        this->openRace(action->data().toString());
+    if (action == Q_NULLPTR)
+        return;
+
+    if (auto fileName = action->data().toString(); loadRaceFile(fileName)) {
+        raceDataFileName = fileName;
+
+        ui->errorDisplay->clear();
+
+        // Update recent races list
+        RecentRaces::update(raceDataFileName);
+    }
 }
 
 void LBChronoRace::saveRace()
@@ -803,6 +809,14 @@ void LBChronoRace::setEncoding()
         else
             appendErrorMessage(tr("Unexpected encoding value (encoding not changed)"));
     }
+}
+
+void LBChronoRace::setupTrigger()
+{
+    TriggerKeyDialog addDialog(this);
+
+    addDialog.setModal(true);
+    addDialog.exec();
 }
 
 void LBChronoRace::makeStartList()

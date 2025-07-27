@@ -15,20 +15,37 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+#include <QVariant>
 #include <QFile>
 
 #include "crsettings.hpp"
+
+constexpr char UI_LANGUAGE_KEY[]  = "UILanguage";
+constexpr char TRIGGER_KEY_KEY[]  = "TriggerKey";
+constexpr char RECENT_RACES_KEY[]  = "RecentRaces";
+constexpr char RECENT_RACES_PATH_KEY[]  = "path";
 
 QSettings CRSettings::settings { QSettings::Format::NativeFormat, QSettings::Scope::UserScope, QStringLiteral(LBCHRONORACE_ORGANIZATION), QStringLiteral(LBCHRONORACE_NAME) };
 
 QString CRSettings::getLanguage()
 {
-    return settings.value("UILanguage", QVariant("en")).toString();
+    return settings.value(UI_LANGUAGE_KEY, QVariant("en")).toString();
 }
 
 void CRSettings::setLanguage(QString const &language)
 {
-    settings.setValue("UILanguage", language);
+    settings.setValue(UI_LANGUAGE_KEY, language);
+}
+
+QKeyCombination CRSettings::getTriggerKey()
+{
+    int key = settings.value(TRIGGER_KEY_KEY, QVariant(Qt::Key_unknown)).toInt();
+    return (key != Qt::Key_unknown) ? QKeyCombination::fromCombined(key) : QKeyCombination(Qt::KeyboardModifier::AltModifier, Qt::Key::Key_F10);
+}
+
+void CRSettings::setTriggerKey(QKeyCombination const &key)
+{
+    settings.setValue(TRIGGER_KEY_KEY, QVariant(key.toCombined()));
 }
 
 void CRSettings::readRecent(QStringList &recentRaces)
@@ -37,11 +54,11 @@ void CRSettings::readRecent(QStringList &recentRaces)
     QString recentPath;
 
     recentRaces.clear();
-    int size = settings.beginReadArray("RecentRaces");
+    int size = settings.beginReadArray(RECENT_RACES_KEY);
     for (int i = 0; i < size; ++i) {
         settings.setArrayIndex(i);
 
-        recentPath = settings.value("path").toString();
+        recentPath = settings.value(RECENT_RACES_PATH_KEY).toString();
         recentFile.setFileName(recentPath);
 
         if (!recentFile.exists())
@@ -57,10 +74,10 @@ void CRSettings::writeRecent(QStringList const &recentRaces)
     int i = 0;
 
     // Save recent races list
-    settings.beginWriteArray("RecentRaces");
+    settings.beginWriteArray(RECENT_RACES_KEY);
     for (auto const &recentRacePath : std::as_const(recentRaces)) {
         settings.setArrayIndex(i);
-        settings.setValue("path", recentRacePath);
+        settings.setValue(RECENT_RACES_PATH_KEY, recentRacePath);
         i++;
     }
     settings.endArray();

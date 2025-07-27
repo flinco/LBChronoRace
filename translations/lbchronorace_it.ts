@@ -1370,6 +1370,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Adjust Timings</source>
         <translation>Aggiusta Tempi</translation>
     </message>
+    <message>
+        <source>Configure Trigger</source>
+        <translation>Configura Grilletto</translation>
+    </message>
+    <message>
+        <source>Detect and store the external hardware trigger key</source>
+        <translation>Rileva e memorizza il tasto del grilletto hardware esterno</translation>
+    </message>
 </context>
 <context>
     <name>LiveTable</name>
@@ -2385,6 +2393,35 @@ la pubblicazione</translation>
     <message>
         <source>Error: unable to open %1</source>
         <translation>Errore: impossibile aprire il file %1</translation>
+    </message>
+</context>
+<context>
+    <name>TriggerKeyDialog</name>
+    <message>
+        <source>External hardware trigger key detection</source>
+        <translation>Rilevamento del tasto del grilletto hardware esterno</translation>
+    </message>
+    <message>
+        <source>Press the key on your trigger device…</source>
+        <translation>Premi il tasto sul grilletto…</translation>
+    </message>
+    <message>
+        <source>This trigger key is not allowed.
+Reconfigure the trigger device and try again.</source>
+        <translation>Questo tasto non è consentito
+Riconfigura il grilletto e ripeti la procedura.</translation>
+    </message>
+    <message>
+        <source>Repeat the trigger key to confirm.</source>
+        <translation>Ripremi il tasto per confermare.</translation>
+    </message>
+    <message>
+        <source>The trigger key has been set to 0x%1.</source>
+        <translation>Il tasto associato al grilletto è 0x%1.</translation>
+    </message>
+    <message>
+        <source>Trigger keys do not match. Try again.</source>
+        <translation>Il tasto non corrisponde. Riprova.</translation>
     </message>
 </context>
 </TS>

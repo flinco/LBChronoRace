@@ -15,32 +15,43 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CRSETTINGS_HPP
-#define CRSETTINGS_HPP
+#ifndef TRIGGERKEYDIALOG_HPP
+#define TRIGGERKEYDIALOG_HPP
 
-#include <QCoreApplication>
-#include <QString>
-#include <QSettings>
+#include <QWidget>
+#include <QDialog>
+#include <QScopedPointer>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QKeyEvent>
 #include <QKeyCombination>
 
-namespace crsettings {
-    class CRSettings;
-}
-
-class CRSettings
+class TriggerKeyDialog : public QDialog
 {
-    Q_DECLARE_TR_FUNCTIONS(CRSettings)
+    Q_OBJECT
 
 public:
-    static QString getLanguage();
-    static void setLanguage(QString const &language);
-    static QKeyCombination getTriggerKey();
-    static void setTriggerKey(QKeyCombination const &key);
-    static void readRecent(QStringList &recentRaces);
-    static void writeRecent(QStringList const &recentRaces);
+    explicit TriggerKeyDialog(QWidget *parent = Q_NULLPTR);
+
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
 
 private:
-    static QSettings settings;
+    enum class State { WaitingFirst, WaitingSecond, Done };
+
+    QScopedPointer<QVBoxLayout> layout { new QVBoxLayout };
+
+    void updateMessage();
+    bool isKeyAllowed(QKeyCombination const &key) const;
+
+    QKeyCombination regiteredKey { Qt::KeyboardModifier::NoModifier, Qt::Key::Key_unknown };
+
+    State state = State::WaitingFirst;
+
+    QSet<QKeyCombination> forbiddenKeys;
+
+public slots:
+    void accept() override;
 };
 
-#endif // CRSETTINGS_HPP
+#endif // TRIGGERKEYDIALOG_HPP

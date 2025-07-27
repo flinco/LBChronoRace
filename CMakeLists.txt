@@ -83,6 +83,7 @@ set(HEADER_FILES
     timing.hpp
     timingsmodel.hpp
     timingstatusdelegate.hpp
+    triggerkeydialog.hpp
     txtrankingprinter.hpp
     wizards/newracewizard.hpp
     wizards/rankingswizard.hpp
@@ -128,6 +129,7 @@ set(SOURCE_FILES
     timing.cpp
     timingsmodel.cpp
     timingstatusdelegate.cpp
+    triggerkeydialog.cpp
     txtrankingprinter.cpp
     wizards/newracewizard.cpp
     wizards/rankingswizard.cpp

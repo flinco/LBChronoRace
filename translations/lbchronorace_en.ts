@@ -1370,6 +1370,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Adjust Timings</source>
         <translation>Adjust Timings</translation>
     </message>
+    <message>
+        <source>Configure Trigger</source>
+        <translation>Configure Trigger</translation>
+    </message>
+    <message>
+        <source>Detect and store the external hardware trigger key</source>
+        <translation>Detect and store the external hardware trigger key</translation>
+    </message>
 </context>
 <context>
     <name>LiveTable</name>
@@ -2385,6 +2393,35 @@ publishing</translation>
     <message>
         <source>Error: unable to open %1</source>
         <translation>Error: unable to open %1</translation>
+    </message>
+</context>
+<context>
+    <name>TriggerKeyDialog</name>
+    <message>
+        <source>External hardware trigger key detection</source>
+        <translation>External hardware trigger key detection</translation>
+    </message>
+    <message>
+        <source>Press the key on your trigger device…</source>
+        <translation>Press the key on your trigger device…</translation>
+    </message>
+    <message>
+        <source>This trigger key is not allowed.
+Reconfigure the trigger device and try again.</source>
+        <translation>This trigger key is not allowed.
+Reconfigure the trigger device and try again.</translation>
+    </message>
+    <message>
+        <source>Repeat the trigger key to confirm.</source>
+        <translation>Repeat the trigger key to confirm.</translation>
+    </message>
+    <message>
+        <source>The trigger key has been set to 0x%1.</source>
+        <translation>The trigger key has been set to 0x%1.</translation>
+    </message>
+    <message>
+        <source>Trigger keys do not match. Try again.</source>
+        <translation>Trigger keys do not match. Try again.</translation>
     </message>
 </context>
 </TS>

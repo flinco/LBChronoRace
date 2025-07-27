@@ -24,6 +24,7 @@
 #include <QThread>
 #include <QGuiApplication>
 #include <QRegularExpression>
+#include <QKeyCombination>
 
 #include "livetable.hpp"
 
@@ -92,6 +93,8 @@ private:
     TimingsWorker  saveToDiskWorker;
 
     QTableWidgetItem *currentBibItem { Q_NULLPTR };
+
+    QKeyCombination triggerKey { Qt::KeyboardModifier::NoModifier, Qt::Key::Key_unknown };
 
     void updateCurrentBibItem(QTableWidgetItem *newBibItem);
 
