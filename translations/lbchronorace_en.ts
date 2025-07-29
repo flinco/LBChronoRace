@@ -558,6 +558,10 @@
         <source>Error: logo field to be set unknown</source>
         <translation>Error: logo field to be set unknown</translation>
     </message>
+    <message>
+        <source>Error: unknown index field</source>
+        <translation>Error: unknown index field</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTable</name>
@@ -2199,6 +2203,10 @@ publishing</translation>
     <message>
         <source>You can exclude some of the generated rankings.</source>
         <translation>You can exclude some of the generated rankings.</translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation>Results</translation>
     </message>
 </context>
 <context>

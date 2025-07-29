@@ -15,28 +15,28 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+#include <QRadioButton>
+
 #include "wizards/rankingswizard.hpp"
 #include "wizards/rankingswizardmode.hpp"
 
 RankingsWizardMode::RankingsWizardMode(QWidget *parent) :
-    QWizardPage(parent),
-    singleFile(parent),
-    multiFile(parent)
+    QWizardPage(parent)
 {
     setTitle(tr("Single/multiple files"));
     setSubTitle(tr("How many PDFs do you want?"));
 
-    singleFile.setText(tr("One single file containing all rankings"));
-    singleFile.setChecked(true);
-    layout.addWidget(&singleFile);
+    layout.addWidget(new QRadioButton(tr("One single file containing all rankings")));
+    QRadioButton *singleFile = qobject_cast<QRadioButton *>(layout.itemAt(0)->widget());
+    singleFile->setChecked(true);
 
-    multiFile.setText(tr("A separate file for each ranking"));
-    multiFile.setChecked(false);
-    layout.addWidget(&multiFile);
+    layout.addWidget(new QRadioButton(tr("A separate file for each ranking")));
+    QRadioButton *multiFile = qobject_cast<QRadioButton *>(layout.itemAt(1)->widget());
+    multiFile->setChecked(false);
 
     setLayout(&layout);
 
-    QObject::connect(&singleFile, &QRadioButton::toggled, this, &RankingsWizardMode::toggleSingleMode);
+    QObject::connect(singleFile, &QRadioButton::toggled, this, &RankingsWizardMode::toggleSingleMode);
 }
 
 void RankingsWizardMode::toggleSingleMode(bool checked) const

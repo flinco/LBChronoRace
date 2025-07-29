@@ -483,6 +483,68 @@ QString ChronoRaceData::getField(ChronoRaceData::StringField field) const
     }
 }
 
+QStringList ChronoRaceData::getFieldValues(ChronoRaceData::IndexField field)
+{
+    QStringList values;
+
+    switch (field) {
+        using enum ChronoRaceData::IndexField;
+
+        case RACE_TYPE:
+            for (int index = 0; index < ui->raceType->count(); ++index) {
+                values << ui->raceType->itemText(index);
+            }
+            break;
+        case RESULTS:
+            for (int index = 0; index < ui->results->count(); ++index) {
+                values << ui->results->itemText(index);
+            }
+            break;
+        case NAME_COMPOSITION:
+            for (int index = 0; index < ui->nameComposition->count(); ++index) {
+                values << ui->nameComposition->itemText(index);
+            }
+            break;
+        case ACCURACY:
+            for (int index = 0; index < ui->accuracy->count(); ++index) {
+                values << ui->accuracy->itemText(index);
+            }
+            break;
+        default:
+            emit error(tr("Error: unknown index field"));
+            break;
+    }
+
+    return values;
+}
+
+int ChronoRaceData::getFieldIndex(ChronoRaceData::IndexField field)
+{
+    int index = -1;
+
+    switch (field) {
+        using enum ChronoRaceData::IndexField;
+
+        case RACE_TYPE:
+            index = ui->raceType->currentIndex();
+            break;
+        case RESULTS:
+            index = ui->results->currentIndex();
+            break;
+        case NAME_COMPOSITION:
+            index = ui->nameComposition->currentIndex();
+            break;
+        case ACCURACY:
+            index = ui->accuracy->currentIndex();
+            break;
+        default:
+            emit error(tr("Error: unknown index field"));
+            break;
+    }
+
+    return index;
+}
+
 void ChronoRaceData::setField(ChronoRaceData::IndexField field, int newIndex)
 {
     switch (field) {

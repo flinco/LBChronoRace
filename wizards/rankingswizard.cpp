@@ -96,6 +96,11 @@ void RankingsWizard::setTarget(RankingsWizard::RankingsWizardTarget newTarget)
     target = newTarget;
 }
 
+ChronoRaceData *RankingsWizard::getRaceData() const
+{
+    return raceData;
+}
+
 void RankingsWizard::buildStartList()
 {
     // compute the startlist

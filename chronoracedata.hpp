@@ -26,6 +26,8 @@
 #include <QTextStream>
 #include <QVector>
 #include <QPixmap>
+#include <QString>
+#include <QStringList>
 
 #include "ui_chronoracedata.h"
 #include "chronoracelogo.hpp"
@@ -128,6 +130,8 @@ public:
     QDate   getDate() const;
     QTime   getStartTime() const;
     QString getField(ChronoRaceData::StringField field) const;
+    QStringList getFieldValues(ChronoRaceData::IndexField field);
+    int getFieldIndex(ChronoRaceData::IndexField field);
     QVector<QPixmap> getSponsorLogos() const;
 
     void setField(ChronoRaceData::IndexField field, int newIndex);

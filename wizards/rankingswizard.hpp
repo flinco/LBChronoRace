@@ -54,6 +54,8 @@ public:
     RankingsWizardTarget getTarget() const;
     void setTarget(RankingsWizardTarget newTarget);
 
+    ChronoRaceData *getRaceData() const;
+
 private:
     ChronoRaceData *raceData;
     QDir *lastSelectedPath;
