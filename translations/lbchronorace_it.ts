@@ -1215,7 +1215,7 @@ Sei sicuro di voler continuare?</translation>
         <source>Data format %1 not supported.
 Please update the application.</source>
         <translation>Formato dati %1 non supportato.
-Aggiorna l&amp;apos;applicazione.</translation>
+Aggiorna l&apos;applicazione.</translation>
     </message>
     <message>
         <source>Unexpected encoding value (fall back to the default)</source>
