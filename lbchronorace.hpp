@@ -60,7 +60,8 @@ constexpr uint LBCHRONORACE_BIN_FMT_v2 = 2u;
 constexpr uint LBCHRONORACE_BIN_FMT_v3 = 3u;
 constexpr uint LBCHRONORACE_BIN_FMT_v4 = 4u;
 constexpr uint LBCHRONORACE_BIN_FMT_v5 = 5u;
-#define LBCHRONORACE_BIN_FMT LBCHRONORACE_BIN_FMT_v5
+constexpr uint LBCHRONORACE_BIN_FMT_v6 = 6u;
+#define LBCHRONORACE_BIN_FMT LBCHRONORACE_BIN_FMT_v6
 
 class LBChronoRace : public QMainWindow
 {

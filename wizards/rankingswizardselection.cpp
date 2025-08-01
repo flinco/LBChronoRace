@@ -53,6 +53,7 @@ RankingsWizardSelection::RankingsWizardSelection(QWidget *parent) :
     }
     widgetPtr = new QComboBox;
     layout.addRow(new QLabel(tr("Results")), widgetPtr.data());
+    registerField("selection.results", widgetPtr.data());
     widgetPtr = Q_NULLPTR;
 
     setLayout(&layout);
@@ -73,25 +74,11 @@ void RankingsWizardSelection::initializePage()
     QComboBox *resultsMode = qobject_cast<QComboBox *>(layout.itemAt(1, QFormLayout::ItemRole::FieldRole)->widget());
     resultsMode->addItems(raceData->getFieldValues(ChronoRaceData::IndexField::RESULTS));
     resultsMode->setCurrentIndex(raceData->getFieldIndex(ChronoRaceData::IndexField::RESULTS));
-    QObject::connect(resultsMode, &QComboBox::currentIndexChanged, this, &RankingsWizardSelection::selectResultsMode);
-}
-
-void RankingsWizardSelection::cleanupPage()
-{
-    QListWidget const *rankingsList = qobject_cast<QListWidget *>(layout.itemAt(0, QFormLayout::ItemRole::FieldRole)->widget());
-    QObject::disconnect(rankingsList, &QListWidget::itemChanged, this, &RankingsWizardSelection::toggleSkipRanking);
-    QComboBox const *resultsMode = qobject_cast<QComboBox *>(layout.itemAt(1, QFormLayout::ItemRole::FieldRole)->widget());
-    QObject::disconnect(resultsMode, &QComboBox::currentIndexChanged, this, &RankingsWizardSelection::selectResultsMode);
 }
 
 void RankingsWizardSelection::toggleSkipRanking(QListWidgetItem const *item) const
 {
     QListWidget const *rankingsList = qobject_cast<QListWidget *>(layout.itemAt(0, QFormLayout::ItemRole::FieldRole)->widget());
     (*(qobject_cast<RankingsWizard *>(wizard())->getRankingsList()))[rankingsList->row(item)].skip = (item->checkState() != Qt::Checked);
-}
-
-void RankingsWizardSelection::selectResultsMode(int index) const
-{
-    ((qobject_cast<RankingsWizard *>(wizard()))->getRaceData())->setField(ChronoRaceData::IndexField::RESULTS, index);
 }
 

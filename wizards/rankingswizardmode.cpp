@@ -17,7 +17,6 @@
 
 #include <QRadioButton>
 
-#include "wizards/rankingswizard.hpp"
 #include "wizards/rankingswizardmode.hpp"
 
 RankingsWizardMode::RankingsWizardMode(QWidget *parent) :
@@ -33,17 +32,7 @@ RankingsWizardMode::RankingsWizardMode(QWidget *parent) :
     layout.addWidget(new QRadioButton(tr("A separate file for each ranking")));
     QRadioButton *multiFile = qobject_cast<QRadioButton *>(layout.itemAt(1)->widget());
     multiFile->setChecked(false);
+    registerField("mode.multiFile", multiFile);
 
     setLayout(&layout);
-
-    QObject::connect(singleFile, &QRadioButton::toggled, this, &RankingsWizardMode::toggleSingleMode);
-}
-
-void RankingsWizardMode::toggleSingleMode(bool checked) const
-{
-    RankingsWizard *parentWizard;
-
-    if ((parentWizard = qobject_cast<RankingsWizard *>(wizard()))) {
-        parentWizard->setPdfSingleMode(checked);
-    }
 }

@@ -20,6 +20,7 @@
 
 #include <QObject>
 #include <QScopedPointer>
+#include <QTranslator>
 #include <QString>
 
 #include "crloader.hpp"
@@ -36,7 +37,7 @@ public:
 
     static QScopedPointer<RankingPrinter> getRankingPrinter(CRLoader::Format format, uint indexFieldWidth, uint bibFieldWidth);
 
-    virtual void init(QString *outFileName, QString const &title, QString const &subject) = 0;
+    virtual void init(QString *outFileName, QString const &title, QString const &subject, QTranslator const *translator) = 0;
 
     virtual void printStartList(QList<Competitor const *> const &startList) = 0;
     virtual void printRanking(Ranking const &categories, QList<ClassEntry const *> const &ranking) = 0;
@@ -56,11 +57,16 @@ protected:
     virtual QString &buildOutFileName(QString &outFileBaseName) = 0;
     virtual QString &checkOutFileNameExtension(QString &outFileBaseName) = 0;
 
+    QTranslator const *getTranslator() const;
+    void setTranslator(QTranslator const *newTranslator);
+
 private:
     uint indexFieldWidth { 0u };
     uint bibFieldWidth { 0u };
 
     ChronoRaceData const *raceInfo { Q_NULLPTR };
+
+    QTranslator const *rankingsTranslator { Q_NULLPTR };
 
 signals:
     void error(QString const &);

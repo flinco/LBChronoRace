@@ -43,14 +43,12 @@ public:
     };
 
     void initializePage() override;
-    void cleanupPage() override;
 
 private:
     QFormLayout layout;
 
 private slots:
     void toggleSkipRanking(QListWidgetItem const *item) const;
-    void selectResultsMode(int index) const;
 
 signals:
     void error(QString const &);

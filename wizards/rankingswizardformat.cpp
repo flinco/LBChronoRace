@@ -20,60 +20,75 @@
 #include <QComboBox>
 #include <QCheckBox>
 
-#include "crloader.hpp"
 #include "wizards/rankingswizard.hpp"
 #include "wizards/rankingswizardformat.hpp"
+#include "crloader.hpp"
 #include "crhelper.hpp"
+#include "languages.hpp"
 
 RankingsWizardFormat::RankingsWizardFormat(QWidget *parent) :
     QWizardPage(parent)
 {
-    using enum CRLoader::Format;
-
     QPointer<QWidget> widgetPtr(Q_NULLPTR);
 
-    auto formatIdx = static_cast<int>(CRLoader::getFormat());
+    widgetPtr = new QComboBox;
+    QComboBox *rankingsLanguage = qobject_cast<QComboBox *>(widgetPtr.data());
+    rankingsLanguage->addItem(QIcon(QString(":/material/icons/language.svg")), tr("Default"));
+    layout.addRow(new QLabel(tr("Rankings language")), rankingsLanguage);
+    registerField("format.language", rankingsLanguage);
 
     widgetPtr = new QComboBox;
     QComboBox *fileFormat = qobject_cast<QComboBox *>(widgetPtr.data());
-    fileFormat->insertItem(static_cast<int>(PDF), CRHelper::formatToLabel(PDF));
-    fileFormat->insertItem(static_cast<int>(TEXT), CRHelper::formatToLabel(TEXT));
-    fileFormat->insertItem(static_cast<int>(CSV), CRHelper::formatToLabel(CSV));
-    fileFormat->setCurrentIndex(formatIdx);
+    using enum CRLoader::Format;
+    fileFormat->insertItem(static_cast<int>(PDF), CRHelper::formatToLabel(PDF), static_cast<uint>(PDF));
+    fileFormat->insertItem(static_cast<int>(TEXT), CRHelper::formatToLabel(TEXT), static_cast<uint>(TEXT));
+    fileFormat->insertItem(static_cast<int>(CSV), CRHelper::formatToLabel(CSV), static_cast<uint>(CSV));
+    fileFormat->setCurrentText(CRHelper::formatToLabel(CRLoader::getFormat()));
     layout.addRow(new QLabel(tr("Format")), fileFormat);
+    registerField("format.format", fileFormat, "currentData");
 
     widgetPtr = new QComboBox;
     QComboBox *fileEncoding = qobject_cast<QComboBox *>(widgetPtr.data());
-    fileEncoding->addItem(CRHelper::encodingToLabel(QStringConverter::Encoding::Utf8), QVariant(QStringConverter::Encoding::Utf8));
-    fileEncoding->addItem(CRHelper::encodingToLabel(QStringConverter::Encoding::Latin1), QVariant(QStringConverter::Encoding::Latin1));
+    using enum QStringConverter::Encoding;
+    fileEncoding->addItem(CRHelper::encodingToLabel(Utf8), static_cast<uint>(Utf8));
+    fileEncoding->addItem(CRHelper::encodingToLabel(Latin1), static_cast<uint>(Latin1));
     fileEncoding->setCurrentText(CRHelper::encodingToLabel(CRLoader::getEncoding()));
     layout.addRow(new QLabel(tr("Encoding")), fileEncoding);
+    registerField("format.encoding", fileEncoding, "currentData");
 
     widgetPtr = new QCheckBox;
     QCheckBox *fileOpen = qobject_cast<QCheckBox *>(widgetPtr.data());
     fileOpen->setCheckState(Qt::CheckState::Checked);
     layout.addRow(new QLabel(tr("Open file after\npublishing")), fileOpen);
     layout.setAlignment(fileOpen, Qt::AlignmentFlag::AlignLeft | Qt::AlignmentFlag::AlignVCenter);
+    registerField("format.open", fileOpen);
 
     widgetPtr = Q_NULLPTR;
 
-    formatChange(formatIdx);
+    formatChange(fileFormat->currentIndex());
     connect(fileFormat, &QComboBox::currentIndexChanged, this, &RankingsWizardFormat::formatChange);
-    connect(fileEncoding, &QComboBox::currentIndexChanged, this, &RankingsWizardFormat::encodingChange);
-    connect(fileOpen, &QCheckBox::checkStateChanged, this, &RankingsWizardFormat::openChange);
 
     setLayout(&layout);
 }
 
 void RankingsWizardFormat::initializePage()
 {
-    if (RankingsWizard const *parentWizard = qobject_cast<RankingsWizard *>(wizard());
-        parentWizard && (parentWizard->getTarget() == RankingsWizard::RankingsWizardTarget::StartList))
+    RankingsWizard *parentWizard = qobject_cast<RankingsWizard *>(wizard());
+
+    Q_ASSERT(parentWizard);
+
+    if (parentWizard->getTarget() == RankingsWizard::RankingsWizardTarget::StartList)
         setTitle(tr("Start List file format"));
     else
         setTitle(tr("Rankings file format"));
 
     setSubTitle(tr("Please select a file format and, if required, an encoding type."));
+
+    ChronoRaceData *raceData = parentWizard->getRaceData();
+    QComboBox *rankingsLanguage = qobject_cast<QComboBox *>(layout.itemAt(0, QFormLayout::ItemRole::FieldRole)->widget());
+    QStringList filter = raceData->getFieldValues(ChronoRaceData::IndexField::LANGUAGE);
+    Languages::loadMenu(rankingsLanguage, &filter);
+    rankingsLanguage->setCurrentIndex(raceData->getFieldIndex(ChronoRaceData::IndexField::LANGUAGE));
 }
 
 int RankingsWizardFormat::nextId() const
@@ -82,7 +97,7 @@ int RankingsWizardFormat::nextId() const
 
     if (RankingsWizard const *parentWizard = qobject_cast<RankingsWizard *>(wizard());
         !parentWizard || (parentWizard->getTarget() == RankingsWizard::RankingsWizardTarget::Rankings)) {
-        QComboBox const *fileFormat = qobject_cast<QComboBox *>(layout.itemAt(0, QFormLayout::ItemRole::FieldRole)->widget());
+        QComboBox const *fileFormat = qobject_cast<QComboBox *>(layout.itemAt(1, QFormLayout::ItemRole::FieldRole)->widget());
         id = static_cast<int>((fileFormat->currentIndex() == static_cast<int>(CRLoader::Format::PDF)) ?
                                 RankingsWizard::RankingsWizardPage::Page_Mode :
                                 RankingsWizard::RankingsWizardPage::Page_Selection);
@@ -93,36 +108,22 @@ int RankingsWizardFormat::nextId() const
 
 void RankingsWizardFormat::formatChange(int index) const
 {
-    QComboBox *fileEncoding = qobject_cast<QComboBox *>(layout.itemAt(1, QFormLayout::ItemRole::FieldRole)->widget());
+    QComboBox *fileEncoding = qobject_cast<QComboBox *>(layout.itemAt(2, QFormLayout::ItemRole::FieldRole)->widget());
 
     switch (index) {
         using enum CRLoader::Format;
 
         case static_cast<int>(PDF):
             fileEncoding->setEnabled(false);
-            CRLoader::setFormat(PDF);
             break;
         case static_cast<int>(TEXT):
-            fileEncoding->setEnabled(true);
-            CRLoader::setFormat(TEXT);
-            break;
+            [[fallthrough]];
         case static_cast<int>(CSV):
             fileEncoding->setEnabled(true);
-            CRLoader::setFormat(CSV);
             break;
         default:
             Q_UNREACHABLE();
             break;
     }
-}
 
-void RankingsWizardFormat::encodingChange(int index) const
-{
-    QComboBox const *fileEncoding = qobject_cast<QComboBox *>(layout.itemAt(1, QFormLayout::ItemRole::FieldRole)->widget());
-    CRLoader::setEncoding(fileEncoding->itemData(index, Qt::UserRole).value<QStringConverter::Encoding>());
-}
-
-void RankingsWizardFormat::openChange(Qt::CheckState state)
-{
-    emit notifyOpenChange(state == Qt::CheckState::Checked);
 }

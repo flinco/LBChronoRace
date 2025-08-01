@@ -181,6 +181,10 @@
         <source>Error: attempted to write to a closed file</source>
         <translation>Error: attempted to write to a closed file</translation>
     </message>
+    <message>
+        <source>Error: no translator provided</source>
+        <translation>Error: no translator provided</translation>
+    </message>
 </context>
 <context>
     <name>CategoriesModel</name>
@@ -561,6 +565,22 @@
     <message>
         <source>Error: unknown index field</source>
         <translation>Error: unknown index field</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Default</translation>
+    </message>
+    <message>
+        <source>Error: language code %1 not supported</source>
+        <translation>Error: language code %1 not supported</translation>
+    </message>
+    <message>
+        <source>Rankings language</source>
+        <translation>Rankings language</translation>
+    </message>
+    <message>
+        <source>Set the output language for rankings</source>
+        <translation>Set the output language for rankings</translation>
     </message>
 </context>
 <context>
@@ -1842,12 +1862,9 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <comment>long label</comment>
         <translation>Leg</translation>
     </message>
-    <message numerus="yes">
-        <source>Leg %n</source>
-        <translation>
-            <numerusform>Leg %n</numerusform>
-            <numerusform>Leg %n</numerusform>
-        </translation>
+    <message>
+        <source>Leg %1</source>
+        <translation>Leg %1</translation>
     </message>
     <message>
         <source>Time</source>
@@ -1866,19 +1883,9 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Leg Time (and position)</source>
         <translation>Leg Time (and position)</translation>
     </message>
-    <message numerus="yes">
-        <source>Page %n</source>
-        <translation>
-            <numerusform>Page %n</numerusform>
-            <numerusform>Page %n</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>of %n</source>
-        <translation>
-            <numerusform>of %n</numerusform>
-            <numerusform>of %n</numerusform>
-        </translation>
+    <message>
+        <source>Page %1 of %2</source>
+        <translation>Page %1 of %2</translation>
     </message>
     <message>
         <source>Organization</source>
@@ -1943,6 +1950,10 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Rankings</source>
         <translation>Rankings</translation>
+    </message>
+    <message>
+        <source>Error: no translator provided</source>
+        <translation>Error: no translator provided</translation>
     </message>
 </context>
 <context>
@@ -2174,6 +2185,14 @@ publishing</source>
         <translation>Open file after
 publishing</translation>
     </message>
+    <message>
+        <source>Default</source>
+        <translation>Default</translation>
+    </message>
+    <message>
+        <source>Rankings language</source>
+        <translation>Rankings language</translation>
+    </message>
 </context>
 <context>
     <name>RankingsWizardMode</name>
@@ -2293,12 +2312,9 @@ publishing</translation>
         <source>Start List</source>
         <translation>Start List</translation>
     </message>
-    <message numerus="yes">
-        <source>Leg %n</source>
-        <translation>
-            <numerusform>Leg %n</numerusform>
-            <numerusform>Leg %n</numerusform>
-        </translation>
+    <message>
+        <source>Leg %1</source>
+        <translation>Leg %1</translation>
     </message>
     <message>
         <source>Error: unable to open %1</source>
@@ -2311,6 +2327,10 @@ publishing</translation>
     <message>
         <source>Error: attempted to write to a closed file</source>
         <translation>Error: attempted to write to a closed file</translation>
+    </message>
+    <message>
+        <source>Error: no translator provided</source>
+        <translation>Error: no translator provided</translation>
     </message>
 </context>
 <context>

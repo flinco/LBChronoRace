@@ -21,7 +21,9 @@
 #include <QCoreApplication>
 #include <QTranslator>
 #include <QString>
+#include <QStringList>
 #include <QMenu>
+#include <QComboBox>
 #include <QAction>
 #include <QActionGroup>
 #include <QPointer>
@@ -32,9 +34,12 @@ class Languages : public QObject
 
 public:
     static void loadMenu(QMenu *menu);
+    static void loadMenu(QComboBox *menu, QStringList const *filter = Q_NULLPTR);
 
     static void loadStoredLanguage(QTranslator *newQt, QTranslator *newBase, QTranslator *newApp);
     static void loadLanguage(QString const &rLanguage);
+
+    static QTranslator const *getAppTranslator();
 
 private:
     static QPointer<QActionGroup> group;

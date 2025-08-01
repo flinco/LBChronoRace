@@ -48,13 +48,11 @@ public:
 
     explicit RankingsWizard(ChronoRaceData *data, QDir *path, RankingsWizardTarget target = RankingsWizardTarget::Rankings);
 
-    bool getPdfSingleMode() const;
-    void setPdfSingleMode(bool newPdfSingleMode);
     QList<RankingsWizardSelection::RankingsWizardItem> *getRankingsList();
     RankingsWizardTarget getTarget() const;
     void setTarget(RankingsWizardTarget newTarget);
 
-    ChronoRaceData *getRaceData() const;
+    ChronoRaceData *getRaceData();
 
 private:
     ChronoRaceData *raceData;
@@ -68,7 +66,6 @@ private:
     RankingsWizardMode modePage;
     RankingsWizardSelection selectionPage;
 
-    bool pdfSingleMode { true };
     QList<RankingsWizardSelection::RankingsWizardItem> rankingsList { };
     RankingsWizardTarget target { RankingsWizardTarget::Rankings };
 
@@ -79,12 +76,9 @@ private:
     void printRankingsSingleFile();
     void printRankingsMultiFile();
 
-    bool openFileAtEnd { true };
-
     QStringList messages { };
 
 private slots:
-    void setOpenFileAtEnd(bool open);
     void forwardInfoMessage(QString const &message);
     void forwardErrorMessage(QString const &message);
     void storeErrorMessage(QString const &message);

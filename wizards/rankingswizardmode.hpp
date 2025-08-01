@@ -31,9 +31,6 @@ public:
 private:
     QVBoxLayout layout;
 
-private slots:
-    void toggleSingleMode(bool checked) const;
-
 signals:
     void error(QString const &);
 };

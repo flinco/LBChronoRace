@@ -36,12 +36,9 @@ private:
 
 private slots:
     void formatChange(int index) const;
-    void encodingChange(int index) const;
-    void openChange(Qt::CheckState state);
 
 signals:
     void error(QString const &);
-    void notifyOpenChange(bool);
 };
 
 #endif // RANKINGSWIZARDFORMAT_HPP

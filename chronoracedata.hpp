@@ -28,6 +28,7 @@
 #include <QPixmap>
 #include <QString>
 #include <QStringList>
+#include <QTranslator>
 
 #include "ui_chronoracedata.h"
 #include "chronoracelogo.hpp"
@@ -60,7 +61,8 @@ public:
         RACE_TYPE        = 0,
         RESULTS          = 1,
         NAME_COMPOSITION = 2,
-        ACCURACY         = 3
+        ACCURACY         = 3,
+        LANGUAGE         = 4
     };
 
     enum class LogoField
@@ -123,7 +125,7 @@ public:
     }
 
     void saveRaceData();
-    void restoreRaceData() const;
+    void restoreRaceData();
 
     QPixmap getLeftLogo() const;
     QPixmap getRightLogo() const;
@@ -142,6 +144,8 @@ public:
 
     void getGlobalData(ChronoRaceData::NameComposition *gNameComposition, ChronoRaceData::Accuracy *gAccuracy) const;
 
+    QTranslator const *getTranslator() const;
+
 public slots:
     void loadLogo(QLabel *label = Q_NULLPTR);
     void removeLogo(QLabel *label = Q_NULLPTR) const;
@@ -159,6 +163,7 @@ private:
     int     resultsIdx { 0 };
     int     nameCompositionIdx { 0 };
     int     accuracyIdx { 0 };
+    int     languageIdx { 0 };
     QVector<QString> stringFields;
     ChronoRaceLogo leftLogo;
     ChronoRaceLogo rightLogo;
@@ -166,6 +171,8 @@ private:
     ChronoRaceLogo sponsorLogo2;
     ChronoRaceLogo sponsorLogo3;
     ChronoRaceLogo sponsorLogo4;
+
+    QVector<QTranslator *> translators;
 
 signals:
     void globalDataChange(ChronoRaceData::NameComposition, ChronoRaceData::Accuracy);

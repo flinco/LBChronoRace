@@ -181,6 +181,10 @@
         <source>Error: attempted to write to a closed file</source>
         <translation>Errore: tentativo di scrittura su un file chiuso</translation>
     </message>
+    <message>
+        <source>Error: no translator provided</source>
+        <translation>Errore: nessun traduttore specificato</translation>
+    </message>
 </context>
 <context>
     <name>CategoriesModel</name>
@@ -561,6 +565,22 @@
     <message>
         <source>Error: unknown index field</source>
         <translation>Errore: campo di tipo indice sconosciuto</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Predefinita</translation>
+    </message>
+    <message>
+        <source>Error: language code %1 not supported</source>
+        <translation>Errore: codice lingua %1 non supportato</translation>
+    </message>
+    <message>
+        <source>Rankings language</source>
+        <translation>Lingua classifiche</translation>
+    </message>
+    <message>
+        <source>Set the output language for rankings</source>
+        <translation>Imposta la lingua in cui saranno stilate le classifiche</translation>
     </message>
 </context>
 <context>
@@ -1842,12 +1862,9 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <comment>long label</comment>
         <translation>Frazione</translation>
     </message>
-    <message numerus="yes">
-        <source>Leg %n</source>
-        <translation>
-            <numerusform>Frazione %n</numerusform>
-            <numerusform>Frazione %n</numerusform>
-        </translation>
+    <message>
+        <source>Leg %1</source>
+        <translation>Frazione %1</translation>
     </message>
     <message>
         <source>Time</source>
@@ -1866,19 +1883,9 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Leg Time (and position)</source>
         <translation>Tempo di Frazione (e posizione)</translation>
     </message>
-    <message numerus="yes">
-        <source>Page %n</source>
-        <translation>
-            <numerusform>Pagina %n</numerusform>
-            <numerusform>Pagina %n</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>of %n</source>
-        <translation>
-            <numerusform>di %n</numerusform>
-            <numerusform>di %n</numerusform>
-        </translation>
+    <message>
+        <source>Page %1 of %2</source>
+        <translation>Pagina %1 di %2</translation>
     </message>
     <message>
         <source>Organization</source>
@@ -1943,6 +1950,10 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Rankings</source>
         <translation>Classifiche</translation>
+    </message>
+    <message>
+        <source>Error: no translator provided</source>
+        <translation>Errore: nessun traduttore specificato</translation>
     </message>
 </context>
 <context>
@@ -2174,6 +2185,14 @@ publishing</source>
         <translation>Apri file dopo
 la pubblicazione</translation>
     </message>
+    <message>
+        <source>Default</source>
+        <translation>Predefinita</translation>
+    </message>
+    <message>
+        <source>Rankings language</source>
+        <translation>Lingua classifiche</translation>
+    </message>
 </context>
 <context>
     <name>RankingsWizardMode</name>
@@ -2293,12 +2312,9 @@ la pubblicazione</translation>
         <source>Start List</source>
         <translation>Ordine di Partenza</translation>
     </message>
-    <message numerus="yes">
-        <source>Leg %n</source>
-        <translation>
-            <numerusform>Frazione %n</numerusform>
-            <numerusform>Frazione %n</numerusform>
-        </translation>
+    <message>
+        <source>Leg %1</source>
+        <translation>Frazione %1</translation>
     </message>
     <message>
         <source>Error: unable to open %1</source>
@@ -2311,6 +2327,10 @@ la pubblicazione</translation>
     <message>
         <source>Error: attempted to write to a closed file</source>
         <translation>Errore: tentativo di scrittura su un file chiuso</translation>
+    </message>
+    <message>
+        <source>Error: no translator provided</source>
+        <translation>Errore: nessun traduttore specificato</translation>
     </message>
 </context>
 <context>

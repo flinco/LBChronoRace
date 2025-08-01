@@ -587,6 +587,8 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
                     in.setVersion(QDataStream::Qt_5_15);
                     [[fallthrough]];
                 case LBCHRONORACE_BIN_FMT_v5:
+                    [[fallthrough]];
+                case LBCHRONORACE_BIN_FMT_v6:
                     QAbstractTableModel const *table;
                     qint16 encodingIdx;
                     qint16 formatIdx;

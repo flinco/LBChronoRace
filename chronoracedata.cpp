@@ -20,6 +20,7 @@
 
 #include "lbchronorace.hpp"
 #include "chronoracedata.hpp"
+#include "languages.hpp"
 
 ChronoRaceData::ChronoRaceData(QWidget *parent) : QDialog(parent)
 {
@@ -86,6 +87,17 @@ ChronoRaceData::ChronoRaceData(QWidget *parent) : QDialog(parent)
     ui->accuracy->removeItem(static_cast<int>(ChronoRaceData::Accuracy::THOUSANDTH));
     ui->accuracy->setCurrentIndex(this->accuracyIdx);
     this->stringFields[static_cast<int>(StringField::ACCURACY)] = ui->accuracy->currentText();
+
+    Languages::loadMenu(ui->language);
+    this->translators << Q_NULLPTR; // empty translator for the default combo box entry
+    // create all the translators
+    for (int index = 1; index < this->ui->language->count(); ++index) {
+        auto locale = QLocale(QLocale::codeToLanguage(this->ui->language->itemData(index).toString()));
+        while (this->translators.count() <= index)
+            this->translators << new QTranslator;
+        if (!this->translators[index]->load(locale, QStringLiteral("lbchronorace"), QStringLiteral("_"), QStringLiteral(":/i18n")))
+            this->ui->language->removeItem(index); // remove the unavailable translation
+    }
 }
 
 QDataStream &ChronoRaceData::crdSerialize(QDataStream &out) const
@@ -112,7 +124,10 @@ QDataStream &ChronoRaceData::crdSerialize(QDataStream &out) const
         << this->stringFields[static_cast<int>(LENGTH)]
         << this->stringFields[static_cast<int>(ELEVATION_GAIN)]
         << quint32(this->nameCompositionIdx)
-        << quint32(this->accuracyIdx);
+        << quint32(this->accuracyIdx)
+        << this->ui->language->itemData(this->languageIdx).toString();
+        /* N.B.:  do not save the index for 'language' as it may not correspond to
+         * the index that language has in a different instance of the software. */
 
     return out;
 }
@@ -123,6 +138,9 @@ QDataStream &ChronoRaceData::crdDeserialize(QDataStream &in)
     qint32 resultsIdx32;
     qint32 nameCompositionIdx32 = 0;
     qint32 accuracyIdx32 = 0;
+
+    int langIndex;
+    QString langCode;
 
     using enum ChronoRaceData::StringField;
 
@@ -152,6 +170,15 @@ QDataStream &ChronoRaceData::crdDeserialize(QDataStream &in)
         in >> nameCompositionIdx32
            >> accuracyIdx32;
 
+    if (LBChronoRace::binFormat > LBCHRONORACE_BIN_FMT_v5)
+        in >> langCode;
+
+    langIndex = langCode.isEmpty() ? 0 : this->ui->language->findData(langCode);
+    if (langIndex < 0) {
+        langIndex = 0;
+        emit error(tr("Error: language code %1 not supported").arg(langCode));
+    }
+
     this->raceTypeIdx = raceTypeIdx32;
     this->resultsIdx = resultsIdx32;
 
@@ -170,6 +197,9 @@ QDataStream &ChronoRaceData::crdDeserialize(QDataStream &in)
     this->ui->accuracy->setCurrentIndex(this->accuracyIdx);
     this->stringFields[static_cast<int>(ACCURACY)] = this->ui->accuracy->currentText();
 
+    this->ui->language->setCurrentIndex(langIndex);
+    this->languageIdx = langIndex;
+
     return in;
 }
 
@@ -179,8 +209,10 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
 
     using enum ChronoRaceData::StringField;
 
+    QTranslator const *translator = this->getTranslator();
+
     QStringList organizationLines = this->stringFields[static_cast<int>(ORGANIZATION)].split(re);
-    QString headColumn = QObject::tr("Organization") + ": ";
+    QString headColumn = translator->translate("QObject", "Organization") + ": ";
 
     for (auto const &line : std::as_const(organizationLines)) {
         out.setFieldWidth(20);
@@ -194,7 +226,7 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
     if (!this->stringFields[static_cast<int>(EVENT)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
-        out << QObject::tr("Event") + ": ";
+        out << translator->translate("QObject", "Event") + ": ";
         out.setFieldWidth(0);
         out << this->stringFields[static_cast<int>(EVENT)] << Qt::endl;
     }
@@ -202,7 +234,7 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
     if (!this->stringFields[static_cast<int>(PLACE)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
-        out << QObject::tr("Place") + ": ";
+        out << translator->translate("QObject", "Place") + ": ";
         out.setFieldWidth(0);
         out << this->stringFields[static_cast<int>(PLACE)] << Qt::endl;
     }
@@ -210,7 +242,7 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
     if (this->date.isValid()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
-        out << QObject::tr("Date") + ": ";
+        out << translator->translate("QObject", "Date") + ": ";
         out.setFieldWidth(0);
         out << this->date.toString("dd/MM/yyyy") << Qt::endl;
     }
@@ -218,7 +250,7 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
     if (this->startTime.isValid()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
-        out << QObject::tr("Start Time") + ": ";
+        out << translator->translate("QObject", "Start Time") + ": ";
         out.setFieldWidth(0);
         out << this->startTime.toString("H:mm") << Qt::endl;
     }
@@ -226,7 +258,7 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
     if (!this->stringFields[static_cast<int>(RACE_TYPE)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
-        out << QObject::tr("Race Type") + ": ";
+        out << translator->translate("QObject", "Race Type") + ": ";
         out.setFieldWidth(0);
         out << this->stringFields[static_cast<int>(RACE_TYPE)] << Qt::endl;
     }
@@ -234,7 +266,7 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
     if (!this->stringFields[static_cast<int>(LENGTH)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
-        out << QObject::tr("Length") + ": ";
+        out << translator->translate("QObject", "Length") + ": ";
         out.setFieldWidth(0);
         out << this->stringFields[static_cast<int>(LENGTH)] << Qt::endl;
     }
@@ -242,7 +274,7 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
     if (!this->stringFields[static_cast<int>(ELEVATION_GAIN)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
-        out << QObject::tr("Elevation Gain") + ": ";
+        out << translator->translate("QObject", "Elevation Gain") + ": ";
         out.setFieldWidth(0);
         out << this->stringFields[static_cast<int>(ELEVATION_GAIN)] << Qt::endl;
     }
@@ -250,7 +282,7 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
     if (!this->stringFields[static_cast<int>(REFEREE)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
-        out << QObject::tr("Referee") + ": ";
+        out << translator->translate("QObject", "Referee") + ": ";
         out.setFieldWidth(0);
         out << this->stringFields[static_cast<int>(REFEREE)] << Qt::endl;
     }
@@ -258,7 +290,7 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
     if (!this->stringFields[static_cast<int>(TIMEKEEPER_1)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
-        out << QObject::tr("Timekeeper 1") + ": ";
+        out << translator->translate("QObject", "Timekeeper 1") + ": ";
         out.setFieldWidth(0);
         out << this->stringFields[static_cast<int>(TIMEKEEPER_1)] << Qt::endl;
     }
@@ -266,7 +298,7 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
     if (!this->stringFields[static_cast<int>(TIMEKEEPER_2)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
-        out << QObject::tr("Timekeeper 2") + ": ";
+        out << translator->translate("QObject", "Timekeeper 2") + ": ";
         out.setFieldWidth(0);
         out << this->stringFields[static_cast<int>(TIMEKEEPER_2)] << Qt::endl;
     }
@@ -274,7 +306,7 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
     if (!this->stringFields[static_cast<int>(TIMEKEEPER_3)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
-        out << QObject::tr("Timekeeper 3") + ": ";
+        out << translator->translate("QObject", "Timekeeper 3") + ": ";
         out.setFieldWidth(0);
         out << this->stringFields[static_cast<int>(TIMEKEEPER_3)] << Qt::endl;
     }
@@ -284,7 +316,7 @@ QTextStream &ChronoRaceData::crdSerialize(QTextStream &out) const
     if (!this->stringFields[static_cast<int>(RESULTS)].isEmpty()) {
         out.setFieldWidth(20);
         out.setFieldAlignment(QTextStream::AlignLeft);
-        out << QObject::tr("Results") + ": ";
+        out << translator->translate("QObject", "Results") + ": ";
         out.setFieldWidth(0);
         out << this->stringFields[static_cast<int>(RESULTS)] << Qt::endl;
     }
@@ -321,11 +353,12 @@ void ChronoRaceData::saveRaceData()
     this->stringFields[static_cast<int>(NAME_COMPOSITION)] = ui->nameComposition->currentText();
     this->accuracyIdx = ui->accuracy->currentIndex();
     this->stringFields[static_cast<int>(ACCURACY)] = ui->accuracy->currentText();
+    this->languageIdx = ui->language->currentIndex();
 
     emit globalDataChange(static_cast<NameComposition>(this->nameCompositionIdx), static_cast<Accuracy>(this->accuracyIdx));
 }
 
-void ChronoRaceData::restoreRaceData() const
+void ChronoRaceData::restoreRaceData()
 {
     using enum ChronoRaceData::StringField;
 
@@ -350,6 +383,7 @@ void ChronoRaceData::restoreRaceData() const
     ui->sponsorLogo4->setPixmap(this->sponsorLogo4.pixmap);
     ui->nameComposition->setCurrentIndex(this->nameCompositionIdx);
     ui->accuracy->setCurrentIndex(this->accuracyIdx);
+    ui->language->setCurrentIndex(this->languageIdx);
 }
 
 void ChronoRaceData::accept()
@@ -370,6 +404,12 @@ void ChronoRaceData::show()
     restoreRaceData();
     this->setWindowModality(Qt::ApplicationModal);
     QDialog::show();
+}
+
+QTranslator const *ChronoRaceData::getTranslator() const
+{
+    QTranslator const *translator = this->translators[this->languageIdx];
+    return ((translator == Q_NULLPTR) || translator->isEmpty()) ? Languages::getAppTranslator() : translator;
 }
 
 void ChronoRaceData::loadLogo(QLabel *label)
@@ -510,6 +550,11 @@ QStringList ChronoRaceData::getFieldValues(ChronoRaceData::IndexField field)
                 values << ui->accuracy->itemText(index);
             }
             break;
+        case LANGUAGE:
+            for (int index = 0; index < ui->language->count(); ++index) {
+                values << ui->language->itemData(index).toString();
+            }
+            break;
         default:
             emit error(tr("Error: unknown index field"));
             break;
@@ -536,6 +581,9 @@ int ChronoRaceData::getFieldIndex(ChronoRaceData::IndexField field)
             break;
         case ACCURACY:
             index = ui->accuracy->currentIndex();
+            break;
+        case LANGUAGE:
+            index = ui->language->currentIndex();
             break;
         default:
             emit error(tr("Error: unknown index field"));
@@ -572,6 +620,11 @@ void ChronoRaceData::setField(ChronoRaceData::IndexField field, int newIndex)
             if (newIndex < ui->accuracy->count()) {
                 this->accuracyIdx = newIndex;
                 this->stringFields[static_cast<qsizetype>(ChronoRaceData::StringField::ACCURACY)] = ui->accuracy->itemText(newIndex);
+            }
+            break;
+        case LANGUAGE:
+            if (newIndex < ui->language->count()) {
+                this->languageIdx = newIndex;
             }
             break;
         default:

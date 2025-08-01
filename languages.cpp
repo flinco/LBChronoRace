@@ -69,6 +69,31 @@ void Languages::loadMenu(QMenu *menu)
     }
 }
 
+void Languages::loadMenu(QComboBox *menu, QStringList const *filter)
+{
+    Q_ASSERT(menu != Q_NULLPTR);
+
+    QDirIterator it(QStringLiteral(":/i18n"));
+    while (it.hasNext()) {
+        // get locale extracted by filename
+        QString langCode = it.next().section('/', 2, -1); // "lbchronorace_it.qm"
+        langCode.truncate(langCode.lastIndexOf('.')); // "lbchronorace_it"
+        langCode.remove(0, langCode.lastIndexOf('_') + 1); // "it"
+
+        if ((filter != Q_NULLPTR) && !filter->contains(langCode))
+            continue;
+
+        QLocale locale(langCode);
+        QLocale::Country country = locale.territory();
+        //NOSONAR QString lang = QLocale::languageToString(locale.language()); // all in english
+        QString lang = locale.nativeLanguageName();
+        lang.replace(0, 1, lang[0].toUpper()); // italiano --> Italiano
+        QString iconFile = QString(":/flags/%1.svg").arg(QLocale::territoryToCode(country).toLower());
+
+        menu->addItem(QIcon(iconFile), lang, langCode);
+    }
+}
+
 void Languages::loadStoredLanguage(QTranslator *newQt, QTranslator *newBase, QTranslator *newApp)
 {
     using enum QLocale::Language;
@@ -133,4 +158,9 @@ void Languages::loadLanguage(QString const &rLanguage)
 
         switchTranslators(locale);
     }
+}
+
+QTranslator const *Languages::getAppTranslator()
+{
+    return app;
 }
