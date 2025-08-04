@@ -162,6 +162,18 @@
         <source>Unexpected action value: %1 (add timing)</source>
         <translation>Unexpected action value: %1 (add timing)</translation>
     </message>
+    <message>
+        <source>Unknown encoding %1; loaded default</source>
+        <translation>Unknown encoding %1; loaded default</translation>
+    </message>
+    <message>
+        <source>Selected encoding: %1</source>
+        <translation>Selected encoding: %1</translation>
+    </message>
+    <message>
+        <source>Selected format: %1</source>
+        <translation>Selected format: %1</translation>
+    </message>
 </context>
 <context>
     <name>CSVRankingPrinter</name>
@@ -1093,14 +1105,6 @@ Are you sure you want to continue?</translation>
         <translation>Race saved: %1</translation>
     </message>
     <message>
-        <source>Selected encoding: %1</source>
-        <translation>Selected encoding: %1</translation>
-    </message>
-    <message>
-        <source>Selected format: %1</source>
-        <translation>Selected format: %1</translation>
-    </message>
-    <message>
         <source>Edit race information, including logos</source>
         <translation>Edit race information, including logos</translation>
     </message>
@@ -1260,10 +1264,6 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Unknown encoding %1; default saved</translation>
     </message>
     <message>
-        <source>Unknown encoding %1; loaded default</source>
-        <translation>Unknown encoding %1; loaded default</translation>
-    </message>
-    <message>
         <source>Add time span</source>
         <translation>Add time span</translation>
     </message>
@@ -1401,6 +1401,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Detect and store the external hardware trigger key</source>
         <translation>Detect and store the external hardware trigger key</translation>
+    </message>
+    <message>
+        <source>Unsaved Changes</source>
+        <translation>Unsaved Changes</translation>
+    </message>
+    <message>
+        <source>You have unsaved changes. Do you want to save them?</source>
+        <translation>You have unsaved changes. Do you want to save them?</translation>
     </message>
 </context>
 <context>

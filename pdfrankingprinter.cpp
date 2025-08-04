@@ -1018,6 +1018,7 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
     QRect boundingRect;
     QRectF writeRect;
     qreal rectWidth;
+    QPixmap logo;
 
     // Rage information
     ChronoRaceData const *raceInfo = getRaceInfo();
@@ -1027,7 +1028,12 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
     QTextOption textOptions;
 
     // Sponsors
-    QVector<QPixmap> sponsors = raceInfo->getSponsorLogos();
+    QVector<QPixmap> sponsors;
+    for (auto logoIndex = static_cast<int>(ChronoRaceData::LogoField::SPONSOR_FIRST); logoIndex <= static_cast<int>(ChronoRaceData::LogoField::SPONSOR_LAST); logoIndex++) {
+        logo = raceInfo->getField(static_cast<ChronoRaceData::LogoField>(logoIndex));
+        if (!logo.isNull())
+            sponsors.push_back(logo);
+    }
 
     // Publishing time
     QString editingTimestamp = QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm");
@@ -1060,14 +1066,16 @@ void PDFRankingPrinter::drawTemplatePortrait(QString const &fullDescription, int
         writeRect.setY(toVdots(1.0));
         writeRect.setWidth(toHdots(23.5));
         writeRect.setHeight(toVdots(23.5));
-        this->fitRectToLogo(writeRect, raceInfo->getLeftLogo());
-        painter.drawPixmap(writeRect.toRect(), raceInfo->getLeftLogo());
+        logo = raceInfo->getField(ChronoRaceData::LogoField::LEFT);
+        this->fitRectToLogo(writeRect, logo);
+        painter.drawPixmap(writeRect.toRect(), logo);
         writeRect.setX(toHdots(-23.5));
         writeRect.setY(toVdots(1.0));
         writeRect.setWidth(toHdots(23.5));
         writeRect.setHeight(toVdots(23.5));
-        this->fitRectToLogo(writeRect, raceInfo->getRightLogo());
-        painter.drawPixmap(writeRect.toRect(), raceInfo->getRightLogo());
+        logo = raceInfo->getField(ChronoRaceData::LogoField::RIGHT);
+        this->fitRectToLogo(writeRect, logo);
+        painter.drawPixmap(writeRect.toRect(), logo);
     }
     // Sponsor logos
     int l = 0;

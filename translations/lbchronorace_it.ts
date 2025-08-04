@@ -162,6 +162,18 @@
         <source>Unexpected action value: %1 (add timing)</source>
         <translation>Valore dell&apos;azione inatteso: %1 (aggiunta tempo)</translation>
     </message>
+    <message>
+        <source>Unknown encoding %1; loaded default</source>
+        <translation>Codifica sconosciuta %1; caricata quella predefinita</translation>
+    </message>
+    <message>
+        <source>Selected encoding: %1</source>
+        <translation>Codifica selezionata: %1</translation>
+    </message>
+    <message>
+        <source>Selected format: %1</source>
+        <translation>Formato selezionato: %1</translation>
+    </message>
 </context>
 <context>
     <name>CSVRankingPrinter</name>
@@ -1093,14 +1105,6 @@ Sei sicuro di voler continuare?</translation>
         <translation>Gara salvata: %1</translation>
     </message>
     <message>
-        <source>Selected encoding: %1</source>
-        <translation>Codifica selezionata: %1</translation>
-    </message>
-    <message>
-        <source>Selected format: %1</source>
-        <translation>Formato selezionato: %1</translation>
-    </message>
-    <message>
         <source>Edit race information, including logos</source>
         <translation>Modifica le informazioni della gara, inclusi i loghi</translation>
     </message>
@@ -1260,10 +1264,6 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Codifica sconosciuta %1; salvata quella predefinita</translation>
     </message>
     <message>
-        <source>Unknown encoding %1; loaded default</source>
-        <translation>Codifica sconosciuta %1; caricata quella predefinita</translation>
-    </message>
-    <message>
         <source>Add time span</source>
         <translation>Somma intervallo di tempo</translation>
     </message>
@@ -1401,6 +1401,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Detect and store the external hardware trigger key</source>
         <translation>Rileva e memorizza il tasto del grilletto hardware esterno</translation>
+    </message>
+    <message>
+        <source>Unsaved Changes</source>
+        <translation>Modifiche non salvate</translation>
+    </message>
+    <message>
+        <source>You have unsaved changes. Do you want to save them?</source>
+        <translation>Sono presenti modifiche non salvate. Le vuoi salvare?</translation>
     </message>
 </context>
 <context>

@@ -123,6 +123,7 @@ private:
     TimingStatusDelegate timingStatusDelegate;
 
     bool loadRaceFile(QString const &fileName);
+    bool checkDirty();
 
     void toggleLiveView();
 
@@ -137,8 +138,6 @@ private slots:
 
     void setupTrigger();
 
-    void encodingSelector(int idx) const;
-    void formatSelector(int idx) const;
     void makeStartList();
     void makeRankings();
 

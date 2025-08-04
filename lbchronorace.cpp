@@ -81,6 +81,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(&startListTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importStartList);
     QObject::connect(&startListTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportList);
     QObject::connect(&startListTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
+    QObject::connect(startListModel, &StartListModel::dataChanged, &CRLoader::setDirty);
     QObject::connect(startListModel, &StartListModel::error, this, &LBChronoRace::appendErrorMessage);
     startListModel->setCounter(ui->counterCompetitors);
 
@@ -102,6 +103,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(&rankingsTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importRankingsList);
     QObject::connect(&rankingsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportList);
     QObject::connect(&rankingsTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
+    QObject::connect(rankingsModel, &RankingsModel::dataChanged, &CRLoader::setDirty);
     QObject::connect(rankingsModel, &RankingsModel::error, this, &LBChronoRace::appendErrorMessage);
     rankingsModel->setCounter(ui->counterRankings);
 
@@ -111,6 +113,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(&categoriesTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importCategoriesList);
     QObject::connect(&categoriesTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportList);
     QObject::connect(&categoriesTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
+    QObject::connect(categoriesModel, &CategoriesModel::dataChanged, &CRLoader::setDirty);
     QObject::connect(categoriesModel, &CategoriesModel::error, this, &LBChronoRace::appendErrorMessage);
     rankingCatsDelegate.setCategories(categoriesModel);
     categoriesModel->setCounter(ui->counterCategories);
@@ -121,6 +124,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(&timingsTable, &ChronoRaceTable::modelImported, this, &LBChronoRace::importTimingsList);
     QObject::connect(&timingsTable, &ChronoRaceTable::modelExported, this, &LBChronoRace::exportList);
     QObject::connect(&timingsTable, &ChronoRaceTable::saveRaceData, this, &LBChronoRace::saveRace);
+    QObject::connect(timingsModel, &TimingsModel::dataChanged, &CRLoader::setDirty);
     QObject::connect(timingsModel, &TimingsModel::error, this, &LBChronoRace::appendErrorMessage);
     timingsModel->setCounter(ui->counterTimings);
 
@@ -215,8 +219,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     // Languages menu
     Languages::loadMenu(ui->menuSetLanguage);
 
-    // Ensure that the quit actions are executed in the desired order
-    QObject::connect(ui->actionQuit, &QAction::triggered, &RecentRaces::store);
+    // Quit action
     QObject::connect(ui->actionQuit, &QAction::triggered, this, &QApplication::quit);
 }
 
@@ -462,13 +465,19 @@ bool LBChronoRace::event(QEvent *event)
 {
     bool retval = true;
 
-    if (event->type() == QEvent::KeyPress) {
+    if (auto eType = event->type(); eType == QEvent::KeyPress) {
         auto const keyEvent = static_cast<QKeyEvent *>(event);
         if ((keyEvent->key() == Qt::Key::Key_Escape) &&
             (ui->liveViewSelector->currentIndex() > 0)) {
             ui->liveViewSelector->setCurrentIndex(0);
         } else {
             retval = QMainWindow::event(event);
+        }
+    } else if (eType == QEvent::Close) {
+        if (this->checkDirty()) {
+            retval = QMainWindow::event(event);
+        } else {
+            event->ignore();
         }
     } else {
         retval = QMainWindow::event(event);
@@ -515,48 +524,6 @@ void LBChronoRace::resizeDialogs(QScreen const *screen)
     timingsTable.setMaximumHeight(screenGeometry.height() * 15 / 16);
 }
 
-void LBChronoRace::encodingSelector(int idx) const
-{
-    switch (idx) {
-        using enum QStringConverter::Encoding;
-
-        case 1:
-            CRLoader::setEncoding(Utf8);
-            break;
-        case 0:
-            CRLoader::setEncoding(Latin1);
-            break;
-        default:
-            appendInfoMessage(tr("Unknown encoding %1; loaded default").arg(idx));
-            CRLoader::setEncoding(Latin1);
-            break;
-    }
-
-    appendInfoMessage(tr("Selected encoding: %1").arg(CRHelper::encodingToLabel(CRLoader::getEncoding())));
-}
-
-void LBChronoRace::formatSelector(int idx) const
-{
-    switch (idx) {
-        using enum CRLoader::Format;
-
-        case static_cast<int>(PDF):
-            CRLoader::setFormat(PDF);
-            break;
-        case static_cast<int>(TEXT):
-            CRLoader::setFormat(TEXT);
-            break;
-        case static_cast<int>(CSV):
-            CRLoader::setFormat(CSV);
-            break;
-        default:
-            CRLoader::setFormat(PDF);
-            break;
-    }
-
-    appendInfoMessage(tr("Selected format: %1").arg(CRHelper::formatToLabel(CRLoader::getFormat())));
-}
-
 bool LBChronoRace::loadRaceFile(QString const &fileName)
 {
     bool retval = false;
@@ -570,6 +537,7 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
             ChronoRaceData::NameComposition nameComposition;
             ChronoRaceData::Accuracy accuracy;
             QFileInfo raceDataFileInfo(fileName);
+            QString message;
 
             QDataStream in(&raceDataFile);
             in.setVersion(QDataStream::Qt_6_0);
@@ -597,9 +565,11 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
                     binFormat = static_cast<int>(binFmt);
 
                     in >> encodingIdx;
-                    encodingSelector(encodingIdx);
+                    message = CRLoader::encodingSelector(encodingIdx);
+                    appendInfoMessage(message);
                     in >> formatIdx;
-                    formatSelector(formatIdx);
+                    message = CRLoader::formatSelector(formatIdx);
+                    appendInfoMessage(message);
                     in >> raceInfo;
                     raceInfo.getGlobalData(&nameComposition, &accuracy);
                     CRHelper::updateGlobalData(nameComposition, accuracy);
@@ -667,8 +637,38 @@ void LBChronoRace::toggleLiveView()
     }
 }
 
+bool LBChronoRace::checkDirty()
+{
+    bool retval = true;
+
+    QMessageBox::StandardButton reply = QMessageBox::StandardButton::No;
+
+    // Ask the user to save data
+    if (raceInfo.isDirty() || CRLoader::isDirty())
+        reply = QMessageBox::question(this, tr("Unsaved Changes"), tr("You have unsaved changes. Do you want to save them?"), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+
+    switch (reply) {
+        using enum QMessageBox::StandardButton;
+        case Yes:
+            saveRace();
+            retval = !raceDataFileName.isEmpty();
+            [[fallthrough]];
+        case No:
+            // Always store recent races
+            RecentRaces::store();
+            break;
+        default: // any other means Cancel
+            retval = false;
+    }
+
+    return retval;
+}
+
 void LBChronoRace::newRace()
 {
+    if (!this->checkDirty())
+        return;
+
     try {
         NewRaceWizard newRaceWizard(&raceInfo, this);
         newRaceWizard.exec();
@@ -679,6 +679,9 @@ void LBChronoRace::newRace()
 
 void LBChronoRace::loadRace()
 {
+    if (!this->checkDirty())
+        return;
+
     QString fileName = QDir::toNativeSeparators(
         QFileDialog::getOpenFileName(this, tr("Select Race Data File"),
                                      lastSelectedPath.absolutePath(),
@@ -697,6 +700,9 @@ void LBChronoRace::loadRace()
 void LBChronoRace::openRecentRace(QAction const *action)
 {
     if (action == Q_NULLPTR)
+        return;
+
+    if (!this->checkDirty())
         return;
 
     if (auto fileName = action->data().toString(); loadRaceFile(fileName)) {

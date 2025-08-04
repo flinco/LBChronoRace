@@ -71,8 +71,8 @@ void LiveTable::setRaceInfo(const ChronoRaceData *raceData)
         racePlace = raceData->getField(ChronoRaceData::StringField::PLACE);
         raceDate = QLocale::system().toString(raceData->getDate(), "dddd dd/MM/yyyy");
 
-        leftLogo = raceData->getLeftLogo();
-        rightLogo = raceData->getRightLogo();
+        leftLogo = raceData->getField(ChronoRaceData::LogoField::LEFT);
+        rightLogo = raceData->getField(ChronoRaceData::LogoField::RIGHT);
     }
 
     QString subTitle = racePlace % (racePlace.isEmpty() ? "" : " - ") % raceDate;

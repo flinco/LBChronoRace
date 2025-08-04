@@ -77,6 +77,8 @@ private:
     static QStringConverter::Encoding  encoding;
     static Format                      format;
 
+    static bool dirty;
+
     static void loadCSV(QString const &filePath, QAbstractTableModel *model);
     static void saveCSV(QString const &filePath, QAbstractTableModel const *model);
 
@@ -112,6 +114,14 @@ public:
     static void setFormat(Format const &value);
 
     static QStringList getClubs();
+
+    static QString encodingSelector(int idx);
+    static QString formatSelector(int idx);
+
+    static bool isDirty();
+
+public slots:
+    static void setDirty(QModelIndex const &topLeft, QModelIndex const &bottomRight, QList<int> const &roles = QList<int>());
 };
 
 #endif // CRLOADER_HPP

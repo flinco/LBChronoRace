@@ -20,6 +20,7 @@
 #include <QRegularExpression>
 
 #include "crloader.hpp"
+#include "crhelper.hpp"
 #include "lbchronorace.hpp"
 #include "lbcrexception.hpp"
 
@@ -30,8 +31,9 @@ TimingsModel                CRLoader::timingsModel;
 RankingsModel               CRLoader::rankingsModel;
 CategoriesModel             CRLoader::categoriesModel;
 QList<QVariant>             CRLoader::standardItemList;
-QStringConverter::Encoding  CRLoader::encoding              = QStringConverter::Encoding::Latin1;
-CRLoader::Format            CRLoader::format                = CRLoader::Format::PDF;
+QStringConverter::Encoding  CRLoader::encoding { QStringConverter::Encoding::Latin1 };
+CRLoader::Format            CRLoader::format { CRLoader::Format::PDF };
+bool                        CRLoader::dirty { false };
 
 CRTableModel *CRLoader::getStartListModel()
 {
@@ -150,6 +152,7 @@ void CRLoader::saveRaceData(QDataStream &out)
         << categoriesModel
         << timingsModel;
 
+    dirty = false;
 }
 
 void CRLoader::loadRaceData(QDataStream &in)
@@ -160,6 +163,8 @@ void CRLoader::loadRaceData(QDataStream &in)
     rankingsModel.reset();
     categoriesModel.reset();
     timingsModel.reset();
+
+    dirty = false;
 
     in >> startListModel
        >> teamsListModel;
@@ -204,6 +209,8 @@ QPair<int, int> CRLoader::importStartList(QString const &path, bool append)
         startListCount = startListModel.rowCount();
         teamsListCount = teamsListModel.rowCount();
     }
+
+    dirty = true;
 
     return QPair<int, int>(startListCount, teamsListCount);
 }
@@ -277,6 +284,8 @@ void CRLoader::addTiming(Action action, QString const &bib, QString const &timin
             temp = "DNF";
             checkString(&timingsModel, temp);
         }
+
+        dirty = true;
     } else if (action == BEGIN) {
         timingsModel.reset();
     } else {
@@ -306,6 +315,8 @@ int CRLoader::importTeams(QString const &path, bool append)
         throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(1).arg(columnCount)));
     }
 
+    dirty = true;
+
     rowCount = teamsListModel.rowCount() - (append ? rowCount : 0);
 
     return rowCount;
@@ -328,6 +339,8 @@ int CRLoader::importCategories(QString const &path, bool append)
         throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(static_cast<int>(Category::Field::CTF_COUNT)).arg(columnCount)));
     }
 
+    dirty = true;
+
     rowCount = categoriesModel.rowCount() - (append ? rowCount : 0);
 
     return rowCount;
@@ -349,6 +362,8 @@ int CRLoader::importRankings(QString const &path, bool append)
             rankingsModel.reset();
         throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(static_cast<int>(Ranking::Field::RTF_COUNT)).arg(columnCount)));
     }
+
+    dirty = true;
 
     rowCount = rankingsModel.rowCount() - (append ? rowCount : 0);
 
@@ -373,6 +388,8 @@ int CRLoader::importTimings(QString const &path, bool append)
             timingsModel.reset();
         throw(ChronoRaceException(tr("Incorrect number of columns; expected %1 - found %2").arg(static_cast<int>(Timing::Field::TMF_COUNT)).arg(columnCount)));
     }
+
+    dirty = true;
 
     rowCount = timingsModel.rowCount() - (append ? rowCount : 0);
 
@@ -464,4 +481,65 @@ void CRLoader::checkString(QAbstractTableModel *model, QString &token, QChar cha
     } else {
         token.append(character);
     }
+}
+
+QString CRLoader::encodingSelector(int idx)
+{
+    QString message;
+
+    switch (idx) {
+        using enum QStringConverter::Encoding;
+
+        case 1:
+            setEncoding(Utf8);
+            break;
+        case 0:
+            setEncoding(Latin1);
+            break;
+        default:
+            message = tr("Unknown encoding %1; loaded default").arg(idx);
+            setEncoding(Latin1);
+            break;
+    }
+
+    if (message.isNull())
+        message = tr("Selected encoding: %1").arg(CRHelper::encodingToLabel(CRLoader::getEncoding()));
+
+    return message;
+}
+
+QString CRLoader::formatSelector(int idx)
+{
+    switch (idx) {
+        using enum CRLoader::Format;
+
+        case static_cast<int>(PDF):
+            setFormat(PDF);
+            break;
+        case static_cast<int>(TEXT):
+            setFormat(TEXT);
+            break;
+        case static_cast<int>(CSV):
+            setFormat(CSV);
+            break;
+        default:
+            setFormat(PDF);
+            break;
+    }
+
+    return tr("Selected format: %1").arg(CRHelper::formatToLabel(CRLoader::getFormat()));
+}
+
+bool CRLoader::isDirty()
+{
+    return dirty;
+}
+
+void CRLoader::setDirty(QModelIndex const &topLeft, QModelIndex const &bottomRight, QList<int> const &roles)
+{
+    Q_UNUSED(topLeft)
+    Q_UNUSED(bottomRight)
+    Q_UNUSED(roles)
+
+    dirty = true;
 }

@@ -69,10 +69,12 @@ public:
     {
         LEFT             = 0,
         RIGHT            = 1,
-        SPONSOR_1        = 2,
+        SPONSOR_FIRST    = 2,
+        SPONSOR_1        = SPONSOR_FIRST,
         SPONSOR_2        = 3,
         SPONSOR_3        = 4,
-        SPONSOR_4        = 5
+        SPONSOR_4        = 5,
+        SPONSOR_LAST     = SPONSOR_4
     };
 
     enum class RaceType
@@ -106,8 +108,8 @@ public:
 
     explicit ChronoRaceData(QWidget *parent = Q_NULLPTR);
 
-    QDataStream &crdSerialize(QDataStream &out) const;
-    friend QDataStream &operator<<(QDataStream &out, ChronoRaceData const &data)
+    QDataStream &crdSerialize(QDataStream &out);
+    friend QDataStream &operator<<(QDataStream &out, ChronoRaceData &data)
     {
         return data.crdSerialize(out);
     }
@@ -127,14 +129,12 @@ public:
     void saveRaceData();
     void restoreRaceData();
 
-    QPixmap getLeftLogo() const;
-    QPixmap getRightLogo() const;
     QDate   getDate() const;
     QTime   getStartTime() const;
+    QPixmap getField(ChronoRaceData::LogoField field) const;
     QString getField(ChronoRaceData::StringField field) const;
     QStringList getFieldValues(ChronoRaceData::IndexField field);
     int getFieldIndex(ChronoRaceData::IndexField field);
-    QVector<QPixmap> getSponsorLogos() const;
 
     void setField(ChronoRaceData::IndexField field, int newIndex);
     void setField(ChronoRaceData::StringField field, QString const &newValue);
@@ -145,6 +145,8 @@ public:
     void getGlobalData(ChronoRaceData::NameComposition *gNameComposition, ChronoRaceData::Accuracy *gAccuracy) const;
 
     QTranslator const *getTranslator() const;
+
+    bool isDirty() const;
 
 public slots:
     void loadLogo(QLabel *label = Q_NULLPTR);
@@ -157,7 +159,7 @@ public slots:
 private:
     QScopedPointer<Ui::ChronoRaceData> ui { new Ui::ChronoRaceData };
 
-    QDate   date { QDate::currentDate() };
+    QDate   raceDate { QDate::currentDate() };
     QTime   startTime { 0, 0 };
     int     raceTypeIdx { 0 };
     int     resultsIdx { 0 };
@@ -173,6 +175,8 @@ private:
     ChronoRaceLogo sponsorLogo4;
 
     QVector<QTranslator *> translators;
+
+    bool dirty { false };
 
 signals:
     void globalDataChange(ChronoRaceData::NameComposition, ChronoRaceData::Accuracy);
