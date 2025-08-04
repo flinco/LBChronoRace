@@ -679,7 +679,8 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset theme="help-about"/>
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/info.svg</normaloff>:/material/icons/info.svg</iconset>
    </property>
    <property name="text">
     <string>About LBChronoRace</string>
@@ -689,6 +690,10 @@
    </property>
   </action>
   <action name="actionAboutQt">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/qt.svg</normaloff>:/material/icons/qt.svg</iconset>
+   </property>
    <property name="text">
     <string>About &amp;Qt</string>
    </property>

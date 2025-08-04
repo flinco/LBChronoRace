@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/material">
+        <file>icons/qt.svg</file>
         <file>icons/add_photo_alternate.svg</file>
         <file>icons/counter_0_big.svg</file>
         <file>icons/download.svg</file>
@@ -64,5 +65,7 @@
         <file>icons/overview.svg</file>
         <file>icons/unknown_2.svg</file>
         <file>icons/switch_access_3.svg</file>
+        <file>icons/info.svg</file>
+        <file>icons/info_i.svg</file>
     </qresource>
 </RCC>
