@@ -21,6 +21,11 @@
 #include <QWidget>
 #include <QStandardItemModel>
 #include <QScreen>
+#include <QString>
+#include <QDate>
+#include <QPixmap>
+#include <QTimer>
+#include <QModelIndex>
 
 #include "competitor.hpp"
 #include "livetablefilterproxymodel.hpp"
@@ -52,6 +57,11 @@ public:
     QScreen const *getLiveScreen() const;
     void setLiveScreen(QScreen const *screen);
 
+    void show(); //NOSONAR
+
+public slots:
+    void setMode(int code);
+
 private:
     QMultiHash<uint, Competitor> startList { };
     QList<QStandardItem *> lastRowItems { };
@@ -65,7 +75,18 @@ private:
 
     QScreen const *liveScreen { Q_NULLPTR };
 
+    QString title { "LBChronoRace" };
+    QString place { };
+    QDate date { QDate::currentDate() };
+    QPixmap leftLogo { ":/images/lbchronorace.png" };
+    QPixmap rightLogo { ":/images/lbchronorace.png" };
+
+    QTimer demoModeTimer;
+    QModelIndex demoIndex;
+
     void setEntry(quint64 values, bool add);
+
+    void highlightLastEntry(bool set);
 
     void addTimingIndividual(uint bib, uint timing, bool chrono);
     void removeTimingIndividual(uint bib, uint timing, bool chrono);
@@ -77,8 +98,15 @@ private:
     void eraseTimingRelay(uint timing, bool chrono, QList<QVariant> &extraTimings);
     void updateTimingRelay(bool chrono) const;
 
+    void setSubtitle();
+    void setLogos();
+    void resizeColumns();
+
     static void pushTiming(QList<QVariant> &list, uint timing);
     static bool popTiming(QList<QVariant> &list, uint timing);
+
+private slots:
+    void demoStep();
 };
 
 #endif // LIVETABLE_HPP

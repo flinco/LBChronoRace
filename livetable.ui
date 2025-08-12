@@ -101,7 +101,7 @@
         <string notr="true">color: rgb(255, 0, 0);</string>
        </property>
        <property name="text">
-        <string notr="true">Race Name</string>
+        <string notr="true">LBChronoRace</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>

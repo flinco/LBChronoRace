@@ -39,6 +39,8 @@ public:
     static void readRecent(QStringList &recentRaces);
     static void writeRecent(QStringList const &recentRaces);
 
+    static int getLiveScrollSeconds();
+
 private:
     static QSettings settings;
 };

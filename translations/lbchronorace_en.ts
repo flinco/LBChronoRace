@@ -1327,10 +1327,6 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Live Rankings</translation>
     </message>
     <message>
-        <source>Notice:: enter competitors to use the Live Rankings</source>
-        <translation>Notice:: enter competitors to use the Live Rankings</translation>
-    </message>
-    <message>
         <source>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</source>
         <translation>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</translation>
     </message>
@@ -1410,6 +1406,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>You have unsaved changes. Do you want to save them?</source>
         <translation>You have unsaved changes. Do you want to save them?</translation>
     </message>
+    <message>
+        <source>Opening Race Timings Recorder</source>
+        <translation>Opening Race Timings Recorder</translation>
+    </message>
+    <message>
+        <source>Opening the Race Timings Recorder will permanently erase all Live Rankings data. Do you want to proceed?</source>
+        <translation>Opening the Race Timings Recorder will permanently erase all Live Rankings data. Do you want to proceed?</translation>
+    </message>
 </context>
 <context>
     <name>LiveTable</name>
@@ -1439,14 +1443,6 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Timing</translation>
     </message>
     <message>
-        <source>The Race</source>
-        <translation>The Race</translation>
-    </message>
-    <message>
-        <source>LBChronoRace</source>
-        <translation>LBChronoRace</translation>
-    </message>
-    <message>
         <source>Enter competitors to use the Live Rankings</source>
         <translation>Enter competitors to use the Live Rankings</translation>
     </message>
@@ -1469,10 +1465,6 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Timing %1</source>
         <comment>long</comment>
         <translation>Timing %1</translation>
-    </message>
-    <message>
-        <source>No screen available for the Live Rankings</source>
-        <translation>No screen available for the Live Rankings</translation>
     </message>
 </context>
 <context>

@@ -125,8 +125,6 @@ private:
     bool loadRaceFile(QString const &fileName);
     bool checkDirty();
 
-    void toggleLiveView();
-
 private slots:
     void newRace();
     void loadRace();
@@ -148,6 +146,8 @@ private slots:
     void importTimingsList();
 
     void exportList();
+
+    void showTimingRecorder();
 
     void screenRemoved(QScreen const *screen);
     void screenAdded(QScreen const *screen);

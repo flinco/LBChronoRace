@@ -1327,10 +1327,6 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Classifica dal vivo</translation>
     </message>
     <message>
-        <source>Notice:: enter competitors to use the Live Rankings</source>
-        <translation>Avviso:: per utilizzare la &apos;Classifica dal vivo&apos; inserire i concorrenti</translation>
-    </message>
-    <message>
         <source>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</source>
         <translation>Avviso:: Classifica dal vivo non può essere attivata sullo schermo %1 poiché largo %2px (larghezza min. necessaria 1280px)</translation>
     </message>
@@ -1410,6 +1406,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>You have unsaved changes. Do you want to save them?</source>
         <translation>Sono presenti modifiche non salvate. Le vuoi salvare?</translation>
     </message>
+    <message>
+        <source>Opening Race Timings Recorder</source>
+        <translation>Apertura Cronometro Gara</translation>
+    </message>
+    <message>
+        <source>Opening the Race Timings Recorder will permanently erase all Live Rankings data. Do you want to proceed?</source>
+        <translation>L&apos;apertura del Cronometro Gara cancellerà in modo permanente tutti i dati della Classifica dal vivo. Vuoi procedere?</translation>
+    </message>
 </context>
 <context>
     <name>LiveTable</name>
@@ -1439,14 +1443,6 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Tempo</translation>
     </message>
     <message>
-        <source>The Race</source>
-        <translation>La Gara</translation>
-    </message>
-    <message>
-        <source>LBChronoRace</source>
-        <translation>LBChronoRace</translation>
-    </message>
-    <message>
         <source>Enter competitors to use the Live Rankings</source>
         <translation>Per utilizzare la &apos;Classifica dal vivo&apos; inserire i concorrenti</translation>
     </message>
@@ -1469,10 +1465,6 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Timing %1</source>
         <comment>long</comment>
         <translation>Tempo %1</translation>
-    </message>
-    <message>
-        <source>No screen available for the Live Rankings</source>
-        <translation>Schermo non disponibile per la Classifica dal vivo</translation>
     </message>
 </context>
 <context>

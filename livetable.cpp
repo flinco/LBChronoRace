@@ -15,13 +15,17 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+#include <QLocale>
 #include <QHeaderView>
 
 #include "livetable.hpp"
 #include "lbcrexception.hpp"
 #include "crhelper.hpp"
+#include "crsettings.hpp"
 
-LiveTable::LiveTable(QWidget *parent) : QWidget(parent)
+LiveTable::LiveTable(QWidget *parent) :
+    QWidget(parent),
+    demoModeTimer(this)
 {
     ui->setupUi(this);
 
@@ -54,62 +58,25 @@ LiveTable::LiveTable(QWidget *parent) : QWidget(parent)
 
 void LiveTable::setRaceInfo(const ChronoRaceData *raceData)
 {
-    int height;
-    int width;
-    int lWidth;
-    int rWidth;
-
-    QString title = "";
-    QString racePlace = "";
-    QString raceDate = "";
-
-    QPixmap leftLogo;
-    QPixmap rightLogo;
-
     if (raceData) {
-        title = raceData->getField(ChronoRaceData::StringField::EVENT);
-        racePlace = raceData->getField(ChronoRaceData::StringField::PLACE);
-        raceDate = QLocale::system().toString(raceData->getDate(), "dddd dd/MM/yyyy");
+        this->title = raceData->getField(ChronoRaceData::StringField::EVENT);
+        this->place = raceData->getField(ChronoRaceData::StringField::PLACE);
+        this->date = raceData->getDate();
 
-        leftLogo = raceData->getField(ChronoRaceData::LogoField::LEFT);
-        rightLogo = raceData->getField(ChronoRaceData::LogoField::RIGHT);
-    }
-
-    QString subTitle = racePlace % (racePlace.isEmpty() ? "" : " - ") % raceDate;
-
-    this->ui->raceTitle->setText(title.isEmpty() ? tr("The Race") : title);
-    this->ui->raceInfo->setText(subTitle.isEmpty() ? tr("LBChronoRace") : subTitle);
-
-    height = this->ui->titleLayout->geometry().height();
-
-    /* Prepare left logo */
-    if (leftLogo.isNull()) {
-        leftLogo = QPixmap(height, height);
-        leftLogo.fill(Qt::transparent);
+        this->leftLogo = raceData->getField(ChronoRaceData::LogoField::LEFT);
+        this->rightLogo = raceData->getField(ChronoRaceData::LogoField::RIGHT);
     } else {
-        leftLogo = leftLogo.scaledToHeight(height, Qt::SmoothTransformation);
-        this->ui->leftLogo->setStyleSheet("QLabel { background-color : transparent; }");
+        this->title = QStringLiteral("LBChronoRace");
+        this->place = QString();
+        this->date = QDate::currentDate();
+
+        this->leftLogo = QPixmap(":/images/lbchronorace.png");
+        this->rightLogo = QPixmap(":/images/lbchronorace.png");
     }
-    lWidth = leftLogo.width();
 
-    /* Prepare right logo */
-    if (rightLogo.isNull()) {
-        rightLogo = QPixmap(height, height);
-        rightLogo.fill(Qt::transparent);
-    } else {
-        rightLogo = rightLogo.scaledToHeight(height, Qt::SmoothTransformation);
-        this->ui->rightLogo->setStyleSheet("QLabel { background-color : transparent; }");
-    }
-    rWidth = rightLogo.width();
-
-    /* Set labels width */
-    width = (lWidth > rWidth) ? lWidth : rWidth;
-    this->ui->leftLogo->setFixedWidth(width);
-    this->ui->rightLogo->setFixedWidth(width);
-
-    /* Set the pixmaps */
-    this->ui->leftLogo->setPixmap(leftLogo);
-    this->ui->rightLogo->setPixmap(rightLogo);
+    this->ui->raceTitle->setText(this->title);
+    setSubtitle();
+    setLogos();
 }
 
 void LiveTable::addEntry(quint64 values)
@@ -131,6 +98,7 @@ void LiveTable::setStartList(QList<Competitor> const &newStartList)
     model->removeRows(0, rowCount);
 
     this->startList.clear();
+    this->lastRowItems.clear();
     for (auto &competitor : newStartList) {
         bib = competitor.getBib();
         this->startList.insert(bib, competitor);
@@ -138,77 +106,28 @@ void LiveTable::setStartList(QList<Competitor> const &newStartList)
 
     auto values = this->startList.values(bib);
     auto count = static_cast<int>(values.count());
+    if (count <= 0) {
+        throw(ChronoRaceException(tr("Enter competitors to use the Live Rankings")));
+    }
 
-    int columns = (2 * count) + ((count == 1) ? 1 : 2);
-    if (columnCount > columns)
+    if (int columns = (2 * count) + ((count == 1) ? 1 : 2); columnCount > columns)
         model->removeColumns(columns, columnCount - columns);
     else if (columnCount < columns)
         model->insertColumns(columnCount, columns - columnCount);
 
-    if (liveScreen == Q_NULLPTR)
-        throw(ChronoRaceException(tr("No screen available for the Live Rankings")));
-
-    auto margins = this->ui->highTable->contentsMargins();
-    auto fullWidth = liveScreen->availableSize().width();
-    auto availableWidth = fullWidth - ((columns + 1) * (margins.left() + margins.right()));
-    if (count <= 0) {
-        throw(ChronoRaceException(tr("Enter competitors to use the Live Rankings")));
-    } else if (count == 1) {
+    if (count == 1) {
         this->mode = (values.at(0).getOffset() < 0) ? LiveMode::INDIVIDUAL : LiveMode::CHRONO;
-        model->setHeaderData(0, Qt::Horizontal, tr("Bib", "long"), Qt::DisplayRole);
-        this->ui->highTable->verticalHeader()->setMinimumWidth(availableWidth / 30);
-        this->ui->highTable->setColumnWidth(0, availableWidth / 10);
-        this->ui->lowTable->verticalHeader()->setMinimumWidth(availableWidth / 30);
-        this->ui->lowTable->setColumnWidth(0, availableWidth / 10);
-        model->setHeaderData(2, Qt::Horizontal, tr("Timing", "long"), Qt::DisplayRole);
-        this->ui->highTable->setColumnWidth(2, 3 * availableWidth / 20);
-        this->ui->lowTable->setColumnWidth(2, 3 * availableWidth / 20);
-        model->setHeaderData(1, Qt::Horizontal, tr("Competitor", "long"), Qt::DisplayRole);
-        this->ui->highTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeMode::Stretch);
-        this->ui->lowTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeMode::Stretch);
-    } else if (fullWidth < 1680) {
-        auto bibWidth = availableWidth / 20;
-        auto timeWidth = (availableWidth * 56) / 1000;
-        auto sNameWidth = (availableWidth - ((3 * bibWidth / 2) + (timeWidth * (count + 1)))) / count;
-        this->mode = (values.at(0).getOffset() < 0) ? LiveMode::RELAY : LiveMode::CHRONO_RELAY;
-        model->setHeaderData(0, Qt::Horizontal, tr("Bib", "short"), Qt::DisplayRole);
-        this->ui->highTable->verticalHeader()->setMinimumWidth(bibWidth / 2);
-        this->ui->highTable->setColumnWidth(0, bibWidth);
-        this->ui->lowTable->verticalHeader()->setMinimumWidth(bibWidth / 2);
-        this->ui->lowTable->setColumnWidth(0, bibWidth);
-        do {
-            model->setHeaderData((2 * count) - 1, Qt::Horizontal, tr("Competitor %1", "short").arg(count), Qt::DisplayRole);
-            this->ui->highTable->setColumnWidth((2 * count) - 1, sNameWidth);
-            this->ui->lowTable->setColumnWidth((2 * count) - 1, sNameWidth);
-            model->setHeaderData((2 * count), Qt::Horizontal, tr("Timing %1", "short").arg(count), Qt::DisplayRole);
-            this->ui->highTable->setColumnWidth((2 * count), timeWidth);
-            this->ui->lowTable->setColumnWidth((2 * count), timeWidth);
-        } while (--count);
-        model->setHeaderData(columns - 1, Qt::Horizontal, tr("Timing", "short"), Qt::DisplayRole);
-        this->ui->highTable->horizontalHeader()->setSectionResizeMode(columns - 1, QHeaderView::ResizeMode::Stretch);
-        this->ui->lowTable->horizontalHeader()->setSectionResizeMode(columns - 1, QHeaderView::ResizeMode::Stretch);
     } else {
-        auto bibWidth = availableWidth / 20;
-        auto timeWidth = (availableWidth * 56) / 1000;
-        auto lNameWidth = (availableWidth - ((3 * bibWidth / 2) + (timeWidth * (count + 1)))) / count;
         this->mode = (values.at(0).getOffset() < 0) ? LiveMode::RELAY : LiveMode::CHRONO_RELAY;
-        model->setHeaderData(0, Qt::Horizontal, (fullWidth < 1920) ? tr("Bib", "short") : tr("Bib", "long"), Qt::DisplayRole);
-        this->ui->highTable->verticalHeader()->setMinimumWidth(bibWidth / 2);
-        this->ui->highTable->setColumnWidth(0, bibWidth);
-        this->ui->lowTable->verticalHeader()->setMinimumWidth(bibWidth / 2);
-        this->ui->lowTable->setColumnWidth(0, bibWidth);
-        do {
-            model->setHeaderData((2 * count) - 1, Qt::Horizontal, tr("Competitor %1", "long").arg(count), Qt::DisplayRole);
-            this->ui->highTable->setColumnWidth((2 * count) - 1, lNameWidth);
-            this->ui->lowTable->setColumnWidth((2 * count) - 1, lNameWidth);
-            model->setHeaderData((2 * count), Qt::Horizontal, tr("Timing %1", "long").arg(count), Qt::DisplayRole);
-            this->ui->highTable->setColumnWidth((2 * count), timeWidth);
-            this->ui->lowTable->setColumnWidth((2 * count), timeWidth);
-        } while (--count);
-        model->setHeaderData(columns - 1, Qt::Horizontal, tr("Timing", "long"), Qt::DisplayRole);
-        this->ui->highTable->horizontalHeader()->setSectionResizeMode(columns - 1, QHeaderView::ResizeMode::Stretch);
-        this->ui->lowTable->horizontalHeader()->setSectionResizeMode(columns - 1, QHeaderView::ResizeMode::Stretch);
     }
+
+    if (demoModeTimer.isActive()) {
+        demoModeTimer.stop();
+        QObject::disconnect(&demoModeTimer, &QTimer::timeout, this, &LiveTable::demoStep);
+    }
+
+    if (liveScreen != Q_NULLPTR)
+        resizeColumns();
 }
 
 void LiveTable::reset() const
@@ -237,20 +156,8 @@ void LiveTable::setEntry(quint64 values, bool add)
     if (!this->startList.contains(bib))
         return;
 
-    //NOSONAR QVariant fontRole;
-    //NOSONAR QFont boldFont;
-    QVariant colorRole;
-    QColor highlightedColor(Qt::red);
-
-    // Restore non-bold font roles
-    for (QStandardItem *item : std::as_const(this->lastRowItems)) {
-        //NOSONAR fontRole = item->data(Qt::FontRole);
-        //NOSONAR fontRole.clear();
-        //NOSONAR item->setData(fontRole, Qt::FontRole);
-        colorRole = item->data(Qt::ForegroundRole);
-        colorRole.clear();
-        item->setData(colorRole, Qt::ForegroundRole);
-    }
+    // Restore highlighted entry roles
+    highlightLastEntry(false);
 
     switch (this->mode) {
         using enum LiveTable::LiveMode;
@@ -281,13 +188,8 @@ void LiveTable::setEntry(quint64 values, bool add)
         break;
     }
 
-    // Set bold font roles
-    for (QStandardItem *item : std::as_const(this->lastRowItems)) {
-        //NOSONAR highlightedFont = QFont(item->font());
-        //NOSONAR highlightedFont.setBold(true);
-        //NOSONAR item->setData(highlightedFont, Qt::FontRole);
-        item->setData(highlightedColor, Qt::ForegroundRole);
-    }
+    // Set highlighted entry roles
+    highlightLastEntry(true);
 
     model->sort(0, Qt::SortOrder::AscendingOrder);
 
@@ -301,6 +203,34 @@ void LiveTable::setEntry(quint64 values, bool add)
             this->ui->lowTable->scrollToBottom();
         else
             this->ui->lowTable->scrollTo(index, QAbstractItemView::PositionAtCenter);
+    }
+}
+
+void LiveTable::highlightLastEntry(bool set)
+{
+    if (set) {
+        QColor highlightedColor(Qt::red);
+
+        // Set bold font roles
+        for (QStandardItem *item : std::as_const(this->lastRowItems)) {
+            //NOSONAR highlightedFont = QFont(item->font());
+            //NOSONAR highlightedFont.setBold(true);
+            //NOSONAR item->setData(highlightedFont, Qt::FontRole);
+            item->setData(highlightedColor, Qt::ForegroundRole);
+        }
+    } else {
+        //NOSONAR QVariant fontRole;
+        QVariant colorRole;
+
+        // Restore non-bold font roles
+        for (QStandardItem *item : std::as_const(this->lastRowItems)) {
+            //NOSONAR fontRole = item->data(Qt::FontRole);
+            //NOSONAR fontRole.clear();
+            //NOSONAR item->setData(fontRole, Qt::FontRole);
+            colorRole = item->data(Qt::ForegroundRole);
+            colorRole.clear();
+            item->setData(colorRole, Qt::ForegroundRole);
+        }
     }
 }
 
@@ -618,6 +548,128 @@ void LiveTable::updateTimingRelay(bool chrono) const
     this->lastRowItems[0]->setData(QVariant(sortTiming), Qt::UserRole);
 }
 
+void LiveTable::setSubtitle()
+{
+    if (this->liveScreen == Q_NULLPTR)
+        return;
+
+    QString raceDate = QLocale::system().toString(this->date, (this->liveScreen->availableSize().width() < 1280) ? QLocale::FormatType::ShortFormat : QLocale::FormatType::LongFormat);
+    QString subTitle = this->place % (this->place.isEmpty() ? "" : " - ") % raceDate;
+
+    this->ui->raceInfo->setText(subTitle);
+}
+
+void LiveTable::setLogos()
+{
+    if (this->liveScreen == Q_NULLPTR)
+        return;
+
+    int height = this->ui->titleLayout->geometry().height();
+    int width;
+    int lWidth;
+    int rWidth;
+
+    /* Prepare left logo */
+    if (this->leftLogo.isNull()) {
+        this->leftLogo = QPixmap(height, height);
+        this->leftLogo.fill(Qt::transparent);
+    } else {
+        this->leftLogo = this->leftLogo.scaledToHeight(height, Qt::SmoothTransformation);
+        this->ui->leftLogo->setStyleSheet("QLabel { background-color : transparent; }");
+    }
+    lWidth = this->leftLogo.width();
+
+    /* Prepare right logo */
+    if (this->rightLogo.isNull()) {
+        this->rightLogo = QPixmap(height, height);
+        this->rightLogo.fill(Qt::transparent);
+    } else {
+        this->rightLogo = this->rightLogo.scaledToHeight(height, Qt::SmoothTransformation);
+        this->ui->rightLogo->setStyleSheet("QLabel { background-color : transparent; }");
+    }
+    rWidth = this->rightLogo.width();
+
+    /* Set labels width */
+    width = (lWidth > rWidth) ? lWidth : rWidth;
+    this->ui->leftLogo->setFixedWidth(width);
+    this->ui->rightLogo->setFixedWidth(width);
+
+    /* Set the pixmaps */
+    this->ui->leftLogo->setPixmap(this->leftLogo);
+    this->ui->rightLogo->setPixmap(this->rightLogo);
+}
+
+void LiveTable::resizeColumns()
+{
+    if (this->liveScreen == Q_NULLPTR)
+        return;
+
+    auto columns = model->columnCount();
+    auto margins = this->ui->highTable->contentsMargins();
+    auto fullWidth = this->liveScreen->availableSize().width();
+
+    int count = ((columns + 1) / 2) - 1;
+
+    if (count < 1)
+        return;
+
+    auto availableWidth = fullWidth - ((columns + 1) * (margins.left() + margins.right()));
+    if (count == 1) {
+        model->setHeaderData(0, Qt::Horizontal, tr("Bib", "long"), Qt::DisplayRole);
+        this->ui->highTable->verticalHeader()->setMinimumWidth(availableWidth / 30);
+        this->ui->highTable->setColumnWidth(0, availableWidth / 10);
+        this->ui->lowTable->verticalHeader()->setMinimumWidth(availableWidth / 30);
+        this->ui->lowTable->setColumnWidth(0, availableWidth / 10);
+        model->setHeaderData(2, Qt::Horizontal, tr("Timing", "long"), Qt::DisplayRole);
+        this->ui->highTable->setColumnWidth(2, 3 * availableWidth / 20);
+        this->ui->lowTable->setColumnWidth(2, 3 * availableWidth / 20);
+        model->setHeaderData(1, Qt::Horizontal, tr("Competitor", "long"), Qt::DisplayRole);
+        this->ui->highTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeMode::Stretch);
+        this->ui->lowTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeMode::Stretch);
+    } else if (fullWidth < 1680) {
+        auto bibWidth = availableWidth / 20;
+        auto timeWidth = (availableWidth * 56) / 1000;
+        auto sNameWidth = (availableWidth - ((3 * bibWidth / 2) + (timeWidth * (count + 1)))) / count;
+        model->setHeaderData(0, Qt::Horizontal, tr("Bib", "short"), Qt::DisplayRole);
+        this->ui->highTable->verticalHeader()->setMinimumWidth(bibWidth / 2);
+        this->ui->highTable->setColumnWidth(0, bibWidth);
+        this->ui->lowTable->verticalHeader()->setMinimumWidth(bibWidth / 2);
+        this->ui->lowTable->setColumnWidth(0, bibWidth);
+        do {
+            model->setHeaderData((2 * count) - 1, Qt::Horizontal, tr("Competitor %1", "short").arg(count), Qt::DisplayRole);
+            this->ui->highTable->setColumnWidth((2 * count) - 1, sNameWidth);
+            this->ui->lowTable->setColumnWidth((2 * count) - 1, sNameWidth);
+            model->setHeaderData((2 * count), Qt::Horizontal, tr("Timing %1", "short").arg(count), Qt::DisplayRole);
+            this->ui->highTable->setColumnWidth((2 * count), timeWidth);
+            this->ui->lowTable->setColumnWidth((2 * count), timeWidth);
+        } while (--count);
+        model->setHeaderData(columns - 1, Qt::Horizontal, tr("Timing", "short"), Qt::DisplayRole);
+        this->ui->highTable->horizontalHeader()->setSectionResizeMode(columns - 1, QHeaderView::ResizeMode::Stretch);
+        this->ui->lowTable->horizontalHeader()->setSectionResizeMode(columns - 1, QHeaderView::ResizeMode::Stretch);
+    } else {
+        auto bibWidth = availableWidth / 20;
+        auto timeWidth = (availableWidth * 56) / 1000;
+        auto lNameWidth = (availableWidth - ((3 * bibWidth / 2) + (timeWidth * (count + 1)))) / count;
+        model->setHeaderData(0, Qt::Horizontal, (fullWidth < 1920) ? tr("Bib", "short") : tr("Bib", "long"), Qt::DisplayRole);
+        this->ui->highTable->verticalHeader()->setMinimumWidth(bibWidth / 2);
+        this->ui->highTable->setColumnWidth(0, bibWidth);
+        this->ui->lowTable->verticalHeader()->setMinimumWidth(bibWidth / 2);
+        this->ui->lowTable->setColumnWidth(0, bibWidth);
+        do {
+            model->setHeaderData((2 * count) - 1, Qt::Horizontal, tr("Competitor %1", "long").arg(count), Qt::DisplayRole);
+            this->ui->highTable->setColumnWidth((2 * count) - 1, lNameWidth);
+            this->ui->lowTable->setColumnWidth((2 * count) - 1, lNameWidth);
+            model->setHeaderData((2 * count), Qt::Horizontal, tr("Timing %1", "long").arg(count), Qt::DisplayRole);
+            this->ui->highTable->setColumnWidth((2 * count), timeWidth);
+            this->ui->lowTable->setColumnWidth((2 * count), timeWidth);
+        } while (--count);
+        model->setHeaderData(columns - 1, Qt::Horizontal, tr("Timing", "long"), Qt::DisplayRole);
+        this->ui->highTable->horizontalHeader()->setSectionResizeMode(columns - 1, QHeaderView::ResizeMode::Stretch);
+        this->ui->lowTable->horizontalHeader()->setSectionResizeMode(columns - 1, QHeaderView::ResizeMode::Stretch);
+    }
+
+}
+
 void LiveTable::pushTiming(QList<QVariant> &list, uint timing)
 {
     QVariant value = QVariant::fromValue(timing);
@@ -653,3 +705,57 @@ bool LiveTable::popTiming(QList<QVariant> &list, uint timing)
 
     return retval;
 }
+
+void LiveTable::show()
+{
+    ui->retranslateUi(this);
+    QWidget::show();
+    ui->raceTitle->setText(this->title);
+    setSubtitle();
+    setLogos();
+    resizeColumns();
+}
+
+void LiveTable::setMode(int code)
+{
+    Q_UNUSED(code)
+    //0 --> rejected
+    //1 --> accepted
+
+    if (this->liveScreen == Q_NULLPTR) {
+        return;
+    }
+
+    if (!demoModeTimer.isActive()) {
+
+        // Restore highlighted entry roles
+        highlightLastEntry(false);
+
+        QObject::connect(&demoModeTimer, &QTimer::timeout, this, &LiveTable::demoStep);
+        this->demoIndex = QModelIndex();
+        demoModeTimer.start(CRSettings::getLiveScrollSeconds() * 1000);
+    }
+}
+
+void LiveTable::demoStep()
+{
+    if (this->liveScreen == Q_NULLPTR)
+        return;
+
+    auto const &viewPortRect = this->ui->lowTable->viewport()->rect();
+    while (this->demoIndex.isValid()) {
+        this->demoIndex = lowProxyModel->index(demoIndex.row() + 1, 0);
+
+        // element is not the bottom one but it is not visible
+        if (this->demoIndex.isValid() && !viewPortRect.contains(this->ui->lowTable->visualRect(this->demoIndex)))
+            break;
+    }
+
+    if (!this->demoIndex.isValid()) {
+        this->demoIndex = lowProxyModel->index(0, 0);
+        this->ui->lowTable->scrollToTop();
+    } else {
+        this->ui->lowTable->scrollTo(this->demoIndex, QAbstractItemView::ScrollHint::PositionAtTop);
+    }
+}
+

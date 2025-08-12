@@ -76,6 +76,7 @@ file(COPY
     "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-32.png"
     "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-64.png"
     "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-128.png"
+    "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-256.png"
     "${CMAKE_SOURCE_DIR}/images/lbchronorace-preview.png"
     "${CMAKE_SOURCE_DIR}/images/lbchronorace-sample.png"
     DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/config")

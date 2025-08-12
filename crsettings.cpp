@@ -22,6 +22,7 @@
 
 constexpr char UI_LANGUAGE_KEY[]  = "UILanguage";
 constexpr char TRIGGER_KEY_KEY[]  = "TriggerKey";
+constexpr char SCROLL_SEC_KEY[]  = "ScrollSeconds";
 constexpr char RECENT_RACES_KEY[]  = "RecentRaces";
 constexpr char RECENT_RACES_PATH_KEY[]  = "path";
 
@@ -81,4 +82,11 @@ void CRSettings::writeRecent(QStringList const &recentRaces)
         i++;
     }
     settings.endArray();
+}
+
+int CRSettings::getLiveScrollSeconds()
+{
+    bool ok = false;
+    int seconds = settings.value(SCROLL_SEC_KEY, QVariant(10)).toInt(&ok);
+    return ok ? seconds : 10;
 }

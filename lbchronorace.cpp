@@ -151,7 +151,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->importTimings, &QPushButton::clicked, &timingsTable, &ChronoRaceTable::modelImport);
     QObject::connect(ui->exportTimings, &QPushButton::clicked, &timingsTable, &ChronoRaceTable::modelExport);
     QObject::connect(ui->makeStartList, &QPushButton::clicked, this, &LBChronoRace::makeStartList);
-    QObject::connect(ui->collectTimings, &QPushButton::clicked, &timings, &ChronoRaceTimings::show);
+    QObject::connect(ui->collectTimings, &QPushButton::clicked, this, &LBChronoRace::showTimingRecorder);
     QObject::connect(ui->makeRankings, &QPushButton::clicked, this, &LBChronoRace::makeRankings);
 
     QObject::connect(ui->actionNewRace, &QAction::triggered, this, &LBChronoRace::newRace);
@@ -169,12 +169,13 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionSetEncoding, &QAction::triggered, this, &LBChronoRace::setEncoding);
     QObject::connect(ui->actionConfigureTrigger, &QAction::triggered, this, &LBChronoRace::setupTrigger);
     QObject::connect(ui->actionMakeStartList, &QAction::triggered, this, &LBChronoRace::makeStartList);
-    QObject::connect(ui->actionCollectTimings, &QAction::triggered, &timings, &ChronoRaceTimings::show);
+    QObject::connect(ui->actionCollectTimings, &QAction::triggered, this, &LBChronoRace::showTimingRecorder);
     QObject::connect(ui->actionMakeRankings, &QAction::triggered, this, &LBChronoRace::makeRankings);
     QObject::connect(ui->actionAddTimeSpan, &QAction::triggered, &timings, &ChronoRaceTimings::addTimeSpan);
     QObject::connect(ui->actionSubtractTimeSpan, &QAction::triggered, &timings, &ChronoRaceTimings::subtractTimeSpan);
 
     QObject::connect(ui->liveViewSelector, &QComboBox::currentIndexChanged, this, &LBChronoRace::live);
+    QObject::connect(&timings, &QDialog::finished, liveTable.data(), &LiveTable::setMode);
 
     QObject::connect(ui->actionAbout, &QAction::triggered, &CRHelper::actionAbout);
     QObject::connect(ui->actionAboutQt, &QAction::triggered, &CRHelper::actionAboutQt);
@@ -448,6 +449,26 @@ void LBChronoRace::exportList()
     }
 }
 
+void LBChronoRace::showTimingRecorder()
+{
+    if (liveTable->getLiveScreen() != Q_NULLPTR) {
+        if (QMessageBox::StandardButton reply = (liveTable->getLiveScreen() == Q_NULLPTR) ? QMessageBox::StandardButton::Yes :
+            QMessageBox::question(this, tr("Opening Race Timings Recorder"), tr("Opening the Race Timings Recorder will permanently erase all Live Rankings data. Do you want to proceed?"), QMessageBox::Yes | QMessageBox::No);
+            reply != QMessageBox::StandardButton::Yes) {
+            return;
+        }
+    }
+
+    try {
+        liveTable->setStartList(CRLoader::getStartList());
+        liveTable->setRaceInfo(&raceInfo);
+    } catch (ChronoRaceException &e) {
+        appendErrorMessage(e.getMessage());
+    }
+
+    timings.show();
+}
+
 void LBChronoRace::initialize()
 {
     QStringList arguments = QCoreApplication::arguments();
@@ -613,28 +634,6 @@ bool LBChronoRace::loadRaceFile(QString const &fileName)
     }
 
     return retval;
-}
-
-void LBChronoRace::toggleLiveView()
-{
-    auto const *liveScreen = liveTable->getLiveScreen();
-    if (liveScreen != Q_NULLPTR) {
-
-        timings.setLiveTable(liveTable.data());
-        liveTable->setRaceInfo(&raceInfo);
-        liveTable->show();
-
-//NOSONAR #ifdef Q_OS_WIN
-//NOSONAR         liveTable->windowHandle()->setLiveScreen(liveScreen);
-//NOSONAR #else
-        liveTable->windowHandle()->setGeometry(liveScreen->geometry());
-//NOSONAR #endif
-
-
-    } else {
-        timings.setLiveTable(Q_NULLPTR);
-        liveTable->hide();
-    }
 }
 
 bool LBChronoRace::checkDirty()
@@ -907,23 +906,23 @@ void LBChronoRace::screenAdded(QScreen const *screen)
 
 void LBChronoRace::live(int index)
 {
-    auto const *oldLiveScreen = liveTable->getLiveScreen();
-
-    liveTable->setLiveScreen(Q_NULLPTR);
     if (index <= 0) {
-        if (oldLiveScreen != Q_NULLPTR)
+        if (liveTable->getLiveScreen() != Q_NULLPTR)
             appendInfoMessage(tr("Info: closing the Live Rankings"));
-    } else if (auto startList = CRLoader::getStartList(); startList.empty()) {
-        appendErrorMessage(tr("Notice:: enter competitors to use the Live Rankings"));
-    } else try {
-            liveTable->setLiveScreen(this->ui->liveViewSelector->currentData().value<QScreen const *>());
-            liveTable->setStartList(startList);
-        } catch (ChronoRaceException &e) {
-            appendErrorMessage(e.getMessage());
-        }
+        liveTable->setLiveScreen(Q_NULLPTR);
+        timings.setLiveTable(Q_NULLPTR);
+        liveTable->hide();
+    } else {
+        auto const *liveScreen = this->ui->liveViewSelector->currentData().value<QScreen const *>();
 
-    toggleLiveView();
+        liveTable->setLiveScreen(liveScreen);
+        timings.setLiveTable(liveTable.data());
+        liveTable->show();
 
-    if ((liveTable->getLiveScreen() == Q_NULLPTR) && (index > 0))
-        ui->liveViewSelector->setCurrentIndex(0);
+//NOSONAR #ifdef Q_OS_WIN
+//NOSONAR         liveTable->windowHandle()->setLiveScreen(liveScreen);
+//NOSONAR #else
+        liveTable->windowHandle()->setGeometry(liveScreen->geometry());
+//NOSONAR #endif
+    }
 }
