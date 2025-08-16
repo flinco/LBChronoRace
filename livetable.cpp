@@ -126,6 +126,12 @@ void LiveTable::setStartList(QList<Competitor> const &newStartList)
         QObject::disconnect(&demoModeTimer, &QTimer::timeout, this, &LiveTable::demoStep);
     }
 
+    //NOSONAR TODO do the same for MAC and Linux
+#ifdef Q_OS_WIN
+    if (liveScreen == Q_NULLPTR)
+        this->execState = SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED);
+#endif
+
     if (liveScreen != Q_NULLPTR)
         resizeColumns();
 }
@@ -143,6 +149,17 @@ QScreen const *LiveTable::getLiveScreen() const
 void LiveTable::setLiveScreen(QScreen const *screen)
 {
     this->liveScreen = screen;
+
+    //NOSONAR TODO do the same for MAC and Linux
+#ifdef Q_OS_WIN
+    if (this->liveScreen != Q_NULLPTR) {
+        if (this->execState == static_cast<EXECUTION_STATE>(NULL))
+            this->execState = SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED);
+    } else {
+        this->execState = SetThreadExecutionState(ES_CONTINUOUS | this->execState);
+        this->execState = static_cast<EXECUTION_STATE>(NULL);
+    }
+#endif
 }
 
 void LiveTable::setEntry(quint64 values, bool add)
@@ -723,7 +740,11 @@ void LiveTable::setMode(int code)
     //1 --> accepted
 
     if (this->liveScreen == Q_NULLPTR) {
-        return;
+        //NOSONAR TODO do the same for MAC and Linux
+#ifdef Q_OS_WIN
+        SetThreadExecutionState(ES_CONTINUOUS | this->execState);
+        this->execState = static_cast<EXECUTION_STATE>(NULL);
+#endif
     }
 
     if (!demoModeTimer.isActive()) {

@@ -27,6 +27,11 @@
 #include <QTimer>
 #include <QModelIndex>
 
+#ifdef Q_OS_WIN
+#include <Windows.h>
+#include <WinBase.h>
+#endif
+
 #include "competitor.hpp"
 #include "livetablefilterproxymodel.hpp"
 #include "ui_livetable.h"
@@ -83,6 +88,10 @@ private:
 
     QTimer demoModeTimer;
     QModelIndex demoIndex;
+
+#ifdef Q_OS_WIN
+    EXECUTION_STATE execState { NULL };
+#endif
 
     void setEntry(quint64 values, bool add);
 
