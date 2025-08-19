@@ -122,6 +122,8 @@ private:
     CategoryTypeDelegate categoryTypeDelegate;
     TimingStatusDelegate timingStatusDelegate;
 
+    QString screenSerial;
+
     bool loadRaceFile(QString const &fileName);
     bool checkDirty();
 

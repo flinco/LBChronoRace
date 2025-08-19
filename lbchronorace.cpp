@@ -870,59 +870,89 @@ void LBChronoRace::screenRemoved(QScreen const *screen)
 {
     if (auto screenIndex = this->ui->liveViewSelector->findData(QVariant::fromValue(screen)); screenIndex >= 0) {
 
-        this->ui->liveViewSelector->removeItem(screenIndex);
+        auto const *liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
 
         if (screen == liveTable->getLiveScreen()) {
-            ui->liveViewSelector->setCurrentIndex(0);
-        }
-
-        if (this->ui->liveViewSelector->count() < 3) {
-            ui->liveViewSelector->setCurrentIndex(0);
-            ui->liveViewSelector->setEnabled(false);
+            this->screenSerial = screen->serialNumber();
+            liveModel->item(screenIndex)->setEnabled(false);
+            this->ui->liveViewSelector->setItemIcon(screenIndex, QIcon(":/material/icons/hide_image.svg"));
+            this->ui->liveViewSelector->setItemData(screenIndex, QVariant::fromValue(Q_NULLPTR));
+            this->live(screenIndex);
+        } else {
+            this->ui->liveViewSelector->removeItem(screenIndex);
+            ui->liveViewSelector->setEnabled(this->ui->liveViewSelector->count() > 2);
         }
     }
 }
 
 void LBChronoRace::screenAdded(QScreen const *screen)
 {
-    if (auto screenIndex = this->ui->liveViewSelector->findData(QVariant::fromValue(screen)); screenIndex < 0) {
+    QRegularExpressionMatch match = screenNameRegEx.match(screen->name());
+    QString const &screenName = match.hasMatch() ? match.captured(1) : screen->name();
+
+    auto itemCount = this->ui->liveViewSelector->count();
+    auto const *liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
+
+    if (auto screenIndex = this->ui->liveViewSelector->findText(screenName); (screenIndex < 0) || (this->screenSerial != screen->serialNumber())) {
+        /* It is either a brand new screen or it could be the screen selected
+         * and detached/disappeared but the serial number does not match */
         bool screenEnabled = (screen->size().width() >= 1280);
 
-        QRegularExpressionMatch match = screenNameRegEx.match(screen->name());
-        this->ui->liveViewSelector->addItem(QIcon(screenEnabled ? ":/material/icons/image.svg" : ":/material/icons/hide_image.svg"), match.hasMatch() ? match.captured(1) : screen->name(), QVariant::fromValue(screen));
-
-        auto itemCount = this->ui->liveViewSelector->count();
-
-        auto const *liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
-        liveModel->item(itemCount - 1)->setEnabled(screenEnabled);
+        this->ui->liveViewSelector->addItem(QIcon(screenEnabled ? ":/material/icons/image.svg" : ":/material/icons/hide_image.svg"), screenName, QVariant::fromValue(screen));
+        liveModel->item(itemCount)->setEnabled(screenEnabled);
 
         if (!screenEnabled)
-            appendErrorMessage(tr("Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)").arg(screen->name()).arg(screen->size().width()));
+            appendErrorMessage(tr("Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)").arg(screenName).arg(screen->size().width()));
 
-        if (itemCount > 2)
-            ui->liveViewSelector->setEnabled(true);
+        itemCount++;
+    } else {
+        /* It is the screen selected and detached/disappeared */
+        this->ui->liveViewSelector->setItemIcon(screenIndex, QIcon(":/material/icons/image.svg"));
+        this->ui->liveViewSelector->setItemData(screenIndex, QVariant::fromValue(screen));
+        liveModel->item(screenIndex)->setEnabled(true);
+
+        this->live(screenIndex);
     }
+
+    ui->liveViewSelector->setEnabled(itemCount > 2);
 }
 
 void LBChronoRace::live(int index)
 {
+    QScreen const *liveScreen = Q_NULLPTR;
+
     if (index <= 0) {
         if (liveTable->getLiveScreen() != Q_NULLPTR)
             appendInfoMessage(tr("Info: closing the Live Rankings"));
+
         liveTable->setLiveScreen(Q_NULLPTR);
         timings.setLiveTable(Q_NULLPTR);
-        liveTable->hide();
     } else {
-        auto const *liveScreen = this->ui->liveViewSelector->currentData().value<QScreen const *>();
+        liveScreen = this->ui->liveViewSelector->currentData().value<QScreen const *>();
 
         liveTable->setLiveScreen(liveScreen);
         timings.setLiveTable(liveTable.data());
-        liveTable->show();
+    }
 
+    if ((index <= 0) || (liveScreen != Q_NULLPTR)) {
+        auto itemCount = this->ui->liveViewSelector->count();
+
+        while (--itemCount > 0) {
+            if (this->ui->liveViewSelector->itemData(itemCount).value<QScreen const *>() == Q_NULLPTR)
+                this->ui->liveViewSelector->removeItem(itemCount);
+        }
+
+        ui->liveViewSelector->setEnabled(this->ui->liveViewSelector->count() > 2);
+    }
+
+    if (liveScreen != Q_NULLPTR) {
+        liveTable->show();
 //NOSONAR #ifdef Q_OS_WIN
 //NOSONAR         liveTable->windowHandle()->setLiveScreen(liveScreen);
 //NOSONAR #else
         liveTable->windowHandle()->setGeometry(liveScreen->geometry());
 //NOSONAR #endif
+    } else {
+        liveTable->hide();
     }
 }
