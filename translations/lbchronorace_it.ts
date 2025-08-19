@@ -1414,6 +1414,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Opening the Race Timings Recorder will permanently erase all Live Rankings data. Do you want to proceed?</source>
         <translation>L&apos;apertura del Cronometro Gara cancellerà in modo permanente tutti i dati della Classifica dal vivo. Vuoi procedere?</translation>
     </message>
+    <message>
+        <source>Live Rankings rotation</source>
+        <translation>Rotazione Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Set the interval in seconds for the automatic rotation of contents in the &quot;Live Rankings&quot; window</source>
+        <translation>Imposta l’intervallo in secondi per la rotazione automatica dei contenuti nella finestra &quot;Classifica dal vivo&quot;</translation>
+    </message>
 </context>
 <context>
     <name>LiveTable</name>
@@ -1465,6 +1473,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Timing %1</source>
         <comment>long</comment>
         <translation>Tempo %1</translation>
+    </message>
+    <message>
+        <source>Live Rankings</source>
+        <translation>Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Rotation interval (sec):</source>
+        <translation>Intervallo di rotazione (sec):</translation>
     </message>
 </context>
 <context>

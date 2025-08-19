@@ -529,18 +529,6 @@
     <property name="title">
      <string>Tools</string>
     </property>
-    <widget class="QMenu" name="menuSetLanguage">
-     <property name="toolTip">
-      <string>Change application language</string>
-     </property>
-     <property name="title">
-      <string>Set Language</string>
-     </property>
-     <property name="icon">
-      <iconset resource="materialicons.qrc">
-       <normaloff>:/material/icons/language.svg</normaloff>:/material/icons/language.svg</iconset>
-     </property>
-    </widget>
     <widget class="QMenu" name="menuAdjust_Timings">
      <property name="toolTip">
       <string>Add or subtract an arbitrary amount of time to all the recorded timings</string>
@@ -562,14 +550,32 @@
     <addaction name="actionMakeStartList"/>
     <addaction name="actionCollectTimings"/>
     <addaction name="actionMakeRankings"/>
-    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <widget class="QMenu" name="menuSetLanguage">
+     <property name="toolTip">
+      <string>Change application language</string>
+     </property>
+     <property name="title">
+      <string>Set Language</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/language.svg</normaloff>:/material/icons/language.svg</iconset>
+     </property>
+    </widget>
     <addaction name="menuSetLanguage"/>
     <addaction name="actionSetEncoding"/>
     <addaction name="actionConfigureTrigger"/>
+    <addaction name="actionLiveRankingsRotation"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuTools"/>
+   <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
   </widget>
   <action name="actionNewRace">
@@ -867,6 +873,18 @@
    </property>
    <property name="toolTip">
     <string>Detect and store the external hardware trigger key</string>
+   </property>
+  </action>
+  <action name="actionLiveRankingsRotation">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/speed.svg</normaloff>:/material/icons/speed.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Live Rankings rotation</string>
+   </property>
+   <property name="toolTip">
+    <string>Set the interval in seconds for the automatic rotation of contents in the &quot;Live Rankings&quot; window</string>
    </property>
   </action>
  </widget>

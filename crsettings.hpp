@@ -40,6 +40,7 @@ public:
     static void writeRecent(QStringList const &recentRaces);
 
     static int getLiveScrollSeconds();
+    static void setLiveScrollSeconds(int seconds);
 
 private:
     static QSettings settings;

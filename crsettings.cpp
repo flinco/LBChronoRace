@@ -90,3 +90,8 @@ int CRSettings::getLiveScrollSeconds()
     int seconds = settings.value(SCROLL_SEC_KEY, QVariant(10)).toInt(&ok);
     return ok ? seconds : 10;
 }
+
+void CRSettings::setLiveScrollSeconds(int seconds)
+{
+    settings.setValue(SCROLL_SEC_KEY, QVariant(seconds));
+}

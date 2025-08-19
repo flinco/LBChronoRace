@@ -67,5 +67,6 @@
         <file>icons/switch_access_3.svg</file>
         <file>icons/info.svg</file>
         <file>icons/info_i.svg</file>
+        <file>icons/speed.svg</file>
     </qresource>
 </RCC>

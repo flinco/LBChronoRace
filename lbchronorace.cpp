@@ -173,6 +173,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionMakeRankings, &QAction::triggered, this, &LBChronoRace::makeRankings);
     QObject::connect(ui->actionAddTimeSpan, &QAction::triggered, &timings, &ChronoRaceTimings::addTimeSpan);
     QObject::connect(ui->actionSubtractTimeSpan, &QAction::triggered, &timings, &ChronoRaceTimings::subtractTimeSpan);
+    QObject::connect(ui->actionLiveRankingsRotation, &QAction::triggered, liveTable.data(), &LiveTable::setInterval);
 
     QObject::connect(ui->liveViewSelector, &QComboBox::currentIndexChanged, this, &LBChronoRace::live);
     QObject::connect(&timings, &QDialog::finished, liveTable.data(), &LiveTable::setMode);

@@ -100,7 +100,7 @@ public slots:
 
 private:
     QScopedPointer<Ui::LBChronoRace> ui { new Ui::LBChronoRace };
-    QScopedPointer<LiveTable> liveTable { new LiveTable };
+    QScopedPointer<LiveTable> liveTable { new LiveTable(this) };
 
     QString raceDataFileName { "" };
     QVector<QString> fileNames;

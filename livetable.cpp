@@ -17,6 +17,7 @@
 
 #include <QLocale>
 #include <QHeaderView>
+#include <QInputDialog>
 
 #include "livetable.hpp"
 #include "lbcrexception.hpp"
@@ -780,3 +781,11 @@ void LiveTable::demoStep()
     }
 }
 
+void LiveTable::setInterval() const
+{
+    bool ok = false;
+    int i = QInputDialog::getInt(qobject_cast<QWidget *>(this->parent()), tr("Live Rankings"),
+                                 tr("Rotation interval (sec):"), CRSettings::getLiveScrollSeconds(), 1, 60, 1, &ok);
+    if (ok)
+        CRSettings::setLiveScrollSeconds(i);
+}

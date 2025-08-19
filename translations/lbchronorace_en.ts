@@ -1414,6 +1414,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Opening the Race Timings Recorder will permanently erase all Live Rankings data. Do you want to proceed?</source>
         <translation>Opening the Race Timings Recorder will permanently erase all Live Rankings data. Do you want to proceed?</translation>
     </message>
+    <message>
+        <source>Live Rankings rotation</source>
+        <translation>Live Rankings rotation</translation>
+    </message>
+    <message>
+        <source>Set the interval in seconds for the automatic rotation of contents in the &quot;Live Rankings&quot; window</source>
+        <translation>Set the interval in seconds for the automatic rotation of contents in the &quot;Live Rankings&quot; window</translation>
+    </message>
 </context>
 <context>
     <name>LiveTable</name>
@@ -1465,6 +1473,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Timing %1</source>
         <comment>long</comment>
         <translation>Timing %1</translation>
+    </message>
+    <message>
+        <source>Live Rankings</source>
+        <translation>Live Rankings</translation>
+    </message>
+    <message>
+        <source>Rotation interval (sec):</source>
+        <translation>Rotation interval (sec):</translation>
     </message>
 </context>
 <context>

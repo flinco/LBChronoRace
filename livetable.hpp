@@ -66,6 +66,7 @@ public:
 
 public slots:
     void setMode(int code);
+    void setInterval() const;
 
 private:
     QMultiHash<uint, Competitor> startList { };
