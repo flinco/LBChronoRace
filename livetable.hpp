@@ -27,9 +27,17 @@
 #include <QTimer>
 #include <QModelIndex>
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN)
 #include <Windows.h>
 #include <WinBase.h>
+#elif defined(Q_OS_MACOS)
+#include <IOKit/pwr_mgt/IOPMLib.h>
+#elif defined(Q_OS_LINUX)
+#include <qdbusconnection.h>
+#include <qdbusinterface.h>
+#include <qdbusreply.h>
+#else
+#warning "Screensaver inhibition not implemented on this OS"
 #endif
 
 #include "competitor.hpp"
@@ -90,8 +98,13 @@ private:
     QTimer demoModeTimer;
     QModelIndex demoIndex;
 
-#ifdef Q_OS_WIN
-    EXECUTION_STATE execState { NULL };
+    uint reqCount { 0u };
+#if defined(Q_OS_WIN)
+    EXECUTION_STATE execState_ { static_cast<EXECUTION_STATE>(NULL) };
+#elif defined(Q_OS_MACOS)
+    IOPMAssertionID s_power_assertion_ { kIOPMNullAssertionID };
+#elif defined(Q_OS_LINUX)
+    uint cookie_ { 0u };
 #endif
 
     void setEntry(quint64 values, bool add);
@@ -111,6 +124,8 @@ private:
     void setSubtitle();
     void setLogos();
     void resizeColumns();
+
+    void screenSaverInhibit(bool inhibit);
 
     static void pushTiming(QList<QVariant> &list, uint timing);
     static bool popTiming(QList<QVariant> &list, uint timing);

@@ -15,6 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+#include <QList>
 #include <QLocale>
 #include <QHeaderView>
 #include <QInputDialog>
@@ -30,7 +31,7 @@ LiveTable::LiveTable(QWidget *parent) :
 {
     ui->setupUi(this);
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN)
     this->setWindowState(Qt::WindowFullScreen);
 #endif
 
@@ -127,11 +128,7 @@ void LiveTable::setStartList(QList<Competitor> const &newStartList)
         QObject::disconnect(&demoModeTimer, &QTimer::timeout, this, &LiveTable::demoStep);
     }
 
-    //NOSONAR TODO do the same for MAC and Linux
-#ifdef Q_OS_WIN
-    if (liveScreen == Q_NULLPTR)
-        this->execState = SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED);
-#endif
+    this->screenSaverInhibit(true);
 
     if (liveScreen != Q_NULLPTR)
         resizeColumns();
@@ -151,16 +148,7 @@ void LiveTable::setLiveScreen(QScreen const *screen)
 {
     this->liveScreen = screen;
 
-    //NOSONAR TODO do the same for MAC and Linux
-#ifdef Q_OS_WIN
-    if (this->liveScreen != Q_NULLPTR) {
-        if (this->execState == static_cast<EXECUTION_STATE>(NULL))
-            this->execState = SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED);
-    } else {
-        this->execState = SetThreadExecutionState(ES_CONTINUOUS | this->execState);
-        this->execState = static_cast<EXECUTION_STATE>(NULL);
-    }
-#endif
+    this->screenSaverInhibit(this->liveScreen != Q_NULLPTR);
 }
 
 void LiveTable::setEntry(quint64 values, bool add)
@@ -740,13 +728,7 @@ void LiveTable::setMode(int code)
     //0 --> rejected
     //1 --> accepted
 
-    if (this->liveScreen == Q_NULLPTR) {
-        //NOSONAR TODO do the same for MAC and Linux
-#ifdef Q_OS_WIN
-        SetThreadExecutionState(ES_CONTINUOUS | this->execState);
-        this->execState = static_cast<EXECUTION_STATE>(NULL);
-#endif
-    }
+    this->screenSaverInhibit(false);
 
     if (!demoModeTimer.isActive()) {
 
@@ -788,4 +770,70 @@ void LiveTable::setInterval() const
                                  tr("Rotation interval (sec):"), CRSettings::getLiveScrollSeconds(), 1, 60, 1, &ok);
     if (ok)
         CRSettings::setLiveScrollSeconds(i);
+}
+
+void LiveTable::screenSaverInhibit(bool inhibit)
+{
+    if (inhibit)
+        reqCount++;
+    else if (reqCount > 0)
+        reqCount--;
+
+#if defined(Q_OS_WIN)
+    if (reqCount) {
+        if (execState_ == static_cast<EXECUTION_STATE>(NULL)) {
+            execState_ = SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED);
+        }
+    } else {
+        if (execState_ != static_cast<EXECUTION_STATE>(NULL)) {
+            SetThreadExecutionState(ES_CONTINUOUS | execState_);
+            execState_ = static_cast<EXECUTION_STATE>(NULL);
+        }
+    }
+#elif defined(Q_OS_MACOS)
+    if (reqCount) {
+        if (s_power_assertion_ == kIOPMNullAssertionID) {
+            if (IOPMAssertionCreateWithName(kIOPMAssertionTypePreventUserIdleSystemSleep,
+                                            kIOPMAssertionLevelOn, CFSTR("Metashape processing"),
+                                            &s_power_assertion_) != kIOReturnSuccess) {
+                s_power_assertion_ = kIOPMNullAssertionID;
+            }
+        }
+    } else {
+        if (s_power_assertion_ != kIOPMNullAssertionID) {
+            IOPMAssertionRelease(s_power_assertion_);
+            s_power_assertion_ = kIOPMNullAssertionID;
+        }
+    }
+#elif defined(Q_OS_LINUX)
+    if (QDBusConnection bus_ = QDBusConnection::sessionBus();
+        !bus_.isConnected()) {
+        qDebug() << "No connection to DBus";
+    } else if (QDBusInterface sessionManagerInterface(QStringLiteral("org.freedesktop.ScreenSaver"), QStringLiteral("/org/freedesktop/ScreenSaver"), QStringLiteral("org.freedesktop.ScreenSaver"), bus_, this);
+               !sessionManagerInterface.isValid()) {
+        qDebug() << "Invalid DBus interface";
+    } else if (reqCount) {
+        if (cookie_ != 0) {
+            qDebug() << "ScreenSaver" << (inhibit ? "already" : "still") << "inhibited";
+        } else if (QDBusReply<uint> reply = sessionManagerInterface.call("Inhibit", "LBChronoRace", "Timekeeping");
+                   reply.isValid()) {
+            cookie_ = reply.value();
+            qDebug() << "ScreenSaver disabled";
+        } else {
+            QDBusError error = reply.error();
+            qDebug() << error.message() << error.name();
+        }
+    } else {
+        if (cookie_ == 0) {
+            qDebug() << "ScreenSaver not inhibited";
+        } else if (QDBusReply<void> reply = sessionManagerInterface.call("UnInhibit", cookie_);
+                   reply.isValid()) {
+            cookie_ = 0u;
+            qDebug() << "ScreenSaver enabled";
+        } else {
+            QDBusError error = reply.error();
+            qDebug() << error.message() << error.name();
+        }
+    }
+#endif
 }

@@ -33,7 +33,7 @@ string(TIMESTAMP BUILD_DATE "%Y-%m-%d" UTC)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
-find_package(Qt6 COMPONENTS Core Gui Widgets LinguistTools REQUIRED)
+find_package(Qt6 COMPONENTS Core Gui Widgets DBus LinguistTools REQUIRED)
 qt_standard_project_setup(REQUIRES 6.8
     I18N_TRANSLATED_LANGUAGES it)
 
@@ -269,3 +269,6 @@ qt_add_resources(${CMAKE_PROJECT_NAME} "translations"
 
 # Linked Qt libraries
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
+if (TARGET Qt6::DBus)
+    target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt6::DBus)
+endif()
