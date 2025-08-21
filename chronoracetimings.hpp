@@ -109,8 +109,8 @@ private:
 
     bool enterPressed();
     bool digitPressed(QString const &key);
-    bool upPressed();
-    bool downPressed();
+
+    void clear();
 
 private slots:
     void start();

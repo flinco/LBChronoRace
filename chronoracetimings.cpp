@@ -139,10 +139,10 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
                 retval = digitPressed((static_cast<QKeyEvent *>(event))->text());
                 break;
             case Qt::Key::Key_Up:
-                retval = upPressed();
+                stepUp();
                 break;
             case Qt::Key::Key_Down:
-                retval = downPressed();
+                stepDown();
                 break;
             case Qt::Key::Key_Escape:
                 if (ui->lockToggle->value() == 0)
@@ -204,6 +204,7 @@ void ChronoRaceTimings::accept()
             backupTimerId = 0;
         }
         saveTimings();
+        clear();
         QDialog::accept();
     }
 }
@@ -227,13 +228,7 @@ void ChronoRaceTimings::reject()
             killTimer(backupTimerId);
             backupTimerId = 0;
         }
-
-        ui->timer->display(DISPLAY_CHRONO_ZERO);
-        currentBibItem = Q_NULLPTR;
-        timingRowCount = 0;
-        ui->dataArea->clearContents();
-        ui->dataArea->setRowCount(0);
-
+        clear();
         QDialog::reject();
     }
 }
@@ -542,18 +537,13 @@ bool ChronoRaceTimings::digitPressed(QString const &key)
     return true;
 }
 
-bool ChronoRaceTimings::upPressed()
+void ChronoRaceTimings::clear()
 {
-    stepUp();
-
-    return true;
-}
-
-bool ChronoRaceTimings::downPressed()
-{
-    stepDown();
-
-    return true;
+    ui->timer->display(DISPLAY_CHRONO_ZERO);
+    currentBibItem = Q_NULLPTR;
+    timingRowCount = 0;
+    ui->dataArea->clearContents();
+    ui->dataArea->setRowCount(0);
 }
 
 void ChronoRaceTimings::start()
@@ -616,11 +606,7 @@ void ChronoRaceTimings::reset()
                                     "Continue?"),
                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
         // Yes was clicked
-        ui->timer->display(DISPLAY_CHRONO_ZERO);
-        currentBibItem = Q_NULLPTR;
-        timingRowCount = 0;
-        ui->dataArea->clearContents();
-        ui->dataArea->setRowCount(0);
+        clear();
         ui->startButton->setText(tr("START"));
         this->timerOffset = Q_INT64_C(0);
         this->timerPaused = false;
