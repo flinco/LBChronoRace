@@ -37,7 +37,8 @@
 #include "rankingcatsdelegate.hpp"
 #include "cattypedelegate.hpp"
 #include "timingstatusdelegate.hpp"
-#include "livetable.hpp"
+#include "liveview.hpp"
+#include "screensaver.hpp"
 
 #ifndef LBCHRONORACE_ORGANIZATION
 #error "LBCHRONORACE_ORGANIZATION not set"
@@ -100,7 +101,6 @@ public slots:
 
 private:
     QScopedPointer<Ui::LBChronoRace> ui { new Ui::LBChronoRace };
-    QScopedPointer<LiveTable> liveTable { new LiveTable(this) };
 
     QString raceDataFileName { "" };
     QVector<QString> fileNames;
@@ -122,7 +122,11 @@ private:
     CategoryTypeDelegate categoryTypeDelegate;
     TimingStatusDelegate timingStatusDelegate;
 
+    LiveView liveView;
     QString screenSerial;
+    ScreenSaver screenSaver;
+
+    Qt::FocusPolicy focus;
 
     bool loadRaceFile(QString const &fileName);
     bool checkDirty();
@@ -150,6 +154,7 @@ private slots:
     void exportList();
 
     void showTimingRecorder();
+    void hideTimingRecorder(int code);
 
     void screenRemoved(QScreen const *screen);
     void screenAdded(QScreen const *screen);

@@ -64,6 +64,7 @@ ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent)
     qApp->installEventFilter(this);
     this->setWindowFlag(Qt::CustomizeWindowHint, true);
     this->setWindowFlag(Qt::WindowCloseButtonHint, false);
+    this->setWindowModality(Qt::WindowModality::WindowModal);
 
     ui->timer->display(DISPLAY_CHRONO_ZERO);
 
@@ -189,6 +190,9 @@ void ChronoRaceTimings::accept()
     if (saveToDiskThread.isRunning())
         this->stop();
 
+    if (liveTables != Q_NULLPTR)
+        liveTables->toggleStayOnTop(false);
+
     if (QMessageBox::information(this, tr("Save Timings List"),
                                      tr("The timings list will be replaced by the current data.\n"
                                         "Any previously recorded timing will be lost.\n"
@@ -207,12 +211,18 @@ void ChronoRaceTimings::accept()
         clear();
         QDialog::accept();
     }
+
+    if (liveTables != Q_NULLPTR)
+        liveTables->toggleStayOnTop(true);
 }
 
 void ChronoRaceTimings::reject()
 {
     if (saveToDiskThread.isRunning())
         this->stop();
+
+    if (liveTables != Q_NULLPTR)
+        liveTables->toggleStayOnTop(false);
 
     if (QMessageBox::information(this, tr("Discard Timings List"),
                                  tr("The current data will be discarded.\n"
@@ -231,6 +241,9 @@ void ChronoRaceTimings::reject()
         clear();
         QDialog::reject();
     }
+
+    if (liveTables != Q_NULLPTR)
+        liveTables->toggleStayOnTop(true);
 }
 
 void ChronoRaceTimings::show()
@@ -238,7 +251,6 @@ void ChronoRaceTimings::show()
     triggerKey = CRSettings::getTriggerKey();
 
     ui->retranslateUi(this);
-    this->setWindowModality(Qt::ApplicationModal);
 
     this->timerOffset = Q_INT64_C(0);
     this->timerPaused = false;
@@ -300,9 +312,9 @@ void ChronoRaceTimings::applyTimeSpan(int offset)
     }
 }
 
-void ChronoRaceTimings::setLiveTable(LiveTable *newLiveTable)
+void ChronoRaceTimings::setLiveTables(LiveView *liveView)
 {
-    liveTable = newLiveTable;
+    liveTables = liveView;
 }
 
 void ChronoRaceTimings::updateCurrentBibItem(QTableWidgetItem *newBibItem)
@@ -314,12 +326,12 @@ void ChronoRaceTimings::updateCurrentBibItem(QTableWidgetItem *newBibItem)
         quint64 bibLiveValue = this->currentBibItem->data(Qt::ItemDataRole::UserRole).toULongLong();
         quint64 timingLiveValue = timingItem ? timingItem->data(Qt::ItemDataRole::UserRole).toULongLong() : Q_UINT64_C(0);
 
-        if (liveTable != Q_NULLPTR)
-            liveTable->removeEntry(timingLiveValue | bibLiveValue);
+        if (liveTables != Q_NULLPTR)
+            liveTables->removeEntry(timingLiveValue | bibLiveValue);
         bibLiveValue = ((itemColor == Qt::GlobalColor::green) ? static_cast<quint64>(this->currentBibItem->text().toUInt()) : Q_UINT64_C(0)) & Q_UINT64_C(0xffffffff);
         this->currentBibItem->setData(Qt::ItemDataRole::UserRole, QVariant(bibLiveValue));
-        if (liveTable != Q_NULLPTR)
-            liveTable->addEntry(timingLiveValue | bibLiveValue);
+        if (liveTables != Q_NULLPTR)
+            liveTables->addEntry(timingLiveValue | bibLiveValue);
 
         this->currentBibItem->setBackground(itemColor);
     }
@@ -375,8 +387,8 @@ void ChronoRaceTimings::recordTiming(qint64 milliseconds)
     flags &= ~(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsUserCheckable);
     timingItem->setFlags(flags);
 
-    if (liveTable != Q_NULLPTR)
-        liveTable->addEntry(timingLiveValue | bibLiveValue);
+    if (liveTables != Q_NULLPTR)
+        liveTables->addEntry(timingLiveValue | bibLiveValue);
 
     ui->dataArea->scrollToBottom();
     timingRowCount += 1;
@@ -394,8 +406,8 @@ void ChronoRaceTimings::deleteTiming()
     timingItem = ui->dataArea->item(timingRowCount, 1);
     bibItem = ui->dataArea->item(timingRowCount, 0);
 
-    if (liveTable != Q_NULLPTR)
-        liveTable->removeEntry(timingItem->data(Qt::ItemDataRole::UserRole).toULongLong() | bibItem->data(Qt::ItemDataRole::UserRole).toULongLong());
+    if (liveTables != Q_NULLPTR)
+        liveTables->removeEntry(timingItem->data(Qt::ItemDataRole::UserRole).toULongLong() | bibItem->data(Qt::ItemDataRole::UserRole).toULongLong());
 
     if (((timingRowCount + 1) == ui->dataArea->rowCount()) && bibItem->text().isEmpty()) {
         int currentBibRow = this->currentBibItem ? this->currentBibItem->row() : -1;

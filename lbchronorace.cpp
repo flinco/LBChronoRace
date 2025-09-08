@@ -25,8 +25,7 @@
 #include <QScreen>
 #include <QWindow>
 #include <QActionGroup>
-
-//NOSONAR #include <QDebug>
+#include <QStandardItemModel>
 
 #include "lbchronorace.hpp"
 #include "lbcrexception.hpp"
@@ -51,12 +50,14 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     rankingsTable(parent),
     categoriesTable(parent),
     timingsTable(parent),
+    timings(this),
     sexDelegate(&startListTable),
     clubDelegate(&startListTable),
     rankingTypeDelegate(&rankingsTable),
     rankingCatsDelegate(&rankingsTable),
     categoryTypeDelegate(&categoriesTable),
-    timingStatusDelegate(&timingsTable)
+    timingStatusDelegate(&timingsTable),
+    liveView(this, &timings)
 {
     CRHelper::setParent(qobject_cast<QWidget *>(this));
 
@@ -173,10 +174,14 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionMakeRankings, &QAction::triggered, this, &LBChronoRace::makeRankings);
     QObject::connect(ui->actionAddTimeSpan, &QAction::triggered, &timings, &ChronoRaceTimings::addTimeSpan);
     QObject::connect(ui->actionSubtractTimeSpan, &QAction::triggered, &timings, &ChronoRaceTimings::subtractTimeSpan);
-    QObject::connect(ui->actionLiveRankingsRotation, &QAction::triggered, liveTable.data(), &LiveTable::setInterval);
+    QObject::connect(ui->actionLiveRankingsRotation, &QAction::triggered, &liveView, &LiveView::setInterval);
 
     QObject::connect(ui->liveViewSelector, &QComboBox::currentIndexChanged, this, &LBChronoRace::live);
-    QObject::connect(&timings, &QDialog::finished, liveTable.data(), &LiveTable::setMode);
+    // NB: in case this binding is too heavy (the list is fully reloaded by the Live View every
+    //     time a competitor is changed) just comment this line and uncomment the next.
+    QObject::connect(startListModel, &StartListModel::dataChanged, &liveView, &LiveView::reloadStartList);
+    //NOSONAR QObject::connect(&startListTable, &ChronoRaceTable::finished, &liveView, &LiveView::toggleCompetitors);
+    QObject::connect(&timings, &QDialog::finished, this, &LBChronoRace::hideTimingRecorder);
 
     QObject::connect(ui->actionAbout, &QAction::triggered, &CRHelper::actionAbout);
     QObject::connect(ui->actionAboutQt, &QAction::triggered, &CRHelper::actionAboutQt);
@@ -214,6 +219,12 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     if (liveIndex > 2)
         ui->liveViewSelector->setEnabled(true);
 
+    // Race data for Live View
+    this->liveView.setRaceInfo(&this->raceInfo);
+
+    // ScreenSaver
+    this->liveView.setScreenSaver(&this->screenSaver);
+
     // Recent races menu
     RecentRaces::loadMenu(ui->menuRecentRaces);
     QObject::connect(RecentRaces::actionGroup, &QActionGroup::triggered, this, &LBChronoRace::openRecentRace);
@@ -223,6 +234,9 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
 
     // Quit action
     QObject::connect(ui->actionQuit, &QAction::triggered, this, &QApplication::quit);
+
+    // Other fields
+    this->focus = this->focusPolicy();
 }
 
 void LBChronoRace::appendInfoMessage(QString const &message) const
@@ -452,22 +466,26 @@ void LBChronoRace::exportList()
 
 void LBChronoRace::showTimingRecorder()
 {
-    if (liveTable->getLiveScreen() != Q_NULLPTR) {
-        if (QMessageBox::StandardButton reply = (liveTable->getLiveScreen() == Q_NULLPTR) ? QMessageBox::StandardButton::Yes :
-            QMessageBox::question(this, tr("Opening Race Timings Recorder"), tr("Opening the Race Timings Recorder will permanently erase all Live Rankings data. Do you want to proceed?"), QMessageBox::Yes | QMessageBox::No);
+    if (liveView.getLiveScreen() != Q_NULLPTR) {
+        if (QMessageBox::StandardButton reply = (liveView.getLiveScreen() == Q_NULLPTR) ? QMessageBox::StandardButton::Yes :
+            QMessageBox::question(this, tr("Opening Race Timings Recorder"), tr("Opening the Race Timings Recorder will create a new Live Rankings table, replacing any existing data. Do you want to proceed?"), QMessageBox::Yes | QMessageBox::No);
             reply != QMessageBox::StandardButton::Yes) {
             return;
         }
     }
 
-    try {
-        liveTable->setStartList(CRLoader::getStartList());
-        liveTable->setRaceInfo(&raceInfo);
-    } catch (ChronoRaceException &e) {
-        appendErrorMessage(e.getMessage());
-    }
+    this->focus = this->focusPolicy();
+    this->setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
     timings.show();
+    liveView.toggleTimigns(1 + static_cast<int>(QDialog::DialogCode::Accepted) + static_cast<int>(QDialog::DialogCode::Rejected));
+}
+
+void LBChronoRace::hideTimingRecorder(int code)
+{
+    this->liveView.toggleTimigns(code);
+
+    this->setFocusPolicy(this->focus);
 }
 
 void LBChronoRace::initialize()
@@ -694,6 +712,8 @@ void LBChronoRace::loadRace()
 
         // Update recent races list
         RecentRaces::update(raceDataFileName);
+
+        liveView.toggleCompetitors(QDialog::DialogCode::Accepted);
     }
 }
 
@@ -712,6 +732,8 @@ void LBChronoRace::openRecentRace(QAction const *action)
 
         // Update recent races list
         RecentRaces::update(raceDataFileName);
+
+        liveView.toggleCompetitors(QDialog::DialogCode::Accepted);
     }
 }
 
@@ -873,7 +895,7 @@ void LBChronoRace::screenRemoved(QScreen const *screen)
 
         auto const *liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
 
-        if (screen == liveTable->getLiveScreen()) {
+        if (screen == liveView.getLiveScreen()) {
             this->screenSerial = screen->serialNumber();
             liveModel->item(screenIndex)->setEnabled(false);
             this->ui->liveViewSelector->setItemIcon(screenIndex, QIcon(":/material/icons/hide_image.svg"));
@@ -923,16 +945,18 @@ void LBChronoRace::live(int index)
     QScreen const *liveScreen = Q_NULLPTR;
 
     if (index <= 0) {
-        if (liveTable->getLiveScreen() != Q_NULLPTR)
+        if (liveView.getLiveScreen() != Q_NULLPTR)
             appendInfoMessage(tr("Info: closing the Live Rankings"));
 
-        liveTable->setLiveScreen(Q_NULLPTR);
-        timings.setLiveTable(Q_NULLPTR);
+        liveView.setLiveScreen(Q_NULLPTR);
+        timings.setLiveTables(Q_NULLPTR);
+        screenSaver.inhibit(false);
     } else {
         liveScreen = this->ui->liveViewSelector->currentData().value<QScreen const *>();
 
-        liveTable->setLiveScreen(liveScreen);
-        timings.setLiveTable(liveTable.data());
+        liveView.setLiveScreen(liveScreen);
+        timings.setLiveTables(&liveView);
+        screenSaver.inhibit(true);
     }
 
     if ((index <= 0) || (liveScreen != Q_NULLPTR)) {
@@ -946,14 +970,5 @@ void LBChronoRace::live(int index)
         ui->liveViewSelector->setEnabled(this->ui->liveViewSelector->count() > 2);
     }
 
-    if (liveScreen != Q_NULLPTR) {
-        liveTable->show();
-//NOSONAR #ifdef Q_OS_WIN
-//NOSONAR         liveTable->windowHandle()->setLiveScreen(liveScreen);
-//NOSONAR #else
-        liveTable->windowHandle()->setGeometry(liveScreen->geometry());
-//NOSONAR #endif
-    } else {
-        liveTable->hide();
-    }
+    liveView.updateView();
 }

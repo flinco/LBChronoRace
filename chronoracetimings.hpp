@@ -26,7 +26,7 @@
 #include <QRegularExpression>
 #include <QKeyCombination>
 
-#include "livetable.hpp"
+#include "liveview.hpp"
 
 #include "ui_chronoracetimings.h"
 
@@ -53,7 +53,7 @@ class ChronoRaceTimings : public QDialog
 public:
     explicit ChronoRaceTimings(QWidget *parent = Q_NULLPTR);
 
-    void setLiveTable(LiveTable *newLiveTable);
+    void setLiveTables(LiveView *liveView);
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -78,7 +78,7 @@ signals:
 private:
     QScopedPointer<Ui::ChronoRaceTimings> ui { new Ui::ChronoRaceTimings };
 
-    LiveTable *liveTable { Q_NULLPTR };
+    LiveView *liveTables { Q_NULLPTR };
 
     int            timingRowCount { 0 };
 

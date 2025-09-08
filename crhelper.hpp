@@ -20,6 +20,7 @@
 
 #include <QCoreApplication>
 #include <QString>
+#include <QVariantList>
 
 #include "crloader.hpp"
 #include "chronoracedata.hpp"
@@ -72,6 +73,9 @@ public:
     static bool askForAppend(QWidget *parent = Q_NULLPTR);
 
     static void setParent(QWidget *newParent);
+
+    static void pushTiming(QVariantList &list, uint timing);
+    static bool popTiming(QVariantList &list, uint timing);
 
 public slots:
     static void updateGlobalData(ChronoRaceData::NameComposition newNameComposition, ChronoRaceData::Accuracy newAccuracy);

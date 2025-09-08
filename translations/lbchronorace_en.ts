@@ -1411,8 +1411,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Opening Race Timings Recorder</translation>
     </message>
     <message>
-        <source>Opening the Race Timings Recorder will permanently erase all Live Rankings data. Do you want to proceed?</source>
-        <translation>Opening the Race Timings Recorder will permanently erase all Live Rankings data. Do you want to proceed?</translation>
+        <source>Opening the Race Timings Recorder will create a new Live Rankings table, replacing any existing data. Do you want to proceed?</source>
+        <translation>Opening the Race Timings Recorder will create a new Live Rankings table, replacing any existing data. Do you want to proceed?</translation>
     </message>
     <message>
         <source>Live Rankings rotation</source>
@@ -1424,16 +1424,16 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     </message>
 </context>
 <context>
-    <name>LiveTable</name>
+    <name>LiveRankings</name>
     <message>
         <source>Bib</source>
         <comment>long</comment>
         <translation>Bib</translation>
     </message>
     <message>
-        <source>Bib</source>
-        <comment>short</comment>
-        <translation>Bib</translation>
+        <source>Timing</source>
+        <comment>long</comment>
+        <translation>Timing</translation>
     </message>
     <message>
         <source>Competitor</source>
@@ -1441,27 +1441,13 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Competitor</translation>
     </message>
     <message>
-        <source>Timing</source>
-        <comment>long</comment>
-        <translation>Timing</translation>
-    </message>
-    <message>
-        <source>Timing</source>
+        <source>Bib</source>
         <comment>short</comment>
-        <translation>Timing</translation>
-    </message>
-    <message>
-        <source>Enter competitors to use the Live Rankings</source>
-        <translation>Enter competitors to use the Live Rankings</translation>
+        <translation>Bib</translation>
     </message>
     <message>
         <source>Competitor %1</source>
         <comment>short</comment>
-        <translation>Competitor %1</translation>
-    </message>
-    <message>
-        <source>Competitor %1</source>
-        <comment>long</comment>
         <translation>Competitor %1</translation>
     </message>
     <message>
@@ -1470,10 +1456,81 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>T %1</translation>
     </message>
     <message>
+        <source>Timing</source>
+        <comment>short</comment>
+        <translation>Timing</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>long</comment>
+        <translation>Competitor %1</translation>
+    </message>
+    <message>
         <source>Timing %1</source>
         <comment>long</comment>
         <translation>Timing %1</translation>
     </message>
+</context>
+<context>
+    <name>LiveStartList</name>
+    <message>
+        <source>Bib</source>
+        <comment>long</comment>
+        <translation>Bib</translation>
+    </message>
+    <message>
+        <source>Competitor</source>
+        <comment>long</comment>
+        <translation>Competitor</translation>
+    </message>
+    <message>
+        <source>Bib</source>
+        <comment>short</comment>
+        <translation>Bib</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>short</comment>
+        <translation>Competitor %1</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>long</comment>
+        <translation>Competitor %1</translation>
+    </message>
+    <message>
+        <source>Start Time</source>
+        <comment>long</comment>
+        <translation>Start Time</translation>
+    </message>
+    <message>
+        <source>Start Time</source>
+        <comment>short</comment>
+        <translation>Start Time</translation>
+    </message>
+    <message>
+        <source>Sex</source>
+        <comment>long</comment>
+        <translation>Sex</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <comment>long</comment>
+        <translation>Year</translation>
+    </message>
+    <message>
+        <source>Sex</source>
+        <comment>short</comment>
+        <translation>Sex</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <comment>short</comment>
+        <translation>Year</translation>
+    </message>
+</context>
+<context>
+    <name>LiveView</name>
     <message>
         <source>Live Rankings</source>
         <translation>Live Rankings</translation>

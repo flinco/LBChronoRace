@@ -1411,8 +1411,8 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Apertura Cronometro Gara</translation>
     </message>
     <message>
-        <source>Opening the Race Timings Recorder will permanently erase all Live Rankings data. Do you want to proceed?</source>
-        <translation>L&apos;apertura del Cronometro Gara cancellerà in modo permanente tutti i dati della Classifica dal vivo. Vuoi procedere?</translation>
+        <source>Opening the Race Timings Recorder will create a new Live Rankings table, replacing any existing data. Do you want to proceed?</source>
+        <translation>L&apos;apertura del Cronometro Gara creerà una nuova Classifica dal vivo, sostituendo eventuali dati esistenti. Vuoi procedere?</translation>
     </message>
     <message>
         <source>Live Rankings rotation</source>
@@ -1424,16 +1424,16 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     </message>
 </context>
 <context>
-    <name>LiveTable</name>
+    <name>LiveRankings</name>
     <message>
         <source>Bib</source>
         <comment>long</comment>
         <translation>Pettorale</translation>
     </message>
     <message>
-        <source>Bib</source>
-        <comment>short</comment>
-        <translation>Pett</translation>
+        <source>Timing</source>
+        <comment>long</comment>
+        <translation>Tempo</translation>
     </message>
     <message>
         <source>Competitor</source>
@@ -1441,27 +1441,13 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Concorrente</translation>
     </message>
     <message>
-        <source>Timing</source>
-        <comment>long</comment>
-        <translation>Tempo</translation>
-    </message>
-    <message>
-        <source>Timing</source>
+        <source>Bib</source>
         <comment>short</comment>
-        <translation>Tempo</translation>
-    </message>
-    <message>
-        <source>Enter competitors to use the Live Rankings</source>
-        <translation>Per utilizzare la &apos;Classifica dal vivo&apos; inserire i concorrenti</translation>
+        <translation>Pett</translation>
     </message>
     <message>
         <source>Competitor %1</source>
         <comment>short</comment>
-        <translation>Concorrente %1</translation>
-    </message>
-    <message>
-        <source>Competitor %1</source>
-        <comment>long</comment>
         <translation>Concorrente %1</translation>
     </message>
     <message>
@@ -1470,10 +1456,81 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>T %1</translation>
     </message>
     <message>
+        <source>Timing</source>
+        <comment>short</comment>
+        <translation>Tempo</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>long</comment>
+        <translation>Concorrente %1</translation>
+    </message>
+    <message>
         <source>Timing %1</source>
         <comment>long</comment>
         <translation>Tempo %1</translation>
     </message>
+</context>
+<context>
+    <name>LiveStartList</name>
+    <message>
+        <source>Bib</source>
+        <comment>long</comment>
+        <translation>Pettorale</translation>
+    </message>
+    <message>
+        <source>Competitor</source>
+        <comment>long</comment>
+        <translation>Concorrente</translation>
+    </message>
+    <message>
+        <source>Bib</source>
+        <comment>short</comment>
+        <translation>Pett</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>short</comment>
+        <translation>Concorrente %1</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>long</comment>
+        <translation>Concorrente %1</translation>
+    </message>
+    <message>
+        <source>Start Time</source>
+        <comment>long</comment>
+        <translation>Ora Partenza</translation>
+    </message>
+    <message>
+        <source>Start Time</source>
+        <comment>short</comment>
+        <translation>Ora Part</translation>
+    </message>
+    <message>
+        <source>Sex</source>
+        <comment>long</comment>
+        <translation>Sex</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <comment>long</comment>
+        <translation>Anno</translation>
+    </message>
+    <message>
+        <source>Sex</source>
+        <comment>short</comment>
+        <translation>Sex</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <comment>short</comment>
+        <translation>Anno</translation>
+    </message>
+</context>
+<context>
+    <name>LiveView</name>
     <message>
         <source>Live Rankings</source>
         <translation>Classifica dal vivo</translation>

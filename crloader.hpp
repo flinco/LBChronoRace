@@ -22,6 +22,7 @@
 #include <QString>
 #include <QStringConverter>
 #include <QList>
+#include <QVariantList>
 #include <QDataStream>
 
 #include "timing.hpp"
@@ -73,7 +74,7 @@ private:
     static TimingsModel                timingsModel;
     static RankingsModel               rankingsModel;
     static CategoriesModel             categoriesModel;
-    static QList<QVariant>             standardItemList;
+    static QVariantList                standardItemList;
     static QStringConverter::Encoding  encoding;
     static Format                      format;
 

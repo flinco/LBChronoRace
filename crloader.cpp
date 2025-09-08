@@ -30,7 +30,7 @@ TeamsListModel              CRLoader::teamsListModel;
 TimingsModel                CRLoader::timingsModel;
 RankingsModel               CRLoader::rankingsModel;
 CategoriesModel             CRLoader::categoriesModel;
-QList<QVariant>             CRLoader::standardItemList;
+QVariantList                CRLoader::standardItemList;
 QStringConverter::Encoding  CRLoader::encoding { QStringConverter::Encoding::Latin1 };
 CRLoader::Format            CRLoader::format { CRLoader::Format::PDF };
 bool                        CRLoader::dirty { false };

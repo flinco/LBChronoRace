@@ -65,8 +65,10 @@ set(HEADER_FILES
     languages.hpp
     lbchronorace.hpp
     lbcrexception.hpp
-    livetable.hpp
+    liverankings.hpp
+    livestartlist.hpp
     livetablefilterproxymodel.hpp
+    liveview.hpp
     multiselectcombobox.hpp
     pdfrankingprinter.hpp
     ranking.hpp
@@ -76,6 +78,7 @@ set(HEADER_FILES
     rankingsmodel.hpp
     rankingtypedelegate.hpp
     recentraces.hpp
+    screensaver.hpp
     startlistmodel.hpp
     teamclassentry.hpp
     teamslistmodel.hpp
@@ -111,8 +114,10 @@ set(SOURCE_FILES
     languages.cpp
     lbchronorace.cpp
     lbcrexception.cpp
-    livetable.cpp
+    liverankings.cpp
+    livestartlist.cpp
     livetablefilterproxymodel.cpp
+    liveview.cpp
     multiselectcombobox.cpp
     pdfrankingprinter.cpp
     ranking.cpp
@@ -122,6 +127,7 @@ set(SOURCE_FILES
     rankingsmodel.cpp
     rankingtypedelegate.cpp
     recentraces.cpp
+    screensaver.cpp
     startlistmodel.cpp
     teamclassentry.cpp
     teamslistmodel.cpp
@@ -142,7 +148,8 @@ set(UI_FILES
     chronoracedata.ui
     chronoracetable.ui
     chronoracetimings.ui
-    livetable.ui)
+    liverankings.ui
+    livestartlist.ui)
 
 set(PROJECT_SOURCES
     ${HEADER_FILES}
