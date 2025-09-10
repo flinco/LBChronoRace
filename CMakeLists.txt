@@ -65,6 +65,7 @@ set(HEADER_FILES
     languages.hpp
     lbchronorace.hpp
     lbcrexception.hpp
+    livecolors.hpp
     liverankings.hpp
     livestartlist.hpp
     livetablefilterproxymodel.hpp
@@ -114,6 +115,7 @@ set(SOURCE_FILES
     languages.cpp
     lbchronorace.cpp
     lbcrexception.cpp
+    livecolors.cpp
     liverankings.cpp
     livestartlist.cpp
     livetablefilterproxymodel.cpp
@@ -148,6 +150,7 @@ set(UI_FILES
     chronoracedata.ui
     chronoracetable.ui
     chronoracetimings.ui
+    livecolors.ui
     liverankings.ui
     livestartlist.ui)
 

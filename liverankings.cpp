@@ -19,6 +19,7 @@
 #include <QHeaderView>
 
 #include "liverankings.hpp"
+#include "crsettings.hpp"
 
 LiveRankings::LiveRankings(QWidget *parent) : QWidget(parent, Qt::Window)
 {
@@ -208,6 +209,17 @@ void LiveRankings::resizeColumns()
 
 void LiveRankings::activate()
 {
+    using enum CRSettings::Color;
+
+    QString style = QStringLiteral("background-color: ") + CRSettings::getColor(LiveRankingsBackgroundColor).name();
+    this->setStyleSheet(style);
+    style = QStringLiteral("font: bold; color: ") + CRSettings::getColor(LiveRankingsTitleColor).name();
+    this->ui->raceTitle->setStyleSheet(style);
+    style = QStringLiteral("color: ") + CRSettings::getColor(LiveRankingsTextColor).name();
+    this->ui->raceInfo->setStyleSheet(style);
+    this->ui->highTable->setStyleSheet(style);
+    this->ui->lowTable->setStyleSheet(style);
+
     this->ui->retranslateUi(this);
     QWidget::show();
     resizeColumns();

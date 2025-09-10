@@ -265,7 +265,7 @@
          <string>Select a screen for the Live Rankings</string>
         </property>
         <property name="text">
-         <string>Live Rankings</string>
+         <string>Live View</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
@@ -567,10 +567,24 @@
        <normaloff>:/material/icons/language.svg</normaloff>:/material/icons/language.svg</iconset>
      </property>
     </widget>
+    <widget class="QMenu" name="menuConfigureLiveView">
+     <property name="toolTip">
+      <string>Configure Live View</string>
+     </property>
+     <property name="title">
+      <string>Configure Live View</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/live_tv.svg</normaloff>:/material/icons/live_tv.svg</iconset>
+     </property>
+     <addaction name="actionLiveViewColors"/>
+     <addaction name="actionLiveRankingsRotation"/>
+    </widget>
     <addaction name="menuSetLanguage"/>
     <addaction name="actionSetEncoding"/>
     <addaction name="actionConfigureTrigger"/>
-    <addaction name="actionLiveRankingsRotation"/>
+    <addaction name="menuConfigureLiveView"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -881,10 +895,22 @@
      <normaloff>:/material/icons/speed.svg</normaloff>:/material/icons/speed.svg</iconset>
    </property>
    <property name="text">
-    <string>Live Rankings rotation</string>
+    <string>Page Rotation Time</string>
    </property>
    <property name="toolTip">
     <string>Set the interval in seconds for the automatic rotation of contents in the &quot;Live Rankings&quot; window</string>
+   </property>
+  </action>
+  <action name="actionLiveViewColors">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/palette.svg</normaloff>:/material/icons/palette.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Page Colors</string>
+   </property>
+   <property name="toolTip">
+    <string>Set the colors used in the Live Views</string>
    </property>
   </action>
  </widget>

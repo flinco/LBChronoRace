@@ -38,6 +38,7 @@
 #include "cattypedelegate.hpp"
 #include "timingstatusdelegate.hpp"
 #include "liveview.hpp"
+#include "livecolors.hpp"
 #include "screensaver.hpp"
 
 #ifndef LBCHRONORACE_ORGANIZATION
@@ -126,7 +127,7 @@ private:
     QString screenSerial;
     ScreenSaver screenSaver;
 
-    Qt::FocusPolicy focus;
+    LiveColors liveColors;
 
     bool loadRaceFile(QString const &fileName);
     bool checkDirty();

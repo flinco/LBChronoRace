@@ -26,6 +26,14 @@ constexpr char SCROLL_SEC_KEY[]  = "ScrollSeconds";
 constexpr char RECENT_RACES_KEY[]  = "RecentRaces";
 constexpr char RECENT_RACES_PATH_KEY[]  = "path";
 
+constexpr char LS_TITLE_COLOR_KEY[] = "LiveStartListTitleColor";
+constexpr char LS_TEXT_COLOR_KEY[] = "LiveStartListTextColor";
+constexpr char LS_BACKGROUND_COLOR_KEY[] = "LiveStartListBackgroundColor";
+constexpr char LR_TITLE_COLOR_KEY[] = "LiveRankingsTitleColor";
+constexpr char LR_TEXT_COLOR_KEY[] = "LiveRankingsTextColor";
+constexpr char LR_BACKGROUND_COLOR_KEY[] = "LiveRankingsBackgroundColor";
+
+Qt::FocusPolicy CRSettings::focus { Qt::FocusPolicy::NoFocus };
 QSettings CRSettings::settings { QSettings::Format::NativeFormat, QSettings::Scope::UserScope, QStringLiteral(LBCHRONORACE_ORGANIZATION), QStringLiteral(LBCHRONORACE_NAME) };
 
 QString CRSettings::getLanguage()
@@ -94,4 +102,103 @@ int CRSettings::getLiveScrollSeconds()
 void CRSettings::setLiveScrollSeconds(int seconds)
 {
     settings.setValue(SCROLL_SEC_KEY, QVariant(seconds));
+}
+
+QColor CRSettings::getColor(CRSettings::Color color)
+{
+    switch (color) {
+        using enum CRSettings::Color;
+
+        case LiveStartListTitleColor:
+            if (auto value = settings.value(LS_TITLE_COLOR_KEY); value.isValid())
+                return QColor::fromString(value.toString());
+            break;
+        case LiveStartListTextColor:
+            if (auto value = settings.value(LS_TEXT_COLOR_KEY); value.isValid())
+                return QColor::fromString(value.toString());
+            break;
+        case LiveStartListBackgroundColor:
+            if (auto value = settings.value(LS_BACKGROUND_COLOR_KEY); value.isValid())
+                return QColor::fromString(value.toString());
+            break;
+        case LiveRankingsTitleColor:
+            if (auto value = settings.value(LR_TITLE_COLOR_KEY); value.isValid())
+                return QColor::fromString(value.toString());
+            break;
+        case LiveRankingsTextColor:
+            if (auto value = settings.value(LR_TEXT_COLOR_KEY); value.isValid())
+                return QColor::fromString(value.toString());
+            break;
+        case LiveRankingsBackgroundColor:
+            if (auto value = settings.value(LR_BACKGROUND_COLOR_KEY); value.isValid())
+                return QColor::fromString(value.toString());
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
+    }
+
+    return CRSettings::getDefaultColor(color);
+}
+
+QColor CRSettings::getDefaultColor(CRSettings::Color color)
+{
+    switch (color) {
+        using enum CRSettings::Color;
+
+        case LiveStartListTitleColor:
+            return QColor::fromRgb(qRgb(0xFF, 0x00, 0x00));
+        case LiveStartListTextColor:
+            return QColor::fromRgb(qRgb(0x00, 0x00, 0x00));
+        case LiveStartListBackgroundColor:
+            return QColor::fromRgb(qRgb(0xFF, 0xCC, 0x67));
+        case LiveRankingsTitleColor:
+            return QColor::fromRgb(qRgb(0xFF, 0x00, 0x00));
+        case LiveRankingsTextColor:
+            return QColor::fromRgb(qRgb(0x00, 0x00, 0x00));
+        case LiveRankingsBackgroundColor:
+            return QColor::fromRgb(qRgb(0x55, 0xAA, 0xFF));
+        default:
+            Q_UNREACHABLE();
+            break;
+    }
+}
+
+void CRSettings::setColor(CRSettings::Color color, QColor const &value)
+{
+    switch (color) {
+        using enum CRSettings::Color;
+
+        case LiveStartListTitleColor:
+            settings.setValue(LS_TITLE_COLOR_KEY, QVariant(value.name()));
+            break;
+        case LiveStartListTextColor:
+            settings.setValue(LS_TEXT_COLOR_KEY, QVariant(value.name()));
+            break;
+        case LiveStartListBackgroundColor:
+            settings.setValue(LS_BACKGROUND_COLOR_KEY, QVariant(value.name()));
+            break;
+        case LiveRankingsTitleColor:
+            settings.setValue(LR_TITLE_COLOR_KEY, QVariant(value.name()));
+            break;
+        case LiveRankingsTextColor:
+            settings.setValue(LR_TEXT_COLOR_KEY, QVariant(value.name()));
+            break;
+        case LiveRankingsBackgroundColor:
+            settings.setValue(LR_BACKGROUND_COLOR_KEY, QVariant(value.name()));
+            break;
+        default:
+            Q_UNREACHABLE();
+            break;
+    }
+}
+
+Qt::FocusPolicy CRSettings::popFocus()
+{
+    return CRSettings::focus;
+}
+
+void CRSettings::pushFocus(Qt::FocusPolicy newFocus)
+{
+    CRSettings::focus = newFocus;
 }

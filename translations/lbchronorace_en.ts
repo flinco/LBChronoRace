@@ -1323,10 +1323,6 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Select Clubs File</translation>
     </message>
     <message>
-        <source>Live Rankings</source>
-        <translation>Live Rankings</translation>
-    </message>
-    <message>
         <source>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</source>
         <translation>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</translation>
     </message>
@@ -1415,12 +1411,83 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Opening the Race Timings Recorder will create a new Live Rankings table, replacing any existing data. Do you want to proceed?</translation>
     </message>
     <message>
-        <source>Live Rankings rotation</source>
-        <translation>Live Rankings rotation</translation>
-    </message>
-    <message>
         <source>Set the interval in seconds for the automatic rotation of contents in the &quot;Live Rankings&quot; window</source>
         <translation>Set the interval in seconds for the automatic rotation of contents in the &quot;Live Rankings&quot; window</translation>
+    </message>
+    <message>
+        <source>Page Colors</source>
+        <translation>Page Colors</translation>
+    </message>
+    <message>
+        <source>Set the colors used in the Live Views</source>
+        <translation>Set the colors used in the Live Views</translation>
+    </message>
+    <message>
+        <source>Live View</source>
+        <translation>Live View</translation>
+    </message>
+    <message>
+        <source>Configure Live View</source>
+        <translation>Configure Live View</translation>
+    </message>
+    <message>
+        <source>Page Rotation Time</source>
+        <translation>Page Rotation Time</translation>
+    </message>
+</context>
+<context>
+    <name>LiveColors</name>
+    <message>
+        <source>Text</source>
+        <translation>Text</translation>
+    </message>
+    <message>
+        <source>Change</source>
+        <translation>Change</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Title</translation>
+    </message>
+    <message>
+        <source>Change Background</source>
+        <translation>Change Background</translation>
+    </message>
+    <message>
+        <source>Live Start List title color</source>
+        <translation>Live Start List title color</translation>
+    </message>
+    <message>
+        <source>Live Start List text color</source>
+        <translation>Live Start List text color</translation>
+    </message>
+    <message>
+        <source>Live Start List background color</source>
+        <translation>Live Start List background color</translation>
+    </message>
+    <message>
+        <source>Live Rankings title color</source>
+        <translation>Live Rankings title color</translation>
+    </message>
+    <message>
+        <source>Live Rankings text color</source>
+        <translation>Live Rankings text color</translation>
+    </message>
+    <message>
+        <source>Live Rankings background color</source>
+        <translation>Live Rankings background color</translation>
+    </message>
+    <message>
+        <source>Live View Colors</source>
+        <translation>Live View Colors</translation>
+    </message>
+    <message>
+        <source>Live Start List</source>
+        <translation>Live Start List</translation>
+    </message>
+    <message>
+        <source>Live Rankings</source>
+        <translation>Live Rankings</translation>
     </message>
 </context>
 <context>

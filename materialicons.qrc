@@ -68,5 +68,7 @@
         <file>icons/info.svg</file>
         <file>icons/info_i.svg</file>
         <file>icons/speed.svg</file>
+        <file>icons/palette.svg</file>
+        <file>icons/live_tv.svg</file>
     </qresource>
 </RCC>

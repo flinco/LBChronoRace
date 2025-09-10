@@ -15,54 +15,43 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef CRSETTINGS_HPP
-#define CRSETTINGS_HPP
+#ifndef LIVECOLORS_HPP
+#define LIVECOLORS_HPP
 
-#include <QCoreApplication>
-#include <QString>
-#include <QSettings>
-#include <QKeyCombination>
+#include <QDialog>
+#include <QScopedPointer>
 #include <QColor>
+#include <QAbstractButton>
 
-namespace crsettings {
-    class CRSettings;
-}
+#include "ui_livecolors.h"
 
-class CRSettings
+class LiveColors : public QDialog
 {
-    Q_DECLARE_TR_FUNCTIONS(CRSettings)
+    Q_OBJECT
 
 public:
-    enum class Color
-    {
-        LiveStartListTitleColor,
-        LiveStartListTextColor,
-        LiveStartListBackgroundColor,
-        LiveRankingsTitleColor,
-        LiveRankingsTextColor,
-        LiveRankingsBackgroundColor
-    };
+    explicit LiveColors(QWidget *parent = Q_NULLPTR);
 
-    static QString getLanguage();
-    static void setLanguage(QString const &language);
-    static QKeyCombination getTriggerKey();
-    static void setTriggerKey(QKeyCombination const &key);
-    static void readRecent(QStringList &recentRaces);
-    static void writeRecent(QStringList const &recentRaces);
-
-    static int getLiveScrollSeconds();
-    static void setLiveScrollSeconds(int seconds);
-
-    static QColor getColor(CRSettings::Color color);
-    static QColor getDefaultColor(CRSettings::Color color);
-    static void setColor(CRSettings::Color color, QColor const &value);
-
-    static Qt::FocusPolicy popFocus();
-    static void pushFocus(Qt::FocusPolicy newFocus);
+public slots:
+    void accept() override;
+    void reject() override;
+    void restore(QAbstractButton *button);
+    void show(); //NOSONAR
 
 private:
-    static Qt::FocusPolicy focus;
-    static QSettings settings;
+    QScopedPointer<Ui::LiveColors> ui { new Ui::LiveColors };
+
+    QColor liveStartListTitleColor;
+    QColor liveStartListTextColor;
+    QColor liveStartListBackgroundColor;
+    QColor liveRankingsTitleColor;
+    QColor liveRankingsTextColor;
+    QColor liveRankingsBackgroundColor;
+
+    void loadConfiguredColors();
+
+private slots:
+    void loadColor();
 };
 
-#endif // CRSETTINGS_HPP
+#endif // LIVECOLORS_HPP

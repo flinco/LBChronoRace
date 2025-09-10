@@ -19,6 +19,7 @@
 #include <QHeaderView>
 
 #include "livestartlist.hpp"
+#include "crsettings.hpp"
 
 LiveStartList::LiveStartList(QWidget *parent) : QWidget(parent, Qt::Window)
 {
@@ -238,6 +239,16 @@ void LiveStartList::resizeColumns2(int columns, int fullWidth, int availableWidt
 
 void LiveStartList::activate()
 {
+    using enum CRSettings::Color;
+
+    QString style = QStringLiteral("background-color: ") + CRSettings::getColor(LiveStartListBackgroundColor).name();
+    this->setStyleSheet(style);
+    style = QStringLiteral("font: bold; color: ") + CRSettings::getColor(LiveStartListTitleColor).name();
+    this->ui->raceTitle->setStyleSheet(style);
+    style = QStringLiteral("color: ") + CRSettings::getColor(LiveStartListTextColor).name();
+    this->ui->raceInfo->setStyleSheet(style);
+    this->ui->table->setStyleSheet(style);
+
     this->ui->retranslateUi(this);
     QWidget::show();
     resizeColumns();

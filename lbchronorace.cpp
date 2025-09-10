@@ -32,6 +32,7 @@
 #include "wizards/newracewizard.hpp"
 #include "wizards/rankingswizard.hpp"
 #include "crhelper.hpp"
+#include "crsettings.hpp"
 #include "recentraces.hpp"
 #include "languages.hpp"
 #include "triggerkeydialog.hpp"
@@ -57,7 +58,8 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     rankingCatsDelegate(&rankingsTable),
     categoryTypeDelegate(&categoriesTable),
     timingStatusDelegate(&timingsTable),
-    liveView(this, &timings)
+    liveView(this, &timings),
+    liveColors(this)
 {
     CRHelper::setParent(qobject_cast<QWidget *>(this));
 
@@ -175,6 +177,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionAddTimeSpan, &QAction::triggered, &timings, &ChronoRaceTimings::addTimeSpan);
     QObject::connect(ui->actionSubtractTimeSpan, &QAction::triggered, &timings, &ChronoRaceTimings::subtractTimeSpan);
     QObject::connect(ui->actionLiveRankingsRotation, &QAction::triggered, &liveView, &LiveView::setInterval);
+    QObject::connect(ui->actionLiveViewColors, &QAction::triggered, &liveColors, &LiveColors::show);
 
     QObject::connect(ui->liveViewSelector, &QComboBox::currentIndexChanged, this, &LBChronoRace::live);
     // NB: in case this binding is too heavy (the list is fully reloaded by the Live View every
@@ -236,7 +239,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionQuit, &QAction::triggered, this, &QApplication::quit);
 
     // Other fields
-    this->focus = this->focusPolicy();
+    CRSettings::pushFocus(this->focusPolicy());
 }
 
 void LBChronoRace::appendInfoMessage(QString const &message) const
@@ -474,7 +477,7 @@ void LBChronoRace::showTimingRecorder()
         }
     }
 
-    this->focus = this->focusPolicy();
+    CRSettings::pushFocus(this->focusPolicy());
     this->setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
     timings.show();
@@ -485,7 +488,7 @@ void LBChronoRace::hideTimingRecorder(int code)
 {
     this->liveView.toggleTimigns(code);
 
-    this->setFocusPolicy(this->focus);
+    this->setFocusPolicy(CRSettings::popFocus());
 }
 
 void LBChronoRace::initialize()

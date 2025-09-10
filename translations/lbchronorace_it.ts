@@ -1323,10 +1323,6 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Seleziona File delle Società</translation>
     </message>
     <message>
-        <source>Live Rankings</source>
-        <translation>Classifica dal vivo</translation>
-    </message>
-    <message>
         <source>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</source>
         <translation>Avviso:: Classifica dal vivo non può essere attivata sullo schermo %1 poiché largo %2px (larghezza min. necessaria 1280px)</translation>
     </message>
@@ -1415,12 +1411,83 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>L&apos;apertura del Cronometro Gara creerà una nuova Classifica dal vivo, sostituendo eventuali dati esistenti. Vuoi procedere?</translation>
     </message>
     <message>
-        <source>Live Rankings rotation</source>
-        <translation>Rotazione Classifica dal vivo</translation>
-    </message>
-    <message>
         <source>Set the interval in seconds for the automatic rotation of contents in the &quot;Live Rankings&quot; window</source>
         <translation>Imposta l’intervallo in secondi per la rotazione automatica dei contenuti nella finestra &quot;Classifica dal vivo&quot;</translation>
+    </message>
+    <message>
+        <source>Page Colors</source>
+        <translation>Colori Pagine</translation>
+    </message>
+    <message>
+        <source>Set the colors used in the Live Views</source>
+        <translation>Imposta i colori utilizzati nelle Classifiche dal vivo</translation>
+    </message>
+    <message>
+        <source>Live View</source>
+        <translation>Classifiche dal vivo</translation>
+    </message>
+    <message>
+        <source>Configure Live View</source>
+        <translation>Configura Classifiche dal vivo</translation>
+    </message>
+    <message>
+        <source>Page Rotation Time</source>
+        <translation>Tempo Rotazione Pagine</translation>
+    </message>
+</context>
+<context>
+    <name>LiveColors</name>
+    <message>
+        <source>Text</source>
+        <translation>Testo</translation>
+    </message>
+    <message>
+        <source>Change</source>
+        <translation>Modifica</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titolo</translation>
+    </message>
+    <message>
+        <source>Change Background</source>
+        <translation>Modifica Sfondo</translation>
+    </message>
+    <message>
+        <source>Live Start List title color</source>
+        <translation>Colore titolo Ordine di Partenza dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Start List text color</source>
+        <translation>Colore testo Ordine di Partenza dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Start List background color</source>
+        <translation>Colore di sfondo Ordine di Partenza dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Rankings title color</source>
+        <translation>Colore titolo Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Rankings text color</source>
+        <translation>Colore testo Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Rankings background color</source>
+        <translation>Colore di sfondo Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Live View Colors</source>
+        <translation>Colori Classifiche dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Start List</source>
+        <translation>Ordine di Partenza</translation>
+    </message>
+    <message>
+        <source>Live Rankings</source>
+        <translation>Classifica dal vivo</translation>
     </message>
 </context>
 <context>
