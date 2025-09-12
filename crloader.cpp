@@ -317,7 +317,7 @@ int CRLoader::importTeams(QString const &path, bool append)
 
     dirty = true;
 
-    rowCount = teamsListModel.rowCount() - (append ? rowCount : 0);
+    rowCount = teamsListModel.rowCount() - rowCount;
 
     return rowCount;
 }
@@ -341,7 +341,7 @@ int CRLoader::importCategories(QString const &path, bool append)
 
     dirty = true;
 
-    rowCount = categoriesModel.rowCount() - (append ? rowCount : 0);
+    rowCount = categoriesModel.rowCount() - rowCount;
 
     return rowCount;
 }
@@ -365,7 +365,7 @@ int CRLoader::importRankings(QString const &path, bool append)
 
     dirty = true;
 
-    rowCount = rankingsModel.rowCount() - (append ? rowCount : 0);
+    rowCount = rankingsModel.rowCount() - rowCount;
 
     rankingsModel.parseCategories();
 
@@ -391,7 +391,7 @@ int CRLoader::importTimings(QString const &path, bool append)
 
     dirty = true;
 
-    rowCount = timingsModel.rowCount() - (append ? rowCount : 0);
+    rowCount = timingsModel.rowCount() - rowCount;
 
     return rowCount;
 }
