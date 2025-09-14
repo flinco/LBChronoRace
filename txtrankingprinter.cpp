@@ -51,14 +51,16 @@ void TXTRankingPrinter::init(QString *outTxtFileName, QString const &title, QStr
 
 void TXTRankingPrinter::printStartList(QList<Competitor const *> const &startList)
 {
+    using enum CRLoader::MaxValue;
+
     if (!txtFile.isOpen()) {
         throw(ChronoRaceException(tr("Error: attempted to write to a closed file")));
     }
 
     QTranslator const *translator = getTranslator();
 
-    auto nWidth = CRLoader::getStartListNameWidthMax();
-    auto tWidth = CRLoader::getTeamNameWidthMax();
+    auto nWidth = CRLoader::getMaxValue(CompNameWidth);
+    auto tWidth = CRLoader::getMaxValue(ClubNameWidth);
 
     int offset;
     int i = 0;

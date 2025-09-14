@@ -68,6 +68,13 @@ public:
         END
     };
 
+    enum class MaxValue
+    {
+        Bib,
+        CompNameWidth,
+        ClubNameWidth
+    };
+
 private:
     static StartListModel              startListModel;
     static TeamsListModel              teamsListModel;
@@ -92,9 +99,7 @@ public:
     static QList<Competitor> getStartList();
     static uint getStartListLegs();
     static void setStartListLegs(uint leg);
-    static uint getStartListBibMax();
-    static uint getStartListNameWidthMax();
-    static uint getTeamNameWidthMax();
+    static uint getMaxValue(CRLoader::MaxValue field);
     static void addTiming(Action action, QString const &bib = QString(), QString const &timing = QString());
     static QList<Timing> const &getTimings();
     static int importTeams(QString const &path, bool append = false);
@@ -123,6 +128,7 @@ public:
 
 public slots:
     static void setDirty(QModelIndex const &topLeft, QModelIndex const &bottomRight, QList<int> const &roles = QList<int>());
+    static void clearTeamsList();
 };
 
 #endif // CRLOADER_HPP

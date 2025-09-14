@@ -66,6 +66,8 @@ public:
     uint getCompetitorNameWidthMax() const;
     uint getTeamNameWidthMax() const;
 
+    void scanClubs();
+
 public slots:
     void refreshCounters(int r) override;
 

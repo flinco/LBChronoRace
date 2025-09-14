@@ -230,19 +230,20 @@ void CRLoader::setStartListLegs(uint leg)
     startListModel.setLegCount(leg);
 }
 
-uint CRLoader::getStartListBibMax()
+uint CRLoader::getMaxValue(CRLoader::MaxValue field)
 {
-    return startListModel.getMaxBib();
-}
+    using enum CRLoader::MaxValue;
 
-uint CRLoader::getStartListNameWidthMax()
-{
-    return startListModel.getCompetitorNameWidthMax();
-}
-
-uint CRLoader::getTeamNameWidthMax()
-{
-    return startListModel.getTeamNameWidthMax();
+    switch (field) {
+        case Bib:
+            return startListModel.getMaxBib();
+        case CompNameWidth:
+            return startListModel.getCompetitorNameWidthMax();
+        case ClubNameWidth:
+            return startListModel.getTeamNameWidthMax();
+        default:
+            Q_UNREACHABLE();
+    }
 }
 
 void CRLoader::addTiming(Action action, QString const &bib, QString const &timing)
@@ -541,5 +542,12 @@ void CRLoader::setDirty(QModelIndex const &topLeft, QModelIndex const &bottomRig
     Q_UNUSED(bottomRight)
     Q_UNUSED(roles)
 
+    dirty = true;
+}
+
+void CRLoader::clearTeamsList()
+{
+    teamsListModel.reset();
+    startListModel.scanClubs();
     dirty = true;
 }

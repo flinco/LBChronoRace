@@ -1434,6 +1434,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Page Rotation Time</source>
         <translation>Page Rotation Time</translation>
     </message>
+    <message>
+        <source>Clear Clubs</source>
+        <translation>Clear Clubs</translation>
+    </message>
+    <message>
+        <source>Remove entries without references from the Club List</source>
+        <translation>Remove entries without references from the Club List</translation>
+    </message>
 </context>
 <context>
     <name>LiveColors</name>

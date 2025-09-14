@@ -435,6 +435,16 @@ uint StartListModel::getTeamNameWidthMax() const
     return teamNameWidthMax;
 }
 
+void StartListModel::scanClubs()
+{
+    QString club;
+    for (auto const &comp : std::as_const(startList)) {
+        club = comp.getClub();
+        if (!club.isEmpty())
+            emit newClub(club);
+    }
+}
+
 QString const *StartListModel::getClub(uint bib)
 {
     QString const *clubPtr = Q_NULLPTR;

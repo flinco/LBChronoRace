@@ -133,13 +133,15 @@ void RankingsWizard::storeErrorMessage(QString const &message)
 void RankingsWizard::printStartList()
 {
     try {
+        using enum CRLoader::MaxValue;
+
         CRLoader::Format format = CRLoader::getFormat();
 
         // this call can be done only after the rankingsBuilder.loadData() call
         QList<Competitor const *> startList = rankingsBuilder.fillStartList();
 
         auto sWidth = static_cast<uint>(QString::number(startList.size()).size());
-        auto bWidth = static_cast<uint>(QString::number(CRLoader::getStartListBibMax()).size());
+        auto bWidth = static_cast<uint>(QString::number(CRLoader::getMaxValue(Bib)).size());
 
         // get a ranking printer
         QScopedPointer<RankingPrinter> printer = RankingPrinter::getRankingPrinter(format, sWidth, bWidth);
@@ -183,9 +185,11 @@ void RankingsWizard::printStartList()
 void RankingsWizard::printRankingsSingleFile()
 {
     try {
+        using enum CRLoader::MaxValue;
+
         // this call can be done only after the rankingsBuilder.loadData() call
         auto sWidth = static_cast<uint>(QString::number(numberOfCompetitors).size());
-        auto bWidth = static_cast<uint>(QString::number(CRLoader::getStartListBibMax()).size());
+        auto bWidth = static_cast<uint>(QString::number(CRLoader::getMaxValue(Bib)).size());
 
         // get a ranking printer
         QScopedPointer<RankingPrinter> printer = RankingPrinter::getRankingPrinter(CRLoader::getFormat(), sWidth, bWidth);
@@ -244,10 +248,12 @@ void RankingsWizard::printRankingsSingleFile()
 void RankingsWizard::printRankingsMultiFile()
 {
     try {
+        using enum CRLoader::MaxValue;
+
         // this call can be done only after the rankingsBuilder.loadData() call
         auto sWidth = static_cast<uint>(QString::number(numberOfCompetitors).size());
         auto rWidth = static_cast<uint>(QString::number(rankingsList.size()).size());
-        auto bWidth = static_cast<uint>(QString::number(CRLoader::getStartListBibMax()).size());
+        auto bWidth = static_cast<uint>(QString::number(CRLoader::getMaxValue(Bib)).size());
 
         // get a ranking printer
         QScopedPointer<RankingPrinter> printer = RankingPrinter::getRankingPrinter(CRLoader::getFormat(), sWidth, bWidth);

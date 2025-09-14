@@ -70,5 +70,6 @@
         <file>icons/speed.svg</file>
         <file>icons/palette.svg</file>
         <file>icons/live_tv.svg</file>
+        <file>icons/delete_sweep.svg</file>
     </qresource>
 </RCC>

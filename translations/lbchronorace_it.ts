@@ -1434,6 +1434,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Page Rotation Time</source>
         <translation>Tempo Rotazione Pagine</translation>
     </message>
+    <message>
+        <source>Clear Clubs</source>
+        <translation>Ripulisci Società</translation>
+    </message>
+    <message>
+        <source>Remove entries without references from the Club List</source>
+        <translation>Rimuove dalla lista le Società non utilizzate</translation>
+    </message>
 </context>
 <context>
     <name>LiveColors</name>

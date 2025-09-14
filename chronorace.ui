@@ -546,6 +546,7 @@
     <addaction name="actionImportTimings"/>
     <addaction name="actionExportTimings"/>
     <addaction name="menuAdjust_Timings"/>
+    <addaction name="actionClearTeamsList"/>
     <addaction name="separator"/>
     <addaction name="actionMakeStartList"/>
     <addaction name="actionCollectTimings"/>
@@ -911,6 +912,18 @@
    </property>
    <property name="toolTip">
     <string>Set the colors used in the Live Views</string>
+   </property>
+  </action>
+  <action name="actionClearTeamsList">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/delete_sweep.svg</normaloff>:/material/icons/delete_sweep.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Clear Clubs</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove entries without references from the Club List</string>
    </property>
   </action>
  </widget>

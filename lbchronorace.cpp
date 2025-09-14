@@ -176,6 +176,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionMakeRankings, &QAction::triggered, this, &LBChronoRace::makeRankings);
     QObject::connect(ui->actionAddTimeSpan, &QAction::triggered, &timings, &ChronoRaceTimings::addTimeSpan);
     QObject::connect(ui->actionSubtractTimeSpan, &QAction::triggered, &timings, &ChronoRaceTimings::subtractTimeSpan);
+    QObject::connect(ui->actionClearTeamsList, &QAction::triggered, &CRLoader::clearTeamsList);
     QObject::connect(ui->actionLiveRankingsRotation, &QAction::triggered, &liveView, &LiveView::setInterval);
     QObject::connect(ui->actionLiveViewColors, &QAction::triggered, &liveColors, &LiveColors::show);
 
