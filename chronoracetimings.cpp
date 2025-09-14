@@ -29,8 +29,6 @@
 #include "crsettings.hpp"
 #include "lbcrexception.hpp"
 
-constexpr char DISPLAY_CHRONO_ZERO[] = "0:00:00";
-
 TimingsWorker::TimingsWorker()
 {
     QTemporaryFile outFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation) % "/lbchronorace_XXXXXX.csv");
@@ -181,7 +179,14 @@ void ChronoRaceTimings::timerEvent(QTimerEvent *event) {
     } else if (timerId == updateTimerId) {
         qint64 elapsed = (this->timerOffset + this->timer.elapsed()) / 1000;
 
-        ui->timer->display(QString("%1:%2:%3").arg(elapsed / 3600).arg((elapsed % 3600) / 60, 2, 10, QChar('0')).arg(elapsed % 60, 2, 10, QChar('0')));
+        auto displayString = QString("%1:%2:%3").arg(elapsed / 3600).arg((elapsed % 3600) / 60, 2, 10, QChar('0')).arg(elapsed % 60, 2, 10, QChar('0'));
+
+        ui->timer->display(displayString);
+
+        if (this->timerPrevious != elapsed) {
+            emit timerValue(displayString);
+            this->timerPrevious = elapsed;
+        }
     }
 }
 

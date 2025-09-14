@@ -57,7 +57,7 @@ void LiveRankings::setLiveScreen(QScreen const *screen)
     this->liveScreen = screen;
 }
 
-void LiveRankings::setHeaderData(QString const &title, QString const &place, QDate const &date, QPixmap const &leftLogo, QPixmap const &rightLogo)
+void LiveRankings::setHeaderData(QString const &title, QString const &place, QDate const &date)
 {
     if (this->liveScreen == Q_NULLPTR)
         return;
@@ -67,43 +67,11 @@ void LiveRankings::setHeaderData(QString const &title, QString const &place, QDa
     QString lrRaceDate = QLocale::system().toString(date, (this->liveScreen->availableSize().width() < 1280) ? QLocale::FormatType::ShortFormat : QLocale::FormatType::LongFormat);
     QString lrSubTitle = place % (place.isEmpty() ? "" : " - ") % lrRaceDate;
     this->ui->raceInfo->setText(lrSubTitle);
+}
 
-    int height = this->ui->titleLayout->geometry().height();
-    int width;
-    int lWidth;
-    int rWidth;
-
-    QPixmap lrLeftPixmap;
-    QPixmap lrRightPixmap;
-
-    /* Prepare left logo */
-    if (leftLogo.isNull()) {
-        lrLeftPixmap = QPixmap(height, height);
-        lrLeftPixmap.fill(Qt::transparent);
-    } else {
-        lrLeftPixmap = leftLogo.scaledToHeight(height, Qt::SmoothTransformation);
-        this->ui->leftLogo->setStyleSheet("QLabel { background-color : transparent; }");
-    }
-    lWidth = lrLeftPixmap.width();
-
-    /* Prepare right logo */
-    if (rightLogo.isNull()) {
-        lrRightPixmap = QPixmap(height, height);
-        lrRightPixmap.fill(Qt::transparent);
-    } else {
-        lrRightPixmap = rightLogo.scaledToHeight(height, Qt::SmoothTransformation);
-        ui->rightLogo->setStyleSheet("QLabel { background-color : transparent; }");
-    }
-    rWidth = lrRightPixmap.width();
-
-    /* Set labels width */
-    width = (lWidth > rWidth) ? lWidth : rWidth;
-    this->ui->leftLogo->setFixedWidth(width);
-    this->ui->rightLogo->setFixedWidth(width);
-
-    /* Set the pixmaps */
-    this->ui->leftLogo->setPixmap(lrLeftPixmap);
-    this->ui->rightLogo->setPixmap(lrRightPixmap);
+void LiveRankings::setTimerValue(QString const &value)
+{
+    this->ui->timer->display(value);
 }
 
 void LiveRankings::scrollToLastItem(QStandardItem const *item)

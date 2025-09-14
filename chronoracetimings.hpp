@@ -74,6 +74,7 @@ signals:
     void saveToDisk(QString const &);
     void info(QString const &);
     void error(QString const &);
+    void timerValue(QString const &);
 
 private:
     QScopedPointer<Ui::ChronoRaceTimings> ui { new Ui::ChronoRaceTimings };
@@ -87,6 +88,7 @@ private:
     QElapsedTimer  timer;
     qint64         timerOffset    { Q_INT64_C(0) };
     bool           timerPaused    { false };
+    qint64         timerPrevious  { Q_INT64_C(0) };
 
     QList<QString> saveToDiskQueue;
     QThread        saveToDiskThread;

@@ -33,6 +33,8 @@
 #include "competitor.hpp"
 #include "screensaver.hpp"
 
+constexpr char DISPLAY_CHRONO_ZERO[] = "0:00:00";
+
 class LiveView : public QObject
 {
     Q_OBJECT
@@ -78,6 +80,8 @@ public slots:
     void setInterval() const;
 
     void reloadStartList(QModelIndex const &topLeft, QModelIndex const &bottomRight, QList<int> const &roles = QList<int>());
+
+    void setTimerValue(QString const &value);
 
 private:
     QMultiHash<uint, Competitor> startList { };

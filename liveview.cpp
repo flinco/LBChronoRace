@@ -34,6 +34,8 @@ LiveView::LiveView(QWidget *startListParent, QWidget *rankingsParent) :
     liveStartList.reset(new LiveStartList(startListParent));
     liveRankings.reset(new LiveRankings(rankingsParent));
 
+    liveRankings->setTimerValue(DISPLAY_CHRONO_ZERO);
+
     this->setLiveMode(LiveView::LiveMode::NONE);
 }
 
@@ -680,7 +682,7 @@ void LiveView::updateHeaderData()
         case TIMEKEEPER:
             [[fallthrough]];
         case RANKINGS:
-            liveRankings->setHeaderData(title, place, date, leftLogo, rightLogo);
+            liveRankings->setHeaderData(title, place, date);
             break;
         default:
             Q_UNREACHABLE();
@@ -734,6 +736,14 @@ void LiveView::reloadStartList(QModelIndex const &topLeft, QModelIndex const &bo
     Q_UNUSED(roles)
 
     this->toggleCompetitors(0);
+}
+
+void LiveView::setTimerValue(QString const &value)
+{
+    if (this->screenSaver == Q_NULLPTR)
+        return;
+
+    this->liveRankings->setTimerValue(value);
 }
 
 void LiveView::setInterval() const

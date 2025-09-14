@@ -133,6 +133,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
 
     QObject::connect(&timings, &ChronoRaceTimings::info, this, &LBChronoRace::appendInfoMessage);
     QObject::connect(&timings, &ChronoRaceTimings::error, this, &LBChronoRace::appendErrorMessage);
+    QObject::connect(&timings, &ChronoRaceTimings::timerValue, &liveView, &LiveView::setTimerValue);
     QObject::connect(app, &QGuiApplication::screenAdded, this, &LBChronoRace::screenAdded);
     QObject::connect(app, &QGuiApplication::screenRemoved, this, &LBChronoRace::screenRemoved);
 

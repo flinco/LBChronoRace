@@ -46,7 +46,7 @@
     <number>0</number>
    </property>
    <item>
-    <layout class="QGridLayout" name="titleLayout">
+    <layout class="QGridLayout" name="titleLayout" columnstretch="2,1">
      <property name="leftMargin">
       <number>4</number>
      </property>
@@ -62,23 +62,7 @@
      <property name="spacing">
       <number>0</number>
      </property>
-     <item row="0" column="0" rowspan="2">
-      <widget class="QLabel" name="leftLogo">
-       <property name="toolTip">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string notr="true">LL</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignmentFlag::AlignCenter</set>
-       </property>
-       <property name="textInteractionFlags">
-        <set>Qt::TextInteractionFlag::NoTextInteraction</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
+     <item row="0" column="0">
       <widget class="QLabel" name="raceTitle">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -106,15 +90,12 @@
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
-       <property name="margin">
-        <number>0</number>
-       </property>
        <property name="textInteractionFlags">
         <set>Qt::TextInteractionFlag::NoTextInteraction</set>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="1" column="0">
       <widget class="QLabel" name="raceInfo">
        <property name="font">
         <font>
@@ -141,19 +122,10 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="2" rowspan="2">
-      <widget class="QLabel" name="rightLogo">
-       <property name="toolTip">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string notr="true">RL</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignmentFlag::AlignCenter</set>
-       </property>
-       <property name="textInteractionFlags">
-        <set>Qt::TextInteractionFlag::NoTextInteraction</set>
+     <item row="0" column="1" rowspan="2">
+      <widget class="QLCDNumber" name="timer">
+       <property name="digitCount">
+        <number>8</number>
        </property>
       </widget>
      </item>

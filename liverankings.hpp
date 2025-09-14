@@ -43,7 +43,8 @@ public:
     void activate();
     void resizeColumns();
 
-    void setHeaderData(QString const &title, QString const &place, QDate const &date, QPixmap const &leftLogo, QPixmap const &rightLogo);
+    void setHeaderData(QString const &title, QString const &place, QDate const &date);
+    void setTimerValue(QString const &value);
 
     void scrollToLastItem(QStandardItem const *item);
 
