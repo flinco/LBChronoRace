@@ -15,6 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+#include <QDateTime>
 #include <QLocale>
 #include <QPointF>
 #include <QFontDatabase>
@@ -62,7 +63,7 @@ void PDFRankingPrinter::init(QString *outFileName, QString const &title, QString
         return;
     }
 
-    // append the .pdf extension if missing
+    // Append the .pdf extension if missing
     checkOutFileNameExtension(*outFileName);
 
     if (writer.isNull())
@@ -76,12 +77,18 @@ void PDFRankingPrinter::init(QString *outFileName, QString const &title, QString
     //NOSONAR w->setTitle(title);
     //NOSONAR w->setCreator(LBCHRONORACE_NAME);
 
-    // append more details to the .pdf
+    // Get current time within the local time zone
+    QDateTime local = QDateTime::currentDateTime();
+
+    // Generate UUIDv5 from RFC4122 URL namespace and app site URL
+    QUuid appNamespace = QUuid::createUuidV5(QUuid("{6ba7b811-9dad-11d1-80b4-00c04fd430c8}"), QStringLiteral("http://www.buzzi.pro/lbchronorace.html").toUtf8());
+
     QString metaData = QStringLiteral(
         "<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:iX='http://ns.adobe.com/iX/1.0/'>"
         ""
         "  <rdf:Description rdf:about='' xmlns:pdf='http://ns.adobe.com/pdf/1.3/'>"
         "    <pdf:Producer>Qt %1</pdf:Producer>"
+        "    <pdf:Author>%3</pdf:Author>"
         "    <pdf:Keywords>%2</pdf:Keywords>"
         "  </rdf:Description>"
         ""
@@ -101,6 +108,11 @@ void PDFRankingPrinter::init(QString *outFileName, QString const &title, QString
         "  <rdf:Description rdf:about='' xmlns:xapMM='http://ns.adobe.com/xap/1.0/mm/'>"
         "    <xapMM:DocumentID>uuid:%5</xapMM:DocumentID>"
         "    <xapMM:InstanceID>uuid:%6</xapMM:InstanceID>"
+        "  </rdf:Description>"
+        ""
+        "  <rdf:Description rdf:about='' xmlns:xmpRights='http://ns.adobe.com/xap/1.0/rights/'>"
+        "    <xmpRights:Marked>True</xmpRights:Marked>"
+        "    <xmpRights:WebStatement>http://www.buzzi.pro/lbchronorace.html</xmpRights:WebStatement>"
         "  </rdf:Description>"
         ""
         "  <rdf:Description rdf:about='' xmlns:dc='http://purl.org/dc/elements/1.1/'>"
@@ -125,6 +137,21 @@ void PDFRankingPrinter::init(QString *outFileName, QString const &title, QString
         "        <rdf:li>%2</rdf:li>"
         "      </rdf:Bag>"
         "    </dc:subject>"
+        "    <dc:publisher>"
+        "      <rdf:Alt>"
+        "        <rdf:li xml:lang='x-default'>%3</rdf:li>"
+        "      </rdf:Alt>"
+        "    </dc:publisher>"
+        "    <dc:language>"
+        "      <rdf:Alt>"
+        "        <rdf:li xml:lang='x-default'>%9</rdf:li>"
+        "      </rdf:Alt>"
+        "    </dc:language>"
+        "    <dc:date>"
+        "      <rdf:Seq>"
+        "        <rdf:li>%4</rdf:li>"
+        "      </rdf:Seq>"
+        "    </dc:date>"
         "  </rdf:Description>"
         ""
         "  <rdf:Description rdf:about='' xmlns:pdfaid='http://www.aiim.org/pdfa/ns/id/'>"
@@ -136,11 +163,12 @@ void PDFRankingPrinter::init(QString *outFileName, QString const &title, QString
         ).arg(QT_VERSION_STR,
               translator->translate("PDFRankingPrinter", "Rankings"), // keywords (can be a comma separated)
               LBCHRONORACE_NAME,
-              QDateTime::currentDateTime().toString(Qt::ISODate),
-              QUuid::createUuid().toByteArray(QUuid::WithoutBraces),
+              local.toOffsetFromUtc(local.offsetFromUtc()).toString(Qt::ISODate),
+              QUuid::createUuidV5(appNamespace, QStringLiteral(LBCHRONORACE_NAME).toUtf8()).toByteArray(QUuid::WithoutBraces),
               QUuid::createUuid().toByteArray(QUuid::WithoutBraces),
               title,
-              subject);
+              subject,
+              translator->language().replace('_', '-'));
     w->setDocumentXmpMetadata(metaData.toUtf8());
 
     // Set global values to convert from mm to dots
