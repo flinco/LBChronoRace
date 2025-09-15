@@ -94,6 +94,8 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
     } else if (auto const keyCombination = static_cast<QKeyEvent *>(event)->keyCombination(); keyCombination == triggerKey) {
         if (updateTimerId != 0)
             recordTiming(this->timerOffset + this->timer.elapsed());
+        else
+            start();
     } else if (auto const keyModifiers = keyCombination.keyboardModifiers(); keyModifiers.testFlag(Qt::KeyboardModifier::AltModifier)) {
         if (keyCombination.key() == Qt::Key::Key_Delete) {
             deleteTiming();
