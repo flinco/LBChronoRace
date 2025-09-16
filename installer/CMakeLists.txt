@@ -34,16 +34,13 @@ find_program(WINDEPLOYQT_EXECUTABLE
     DOC "The Windows deployment tool")
 
 # Look for 'binarycreator'
-set(_QTIFW_PATHS
-  "${QTIFWDIR}" "$ENV{QTIFWDIR}" "${QTDIR}" "$ENV{QTIFWDIR}"
-  "$ENV{HOMEDRIVE}/Qt" "C:/Qt" "C:/Qt/Tools" "C:/Qt/Tools/QtInstallerFramework")
-set(_QTIFW_SUFFIXES "bin" "4.10/bin")
 find_program(QTIFW_BINARYCREATOR_EXECUTABLE
-  NAMES binarycreator
-  PATHS ${_QTIFW_PATHS}
-  PATH_SUFFIXES ${_QTIFW_SUFFIXES}
-  REQUIRED
-  DOC "Qt Installer Framework command line client")
+    NAMES binarycreator
+    HINTS "C:/Qt/Tools/QtInstallerFramework/4.10"
+    PATH_SUFFIXES "bin"
+    REQUIRED
+    DOC "Qt Installer Framework command line client")
+
 mark_as_advanced(WINDEPLOYQT_EXECUTABLE QTIFW_BINARYCREATOR_EXECUTABLE)
 
 # Convenience path variables
@@ -187,7 +184,6 @@ configure_file(
     @ONLY)
 
 set(INSTALLER_BINARY "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer${CMAKE_EXECUTABLE_SUFFIX}")
-set(LAUNCHER_OUTPUT "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer-${PROJECT_VERSION}u${PROJECT_UPDATE}${CMAKE_EXECUTABLE_SUFFIX}")
 
 # Embed the installer in the launcher executable
 set(INSTALLER_RC "${CMAKE_CURRENT_BINARY_DIR}/installer.rc")
