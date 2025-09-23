@@ -35,7 +35,7 @@ class PDFRankingPrinter final : public RankingPrinter
 public:
     explicit PDFRankingPrinter(uint indexFieldWidth, uint bibFieldWidth);
 
-    void init(QString *outFileName, QString const &title, QString const &subject) override;
+    void init(QString *outFileName, QString const &title, QString const &subject, QTranslator const *translator) override;
 
     void printStartList(QList<Competitor const *> const &startList) override;
     void printRanking(Ranking const &categories, QList<ClassEntry const *> const &ranking) override;

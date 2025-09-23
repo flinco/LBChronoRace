@@ -21,23 +21,28 @@
 #include "lbcrexception.hpp"
 #include "crhelper.hpp"
 
-void CSVRankingPrinter::init(QString *outFileName, QString const &title, QString const &subject)
+void CSVRankingPrinter::init(QString *outCSVFileName, QString const &title, QString const &subject, QTranslator const *translator)
 {
     Q_ASSERT(!csvFile.isOpen());
 
     Q_UNUSED(title)
     Q_UNUSED(subject)
 
-    if (outFileName == Q_NULLPTR) {
+    if (translator == Q_NULLPTR) {
+        throw(ChronoRaceException(tr("Error: no translator provided")));
+    }
+    setTranslator(translator);
+
+    if (outCSVFileName == Q_NULLPTR) {
         throw(ChronoRaceException(tr("Error: no file name provided")));
     }
 
     // append the .csv extension if missing
-    checkOutFileNameExtension(*outFileName);
+    checkOutFileNameExtension(*outCSVFileName);
 
-    csvFile.setFileName(*outFileName);
+    csvFile.setFileName(*outCSVFileName);
     if (!csvFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        throw(ChronoRaceException(tr("Error: unable to open %1").arg(*outFileName)));
+        throw(ChronoRaceException(tr("Error: unable to open %1").arg(*outCSVFileName)));
     }
     csvStream.setDevice(&csvFile);
     csvStream.setEncoding(CRLoader::getEncoding());

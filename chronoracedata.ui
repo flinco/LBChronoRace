@@ -349,7 +349,7 @@
      </property>
     </widget>
    </item>
-   <item row="16" column="0" colspan="8">
+   <item row="16" column="3" colspan="5">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
@@ -751,6 +751,32 @@
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
+    </widget>
+   </item>
+   <item row="16" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>Rankings language</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="1" colspan="2">
+    <widget class="QComboBox" name="language">
+     <property name="toolTip">
+      <string>Set the output language for rankings</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Default</string>
+      </property>
+      <property name="icon">
+       <iconset resource="materialicons.qrc">
+        <normaloff>:/material/icons/language.svg</normaloff>:/material/icons/language.svg</iconset>
+      </property>
+     </item>
     </widget>
    </item>
   </layout>

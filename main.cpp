@@ -16,9 +16,9 @@
  *****************************************************************************/
 
 #include "lbchronorace.hpp"
-#include <QApplication>
+#include "languages.hpp"
+
 #include <QTranslator>
-#include <QLocale>
 #include <QFontDatabase>
 #include <QWindow>
 #include <QIcon>
@@ -37,23 +37,12 @@ int main(int argc, char *argv[])
     splash.setWindowFlag(Qt::WindowStaysOnTopHint, true);
     splash.show();
 
-    splash.showMessage("Loading tranlations…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
+    splash.showMessage("Loading translations…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
 
-    QLocale lbcrLocale;
     QTranslator qtTranslator;
     QTranslator qtbaseTranslator;
     QTranslator lbcrTranslator;
-
-    QString translationsDir = QCoreApplication::applicationDirPath() + QDir::separator() + QStringLiteral("translations");
-
-    if (qtTranslator.load(lbcrLocale, QStringLiteral("qt"), QStringLiteral("_"), translationsDir))
-        QApplication::installTranslator(&qtTranslator);
-
-    if (qtbaseTranslator.load(lbcrLocale, QStringLiteral("qtbase"), QStringLiteral("_"), translationsDir))
-        QApplication::installTranslator(&qtbaseTranslator);
-
-    if (lbcrTranslator.load(lbcrLocale, QStringLiteral("lbchronorace"), QStringLiteral("_"), QStringLiteral(":/i18n")))
-        QApplication::installTranslator(&lbcrTranslator);
+    Languages::loadStoredLanguage(&qtTranslator, &qtbaseTranslator, &lbcrTranslator);
 
     splash.showMessage("Loading styles…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
 #ifdef Q_OS_WIN

@@ -22,6 +22,7 @@
 #include <QString>
 #include <QStringConverter>
 #include <QList>
+#include <QVariantList>
 #include <QDataStream>
 
 #include "timing.hpp"
@@ -67,15 +68,24 @@ public:
         END
     };
 
+    enum class MaxValue
+    {
+        Bib,
+        CompNameWidth,
+        ClubNameWidth
+    };
+
 private:
     static StartListModel              startListModel;
     static TeamsListModel              teamsListModel;
     static TimingsModel                timingsModel;
     static RankingsModel               rankingsModel;
     static CategoriesModel             categoriesModel;
-    static QList<QVariant>             standardItemList;
+    static QVariantList                standardItemList;
     static QStringConverter::Encoding  encoding;
     static Format                      format;
+
+    static bool dirty;
 
     static void loadCSV(QString const &filePath, QAbstractTableModel *model);
     static void saveCSV(QString const &filePath, QAbstractTableModel const *model);
@@ -89,9 +99,7 @@ public:
     static QList<Competitor> getStartList();
     static uint getStartListLegs();
     static void setStartListLegs(uint leg);
-    static uint getStartListBibMax();
-    static uint getStartListNameWidthMax();
-    static uint getTeamNameWidthMax();
+    static uint getMaxValue(CRLoader::MaxValue field);
     static void addTiming(Action action, QString const &bib = QString(), QString const &timing = QString());
     static QList<Timing> const &getTimings();
     static int importTeams(QString const &path, bool append = false);
@@ -112,6 +120,15 @@ public:
     static void setFormat(Format const &value);
 
     static QStringList getClubs();
+
+    static QString encodingSelector(int idx);
+    static QString formatSelector(int idx);
+
+    static bool isDirty();
+
+public slots:
+    static void setDirty(QModelIndex const &topLeft, QModelIndex const &bottomRight, QList<int> const &roles = QList<int>());
+    static void clearTeamsList();
 };
 
 #endif // CRLOADER_HPP

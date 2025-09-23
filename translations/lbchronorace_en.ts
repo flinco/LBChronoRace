@@ -162,6 +162,18 @@
         <source>Unexpected action value: %1 (add timing)</source>
         <translation>Unexpected action value: %1 (add timing)</translation>
     </message>
+    <message>
+        <source>Unknown encoding %1; loaded default</source>
+        <translation>Unknown encoding %1; loaded default</translation>
+    </message>
+    <message>
+        <source>Selected encoding: %1</source>
+        <translation>Selected encoding: %1</translation>
+    </message>
+    <message>
+        <source>Selected format: %1</source>
+        <translation>Selected format: %1</translation>
+    </message>
 </context>
 <context>
     <name>CSVRankingPrinter</name>
@@ -180,6 +192,10 @@
     <message>
         <source>Error: attempted to write to a closed file</source>
         <translation>Error: attempted to write to a closed file</translation>
+    </message>
+    <message>
+        <source>Error: no translator provided</source>
+        <translation>Error: no translator provided</translation>
     </message>
 </context>
 <context>
@@ -558,6 +574,26 @@
         <source>Error: logo field to be set unknown</source>
         <translation>Error: logo field to be set unknown</translation>
     </message>
+    <message>
+        <source>Error: unknown index field</source>
+        <translation>Error: unknown index field</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Default</translation>
+    </message>
+    <message>
+        <source>Error: language code %1 not supported</source>
+        <translation>Error: language code %1 not supported</translation>
+    </message>
+    <message>
+        <source>Rankings language</source>
+        <translation>Rankings language</translation>
+    </message>
+    <message>
+        <source>Set the output language for rankings</source>
+        <translation>Set the output language for rankings</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTable</name>
@@ -748,28 +784,39 @@ Continue?</translation>
         <source>Time interval to subtract</source>
         <translation>Time interval to subtract</translation>
     </message>
-    <message numerus="yes">
-        <source>%n second(s) will be added to all the recorded timings.
+    <message>
+        <source>%1 s and %2 ms will be added to all the recorded timings.
 Are you sure you want to continue?</source>
-        <translation>
-            <numerusform>%n second will be added to all the recorded timings.
-Are you sure you want to continue?</numerusform>
-            <numerusform>%n seconds will be added to all the recorded timings.
-Are you sure you want to continue?</numerusform>
-        </translation>
+        <translation>%1 s and %2 ms will be added to all the recorded timings.
+Are you sure you want to continue?</translation>
     </message>
-    <message numerus="yes">
-        <source>%n second(s) will be subtracted from all the recorded timings.
+    <message>
+        <source>%1 s and %2 ms will be subtracted from all the recorded timings.
 Timings resulting below 0 will be set to 0:00:00.000.
 Are you sure you want to continue?</source>
-        <translation>
-            <numerusform>%n second will be subtracted from all the recorded timings.
+        <translation>%1 s and %2 ms will be subtracted from all the recorded timings.
 Timings resulting below 0 will be set to 0:00:00.000.
-Are you sure you want to continue?</numerusform>
-            <numerusform>%n seconds will be subtracted from all the recorded timings.
-Timings resulting below 0 will be set to 0:00:00.000.
-Are you sure you want to continue?</numerusform>
-        </translation>
+Are you sure you want to continue?</translation>
+    </message>
+    <message>
+        <source>RESUME</source>
+        <translation>RESUME</translation>
+    </message>
+    <message>
+        <source>Stopwatch: resumed after %1:%2:%3.%4</source>
+        <translation>Stopwatch: resumed after %1:%2:%3.%4</translation>
+    </message>
+    <message>
+        <source>Stopwatch: paused at %1:%2:%3.%4</source>
+        <translation>Stopwatch: paused at %1:%2:%3.%4</translation>
+    </message>
+    <message>
+        <source>Stopwatch: started</source>
+        <translation>Stopwatch: started</translation>
+    </message>
+    <message>
+        <source>Stopwatch: reset</source>
+        <translation>Stopwatch: reset</translation>
     </message>
 </context>
 <context>
@@ -1058,14 +1105,6 @@ Are you sure you want to continue?</numerusform>
         <translation>Race saved: %1</translation>
     </message>
     <message>
-        <source>Selected encoding: %1</source>
-        <translation>Selected encoding: %1</translation>
-    </message>
-    <message>
-        <source>Selected format: %1</source>
-        <translation>Selected format: %1</translation>
-    </message>
-    <message>
         <source>Edit race information, including logos</source>
         <translation>Edit race information, including logos</translation>
     </message>
@@ -1225,10 +1264,6 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Unknown encoding %1; default saved</translation>
     </message>
     <message>
-        <source>Unknown encoding %1; loaded default</source>
-        <translation>Unknown encoding %1; loaded default</translation>
-    </message>
-    <message>
         <source>Add time span</source>
         <translation>Add time span</translation>
     </message>
@@ -1288,14 +1323,6 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Select Clubs File</translation>
     </message>
     <message>
-        <source>Live Rankings</source>
-        <translation>Live Rankings</translation>
-    </message>
-    <message>
-        <source>Notice:: enter competitors to use the Live Rankings</source>
-        <translation>Notice:: enter competitors to use the Live Rankings</translation>
-    </message>
-    <message>
         <source>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</source>
         <translation>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</translation>
     </message>
@@ -1335,18 +1362,153 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Error: table to export is unknown</source>
         <translation>Error: table to export is unknown</translation>
     </message>
+    <message>
+        <source>Change application language</source>
+        <translation>Change application language</translation>
+    </message>
+    <message>
+        <source>Set Language</source>
+        <translation>Set Language</translation>
+    </message>
+    <message>
+        <source>English</source>
+        <translation>English</translation>
+    </message>
+    <message>
+        <source>Italian</source>
+        <translation>Italian</translation>
+    </message>
+    <message>
+        <source>Add or subtract an arbitrary amount of time to all the recorded timings</source>
+        <translation>Add or subtract an arbitrary amount of time to all the recorded timings</translation>
+    </message>
+    <message>
+        <source>Adjust Timings</source>
+        <translation>Adjust Timings</translation>
+    </message>
+    <message>
+        <source>Configure Trigger</source>
+        <translation>Configure Trigger</translation>
+    </message>
+    <message>
+        <source>Detect and store the external hardware trigger key</source>
+        <translation>Detect and store the external hardware trigger key</translation>
+    </message>
+    <message>
+        <source>Unsaved Changes</source>
+        <translation>Unsaved Changes</translation>
+    </message>
+    <message>
+        <source>You have unsaved changes. Do you want to save them?</source>
+        <translation>You have unsaved changes. Do you want to save them?</translation>
+    </message>
+    <message>
+        <source>Opening Race Timings Recorder</source>
+        <translation>Opening Race Timings Recorder</translation>
+    </message>
+    <message>
+        <source>Opening the Race Timings Recorder will create a new Live Rankings table, replacing any existing data. Do you want to proceed?</source>
+        <translation>Opening the Race Timings Recorder will create a new Live Rankings table, replacing any existing data. Do you want to proceed?</translation>
+    </message>
+    <message>
+        <source>Set the interval in seconds for the automatic rotation of contents in the &quot;Live Rankings&quot; window</source>
+        <translation>Set the interval in seconds for the automatic rotation of contents in the &quot;Live Rankings&quot; window</translation>
+    </message>
+    <message>
+        <source>Page Colors</source>
+        <translation>Page Colors</translation>
+    </message>
+    <message>
+        <source>Set the colors used in the Live Views</source>
+        <translation>Set the colors used in the Live Views</translation>
+    </message>
+    <message>
+        <source>Live View</source>
+        <translation>Live View</translation>
+    </message>
+    <message>
+        <source>Configure Live View</source>
+        <translation>Configure Live View</translation>
+    </message>
+    <message>
+        <source>Page Rotation Time</source>
+        <translation>Page Rotation Time</translation>
+    </message>
+    <message>
+        <source>Clear Clubs</source>
+        <translation>Clear Clubs</translation>
+    </message>
+    <message>
+        <source>Remove entries without references from the Club List</source>
+        <translation>Remove entries without references from the Club List</translation>
+    </message>
 </context>
 <context>
-    <name>LiveTable</name>
+    <name>LiveColors</name>
+    <message>
+        <source>Text</source>
+        <translation>Text</translation>
+    </message>
+    <message>
+        <source>Change</source>
+        <translation>Change</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Title</translation>
+    </message>
+    <message>
+        <source>Change Background</source>
+        <translation>Change Background</translation>
+    </message>
+    <message>
+        <source>Live Start List title color</source>
+        <translation>Live Start List title color</translation>
+    </message>
+    <message>
+        <source>Live Start List text color</source>
+        <translation>Live Start List text color</translation>
+    </message>
+    <message>
+        <source>Live Start List background color</source>
+        <translation>Live Start List background color</translation>
+    </message>
+    <message>
+        <source>Live Rankings title color</source>
+        <translation>Live Rankings title color</translation>
+    </message>
+    <message>
+        <source>Live Rankings text color</source>
+        <translation>Live Rankings text color</translation>
+    </message>
+    <message>
+        <source>Live Rankings background color</source>
+        <translation>Live Rankings background color</translation>
+    </message>
+    <message>
+        <source>Live View Colors</source>
+        <translation>Live View Colors</translation>
+    </message>
+    <message>
+        <source>Live Start List</source>
+        <translation>Live Start List</translation>
+    </message>
+    <message>
+        <source>Live Rankings</source>
+        <translation>Live Rankings</translation>
+    </message>
+</context>
+<context>
+    <name>LiveRankings</name>
     <message>
         <source>Bib</source>
         <comment>long</comment>
         <translation>Bib</translation>
     </message>
     <message>
-        <source>Bib</source>
-        <comment>short</comment>
-        <translation>Bib</translation>
+        <source>Timing</source>
+        <comment>long</comment>
+        <translation>Timing</translation>
     </message>
     <message>
         <source>Competitor</source>
@@ -1354,35 +1516,13 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Competitor</translation>
     </message>
     <message>
-        <source>Timing</source>
-        <comment>long</comment>
-        <translation>Timing</translation>
-    </message>
-    <message>
-        <source>Timing</source>
+        <source>Bib</source>
         <comment>short</comment>
-        <translation>Timing</translation>
-    </message>
-    <message>
-        <source>The Race</source>
-        <translation>The Race</translation>
-    </message>
-    <message>
-        <source>LBChronoRace</source>
-        <translation>LBChronoRace</translation>
-    </message>
-    <message>
-        <source>Enter competitors to use the Live Rankings</source>
-        <translation>Enter competitors to use the Live Rankings</translation>
+        <translation>Bib</translation>
     </message>
     <message>
         <source>Competitor %1</source>
         <comment>short</comment>
-        <translation>Competitor %1</translation>
-    </message>
-    <message>
-        <source>Competitor %1</source>
-        <comment>long</comment>
         <translation>Competitor %1</translation>
     </message>
     <message>
@@ -1391,13 +1531,88 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>T %1</translation>
     </message>
     <message>
+        <source>Timing</source>
+        <comment>short</comment>
+        <translation>Timing</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>long</comment>
+        <translation>Competitor %1</translation>
+    </message>
+    <message>
         <source>Timing %1</source>
         <comment>long</comment>
         <translation>Timing %1</translation>
     </message>
+</context>
+<context>
+    <name>LiveStartList</name>
     <message>
-        <source>No screen available for the Live Rankings</source>
-        <translation>No screen available for the Live Rankings</translation>
+        <source>Bib</source>
+        <comment>long</comment>
+        <translation>Bib</translation>
+    </message>
+    <message>
+        <source>Competitor</source>
+        <comment>long</comment>
+        <translation>Competitor</translation>
+    </message>
+    <message>
+        <source>Bib</source>
+        <comment>short</comment>
+        <translation>Bib</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>short</comment>
+        <translation>Competitor %1</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>long</comment>
+        <translation>Competitor %1</translation>
+    </message>
+    <message>
+        <source>Start Time</source>
+        <comment>long</comment>
+        <translation>Start Time</translation>
+    </message>
+    <message>
+        <source>Start Time</source>
+        <comment>short</comment>
+        <translation>Start Time</translation>
+    </message>
+    <message>
+        <source>Sex</source>
+        <comment>long</comment>
+        <translation>Sex</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <comment>long</comment>
+        <translation>Year</translation>
+    </message>
+    <message>
+        <source>Sex</source>
+        <comment>short</comment>
+        <translation>Sex</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <comment>short</comment>
+        <translation>Year</translation>
+    </message>
+</context>
+<context>
+    <name>LiveView</name>
+    <message>
+        <source>Live Rankings</source>
+        <translation>Live Rankings</translation>
+    </message>
+    <message>
+        <source>Rotation interval (sec):</source>
+        <translation>Rotation interval (sec):</translation>
     </message>
 </context>
 <context>
@@ -1795,12 +2010,9 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <comment>long label</comment>
         <translation>Leg</translation>
     </message>
-    <message numerus="yes">
-        <source>Leg %n</source>
-        <translation>
-            <numerusform>Leg %n</numerusform>
-            <numerusform>Leg %n</numerusform>
-        </translation>
+    <message>
+        <source>Leg %1</source>
+        <translation>Leg %1</translation>
     </message>
     <message>
         <source>Time</source>
@@ -1819,19 +2031,9 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <source>Leg Time (and position)</source>
         <translation>Leg Time (and position)</translation>
     </message>
-    <message numerus="yes">
-        <source>Page %n</source>
-        <translation>
-            <numerusform>Page %n</numerusform>
-            <numerusform>Page %n</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>of %n</source>
-        <translation>
-            <numerusform>of %n</numerusform>
-            <numerusform>of %n</numerusform>
-        </translation>
+    <message>
+        <source>Page %1 of %2</source>
+        <translation>Page %1 of %2</translation>
     </message>
     <message>
         <source>Organization</source>
@@ -1896,6 +2098,10 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Rankings</source>
         <translation>Rankings</translation>
+    </message>
+    <message>
+        <source>Error: no translator provided</source>
+        <translation>Error: no translator provided</translation>
     </message>
 </context>
 <context>
@@ -2127,6 +2333,14 @@ publishing</source>
         <translation>Open file after
 publishing</translation>
     </message>
+    <message>
+        <source>Default</source>
+        <translation>Default</translation>
+    </message>
+    <message>
+        <source>Rankings language</source>
+        <translation>Rankings language</translation>
+    </message>
 </context>
 <context>
     <name>RankingsWizardMode</name>
@@ -2156,6 +2370,10 @@ publishing</translation>
     <message>
         <source>You can exclude some of the generated rankings.</source>
         <translation>You can exclude some of the generated rankings.</translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation>Results</translation>
     </message>
 </context>
 <context>
@@ -2242,12 +2460,9 @@ publishing</translation>
         <source>Start List</source>
         <translation>Start List</translation>
     </message>
-    <message numerus="yes">
-        <source>Leg %n</source>
-        <translation>
-            <numerusform>Leg %n</numerusform>
-            <numerusform>Leg %n</numerusform>
-        </translation>
+    <message>
+        <source>Leg %1</source>
+        <translation>Leg %1</translation>
     </message>
     <message>
         <source>Error: unable to open %1</source>
@@ -2260,6 +2475,10 @@ publishing</translation>
     <message>
         <source>Error: attempted to write to a closed file</source>
         <translation>Error: attempted to write to a closed file</translation>
+    </message>
+    <message>
+        <source>Error: no translator provided</source>
+        <translation>Error: no translator provided</translation>
     </message>
 </context>
 <context>
@@ -2350,6 +2569,35 @@ publishing</translation>
     <message>
         <source>Error: unable to open %1</source>
         <translation>Error: unable to open %1</translation>
+    </message>
+</context>
+<context>
+    <name>TriggerKeyDialog</name>
+    <message>
+        <source>External hardware trigger key detection</source>
+        <translation>External hardware trigger key detection</translation>
+    </message>
+    <message>
+        <source>Press the key on your trigger device…</source>
+        <translation>Press the key on your trigger device…</translation>
+    </message>
+    <message>
+        <source>This trigger key is not allowed.
+Reconfigure the trigger device and try again.</source>
+        <translation>This trigger key is not allowed.
+Reconfigure the trigger device and try again.</translation>
+    </message>
+    <message>
+        <source>Repeat the trigger key to confirm.</source>
+        <translation>Repeat the trigger key to confirm.</translation>
+    </message>
+    <message>
+        <source>The trigger key has been set to 0x%1.</source>
+        <translation>The trigger key has been set to 0x%1.</translation>
+    </message>
+    <message>
+        <source>Trigger keys do not match. Try again.</source>
+        <translation>Trigger keys do not match. Try again.</translation>
     </message>
 </context>
 </TS>

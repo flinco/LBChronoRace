@@ -44,6 +44,8 @@ public:
         return data.slmDeserialize(in);
     }
 
+    void resizeHeaders(QTableView *table) final;
+
     int columnCount(QModelIndex const &parent = QModelIndex()) const override;
     int rowCount(QModelIndex const &parent = QModelIndex()) const override;
     bool setData(QModelIndex const &index, QVariant const &value, int role = Qt::EditRole) override;
@@ -63,6 +65,8 @@ public:
     uint getMaxBib() const;
     uint getCompetitorNameWidthMax() const;
     uint getTeamNameWidthMax() const;
+
+    void scanClubs();
 
 public slots:
     void refreshCounters(int r) override;

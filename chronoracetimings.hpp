@@ -24,8 +24,9 @@
 #include <QThread>
 #include <QGuiApplication>
 #include <QRegularExpression>
+#include <QKeyCombination>
 
-#include "livetable.hpp"
+#include "liveview.hpp"
 
 #include "ui_chronoracetimings.h"
 
@@ -52,7 +53,7 @@ class ChronoRaceTimings : public QDialog
 public:
     explicit ChronoRaceTimings(QWidget *parent = Q_NULLPTR);
 
-    void setLiveTable(LiveTable *newLiveTable);
+    void setLiveTables(LiveView *liveView);
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -73,23 +74,29 @@ signals:
     void saveToDisk(QString const &);
     void info(QString const &);
     void error(QString const &);
+    void timerValue(QString const &);
 
 private:
     QScopedPointer<Ui::ChronoRaceTimings> ui { new Ui::ChronoRaceTimings };
 
-    LiveTable *liveTable { Q_NULLPTR };
+    LiveView *liveTables { Q_NULLPTR };
 
     int            timingRowCount { 0 };
 
     int            updateTimerId  { 0 };
     int            backupTimerId  { 0 };
     QElapsedTimer  timer;
+    qint64         timerOffset    { Q_INT64_C(0) };
+    bool           timerPaused    { false };
+    qint64         timerPrevious  { Q_INT64_C(0) };
 
     QList<QString> saveToDiskQueue;
     QThread        saveToDiskThread;
     TimingsWorker  saveToDiskWorker;
 
     QTableWidgetItem *currentBibItem { Q_NULLPTR };
+
+    QKeyCombination triggerKey { Qt::KeyboardModifier::NoModifier, Qt::Key::Key_unknown };
 
     void updateCurrentBibItem(QTableWidgetItem *newBibItem);
 
@@ -104,8 +111,8 @@ private:
 
     bool enterPressed();
     bool digitPressed(QString const &key);
-    bool upPressed();
-    bool downPressed();
+
+    void clear();
 
 private slots:
     void start();

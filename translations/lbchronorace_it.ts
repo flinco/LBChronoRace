@@ -162,6 +162,18 @@
         <source>Unexpected action value: %1 (add timing)</source>
         <translation>Valore dell&apos;azione inatteso: %1 (aggiunta tempo)</translation>
     </message>
+    <message>
+        <source>Unknown encoding %1; loaded default</source>
+        <translation>Codifica sconosciuta %1; caricata quella predefinita</translation>
+    </message>
+    <message>
+        <source>Selected encoding: %1</source>
+        <translation>Codifica selezionata: %1</translation>
+    </message>
+    <message>
+        <source>Selected format: %1</source>
+        <translation>Formato selezionato: %1</translation>
+    </message>
 </context>
 <context>
     <name>CSVRankingPrinter</name>
@@ -180,6 +192,10 @@
     <message>
         <source>Error: attempted to write to a closed file</source>
         <translation>Errore: tentativo di scrittura su un file chiuso</translation>
+    </message>
+    <message>
+        <source>Error: no translator provided</source>
+        <translation>Errore: nessun traduttore specificato</translation>
     </message>
 </context>
 <context>
@@ -558,6 +574,26 @@
         <source>Error: logo field to be set unknown</source>
         <translation>Errore: campo di tipo logo sconosciuto</translation>
     </message>
+    <message>
+        <source>Error: unknown index field</source>
+        <translation>Errore: campo di tipo indice sconosciuto</translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation>Predefinita</translation>
+    </message>
+    <message>
+        <source>Error: language code %1 not supported</source>
+        <translation>Errore: codice lingua %1 non supportato</translation>
+    </message>
+    <message>
+        <source>Rankings language</source>
+        <translation>Lingua classifiche</translation>
+    </message>
+    <message>
+        <source>Set the output language for rankings</source>
+        <translation>Imposta la lingua in cui saranno stilate le classifiche</translation>
+    </message>
 </context>
 <context>
     <name>ChronoRaceTable</name>
@@ -748,28 +784,39 @@ Continuare?</translation>
         <source>Time interval to subtract</source>
         <translation>Quantità di tempo da sottrarre</translation>
     </message>
-    <message numerus="yes">
-        <source>%n second(s) will be added to all the recorded timings.
+    <message>
+        <source>%1 s and %2 ms will be added to all the recorded timings.
 Are you sure you want to continue?</source>
-        <translation>
-            <numerusform>%n secondo sarà aggiunto a tutti i tempi registrati.
-Sei sicuro di voler continuare?</numerusform>
-            <numerusform>%n secondi saranno aggiunti a tutti i tempi registrati.
-Sei sicuro di voler continuare?</numerusform>
-        </translation>
+        <translation>%1 s e %2 ms saranno aggiunti a tutti i tempi registrati.
+Sei sicuro di voler continuare?</translation>
     </message>
-    <message numerus="yes">
-        <source>%n second(s) will be subtracted from all the recorded timings.
+    <message>
+        <source>%1 s and %2 ms will be subtracted from all the recorded timings.
 Timings resulting below 0 will be set to 0:00:00.000.
 Are you sure you want to continue?</source>
-        <translation>
-            <numerusform>%n secondo sarà sottratto da tutti i tempi registrati.
+        <translation>%1 s e %2 ms saranno sottratti da tutti i tempi registrati.
 Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.000.
-Sei sicuro di voler continuare?</numerusform>
-            <numerusform>%n secondi saranno sottratti da tutti i tempi registrati.
-Eventuali risultati negativi saranno automaticamente impostati a 0:00:00.000.
-Sei sicuro di voler continuare?</numerusform>
-        </translation>
+Sei sicuro di voler continuare?</translation>
+    </message>
+    <message>
+        <source>RESUME</source>
+        <translation>RIPRENDI</translation>
+    </message>
+    <message>
+        <source>Stopwatch: resumed after %1:%2:%3.%4</source>
+        <translation>Cronometro: ripreso dopo %1:%2:%3.%4</translation>
+    </message>
+    <message>
+        <source>Stopwatch: paused at %1:%2:%3.%4</source>
+        <translation>Cronometro: in pausa a %1:%2:%3.%4</translation>
+    </message>
+    <message>
+        <source>Stopwatch: started</source>
+        <translation>Cronometro: avviato</translation>
+    </message>
+    <message>
+        <source>Stopwatch: reset</source>
+        <translation>Cronometro: azzerato</translation>
     </message>
 </context>
 <context>
@@ -1058,14 +1105,6 @@ Sei sicuro di voler continuare?</numerusform>
         <translation>Gara salvata: %1</translation>
     </message>
     <message>
-        <source>Selected encoding: %1</source>
-        <translation>Codifica selezionata: %1</translation>
-    </message>
-    <message>
-        <source>Selected format: %1</source>
-        <translation>Formato selezionato: %1</translation>
-    </message>
-    <message>
         <source>Edit race information, including logos</source>
         <translation>Modifica le informazioni della gara, inclusi i loghi</translation>
     </message>
@@ -1200,7 +1239,7 @@ Sei sicuro di voler continuare?</numerusform>
         <source>Data format %1 not supported.
 Please update the application.</source>
         <translation>Formato dati %1 non supportato.
-Aggiorna l&amp;apos;applicazione.</translation>
+Aggiorna l&apos;applicazione.</translation>
     </message>
     <message>
         <source>Unexpected encoding value (fall back to the default)</source>
@@ -1223,10 +1262,6 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Unknown encoding %1; default saved</source>
         <translation>Codifica sconosciuta %1; salvata quella predefinita</translation>
-    </message>
-    <message>
-        <source>Unknown encoding %1; loaded default</source>
-        <translation>Codifica sconosciuta %1; caricata quella predefinita</translation>
     </message>
     <message>
         <source>Add time span</source>
@@ -1288,14 +1323,6 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Seleziona File delle Società</translation>
     </message>
     <message>
-        <source>Live Rankings</source>
-        <translation>Classifica dal vivo</translation>
-    </message>
-    <message>
-        <source>Notice:: enter competitors to use the Live Rankings</source>
-        <translation>Avviso:: per utilizzare la &apos;Classifica dal vivo&apos; inserire i concorrenti</translation>
-    </message>
-    <message>
         <source>Notice:: Live Rankings cannot be activated on screen %1 since %2px wide (min. required width 1280px)</source>
         <translation>Avviso:: Classifica dal vivo non può essere attivata sullo schermo %1 poiché largo %2px (larghezza min. necessaria 1280px)</translation>
     </message>
@@ -1335,18 +1362,153 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Error: table to export is unknown</source>
         <translation>Errore: tabella da esportare sconosciuta</translation>
     </message>
+    <message>
+        <source>Change application language</source>
+        <translation>Cambia lingua applicazione</translation>
+    </message>
+    <message>
+        <source>Set Language</source>
+        <translation>Cambia lingua</translation>
+    </message>
+    <message>
+        <source>English</source>
+        <translation>Inglese</translation>
+    </message>
+    <message>
+        <source>Italian</source>
+        <translation>Italiano</translation>
+    </message>
+    <message>
+        <source>Add or subtract an arbitrary amount of time to all the recorded timings</source>
+        <translation>Aggiungi o sottrai una quantità arbitraria di tempo da tutti i tempi registrati</translation>
+    </message>
+    <message>
+        <source>Adjust Timings</source>
+        <translation>Aggiusta Tempi</translation>
+    </message>
+    <message>
+        <source>Configure Trigger</source>
+        <translation>Configura Grilletto</translation>
+    </message>
+    <message>
+        <source>Detect and store the external hardware trigger key</source>
+        <translation>Rileva e memorizza il tasto del grilletto hardware esterno</translation>
+    </message>
+    <message>
+        <source>Unsaved Changes</source>
+        <translation>Modifiche non salvate</translation>
+    </message>
+    <message>
+        <source>You have unsaved changes. Do you want to save them?</source>
+        <translation>Sono presenti modifiche non salvate. Le vuoi salvare?</translation>
+    </message>
+    <message>
+        <source>Opening Race Timings Recorder</source>
+        <translation>Apertura Cronometro Gara</translation>
+    </message>
+    <message>
+        <source>Opening the Race Timings Recorder will create a new Live Rankings table, replacing any existing data. Do you want to proceed?</source>
+        <translation>L&apos;apertura del Cronometro Gara creerà una nuova Classifica dal vivo, sostituendo eventuali dati esistenti. Vuoi procedere?</translation>
+    </message>
+    <message>
+        <source>Set the interval in seconds for the automatic rotation of contents in the &quot;Live Rankings&quot; window</source>
+        <translation>Imposta l’intervallo in secondi per la rotazione automatica dei contenuti nella finestra &quot;Classifica dal vivo&quot;</translation>
+    </message>
+    <message>
+        <source>Page Colors</source>
+        <translation>Colori Pagine</translation>
+    </message>
+    <message>
+        <source>Set the colors used in the Live Views</source>
+        <translation>Imposta i colori utilizzati nelle Classifiche dal vivo</translation>
+    </message>
+    <message>
+        <source>Live View</source>
+        <translation>Classifiche dal vivo</translation>
+    </message>
+    <message>
+        <source>Configure Live View</source>
+        <translation>Configura Classifiche dal vivo</translation>
+    </message>
+    <message>
+        <source>Page Rotation Time</source>
+        <translation>Tempo Rotazione Pagine</translation>
+    </message>
+    <message>
+        <source>Clear Clubs</source>
+        <translation>Ripulisci Società</translation>
+    </message>
+    <message>
+        <source>Remove entries without references from the Club List</source>
+        <translation>Rimuove dalla lista le Società non utilizzate</translation>
+    </message>
 </context>
 <context>
-    <name>LiveTable</name>
+    <name>LiveColors</name>
+    <message>
+        <source>Text</source>
+        <translation>Testo</translation>
+    </message>
+    <message>
+        <source>Change</source>
+        <translation>Modifica</translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <translation>Titolo</translation>
+    </message>
+    <message>
+        <source>Change Background</source>
+        <translation>Modifica Sfondo</translation>
+    </message>
+    <message>
+        <source>Live Start List title color</source>
+        <translation>Colore titolo Ordine di Partenza dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Start List text color</source>
+        <translation>Colore testo Ordine di Partenza dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Start List background color</source>
+        <translation>Colore di sfondo Ordine di Partenza dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Rankings title color</source>
+        <translation>Colore titolo Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Rankings text color</source>
+        <translation>Colore testo Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Rankings background color</source>
+        <translation>Colore di sfondo Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Live View Colors</source>
+        <translation>Colori Classifiche dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Start List</source>
+        <translation>Ordine di Partenza</translation>
+    </message>
+    <message>
+        <source>Live Rankings</source>
+        <translation>Classifica dal vivo</translation>
+    </message>
+</context>
+<context>
+    <name>LiveRankings</name>
     <message>
         <source>Bib</source>
         <comment>long</comment>
         <translation>Pettorale</translation>
     </message>
     <message>
-        <source>Bib</source>
-        <comment>short</comment>
-        <translation>Pett</translation>
+        <source>Timing</source>
+        <comment>long</comment>
+        <translation>Tempo</translation>
     </message>
     <message>
         <source>Competitor</source>
@@ -1354,35 +1516,13 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Concorrente</translation>
     </message>
     <message>
-        <source>Timing</source>
-        <comment>long</comment>
-        <translation>Tempo</translation>
-    </message>
-    <message>
-        <source>Timing</source>
+        <source>Bib</source>
         <comment>short</comment>
-        <translation>Tempo</translation>
-    </message>
-    <message>
-        <source>The Race</source>
-        <translation>La Gara</translation>
-    </message>
-    <message>
-        <source>LBChronoRace</source>
-        <translation>LBChronoRace</translation>
-    </message>
-    <message>
-        <source>Enter competitors to use the Live Rankings</source>
-        <translation>Per utilizzare la &apos;Classifica dal vivo&apos; inserire i concorrenti</translation>
+        <translation>Pett</translation>
     </message>
     <message>
         <source>Competitor %1</source>
         <comment>short</comment>
-        <translation>Concorrente %1</translation>
-    </message>
-    <message>
-        <source>Competitor %1</source>
-        <comment>long</comment>
         <translation>Concorrente %1</translation>
     </message>
     <message>
@@ -1391,13 +1531,88 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>T %1</translation>
     </message>
     <message>
+        <source>Timing</source>
+        <comment>short</comment>
+        <translation>Tempo</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>long</comment>
+        <translation>Concorrente %1</translation>
+    </message>
+    <message>
         <source>Timing %1</source>
         <comment>long</comment>
         <translation>Tempo %1</translation>
     </message>
+</context>
+<context>
+    <name>LiveStartList</name>
     <message>
-        <source>No screen available for the Live Rankings</source>
-        <translation>Schermo non disponibile per la Classifica dal vivo</translation>
+        <source>Bib</source>
+        <comment>long</comment>
+        <translation>Pettorale</translation>
+    </message>
+    <message>
+        <source>Competitor</source>
+        <comment>long</comment>
+        <translation>Concorrente</translation>
+    </message>
+    <message>
+        <source>Bib</source>
+        <comment>short</comment>
+        <translation>Pett</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>short</comment>
+        <translation>Concorrente %1</translation>
+    </message>
+    <message>
+        <source>Competitor %1</source>
+        <comment>long</comment>
+        <translation>Concorrente %1</translation>
+    </message>
+    <message>
+        <source>Start Time</source>
+        <comment>long</comment>
+        <translation>Ora Partenza</translation>
+    </message>
+    <message>
+        <source>Start Time</source>
+        <comment>short</comment>
+        <translation>Ora Part</translation>
+    </message>
+    <message>
+        <source>Sex</source>
+        <comment>long</comment>
+        <translation>Sex</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <comment>long</comment>
+        <translation>Anno</translation>
+    </message>
+    <message>
+        <source>Sex</source>
+        <comment>short</comment>
+        <translation>Sex</translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <comment>short</comment>
+        <translation>Anno</translation>
+    </message>
+</context>
+<context>
+    <name>LiveView</name>
+    <message>
+        <source>Live Rankings</source>
+        <translation>Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Rotation interval (sec):</source>
+        <translation>Intervallo di rotazione (sec):</translation>
     </message>
 </context>
 <context>
@@ -1795,12 +2010,9 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <comment>long label</comment>
         <translation>Frazione</translation>
     </message>
-    <message numerus="yes">
-        <source>Leg %n</source>
-        <translation>
-            <numerusform>Frazione %n</numerusform>
-            <numerusform>Frazione %n</numerusform>
-        </translation>
+    <message>
+        <source>Leg %1</source>
+        <translation>Frazione %1</translation>
     </message>
     <message>
         <source>Time</source>
@@ -1819,19 +2031,9 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <source>Leg Time (and position)</source>
         <translation>Tempo di Frazione (e posizione)</translation>
     </message>
-    <message numerus="yes">
-        <source>Page %n</source>
-        <translation>
-            <numerusform>Pagina %n</numerusform>
-            <numerusform>Pagina %n</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>of %n</source>
-        <translation>
-            <numerusform>di %n</numerusform>
-            <numerusform>di %n</numerusform>
-        </translation>
+    <message>
+        <source>Page %1 of %2</source>
+        <translation>Pagina %1 di %2</translation>
     </message>
     <message>
         <source>Organization</source>
@@ -1896,6 +2098,10 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Rankings</source>
         <translation>Classifiche</translation>
+    </message>
+    <message>
+        <source>Error: no translator provided</source>
+        <translation>Errore: nessun traduttore specificato</translation>
     </message>
 </context>
 <context>
@@ -2127,6 +2333,14 @@ publishing</source>
         <translation>Apri file dopo
 la pubblicazione</translation>
     </message>
+    <message>
+        <source>Default</source>
+        <translation>Predefinita</translation>
+    </message>
+    <message>
+        <source>Rankings language</source>
+        <translation>Lingua classifiche</translation>
+    </message>
 </context>
 <context>
     <name>RankingsWizardMode</name>
@@ -2156,6 +2370,10 @@ la pubblicazione</translation>
     <message>
         <source>You can exclude some of the generated rankings.</source>
         <translation>Puoi escludere alcune dalle classifiche generate.</translation>
+    </message>
+    <message>
+        <source>Results</source>
+        <translation>Risultati</translation>
     </message>
 </context>
 <context>
@@ -2242,12 +2460,9 @@ la pubblicazione</translation>
         <source>Start List</source>
         <translation>Ordine di Partenza</translation>
     </message>
-    <message numerus="yes">
-        <source>Leg %n</source>
-        <translation>
-            <numerusform>Frazione %n</numerusform>
-            <numerusform>Frazione %n</numerusform>
-        </translation>
+    <message>
+        <source>Leg %1</source>
+        <translation>Frazione %1</translation>
     </message>
     <message>
         <source>Error: unable to open %1</source>
@@ -2260,6 +2475,10 @@ la pubblicazione</translation>
     <message>
         <source>Error: attempted to write to a closed file</source>
         <translation>Errore: tentativo di scrittura su un file chiuso</translation>
+    </message>
+    <message>
+        <source>Error: no translator provided</source>
+        <translation>Errore: nessun traduttore specificato</translation>
     </message>
 </context>
 <context>
@@ -2350,6 +2569,35 @@ la pubblicazione</translation>
     <message>
         <source>Error: unable to open %1</source>
         <translation>Errore: impossibile aprire il file %1</translation>
+    </message>
+</context>
+<context>
+    <name>TriggerKeyDialog</name>
+    <message>
+        <source>External hardware trigger key detection</source>
+        <translation>Rilevamento del tasto del grilletto hardware esterno</translation>
+    </message>
+    <message>
+        <source>Press the key on your trigger device…</source>
+        <translation>Premi il tasto sul grilletto…</translation>
+    </message>
+    <message>
+        <source>This trigger key is not allowed.
+Reconfigure the trigger device and try again.</source>
+        <translation>Questo tasto non è consentito
+Riconfigura il grilletto e ripeti la procedura.</translation>
+    </message>
+    <message>
+        <source>Repeat the trigger key to confirm.</source>
+        <translation>Ripremi il tasto per confermare.</translation>
+    </message>
+    <message>
+        <source>The trigger key has been set to 0x%1.</source>
+        <translation>Il tasto associato al grilletto è 0x%1.</translation>
+    </message>
+    <message>
+        <source>Trigger keys do not match. Try again.</source>
+        <translation>Il tasto non corrisponde. Riprova.</translation>
     </message>
 </context>
 </TS>

@@ -19,43 +19,34 @@
 #define RECENTRACES_HPP
 
 #include <QObject>
-#include <QScopedPointer>
-#include <QSettings>
-#include <QList>
 #include <QMenu>
 #include <QAction>
+#include <QActionGroup>
+#include <QPointer>
 
 class RecentRaces : public QObject
 {
     Q_OBJECT
+
 public:
-    explicit RecentRaces(QMenu *parent);
+    static QActionGroup *actionGroup;
 
-    QMenu *getMenu();
-    void readSettings();
+    static void loadMenu(QMenu *menu);
 
-    void update(QString const &path);
-
-signals:
-    void triggered(QString const &);
+    static void update(QString const &path);
 
 private:
-    QSettings settings { QSettings::Format::NativeFormat, QSettings::Scope::UserScope, QStringLiteral(LBCHRONORACE_ORGANIZATION), QStringLiteral(LBCHRONORACE_NAME) };
+    static QPointer<QActionGroup> group;
+    static QStringList recentRaces;
+    static QAction *separator;
 
-    QScopedPointer<QMenu> menu { Q_NULLPTR };
-    QStringList recentRaces;
-
-    QAction const *clearAction { Q_NULLPTR };
-    QList<QAction const *> menuActions { };
-
-    void rebuildMenu();
+    static void rebuildMenu();
 
 public slots:
-    void writeSettings();
+    static void store();
 
 private slots:
-    void load();
-    void clear();
+    static void clear();
 };
 
 #endif // RECENTRACES_HPP

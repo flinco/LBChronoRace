@@ -46,6 +46,8 @@ public:
         return data.rmDeserialize(in);
     }
 
+    void resizeHeaders(QTableView *table) final;
+
     int columnCount(QModelIndex const &parent = QModelIndex()) const override;
     int rowCount(QModelIndex const &parent = QModelIndex()) const override;
     QVariant data(QModelIndex const &index, int role) const override;

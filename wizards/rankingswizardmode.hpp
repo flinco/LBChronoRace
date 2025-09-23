@@ -20,7 +20,6 @@
 
 #include <QWizardPage>
 #include <QVBoxLayout>
-#include <QRadioButton>
 
 class RankingsWizardMode : public QWizardPage
 {
@@ -31,12 +30,6 @@ public:
 
 private:
     QVBoxLayout layout;
-
-    QRadioButton singleFile;
-    QRadioButton multiFile;
-
-private slots:
-    void toggleSingleMode(bool checked) const;
 
 signals:
     void error(QString const &);

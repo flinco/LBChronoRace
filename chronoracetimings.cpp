@@ -26,9 +26,8 @@
 #include "chronoracetimings.hpp"
 #include "timespandialog.hpp"
 #include "crloader.hpp"
+#include "crsettings.hpp"
 #include "lbcrexception.hpp"
-
-constexpr char DISPLAY_CHRONO_ZERO[] = "0:00:00";
 
 TimingsWorker::TimingsWorker()
 {
@@ -63,6 +62,7 @@ ChronoRaceTimings::ChronoRaceTimings(QWidget *parent) : QDialog(parent)
     qApp->installEventFilter(this);
     this->setWindowFlag(Qt::CustomizeWindowHint, true);
     this->setWindowFlag(Qt::WindowCloseButtonHint, false);
+    this->setWindowModality(Qt::WindowModality::WindowModal);
 
     ui->timer->display(DISPLAY_CHRONO_ZERO);
 
@@ -91,19 +91,22 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
     bool retval = true;
     if (!this->isVisible() || (event->type() != QEvent::Type::KeyPress)) {
         retval = QDialog::eventFilter(watched, event);
-    } else {
-        auto const keyEvent = static_cast<QKeyEvent *>(event);
-        auto const keyModifiers = keyEvent->modifiers();
-        switch (keyEvent->key()) {
-            case Qt::Key::Key_F10:
-                if (!(keyModifiers & Qt::KeyboardModifier::AltModifier)) {
-                    retval = QDialog::eventFilter(watched, event);
-                    break;
-                }
-                [[fallthrough]];
+    } else if (auto const keyCombination = static_cast<QKeyEvent *>(event)->keyCombination(); keyCombination == triggerKey) {
+        if (updateTimerId != 0)
+            recordTiming(this->timerOffset + this->timer.elapsed());
+        else
+            start();
+    } else if (auto const keyModifiers = keyCombination.keyboardModifiers(); keyModifiers.testFlag(Qt::KeyboardModifier::AltModifier)) {
+        if (keyCombination.key() == Qt::Key::Key_Delete) {
+            deleteTiming();
+        } else {
+            retval = QDialog::eventFilter(watched, event);
+        }
+    } else if (keyModifiers.testFlag(Qt::KeyboardModifier::KeypadModifier) || keyModifiers.testFlag(Qt::KeyboardModifier::NoModifier)) {
+        switch (keyCombination.key()) {
             case Qt::Key::Key_Space:
                 if (updateTimerId != 0)
-                    recordTiming(this->timer.elapsed());
+                    recordTiming(this->timerOffset + this->timer.elapsed());
                 break;
             case Qt::Key::Key_Return:
                 [[fallthrough]];
@@ -111,13 +114,9 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
                 retval = enterPressed();
                 break;
             case Qt::Key::Key_Backspace:
-                deleteBib();
-                break;
+                [[fallthrough]];
             case Qt::Key::Key_Delete:
-                if (keyModifiers & Qt::KeyboardModifier::AltModifier)
-                    deleteTiming();
-                else
-                    deleteBib();
+                deleteBib();
                 break;
             case Qt::Key::Key_0:
                 [[fallthrough]];
@@ -141,10 +140,10 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
                 retval = digitPressed((static_cast<QKeyEvent *>(event))->text());
                 break;
             case Qt::Key::Key_Up:
-                retval = upPressed();
+                stepUp();
                 break;
             case Qt::Key::Key_Down:
-                retval = downPressed();
+                stepDown();
                 break;
             case Qt::Key::Key_Escape:
                 if (ui->lockToggle->value() == 0)
@@ -161,7 +160,10 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
 
 void ChronoRaceTimings::timerEvent(QTimerEvent *event) {
 
-    if (event->timerId() == backupTimerId) {
+    if (this->timerPaused)
+        return;
+
+    if (auto timerId = event->timerId(); timerId == backupTimerId) {
         QString buffer;
         QTextStream outStream(&buffer);
         QTableWidgetItem const *item0;
@@ -176,10 +178,17 @@ void ChronoRaceTimings::timerEvent(QTimerEvent *event) {
         saveToDiskQueue.append(buffer);
 
         emit saveToDisk(saveToDiskQueue.constLast());
-    } else if (event->timerId() == updateTimerId) {
-        qint64 elapsed = this->timer.elapsed() / 1000;
+    } else if (timerId == updateTimerId) {
+        qint64 elapsed = (this->timerOffset + this->timer.elapsed()) / 1000;
 
-        ui->timer->display(QString("%1:%2:%3").arg(elapsed / 3600).arg((elapsed % 3600) / 60, 2, 10, QChar('0')).arg(elapsed % 60, 2, 10, QChar('0')));
+        auto displayString = QString("%1:%2:%3").arg(elapsed / 3600).arg((elapsed % 3600) / 60, 2, 10, QChar('0')).arg(elapsed % 60, 2, 10, QChar('0'));
+
+        ui->timer->display(displayString);
+
+        if (this->timerPrevious != elapsed) {
+            emit timerValue(displayString);
+            this->timerPrevious = elapsed;
+        }
     }
 }
 
@@ -187,6 +196,9 @@ void ChronoRaceTimings::accept()
 {
     if (saveToDiskThread.isRunning())
         this->stop();
+
+    if (liveTables != Q_NULLPTR)
+        liveTables->toggleStayOnTop(false);
 
     if (QMessageBox::information(this, tr("Save Timings List"),
                                      tr("The timings list will be replaced by the current data.\n"
@@ -203,14 +215,21 @@ void ChronoRaceTimings::accept()
             backupTimerId = 0;
         }
         saveTimings();
+        clear();
         QDialog::accept();
     }
+
+    if (liveTables != Q_NULLPTR)
+        liveTables->toggleStayOnTop(true);
 }
 
 void ChronoRaceTimings::reject()
 {
     if (saveToDiskThread.isRunning())
         this->stop();
+
+    if (liveTables != Q_NULLPTR)
+        liveTables->toggleStayOnTop(false);
 
     if (QMessageBox::information(this, tr("Discard Timings List"),
                                  tr("The current data will be discarded.\n"
@@ -226,21 +245,22 @@ void ChronoRaceTimings::reject()
             killTimer(backupTimerId);
             backupTimerId = 0;
         }
-
-        ui->timer->display(DISPLAY_CHRONO_ZERO);
-        currentBibItem = Q_NULLPTR;
-        timingRowCount = 0;
-        ui->dataArea->clearContents();
-        ui->dataArea->setRowCount(0);
-
+        clear();
         QDialog::reject();
     }
+
+    if (liveTables != Q_NULLPTR)
+        liveTables->toggleStayOnTop(true);
 }
 
 void ChronoRaceTimings::show()
 {
+    triggerKey = CRSettings::getTriggerKey();
+
     ui->retranslateUi(this);
-    this->setWindowModality(Qt::ApplicationModal);
+
+    this->timerOffset = Q_INT64_C(0);
+    this->timerPaused = false;
 
     QDialog::show();
 }
@@ -287,21 +307,21 @@ void ChronoRaceTimings::subtractTimeSpan()
 void ChronoRaceTimings::applyTimeSpan(int offset)
 {
     if (offset > 0) {
-        QString text = tr("%n second(s) will be added to all the recorded timings.\nAre you sure you want to continue?", "", offset); // turn to milliseconds
+        QString text = tr("%1 s and %2 ms will be added to all the recorded timings.\nAre you sure you want to continue?").arg(offset / 1000).arg(offset % 1000);
         if (QMessageBox::warning(this, QString("Apply Time Span"), text, QMessageBox::StandardButton::Yes, QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes) {
             (dynamic_cast<TimingsModel *>(CRLoader::getTimingsModel()))->addTimeSpan(offset);
         }
     } else if (offset < 0) {
-        QString text = tr("%n second(s) will be subtracted from all the recorded timings.\nTimings resulting below 0 will be set to 0:00:00.000.\nAre you sure you want to continue?", "", -offset); // turn to milliseconds
+        QString text = tr("%1 s and %2 ms will be subtracted from all the recorded timings.\nTimings resulting below 0 will be set to 0:00:00.000.\nAre you sure you want to continue?").arg(-offset / 1000).arg(-offset % 1000);
         if (QMessageBox::warning(this, QString("Apply Time Span"), text, QMessageBox::StandardButton::Yes, QMessageBox::StandardButton::No) == QMessageBox::StandardButton::Yes) {
             (dynamic_cast<TimingsModel *>(CRLoader::getTimingsModel()))->addTimeSpan(offset);
         }
     }
 }
 
-void ChronoRaceTimings::setLiveTable(LiveTable *newLiveTable)
+void ChronoRaceTimings::setLiveTables(LiveView *liveView)
 {
-    liveTable = newLiveTable;
+    liveTables = liveView;
 }
 
 void ChronoRaceTimings::updateCurrentBibItem(QTableWidgetItem *newBibItem)
@@ -313,12 +333,12 @@ void ChronoRaceTimings::updateCurrentBibItem(QTableWidgetItem *newBibItem)
         quint64 bibLiveValue = this->currentBibItem->data(Qt::ItemDataRole::UserRole).toULongLong();
         quint64 timingLiveValue = timingItem ? timingItem->data(Qt::ItemDataRole::UserRole).toULongLong() : Q_UINT64_C(0);
 
-        if (liveTable != Q_NULLPTR)
-            liveTable->removeEntry(timingLiveValue | bibLiveValue);
+        if (liveTables != Q_NULLPTR)
+            liveTables->removeEntry(timingLiveValue | bibLiveValue);
         bibLiveValue = ((itemColor == Qt::GlobalColor::green) ? static_cast<quint64>(this->currentBibItem->text().toUInt()) : Q_UINT64_C(0)) & Q_UINT64_C(0xffffffff);
         this->currentBibItem->setData(Qt::ItemDataRole::UserRole, QVariant(bibLiveValue));
-        if (liveTable != Q_NULLPTR)
-            liveTable->addEntry(timingLiveValue | bibLiveValue);
+        if (liveTables != Q_NULLPTR)
+            liveTables->addEntry(timingLiveValue | bibLiveValue);
 
         this->currentBibItem->setBackground(itemColor);
     }
@@ -374,8 +394,8 @@ void ChronoRaceTimings::recordTiming(qint64 milliseconds)
     flags &= ~(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsUserCheckable);
     timingItem->setFlags(flags);
 
-    if (liveTable != Q_NULLPTR)
-        liveTable->addEntry(timingLiveValue | bibLiveValue);
+    if (liveTables != Q_NULLPTR)
+        liveTables->addEntry(timingLiveValue | bibLiveValue);
 
     ui->dataArea->scrollToBottom();
     timingRowCount += 1;
@@ -393,8 +413,8 @@ void ChronoRaceTimings::deleteTiming()
     timingItem = ui->dataArea->item(timingRowCount, 1);
     bibItem = ui->dataArea->item(timingRowCount, 0);
 
-    if (liveTable != Q_NULLPTR)
-        liveTable->removeEntry(timingItem->data(Qt::ItemDataRole::UserRole).toULongLong() | bibItem->data(Qt::ItemDataRole::UserRole).toULongLong());
+    if (liveTables != Q_NULLPTR)
+        liveTables->removeEntry(timingItem->data(Qt::ItemDataRole::UserRole).toULongLong() | bibItem->data(Qt::ItemDataRole::UserRole).toULongLong());
 
     if (((timingRowCount + 1) == ui->dataArea->rowCount()) && bibItem->text().isEmpty()) {
         int currentBibRow = this->currentBibItem ? this->currentBibItem->row() : -1;
@@ -536,30 +556,36 @@ bool ChronoRaceTimings::digitPressed(QString const &key)
     return true;
 }
 
-bool ChronoRaceTimings::upPressed()
+void ChronoRaceTimings::clear()
 {
-    stepUp();
-
-    return true;
-}
-
-bool ChronoRaceTimings::downPressed()
-{
-    stepDown();
-
-    return true;
+    ui->timer->display(DISPLAY_CHRONO_ZERO);
+    currentBibItem = Q_NULLPTR;
+    timingRowCount = 0;
+    ui->dataArea->clearContents();
+    ui->dataArea->setRowCount(0);
 }
 
 void ChronoRaceTimings::start()
 {
     saveToDiskThread.start();
 
-    this->timer.start();
+    if (this->timerPaused) {
+        qint64 offset = this->timer.restart();
+        this->timerPaused = false;
+
+        emit info(tr("Stopwatch: resumed after %1:%2:%3.%4").arg(offset / 3600000).arg((offset % 3600000) / 60000, 2, 10, QChar('0')).arg((offset % 60000) / 1000, 2, 10, QChar('0')).arg(offset % 1000, 3, 10, QChar('0')));
+    } else {
+        this->timer.start();
+
+        emit info(tr("Stopwatch: started"));
+    }
+
     if (updateTimerId == 0)
         updateTimerId = startTimer(100, Qt::TimerType::PreciseTimer);
     if (backupTimerId == 0)
         backupTimerId = startTimer(1000, Qt::TimerType::VeryCoarseTimer);
 
+    ui->startButton->setText(tr("RESUME"));
     ui->startButton->setEnabled(false);
     ui->stopButton->setEnabled(true);
     ui->resetButton->setEnabled(false);
@@ -567,6 +593,13 @@ void ChronoRaceTimings::start()
 
 void ChronoRaceTimings::stop()
 {
+    qint64 offset = this->timerOffset + this->timer.restart();
+
+    emit info(tr("Stopwatch: paused at %1:%2:%3.%4").arg(offset / 3600000).arg((offset % 3600000) / 60000, 2, 10, QChar('0')).arg((offset % 60000) / 1000, 2, 10, QChar('0')).arg(offset % 1000, 3, 10, QChar('0')));
+
+    this->timerOffset = offset;
+    this->timerPaused = true;
+
     saveToDiskThread.quit();
     saveToDiskThread.wait();
 
@@ -592,11 +625,12 @@ void ChronoRaceTimings::reset()
                                     "Continue?"),
                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No) == QMessageBox::Yes) {
         // Yes was clicked
-        ui->timer->display(DISPLAY_CHRONO_ZERO);
-        currentBibItem = Q_NULLPTR;
-        timingRowCount = 0;
-        ui->dataArea->clearContents();
-        ui->dataArea->setRowCount(0);
+        clear();
+        ui->startButton->setText(tr("START"));
+        this->timerOffset = Q_INT64_C(0);
+        this->timerPaused = false;
+
+        emit info(tr("Stopwatch: reset"));
     }
 }
 

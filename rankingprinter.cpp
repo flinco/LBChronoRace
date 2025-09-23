@@ -61,6 +61,16 @@ void RankingPrinter::setRaceInfo(ChronoRaceData const *newRaceInfo)
     raceInfo = newRaceInfo;
 }
 
+QTranslator const *RankingPrinter::getTranslator() const
+{
+    return rankingsTranslator;
+}
+
+void RankingPrinter::setTranslator(QTranslator const *newTranslator)
+{
+    rankingsTranslator = newTranslator;
+}
+
 int Position::getCurrentPositionNumber(int posIndex, QString const &currTime)
 {
     int returnedPosition = 0;

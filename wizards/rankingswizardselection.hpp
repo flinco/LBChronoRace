@@ -19,8 +19,7 @@
 #define RANKINGSWIZARDSELECTION_HPP
 
 #include <QWizardPage>
-#include <QVBoxLayout>
-#include <QListWidget>
+#include <QFormLayout>
 #include <QListWidgetItem>
 
 #include "ranking.hpp"
@@ -44,11 +43,9 @@ public:
     };
 
     void initializePage() override;
-    void cleanupPage() override;
 
 private:
-    QListWidget rankingsList;
-    QVBoxLayout layout;
+    QFormLayout layout;
 
 private slots:
     void toggleSkipRanking(QListWidgetItem const *item) const;

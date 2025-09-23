@@ -97,6 +97,63 @@ void StartListModel::refreshCounters(int r)
     }
 }
 
+void StartListModel::resizeHeaders(QTableView *table)
+{
+    using enum Competitor::Field;
+
+    Q_ASSERT(table != Q_NULLPTR);
+    QHeaderView* header = table->horizontalHeader();
+
+    // Start with ResizeToContents to calculate proper size hints
+    header->setSectionResizeMode(QHeaderView::ResizeToContents);
+    table->resizeColumnsToContents();
+
+    int const totalWidth = table->viewport()->width();
+
+    // Compute size hints for all columns
+    QList<int> contentWidths;
+    for (auto col = static_cast<int>(CMF_FIRST); col < static_cast<int>(CMF_COUNT); ++col)
+        contentWidths << computeSizeHintForColumn(table, col);
+
+    // Columns that should stay sized to content
+    QList fixedCols = {
+        static_cast<int>(CMF_BIB),
+        static_cast<int>(CMF_SEX),
+        static_cast<int>(CMF_YEAR),
+        static_cast<int>(CMF_OFFSET_LEG)
+    };
+
+    for (int col : fixedCols)
+        header->setSectionResizeMode(col, QHeaderView::ResizeToContents);
+
+    // Columns that should expand and be user-adjustable
+    QList flexCols = {
+        static_cast<int>(CMF_SURNAME),
+        static_cast<int>(CMF_NAME),
+        static_cast<int>(CMF_CLUB),
+        static_cast<int>(CMF_TEAM)
+    };
+
+    // Calculate remaining space after fixed columns
+    int availableWidth = totalWidth;
+    for (auto col = static_cast<int>(CMF_FIRST); col < static_cast<int>(CMF_COUNT); ++col) {
+        if (!flexCols.contains(col))
+            availableWidth -= header->sectionSize(col);
+    }
+
+    int flexWidth = availableWidth > 0 ? (availableWidth / flexCols.size()) : 100;
+
+    // Assign calculated width to flexible columns
+    for (int col : flexCols) {
+        header->setSectionResizeMode(col, QHeaderView::Interactive);
+        header->resizeSection(col, qMax(flexWidth, contentWidths[col]));
+    }
+
+    // Final adjustments
+    header->setStretchLastSection(false);
+    header->setSectionsMovable(false);
+}
+
 int StartListModel::rowCount(QModelIndex const &parent) const
 {
     Q_UNUSED(parent)
@@ -343,6 +400,7 @@ void StartListModel::reset()
     teamNameWidthMax = 0;
     endResetModel();
 
+    CRTableModel::setResizing();
     refreshDisplayCounter();
 }
 
@@ -375,6 +433,16 @@ uint StartListModel::getCompetitorNameWidthMax() const
 uint StartListModel::getTeamNameWidthMax() const
 {
     return teamNameWidthMax;
+}
+
+void StartListModel::scanClubs()
+{
+    QString club;
+    for (auto const &comp : std::as_const(startList)) {
+        club = comp.getClub();
+        if (!club.isEmpty())
+            emit newClub(club);
+    }
 }
 
 QString const *StartListModel::getClub(uint bib)

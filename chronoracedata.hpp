@@ -26,6 +26,9 @@
 #include <QTextStream>
 #include <QVector>
 #include <QPixmap>
+#include <QString>
+#include <QStringList>
+#include <QTranslator>
 
 #include "ui_chronoracedata.h"
 #include "chronoracelogo.hpp"
@@ -58,17 +61,20 @@ public:
         RACE_TYPE        = 0,
         RESULTS          = 1,
         NAME_COMPOSITION = 2,
-        ACCURACY         = 3
+        ACCURACY         = 3,
+        LANGUAGE         = 4
     };
 
     enum class LogoField
     {
         LEFT             = 0,
         RIGHT            = 1,
-        SPONSOR_1        = 2,
+        SPONSOR_FIRST    = 2,
+        SPONSOR_1        = SPONSOR_FIRST,
         SPONSOR_2        = 3,
         SPONSOR_3        = 4,
-        SPONSOR_4        = 5
+        SPONSOR_4        = 5,
+        SPONSOR_LAST     = SPONSOR_4
     };
 
     enum class RaceType
@@ -102,8 +108,8 @@ public:
 
     explicit ChronoRaceData(QWidget *parent = Q_NULLPTR);
 
-    QDataStream &crdSerialize(QDataStream &out) const;
-    friend QDataStream &operator<<(QDataStream &out, ChronoRaceData const &data)
+    QDataStream &crdSerialize(QDataStream &out);
+    friend QDataStream &operator<<(QDataStream &out, ChronoRaceData &data)
     {
         return data.crdSerialize(out);
     }
@@ -121,14 +127,14 @@ public:
     }
 
     void saveRaceData();
-    void restoreRaceData() const;
+    void restoreRaceData();
 
-    QPixmap getLeftLogo() const;
-    QPixmap getRightLogo() const;
     QDate   getDate() const;
     QTime   getStartTime() const;
+    QPixmap getField(ChronoRaceData::LogoField field) const;
     QString getField(ChronoRaceData::StringField field) const;
-    QVector<QPixmap> getSponsorLogos() const;
+    QStringList getFieldValues(ChronoRaceData::IndexField field);
+    int getFieldIndex(ChronoRaceData::IndexField field);
 
     void setField(ChronoRaceData::IndexField field, int newIndex);
     void setField(ChronoRaceData::StringField field, QString const &newValue);
@@ -137,6 +143,10 @@ public:
     void setStartTime(QTime const &newStartTime);
 
     void getGlobalData(ChronoRaceData::NameComposition *gNameComposition, ChronoRaceData::Accuracy *gAccuracy) const;
+
+    QTranslator const *getTranslator() const;
+
+    bool isDirty() const;
 
 public slots:
     void loadLogo(QLabel *label = Q_NULLPTR);
@@ -149,12 +159,13 @@ public slots:
 private:
     QScopedPointer<Ui::ChronoRaceData> ui { new Ui::ChronoRaceData };
 
-    QDate   date { QDate::currentDate() };
+    QDate   raceDate { QDate::currentDate() };
     QTime   startTime { 0, 0 };
     int     raceTypeIdx { 0 };
     int     resultsIdx { 0 };
     int     nameCompositionIdx { 0 };
     int     accuracyIdx { 0 };
+    int     languageIdx { 0 };
     QVector<QString> stringFields;
     ChronoRaceLogo leftLogo;
     ChronoRaceLogo rightLogo;
@@ -162,6 +173,10 @@ private:
     ChronoRaceLogo sponsorLogo2;
     ChronoRaceLogo sponsorLogo3;
     ChronoRaceLogo sponsorLogo4;
+
+    QVector<QTranslator *> translators;
+
+    bool dirty { false };
 
 signals:
     void globalDataChange(ChronoRaceData::NameComposition, ChronoRaceData::Accuracy);

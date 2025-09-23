@@ -43,6 +43,8 @@ public:
         return data.tlmDeserialize(in);
     }
 
+    void resizeHeaders(QTableView *table) final;
+
     int rowCount(QModelIndex const &parent = QModelIndex()) const override;
     int columnCount(QModelIndex const &parent = QModelIndex()) const override;
     Qt::ItemFlags flags(QModelIndex const &index) const override;

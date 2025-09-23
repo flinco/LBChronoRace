@@ -174,7 +174,7 @@ uint Category::getToBib() const
 
 void Category::setToBib(uint newToBib)
 {
-    this->toYear = newToBib;
+    this->toBib = newToBib;
 }
 
 uint Category::getWeight() const

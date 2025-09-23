@@ -22,23 +22,28 @@
 #include "lbcrexception.hpp"
 #include "crhelper.hpp"
 
-void TXTRankingPrinter::init(QString *outFileName, QString const &title, QString const &subject)
+void TXTRankingPrinter::init(QString *outTxtFileName, QString const &title, QString const &subject, QTranslator const *translator)
 {
     Q_ASSERT(!txtFile.isOpen());
 
     Q_UNUSED(title)
     Q_UNUSED(subject)
 
-    if (outFileName == Q_NULLPTR) {
+    if (translator == Q_NULLPTR) {
+        throw(ChronoRaceException(tr("Error: no translator provided")));
+    }
+    setTranslator(translator);
+
+    if (outTxtFileName == Q_NULLPTR) {
         throw(ChronoRaceException(tr("Error: no file name provided")));
     }
 
     // append the .txt extension if missing
-    checkOutFileNameExtension(*outFileName);
+    checkOutFileNameExtension(*outTxtFileName);
 
-    txtFile.setFileName(*outFileName);
+    txtFile.setFileName(*outTxtFileName);
     if (!txtFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        throw(ChronoRaceException(tr("Error: unable to open %1").arg(*outFileName)));
+        throw(ChronoRaceException(tr("Error: unable to open %1").arg(*outTxtFileName)));
     }
     txtStream.setDevice(&txtFile);
     txtStream.setEncoding(CRLoader::getEncoding());
@@ -46,12 +51,16 @@ void TXTRankingPrinter::init(QString *outFileName, QString const &title, QString
 
 void TXTRankingPrinter::printStartList(QList<Competitor const *> const &startList)
 {
+    using enum CRLoader::MaxValue;
+
     if (!txtFile.isOpen()) {
         throw(ChronoRaceException(tr("Error: attempted to write to a closed file")));
     }
 
-    auto nWidth = CRLoader::getStartListNameWidthMax();
-    auto tWidth = CRLoader::getTeamNameWidthMax();
+    QTranslator const *translator = getTranslator();
+
+    auto nWidth = CRLoader::getMaxValue(CompNameWidth);
+    auto tWidth = CRLoader::getMaxValue(ClubNameWidth);
 
     int offset;
     int i = 0;
@@ -59,7 +68,7 @@ void TXTRankingPrinter::printStartList(QList<Competitor const *> const &startLis
     ChronoRaceData const *raceInfo = getRaceInfo();
     QTime startTime = raceInfo->getStartTime();
     txtStream << *raceInfo << Qt::endl; // add header
-    txtStream << tr("Start List") << Qt::endl;
+    txtStream << translator->translate("TXTRankingPrinter", "Start List") << Qt::endl;
     for (auto const &competitor : startList) {
         i++;
 
@@ -71,7 +80,7 @@ void TXTRankingPrinter::printStartList(QList<Competitor const *> const &startLis
             offset = (3600 * startTime.hour()) + (60 * startTime.minute()) + startTime.second();
             lastColumnValue = CRHelper::toOffsetString(offset);
         } else {
-            QString legValue = tr("Leg %n", "", qAbs(offset));
+            QString legValue = translator->translate("TXTRankingPrinter", "Leg %1").arg(qAbs(offset));
             if (!lastColumnValue.isEmpty() && (legValue != lastColumnValue))
                 txtStream << Qt::endl;
             lastColumnValue = legValue;

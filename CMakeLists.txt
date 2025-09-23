@@ -24,16 +24,16 @@
 
 cmake_minimum_required(VERSION 3.20)
 project(LBChronoRace
-    VERSION 2025
+    VERSION 2026
     DESCRIPTION "Timings and Rankings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
-set(PROJECT_UPDATE 2)
+set(PROJECT_UPDATE 0)
 string(TIMESTAMP BUILD_DATE "%Y-%m-%d" UTC)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
-find_package(Qt6 COMPONENTS Core Gui Widgets LinguistTools REQUIRED)
+find_package(Qt6 COMPONENTS Core Gui Widgets DBus LinguistTools REQUIRED)
 qt_standard_project_setup(REQUIRES 6.8
     I18N_TRANSLATED_LANGUAGES it)
 
@@ -59,12 +59,17 @@ set(HEADER_FILES
     compsexdelegate.hpp
     crhelper.hpp
     crloader.hpp
+    crsettings.hpp
     crtablemodel.hpp
     csvrankingprinter.hpp
+    languages.hpp
     lbchronorace.hpp
     lbcrexception.hpp
-    livetable.hpp
+    livecolors.hpp
+    liverankings.hpp
+    livestartlist.hpp
     livetablefilterproxymodel.hpp
+    liveview.hpp
     multiselectcombobox.hpp
     pdfrankingprinter.hpp
     ranking.hpp
@@ -74,6 +79,7 @@ set(HEADER_FILES
     rankingsmodel.hpp
     rankingtypedelegate.hpp
     recentraces.hpp
+    screensaver.hpp
     startlistmodel.hpp
     teamclassentry.hpp
     teamslistmodel.hpp
@@ -81,6 +87,7 @@ set(HEADER_FILES
     timing.hpp
     timingsmodel.hpp
     timingstatusdelegate.hpp
+    triggerkeydialog.hpp
     txtrankingprinter.hpp
     wizards/newracewizard.hpp
     wizards/rankingswizard.hpp
@@ -103,11 +110,16 @@ set(SOURCE_FILES
     compsexdelegate.cpp
     crhelper.cpp
     crloader.cpp
+    crsettings.cpp
     csvrankingprinter.cpp
+    languages.cpp
     lbchronorace.cpp
     lbcrexception.cpp
-    livetable.cpp
+    livecolors.cpp
+    liverankings.cpp
+    livestartlist.cpp
     livetablefilterproxymodel.cpp
+    liveview.cpp
     multiselectcombobox.cpp
     pdfrankingprinter.cpp
     ranking.cpp
@@ -117,6 +129,7 @@ set(SOURCE_FILES
     rankingsmodel.cpp
     rankingtypedelegate.cpp
     recentraces.cpp
+    screensaver.cpp
     startlistmodel.cpp
     teamclassentry.cpp
     teamslistmodel.cpp
@@ -124,6 +137,7 @@ set(SOURCE_FILES
     timing.cpp
     timingsmodel.cpp
     timingstatusdelegate.cpp
+    triggerkeydialog.cpp
     txtrankingprinter.cpp
     wizards/newracewizard.cpp
     wizards/rankingswizard.cpp
@@ -136,7 +150,9 @@ set(UI_FILES
     chronoracedata.ui
     chronoracetable.ui
     chronoracetimings.ui
-    livetable.ui)
+    livecolors.ui
+    liverankings.ui
+    livestartlist.ui)
 
 set(PROJECT_SOURCES
     ${HEADER_FILES}
@@ -182,6 +198,9 @@ set_property(SOURCE icons.qrc PROPERTY SKIP_AUTORCC ON)
 
 # Google Material Icons (as standard resource)
 list(APPEND PROJECT_SOURCES materialicons.qrc)
+
+# Flags (as standard resource)
+list(APPEND PROJECT_SOURCES flags.qrc)
 
 # Images (as standard resource)
 list(APPEND PROJECT_SOURCES images.qrc)
@@ -260,3 +279,6 @@ qt_add_resources(${CMAKE_PROJECT_NAME} "translations"
 
 # Linked Qt libraries
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
+if (TARGET Qt6::DBus)
+    target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt6::DBus)
+endif()

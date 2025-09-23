@@ -27,12 +27,6 @@
       <layout class="QVBoxLayout" name="timerArea" stretch="4,0,1">
        <item>
         <widget class="QLCDNumber" name="timer">
-         <property name="font">
-          <font>
-           <pointsize>16</pointsize>
-           <bold>false</bold>
-          </font>
-         </property>
          <property name="digitCount">
           <number>8</number>
          </property>

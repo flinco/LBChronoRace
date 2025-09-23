@@ -377,6 +377,42 @@ QString CRHelper::toStatusFullString(Timing::Status const status)
     }
 }
 
+void CRHelper::pushTiming(QVariantList &list, uint timing)
+{
+    QVariant value = QVariant::fromValue(timing);
+    qsizetype index;
+
+    /* Walk backwards to find the correct insertion point */
+    for (index = list.isEmpty() ? 0 : list.size(); index > 0; index--) {
+        if (timing >= list[index - 1].toUInt()) {
+            break;
+        }
+    }
+
+    /* Insert the value at the computed position */
+    list.insert(index, value);
+}
+
+bool CRHelper::popTiming(QVariantList &list, uint timing)
+{
+    bool retval = false;
+
+    QVariantList::ConstIterator it = list.constBegin();
+    while (it != list.constEnd()) {
+
+        /* Try to find a matching timing */
+        if (it->toUInt() == timing) {
+            list.erase(it);
+            retval = true;
+            break;
+        }
+
+        it++;
+    }
+
+    return retval;
+}
+
 bool CRHelper::askForAppend(QWidget *parent)
 {
     QMessageBox msgBox(QMessageBox::Icon::Question, tr("Import method"), tr("Do you want to replace the table data or add new entries?"), QMessageBox::NoButton, parent);

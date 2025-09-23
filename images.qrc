@@ -3,5 +3,6 @@
         <file alias="PayPal_Donate_en.gif">images/btn_donateCC_LG_en.gif</file>
         <file alias="PayPal_Donate_it.gif">images/btn_donateCC_LG_it.gif</file>
         <file alias="lbchronorace-splash.png">images/lbchronorace-splash.png</file>
+        <file alias="lbchronorace.png">icons/LBChronoRace-256.png</file>
     </qresource>
 </RCC>

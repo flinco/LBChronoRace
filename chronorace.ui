@@ -265,7 +265,7 @@
          <string>Select a screen for the Live Rankings</string>
         </property>
         <property name="text">
-         <string>Live Rankings</string>
+         <string>Live View</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
@@ -486,12 +486,24 @@
     <property name="toolTipsVisible">
      <bool>false</bool>
     </property>
+    <widget class="QMenu" name="menuRecentRaces">
+     <property name="toolTip">
+      <string>Change application language</string>
+     </property>
+     <property name="title">
+      <string>Recent Races</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/overview.svg</normaloff>:/material/icons/overview.svg</iconset>
+     </property>
+    </widget>
     <addaction name="actionNewRace"/>
     <addaction name="actionLoadRace"/>
     <addaction name="actionSaveRace"/>
     <addaction name="actionSaveRaceAs"/>
     <addaction name="separator"/>
-    <addaction name="actionRecentRaces"/>
+    <addaction name="menuRecentRaces"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -517,20 +529,68 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <widget class="QMenu" name="menuAdjust_Timings">
+     <property name="toolTip">
+      <string>Add or subtract an arbitrary amount of time to all the recorded timings</string>
+     </property>
+     <property name="title">
+      <string>Adjust Timings</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/unknown_2.svg</normaloff>:/material/icons/unknown_2.svg</iconset>
+     </property>
+     <addaction name="actionAddTimeSpan"/>
+     <addaction name="actionSubtractTimeSpan"/>
+    </widget>
     <addaction name="actionImportTimings"/>
     <addaction name="actionExportTimings"/>
+    <addaction name="menuAdjust_Timings"/>
+    <addaction name="actionClearTeamsList"/>
     <addaction name="separator"/>
     <addaction name="actionMakeStartList"/>
     <addaction name="actionCollectTimings"/>
     <addaction name="actionMakeRankings"/>
-    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settings</string>
+    </property>
+    <widget class="QMenu" name="menuSetLanguage">
+     <property name="toolTip">
+      <string>Change application language</string>
+     </property>
+     <property name="title">
+      <string>Set Language</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/language.svg</normaloff>:/material/icons/language.svg</iconset>
+     </property>
+    </widget>
+    <widget class="QMenu" name="menuConfigureLiveView">
+     <property name="toolTip">
+      <string>Configure Live View</string>
+     </property>
+     <property name="title">
+      <string>Configure Live View</string>
+     </property>
+     <property name="icon">
+      <iconset resource="materialicons.qrc">
+       <normaloff>:/material/icons/live_tv.svg</normaloff>:/material/icons/live_tv.svg</iconset>
+     </property>
+     <addaction name="actionLiveViewColors"/>
+     <addaction name="actionLiveRankingsRotation"/>
+    </widget>
+    <addaction name="menuSetLanguage"/>
     <addaction name="actionSetEncoding"/>
-    <addaction name="actionAddTimeSpan"/>
-    <addaction name="actionSubtractTimeSpan"/>
+    <addaction name="actionConfigureTrigger"/>
+    <addaction name="menuConfigureLiveView"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuTools"/>
+   <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
   </widget>
   <action name="actionNewRace">
@@ -640,7 +700,8 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset theme="help-about"/>
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/info.svg</normaloff>:/material/icons/info.svg</iconset>
    </property>
    <property name="text">
     <string>About LBChronoRace</string>
@@ -650,6 +711,10 @@
    </property>
   </action>
   <action name="actionAboutQt">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/qt.svg</normaloff>:/material/icons/qt.svg</iconset>
+   </property>
    <property name="text">
     <string>About &amp;Qt</string>
    </property>
@@ -789,9 +854,76 @@
     <string>Subtract an arbitrary amount of time to all the recorded timings</string>
    </property>
   </action>
-  <action name="actionRecentRaces">
+  <action name="actionEnglish">
+   <property name="icon">
+    <iconset resource="flags.qrc">
+     <normaloff>:/flags/gb.svg</normaloff>:/flags/gb.svg</iconset>
+   </property>
    <property name="text">
-    <string>Recent Races</string>
+    <string>English</string>
+   </property>
+   <property name="toolTip">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionItalian">
+   <property name="icon">
+    <iconset resource="flags.qrc">
+     <normaloff>:/flags/it.svg</normaloff>:/flags/it.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Italian</string>
+   </property>
+   <property name="toolTip">
+    <string>Italian</string>
+   </property>
+  </action>
+  <action name="actionConfigureTrigger">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/switch_access_3.svg</normaloff>:/material/icons/switch_access_3.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Configure Trigger</string>
+   </property>
+   <property name="toolTip">
+    <string>Detect and store the external hardware trigger key</string>
+   </property>
+  </action>
+  <action name="actionLiveRankingsRotation">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/speed.svg</normaloff>:/material/icons/speed.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Page Rotation Time</string>
+   </property>
+   <property name="toolTip">
+    <string>Set the interval in seconds for the automatic rotation of contents in the &quot;Live Rankings&quot; window</string>
+   </property>
+  </action>
+  <action name="actionLiveViewColors">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/palette.svg</normaloff>:/material/icons/palette.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Page Colors</string>
+   </property>
+   <property name="toolTip">
+    <string>Set the colors used in the Live Views</string>
+   </property>
+  </action>
+  <action name="actionClearTeamsList">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/delete_sweep.svg</normaloff>:/material/icons/delete_sweep.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Clear Clubs</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove entries without references from the Club List</string>
    </property>
   </action>
  </widget>
@@ -809,6 +941,7 @@
  </tabstops>
  <resources>
   <include location="materialicons.qrc"/>
+  <include location="flags.qrc"/>
  </resources>
  <connections/>
 </ui>

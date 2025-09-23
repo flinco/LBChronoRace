@@ -55,7 +55,6 @@ RankingsWizard::RankingsWizard(ChronoRaceData *data, QDir *path, RankingsWizardT
     }
 
     QObject::connect(&formatPage, &RankingsWizardFormat::error, this, &RankingsWizard::forwardErrorMessage);
-    QObject::connect(&formatPage, &RankingsWizardFormat::notifyOpenChange, this, &RankingsWizard::setOpenFileAtEnd);
     QObject::connect(&modePage, &RankingsWizardMode::error, this, &RankingsWizard::forwardErrorMessage);
     QObject::connect(&selectionPage, &RankingsWizardSelection::error, this, &RankingsWizard::forwardErrorMessage);
 
@@ -69,16 +68,7 @@ RankingsWizard::RankingsWizard(ChronoRaceData *data, QDir *path, RankingsWizardT
 
     setWindowTitle(tr("Rankings Wizard"));
     setStartId(static_cast<int>(RankingsWizardPage::Page_Format));
-}
-
-bool RankingsWizard::getPdfSingleMode() const
-{
-    return pdfSingleMode;
-}
-
-void RankingsWizard::setPdfSingleMode(bool newPdfSingleMode)
-{
-    pdfSingleMode = newPdfSingleMode;
+    setOption(QWizard::WizardOption::IndependentPages, true);
 }
 
 QList<RankingsWizardSelection::RankingsWizardItem> *RankingsWizard::getRankingsList()
@@ -94,6 +84,11 @@ RankingsWizard::RankingsWizardTarget RankingsWizard::getTarget() const
 void RankingsWizard::setTarget(RankingsWizard::RankingsWizardTarget newTarget)
 {
     target = newTarget;
+}
+
+ChronoRaceData *RankingsWizard::getRaceData()
+{
+    return raceData;
 }
 
 void RankingsWizard::buildStartList()
@@ -118,11 +113,6 @@ void RankingsWizard::buildRankings()
     }
 }
 
-void RankingsWizard::setOpenFileAtEnd(bool open)
-{
-    openFileAtEnd = open;
-}
-
 void RankingsWizard::forwardInfoMessage(QString const &message)
 {
     emit info(message);
@@ -143,13 +133,15 @@ void RankingsWizard::storeErrorMessage(QString const &message)
 void RankingsWizard::printStartList()
 {
     try {
+        using enum CRLoader::MaxValue;
+
         CRLoader::Format format = CRLoader::getFormat();
 
         // this call can be done only after the rankingsBuilder.loadData() call
         QList<Competitor const *> startList = rankingsBuilder.fillStartList();
 
         auto sWidth = static_cast<uint>(QString::number(startList.size()).size());
-        auto bWidth = static_cast<uint>(QString::number(CRLoader::getStartListBibMax()).size());
+        auto bWidth = static_cast<uint>(QString::number(CRLoader::getMaxValue(Bib)).size());
 
         // get a ranking printer
         QScopedPointer<RankingPrinter> printer = RankingPrinter::getRankingPrinter(format, sWidth, bWidth);
@@ -159,31 +151,32 @@ void RankingsWizard::printStartList()
                                                            lastSelectedPath->absolutePath(),
                                                            printer->getFileFilter());
 
-        if (!startListFileName.isEmpty()) {
-            auto const &infoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &RankingsWizard::forwardInfoMessage);
-            auto const &errorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &RankingsWizard::forwardErrorMessage);
+        if (startListFileName.isEmpty())
+            throw(ChronoRaceException(tr("Warning: please select a destination file name")));
 
-            printer->init(&startListFileName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Start List"));
+        auto const &infoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &RankingsWizard::forwardInfoMessage);
+        auto const &errorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &RankingsWizard::forwardErrorMessage);
 
-            // print the startlist
-            printer->printStartList(startList);
+        printer->init(&startListFileName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Start List"), raceData->getTranslator());
 
-            if (printer->finalize()) {
-                QFileInfo outFileInfo(startListFileName);
-                QString outFilePath = QDir::toNativeSeparators(outFileInfo.absoluteFilePath());
-                emit info(tr("Generated Start List: %1").arg(outFilePath));
-                lastSelectedPath->setPath(outFileInfo.absoluteDir().absolutePath());
+        // print the startlist
+        printer->printStartList(startList);
 
-                if (this->openFileAtEnd) {
-                    emit info(tr("Trying to open: %1").arg(outFilePath));
-                    QDesktopServices::openUrl(QUrl::fromLocalFile(outFilePath));
-                }
+        if (printer->finalize()) {
+            QFileInfo outFileInfo(startListFileName);
+            QString outFilePath = QDir::toNativeSeparators(outFileInfo.absoluteFilePath());
+            emit info(tr("Generated Start List: %1").arg(outFilePath));
+            lastSelectedPath->setPath(outFileInfo.absoluteDir().absolutePath());
+
+            if (field("format.open").toBool()) {
+                emit info(tr("Trying to open: %1").arg(outFilePath));
+                QDesktopServices::openUrl(QUrl::fromLocalFile(outFilePath));
             }
-
-            // cleanup
-            QObject::disconnect(infoMessages);
-            QObject::disconnect(errorMessages);
         }
+
+        // cleanup
+        QObject::disconnect(infoMessages);
+        QObject::disconnect(errorMessages);
     } catch (ChronoRaceException &e) {
         emit error(e.getMessage());
     }
@@ -192,9 +185,11 @@ void RankingsWizard::printStartList()
 void RankingsWizard::printRankingsSingleFile()
 {
     try {
+        using enum CRLoader::MaxValue;
+
         // this call can be done only after the rankingsBuilder.loadData() call
         auto sWidth = static_cast<uint>(QString::number(numberOfCompetitors).size());
-        auto bWidth = static_cast<uint>(QString::number(CRLoader::getStartListBibMax()).size());
+        auto bWidth = static_cast<uint>(QString::number(CRLoader::getMaxValue(Bib)).size());
 
         // get a ranking printer
         QScopedPointer<RankingPrinter> printer = RankingPrinter::getRankingPrinter(CRLoader::getFormat(), sWidth, bWidth);
@@ -210,7 +205,7 @@ void RankingsWizard::printRankingsSingleFile()
         auto const &printerInfoMessages = QObject::connect(printer.data(), &RankingPrinter::info, this, &RankingsWizard::forwardInfoMessage);
         auto const &printerErrorMessages = QObject::connect(printer.data(), &RankingPrinter::error, this, &RankingsWizard::forwardErrorMessage);
 
-        printer->init(&rankingsFileName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Results"));
+        printer->init(&rankingsFileName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Results"), raceData->getTranslator());
 
         // now print each ranking
         for (auto &rankingItem : rankingsList) {
@@ -236,7 +231,7 @@ void RankingsWizard::printRankingsSingleFile()
             emit info(tr("Generated Results: %1").arg(outFilePath));
             lastSelectedPath->setPath(outFileInfo.absoluteDir().absolutePath());
 
-            if (this->openFileAtEnd) {
+            if (field("format.open").toBool()) {
                 emit info(tr("Trying to open: %1").arg(outFilePath));
                 QDesktopServices::openUrl(QUrl::fromLocalFile(outFilePath));
             }
@@ -253,10 +248,12 @@ void RankingsWizard::printRankingsSingleFile()
 void RankingsWizard::printRankingsMultiFile()
 {
     try {
+        using enum CRLoader::MaxValue;
+
         // this call can be done only after the rankingsBuilder.loadData() call
         auto sWidth = static_cast<uint>(QString::number(numberOfCompetitors).size());
         auto rWidth = static_cast<uint>(QString::number(rankingsList.size()).size());
-        auto bWidth = static_cast<uint>(QString::number(CRLoader::getStartListBibMax()).size());
+        auto bWidth = static_cast<uint>(QString::number(CRLoader::getMaxValue(Bib)).size());
 
         // get a ranking printer
         QScopedPointer<RankingPrinter> printer = RankingPrinter::getRankingPrinter(CRLoader::getFormat(), sWidth, bWidth);
@@ -284,7 +281,7 @@ void RankingsWizard::printRankingsMultiFile()
                 continue;
 
             outFileBaseName = QDir(rankingsBasePath).filePath(QString("class%1_%2").arg(k, rWidth, 10, QChar('0')).arg(rankingItem.categories->getShortDescription()));
-            printer->init(&outFileBaseName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Results") + " - " + rankingItem.categories->getFullDescription());
+            printer->init(&outFileBaseName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Results") + " - " + rankingItem.categories->getFullDescription(), raceData->getTranslator());
 
             if (rankingItem.categories->isTeam()) {
                 // build the ranking
@@ -303,7 +300,7 @@ void RankingsWizard::printRankingsMultiFile()
                 QString outFilePath = QDir::toNativeSeparators(outFileInfo.absoluteFilePath());
                 emit info(tr("Generated Results '%1': %2").arg(rankingItem.categories->getFullDescription(), outFilePath));
 
-                if (this->openFileAtEnd) {
+                if (field("format.open").toBool()) {
                     emit info(tr("Trying to open: %1").arg(outFilePath));
                     QDesktopServices::openUrl(QUrl::fromLocalFile(outFilePath));
                 }
@@ -327,6 +324,18 @@ void RankingsWizard::print(bool checked)
             emit error(message);
     messages.clear();
 
+    // language
+    raceData->setField(ChronoRaceData::IndexField::LANGUAGE, field("format.language").toInt());
+
+    // format
+    CRLoader::setFormat(static_cast<CRLoader::Format>(field("format.format").toUInt()));
+
+    // encoding
+    CRLoader::setEncoding(static_cast<QStringConverter::Encoding>(field("format.encoding").toUInt()));
+
+    // results mode
+    raceData->setField(ChronoRaceData::IndexField::RESULTS, field("selection.results").toInt());
+
     switch (this->target) {
         using enum RankingsWizard::RankingsWizardTarget;
 
@@ -334,7 +343,7 @@ void RankingsWizard::print(bool checked)
             printStartList();
             break;
         case Rankings:
-            if ((CRLoader::getFormat() != CRLoader::Format::PDF) || (pdfSingleMode == false))
+            if ((CRLoader::getFormat() != CRLoader::Format::PDF) || field("mode.multiFile").toBool())
                 printRankingsMultiFile();
             else
                 printRankingsSingleFile();

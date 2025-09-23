@@ -29,7 +29,7 @@ class TXTRankingPrinter final : public RankingPrinter
     using RankingPrinter::RankingPrinter;
 
 public:
-    void init(QString *outFileName, QString const &title, QString const &subject) override;
+    void init(QString *outTxtFileName, QString const &title, QString const &subject, QTranslator const *translator) override;
 
     void printStartList(QList<Competitor const *> const &startList) override;
     void printRanking(Ranking const &categories, QList<ClassEntry const *> const &ranking) override;

@@ -81,14 +81,16 @@ QString ClassEntry::getName(uint legIdx) const
 
 QString ClassEntry::getNamesCommon(bool csvFormat) const
 {
+    using enum CRLoader::MaxValue;
+
     QString retString;
     bool skip;
     bool first = true;
     int i;
     Competitor const *c;
 
-    int teamNameWidthMax = csvFormat ? 0 : static_cast<int>(CRLoader::getTeamNameWidthMax());
-    int startListNameWidthMax = csvFormat ? 0 : static_cast<int>(CRLoader::getStartListNameWidthMax());
+    int teamNameWidthMax = csvFormat ? 0 : static_cast<int>(CRLoader::getMaxValue(ClubNameWidth));
+    int startListNameWidthMax = csvFormat ? 0 : static_cast<int>(CRLoader::getMaxValue(CompNameWidth));
 
     QString emptyName = ClassEntry::empty;
 

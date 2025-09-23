@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/material">
+        <file>icons/qt.svg</file>
         <file>icons/add_photo_alternate.svg</file>
         <file>icons/counter_0_big.svg</file>
         <file>icons/download.svg</file>
@@ -60,5 +61,15 @@
         <file>icons/history.svg</file>
         <file>icons/update.svg</file>
         <file>icons/note_add.svg</file>
+        <file>icons/language.svg</file>
+        <file>icons/overview.svg</file>
+        <file>icons/unknown_2.svg</file>
+        <file>icons/switch_access_3.svg</file>
+        <file>icons/info.svg</file>
+        <file>icons/info_i.svg</file>
+        <file>icons/speed.svg</file>
+        <file>icons/palette.svg</file>
+        <file>icons/live_tv.svg</file>
+        <file>icons/delete_sweep.svg</file>
     </qresource>
 </RCC>
