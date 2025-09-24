@@ -52,13 +52,24 @@
     <!--<Checkable>true</Checkable>-->
     <ExpandedByDefault>true</ExpandedByDefault>
     <Operations>
+        <Operation name="Mkdir">
+            <Argument>@at@StartMenuDir@at@\LBChronoRace</Argument>
+        </Operation>
         <Operation name="CreateShortcut">
             <Argument>@at@TargetDir@at@\LBChronoRace.exe</Argument>
-            <Argument>@at@StartMenuDir@at@\LBChronoRace.lnk</Argument>
+            <Argument>@at@StartMenuDir@at@\LBChronoRace\LBChronoRace.lnk</Argument>
             <Argument>workingDirectory=@at@TargetDir@at@</Argument>
             <Argument>iconPath=@at@TargetDir@at@\LBChronoRace.exe</Argument>
             <Argument>iconId=0</Argument>
             <!--<Argument>description="Start LBChronoRace"</Argument>-->
+        </Operation>
+        <Operation name="CreateShortcut">
+            <Argument>@at@TargetDir@at@\LBChronoRaceInstaller.exe</Argument>
+            <Argument>@at@StartMenuDir@at@\LBChronoRace\Maintenance Tool.lnk</Argument>
+            <Argument>workingDirectory=@at@TargetDir@at@</Argument>
+            <Argument>iconPath=@at@TargetDir@at@\LBChronoRaceInstaller.exe</Argument>
+            <Argument>iconId=0</Argument>
+            <!--<Argument>description="Start LBChronoRace Maintenance Tool"</Argument>-->
         </Operation>
         <Operation name="CreateShortcut">
             <Argument>@at@TargetDir@at@\LBChronoRace.exe</Argument>

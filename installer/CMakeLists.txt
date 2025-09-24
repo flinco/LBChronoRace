@@ -39,19 +39,29 @@ find_program(QTIFW_BINARYCREATOR_EXECUTABLE
     HINTS "C:/Qt/Tools/QtInstallerFramework/4.10"
     PATH_SUFFIXES "bin"
     REQUIRED
-    DOC "Qt Installer Framework command line client")
+    DOC "Qt Installer Framework binary creator")
 
-mark_as_advanced(WINDEPLOYQT_EXECUTABLE QTIFW_BINARYCREATOR_EXECUTABLE)
+# Look for 'repogen'
+find_program(QTIFW_REPOGEN_EXECUTABLE
+    NAMES repogen
+    HINTS "C:/Qt/Tools/QtInstallerFramework/4.10"
+    PATH_SUFFIXES "bin"
+    REQUIRED
+    DOC "Qt Installer Framework repository generator")
+
+mark_as_advanced(WINDEPLOYQT_EXECUTABLE QTIFW_BINARYCREATOR_EXECUTABLE QTIFW_REPOGEN_EXECUTABLE)
 
 # Convenience path variables
 set(WIN_DEPLOY_TARGET_DIR "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/data")
 set(WIN_DEPLOY_SAMPLES_DIR "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace.samples/data")
 set(WIN_DEPLOY_DIRS "config" "packages")
+set(WIN_REPOSITORY_DIR "${CMAKE_CURRENT_BINARY_DIR}/repository")
 
 # Cleanup
 foreach(WIN_DEPLOY_DIR ${WIN_DEPLOY_DIRS})
     file(REMOVE_RECURSE "${CMAKE_CURRENT_BINARY_DIR}/${WIN_DEPLOY_DIR}")
 endforeach()
+file(REMOVE_RECURSE "${WIN_REPOSITORY_DIR}")
 
 # Create the basic tree
 file(COPY ${WIN_DEPLOY_DIRS} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}"
@@ -69,6 +79,7 @@ unset(at CACHE)
 
 # Installer images and icons
 file(COPY
+    "${CMAKE_SOURCE_DIR}/icons/installer.ico"
     "${CMAKE_SOURCE_DIR}/icons/LBChronoRace.ico"
     "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-32.png"
     "${CMAKE_SOURCE_DIR}/icons/LBChronoRace-64.png"
@@ -168,13 +179,21 @@ add_custom_command(TARGET installer POST_BUILD
     USES_TERMINAL)
 
 # Build the installer
-# consider building an on-line installer or examine the possibility to use --hybrid
 add_custom_command(TARGET installer POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E env ${QTIFW_BINARYCREATOR_EXECUTABLE}
+        "--hybrid"
         -c "config/config.xml"
         -p "packages"
         -v "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer${CMAKE_EXECUTABLE_SUFFIX}"
     COMMENT "Crearting ${CMAKE_PROJECT_NAME} installer"
+    USES_TERMINAL)
+
+# Build the repository
+add_custom_command(TARGET installer POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E env ${QTIFW_REPOGEN_EXECUTABLE}
+        -p "packages"
+        "${WIN_REPOSITORY_DIR}"
+    COMMENT "Generating QtIFW repository into ${WIN_REPOSITORY_DIR}"
     USES_TERMINAL)
 
 # Build the launcher that set AllUsers

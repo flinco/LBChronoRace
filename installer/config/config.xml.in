@@ -22,7 +22,7 @@
     <Publisher>Lorenzo Buzzi</Publisher>
     <ProductUrl>http://github.com/flinco/LBChronoRace</ProductUrl>
     <InstallerWindowIcon>LBChronoRace-128.png</InstallerWindowIcon>
-    <InstallerApplicationIcon>LBChronoRace</InstallerApplicationIcon>
+    <InstallerApplicationIcon>installer</InstallerApplicationIcon>
     <!--<WizardStyle>Modern</WizardStyle>-->
     <!-- Logo is not displayed if the Wizard Style is Aero (the default) -->
     <Logo>LBChronoRace-64.png</Logo>
@@ -70,4 +70,13 @@
     <InstallActionColumnVisible>true</InstallActionColumnVisible>
     <ControlScript>uninstall.qs</ControlScript>
     <!--<SupportsModify>true</SupportsModify>-->
+    <RemoteRepositories>
+        <Repository>
+            <Url>https://www.buzzi.pro/packages</Url>
+            <Enabled>1</Enabled>
+            <Username>lbchronorace</Username>
+            <Password>z1puLL</Password>
+            <DisplayName>LBChronoRace repository</DisplayName>
+        </Repository>
+    </RemoteRepositories>
 </Installer>
