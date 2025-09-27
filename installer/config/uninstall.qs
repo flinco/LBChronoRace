@@ -16,7 +16,22 @@
  *****************************************************************************/
 
 function Controller() {
+    console.log("AllUsers=" + installer.value("AllUsers"));
+
+    installer.installationStarted.connect(this, extractEmbeddedResources);
+    installer.installationFinished.connect(this, cleanEmbeddedResources);
+
     if (!installer.hasAdminRights()) {
         installer.gainAdminRights();
     }
+}
+
+extractEmbeddedResources = function() {
+    var userTemp = QDesktopServices.storageLocation(QDesktopServices.TempLocation);
+    installer.performOperation("Copy", [":/SetAppUserModelId.exe", installer.toNativeSeparators(userTemp + "/SetAppUserModelId.exe"), "UNDOOPERATION", ""]);
+}
+
+cleanEmbeddedResources = function() {
+    var userTemp = QDesktopServices.storageLocation(QDesktopServices.TempLocation);
+    installer.performOperation("Delete", [installer.toNativeSeparators(userTemp + "/SetAppUserModelId.exe"), "UNDOOPERATION", ""]);
 }

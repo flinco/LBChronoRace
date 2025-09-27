@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="SetAppUserModelId.exe">SetAppUserModelId.exe</file>
+    </qresource>
+</RCC>

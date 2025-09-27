@@ -31,8 +31,8 @@
         <License name="GNU GPLv3" file="license.txt" />
         <!--<License name="GNU GPLv3 (italiano)" file="license_it.txt" />-->
     </Licenses>
-    <!--
     <Script>installscript.qs</Script>
+    <!--
     <UserInterfaces>
         <UserInterface>registerfilecheckboxform.ui</UserInterface>
     </UserInterfaces>
@@ -51,45 +51,12 @@
     <!--<RequiresAdminRights>true</RequiresAdminRights>-->
     <!--<Checkable>true</Checkable>-->
     <ExpandedByDefault>true</ExpandedByDefault>
-    <Operations>
-        <Operation name="Mkdir">
-            <Argument>@at@StartMenuDir@at@\LBChronoRace</Argument>
+    <!--<Operations>
+        <Operation name="...">
+            <Argument>...</Argument>
+            <Argument>...</Argument>
         </Operation>
-        <Operation name="CreateShortcut">
-            <Argument>@at@TargetDir@at@\LBChronoRace.exe</Argument>
-            <Argument>@at@StartMenuDir@at@\LBChronoRace\LBChronoRace.lnk</Argument>
-            <Argument>workingDirectory=@at@TargetDir@at@</Argument>
-            <Argument>iconPath=@at@TargetDir@at@\LBChronoRace.exe</Argument>
-            <Argument>iconId=0</Argument>
-            <!--<Argument>description="Start LBChronoRace"</Argument>-->
-        </Operation>
-        <Operation name="CreateShortcut">
-            <Argument>@at@TargetDir@at@\LBChronoRaceInstaller.exe</Argument>
-            <Argument>@at@StartMenuDir@at@\LBChronoRace\Maintenance Tool.lnk</Argument>
-            <Argument>workingDirectory=@at@TargetDir@at@</Argument>
-            <Argument>iconPath=@at@TargetDir@at@\LBChronoRaceInstaller.exe</Argument>
-            <Argument>iconId=0</Argument>
-            <!--<Argument>description="Start LBChronoRace Maintenance Tool"</Argument>-->
-        </Operation>
-        <Operation name="CreateShortcut">
-            <Argument>@at@TargetDir@at@\LBChronoRace.exe</Argument>
-            <Argument>@at@DesktopDir@at@\LBChronoRace.lnk</Argument>
-            <Argument>workingDirectory=@at@TargetDir@at@</Argument>
-            <Argument>iconPath=@at@TargetDir@at@\LBChronoRace.exe</Argument>
-            <Argument>iconId=0</Argument>
-            <!--<Argument>description="Start LBChronoRace"</Argument>-->
-        </Operation>
-        <Operation name="RegisterFileType">
-            <Argument>crd</Argument>
-            <!--<Argument>"@at@TargetDir@at@\LBChronoRace.exe" "%1"</Argument>-->
-            <Argument>"C:\Program Files\LBChronoRace\LBChronoRace.exe" "%1"</Argument>
-            <Argument>LBChronoRace Data</Argument>
-            <Argument>application/x-binary</Argument>
-            <!--<Argument>@at@TargetDir@at@\LBChronoRaceCRD.ico</Argument>-->
-            <Argument>C:\Program Files\LBChronoRace\LBChronoRaceCRD.ico</Argument>
-            <Argument>ProgId=LBChronoRace.exe</Argument>
-        </Operation>
-    </Operations>
+    </Operations>-->
     <!--<TreeName>com.vendor.subcomponent</TreeName>-->
 </Package>
 
