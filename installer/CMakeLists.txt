@@ -19,6 +19,33 @@
 
 #include(CMakePrintHelpers)
 
+# QtIFW resources directory (build)
+set(QTIFW_RESOURCES_DIR "${CMAKE_CURRENT_BINARY_DIR}/resources")
+file(MAKE_DIRECTORY "${QTIFW_RESOURCES_DIR}")
+
+# Extra tools: SetAppUserModelId
+add_executable(setappusermodelid tools/setappusermodelid.cpp)
+set_target_properties(setappusermodelid PROPERTIES
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED YES
+    CXX_EXTENSIONS NO
+    RUNTIME_OUTPUT_NAME "SetAppUserModelId"
+    RUNTIME_OUTPUT_DIRECTORY "${QTIFW_RESOURCES_DIR}")
+target_link_libraries(setappusermodelid
+    PRIVATE
+        ole32
+        shlwapi
+        propsys)
+# Once the target 'setappusermodelid' has been built, copy the .qrc
+set(SETAPPUSERMODELID_QRC "${QTIFW_RESOURCES_DIR}/setappusermodelid.qrc")
+add_custom_command(TARGET setappusermodelid POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/tools/setappusermodelid.qrc"
+        "${SETAPPUSERMODELID_QRC}"
+    COMMENT "Copying setappusermodelid.qrc to ${QTIFW_RESOURCES_DIR}"
+    USES_TERMINAL)
+
+# The installer
 add_custom_target(installer
     COMMENT "Setting up the tree for the Qt Installer Framework")
 
@@ -49,13 +76,22 @@ find_program(QTIFW_REPOGEN_EXECUTABLE
     REQUIRED
     DOC "Qt Installer Framework repository generator")
 
-mark_as_advanced(WINDEPLOYQT_EXECUTABLE QTIFW_BINARYCREATOR_EXECUTABLE QTIFW_REPOGEN_EXECUTABLE)
+# Look for 'installerbase'
+find_program(QTIFW_INSTALLERBASE_EXECUTABLE
+    NAMES installerbase
+    HINTS "C:/Qt/Tools/QtInstallerFramework/4.10"
+    PATH_SUFFIXES "bin"
+    REQUIRED
+    DOC "Qt Installer Framework base binary")
+
+mark_as_advanced(WINDEPLOYQT_EXECUTABLE QTIFW_BINARYCREATOR_EXECUTABLE QTIFW_REPOGEN_EXECUTABLE QTIFW_INSTALLERBASE_EXECUTABLE)
 
 # Convenience path variables
 set(WIN_DEPLOY_TARGET_DIR "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/data")
 set(WIN_DEPLOY_SAMPLES_DIR "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace.samples/data")
+set(WIN_DEPLOY_MAINTENANCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/packages/org.qtproject.ifw.maintenancetool/data")
 set(WIN_DEPLOY_DIRS "config" "packages")
-set(WIN_REPOSITORY_DIR "${CMAKE_CURRENT_BINARY_DIR}/repository")
+set(WIN_REPOSITORY_DIR "${CMAKE_BINARY_DIR}/repository")
 
 # Cleanup
 foreach(WIN_DEPLOY_DIR ${WIN_DEPLOY_DIRS})
@@ -76,6 +112,10 @@ foreach(IN_FILE ${WIN_DEPLOY_CONFIG_XML})
     configure_file(${IN_FILE} ${OUT_FILE} NEWLINE_STYLE WIN32)
 endforeach()
 unset(at CACHE)
+
+# Installer base binary
+file(COPY "${QTIFW_INSTALLERBASE_EXECUTABLE}"
+     DESTINATION "${WIN_DEPLOY_MAINTENANCE_DIR}")
 
 # Installer images and icons
 file(COPY
@@ -178,14 +218,32 @@ add_custom_command(TARGET installer POST_BUILD
     COMMENT "Deploying ${CMAKE_PROJECT_NAME}..."
     USES_TERMINAL)
 
+# Build the installer's resource file (for on-line update)
+add_custom_command(TARGET installer POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E env ${QTIFW_BINARYCREATOR_EXECUTABLE}
+        -c "config/config.xml"
+        -p "packages"
+        -r "${SETAPPUSERMODELID_QRC}"
+        -rcc
+    COMMENT "Creating ${CMAKE_PROJECT_NAME} installer's resource file"
+    USES_TERMINAL)
+
+# Copy the installer's resource file
+add_custom_command(TARGET installer POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "update.rcc" ${WIN_DEPLOY_MAINTENANCE_DIR}
+    DEPENDS "update.rcc"
+    COMMENT "Copy update.rcc into the maintenance tool directory"
+    USES_TERMINAL)
+
 # Build the installer
 add_custom_command(TARGET installer POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E env ${QTIFW_BINARYCREATOR_EXECUTABLE}
         "--hybrid"
         -c "config/config.xml"
         -p "packages"
+        -r "${SETAPPUSERMODELID_QRC}"
         -v "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer${CMAKE_EXECUTABLE_SUFFIX}"
-    COMMENT "Crearting ${CMAKE_PROJECT_NAME} installer"
+    COMMENT "Creating ${CMAKE_PROJECT_NAME} installer"
     USES_TERMINAL)
 
 # Build the repository
