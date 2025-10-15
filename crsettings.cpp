@@ -17,6 +17,7 @@
 
 #include <QVariant>
 #include <QFile>
+#include <QLocale>
 
 #include "crsettings.hpp"
 
@@ -38,7 +39,13 @@ QSettings CRSettings::settings { QSettings::Format::NativeFormat, QSettings::Sco
 
 QString CRSettings::getLanguage()
 {
-    return settings.value(UI_LANGUAGE_KEY, QVariant("en")).toString();
+    // get locale from system
+    auto sysLangCode = QLocale::system().name(QLocale::TagSeparator::Underscore).section(static_cast<char>(QLocale::TagSeparator::Underscore), 0, 0).toLower(); // "it_it" --> "it"
+
+    if (sysLangCode != "it")
+        sysLangCode = "en";
+
+    return settings.value(UI_LANGUAGE_KEY, QVariant(sysLangCode)).toString();
 }
 
 void CRSettings::setLanguage(QString const &language)
