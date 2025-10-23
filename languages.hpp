@@ -33,8 +33,8 @@ class Languages : public QObject
     Q_OBJECT
 
 public:
-    static void loadMenu(QMenu *menu);
-    static void loadMenu(QComboBox *menu, QStringList const *filter = Q_NULLPTR);
+    static void loadMenu(QMenu *menu, QString const &prefix);
+    static void loadMenu(QComboBox *menu, QString const &prefix, QStringList const *filter = Q_NULLPTR);
 
     static void loadStoredLanguage(QTranslator *newQt, QTranslator *newBase, QTranslator *newApp);
     static void loadLanguage(QString const &rLanguage);

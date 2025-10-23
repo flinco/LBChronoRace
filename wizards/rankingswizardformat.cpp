@@ -87,7 +87,7 @@ void RankingsWizardFormat::initializePage()
     ChronoRaceData *raceData = parentWizard->getRaceData();
     QComboBox *rankingsLanguage = qobject_cast<QComboBox *>(layout.itemAt(0, QFormLayout::ItemRole::FieldRole)->widget());
     QStringList filter = raceData->getFieldValues(ChronoRaceData::IndexField::LANGUAGE);
-    Languages::loadMenu(rankingsLanguage, &filter);
+    Languages::loadMenu(rankingsLanguage, QStringLiteral("lbrankings"), &filter);
     rankingsLanguage->setCurrentIndex(raceData->getFieldIndex(ChronoRaceData::IndexField::LANGUAGE));
 }
 

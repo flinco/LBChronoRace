@@ -88,14 +88,14 @@ ChronoRaceData::ChronoRaceData(QWidget *parent) : QDialog(parent)
     ui->accuracy->setCurrentIndex(this->accuracyIdx);
     this->stringFields[static_cast<int>(StringField::ACCURACY)] = ui->accuracy->currentText();
 
-    Languages::loadMenu(ui->language);
+    Languages::loadMenu(ui->language, QStringLiteral("lbrankings"));
     this->translators << Q_NULLPTR; // empty translator for the default combo box entry
     // create all the translators
     for (int index = 1; index < this->ui->language->count(); ++index) {
         auto locale = QLocale(QLocale::codeToLanguage(this->ui->language->itemData(index).toString()));
         while (this->translators.count() <= index)
             this->translators << new QTranslator;
-        if (!this->translators[index]->load(locale, QStringLiteral("lbchronorace"), QStringLiteral("_"), QStringLiteral(":/i18n")))
+        if (!this->translators[index]->load(locale, QStringLiteral("lbrankings"), QStringLiteral("_"), QStringLiteral(":/i18n")))
             this->ui->language->removeItem(index); // remove the unavailable translation
     }
 }

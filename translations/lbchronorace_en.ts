@@ -1962,118 +1962,12 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Error: cannot generate results for 0 legs</translation>
     </message>
     <message>
-        <source>Results</source>
-        <translation>Results</translation>
-    </message>
-    <message>
-        <source>%1 Results</source>
-        <translation>%1 Results</translation>
-    </message>
-    <message>
-        <source>#</source>
-        <translation>#</translation>
-    </message>
-    <message>
         <source>PDF (*.pdf)</source>
         <translation>PDF (*.pdf)</translation>
     </message>
     <message>
-        <source>Start List</source>
-        <translation>Start List</translation>
-    </message>
-    <message>
-        <source>Bib</source>
-        <translation>Bib</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation>Name</translation>
-    </message>
-    <message>
-        <source>Team</source>
-        <translation>Team</translation>
-    </message>
-    <message>
-        <source>Year</source>
-        <translation>Year</translation>
-    </message>
-    <message>
-        <source>Sex</source>
-        <translation>Sex</translation>
-    </message>
-    <message>
-        <source>Class</source>
-        <translation>Class</translation>
-    </message>
-    <message>
-        <source>Leg</source>
-        <comment>long label</comment>
-        <translation>Leg</translation>
-    </message>
-    <message>
-        <source>Leg %1</source>
-        <translation>Leg %1</translation>
-    </message>
-    <message>
-        <source>Time</source>
-        <translation>Time</translation>
-    </message>
-    <message>
-        <source>Diff</source>
-        <translation>Diff</translation>
-    </message>
-    <message>
-        <source>Leg</source>
-        <comment>short label</comment>
-        <translation>Leg</translation>
-    </message>
-    <message>
-        <source>Leg Time (and position)</source>
-        <translation>Leg Time (and position)</translation>
-    </message>
-    <message>
-        <source>Page %1 of %2</source>
-        <translation>Page %1 of %2</translation>
-    </message>
-    <message>
-        <source>Organization</source>
-        <translation>Organization</translation>
-    </message>
-    <message>
-        <source>Race Type</source>
-        <translation>Race Type</translation>
-    </message>
-    <message>
-        <source>Start Time</source>
-        <translation>Start Time</translation>
-    </message>
-    <message>
         <source>Error: ranking type not allowed</source>
         <translation>Error: ranking type not allowed</translation>
-    </message>
-    <message>
-        <source>Length</source>
-        <translation>Length</translation>
-    </message>
-    <message>
-        <source>Elevation Gain</source>
-        <translation>Elevation Gain</translation>
-    </message>
-    <message>
-        <source>Referee</source>
-        <translation>Referee</translation>
-    </message>
-    <message>
-        <source>Timekeeper 1</source>
-        <translation>Timekeeper 1</translation>
-    </message>
-    <message>
-        <source>Timekeeper 2</source>
-        <translation>Timekeeper 2</translation>
-    </message>
-    <message>
-        <source>Timekeeper 3</source>
-        <translation>Timekeeper 3</translation>
     </message>
     <message>
         <source>Error: cannot start drawing</source>
@@ -2088,16 +1982,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Error: drawing attempt on inactive painter</translation>
     </message>
     <message>
-        <source>Created with %1 %2</source>
-        <translation>Created with %1 %2</translation>
-    </message>
-    <message>
         <source>Cannot write to PDF</source>
         <translation>Cannot write to PDF</translation>
-    </message>
-    <message>
-        <source>Rankings</source>
-        <translation>Rankings</translation>
     </message>
     <message>
         <source>Error: no translator provided</source>
@@ -2117,61 +2003,6 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>&lt;p&gt;Copyright&amp;copy; 2021-2025&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;Copyright&amp;copy; 2021-2025&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</translation>
-    </message>
-</context>
-<context>
-    <name>QObject</name>
-    <message>
-        <source>Organization</source>
-        <translation>Organization</translation>
-    </message>
-    <message>
-        <source>Event</source>
-        <translation>Event</translation>
-    </message>
-    <message>
-        <source>Place</source>
-        <translation>Place</translation>
-    </message>
-    <message>
-        <source>Date</source>
-        <translation>Date</translation>
-    </message>
-    <message>
-        <source>Start Time</source>
-        <translation>Start Time</translation>
-    </message>
-    <message>
-        <source>Race Type</source>
-        <translation>Race Type</translation>
-    </message>
-    <message>
-        <source>Length</source>
-        <translation>Length</translation>
-    </message>
-    <message>
-        <source>Elevation Gain</source>
-        <translation>Elevation Gain</translation>
-    </message>
-    <message>
-        <source>Referee</source>
-        <translation>Referee</translation>
-    </message>
-    <message>
-        <source>Timekeeper 1</source>
-        <translation>Timekeeper 1</translation>
-    </message>
-    <message>
-        <source>Timekeeper 2</source>
-        <translation>Timekeeper 2</translation>
-    </message>
-    <message>
-        <source>Timekeeper 3</source>
-        <translation>Timekeeper 3</translation>
-    </message>
-    <message>
-        <source>Results</source>
-        <translation>Results</translation>
     </message>
 </context>
 <context>
@@ -2455,14 +2286,6 @@ publishing</translation>
     <message>
         <source>Plain Text (*.txt)</source>
         <translation>Plain Text (*.txt)</translation>
-    </message>
-    <message>
-        <source>Start List</source>
-        <translation>Start List</translation>
-    </message>
-    <message>
-        <source>Leg %1</source>
-        <translation>Leg %1</translation>
     </message>
     <message>
         <source>Error: unable to open %1</source>

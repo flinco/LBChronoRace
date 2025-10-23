@@ -30,7 +30,7 @@ QTranslator *Languages::qt = Q_NULLPTR;
 QTranslator *Languages::base = Q_NULLPTR;
 QTranslator *Languages::app = Q_NULLPTR;
 
-void Languages::loadMenu(QMenu *menu)
+void Languages::loadMenu(QMenu *menu, QString const &prefix)
 {
     Q_ASSERT(menu != Q_NULLPTR);
 
@@ -46,6 +46,10 @@ void Languages::loadMenu(QMenu *menu)
     while (it.hasNext()) {
         // get locale extracted by filename
         QString langCode = it.next().section('/', 2, -1); // "lbchronorace_it.qm"
+
+        if (!(prefix.isEmpty() || langCode.startsWith(prefix, Qt::CaseSensitivity::CaseInsensitive)))
+            continue;
+
         langCode.truncate(langCode.lastIndexOf('.')); // "lbchronorace_it"
         langCode.remove(0, langCode.lastIndexOf('_') + 1); // "it"
 
@@ -69,7 +73,7 @@ void Languages::loadMenu(QMenu *menu)
     }
 }
 
-void Languages::loadMenu(QComboBox *menu, QStringList const *filter)
+void Languages::loadMenu(QComboBox *menu, QString const &prefix, QStringList const *filter)
 {
     Q_ASSERT(menu != Q_NULLPTR);
 
@@ -77,6 +81,10 @@ void Languages::loadMenu(QComboBox *menu, QStringList const *filter)
     while (it.hasNext()) {
         // get locale extracted by filename
         QString langCode = it.next().section('/', 2, -1); // "lbchronorace_it.qm"
+
+        if (!(prefix.isEmpty() || langCode.startsWith(prefix, Qt::CaseSensitivity::CaseInsensitive)))
+            continue;
+
         langCode.truncate(langCode.lastIndexOf('.')); // "lbchronorace_it"
         langCode.remove(0, langCode.lastIndexOf('_') + 1); // "it"
 
