@@ -40,6 +40,7 @@
 #include "liveview.hpp"
 #include "livecolors.hpp"
 #include "screensaver.hpp"
+#include "updates.hpp"
 
 #ifndef LBCHRONORACE_ORGANIZATION
 #error "LBCHRONORACE_ORGANIZATION not set"
@@ -124,10 +125,11 @@ private:
     TimingStatusDelegate timingStatusDelegate;
 
     LiveView liveView;
-    QString screenSerial;
     ScreenSaver screenSaver;
 
     LiveColors liveColors;
+
+    Updates updater;
 
     bool loadRaceFile(QString const &fileName);
     bool checkDirty();
@@ -137,7 +139,6 @@ private slots:
     void loadRace();
     void openRecentRace(QAction const *action);
     void saveRace();
-    void saveRaceAs();
 
     void setEncoding();
 

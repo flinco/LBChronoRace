@@ -993,6 +993,10 @@ Are you sure you want to continue?</translation>
         <translation>Save as</translation>
     </message>
     <message>
+        <source>Update LBChronoRace</source>
+        <translation>Update LBChronoRace</translation>
+    </message>
+    <message>
         <source>Clubs List</source>
         <translation>Clubs List</translation>
     </message>
@@ -2421,6 +2425,77 @@ Reconfigure the trigger device and try again.</translation>
     <message>
         <source>Trigger keys do not match. Try again.</source>
         <translation>Trigger keys do not match. Try again.</translation>
+    </message>
+</context>
+<context>
+    <name>Updates</name>
+    <message>
+        <source>Updates: update check already running</source>
+        <translation>Updates: update check already running</translation>
+    </message>
+    <message>
+        <source>Updates: checking for updates…</source>
+        <translation>Updates: checking for updates…</translation>
+    </message>
+    <message>
+        <source>Maintenance Tool not found</source>
+        <translation>Maintenance Tool not found</translation>
+    </message>
+    <message>
+        <source>update checking is not yet available for this operating system</source>
+        <translation>update checking is not yet available for this operating system</translation>
+    </message>
+    <message>
+        <source>Updates: Maintenance Tool crashed</source>
+        <translation>Updates: Maintenance Tool crashed</translation>
+    </message>
+    <message>
+        <source>Updates: error executing Maintenance Tool&lt;br&gt;Exit Code: %1&lt;br&gt;Error Output: %2</source>
+        <translation>Updates: error executing Maintenance Tool&lt;br&gt;Exit Code: %1&lt;br&gt;Error Output: %2</translation>
+    </message>
+    <message>
+        <source>Updates: application is up to date</source>
+        <translation>Updates: application is up to date</translation>
+    </message>
+    <message>
+        <source>Updates:: XML parsing error (start tag not found)</source>
+        <translation>Updates:: XML parsing error (start tag not found)</translation>
+    </message>
+    <message>
+        <source>Updates:: XML parsing error (end tag not found)</source>
+        <translation>Updates:: XML parsing error (end tag not found)</translation>
+    </message>
+    <message>
+        <source>Updates:: data errors (%1)</source>
+        <translation>Updates:: data errors (%1)</translation>
+    </message>
+    <message>
+        <source>no updates available</source>
+        <translation>no updates available</translation>
+    </message>
+    <message>
+        <source>failed to start the update process.&lt;br&gt;Please try running the Maintenance Tool manually</source>
+        <translation>failed to start the update process.&lt;br&gt;Please try running the Maintenance Tool manually</translation>
+    </message>
+    <message>
+        <source>Updates: %1</source>
+        <translation>Updates: %1</translation>
+    </message>
+    <message>
+        <source>Updates:: %1</source>
+        <translation>Updates:: %1</translation>
+    </message>
+    <message>
+        <source>Updates: available %1 %2</source>
+        <translation>Updates: available %1 %2</translation>
+    </message>
+    <message>
+        <source>%1 Updates</source>
+        <translation>%1 Updates</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;New updates are available:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Do you want to close %2 and launch the Maintenance Tool to install them?&lt;/p&gt;</source>
+        <translation>&lt;p&gt;New updates are available:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Do you want to close %2 and launch the Maintenance Tool to install them?&lt;/p&gt;</translation>
     </message>
 </context>
 </TS>

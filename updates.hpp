@@ -15,28 +15,46 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-function Controller() {
-    console.log("AllUsers=" + installer.value("AllUsers"));
+#ifndef UPDATES_HPP
+#define UPDATES_HPP
 
-    installer.installationStarted.connect(this, extractEmbeddedResources);
-    installer.installationFinished.connect(this, cleanEmbeddedResources);
+#include <QObject>
+#include <QString>
+#include <QStringList>
+#include <QByteArray>
+#include <QProcess>
+#include <QScopedPointer>
+
+namespace updates {
+class Updates;
 }
 
-extractEmbeddedResources = function() {
-    var userTemp = QDesktopServices.storageLocation(QDesktopServices.TempLocation);
-    installer.performOperation("Copy", [":/SetAppUserModelId.exe", installer.toNativeSeparators(userTemp + "/SetAppUserModelId.exe"), "UNDOOPERATION", ""]);
-}
-
-cleanEmbeddedResources = function() {
-    var userTemp = QDesktopServices.storageLocation(QDesktopServices.TempLocation);
-    installer.performOperation("Delete", [installer.toNativeSeparators(userTemp + "/SetAppUserModelId.exe"), "UNDOOPERATION", ""]);
-}
-
-Controller.prototype.IntroductionPageCallback = function()
+class Updates : public QObject
 {
-    // This has been moved here to allow headless execution
-    // of 'check-updates' whithout elevated privileges
-    if (!installer.hasAdminRights()) {
-        installer.gainAdminRights();
-    }
-}
+    Q_OBJECT
+
+public:
+    explicit Updates(QObject *parent = nullptr);
+
+public slots:
+    void startCheck();
+
+signals:
+    void info(QString const &);
+    void error(QString const &);
+
+private:
+    QScopedPointer<QProcess> process { new QProcess };
+    QString maintenanceToolPath;
+
+    void parseXml(QByteArray const &data, QStringList &updatesList);
+    void updatesReady(QStringList const &updates);
+    void notifyUserInfo(QString const &message);
+    void notifyUserWarning(QString const &message);
+    void notifyUserError(QString const &message);
+
+private slots:
+    void handleProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
+};
+
+#endif // UPDATES_HPP

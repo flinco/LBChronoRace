@@ -476,7 +476,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -524,6 +524,8 @@
     </property>
     <addaction name="actionAbout"/>
     <addaction name="actionAboutQt"/>
+    <addaction name="separator"/>
+    <addaction name="actionUpdate"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -924,6 +926,15 @@
    </property>
    <property name="toolTip">
     <string>Remove entries without references from the Club List</string>
+   </property>
+  </action>
+  <action name="actionUpdate">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/published_with_changes.svg</normaloff>:/material/icons/published_with_changes.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Update LBChronoRace</string>
    </property>
   </action>
  </widget>

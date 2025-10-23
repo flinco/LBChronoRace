@@ -654,7 +654,7 @@ void LiveView::updateHeaderData()
 {
     auto title = raceData->getField(ChronoRaceData::StringField::EVENT);
     if (title.isEmpty())
-        title = QStringLiteral("LBChronoRace");
+        title = QStringLiteral(LBCHRONORACE_NAME);
 
     auto place = raceData->getField(ChronoRaceData::StringField::PLACE);
     // it can be empty

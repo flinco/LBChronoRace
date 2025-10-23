@@ -34,7 +34,8 @@ string(TIMESTAMP BUILD_DATE "%Y-%m-%d" UTC)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 find_package(Qt6 COMPONENTS Core Gui Widgets DBus LinguistTools REQUIRED)
-qt_standard_project_setup(REQUIRES 6.8
+# In case of new UI translations, put here the added languages
+qt_standard_project_setup(REQUIRES 6.9
     I18N_TRANSLATED_LANGUAGES it)
 
 set(PROJECT_ORGANIZATION "LoBuSoft")
@@ -90,6 +91,7 @@ set(HEADER_FILES
     timingstatusdelegate.hpp
     triggerkeydialog.hpp
     txtrankingprinter.hpp
+    updates.hpp
     wizards/newracewizard.hpp
     wizards/rankingswizard.hpp
     wizards/rankingswizardformat.hpp
@@ -140,6 +142,7 @@ set(SOURCE_FILES
     timingstatusdelegate.cpp
     triggerkeydialog.cpp
     txtrankingprinter.cpp
+    updates.cpp
     wizards/newracewizard.cpp
     wizards/rankingswizard.cpp
     wizards/rankingswizardformat.cpp
