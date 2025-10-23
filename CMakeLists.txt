@@ -162,7 +162,9 @@ set(PROJECT_SOURCES
 # Translations
 set(TS_FILES
     translations/lbchronorace_en.ts
-    translations/lbchronorace_it.ts)
+    translations/lbchronorace_it.ts
+    translations/lbrankings_en.ts
+    translations/lbrankings_it.ts)
 
 # Fonts (as big resources)
 set(FONT_FILES

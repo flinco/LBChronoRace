@@ -42,7 +42,8 @@ int main(int argc, char *argv[])
     QTranslator qtTranslator;
     QTranslator qtbaseTranslator;
     QTranslator lbcrTranslator;
-    Languages::loadStoredLanguage(&qtTranslator, &qtbaseTranslator, &lbcrTranslator);
+    QTranslator rankTranslator;
+    Languages::loadStoredLanguage(&qtTranslator, &qtbaseTranslator, &lbcrTranslator, &rankTranslator);
 
     splash.showMessage("Loading styles…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
 #ifdef Q_OS_WIN

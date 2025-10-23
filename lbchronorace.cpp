@@ -235,7 +235,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(RecentRaces::actionGroup, &QActionGroup::triggered, this, &LBChronoRace::openRecentRace);
 
     // Languages menu
-    Languages::loadMenu(ui->menuSetLanguage);
+    Languages::loadMenu(ui->menuSetLanguage, QStringLiteral("lbchronorace"));
 
     // Quit action
     QObject::connect(ui->actionQuit, &QAction::triggered, this, &QApplication::quit);

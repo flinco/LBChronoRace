@@ -29,8 +29,9 @@ QPointer<QActionGroup> Languages::group { Q_NULLPTR };
 QTranslator *Languages::qt = Q_NULLPTR;
 QTranslator *Languages::base = Q_NULLPTR;
 QTranslator *Languages::app = Q_NULLPTR;
+QTranslator *Languages::rank = Q_NULLPTR;
 
-void Languages::loadMenu(QMenu *menu)
+void Languages::loadMenu(QMenu *menu, QString const &prefix)
 {
     Q_ASSERT(menu != Q_NULLPTR);
 
@@ -46,6 +47,10 @@ void Languages::loadMenu(QMenu *menu)
     while (it.hasNext()) {
         // get locale extracted by filename
         QString langCode = it.next().section('/', 2, -1); // "lbchronorace_it.qm"
+
+        if (!(prefix.isEmpty() || langCode.startsWith(prefix, Qt::CaseSensitivity::CaseInsensitive)))
+            continue;
+
         langCode.truncate(langCode.lastIndexOf('.')); // "lbchronorace_it"
         langCode.remove(0, langCode.lastIndexOf('_') + 1); // "it"
 
@@ -69,7 +74,7 @@ void Languages::loadMenu(QMenu *menu)
     }
 }
 
-void Languages::loadMenu(QComboBox *menu, QStringList const *filter)
+void Languages::loadMenu(QComboBox *menu, QString const &prefix, QStringList const *filter)
 {
     Q_ASSERT(menu != Q_NULLPTR);
 
@@ -77,6 +82,10 @@ void Languages::loadMenu(QComboBox *menu, QStringList const *filter)
     while (it.hasNext()) {
         // get locale extracted by filename
         QString langCode = it.next().section('/', 2, -1); // "lbchronorace_it.qm"
+
+        if (!(prefix.isEmpty() || langCode.startsWith(prefix, Qt::CaseSensitivity::CaseInsensitive)))
+            continue;
+
         langCode.truncate(langCode.lastIndexOf('.')); // "lbchronorace_it"
         langCode.remove(0, langCode.lastIndexOf('_') + 1); // "it"
 
@@ -94,17 +103,19 @@ void Languages::loadMenu(QComboBox *menu, QStringList const *filter)
     }
 }
 
-void Languages::loadStoredLanguage(QTranslator *newQt, QTranslator *newBase, QTranslator *newApp)
+void Languages::loadStoredLanguage(QTranslator *newQt, QTranslator *newBase, QTranslator *newApp, QTranslator *newRank)
 {
     using enum QLocale::Language;
 
     Q_ASSERT(newQt);
     Q_ASSERT(newBase);
     Q_ASSERT(newApp);
+    Q_ASSERT(newRank);
 
     qt = newQt;
     base = newBase;
     app = newApp;
+    rank = newRank;
 
     loadLanguage(CRSettings::getLanguage());
 }
@@ -125,8 +136,11 @@ void Languages::switchTranslators(QLocale const &locale)
     Q_ASSERT(qt);
     Q_ASSERT(base);
     Q_ASSERT(app);
+    Q_ASSERT(rank);
 
     // remove the old translator (if any)
+    if (!rank->isEmpty())
+        QApplication::removeTranslator(rank);
     if (!app->isEmpty())
         QApplication::removeTranslator(app);
     if (!base->isEmpty())
@@ -146,6 +160,9 @@ void Languages::switchTranslators(QLocale const &locale)
     if (app->load(locale, QStringLiteral("lbchronorace"), QStringLiteral("_"), QStringLiteral(":/i18n"))) {
         QApplication::installTranslator(app);
     }
+    if (rank->load(locale, QStringLiteral("lbrankings"), QStringLiteral("_"), QStringLiteral(":/i18n"))) {
+        QApplication::installTranslator(rank);
+    }
 }
 
 void Languages::loadLanguage(QString const &rLanguage)
@@ -163,4 +180,9 @@ void Languages::loadLanguage(QString const &rLanguage)
 QTranslator const *Languages::getAppTranslator()
 {
     return app;
+}
+
+QTranslator const *Languages::getRankTranslator()
+{
+    return rank;
 }
