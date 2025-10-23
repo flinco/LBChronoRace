@@ -21,6 +21,7 @@
 #include "lbcrexception.hpp"
 
 QWidget *CRHelper::parentWidget = Q_NULLPTR;
+QString CRHelper::screenSerial = { };
 ChronoRaceData::NameComposition CRHelper::nameComposition = ChronoRaceData::NameComposition::SURNAME_FIRST;
 ChronoRaceData::Accuracy CRHelper::accuracy = ChronoRaceData::Accuracy::SECOND;
 
@@ -488,4 +489,14 @@ void CRHelper::actionAbout()
 void CRHelper::actionAboutQt()
 {
     QMessageBox::aboutQt(parentWidget, tr("About Qt"));
+}
+
+QString CRHelper::getScreenSerial()
+{
+    return CRHelper::screenSerial;
+}
+
+void CRHelper::setScreenSerial(QString const &newScreenSerial)
+{
+    CRHelper::screenSerial = newScreenSerial;
 }

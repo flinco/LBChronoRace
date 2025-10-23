@@ -60,7 +60,7 @@ void ScreenSaver::inhibit(bool inhibit)
     } else if (reqCount) {
         if (cookie_ != 0) {
             qDebug() << "ScreenSaver" << (inhibit ? "already" : "still") << "inhibited";
-        } else if (QDBusReply<uint> reply = sessionManagerInterface.call("Inhibit", "LBChronoRace", "Timekeeping");
+        } else if (QDBusReply<uint> reply = sessionManagerInterface.call("Inhibit", QStringLiteral(LBCHRONORACE_NAME), "Timekeeping");
                    reply.isValid()) {
             cookie_ = reply.value();
             qDebug() << "ScreenSaver disabled";

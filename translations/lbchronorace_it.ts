@@ -993,6 +993,10 @@ Sei sicuro di voler continuare?</translation>
         <translation>Salva come</translation>
     </message>
     <message>
+        <source>Update LBChronoRace</source>
+        <translation>Aggiorna LBChronoRace</translation>
+    </message>
+    <message>
         <source>Clubs List</source>
         <translation>Elenco Società</translation>
     </message>
@@ -2421,6 +2425,77 @@ Riconfigura il grilletto e ripeti la procedura.</translation>
     <message>
         <source>Trigger keys do not match. Try again.</source>
         <translation>Il tasto non corrisponde. Riprova.</translation>
+    </message>
+</context>
+<context>
+    <name>Updates</name>
+    <message>
+        <source>Updates: update check already running</source>
+        <translation>Aggiornamenti: controllo aggiornamenti già in esecuzione</translation>
+    </message>
+    <message>
+        <source>Updates: checking for updates…</source>
+        <translation>Aggiornamenti: controllo in corso…</translation>
+    </message>
+    <message>
+        <source>Maintenance Tool not found</source>
+        <translation>Maintenance Tool non trovato</translation>
+    </message>
+    <message>
+        <source>update checking is not yet available for this operating system</source>
+        <translation>controllo aggiornamenti non ancora disponibile per questo sistema operativo</translation>
+    </message>
+    <message>
+        <source>Updates: Maintenance Tool crashed</source>
+        <translation>Aggiornamenti: Maintenance Tool interrotto inaspettatamente</translation>
+    </message>
+    <message>
+        <source>Updates: error executing Maintenance Tool&lt;br&gt;Exit Code: %1&lt;br&gt;Error Output: %2</source>
+        <translation>Aggiornamenti: errore nell&apos;esecuzione del Maintenance Tool&lt;br&gt;Codice di uscita: %1&lt;br&gt;Output Errore: %2</translation>
+    </message>
+    <message>
+        <source>Updates: application is up to date</source>
+        <translation>Aggiornamenti: l&apos;applicazione è aggiornata</translation>
+    </message>
+    <message>
+        <source>Updates:: XML parsing error (start tag not found)</source>
+        <translation>Aggiornamenti:: errore analisi XML (tag di apertura non trovato)</translation>
+    </message>
+    <message>
+        <source>Updates:: XML parsing error (end tag not found)</source>
+        <translation>Aggiornamenti:: errore analisi XML (tag di chiusura non trovato)</translation>
+    </message>
+    <message>
+        <source>Updates:: data errors (%1)</source>
+        <translation>Aggiornamenti:: dati errati (%1)</translation>
+    </message>
+    <message>
+        <source>no updates available</source>
+        <translation>nessun aggiornamento disponibile</translation>
+    </message>
+    <message>
+        <source>failed to start the update process.&lt;br&gt;Please try running the Maintenance Tool manually</source>
+        <translation>impossibile avviare il processo di aggiornamento.&lt;br&gt;Prova ad avviare manualmente lo Strumento di manutenzione</translation>
+    </message>
+    <message>
+        <source>Updates: %1</source>
+        <translation>Aggiornamenti: %1</translation>
+    </message>
+    <message>
+        <source>Updates:: %1</source>
+        <translation>Aggiornamenti:: %1</translation>
+    </message>
+    <message>
+        <source>Updates: available %1 %2</source>
+        <translation>Aggiornamenti: disponibile %1 %2</translation>
+    </message>
+    <message>
+        <source>%1 Updates</source>
+        <translation>Aggiornamento di %1</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;New updates are available:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Do you want to close %2 and launch the Maintenance Tool to install them?&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Sono disponibili nuovi aggiornamenti:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Vuoi chiudere %2 e avviare lo Strumento di manutenzione per installarli?&lt;/p&gt;</translation>
     </message>
 </context>
 </TS>

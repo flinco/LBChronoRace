@@ -71,5 +71,7 @@
         <file>icons/palette.svg</file>
         <file>icons/live_tv.svg</file>
         <file>icons/delete_sweep.svg</file>
+        <file>icons/published_with_changes.svg</file>
+        <file>icons/sync_desktop.svg</file>
     </qresource>
 </RCC>

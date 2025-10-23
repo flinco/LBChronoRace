@@ -59,7 +59,8 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     categoryTypeDelegate(&categoriesTable),
     timingStatusDelegate(&timingsTable),
     liveView(this, &timings),
-    liveColors(this)
+    liveColors(this),
+    updater(this)
 {
     CRHelper::setParent(qobject_cast<QWidget *>(this));
 
@@ -161,7 +162,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionNewRace, &QAction::triggered, this, &LBChronoRace::newRace);
     QObject::connect(ui->actionLoadRace, &QAction::triggered, this, &LBChronoRace::loadRace);
     QObject::connect(ui->actionSaveRace, &QAction::triggered, this, &LBChronoRace::saveRace);
-    QObject::connect(ui->actionSaveRaceAs, &QAction::triggered, this, &LBChronoRace::saveRaceAs);
+    QObject::connect(ui->actionSaveRaceAs, &QAction::triggered, this, &LBChronoRace::saveRace);
     QObject::connect(ui->actionEditRace, &QAction::triggered, &raceInfo, &ChronoRaceData::show);
     QObject::connect(ui->actionEditStartList, &QAction::triggered, &startListTable, &ChronoRaceTable::show);
     QObject::connect(ui->actionEditTeams, &QAction::triggered, &teamsTable, &ChronoRaceTable::show);
@@ -190,6 +191,10 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
 
     QObject::connect(ui->actionAbout, &QAction::triggered, &CRHelper::actionAbout);
     QObject::connect(ui->actionAboutQt, &QAction::triggered, &CRHelper::actionAboutQt);
+    QObject::connect(ui->actionUpdate, &QAction::triggered, &updater, &Updates::startCheck);
+
+    QObject::connect(&updater, &Updates::info, this, &LBChronoRace::appendInfoMessage);
+    QObject::connect(&updater, &Updates::error, this, &LBChronoRace::appendErrorMessage);
 
     // tie the views with the related delegate instances
     startListTable.setItemDelegateForColumn(static_cast<int>(Competitor::Field::CMF_SEX), &sexDelegate);
@@ -744,6 +749,12 @@ void LBChronoRace::openRecentRace(QAction const *action)
 
 void LBChronoRace::saveRace()
 {
+    QString oldRaceDataFileName(raceDataFileName);
+    bool saveRaceAs = (ui->actionSaveRaceAs == sender());
+
+    if (saveRaceAs)
+        raceDataFileName.clear();
+
     if (raceDataFileName.isEmpty()) {
         raceDataFileName = QDir::toNativeSeparators(
             QFileDialog::getSaveFileName(this, tr("Select Race Data File"),
@@ -793,16 +804,8 @@ void LBChronoRace::saveRace()
             raceDataFileName.clear();
         }
     }
-}
 
-void LBChronoRace::saveRaceAs()
-{
-    QString oldRaceDataFileName(raceDataFileName);
-
-    raceDataFileName.clear();
-    saveRace();
-
-    if (raceDataFileName.isEmpty())
+    if (saveRaceAs && raceDataFileName.isEmpty())
         raceDataFileName = oldRaceDataFileName;
 }
 
@@ -900,8 +903,8 @@ void LBChronoRace::screenRemoved(QScreen const *screen)
 
         auto const *liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
 
-        if (screen == liveView.getLiveScreen()) {
-            this->screenSerial = screen->serialNumber();
+        if (screen == this->liveView.getLiveScreen()) {
+            CRHelper::setScreenSerial(screen->serialNumber());
             liveModel->item(screenIndex)->setEnabled(false);
             this->ui->liveViewSelector->setItemIcon(screenIndex, QIcon(":/material/icons/hide_image.svg"));
             this->ui->liveViewSelector->setItemData(screenIndex, QVariant::fromValue(Q_NULLPTR));
@@ -921,7 +924,7 @@ void LBChronoRace::screenAdded(QScreen const *screen)
     auto itemCount = this->ui->liveViewSelector->count();
     auto const *liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
 
-    if (auto screenIndex = this->ui->liveViewSelector->findText(screenName); (screenIndex < 0) || (this->screenSerial != screen->serialNumber())) {
+    if (auto screenIndex = this->ui->liveViewSelector->findText(screenName); (screenIndex < 0) || (CRHelper::getScreenSerial() != screen->serialNumber())) {
         /* It is either a brand new screen or it could be the screen selected
          * and detached/disappeared but the serial number does not match */
         bool screenEnabled = (screen->size().width() >= 1280);
