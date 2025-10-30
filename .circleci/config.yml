@@ -9,7 +9,8 @@ jobs:
     environment:
       PATH: "/usr/local/opt/qt/bin:$PATH"
     steps:
-      - checkout  # Clone the repository
+      - checkout:  # Clone the repository
+          method: blobless
 
       # Step 1: Install Homebrew and Qt6
       - run:
