@@ -29,8 +29,76 @@
      </property>
     </widget>
    </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="lslBMTextColor">
+     <property name="text">
+      <string>Best M</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLabel" name="lrBMTextColor">
+     <property name="text">
+      <string>Best M</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="lslBFTextColor">
+     <property name="text">
+      <string>Best F</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="QLabel" name="lrBFTextColor">
+     <property name="text">
+      <string>Best F</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="1">
     <widget class="QPushButton" name="lslTitleButton">
+     <property name="text">
+      <string>Change</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QPushButton" name="lslBMTextButton">
+     <property name="text">
+      <string>Change</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="QPushButton" name="lrBMTextButton">
+     <property name="text">
+      <string>Change</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QPushButton" name="lslBFTextButton">
+     <property name="text">
+      <string>Change</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="3">
+    <widget class="QPushButton" name="lrBFTextButton">
      <property name="text">
       <string>Change</string>
      </property>
@@ -110,7 +178,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="4">
+   <item row="6" column="0" colspan="4">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
@@ -120,14 +188,14 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="2">
+   <item row="5" column="0" colspan="2">
     <widget class="QPushButton" name="lslBackgroundButton">
      <property name="text">
       <string>Change Background</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="2" colspan="2">
+   <item row="5" column="2" colspan="2">
     <widget class="QPushButton" name="lrBackgroundButton">
      <property name="text">
       <string>Change Background</string>
@@ -139,9 +207,13 @@
  <tabstops>
   <tabstop>lslTitleButton</tabstop>
   <tabstop>lslTextButton</tabstop>
+  <tabstop>lslBMTextButton</tabstop>
+  <tabstop>lslBFTextButton</tabstop>
   <tabstop>lslBackgroundButton</tabstop>
   <tabstop>lrTitleButton</tabstop>
   <tabstop>lrTextButton</tabstop>
+  <tabstop>lrBMTextButton</tabstop>
+  <tabstop>lrBFTextButton</tabstop>
   <tabstop>lrBackgroundButton</tabstop>
  </tabstops>
  <resources/>

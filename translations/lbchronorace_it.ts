@@ -1474,6 +1474,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Colore testo Ordine di Partenza dal vivo</translation>
     </message>
     <message>
+        <source>Live Start List Best Male color</source>
+        <translation>Colore Miglior Uomo Ordine di Partenza dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Start List Best Female color</source>
+        <translation>Colore Miglior Donna Ordine di Partenza dal vivo</translation>
+    </message>
+    <message>
         <source>Live Start List background color</source>
         <translation>Colore di sfondo Ordine di Partenza dal vivo</translation>
     </message>
@@ -1484,6 +1492,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Live Rankings text color</source>
         <translation>Colore testo Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Rankings Best Male color</source>
+        <translation>Colore Miglior Uomo Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Rankings Best Female color</source>
+        <translation>Colore Miglior Donna Classifica dal vivo</translation>
     </message>
     <message>
         <source>Live Rankings background color</source>
@@ -1500,6 +1516,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Live Rankings</source>
         <translation>Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Best M</source>
+        <translation>Miglior M</translation>
+    </message>
+    <message>
+        <source>Best F</source>
+        <translation>Miglior F</translation>
     </message>
 </context>
 <context>

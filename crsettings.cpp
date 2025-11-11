@@ -29,9 +29,13 @@ constexpr char RECENT_RACES_PATH_KEY[]  = "path";
 
 constexpr char LS_TITLE_COLOR_KEY[] = "LiveStartListTitleColor";
 constexpr char LS_TEXT_COLOR_KEY[] = "LiveStartListTextColor";
+constexpr char LS_BEST_M_COLOR_KEY[] = "LiveStartListBestMColor";
+constexpr char LS_BEST_F_COLOR_KEY[] = "LiveStartListBestFColor";
 constexpr char LS_BACKGROUND_COLOR_KEY[] = "LiveStartListBackgroundColor";
 constexpr char LR_TITLE_COLOR_KEY[] = "LiveRankingsTitleColor";
 constexpr char LR_TEXT_COLOR_KEY[] = "LiveRankingsTextColor";
+constexpr char LR_BEST_M_COLOR_KEY[] = "LiveRankingsBestMColor";
+constexpr char LR_BEST_F_COLOR_KEY[] = "LiveRankingsBestFColor";
 constexpr char LR_BACKGROUND_COLOR_KEY[] = "LiveRankingsBackgroundColor";
 
 Qt::FocusPolicy CRSettings::focus { Qt::FocusPolicy::NoFocus };
@@ -124,6 +128,14 @@ QColor CRSettings::getColor(CRSettings::Color color)
             if (auto value = settings.value(LS_TEXT_COLOR_KEY); value.isValid())
                 return QColor::fromString(value.toString());
             break;
+        case LiveStartListBestMColor:
+            if (auto value = settings.value(LS_BEST_M_COLOR_KEY); value.isValid())
+                return QColor::fromString(value.toString());
+            break;
+        case LiveStartListBestFColor:
+            if (auto value = settings.value(LS_BEST_F_COLOR_KEY); value.isValid())
+                return QColor::fromString(value.toString());
+            break;
         case LiveStartListBackgroundColor:
             if (auto value = settings.value(LS_BACKGROUND_COLOR_KEY); value.isValid())
                 return QColor::fromString(value.toString());
@@ -134,6 +146,14 @@ QColor CRSettings::getColor(CRSettings::Color color)
             break;
         case LiveRankingsTextColor:
             if (auto value = settings.value(LR_TEXT_COLOR_KEY); value.isValid())
+                return QColor::fromString(value.toString());
+            break;
+        case LiveRankingsBestMColor:
+            if (auto value = settings.value(LR_BEST_M_COLOR_KEY); value.isValid())
+                return QColor::fromString(value.toString());
+            break;
+        case LiveRankingsBestFColor:
+            if (auto value = settings.value(LR_BEST_F_COLOR_KEY); value.isValid())
                 return QColor::fromString(value.toString());
             break;
         case LiveRankingsBackgroundColor:
@@ -157,12 +177,20 @@ QColor CRSettings::getDefaultColor(CRSettings::Color color)
             return QColor::fromRgb(qRgb(0xFF, 0x00, 0x00));
         case LiveStartListTextColor:
             return QColor::fromRgb(qRgb(0x00, 0x00, 0x00));
+        case LiveStartListBestMColor:
+            return QColor::fromRgb(qRgb(0x00, 0xFF, 0x00));
+        case LiveStartListBestFColor:
+            return QColor::fromRgb(qRgb(0xFF, 0x00, 0xFF));
         case LiveStartListBackgroundColor:
             return QColor::fromRgb(qRgb(0xFF, 0xCC, 0x67));
         case LiveRankingsTitleColor:
             return QColor::fromRgb(qRgb(0xFF, 0x00, 0x00));
         case LiveRankingsTextColor:
             return QColor::fromRgb(qRgb(0x00, 0x00, 0x00));
+        case LiveRankingsBestMColor:
+            return QColor::fromRgb(qRgb(0x00, 0xFF, 0x00));
+        case LiveRankingsBestFColor:
+            return QColor::fromRgb(qRgb(0xFF, 0x00, 0xFF));
         case LiveRankingsBackgroundColor:
             return QColor::fromRgb(qRgb(0x55, 0xAA, 0xFF));
         default:
@@ -182,6 +210,12 @@ void CRSettings::setColor(CRSettings::Color color, QColor const &value)
         case LiveStartListTextColor:
             settings.setValue(LS_TEXT_COLOR_KEY, QVariant(value.name()));
             break;
+        case LiveStartListBestMColor:
+            settings.setValue(LS_BEST_M_COLOR_KEY, QVariant(value.name()));
+            break;
+        case LiveStartListBestFColor:
+            settings.setValue(LS_BEST_F_COLOR_KEY, QVariant(value.name()));
+            break;
         case LiveStartListBackgroundColor:
             settings.setValue(LS_BACKGROUND_COLOR_KEY, QVariant(value.name()));
             break;
@@ -190,6 +224,12 @@ void CRSettings::setColor(CRSettings::Color color, QColor const &value)
             break;
         case LiveRankingsTextColor:
             settings.setValue(LR_TEXT_COLOR_KEY, QVariant(value.name()));
+            break;
+        case LiveRankingsBestMColor:
+            settings.setValue(LR_BEST_M_COLOR_KEY, QVariant(value.name()));
+            break;
+        case LiveRankingsBestFColor:
+            settings.setValue(LR_BEST_F_COLOR_KEY, QVariant(value.name()));
             break;
         case LiveRankingsBackgroundColor:
             settings.setValue(LR_BACKGROUND_COLOR_KEY, QVariant(value.name()));

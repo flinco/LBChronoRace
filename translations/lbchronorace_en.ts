@@ -1474,6 +1474,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Live Start List text color</translation>
     </message>
     <message>
+        <source>Live Start List Best Male color</source>
+        <translation>Live Start List Best Male color</translation>
+    </message>
+    <message>
+        <source>Live Start List Best Female color</source>
+        <translation>Live Start List Best Female color</translation>
+    </message>
+    <message>
         <source>Live Start List background color</source>
         <translation>Live Start List background color</translation>
     </message>
@@ -1484,6 +1492,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Live Rankings text color</source>
         <translation>Live Rankings text color</translation>
+    </message>
+    <message>
+        <source>Live Rankings Best Male color</source>
+        <translation>Live Rankings Best Male color</translation>
+    </message>
+    <message>
+        <source>Live Rankings Best Female color</source>
+        <translation>Live Rankings Best Female color</translation>
     </message>
     <message>
         <source>Live Rankings background color</source>
@@ -1500,6 +1516,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Live Rankings</source>
         <translation>Live Rankings</translation>
+    </message>
+    <message>
+        <source>Best M</source>
+        <translation>Best M</translation>
+    </message>
+    <message>
+        <source>Best F</source>
+        <translation>Best F</translation>
     </message>
 </context>
 <context>

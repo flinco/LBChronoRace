@@ -27,6 +27,7 @@
 #include <QDate>
 #include <QPixmap>
 #include <QModelIndex>
+#include <QPalette>
 
 #include "ui_liverankings.h"
 #include "livetablefilterproxymodel.hpp"
@@ -49,6 +50,7 @@ public:
     void scrollToLastItem(QStandardItem const *item);
 
     QStandardItemModel *getModel();
+    QPalette getPalette() const;
 
 public slots:
     void demoStep();
