@@ -1454,6 +1454,10 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Testo</translation>
     </message>
     <message>
+        <source>Marked</source>
+        <translation>Marcato</translation>
+    </message>
+    <message>
         <source>Change</source>
         <translation>Modifica</translation>
     </message>

@@ -1454,6 +1454,10 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Text</translation>
     </message>
     <message>
+        <source>Marked</source>
+        <translation>Marked</translation>
+    </message>
+    <message>
         <source>Change</source>
         <translation>Change</translation>
     </message>

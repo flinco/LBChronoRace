@@ -37,9 +37,13 @@ public:
     {
         LiveStartListTitleColor,
         LiveStartListTextColor,
+        LiveStartListBestMColor,
+        LiveStartListBestFColor,
         LiveStartListBackgroundColor,
         LiveRankingsTitleColor,
         LiveRankingsTextColor,
+        LiveRankingsBestMColor,
+        LiveRankingsBestFColor,
         LiveRankingsBackgroundColor
     };
 

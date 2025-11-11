@@ -22,10 +22,13 @@
 #include <QScreen>
 #include <QTimer>
 #include <QList>
+#include <QHash>
+#include <QMultiMap>
 #include <QMultiHash>
 #include <QVariantList>
 #include <QStandardItem>
 #include <QModelIndex>
+#include <QPalette>
 
 #include "livestartlist.hpp"
 #include "liverankings.hpp"
@@ -34,6 +37,47 @@
 #include "screensaver.hpp"
 
 constexpr char DISPLAY_CHRONO_ZERO[] = "0:00:00";
+
+namespace liveview {
+class LiveView;
+class Highlighter;
+}
+
+class Highlighter : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit Highlighter(QList<QStandardItem *> *highlightedItemsList);
+
+    void clear();
+    void add(Competitor::Sex sex, qsizetype leg, uint timing, QStandardItem *item);
+    void remove(Competitor::Sex sex, qsizetype leg, uint timing, QStandardItem *item);
+
+    void unhighlight();
+    void highlight();
+
+    void setPalette(QPalette const &newPalette);
+
+public slots:
+    void handleHighlightRequest(QStandardItem const *item);
+    void handleHighlightRequest(QModelIndex const &parent, int first, int last);
+
+private:
+    QPalette palette;
+    bool highlightPending { false };
+
+    QList<QStandardItem *> *highlightedRowItems;
+    QHash<Competitor::Sex, QList<QStandardItem *>> bestRowItems;
+    QHash<Competitor::Sex, QList<QMultiMap<uint, QStandardItem *>>> bestItemsIndex;
+
+    void highlightItem(QStandardItem *item, QColor const &bestColor) const;
+    void unhighlightItem(QStandardItem *item) const;
+
+signals:
+    void postRenderNeeded();
+};
+
 
 class LiveView : public QObject
 {
@@ -57,9 +101,16 @@ private:
     };
 
 public:
+    enum class LiveHighlighting {
+        LiveNotHighlighted  = 0x00,
+        LiveHighlightedLast = 0x01,
+        LiveHighlightedBest = 0x02
+    };
+    Q_DECLARE_FLAGS(LiveHighlightings, LiveHighlighting)
+
     explicit LiveView(QWidget *startListParent, QWidget *rankingsParent);
 
-    void addEntry(quint64 values);
+    void addEntry(quint64 values, bool add = true);
     void removeEntry(quint64 values);
 
     void setRaceInfo(ChronoRaceData const *newRaceData);
@@ -86,6 +137,7 @@ public slots:
 private:
     QMultiHash<uint, Competitor> startList { };
     QList<QStandardItem *> lastRowItems { };
+    Highlighter highlighter;
 
     QScopedPointer<LiveStartList> liveStartList;
     QScopedPointer<LiveRankings> liveRankings;
@@ -108,21 +160,19 @@ private:
     void prepareStartListModel(uint legs);
     void prepareRankingsModel(uint legs);
 
-    void setEntry(quint64 values, bool add);
-
-    void highlightLastEntry(bool set);
-
     void addTimingIndividual(uint bib, uint timing, bool chrono);
     void removeTimingIndividual(uint bib, uint timing, bool chrono);
 
     void addTimingRelay(uint bib, uint timing, bool chrono);
     void removeTimingRelay(uint bib, uint timing, bool chrono);
 
-    void insertTimingRelay(uint timing, int columnCount, bool chrono, QVariantList &extraTimings) const;
+    void insertTimingRelay(uint timing, int columnCount, bool chrono, QVariantList &extraTimings);
     void eraseTimingRelay(uint timing, int columnCount, bool chrono, QVariantList &extraTimings);
     void updateTimingRelay(int columnCount, bool chrono) const;
 
     void updateHeaderData();
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(LiveView::LiveHighlightings)
 
 #endif // LIVEVIEW_HPP

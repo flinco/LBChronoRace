@@ -30,9 +30,13 @@ LiveColors::LiveColors(QWidget *parent) : QDialog(parent)
 
     QObject::connect(this->ui->lslTitleButton, &QPushButton::clicked, this, &LiveColors::loadColor);
     QObject::connect(this->ui->lslTextButton, &QPushButton::clicked, this, &LiveColors::loadColor);
+    QObject::connect(this->ui->lslBMTextButton, &QPushButton::clicked, this, &LiveColors::loadColor);
+    QObject::connect(this->ui->lslBFTextButton, &QPushButton::clicked, this, &LiveColors::loadColor);
     QObject::connect(this->ui->lslBackgroundButton, &QPushButton::clicked, this, &LiveColors::loadColor);
     QObject::connect(this->ui->lrTitleButton, &QPushButton::clicked, this, &LiveColors::loadColor);
     QObject::connect(this->ui->lrTextButton, &QPushButton::clicked, this, &LiveColors::loadColor);
+    QObject::connect(this->ui->lrBMTextButton, &QPushButton::clicked, this, &LiveColors::loadColor);
+    QObject::connect(this->ui->lrBFTextButton, &QPushButton::clicked, this, &LiveColors::loadColor);
     QObject::connect(this->ui->lrBackgroundButton, &QPushButton::clicked, this, &LiveColors::loadColor);
 
     QObject::connect(this->ui->buttonBox, &QDialogButtonBox::clicked, this, &LiveColors::restore);
@@ -46,9 +50,13 @@ void LiveColors::accept()
 
     CRSettings::setColor(LiveStartListTitleColor, this->liveStartListTitleColor);
     CRSettings::setColor(LiveStartListTextColor, this->liveStartListTextColor);
+    CRSettings::setColor(LiveStartListBestMColor, this->liveStartListBestMColor);
+    CRSettings::setColor(LiveStartListBestFColor, this->liveStartListBestFColor);
     CRSettings::setColor(LiveStartListBackgroundColor, this->liveStartListBackgroundColor);
     CRSettings::setColor(LiveRankingsTitleColor, this->liveRankingsTitleColor);
     CRSettings::setColor(LiveRankingsTextColor, this->liveRankingsTextColor);
+    CRSettings::setColor(LiveRankingsBestMColor, this->liveRankingsBestMColor);
+    CRSettings::setColor(LiveRankingsBestFColor, this->liveRankingsBestFColor);
     CRSettings::setColor(LiveRankingsBackgroundColor, this->liveRankingsBackgroundColor);
 
     QDialog::accept();
@@ -68,9 +76,13 @@ void LiveColors::restore(QAbstractButton *button)
 
         this->liveStartListTitleColor = CRSettings::getDefaultColor(LiveStartListTitleColor);
         this->liveStartListTextColor = CRSettings::getDefaultColor(LiveStartListTextColor);
+        this->liveStartListBestMColor = CRSettings::getDefaultColor(LiveStartListBestMColor);
+        this->liveStartListBestFColor = CRSettings::getDefaultColor(LiveStartListBestFColor);
         this->liveStartListBackgroundColor = CRSettings::getDefaultColor(LiveStartListBackgroundColor);
         this->liveRankingsTitleColor = CRSettings::getDefaultColor(LiveRankingsTitleColor);
         this->liveRankingsTextColor = CRSettings::getDefaultColor(LiveRankingsTextColor);
+        this->liveRankingsBestMColor = CRSettings::getDefaultColor(LiveRankingsBestMColor);
+        this->liveRankingsBestFColor = CRSettings::getDefaultColor(LiveRankingsBestFColor);
         this->liveRankingsBackgroundColor = CRSettings::getDefaultColor(LiveRankingsBackgroundColor);
 
         this->show();
@@ -85,10 +97,18 @@ void LiveColors::show()
     this->ui->lslTitleColor->setStyleSheet(style);
     style = QStringLiteral("color: ") + this->liveStartListTextColor.name() + QStringLiteral("; background-color: ") + this->liveStartListBackgroundColor.name();
     this->ui->lslTextColor->setStyleSheet(style);
+    style = QStringLiteral("color: ") + this->liveStartListBestMColor.name() + QStringLiteral("; background-color: ") + this->liveStartListBackgroundColor.name();
+    this->ui->lslBMTextColor->setStyleSheet(style);
+    style = QStringLiteral("color: ") + this->liveStartListBestFColor.name() + QStringLiteral("; background-color: ") + this->liveStartListBackgroundColor.name();
+    this->ui->lslBFTextColor->setStyleSheet(style);
     style = QStringLiteral("font: bold; color: ") + this->liveRankingsTitleColor.name() + QStringLiteral("; background-color: ") + this->liveRankingsBackgroundColor.name();
     this->ui->lrTitleColor->setStyleSheet(style);
     style = QStringLiteral("color: ") + this->liveRankingsTextColor.name() + QStringLiteral("; background-color: ") + this->liveRankingsBackgroundColor.name();
     this->ui->lrTextColor->setStyleSheet(style);
+    style = QStringLiteral("color: ") + this->liveRankingsBestMColor.name() + QStringLiteral("; background-color: ") + this->liveRankingsBackgroundColor.name();
+    this->ui->lrBMTextColor->setStyleSheet(style);
+    style = QStringLiteral("color: ") + this->liveRankingsBestFColor.name() + QStringLiteral("; background-color: ") + this->liveRankingsBackgroundColor.name();
+    this->ui->lrBFTextColor->setStyleSheet(style);
 
     QDialog::show();
 }
@@ -99,9 +119,13 @@ void LiveColors::loadConfiguredColors()
 
     this->liveStartListTitleColor = CRSettings::getColor(LiveStartListTitleColor);
     this->liveStartListTextColor = CRSettings::getColor(LiveStartListTextColor);
+    this->liveStartListBestMColor = CRSettings::getColor(LiveStartListBestMColor);
+    this->liveStartListBestFColor = CRSettings::getColor(LiveStartListBestFColor);
     this->liveStartListBackgroundColor = CRSettings::getColor(LiveStartListBackgroundColor);
     this->liveRankingsTitleColor = CRSettings::getColor(LiveRankingsTitleColor);
     this->liveRankingsTextColor = CRSettings::getColor(LiveRankingsTextColor);
+    this->liveRankingsBestMColor = CRSettings::getColor(LiveRankingsBestMColor);
+    this->liveRankingsBestFColor = CRSettings::getColor(LiveRankingsBestFColor);
     this->liveRankingsBackgroundColor = CRSettings::getColor(LiveRankingsBackgroundColor);
 }
 
@@ -116,6 +140,12 @@ void LiveColors::loadColor()
     } else if (senderObject == this->ui->lslTextButton) {
         oldColor = &this->liveStartListTextColor;
         title = tr("Live Start List text color");
+    } else if (senderObject == this->ui->lslBMTextButton) {
+        oldColor = &this->liveStartListBestMColor;
+        title = tr("Live Start List Best Male color");
+    } else if (senderObject == this->ui->lslBFTextButton) {
+        oldColor = &this->liveStartListBestFColor;
+        title = tr("Live Start List Best Female color");
     } else if (senderObject == this->ui->lslBackgroundButton) {
         oldColor = &this->liveStartListBackgroundColor;
         title = tr("Live Start List background color");
@@ -125,6 +155,12 @@ void LiveColors::loadColor()
     } else if (senderObject == this->ui->lrTextButton) {
         oldColor = &this->liveRankingsTextColor;
         title = tr("Live Rankings text color");
+    } else if (senderObject == this->ui->lrBMTextButton) {
+        oldColor = &this->liveRankingsBestMColor;
+        title = tr("Live Rankings Best Male color");
+    } else if (senderObject == this->ui->lrBFTextButton) {
+        oldColor = &this->liveRankingsBestFColor;
+        title = tr("Live Rankings Best Female color");
     } else if (senderObject == this->ui->lrBackgroundButton) {
         oldColor = &this->liveRankingsBackgroundColor;
         title = tr("Live Rankings background color");

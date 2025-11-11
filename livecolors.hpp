@@ -43,9 +43,13 @@ private:
 
     QColor liveStartListTitleColor;
     QColor liveStartListTextColor;
+    QColor liveStartListBestMColor;
+    QColor liveStartListBestFColor;
     QColor liveStartListBackgroundColor;
     QColor liveRankingsTitleColor;
     QColor liveRankingsTextColor;
+    QColor liveRankingsBestMColor;
+    QColor liveRankingsBestFColor;
     QColor liveRankingsBackgroundColor;
 
     void loadConfiguredColors();

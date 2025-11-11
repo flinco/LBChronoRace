@@ -21,6 +21,7 @@
 #include <QPixmap>
 #include <QColor>
 #include <QTime>
+#include <QOverload>
 
 #include "liveview.hpp"
 #include "crloader.hpp"
@@ -29,6 +30,7 @@
 
 LiveView::LiveView(QWidget *startListParent, QWidget *rankingsParent) :
     QObject(Q_NULLPTR),
+    highlighter(&this->lastRowItems),
     demoModeTimer(this)
 {
     liveStartList.reset(new LiveStartList(startListParent));
@@ -36,17 +38,14 @@ LiveView::LiveView(QWidget *startListParent, QWidget *rankingsParent) :
 
     liveRankings->setTimerValue(DISPLAY_CHRONO_ZERO);
 
+    highlighter.setPalette(liveRankings->getPalette());
+
     this->setLiveMode(LiveView::LiveMode::NONE);
-}
 
-void LiveView::addEntry(quint64 values)
-{
-    setEntry(values, true);
-}
-
-void LiveView::removeEntry(quint64 values)
-{
-    setEntry(values, false);
+    auto const *model = liveRankings->getModel();
+    QObject::connect(model, &QStandardItemModel::itemChanged, &this->highlighter, QOverload<QStandardItem const *>::of(&Highlighter::handleHighlightRequest));
+    QObject::connect(model, &QAbstractItemModel::rowsInserted, &this->highlighter, QOverload<QModelIndex const &, int, int>::of(&Highlighter::handleHighlightRequest));
+    QObject::connect(model, &QAbstractItemModel::rowsRemoved, &this->highlighter, QOverload<QModelIndex const &, int, int>::of(&Highlighter::handleHighlightRequest));
 }
 
 void LiveView::setRaceInfo(ChronoRaceData const *newRaceData)
@@ -62,7 +61,7 @@ void LiveView::setStartList(QList<Competitor> const &newStartList)
 
     // Cleanup and fill with new data
     this->startList.clear();
-    this->lastRowItems.clear();
+    this->highlighter.clear();
     for (auto &competitor : newStartList) {
         bib = competitor.getBib();
         this->startList.insert(bib, competitor);
@@ -194,7 +193,7 @@ void LiveView::setLiveMode(LiveView::LiveMode newMode)
             stopDemo();
             break;
         case RANKINGS:
-            highlightLastEntry(false); // remove highlighting
+            this->highlighter.unhighlight(); // remove highlighting
             startDemo();
             break;
         default:
@@ -225,7 +224,7 @@ void LiveView::stopDemo()
     QObject::disconnect(&demoModeTimer, &QTimer::timeout, liveStartList.data(), &LiveStartList::demoStep);
 }
 
-void LiveView::setEntry(quint64 values, bool add)
+void LiveView::addEntry(quint64 values, bool add)
 {
     auto bib = static_cast<uint>(values & Q_UINT64_C(0xffffffff));
     auto timing = static_cast<uint>(values >> 32);
@@ -237,7 +236,7 @@ void LiveView::setEntry(quint64 values, bool add)
         return;
 
     // Restore highlighted entry roles
-    highlightLastEntry(false);
+    this->highlighter.unhighlight();
 
     switch (this->raceMode) {
         using enum LiveView::RaceMode;
@@ -269,39 +268,17 @@ void LiveView::setEntry(quint64 values, bool add)
     }
 
     // Set highlighted entry roles
-    highlightLastEntry(true);
+    //this->highlighter.highlight();
+    // HIghlighting performed after rendering
 
     auto *model = this->liveRankings->getModel();
     model->sort(0, Qt::SortOrder::AscendingOrder);
     this->liveRankings->scrollToLastItem(this->lastRowItems.isEmpty() ? Q_NULLPTR : this->lastRowItems[0]);
 }
 
-void LiveView::highlightLastEntry(bool set)
+void LiveView::removeEntry(quint64 values)
 {
-    if (set) {
-        QColor highlightedColor(Qt::red);
-
-        // Set bold font roles
-        for (QStandardItem *item : std::as_const(this->lastRowItems)) {
-            //NOSONAR highlightedFont = QFont(item->font());
-            //NOSONAR highlightedFont.setBold(true);
-            //NOSONAR item->setData(highlightedFont, Qt::FontRole);
-            item->setData(highlightedColor, Qt::ForegroundRole);
-        }
-    } else {
-        //NOSONAR QVariant fontRole;
-        QVariant colorRole;
-
-        // Restore non-bold font roles
-        for (QStandardItem *item : std::as_const(this->lastRowItems)) {
-            //NOSONAR fontRole = item->data(Qt::FontRole);
-            //NOSONAR fontRole.clear();
-            //NOSONAR item->setData(fontRole, Qt::FontRole);
-            colorRole = item->data(Qt::ForegroundRole);
-            colorRole.clear();
-            item->setData(colorRole, Qt::ForegroundRole);
-        }
-    }
+    addEntry(values, false);
 }
 
 void LiveView::addTimingIndividual(uint bib, uint timing, bool chrono)
@@ -324,7 +301,10 @@ void LiveView::addTimingIndividual(uint bib, uint timing, bool chrono)
         this->lastRowItems << new QStandardItem(QString());
 
         this->lastRowItems[1]->setData(QVariant(1000 * comp.getOffset()), Qt::UserRole);
+        this->lastRowItems[1]->setData(QVariant(static_cast<uint>(comp.getSex())), Qt::UserRole + 1);
     }
+
+    auto sex = static_cast<Competitor::Sex>(this->lastRowItems[1]->data(Qt::UserRole + 1).toUInt());
 
     if (chrono)
         timing -= this->lastRowItems[1]->data(Qt::UserRole).toUInt();
@@ -351,6 +331,8 @@ void LiveView::addTimingIndividual(uint bib, uint timing, bool chrono)
     }
 
     this->lastRowItems[2]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
+    // Update the index and highlight best timing
+    this->highlighter.add(sex, 0, timing, this->lastRowItems[2]);
 
     model->appendRow(this->lastRowItems);
 }
@@ -377,8 +359,13 @@ void LiveView::removeTimingIndividual(uint bib, uint timing, bool chrono)
     if (!this->lastRowItems[2]->data(Qt::UserRole).isNull())
         extraTimings = this->lastRowItems[2]->data(Qt::UserRole).toList();
 
+    auto sex = static_cast<Competitor::Sex>(this->lastRowItems[1]->data(Qt::UserRole + 1).toUInt());
+
     if (chrono)
         timing -= this->lastRowItems[1]->data(Qt::UserRole).toUInt();
+
+    // Update the index and highlight best timing
+    this->highlighter.remove(sex, 0, timing, this->lastRowItems[2]);
 
     /* A timing MUST be present for this bib */
     if (this->lastRowItems[0]->data(Qt::UserRole).toUInt() == timing) {
@@ -450,13 +437,17 @@ void LiveView::addTimingRelay(uint bib, uint timing, bool chrono)
 
         this->lastRowItems << new QStandardItem(QString::number(bib));
 
+        Competitor const *comp;
         column = 1;
         for (auto item = offsets.constBegin(); item != offsets.constEnd(); item++) {
             if (column + 2 < columnCount) {
-                this->lastRowItems << new QStandardItem(item.value()->getCompetitorName(CRHelper::nameComposition));
+                comp = item.value();
+                this->lastRowItems << new QStandardItem(comp->getCompetitorName(CRHelper::nameComposition));
                 this->lastRowItems << new QStandardItem(QString());
 
                 this->lastRowItems[column]->setData(QVariant(item.key()), Qt::UserRole);
+                this->lastRowItems[column]->setData(QVariant(static_cast<uint>(comp->getSex())), Qt::UserRole + 1);
+
             }
             column += 2;
         }
@@ -528,9 +519,14 @@ void LiveView::removeTimingRelay(uint bib, uint timing, bool chrono)
     }
 }
 
-void LiveView::insertTimingRelay(uint timing, int columnCount, bool chrono, QVariantList &extraTimings) const
+void LiveView::insertTimingRelay(uint timing, int columnCount, bool chrono, QVariantList &extraTimings)
 {
+    Competitor::Sex sex;
+
     for (qsizetype column = 2; column < columnCount; column += 2) {
+
+        sex = static_cast<Competitor::Sex>(this->lastRowItems[column - 1]->data(Qt::UserRole + 1).toUInt());
+
         if (this->lastRowItems[column]->data(Qt::UserRole).isNull()) {
             this->lastRowItems[column]->setData(QVariant(timing), Qt::UserRole);
             if (chrono) {
@@ -539,9 +535,17 @@ void LiveView::insertTimingRelay(uint timing, int columnCount, bool chrono, QVar
                 timing -= (column == 2) ? 0 : this->lastRowItems[column - 2]->data(Qt::UserRole).toUInt();
             }
             this->lastRowItems[column]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
+            this->lastRowItems[column]->setData(QVariant(timing), Qt::UserRole + 1);
+
+            // Update the index and highlight best timing
+            this->highlighter.add(sex, (column / 2) - 1, timing, this->lastRowItems[column]);
+
             timing = 0;
             break;
         } else if (uint prevTiming = this->lastRowItems[column]->data(Qt::UserRole).toUInt(); timing < prevTiming) {
+            // Update the index and highlight best timing
+            this->highlighter.remove(sex, (column / 2) - 1, this->lastRowItems[column]->data(Qt::UserRole + 1).toUInt(), this->lastRowItems[column]);
+
             this->lastRowItems[column]->setData(QVariant(timing), Qt::UserRole);
             if (chrono) {
                 timing -= this->lastRowItems[column - 1]->data(Qt::UserRole).toUInt();
@@ -549,6 +553,11 @@ void LiveView::insertTimingRelay(uint timing, int columnCount, bool chrono, QVar
                 timing -= (column == 2) ? 0 : this->lastRowItems[column - 2]->data(Qt::UserRole).toUInt();
             }
             this->lastRowItems[column]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
+            this->lastRowItems[column]->setData(QVariant(timing), Qt::UserRole + 1);
+
+            // Update the index and highlight best timing
+            this->highlighter.add(sex, (column / 2) - 1, timing, this->lastRowItems[column]);
+
             timing = prevTiming;
         }
     }
@@ -561,6 +570,7 @@ void LiveView::insertTimingRelay(uint timing, int columnCount, bool chrono, QVar
 void LiveView::eraseTimingRelay(uint timing, int columnCount, bool chrono, QVariantList &extraTimings)
 {
     int column;
+    Competitor::Sex sex;
 
     /* Find a matching item */
     for (column = 2; column < columnCount; column += 2) {
@@ -572,8 +582,13 @@ void LiveView::eraseTimingRelay(uint timing, int columnCount, bool chrono, QVari
 
     /* Shift the contents */
     while (column < columnCount) {
+
+        sex = static_cast<Competitor::Sex>(this->lastRowItems[column - 1]->data(Qt::UserRole + 1).toUInt());
+
         if ((column + 2 < columnCount) && !this->lastRowItems[column + 2]->data(Qt::UserRole).isNull()) {
             timing = this->lastRowItems[column + 2]->data(Qt::UserRole).toUInt();
+            // Update the index and highlight best timing
+            this->highlighter.remove(sex, (column / 2) - 1, this->lastRowItems[column + 2]->data(Qt::UserRole + 1).toUInt(), this->lastRowItems[column + 2]);
         } else if (!extraTimings.isEmpty()) {
             timing = extraTimings.takeAt(0).toUInt();
         } else {
@@ -588,6 +603,10 @@ void LiveView::eraseTimingRelay(uint timing, int columnCount, bool chrono, QVari
                 timing -= (column == 2) ? 0 : this->lastRowItems[column - 2]->data(Qt::UserRole).toUInt();
             }
             this->lastRowItems[column]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
+            this->lastRowItems[column]->setData(QVariant(timing), Qt::UserRole + 1);
+
+            // Update the index and highlight best timing
+            this->highlighter.add(sex, (column / 2) - 1, timing, this->lastRowItems[column]);
         } else {
             this->lastRowItems[column]->setData(QVariant(), Qt::UserRole);
             this->lastRowItems[column]->setText(QString());
@@ -757,5 +776,254 @@ void LiveView::setInterval() const
 
 void LiveView::setScreenSaver(ScreenSaver *newScreenSaver)
 {
-    screenSaver = newScreenSaver;
+    this->screenSaver = newScreenSaver;
+}
+
+ Highlighter::Highlighter(QList<QStandardItem *> *highlightedItemsList) :
+    QObject(Q_NULLPTR),
+    highlightedRowItems(highlightedItemsList)
+{
+    Q_ASSERT(highlightedItemsList != Q_NULLPTR);
+
+    QObject::connect(this, &Highlighter::postRenderNeeded, this, &Highlighter::highlight);
+}
+
+void Highlighter::handleHighlightRequest(QStandardItem const *item)
+{
+    Q_UNUSED(item)
+
+    // Do nothing in case of another pending highlighting request
+    if (this->highlightPending) {
+        return;
+    }
+
+    this->highlightPending = true;
+
+    // QTimer::singleShot(0) is the key:
+    // It queues the signal emission. This signal will be processed
+    // only after the event loop has processed all the paint events
+    // generated by the changes in the rows or single items.
+    //singleShot(Duration interval, const QObject *context, Functor &&functor);
+    QTimer::singleShot(0, this, [this](){
+        emit postRenderNeeded();
+    });
+}
+
+void Highlighter::handleHighlightRequest(QModelIndex const &parent, int first, int last)
+{
+    Q_UNUSED(parent)
+    Q_UNUSED(first)
+    Q_UNUSED(last)
+
+    this->handleHighlightRequest(Q_NULLPTR);
+}
+
+void Highlighter::clear()
+{
+    this->highlightedRowItems->clear();
+    this->bestRowItems.clear();
+    this->bestItemsIndex.clear();
+}
+
+void Highlighter::add(Competitor::Sex sex, qsizetype leg, uint timing, QStandardItem *item)
+{
+    // Get the index and best items per sex
+    auto bestItems = this->bestRowItems.take(sex);
+    if (leg + 1 > bestItems.size())
+        bestItems.resize(leg + 1);
+    auto itemsIndex = this->bestItemsIndex.take(sex);
+    if (leg + 1 > itemsIndex.size())
+        itemsIndex.resize(leg + 1);
+    auto &index = itemsIndex[leg];
+
+    // is 'item' better?
+    bool update = index.empty() || (timing < index.firstKey());
+
+    // add 'item' to the index
+    index.insert(timing, item);
+
+    // if 'item' is better...
+    if (update) {
+        bestItems[leg] = index.first();
+    }
+
+    // Put the index and best items back
+    this->bestItemsIndex.insert(sex, itemsIndex);
+    this->bestRowItems.insert(sex, bestItems);
+}
+
+void Highlighter::remove(Competitor::Sex sex, qsizetype leg, uint timing, QStandardItem *item)
+{
+    // Get the index and best items per sex
+    auto bestItems = this->bestRowItems.take(sex);
+    if (leg + 1 > bestItems.size())
+        bestItems.resize(leg + 1);
+    auto itemsIndex = this->bestItemsIndex.take(sex);
+    if (leg + 1 > itemsIndex.size())
+        itemsIndex.resize(leg + 1);
+    auto &index = itemsIndex[leg];
+
+    // is 'item' the best?
+    bool update = (bestItems[leg] == item);
+
+    // remove entry from the index
+    index.remove(timing, item);
+
+    // if 'item' is the current best search for a new best
+    if (update) {
+        bestItems[leg] = index.empty() ? Q_NULLPTR : index.first();
+    }
+
+    // Put the index and best items back
+    this->bestItemsIndex.insert(sex, itemsIndex);
+    this->bestRowItems.insert(sex, bestItems);
+}
+
+void Highlighter::highlightItem(QStandardItem *item, QColor const &bestColor) const
+{
+    using enum LiveView::LiveHighlighting;
+
+    if (item == Q_NULLPTR)
+        return;
+
+    LiveView::LiveHighlightings flags;
+
+    // get current highlighting
+    if (auto flag = item->data(Qt::ItemDataRole::UserRole + 2); flag.isValid())
+        flags = LiveView::LiveHighlightings::fromInt(flag.value<LiveView::LiveHighlightings::Int>());
+    else
+        flags = LiveNotHighlighted;
+
+    if (!flags.testFlag(LiveHighlightedBest)) {
+        item->setData(bestColor, Qt::ItemDataRole::ForegroundRole);
+    }
+
+    item->setData(QVariant(flags.setFlag(LiveHighlightedBest, true).toInt()), Qt::ItemDataRole::UserRole + 2);
+}
+
+void Highlighter::unhighlightItem(QStandardItem *item) const
+{
+    using enum LiveView::LiveHighlighting;
+
+    LiveView::LiveHighlightings flags;
+
+    if (item == Q_NULLPTR)
+        return;
+
+    // get current highlighting
+    if (auto flag = item->data(Qt::ItemDataRole::UserRole + 2); flag.isValid())
+        flags = LiveView::LiveHighlightings::fromInt(flag.value<LiveView::LiveHighlightings::Int>());
+    else
+        flags = LiveNotHighlighted;
+
+    if (flags.testFlag(LiveHighlightedBest)) {
+        if (flags.testFlag(LiveHighlightedLast)) {
+            QColor backgroundColor = CRSettings::getColor(CRSettings::Color::LiveRankingsBackgroundColor);
+            item->setData(backgroundColor, Qt::ItemDataRole::ForegroundRole);
+        } else {
+            QVariant colorRole;
+            colorRole = item->data(Qt::ItemDataRole::ForegroundRole);
+            colorRole.clear();
+            item->setData(colorRole, Qt::ItemDataRole::ForegroundRole);
+        }
+    }
+
+    item->setData(QVariant(flags.setFlag(LiveHighlightedBest, false).toInt()), Qt::ItemDataRole::UserRole + 2);
+}
+
+void Highlighter::highlight()
+{
+    using enum LiveView::LiveHighlighting;
+
+    LiveView::LiveHighlightings flags;
+
+    // Highlight best timings
+    QColor bestColor;
+    for (auto iter = this->bestRowItems.constKeyValueBegin(); iter != this->bestRowItems.constKeyValueEnd(); iter++) {
+        switch (iter->first) {
+            case Competitor::Sex::MALE: // Highlight best male timings
+                bestColor = CRSettings::getColor(CRSettings::Color::LiveRankingsBestMColor);
+                for (QStandardItem *item : std::as_const(iter->second)) {
+                    this->highlightItem(item, bestColor);
+                }
+                break;
+            case Competitor::Sex::FEMALE: // Highlight best female timings
+                bestColor = CRSettings::getColor(CRSettings::Color::LiveRankingsBestFColor);
+                for (QStandardItem *item : std::as_const(iter->second)) {
+                    this->highlightItem(item, bestColor);
+                }
+                break;
+            default:
+                // nothing to do
+                break;
+        }
+    }
+
+    // Set swapped background and foreground
+    QColor foregroundColor = CRSettings::getColor(CRSettings::Color::LiveRankingsTextColor);
+    QColor backgroundColor = CRSettings::getColor(CRSettings::Color::LiveRankingsBackgroundColor);
+    for (QStandardItem *item : std::as_const(*this->highlightedRowItems)) {
+
+        // get current highlighting
+        if (auto flag = item->data(Qt::ItemDataRole::UserRole + 2); flag.isValid())
+            flags = LiveView::LiveHighlightings::fromInt(flag.value<LiveView::LiveHighlightings::Int>());
+        else
+            flags = LiveNotHighlighted;
+
+        if (!flags.testFlag(LiveHighlightedLast)) {
+            item->setData(foregroundColor, Qt::ItemDataRole::BackgroundRole);
+
+            if (flags == LiveNotHighlighted) {
+                item->setData(backgroundColor, Qt::ItemDataRole::ForegroundRole);
+            }
+        }
+
+        item->setData(QVariant(flags.setFlag(LiveHighlightedLast, true).toInt()), Qt::ItemDataRole::UserRole + 2);
+    }
+
+    this->highlightPending = false;
+}
+
+void Highlighter::unhighlight()
+{
+    using enum LiveView::LiveHighlighting;
+
+    LiveView::LiveHighlightings flags;
+
+    // Restore background and foreground
+    QVariant colorRole;
+    for (QStandardItem *item : std::as_const(*this->highlightedRowItems)) {
+
+        // get current highlighting
+        if (auto flag = item->data(Qt::ItemDataRole::UserRole + 2); flag.isValid())
+            flags = LiveView::LiveHighlightings::fromInt(flag.value<LiveView::LiveHighlightings::Int>());
+        else
+            flags = LiveNotHighlighted;
+
+        if (flags.testFlag(LiveHighlightedLast)) {
+            colorRole = item->data(Qt::ItemDataRole::BackgroundRole);
+            colorRole.clear();
+            item->setData(colorRole, Qt::ItemDataRole::BackgroundRole);
+        }
+
+        if (flags == LiveHighlightedLast) {
+            colorRole = item->data(Qt::ItemDataRole::ForegroundRole);
+            colorRole.clear();
+            item->setData(colorRole, Qt::ItemDataRole::ForegroundRole);
+        }
+
+        item->setData(QVariant(flags.setFlag(LiveHighlightedLast, false).toInt()), Qt::ItemDataRole::UserRole + 2);
+    }
+
+    // Unhighlight best timings
+    for (auto &list : this->bestRowItems) {
+        for (QStandardItem *item : std::as_const(list)) {
+            this->unhighlightItem(item);
+        }
+    }
+}
+
+void Highlighter::setPalette(QPalette const &newPalette)
+{
+    this->palette = newPalette;
 }
