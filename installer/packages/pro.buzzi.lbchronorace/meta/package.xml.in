@@ -43,9 +43,9 @@
     </Translations>
     <!--<UpdateText>This changed compared to the last release</UpdateText>-->
     <!--<Default>script</Default>-->
-    <Essential>true</Essential>
+    <!--<Essential>true</Essential>-->
     <ForcedInstallation>true</ForcedInstallation>
-    <ForcedUpdate>true</ForcedUpdate>
+    <!--<ForcedUpdate>true</ForcedUpdate>-->
     <!--<Replaces>pro.buzzi.lbchronorace2old</Replaces>-->
     <!--<DownloadableArchives>component2.7z,component2a.7z</DownloadableArchives>-->
     <!--<RequiresAdminRights>true</RequiresAdminRights>-->

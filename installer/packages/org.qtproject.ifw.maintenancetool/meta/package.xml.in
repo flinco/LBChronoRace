@@ -24,6 +24,7 @@
     <ReleaseDate>2025-06-09</ReleaseDate>
     <Essential>true</Essential>
     <Virtual>true</Virtual>
+    <ForcedUpdate>true</ForcedUpdate>
     <Script>installscript.qs</Script>
 </Package>
 
