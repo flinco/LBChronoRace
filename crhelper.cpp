@@ -153,7 +153,7 @@ QString CRHelper::toOffsetString(int offset)
     if (offset < 0)
         return QString("%1").arg(qAbs(offset));
     else
-        return QString("%1:%2:%3").arg(((offset / 60) / 60)).arg(((offset / 60) % 60), 2, 10, QChar('0')).arg((offset % 60), 2, 10, QChar('0'));
+        return QString("%1:%2:%3").arg((offset / 60) / 60).arg(((offset / 60) % 60), 2, 10, QChar('0')).arg((offset % 60), 2, 10, QChar('0'));
 }
 
 Ranking::Type CRHelper::toRankingType(QString  const &type)

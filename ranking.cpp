@@ -21,12 +21,12 @@
 Ranking::Field RankingSorter::sortingField = Ranking::Field::RTF_FIRST;
 Qt::SortOrder  RankingSorter::sortingOrder = Qt::AscendingOrder;
 
-Ranking::Ranking(QString const &team)
+Ranking::Ranking(QString const &newTeam)
 {
-    if (team.length() != 1) {
+    if (newTeam.length() != 1) {
         throw(ChronoRaceException(tr("Invalid ranking type - expected 'I' or 'T' - found %1").arg(team)));
     } else {
-        this->team = (team.compare("T", Qt::CaseInsensitive) == 0);
+        this->team = (newTeam.compare("T", Qt::CaseInsensitive) == 0);
     }
 }
 

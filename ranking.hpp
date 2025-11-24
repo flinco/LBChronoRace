@@ -58,7 +58,7 @@ private:
 
 public:
     Ranking() = default;
-    explicit Ranking(QString const &team);
+    explicit Ranking(QString const &newTeam);
 
     QDataStream &rSerialize(QDataStream &out) const;
     friend QDataStream &operator<<(QDataStream &out, Ranking const &data)
