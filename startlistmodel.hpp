@@ -30,7 +30,7 @@ class StartListModel : public CRTableModel
 
 public:
     explicit StartListModel(QObject *parent = Q_NULLPTR) : CRTableModel(parent) { };
-    StartListModel(QList<Competitor> const &startList, QObject *parent = Q_NULLPTR) : CRTableModel(parent), startList(startList) { };
+    explicit StartListModel(QList<Competitor> const &startList, QObject *parent = Q_NULLPTR) : CRTableModel(parent), startList(startList) { };
 
     QDataStream &slmSerialize(QDataStream &out) const;
     friend QDataStream &operator<<(QDataStream &out, StartListModel const &data)
