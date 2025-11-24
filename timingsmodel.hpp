@@ -30,7 +30,7 @@ class TimingsModel : public CRTableModel
 
 public:
     explicit TimingsModel(QObject *parent = Q_NULLPTR) : CRTableModel(parent) { };
-    TimingsModel(QList<Timing> const &timingsList, QObject *parent = Q_NULLPTR) : CRTableModel(parent), timings(timingsList) { };
+    explicit TimingsModel(QList<Timing> const &timingsList, QObject *parent = Q_NULLPTR) : CRTableModel(parent), timings(timingsList) { };
 
     QDataStream &tmSerialize(QDataStream &out) const;
     friend QDataStream &operator<<(QDataStream &out, TimingsModel const &data)

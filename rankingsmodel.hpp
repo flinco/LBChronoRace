@@ -31,7 +31,7 @@ class RankingsModel : public CRTableModel
 
 public:
     explicit RankingsModel(QObject *parent = Q_NULLPTR) : CRTableModel(parent) { };
-    RankingsModel(QList<Ranking> const &rankingsList, QObject *parent = Q_NULLPTR)
+    explicit RankingsModel(QList<Ranking> const &rankingsList, QObject *parent = Q_NULLPTR)
         : CRTableModel(parent), rankings(rankingsList) { };
 
     QDataStream &rmSerialize(QDataStream &out) const;
