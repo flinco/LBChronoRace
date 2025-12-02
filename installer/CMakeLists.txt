@@ -113,10 +113,6 @@ foreach(IN_FILE ${WIN_DEPLOY_CONFIG_XML})
 endforeach()
 unset(at CACHE)
 
-# Installer base binary
-file(COPY "${QTIFW_INSTALLERBASE_EXECUTABLE}"
-     DESTINATION "${WIN_DEPLOY_MAINTENANCE_DIR}")
-
 # Installer images and icons
 file(COPY
     "${CMAKE_SOURCE_DIR}/icons/installer.ico"
@@ -206,16 +202,51 @@ if(CMAKE_BUILD_TYPE_UPPER STREQUAL "DEBUG")
 else()
     set(WINDEPLOYQT_ARGS "--release")
 endif()
+file(MAKE_DIRECTORY "${WIN_DEPLOY_MAINTENANCE_DIR}")
 
 cmake_path(GET CMAKE_CXX_COMPILER PARENT_PATH _GXX_BIN_DIR)
 add_custom_command(TARGET installer POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E env PATH="${_GXX_BIN_DIR}" ${WINDEPLOYQT_EXECUTABLE}
-        --qmldir ${CMAKE_SOURCE_DIR}
+        --qmldir "${CMAKE_SOURCE_DIR}"
         ${WINDEPLOYQT_ARGS}
-        --dir ${WIN_DEPLOY_TARGET_DIR}
+        --dir "${WIN_DEPLOY_TARGET_DIR}"
         --no-compiler-runtime
         "${WIN_DEPLOY_TARGET_DIR}/$<TARGET_FILE_NAME:${LBCHRONORACE_BIN}>"
     COMMENT "Deploying ${CMAKE_PROJECT_NAME}..."
+    USES_TERMINAL)
+
+# Build the hybrid installer binary
+set(INSTALLER_BINARY "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer${CMAKE_EXECUTABLE_SUFFIX}")
+add_custom_command(TARGET installer POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E env ${QTIFW_BINARYCREATOR_EXECUTABLE}
+        "--hybrid"
+        -c "config/config.xml"
+        -p "packages"
+        -r "${SETAPPUSERMODELID_QRC}"
+        -v
+        "${INSTALLER_BINARY}"
+    COMMENT "Creating ${CMAKE_PROJECT_NAME} hybrid installer"
+    USES_TERMINAL)
+
+# Build the on-line installer binary
+set(INSTALLER_ONLINE_BINARY "${CMAKE_BINARY_DIR}/installerbase${CMAKE_EXECUTABLE_SUFFIX}")
+add_custom_command(TARGET installer POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E env ${QTIFW_BINARYCREATOR_EXECUTABLE}
+        "--online-only"
+        -t "${QTIFW_INSTALLERBASE_EXECUTABLE}"
+        -c "config/config.xml"
+        -p "packages"
+        -r "${SETAPPUSERMODELID_QRC}"
+        -v
+        "${INSTALLER_ONLINE_BINARY}"
+    COMMENT "Creating ${CMAKE_PROJECT_NAME} on-line installer"
+    USES_TERMINAL)
+
+# Copy the on-line installer binary (for the on-line updater)
+add_custom_command(TARGET installer POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "${INSTALLER_ONLINE_BINARY}" "${WIN_DEPLOY_MAINTENANCE_DIR}"
+    DEPENDS "${INSTALLER_ONLINE_BINARY}"
+    COMMENT "Copy ${INSTALLER_ONLINE_BINARY} into the maintenance tool directory"
     USES_TERMINAL)
 
 # Build the installer's resource file (for on-line update)
@@ -223,27 +254,15 @@ add_custom_command(TARGET installer POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E env ${QTIFW_BINARYCREATOR_EXECUTABLE}
         -c "config/config.xml"
         -p "packages"
-        -r "${SETAPPUSERMODELID_QRC}"
         -rcc
     COMMENT "Creating ${CMAKE_PROJECT_NAME} installer's resource file"
     USES_TERMINAL)
 
 # Copy the installer's resource file
 add_custom_command(TARGET installer POST_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E copy "update.rcc" ${WIN_DEPLOY_MAINTENANCE_DIR}
+    COMMAND "${CMAKE_COMMAND}" -E copy "update.rcc" "${WIN_DEPLOY_MAINTENANCE_DIR}"
     DEPENDS "update.rcc"
     COMMENT "Copy update.rcc into the maintenance tool directory"
-    USES_TERMINAL)
-
-# Build the installer
-add_custom_command(TARGET installer POST_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E env ${QTIFW_BINARYCREATOR_EXECUTABLE}
-        "--hybrid"
-        -c "config/config.xml"
-        -p "packages"
-        -r "${SETAPPUSERMODELID_QRC}"
-        -v "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer${CMAKE_EXECUTABLE_SUFFIX}"
-    COMMENT "Creating ${CMAKE_PROJECT_NAME} installer"
     USES_TERMINAL)
 
 # Build the repository
@@ -259,8 +278,6 @@ configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/launcher.rc.in
     ${CMAKE_CURRENT_BINARY_DIR}/launcher.rc
     @ONLY)
-
-set(INSTALLER_BINARY "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer${CMAKE_EXECUTABLE_SUFFIX}")
 
 # Embed the installer in the launcher executable
 set(INSTALLER_RC "${CMAKE_CURRENT_BINARY_DIR}/installer.rc")

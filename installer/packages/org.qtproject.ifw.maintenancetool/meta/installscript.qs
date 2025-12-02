@@ -18,6 +18,7 @@
 function Component() {
     component.ifwVersion = installer.value("FrameworkVersion");
     installer.installationStarted.connect(this, Component.prototype.onInstallationStarted);
+    installer.installationFinished.connect(this, Component.prototype.onInstallationFinished);
 }
 
 Component.prototype.onInstallationStarted = function() {
@@ -44,6 +45,14 @@ Component.prototype.onInstallationStarted = function() {
         updateResourceFilePath += "/update.rcc";
         installer.setValue("DefaultResourceReplacement", updateResourceFilePath);
     }
+
+    var userTemp = QDesktopServices.storageLocation(QDesktopServices.TempLocation);
+    installer.performOperation("Copy", [":/SetAppUserModelId.exe", installer.toNativeSeparators(userTemp + "/SetAppUserModelId.exe"), "UNDOOPERATION", ""]);
+}
+
+Component.prototype.onInstallationFinished = function() {
+    var userTemp = QDesktopServices.storageLocation(QDesktopServices.TempLocation);
+    installer.performOperation("Delete", [installer.toNativeSeparators(userTemp + "/SetAppUserModelId.exe"), "UNDOOPERATION", ""]);
 }
 
 Component.prototype.createOperationsForArchive = function(archive) {
