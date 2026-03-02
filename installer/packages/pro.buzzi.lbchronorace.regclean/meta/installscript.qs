@@ -15,10 +15,12 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-function Component() {
+function Component()
+{
 }
 
-Component.prototype.beginInstallation = function() {
+Component.prototype.beginInstallation = function()
+{
     // call default implementation
     component.beginInstallation();
 

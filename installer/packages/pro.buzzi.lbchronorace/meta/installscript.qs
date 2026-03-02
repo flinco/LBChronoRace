@@ -15,10 +15,12 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-function Component() {
+function Component()
+{
 }
 
-Component.prototype.createOperations = function() {
+Component.prototype.createOperations = function()
+{
     component.createOperations();
 
     var userTemp = QDesktopServices.storageLocation(QDesktopServices.TempLocation);
