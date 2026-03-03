@@ -18,7 +18,7 @@
 #include "crloader.hpp"
 #include "rankingsbuilder.hpp"
 
-uint RankingsBuilder::loadData()
+uint RankingsBuilder::loadData(bool startListOnly)
 {
     QStringList messages;
     QList<Timing> timings { CRLoader::getTimings() };
@@ -76,7 +76,7 @@ uint RankingsBuilder::loadData()
 
     emitMessages(messages);
 
-    if (startList.size() != timings.size())
+    if (!startListOnly && (startList.size() != timings.size()))
         emit error(tr("Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries").arg(timings.size()).arg(startList.size()));
 
     // sort by time

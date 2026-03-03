@@ -94,7 +94,7 @@ ChronoRaceData *RankingsWizard::getRaceData()
 void RankingsWizard::buildStartList()
 {
     // compute the startlist
-    rankingsBuilder.loadData();
+    rankingsBuilder.loadData(true);
 }
 
 void RankingsWizard::buildRankings()

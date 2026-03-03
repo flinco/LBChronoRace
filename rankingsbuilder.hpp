@@ -34,7 +34,7 @@ class RankingsBuilder : public QObject
     using QObject::QObject;
 
 public:
-    uint loadData();
+    uint loadData(bool startListOnly = false);
     QList<ClassEntry const *> &fillRanking(QList<ClassEntry const *> &ranking, Ranking const *categories) const;
     QList<TeamClassEntry const *> &fillRanking(QList<TeamClassEntry const *> &ranking, Ranking const *categories);
     QList<Competitor const *> fillStartList() const;
