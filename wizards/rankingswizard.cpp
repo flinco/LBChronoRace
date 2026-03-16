@@ -333,9 +333,6 @@ void RankingsWizard::print(bool checked)
     // encoding
     CRLoader::setEncoding(static_cast<QStringConverter::Encoding>(field("format.encoding").toUInt()));
 
-    // results mode
-    raceData->setField(ChronoRaceData::IndexField::RESULTS, field("selection.results").toInt());
-
     switch (this->target) {
         using enum RankingsWizard::RankingsWizardTarget;
 
@@ -343,6 +340,9 @@ void RankingsWizard::print(bool checked)
             printStartList();
             break;
         case Rankings:
+            // results mode
+            raceData->setField(ChronoRaceData::IndexField::RESULTS, field("selection.results").toInt());
+
             if ((CRLoader::getFormat() != CRLoader::Format::PDF) || field("mode.multiFile").toBool())
                 printRankingsMultiFile();
             else
