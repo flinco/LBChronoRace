@@ -94,7 +94,7 @@ ChronoRaceData *RankingsWizard::getRaceData()
 void RankingsWizard::buildStartList()
 {
     // compute the startlist
-    rankingsBuilder.loadData(true);
+    rankingsBuilder.loadData(raceData->getFieldIndex(ChronoRaceData::IndexField::RACE_TYPE) != 0, true);
 }
 
 void RankingsWizard::buildRankings()
@@ -104,7 +104,7 @@ void RankingsWizard::buildRankings()
     QList<Ranking> const &rankings = CRLoader::getRankings();
 
     // compute individual general classifications (all included, sorted by bib)
-    numberOfCompetitors = rankingsBuilder.loadData();
+    numberOfCompetitors = rankingsBuilder.loadData(raceData->getFieldIndex(ChronoRaceData::IndexField::RACE_TYPE) != 0);
 
     rankingsList.resize(rankings.count());
     for (auto &rankingItem : rankingsList) {
