@@ -73,6 +73,7 @@ set(HEADER_FILES
     livetablefilterproxymodel.hpp
     liveview.hpp
     multiselectcombobox.hpp
+    nameslookup.hpp
     pdfrankingprinter.hpp
     ranking.hpp
     rankingcatsdelegate.hpp
@@ -124,6 +125,7 @@ set(SOURCE_FILES
     livetablefilterproxymodel.cpp
     liveview.cpp
     multiselectcombobox.cpp
+    nameslookup.cpp
     pdfrankingprinter.cpp
     ranking.cpp
     rankingcatsdelegate.cpp
@@ -269,6 +271,12 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     LBCHRONORACE_MAINTENANCE_TOOL=\"${PROJECT_MAINTENANCE_TOOL}\")
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_20)
+
+# Build the lists of common names
+add_subdirectory(names)
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${GENERATED_NAMES_INC})
+set_source_files_properties(nameslookup.cpp PROPERTIES
+    OBJECT_DEPENDS "${GENERATED_NAMES_INC}")
 
 # The name of the executable binary
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES
