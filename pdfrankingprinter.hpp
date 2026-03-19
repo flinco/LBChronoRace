@@ -37,7 +37,7 @@ public:
 
     void init(QString *outFileName, QString const &title, QString const &subject, QTranslator const *translator) override;
 
-    void printStartList(QList<Competitor const *> const &startList) override;
+    void printStartList(QList<Competitor const *> const &startList, ChronoRaceData::RaceType raceType) override;
     void printRanking(Ranking const &categories, QList<ClassEntry const *> const &ranking) override;
     void printRanking(Ranking const &categories, QList<TeamClassEntry const *> const &ranking) override;
 
@@ -70,12 +70,9 @@ private:
     QList<QList<Competitor const *>> splitStartListSingleLeg(QList<Competitor const *> const &startList) const;
     QList<QList<Competitor const *>> splitStartListMultiLeg(QList<Competitor const *> const &startList) const;
     QList<QList<ClassEntry const *>> splitIndividualRanking(QList<ClassEntry const *> const ranking) const;
-    QList<QList<ClassEntry const *>> splitIndividualRankingSingleLeg(QList<ClassEntry const *> const ranking) const;
-    QList<QList<ClassEntry const *>> splitIndividualRankingMultiLeg(QList<ClassEntry const *> const ranking) const;
     QList<QList<TeamClassEntry const *>> splitTeamRanking(QList<TeamClassEntry const *> const ranking) const;
-    QList<QList<TeamClassEntry const *>> splitTeamRankingSingleLeg(QList<TeamClassEntry const *> const ranking) const;
-    QList<QList<TeamClassEntry const *>> splitTeamRankingMultiLeg(QList<TeamClassEntry const *> const ranking) const;
 
+    void printHeaderStartList(QRectF &writeRect, bool first);
     void printHeaderSingleLeg(QRectF &writeRect, int page, RankingType type);
     void printHeaderMultiLeg(QRectF &writeRect, int page, RankingType type);
 
@@ -86,7 +83,7 @@ private:
     void printPageMultiLeg(QRectF &writeRect, QList<ClassEntry const *> const &page, int &posIndex, uint referenceTime);
     void printPageMultiLeg(QRectF &writeRect, QList<TeamClassEntry const *> const &page, int &posIndex);
 
-    void drawTemplatePortrait(QString const &fullDescription, int page, int pages, bool startList = false);
+    void drawTemplatePortrait(QString const &fullDescription, bool first, int page, int pages, bool startList = false);
     //NOSONAR void drawTemplateLandscape(QString const &fullDescription, int page, int pages, bool startList = false);
 
     qreal ratioX;

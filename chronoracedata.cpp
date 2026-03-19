@@ -661,6 +661,29 @@ int ChronoRaceData::getFieldIndex(ChronoRaceData::IndexField field)
     return index;
 }
 
+ChronoRaceData::RaceType ChronoRaceData::getRaceType()
+{
+    using enum ChronoRaceData::RaceType;
+
+    ChronoRaceData::RaceType raceType = MASS_START;
+
+    switch (this->raceTypeIdx) {
+        case 0:
+            break;
+        case 1:
+            raceType = TIMED_RACE;
+            break;
+        case 2:
+            raceType = RELAY_RACE;
+            break;
+        default:
+            emit error(tr("Error: unknown index field"));
+            break;
+    }
+
+    return raceType;
+}
+
 void ChronoRaceData::setField(ChronoRaceData::IndexField field, int newIndex)
 {
     switch (field) {

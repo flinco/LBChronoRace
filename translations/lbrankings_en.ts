@@ -20,6 +20,14 @@
         <translation>Start List</translation>
     </message>
     <message>
+        <source>Competitors List</source>
+        <translation>Competitors List</translation>
+    </message>
+    <message>
+        <source>Competitors - Leg %1</source>
+        <translation>Competitors - Leg %1</translation>
+    </message>
+    <message>
         <source>Bib</source>
         <translation>Bib</translation>
     </message>

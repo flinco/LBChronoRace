@@ -94,7 +94,7 @@ ChronoRaceData *RankingsWizard::getRaceData()
 void RankingsWizard::buildStartList()
 {
     // compute the startlist
-    rankingsBuilder.loadData(raceData->getFieldIndex(ChronoRaceData::IndexField::RACE_TYPE) != 0, true);
+    rankingsBuilder.loadData(raceData->getRaceType() != ChronoRaceData::RaceType::MASS_START, true);
 }
 
 void RankingsWizard::buildRankings()
@@ -104,7 +104,7 @@ void RankingsWizard::buildRankings()
     QList<Ranking> const &rankings = CRLoader::getRankings();
 
     // compute individual general classifications (all included, sorted by bib)
-    numberOfCompetitors = rankingsBuilder.loadData(raceData->getFieldIndex(ChronoRaceData::IndexField::RACE_TYPE) != 0);
+    numberOfCompetitors = rankingsBuilder.loadData(raceData->getRaceType() != ChronoRaceData::RaceType::MASS_START); // Not Mass Start
 
     rankingsList.resize(rankings.count());
     for (auto &rankingItem : rankingsList) {
@@ -160,7 +160,7 @@ void RankingsWizard::printStartList()
         printer->init(&startListFileName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Start List"), raceData->getTranslator());
 
         // print the startlist
-        printer->printStartList(startList);
+        printer->printStartList(startList, raceData->getRaceType());
 
         if (printer->finalize()) {
             QFileInfo outFileInfo(startListFileName);

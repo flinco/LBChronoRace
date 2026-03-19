@@ -20,6 +20,14 @@
         <translation>Ordine di Partenza</translation>
     </message>
     <message>
+        <source>Competitors List</source>
+        <translation>Lista Concorrenti</translation>
+    </message>
+    <message>
+        <source>Competitors - Leg %1</source>
+        <translation>Concorrenti - Frazione %1</translation>
+    </message>
+    <message>
         <source>Bib</source>
         <translation>Pett</translation>
     </message>

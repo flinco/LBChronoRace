@@ -135,6 +135,7 @@ public:
     QString getField(ChronoRaceData::StringField field) const;
     QStringList getFieldValues(ChronoRaceData::IndexField field);
     int getFieldIndex(ChronoRaceData::IndexField field);
+    ChronoRaceData::RaceType getRaceType();
 
     void setField(ChronoRaceData::IndexField field, int newIndex);
     void setField(ChronoRaceData::StringField field, QString const &newValue);

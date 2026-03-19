@@ -2197,8 +2197,8 @@ publishing</translation>
         <translation>Default</translation>
     </message>
     <message>
-        <source>Rankings language</source>
-        <translation>Rankings language</translation>
+        <source>Language</source>
+        <translation>Language</translation>
     </message>
 </context>
 <context>

@@ -2197,8 +2197,8 @@ la pubblicazione</translation>
         <translation>Predefinita</translation>
     </message>
     <message>
-        <source>Rankings language</source>
-        <translation>Lingua classifiche</translation>
+        <source>Language</source>
+        <translation>Lingua</translation>
     </message>
 </context>
 <context>

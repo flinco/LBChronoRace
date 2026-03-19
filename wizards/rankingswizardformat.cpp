@@ -34,7 +34,7 @@ RankingsWizardFormat::RankingsWizardFormat(QWidget *parent) :
     widgetPtr = new QComboBox;
     QComboBox *rankingsLanguage = qobject_cast<QComboBox *>(widgetPtr.data());
     rankingsLanguage->addItem(QIcon(QString(":/material/icons/language.svg")), tr("Default"));
-    layout.addRow(new QLabel(tr("Rankings language")), rankingsLanguage);
+    layout.addRow(new QLabel(tr("Language")), rankingsLanguage);
     registerField("format.language", rankingsLanguage);
 
     widgetPtr = new QComboBox;
