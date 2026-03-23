@@ -45,10 +45,6 @@ add_custom_command(TARGET setappusermodelid POST_BUILD
     COMMENT "Copying setappusermodelid.qrc to ${QTIFW_RESOURCES_DIR}"
     USES_TERMINAL)
 
-# The installer
-add_custom_target(installer
-    COMMENT "Setting up the tree for the Qt Installer Framework")
-
 # External tools
 get_target_property(QMAKE_EXECUTABLE Qt::qmake IMPORTED_LOCATION)
 get_filename_component(_QT_BIN_DIR ${QMAKE_EXECUTABLE} DIRECTORY)
@@ -153,7 +149,6 @@ foreach(QM_FILE ${WIN_DEPLOY_QM_FILES})
 endforeach()
 
 add_custom_target(install_qms DEPENDS ${INSTALLED_QM_FILES})
-add_dependencies(installer install_qms)
 
 # Installer license files (moving to Windows newline style)
 file(GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/meta/license.txt"
@@ -195,13 +190,6 @@ foreach(SAMPLE_CONTENT ${WIN_DEPLOY_SAMPLES_CONTENTS})
     endif()
 endforeach()
 
-# Application executable (copy)
-add_custom_command(TARGET installer PRE_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:${LBCHRONORACE_BIN}>" ${WIN_DEPLOY_TARGET_DIR}
-    DEPENDS "$<TARGET_FILE:${LBCHRONORACE_BIN}>"
-    COMMENT "Copy executable into the installer directory"
-    USES_TERMINAL)
-
 # Populate the installer tree with the runtime dependencies
 string(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_UPPER)
 if(CMAKE_BUILD_TYPE_UPPER STREQUAL "DEBUG")
@@ -211,15 +199,24 @@ else()
 endif()
 
 cmake_path(GET CMAKE_CXX_COMPILER PARENT_PATH _GXX_BIN_DIR)
-add_custom_command(TARGET installer POST_BUILD
+set(WINDEPLOYQT_STAMP "${CMAKE_CURRENT_BINARY_DIR}/windeployqt.stamp")
+add_custom_command(OUTPUT ${WINDEPLOYQT_STAMP}
+    COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:${LBCHRONORACE_BIN}>" "${WIN_DEPLOY_TARGET_DIR}"
     COMMAND "${CMAKE_COMMAND}" -E env PATH="${_GXX_BIN_DIR}" ${WINDEPLOYQT_EXECUTABLE}
-        --qmldir ${CMAKE_SOURCE_DIR}
-        ${WINDEPLOYQT_ARGS}
-        --dir ${WIN_DEPLOY_TARGET_DIR}
+        --qmldir "${CMAKE_SOURCE_DIR}"
+        "${WINDEPLOYQT_ARGS}"
+        --dir "${WIN_DEPLOY_TARGET_DIR}"
         --no-compiler-runtime
         "${WIN_DEPLOY_TARGET_DIR}/$<TARGET_FILE_NAME:${LBCHRONORACE_BIN}>"
+    COMMAND "${CMAKE_COMMAND}" -E touch "${WINDEPLOYQT_STAMP}"
+    DEPENDS "$<TARGET_FILE:${LBCHRONORACE_BIN}>"
     COMMENT "Deploying ${CMAKE_PROJECT_NAME}..."
     USES_TERMINAL)
+
+# The installer
+add_custom_target(installer
+    DEPENDS install_qms "${WINDEPLOYQT_STAMP}"
+    COMMENT "Setting up the tree for the Qt Installer Framework")
 
 # Build the installer's resource file (for on-line update)
 add_custom_command(TARGET installer POST_BUILD
