@@ -53,6 +53,9 @@ add_custom_target(installer
 get_target_property(QMAKE_EXECUTABLE Qt::qmake IMPORTED_LOCATION)
 get_filename_component(_QT_BIN_DIR ${QMAKE_EXECUTABLE} DIRECTORY)
 
+# Qt Installer Framework path with version
+set(QTIFW_DIR "C:/Qt/Tools/QtInstallerFramework/4.11")
+
 # Look for 'windeployqt'
 find_program(WINDEPLOYQT_EXECUTABLE
     NAMES windeployqt
@@ -63,7 +66,7 @@ find_program(WINDEPLOYQT_EXECUTABLE
 # Look for 'binarycreator'
 find_program(QTIFW_BINARYCREATOR_EXECUTABLE
     NAMES binarycreator
-    HINTS "C:/Qt/Tools/QtInstallerFramework/4.10"
+    HINTS "${QTIFW_DIR}"
     PATH_SUFFIXES "bin"
     REQUIRED
     DOC "Qt Installer Framework binary creator")
@@ -71,7 +74,7 @@ find_program(QTIFW_BINARYCREATOR_EXECUTABLE
 # Look for 'repogen'
 find_program(QTIFW_REPOGEN_EXECUTABLE
     NAMES repogen
-    HINTS "C:/Qt/Tools/QtInstallerFramework/4.10"
+    HINTS "${QTIFW_DIR}"
     PATH_SUFFIXES "bin"
     REQUIRED
     DOC "Qt Installer Framework repository generator")
@@ -79,7 +82,7 @@ find_program(QTIFW_REPOGEN_EXECUTABLE
 # Look for 'installerbase'
 find_program(QTIFW_INSTALLERBASE_EXECUTABLE
     NAMES installerbase
-    HINTS "C:/Qt/Tools/QtInstallerFramework/4.10"
+    HINTS "${QTIFW_DIR}"
     PATH_SUFFIXES "bin"
     REQUIRED
     DOC "Qt Installer Framework base binary")

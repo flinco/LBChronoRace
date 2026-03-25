@@ -20,8 +20,8 @@
     <DisplayName xml:lang="it">Strumento di Manutenzione</DisplayName>
     <Description>The LBChronoRace installation and update tool.</Description>
     <Description xml:lang="it">Lo strumento di installazione e aggiornamento di LBChronoRace.</Description>
-    <Version>4.10</Version>
-    <ReleaseDate>2025-06-09</ReleaseDate>
+    <Version>4.11</Version>
+    <ReleaseDate>2026-03-25</ReleaseDate>
     <Essential>true</Essential>
     <Virtual>true</Virtual>
     <Script>installscript.qs</Script>
