@@ -2167,6 +2167,10 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
 <context>
     <name>RankingsWizardFormat</name>
     <message>
+        <source>Please note</source>
+        <translation>Please note</translation>
+    </message>
+    <message>
         <source>Start List file format</source>
         <translation>Start List file format</translation>
     </message>
@@ -2177,6 +2181,26 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Please select a file format and, if required, an encoding type.</source>
         <translation>Please select a file format and, if required, an encoding type.</translation>
+    </message>
+    <message>
+        <source>Mass start</source>
+        <translation>Mass start</translation>
+    </message>
+    <message>
+        <source>Relay race</source>
+        <translation>Relay race</translation>
+    </message>
+    <message>
+        <source>Timed race</source>
+        <translation>Timed race</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unknown</translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;word-wrap: break-word;&apos;&gt;The selected race type is &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Please check that it is correct.&lt;br&gt;If not, update it in the race settings.&lt;/p&gt;</source>
+        <translation>&lt;p style=&apos;word-wrap: break-word;&apos;&gt;The selected race type is &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Please check that it is correct.&lt;br&gt;If not, update it in the race settings.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Format</source>

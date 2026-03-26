@@ -2167,6 +2167,10 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
 <context>
     <name>RankingsWizardFormat</name>
     <message>
+        <source>Please note</source>
+        <translation>Attenzione</translation>
+    </message>
+    <message>
         <source>Start List file format</source>
         <translation>Formato del file Ordine di Partenza</translation>
     </message>
@@ -2177,6 +2181,26 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Please select a file format and, if required, an encoding type.</source>
         <translation>Selezionare un formato file e, se richiesto, una codifica.</translation>
+    </message>
+    <message>
+        <source>Mass start</source>
+        <translation>Partenza in linea</translation>
+    </message>
+    <message>
+        <source>Relay race</source>
+        <translation>Staffetta</translation>
+    </message>
+    <message>
+        <source>Timed race</source>
+        <translation>A cronometro</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Sconosciuto</translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;word-wrap: break-word;&apos;&gt;The selected race type is &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Please check that it is correct.&lt;br&gt;If not, update it in the race settings.&lt;/p&gt;</source>
+        <translation>&lt;p style=&apos;word-wrap: break-word;&apos;&gt;Il tipo di gara selezionato è &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Verifica che sia corretto.&lt;br&gt;In caso contrario, modificalo nelle impostazioni della gara.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Format</source>
