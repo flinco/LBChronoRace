@@ -126,3 +126,10 @@ Controller.prototype.IntroductionPageCallback = function()
         installer.gainAdminRights();
     }
 }
+
+Controller.prototype.FinishedPageCallback = function()
+{
+    if (installer.hasAdminRights()) {
+        installer.dropAdminRights();
+    }
+}
