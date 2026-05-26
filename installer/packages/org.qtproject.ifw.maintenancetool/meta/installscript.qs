@@ -15,88 +15,6 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-function writeExe(targetPath)
-{
-    console.log("Checking if target file exists: " + targetPath);
-
-    // Executing: powershell.exe -NoProfile -NonInteractive -Command "Test-Path 'C:\...\target.exe'"
-    // Test-Path returns "True" or "False" as text in the first element of the returned array (check[0])
-    var checkExists = installer.execute("powershell.exe", [
-        "-NoProfile",
-        "-NonInteractive",
-        "-Command",
-        "Test-Path '" + targetPath + "'"
-    ]);
-
-    // Clean up the output string from newlines and check if it contains "True"
-    var existsResult = checkExists[0].replace(/[\r\n]+$/, "").trim();
-
-    if (checkExists[1] === 0 && existsResult === "True") {
-        console.log("Target file already exists. Skipping extraction entirely!");
-        return true;
-    }
-
-    var base64Data = "@EXE_BASE64@";
-
-    if (base64Data !== "" && base64Data.indexOf("@EXE_BASE64") === -1) {
-        var userTemp = QDesktopServices.storageLocation(QDesktopServices.TempLocation);
-        var tempTxt = installer.toNativeSeparators(userTemp + "/temp_b64.txt");
-
-        console.log("Creating " + tempTxt);
-        var initCheck = installer.execute("powershell.exe", [
-            "-NoProfile",
-            "-NonInteractive",
-            "-Command",
-            "New-Item -Path '" + tempTxt + "' -ItemType File -Force"
-        ]);
-        console.log("powershell.exe init returned " + initCheck[1]);
-
-        var chunkSize = 4000;
-        var success = true;
-
-        console.log("Trying to write " + base64Data.length + " Bytes to " + tempTxt);
-        for (var i = 0; i < base64Data.length; i += chunkSize) {
-            var chunk = base64Data.substring(i, i + chunkSize);
-
-            var chunkRes = installer.execute("powershell.exe", [
-                "-NoProfile",
-                "-NonInteractive",
-                "-Command",
-                "Add-Content -Path '" + tempTxt + "' -Value '" + chunk + "' -NoNewline"
-            ]);
-            console.log("powershell.exe chunk returned " + chunkRes[1]);
-
-            if (chunkRes[1] !== 0) {
-                console.log("Error writing chunk at index: " + i);
-                success = false;
-                break;
-            }
-        }
-
-        if (success) {
-            // Decode the fully reconstructed base64 text file using certutil
-            var decodeResult = installer.execute("certutil.exe", ["-decode", tempTxt, targetPath]);
-            console.log("certutil.exe returned " + decodeResult[1] + " (" + decodeResult[0].replace(/[\r\n]+$/, "") + ")");
-
-            if (decodeResult[1] === 0) {
-                console.log("Executable successfully decoded into target directory!");
-            } else {
-                console.log("Certutil decoding failed: " + decodeResult[0]);
-            }
-        }
-
-        // Clean up the temporary base64 text file
-        installer.execute("powershell.exe", [
-            "-NoProfile",
-            "-NonInteractive",
-            "-Command",
-            "Remove-Item -Path '" + tempTxt + "' -Force"
-        ]);
-    }
-
-    return true;
-}
-
 function Component()
 {
     component.ifwVersion = installer.value("FrameworkVersion");
@@ -131,8 +49,7 @@ Component.prototype.onInstallationStarted = function()
     }
 
     var userTemp = QDesktopServices.storageLocation(QDesktopServices.TempLocation);
-    // installer.performOperation("Copy", [":/SetAppUserModelId.exe", installer.toNativeSeparators(userTemp + "/SetAppUserModelId.exe"), "UNDOOPERATION", ""]);
-    writeExe(installer.toNativeSeparators(userTemp + "/SetAppUserModelId.exe"));
+    installer.performOperation("Copy", [":/SetAppUserModelId.exe", installer.toNativeSeparators(userTemp + "/SetAppUserModelId.exe"), "UNDOOPERATION", ""]);
 }
 
 Component.prototype.onInstallationFinished = function()

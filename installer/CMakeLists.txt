@@ -94,24 +94,6 @@ target_link_libraries(setappusermodelid
         ole32
         shlwapi
         propsys)
-# Once the target 'setappusermodelid' has been built, convert to Base64
-set(B64_FILE    "$<TARGET_FILE_DIR:setappusermodelid>/base64.txt")
-set(QS_TEMPLATE "${CMAKE_CURRENT_SOURCE_DIR}/packages/org.qtproject.ifw.maintenancetool/meta/installscript.qs.in")
-set(QS_OUTPUT   "${CMAKE_CURRENT_BINARY_DIR}/packages/org.qtproject.ifw.maintenancetool/meta/installscript.qs")
-add_custom_command(TARGET setappusermodelid POST_BUILD
-    # Using PowerShell to read the bytes, convert them, replacing the placeholder and saving the new file
-    COMMAND powershell -NoProfile -Command
-        "$b64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes('$<TARGET_FILE:setappusermodelid>')); (Get-Content -Raw '${QS_TEMPLATE}').Replace('@EXE_BASE64@', $b64) | Set-Content '${QS_OUTPUT}'"
-    COMMENT "Converting the compiled executable to Base64 and updating ${QS_OUTPUT}..."
-    VERBATIM)
-set(QS_TEMPLATE "${CMAKE_CURRENT_SOURCE_DIR}/config/uninstall.qs.in")
-set(QS_OUTPUT   "${CMAKE_CURRENT_BINARY_DIR}/config/uninstall.qs")
-add_custom_command(TARGET setappusermodelid POST_BUILD
-    # Using PowerShell to read the bytes, convert them, replacing the placeholder and saving the new file
-    COMMAND powershell -NoProfile -Command
-        "$b64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes('$<TARGET_FILE:setappusermodelid>')); (Get-Content -Raw '${QS_TEMPLATE}').Replace('@EXE_BASE64@', $b64) | Set-Content '${QS_OUTPUT}'"
-    COMMENT "Converting the compiled executable to Base64 and updating ${QS_OUTPUT}..."
-    VERBATIM)
 # Once the target 'setappusermodelid' has been built, copy the .qrc
 set(SETAPPUSERMODELID_QRC "${QTIFW_RESOURCES_DIR}/setappusermodelid.qrc")
 add_custom_command(TARGET setappusermodelid POST_BUILD
@@ -273,6 +255,7 @@ add_custom_command(TARGET installer POST_BUILD
         -c "config/config.xml"
         -p "packages"
         -rcc
+        -rcci "$<TARGET_FILE:setappusermodelid>"
     COMMENT "Creating ${CMAKE_PROJECT_NAME} installer's resource file"
     USES_TERMINAL)
 
