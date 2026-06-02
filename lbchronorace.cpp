@@ -699,7 +699,14 @@ void LBChronoRace::newRace()
 
     try {
         NewRaceWizard newRaceWizard(&raceInfo, this);
-        newRaceWizard.exec();
+        if (newRaceWizard.exec() == QDialog::Accepted) {
+
+            CRLoader::clearAll();
+
+            // Clear info and error areas
+            ui->infoDisplay->clear();
+            ui->errorDisplay->clear();
+        }
     } catch (ChronoRaceException &e) {
         appendErrorMessage(e.getMessage());
     }

@@ -536,6 +536,15 @@ bool CRLoader::isDirty()
     return dirty;
 }
 
+void CRLoader::clearAll()
+{
+    timingsModel.reset();
+    startListModel.reset();
+    rankingsModel.reset();
+    categoriesModel.reset();
+    teamsListModel.reset();
+}
+
 void CRLoader::setDirty(QModelIndex const &topLeft, QModelIndex const &bottomRight, QList<int> const &roles)
 {
     Q_UNUSED(topLeft)

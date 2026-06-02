@@ -125,6 +125,7 @@ public:
     static QString formatSelector(int idx);
 
     static bool isDirty();
+    static void clearAll();
 
 public slots:
     static void setDirty(QModelIndex const &topLeft, QModelIndex const &bottomRight, QList<int> const &roles = QList<int>());
