@@ -33,13 +33,14 @@ class Languages : public QObject
     Q_OBJECT
 
 public:
-    static void loadMenu(QMenu *menu);
-    static void loadMenu(QComboBox *menu, QStringList const *filter = Q_NULLPTR);
+    static void loadMenu(QMenu *menu, QString const &prefix);
+    static void loadMenu(QComboBox *menu, QString const &prefix, QStringList const *filter = Q_NULLPTR);
 
-    static void loadStoredLanguage(QTranslator *newQt, QTranslator *newBase, QTranslator *newApp);
+    static void loadStoredLanguage(QTranslator *newQt, QTranslator *newBase, QTranslator *newApp, QTranslator *newRank);
     static void loadLanguage(QString const &rLanguage);
 
     static QTranslator const *getAppTranslator();
+    static QTranslator const *getRankTranslator();
 
 private:
     static QPointer<QActionGroup> group;
@@ -48,6 +49,7 @@ private:
     static QTranslator *qt;
     static QTranslator *base;
     static QTranslator *app;
+    static QTranslator *rank;
 
     static void switchTranslators(QLocale const &locale);
 

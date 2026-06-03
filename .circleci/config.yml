@@ -3,13 +3,14 @@ version: 2.1
 jobs:
   build:
     macos: # Use macOS image with Xcode (adjust the version if needed)
-      xcode: "16.2.0"
+      xcode: "16.4.0"
     resource_class: macos.m1.medium.gen1
     #resource_class: m2pro.medium
     environment:
       PATH: "/usr/local/opt/qt/bin:$PATH"
     steps:
-      - checkout  # Clone the repository
+      - checkout:  # Clone the repository
+          method: blobless
 
       # Step 1: Install Homebrew and Qt6
       - run:

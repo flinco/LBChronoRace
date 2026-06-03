@@ -221,3 +221,8 @@ QStandardItemModel *LiveRankings::getModel()
 {
     return model.data();
 }
+
+QPalette LiveRankings::getPalette() const
+{
+    return this->ui->highTable->palette();
+}

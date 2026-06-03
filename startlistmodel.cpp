@@ -19,6 +19,7 @@
 #include "startlistmodel.hpp"
 #include "lbcrexception.hpp"
 #include "crhelper.hpp"
+#include "nameslookup.hpp"
 
 QDataStream &StartListModel::slmSerialize(QDataStream &out) const
 {
@@ -230,6 +231,7 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
 {
     bool retval = false;
     uint uval;
+    QString sval;
 
     if (!index.isValid())
         return retval;
@@ -260,7 +262,9 @@ bool StartListModel::setData(QModelIndex const &index, QVariant const &value, in
             retval = true;
             break;
         case static_cast<int>(CMF_NAME):
-            startList[index.row()].setName(value.toString().simplified());
+            sval = value.toString().simplified();
+            startList[index.row()].setName(sval);
+            startList[index.row()].setSex(NamesLookup::getSex(sval));
             retval = true;
             break;
         case static_cast<int>(CMF_SEX):

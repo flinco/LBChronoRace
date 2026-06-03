@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (C) 2025 by Lorenzo Buzzi (lorenzo@buzzi.pro)                   *
+ * Copyright (C) 2026 by Lorenzo Buzzi (lorenzo@buzzi.pro)                   *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU General Public License as published by      *
@@ -15,8 +15,25 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-function Controller() {
-    if (!installer.hasAdminRights()) {
-        installer.gainAdminRights();
-    }
+#include "nameslookup.hpp"
+
+QSet<QString> const NamesLookup::males { // NOSONAR
+#include "names/generated_males.inc"
+};
+
+QSet<QString> const NamesLookup::females { // NOSONAR
+#include "names/generated_females.inc"
+};
+
+Competitor::Sex NamesLookup::getSex(QString const &name)
+{
+    using enum Competitor::Sex;
+
+    if (males.contains(name.toLower()))
+        return MALE;
+
+    if (females.contains(name.toLower()))
+        return FEMALE;
+
+    return UNDEFINED;
 }

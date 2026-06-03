@@ -18,7 +18,7 @@
 #include "crloader.hpp"
 #include "rankingsbuilder.hpp"
 
-uint RankingsBuilder::loadData()
+uint RankingsBuilder::loadData(bool allowMultipleLegs, bool startListOnly)
 {
     QStringList messages;
     QList<Timing> timings { CRLoader::getTimings() };
@@ -52,6 +52,11 @@ uint RankingsBuilder::loadData()
         auto classEntryIt = rankingByBib.find(bib);
         if (leg == 0) { // perform leg auto detection only if no manual leg hint is present
             leg = (classEntryIt != rankingByBib.end()) ? (classEntryIt.value().countEntries() + 1) : 1;
+
+            if ((leg > 1) && !allowMultipleLegs) {
+                emit error(tr("Bib %1 not inserted in results; check for possible duplicated entries").arg(bib));
+                continue;
+            }
             CRLoader::setStartListLegs(leg);
         }
 
@@ -76,10 +81,19 @@ uint RankingsBuilder::loadData()
 
     emitMessages(messages);
 
-    if (startList.size() != timings.size())
+    if (!startListOnly && (startList.size() != timings.size()))
         emit error(tr("Warning: the number of timings (%1) is not match the expected (%2); check for possible missing or duplicated entries").arg(timings.size()).arg(startList.size()));
 
     // sort by time
+    sortByTime(messages);
+
+    emitMessages(messages);
+
+    return static_cast<uint>(rankingByBib.size());
+}
+
+void RankingsBuilder::sortByTime(QStringList &messages)
+{
     QList<ClassEntry *>::const_iterator c;
     for (auto classEntry = rankingByBib.begin(); classEntry != rankingByBib.end(); classEntry++) {
         c = rankingByTime.constBegin();
@@ -88,10 +102,6 @@ uint RankingsBuilder::loadData()
             ++c;
         rankingByTime.insert(c, &classEntry.value());
     }
-
-    emitMessages(messages);
-
-    return static_cast<uint>(rankingByBib.size());
 }
 
 QList<ClassEntry const *> &RankingsBuilder::fillRanking(QList<ClassEntry const *> &ranking, Ranking const *categories) const

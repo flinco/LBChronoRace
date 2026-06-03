@@ -34,7 +34,7 @@ RankingsWizardFormat::RankingsWizardFormat(QWidget *parent) :
     widgetPtr = new QComboBox;
     QComboBox *rankingsLanguage = qobject_cast<QComboBox *>(widgetPtr.data());
     rankingsLanguage->addItem(QIcon(QString(":/material/icons/language.svg")), tr("Default"));
-    layout.addRow(new QLabel(tr("Rankings language")), rankingsLanguage);
+    layout.addRow(new QLabel(tr("Language")), rankingsLanguage);
     registerField("format.language", rankingsLanguage);
 
     widgetPtr = new QComboBox;
@@ -63,6 +63,12 @@ RankingsWizardFormat::RankingsWizardFormat(QWidget *parent) :
     layout.setAlignment(fileOpen, Qt::AlignmentFlag::AlignLeft | Qt::AlignmentFlag::AlignVCenter);
     registerField("format.open", fileOpen);
 
+    widgetPtr = new QLabel;
+    QLabel *formatWarning = qobject_cast<QLabel *>(widgetPtr.data());
+    formatWarning->setSizePolicy(QSizePolicy::Policy::MinimumExpanding, QSizePolicy::Policy::Preferred);
+    layout.addRow(new QLabel(tr("Please note")), formatWarning);
+    layout.setAlignment(formatWarning, Qt::AlignmentFlag::AlignLeft | Qt::AlignmentFlag::AlignVCenter);
+
     widgetPtr = Q_NULLPTR;
 
     formatChange(fileFormat->currentIndex());
@@ -73,6 +79,8 @@ RankingsWizardFormat::RankingsWizardFormat(QWidget *parent) :
 
 void RankingsWizardFormat::initializePage()
 {
+    using enum ChronoRaceData::RaceType;
+
     RankingsWizard *parentWizard = qobject_cast<RankingsWizard *>(wizard());
 
     Q_ASSERT(parentWizard);
@@ -87,8 +95,30 @@ void RankingsWizardFormat::initializePage()
     ChronoRaceData *raceData = parentWizard->getRaceData();
     QComboBox *rankingsLanguage = qobject_cast<QComboBox *>(layout.itemAt(0, QFormLayout::ItemRole::FieldRole)->widget());
     QStringList filter = raceData->getFieldValues(ChronoRaceData::IndexField::LANGUAGE);
-    Languages::loadMenu(rankingsLanguage, &filter);
+    Languages::loadMenu(rankingsLanguage, QStringLiteral("lbrankings"), &filter);
     rankingsLanguage->setCurrentIndex(raceData->getFieldIndex(ChronoRaceData::IndexField::LANGUAGE));
+
+    auto *formatWarning = qobject_cast<QLabel *>(layout.itemAt(4, QFormLayout::ItemRole::FieldRole)->widget());
+    QString raceType;
+    switch (raceData->getRaceType()) {
+        case MASS_START:
+        raceType = tr("Mass start");
+            break;
+        case RELAY_RACE:
+            raceType = tr("Relay race");
+            break;
+        case TIMED_RACE:
+            raceType = tr("Timed race");
+            break;
+        default:
+            raceType = tr("Unknown");
+            break;
+    }
+    formatWarning->setText(tr("<p style='word-wrap: break-word;'>"
+                              "The selected race type is <b>%1</b>.<br>"
+                              "Please check that it is correct.<br>"
+                              "If not, update it in the race settings."
+                              "</p>").arg(raceType));
 }
 
 int RankingsWizardFormat::nextId() const

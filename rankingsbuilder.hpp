@@ -23,6 +23,7 @@
 #include <QMap>
 #include <QMultiMap>
 #include <QString>
+#include <QStringList>
 
 #include "classentry.hpp"
 #include "teamclassentry.hpp"
@@ -34,12 +35,13 @@ class RankingsBuilder : public QObject
     using QObject::QObject;
 
 public:
-    uint loadData();
+    uint loadData(bool allowMultipleLegs, bool startListOnly = false);
     QList<ClassEntry const *> &fillRanking(QList<ClassEntry const *> &ranking, Ranking const *categories) const;
     QList<TeamClassEntry const *> &fillRanking(QList<TeamClassEntry const *> &ranking, Ranking const *categories);
     QList<Competitor const *> fillStartList() const;
 
 private:
+    void sortByTime(QStringList &messages);
     void sortTeamRanking(QMap<QString, TeamClassEntry> &rankingByTeam, QList<TeamClassEntry *> &sortedTeamRanking) const;
     void sortLegTimes(QList<ClassEntry *> const &ranking, uint legs, PositionNumber &position) const;
     void sortLegTimes(TeamClassEntry const &teamClassEntry, uint legs, PositionNumber &position) const;

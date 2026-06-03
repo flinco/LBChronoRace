@@ -993,6 +993,10 @@ Are you sure you want to continue?</translation>
         <translation>Save as</translation>
     </message>
     <message>
+        <source>Update LBChronoRace</source>
+        <translation>Update LBChronoRace</translation>
+    </message>
+    <message>
         <source>Clubs List</source>
         <translation>Clubs List</translation>
     </message>
@@ -1470,6 +1474,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Live Start List text color</translation>
     </message>
     <message>
+        <source>Live Start List Best Male color</source>
+        <translation>Live Start List Best Male color</translation>
+    </message>
+    <message>
+        <source>Live Start List Best Female color</source>
+        <translation>Live Start List Best Female color</translation>
+    </message>
+    <message>
         <source>Live Start List background color</source>
         <translation>Live Start List background color</translation>
     </message>
@@ -1480,6 +1492,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Live Rankings text color</source>
         <translation>Live Rankings text color</translation>
+    </message>
+    <message>
+        <source>Live Rankings Best Male color</source>
+        <translation>Live Rankings Best Male color</translation>
+    </message>
+    <message>
+        <source>Live Rankings Best Female color</source>
+        <translation>Live Rankings Best Female color</translation>
     </message>
     <message>
         <source>Live Rankings background color</source>
@@ -1496,6 +1516,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Live Rankings</source>
         <translation>Live Rankings</translation>
+    </message>
+    <message>
+        <source>Best M</source>
+        <translation>Best M</translation>
+    </message>
+    <message>
+        <source>Best F</source>
+        <translation>Best F</translation>
     </message>
 </context>
 <context>
@@ -1962,118 +1990,12 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Error: cannot generate results for 0 legs</translation>
     </message>
     <message>
-        <source>Results</source>
-        <translation>Results</translation>
-    </message>
-    <message>
-        <source>%1 Results</source>
-        <translation>%1 Results</translation>
-    </message>
-    <message>
-        <source>#</source>
-        <translation>#</translation>
-    </message>
-    <message>
         <source>PDF (*.pdf)</source>
         <translation>PDF (*.pdf)</translation>
     </message>
     <message>
-        <source>Start List</source>
-        <translation>Start List</translation>
-    </message>
-    <message>
-        <source>Bib</source>
-        <translation>Bib</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation>Name</translation>
-    </message>
-    <message>
-        <source>Team</source>
-        <translation>Team</translation>
-    </message>
-    <message>
-        <source>Year</source>
-        <translation>Year</translation>
-    </message>
-    <message>
-        <source>Sex</source>
-        <translation>Sex</translation>
-    </message>
-    <message>
-        <source>Class</source>
-        <translation>Class</translation>
-    </message>
-    <message>
-        <source>Leg</source>
-        <comment>long label</comment>
-        <translation>Leg</translation>
-    </message>
-    <message>
-        <source>Leg %1</source>
-        <translation>Leg %1</translation>
-    </message>
-    <message>
-        <source>Time</source>
-        <translation>Time</translation>
-    </message>
-    <message>
-        <source>Diff</source>
-        <translation>Diff</translation>
-    </message>
-    <message>
-        <source>Leg</source>
-        <comment>short label</comment>
-        <translation>Leg</translation>
-    </message>
-    <message>
-        <source>Leg Time (and position)</source>
-        <translation>Leg Time (and position)</translation>
-    </message>
-    <message>
-        <source>Page %1 of %2</source>
-        <translation>Page %1 of %2</translation>
-    </message>
-    <message>
-        <source>Organization</source>
-        <translation>Organization</translation>
-    </message>
-    <message>
-        <source>Race Type</source>
-        <translation>Race Type</translation>
-    </message>
-    <message>
-        <source>Start Time</source>
-        <translation>Start Time</translation>
-    </message>
-    <message>
         <source>Error: ranking type not allowed</source>
         <translation>Error: ranking type not allowed</translation>
-    </message>
-    <message>
-        <source>Length</source>
-        <translation>Length</translation>
-    </message>
-    <message>
-        <source>Elevation Gain</source>
-        <translation>Elevation Gain</translation>
-    </message>
-    <message>
-        <source>Referee</source>
-        <translation>Referee</translation>
-    </message>
-    <message>
-        <source>Timekeeper 1</source>
-        <translation>Timekeeper 1</translation>
-    </message>
-    <message>
-        <source>Timekeeper 2</source>
-        <translation>Timekeeper 2</translation>
-    </message>
-    <message>
-        <source>Timekeeper 3</source>
-        <translation>Timekeeper 3</translation>
     </message>
     <message>
         <source>Error: cannot start drawing</source>
@@ -2088,16 +2010,8 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
         <translation>Error: drawing attempt on inactive painter</translation>
     </message>
     <message>
-        <source>Created with %1 %2</source>
-        <translation>Created with %1 %2</translation>
-    </message>
-    <message>
         <source>Cannot write to PDF</source>
         <translation>Cannot write to PDF</translation>
-    </message>
-    <message>
-        <source>Rankings</source>
-        <translation>Rankings</translation>
     </message>
     <message>
         <source>Error: no translator provided</source>
@@ -2117,61 +2031,6 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>&lt;p&gt;Copyright&amp;copy; 2021-2025&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;Copyright&amp;copy; 2021-2025&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</translation>
-    </message>
-</context>
-<context>
-    <name>QObject</name>
-    <message>
-        <source>Organization</source>
-        <translation>Organization</translation>
-    </message>
-    <message>
-        <source>Event</source>
-        <translation>Event</translation>
-    </message>
-    <message>
-        <source>Place</source>
-        <translation>Place</translation>
-    </message>
-    <message>
-        <source>Date</source>
-        <translation>Date</translation>
-    </message>
-    <message>
-        <source>Start Time</source>
-        <translation>Start Time</translation>
-    </message>
-    <message>
-        <source>Race Type</source>
-        <translation>Race Type</translation>
-    </message>
-    <message>
-        <source>Length</source>
-        <translation>Length</translation>
-    </message>
-    <message>
-        <source>Elevation Gain</source>
-        <translation>Elevation Gain</translation>
-    </message>
-    <message>
-        <source>Referee</source>
-        <translation>Referee</translation>
-    </message>
-    <message>
-        <source>Timekeeper 1</source>
-        <translation>Timekeeper 1</translation>
-    </message>
-    <message>
-        <source>Timekeeper 2</source>
-        <translation>Timekeeper 2</translation>
-    </message>
-    <message>
-        <source>Timekeeper 3</source>
-        <translation>Timekeeper 3</translation>
-    </message>
-    <message>
-        <source>Results</source>
-        <translation>Results</translation>
     </message>
 </context>
 <context>
@@ -2308,6 +2167,10 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
 <context>
     <name>RankingsWizardFormat</name>
     <message>
+        <source>Please note</source>
+        <translation>Please note</translation>
+    </message>
+    <message>
         <source>Start List file format</source>
         <translation>Start List file format</translation>
     </message>
@@ -2318,6 +2181,26 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Please select a file format and, if required, an encoding type.</source>
         <translation>Please select a file format and, if required, an encoding type.</translation>
+    </message>
+    <message>
+        <source>Mass start</source>
+        <translation>Mass start</translation>
+    </message>
+    <message>
+        <source>Relay race</source>
+        <translation>Relay race</translation>
+    </message>
+    <message>
+        <source>Timed race</source>
+        <translation>Timed race</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unknown</translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;word-wrap: break-word;&apos;&gt;The selected race type is &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Please check that it is correct.&lt;br&gt;If not, update it in the race settings.&lt;/p&gt;</source>
+        <translation>&lt;p style=&apos;word-wrap: break-word;&apos;&gt;The selected race type is &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Please check that it is correct.&lt;br&gt;If not, update it in the race settings.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Format</source>
@@ -2338,8 +2221,8 @@ publishing</translation>
         <translation>Default</translation>
     </message>
     <message>
-        <source>Rankings language</source>
-        <translation>Rankings language</translation>
+        <source>Language</source>
+        <translation>Language</translation>
     </message>
 </context>
 <context>
@@ -2455,14 +2338,6 @@ publishing</translation>
     <message>
         <source>Plain Text (*.txt)</source>
         <translation>Plain Text (*.txt)</translation>
-    </message>
-    <message>
-        <source>Start List</source>
-        <translation>Start List</translation>
-    </message>
-    <message>
-        <source>Leg %1</source>
-        <translation>Leg %1</translation>
     </message>
     <message>
         <source>Error: unable to open %1</source>
@@ -2598,6 +2473,77 @@ Reconfigure the trigger device and try again.</translation>
     <message>
         <source>Trigger keys do not match. Try again.</source>
         <translation>Trigger keys do not match. Try again.</translation>
+    </message>
+</context>
+<context>
+    <name>Updates</name>
+    <message>
+        <source>Updates: update check already running</source>
+        <translation>Updates: update check already running</translation>
+    </message>
+    <message>
+        <source>Updates: checking for updates…</source>
+        <translation>Updates: checking for updates…</translation>
+    </message>
+    <message>
+        <source>Maintenance Tool not found</source>
+        <translation>Maintenance Tool not found</translation>
+    </message>
+    <message>
+        <source>update checking is not yet available for this operating system</source>
+        <translation>update checking is not yet available for this operating system</translation>
+    </message>
+    <message>
+        <source>Updates: Maintenance Tool crashed</source>
+        <translation>Updates: Maintenance Tool crashed</translation>
+    </message>
+    <message>
+        <source>Updates: error executing Maintenance Tool&lt;br&gt;Exit Code: %1&lt;br&gt;Error Output: %2</source>
+        <translation>Updates: error executing Maintenance Tool&lt;br&gt;Exit Code: %1&lt;br&gt;Error Output: %2</translation>
+    </message>
+    <message>
+        <source>Updates: application is up to date</source>
+        <translation>Updates: application is up to date</translation>
+    </message>
+    <message>
+        <source>Updates:: XML parsing error (start tag not found)</source>
+        <translation>Updates:: XML parsing error (start tag not found)</translation>
+    </message>
+    <message>
+        <source>Updates:: XML parsing error (end tag not found)</source>
+        <translation>Updates:: XML parsing error (end tag not found)</translation>
+    </message>
+    <message>
+        <source>Updates:: data errors (%1)</source>
+        <translation>Updates:: data errors (%1)</translation>
+    </message>
+    <message>
+        <source>no updates available</source>
+        <translation>no updates available</translation>
+    </message>
+    <message>
+        <source>failed to start the update process.&lt;br&gt;Please try running the Maintenance Tool manually</source>
+        <translation>failed to start the update process.&lt;br&gt;Please try running the Maintenance Tool manually</translation>
+    </message>
+    <message>
+        <source>Updates: %1</source>
+        <translation>Updates: %1</translation>
+    </message>
+    <message>
+        <source>Updates:: %1</source>
+        <translation>Updates:: %1</translation>
+    </message>
+    <message>
+        <source>Updates: available %1 %2</source>
+        <translation>Updates: available %1 %2</translation>
+    </message>
+    <message>
+        <source>%1 Updates</source>
+        <translation>%1 Updates</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;New updates are available:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Do you want to close %2 and launch the Maintenance Tool to install them?&lt;/p&gt;</source>
+        <translation>&lt;p&gt;New updates are available:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Do you want to close %2 and launch the Maintenance Tool to install them?&lt;/p&gt;</translation>
     </message>
 </context>
 </TS>

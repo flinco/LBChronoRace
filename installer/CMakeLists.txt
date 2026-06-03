@@ -19,12 +19,16 @@
 
 #include(CMakePrintHelpers)
 
-add_custom_target(installer
-    COMMENT "Setting up the tree for the Qt Installer Framework")
+# QtIFW resources directory (build)
+set(QTIFW_RESOURCES_DIR "${CMAKE_CURRENT_BINARY_DIR}/resources")
+file(MAKE_DIRECTORY "${QTIFW_RESOURCES_DIR}")
 
 # External tools
 get_target_property(QMAKE_EXECUTABLE Qt::qmake IMPORTED_LOCATION)
 get_filename_component(_QT_BIN_DIR ${QMAKE_EXECUTABLE} DIRECTORY)
+
+# Qt Installer Framework path with version
+set(QTIFW_DIR "C:/Qt/Tools/QtInstallerFramework/4.11")
 
 # Look for 'windeployqt'
 find_program(WINDEPLOYQT_EXECUTABLE
@@ -36,7 +40,7 @@ find_program(WINDEPLOYQT_EXECUTABLE
 # Look for 'binarycreator'
 find_program(QTIFW_BINARYCREATOR_EXECUTABLE
     NAMES binarycreator
-    HINTS "C:/Qt/Tools/QtInstallerFramework/4.10"
+    HINTS "${QTIFW_DIR}"
     PATH_SUFFIXES "bin"
     REQUIRED
     DOC "Qt Installer Framework binary creator")
@@ -44,18 +48,27 @@ find_program(QTIFW_BINARYCREATOR_EXECUTABLE
 # Look for 'repogen'
 find_program(QTIFW_REPOGEN_EXECUTABLE
     NAMES repogen
-    HINTS "C:/Qt/Tools/QtInstallerFramework/4.10"
+    HINTS "${QTIFW_DIR}"
     PATH_SUFFIXES "bin"
     REQUIRED
     DOC "Qt Installer Framework repository generator")
 
-mark_as_advanced(WINDEPLOYQT_EXECUTABLE QTIFW_BINARYCREATOR_EXECUTABLE QTIFW_REPOGEN_EXECUTABLE)
+# Look for 'installerbase'
+find_program(QTIFW_INSTALLERBASE_EXECUTABLE
+    NAMES installerbase
+    HINTS "${QTIFW_DIR}"
+    PATH_SUFFIXES "bin"
+    REQUIRED
+    DOC "Qt Installer Framework base binary")
+
+mark_as_advanced(WINDEPLOYQT_EXECUTABLE QTIFW_BINARYCREATOR_EXECUTABLE QTIFW_REPOGEN_EXECUTABLE QTIFW_INSTALLERBASE_EXECUTABLE)
 
 # Convenience path variables
 set(WIN_DEPLOY_TARGET_DIR "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/data")
 set(WIN_DEPLOY_SAMPLES_DIR "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace.samples/data")
+set(WIN_DEPLOY_MAINTENANCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/packages/org.qtproject.ifw.maintenancetool/data")
 set(WIN_DEPLOY_DIRS "config" "packages")
-set(WIN_REPOSITORY_DIR "${CMAKE_CURRENT_BINARY_DIR}/repository")
+set(WIN_REPOSITORY_DIR "${CMAKE_BINARY_DIR}/repository")
 
 # Cleanup
 foreach(WIN_DEPLOY_DIR ${WIN_DEPLOY_DIRS})
@@ -67,6 +80,46 @@ file(REMOVE_RECURSE "${WIN_REPOSITORY_DIR}")
 file(COPY ${WIN_DEPLOY_DIRS} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}"
     PATTERN "*.in" EXCLUDE
     PATTERN "*.ts" EXCLUDE)
+
+# Extra tools: SetAppUserModelId
+add_executable(setappusermodelid tools/setappusermodelid.cpp)
+set_target_properties(setappusermodelid PROPERTIES
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED YES
+    CXX_EXTENSIONS NO
+    RUNTIME_OUTPUT_NAME "SetAppUserModelId"
+    RUNTIME_OUTPUT_DIRECTORY "${QTIFW_RESOURCES_DIR}")
+target_link_libraries(setappusermodelid
+    PRIVATE
+        ole32
+        shlwapi
+        propsys)
+# Once the target 'setappusermodelid' has been built, convert to Base64
+set(B64_FILE    "$<TARGET_FILE_DIR:setappusermodelid>/base64.txt")
+set(QS_TEMPLATE "${CMAKE_CURRENT_SOURCE_DIR}/packages/org.qtproject.ifw.maintenancetool/meta/installscript.qs.in")
+set(QS_OUTPUT   "${CMAKE_CURRENT_BINARY_DIR}/packages/org.qtproject.ifw.maintenancetool/meta/installscript.qs")
+add_custom_command(TARGET setappusermodelid POST_BUILD
+    # Using PowerShell to read the bytes, convert them, replacing the placeholder and saving the new file
+    COMMAND powershell -NoProfile -Command
+        "$b64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes('$<TARGET_FILE:setappusermodelid>')); (Get-Content -Raw '${QS_TEMPLATE}').Replace('@EXE_BASE64@', $b64) | Set-Content '${QS_OUTPUT}'"
+    COMMENT "Converting the compiled executable to Base64 and updating ${QS_OUTPUT}..."
+    VERBATIM)
+set(QS_TEMPLATE "${CMAKE_CURRENT_SOURCE_DIR}/config/uninstall.qs.in")
+set(QS_OUTPUT   "${CMAKE_CURRENT_BINARY_DIR}/config/uninstall.qs")
+add_custom_command(TARGET setappusermodelid POST_BUILD
+    # Using PowerShell to read the bytes, convert them, replacing the placeholder and saving the new file
+    COMMAND powershell -NoProfile -Command
+        "$b64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes('$<TARGET_FILE:setappusermodelid>')); (Get-Content -Raw '${QS_TEMPLATE}').Replace('@EXE_BASE64@', $b64) | Set-Content '${QS_OUTPUT}'"
+    COMMENT "Converting the compiled executable to Base64 and updating ${QS_OUTPUT}..."
+    VERBATIM)
+# Once the target 'setappusermodelid' has been built, copy the .qrc
+set(SETAPPUSERMODELID_QRC "${QTIFW_RESOURCES_DIR}/setappusermodelid.qrc")
+add_custom_command(TARGET setappusermodelid POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/tools/setappusermodelid.qrc"
+        "${SETAPPUSERMODELID_QRC}"
+    COMMENT "Copying setappusermodelid.qrc to ${QTIFW_RESOURCES_DIR}"
+    USES_TERMINAL)
 
 # Copy the XMLs: replacing the version and date placeholders but preserve other ones
 set(at "@" CACHE STRING "QTIFW @ placeholder")
@@ -110,7 +163,6 @@ foreach(QM_FILE ${WIN_DEPLOY_QM_FILES})
 endforeach()
 
 add_custom_target(install_qms DEPENDS ${INSTALLED_QM_FILES})
-add_dependencies(installer install_qms)
 
 # Installer license files (moving to Windows newline style)
 file(GENERATE OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/packages/pro.buzzi.lbchronorace/meta/license.txt"
@@ -152,13 +204,6 @@ foreach(SAMPLE_CONTENT ${WIN_DEPLOY_SAMPLES_CONTENTS})
     endif()
 endforeach()
 
-# Application executable (copy)
-add_custom_command(TARGET installer PRE_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:${LBCHRONORACE_BIN}>" ${WIN_DEPLOY_TARGET_DIR}
-    DEPENDS "$<TARGET_FILE:${LBCHRONORACE_BIN}>"
-    COMMENT "Copy executable into the installer directory"
-    USES_TERMINAL)
-
 # Populate the installer tree with the runtime dependencies
 string(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_UPPER)
 if(CMAKE_BUILD_TYPE_UPPER STREQUAL "DEBUG")
@@ -166,26 +211,76 @@ if(CMAKE_BUILD_TYPE_UPPER STREQUAL "DEBUG")
 else()
     set(WINDEPLOYQT_ARGS "--release")
 endif()
+file(MAKE_DIRECTORY "${WIN_DEPLOY_MAINTENANCE_DIR}")
 
 cmake_path(GET CMAKE_CXX_COMPILER PARENT_PATH _GXX_BIN_DIR)
-add_custom_command(TARGET installer POST_BUILD
+set(WINDEPLOYQT_STAMP "${CMAKE_CURRENT_BINARY_DIR}/windeployqt.stamp")
+add_custom_command(OUTPUT ${WINDEPLOYQT_STAMP}
+    COMMAND "${CMAKE_COMMAND}" -E copy "$<TARGET_FILE:${LBCHRONORACE_BIN}>" "${WIN_DEPLOY_TARGET_DIR}"
     COMMAND "${CMAKE_COMMAND}" -E env PATH="${_GXX_BIN_DIR}" ${WINDEPLOYQT_EXECUTABLE}
-        --qmldir ${CMAKE_SOURCE_DIR}
-        ${WINDEPLOYQT_ARGS}
-        --dir ${WIN_DEPLOY_TARGET_DIR}
+        --qmldir "${CMAKE_SOURCE_DIR}"
+        "${WINDEPLOYQT_ARGS}"
+        --dir "${WIN_DEPLOY_TARGET_DIR}"
         --no-compiler-runtime
         "${WIN_DEPLOY_TARGET_DIR}/$<TARGET_FILE_NAME:${LBCHRONORACE_BIN}>"
+    COMMAND "${CMAKE_COMMAND}" -E touch "${WINDEPLOYQT_STAMP}"
+    DEPENDS "$<TARGET_FILE:${LBCHRONORACE_BIN}>"
     COMMENT "Deploying ${CMAKE_PROJECT_NAME}..."
     USES_TERMINAL)
 
-# Build the installer
+# The installer
+add_custom_target(installer
+    DEPENDS install_qms "${WINDEPLOYQT_STAMP}"
+    COMMENT "Setting up the tree for the Qt Installer Framework")
+
+# Build the hybrid installer binary
+set(INSTALLER_BINARY "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer${CMAKE_EXECUTABLE_SUFFIX}")
 add_custom_command(TARGET installer POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E env ${QTIFW_BINARYCREATOR_EXECUTABLE}
         "--hybrid"
         -c "config/config.xml"
         -p "packages"
-        -v "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer${CMAKE_EXECUTABLE_SUFFIX}"
-    COMMENT "Crearting ${CMAKE_PROJECT_NAME} installer"
+        -r "${SETAPPUSERMODELID_QRC}"
+        -v
+        "${INSTALLER_BINARY}"
+    COMMENT "Creating ${CMAKE_PROJECT_NAME} hybrid installer"
+    USES_TERMINAL)
+
+# Build the on-line installer binary
+set(INSTALLER_ONLINE_BINARY "${CMAKE_BINARY_DIR}/installerbase${CMAKE_EXECUTABLE_SUFFIX}")
+add_custom_command(TARGET installer POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E env ${QTIFW_BINARYCREATOR_EXECUTABLE}
+        "--online-only"
+        -t "${QTIFW_INSTALLERBASE_EXECUTABLE}"
+        -c "config/config.xml"
+        -p "packages"
+        -r "${SETAPPUSERMODELID_QRC}"
+        -v
+        "${INSTALLER_ONLINE_BINARY}"
+    COMMENT "Creating ${CMAKE_PROJECT_NAME} on-line installer"
+    USES_TERMINAL)
+
+# Copy the on-line installer binary (for the on-line updater)
+add_custom_command(TARGET installer POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "${INSTALLER_ONLINE_BINARY}" "${WIN_DEPLOY_MAINTENANCE_DIR}"
+    DEPENDS "${INSTALLER_ONLINE_BINARY}"
+    COMMENT "Copy ${INSTALLER_ONLINE_BINARY} into the maintenance tool directory"
+    USES_TERMINAL)
+
+# Build the installer's resource file (for on-line update)
+add_custom_command(TARGET installer POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E env ${QTIFW_BINARYCREATOR_EXECUTABLE}
+        -c "config/config.xml"
+        -p "packages"
+        -rcc
+    COMMENT "Creating ${CMAKE_PROJECT_NAME} installer's resource file"
+    USES_TERMINAL)
+
+# Copy the installer's resource file
+add_custom_command(TARGET installer POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "update.rcc" "${WIN_DEPLOY_MAINTENANCE_DIR}"
+    DEPENDS "update.rcc"
+    COMMENT "Copy update.rcc into the maintenance tool directory"
     USES_TERMINAL)
 
 # Build the repository
@@ -201,8 +296,6 @@ configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/launcher.rc.in
     ${CMAKE_CURRENT_BINARY_DIR}/launcher.rc
     @ONLY)
-
-set(INSTALLER_BINARY "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Installer${CMAKE_EXECUTABLE_SUFFIX}")
 
 # Embed the installer in the launcher executable
 set(INSTALLER_RC "${CMAKE_CURRENT_BINARY_DIR}/installer.rc")

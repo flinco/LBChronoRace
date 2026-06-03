@@ -28,13 +28,14 @@ project(LBChronoRace
     DESCRIPTION "Timings and Rankings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
-set(PROJECT_UPDATE 0)
+set(PROJECT_UPDATE 1)
 string(TIMESTAMP BUILD_DATE "%Y-%m-%d" UTC)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 find_package(Qt6 COMPONENTS Core Gui Widgets DBus LinguistTools REQUIRED)
-qt_standard_project_setup(REQUIRES 6.8
+# In case of new UI translations, put here the added languages
+qt_standard_project_setup(REQUIRES 6.9
     I18N_TRANSLATED_LANGUAGES it)
 
 set(PROJECT_ORGANIZATION "LoBuSoft")
@@ -44,6 +45,7 @@ if(${PROJECT_UPDATE} EQUAL 0)
 else()
     set(LBCHRONORACE_VERSION_STRING "${PROJECT_VERSION} update ${PROJECT_UPDATE}")
 endif()
+set(PROJECT_MAINTENANCE_TOOL "LBChronoRaceInstaller")
 
 set(HEADER_FILES
     categoriesmodel.hpp
@@ -71,6 +73,7 @@ set(HEADER_FILES
     livetablefilterproxymodel.hpp
     liveview.hpp
     multiselectcombobox.hpp
+    nameslookup.hpp
     pdfrankingprinter.hpp
     ranking.hpp
     rankingcatsdelegate.hpp
@@ -89,6 +92,7 @@ set(HEADER_FILES
     timingstatusdelegate.hpp
     triggerkeydialog.hpp
     txtrankingprinter.hpp
+    updates.hpp
     wizards/newracewizard.hpp
     wizards/rankingswizard.hpp
     wizards/rankingswizardformat.hpp
@@ -121,6 +125,7 @@ set(SOURCE_FILES
     livetablefilterproxymodel.cpp
     liveview.cpp
     multiselectcombobox.cpp
+    nameslookup.cpp
     pdfrankingprinter.cpp
     ranking.cpp
     rankingcatsdelegate.cpp
@@ -139,6 +144,7 @@ set(SOURCE_FILES
     timingstatusdelegate.cpp
     triggerkeydialog.cpp
     txtrankingprinter.cpp
+    updates.cpp
     wizards/newracewizard.cpp
     wizards/rankingswizard.cpp
     wizards/rankingswizardformat.cpp
@@ -162,7 +168,9 @@ set(PROJECT_SOURCES
 # Translations
 set(TS_FILES
     translations/lbchronorace_en.ts
-    translations/lbchronorace_it.ts)
+    translations/lbchronorace_it.ts
+    translations/lbrankings_en.ts
+    translations/lbrankings_it.ts)
 
 # Fonts (as big resources)
 set(FONT_FILES
@@ -259,9 +267,16 @@ endif()
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     LBCHRONORACE_ORGANIZATION=\"${PROJECT_ORGANIZATION}\"
     LBCHRONORACE_NAME=\"${PROJECT_NAME}\"
-    LBCHRONORACE_VERSION=\"${LBCHRONORACE_VERSION_STRING}\")
+    LBCHRONORACE_VERSION=\"${LBCHRONORACE_VERSION_STRING}\"
+    LBCHRONORACE_MAINTENANCE_TOOL=\"${PROJECT_MAINTENANCE_TOOL}\")
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_20)
+
+# Build the lists of common names
+add_subdirectory(names)
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${GENERATED_NAMES_INC})
+set_source_files_properties(nameslookup.cpp PROPERTIES
+    OBJECT_DEPENDS "${GENERATED_NAMES_INC}")
 
 # The name of the executable binary
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES

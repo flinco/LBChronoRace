@@ -39,6 +39,7 @@ class CRHelper
 
 private:
     static QWidget *parentWidget;
+    static QString screenSerial;
 
 public:
     static ChronoRaceData::NameComposition nameComposition;
@@ -76,6 +77,9 @@ public:
 
     static void pushTiming(QVariantList &list, uint timing);
     static bool popTiming(QVariantList &list, uint timing);
+
+    static QString getScreenSerial();
+    static void setScreenSerial(QString const &newScreenSerial);
 
 public slots:
     static void updateGlobalData(ChronoRaceData::NameComposition newNameComposition, ChronoRaceData::Accuracy newAccuracy);

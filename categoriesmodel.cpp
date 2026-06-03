@@ -91,7 +91,6 @@ void CategoriesModel::resizeHeaders(QTableView *table)
 
 int CategoriesModel::rowCount(QModelIndex const &parent) const
 {
-
     Q_UNUSED(parent)
 
     return static_cast<int>(categories.count());

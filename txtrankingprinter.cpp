@@ -49,9 +49,10 @@ void TXTRankingPrinter::init(QString *outTxtFileName, QString const &title, QStr
     txtStream.setEncoding(CRLoader::getEncoding());
 }
 
-void TXTRankingPrinter::printStartList(QList<Competitor const *> const &startList)
+void TXTRankingPrinter::printStartList(QList<Competitor const *> const &startList, ChronoRaceData::RaceType raceType)
 {
     using enum CRLoader::MaxValue;
+    using enum ChronoRaceData::RaceType;
 
     if (!txtFile.isOpen()) {
         throw(ChronoRaceException(tr("Error: attempted to write to a closed file")));
@@ -68,7 +69,19 @@ void TXTRankingPrinter::printStartList(QList<Competitor const *> const &startLis
     ChronoRaceData const *raceInfo = getRaceInfo();
     QTime startTime = raceInfo->getStartTime();
     txtStream << *raceInfo << Qt::endl; // add header
-    txtStream << translator->translate("TXTRankingPrinter", "Start List") << Qt::endl;
+    switch (raceType) {
+        case MASS_START:
+            [[fallthrough]];
+        case RELAY_RACE:
+            txtStream << translator->translate("TXTRankingPrinter", "Competitors List") << Qt::endl;
+            break;
+        case TIMED_RACE:
+            [[fallthrough]];
+        default:
+            txtStream << translator->translate("TXTRankingPrinter", "Start List") << Qt::endl;
+            break;
+    }
+
     for (auto const &competitor : startList) {
         i++;
 

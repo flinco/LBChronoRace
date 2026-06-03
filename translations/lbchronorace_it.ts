@@ -993,6 +993,10 @@ Sei sicuro di voler continuare?</translation>
         <translation>Salva come</translation>
     </message>
     <message>
+        <source>Update LBChronoRace</source>
+        <translation>Aggiorna LBChronoRace</translation>
+    </message>
+    <message>
         <source>Clubs List</source>
         <translation>Elenco Società</translation>
     </message>
@@ -1470,6 +1474,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Colore testo Ordine di Partenza dal vivo</translation>
     </message>
     <message>
+        <source>Live Start List Best Male color</source>
+        <translation>Colore Miglior Uomo Ordine di Partenza dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Start List Best Female color</source>
+        <translation>Colore Miglior Donna Ordine di Partenza dal vivo</translation>
+    </message>
+    <message>
         <source>Live Start List background color</source>
         <translation>Colore di sfondo Ordine di Partenza dal vivo</translation>
     </message>
@@ -1480,6 +1492,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Live Rankings text color</source>
         <translation>Colore testo Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Rankings Best Male color</source>
+        <translation>Colore Miglior Uomo Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Live Rankings Best Female color</source>
+        <translation>Colore Miglior Donna Classifica dal vivo</translation>
     </message>
     <message>
         <source>Live Rankings background color</source>
@@ -1496,6 +1516,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Live Rankings</source>
         <translation>Classifica dal vivo</translation>
+    </message>
+    <message>
+        <source>Best M</source>
+        <translation>Miglior M</translation>
+    </message>
+    <message>
+        <source>Best F</source>
+        <translation>Miglior F</translation>
     </message>
 </context>
 <context>
@@ -1962,118 +1990,12 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Errore: impossibile generare classifiche con 0 frazioni</translation>
     </message>
     <message>
-        <source>Results</source>
-        <translation>Risultati</translation>
-    </message>
-    <message>
-        <source>%1 Results</source>
-        <translation>Classifica %1</translation>
-    </message>
-    <message>
-        <source>#</source>
-        <translation>#</translation>
-    </message>
-    <message>
         <source>PDF (*.pdf)</source>
         <translation>PDF (*.pdf)</translation>
     </message>
     <message>
-        <source>Start List</source>
-        <translation>Ordine di Partenza</translation>
-    </message>
-    <message>
-        <source>Bib</source>
-        <translation>Pett</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation>Nome</translation>
-    </message>
-    <message>
-        <source>Team</source>
-        <translation>Squadra</translation>
-    </message>
-    <message>
-        <source>Year</source>
-        <translation>Anno</translation>
-    </message>
-    <message>
-        <source>Sex</source>
-        <translation>Sex</translation>
-    </message>
-    <message>
-        <source>Class</source>
-        <translation>Categoria</translation>
-    </message>
-    <message>
-        <source>Leg</source>
-        <comment>long label</comment>
-        <translation>Frazione</translation>
-    </message>
-    <message>
-        <source>Leg %1</source>
-        <translation>Frazione %1</translation>
-    </message>
-    <message>
-        <source>Time</source>
-        <translation>Tempo</translation>
-    </message>
-    <message>
-        <source>Diff</source>
-        <translation>Diff</translation>
-    </message>
-    <message>
-        <source>Leg</source>
-        <comment>short label</comment>
-        <translation>Fraz</translation>
-    </message>
-    <message>
-        <source>Leg Time (and position)</source>
-        <translation>Tempo di Frazione (e posizione)</translation>
-    </message>
-    <message>
-        <source>Page %1 of %2</source>
-        <translation>Pagina %1 di %2</translation>
-    </message>
-    <message>
-        <source>Organization</source>
-        <translation>Organizzazione</translation>
-    </message>
-    <message>
-        <source>Race Type</source>
-        <translation>Tipo gara</translation>
-    </message>
-    <message>
-        <source>Start Time</source>
-        <translation>Orario partenza</translation>
-    </message>
-    <message>
         <source>Error: ranking type not allowed</source>
         <translation>Errore: tipologia di classifica non consentito</translation>
-    </message>
-    <message>
-        <source>Length</source>
-        <translation>Lunghezza</translation>
-    </message>
-    <message>
-        <source>Elevation Gain</source>
-        <translation>Dislivello</translation>
-    </message>
-    <message>
-        <source>Referee</source>
-        <translation>Giudice</translation>
-    </message>
-    <message>
-        <source>Timekeeper 1</source>
-        <translation>Cronometrista 1</translation>
-    </message>
-    <message>
-        <source>Timekeeper 2</source>
-        <translation>Cronometrista 2</translation>
-    </message>
-    <message>
-        <source>Timekeeper 3</source>
-        <translation>Cronometrista 3</translation>
     </message>
     <message>
         <source>Error: cannot start drawing</source>
@@ -2088,16 +2010,8 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
         <translation>Errore: tentativo d&apos;uso di painter non attivo</translation>
     </message>
     <message>
-        <source>Created with %1 %2</source>
-        <translation>Creato con %1 %2</translation>
-    </message>
-    <message>
         <source>Cannot write to PDF</source>
         <translation>Impossibile scrivere il PDF</translation>
-    </message>
-    <message>
-        <source>Rankings</source>
-        <translation>Classifiche</translation>
     </message>
     <message>
         <source>Error: no translator provided</source>
@@ -2117,61 +2031,6 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>&lt;p&gt;Copyright&amp;copy; 2021-2025&lt;/p&gt;&lt;p&gt;Version: %1 (source code on &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Author: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Site: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.&lt;/p&gt;&lt;p&gt;%2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.&lt;/p&gt;&lt;p&gt;You should have received a copy of the GNU General Public License along with %2. If not, see: &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;If you found this application useful&lt;br&gt;and want to support its development,&lt;br&gt;you can make a donation:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=8NZWAMWPKCA7C&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_en.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;Copyright&amp;copy; 2021-2025&lt;/p&gt;&lt;p&gt;Versione: %1 (codice sorgente su &lt;a href=&quot;http://github.com/flinco/LBChronoRace&quot;&gt;GitHub&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Autore: Lorenzo Buzzi (&lt;a href=&quot;mailto:lorenzo@buzzi.pro&quot;&gt;lorenzo@buzzi.pro&lt;/a&gt;)&lt;/p&gt;&lt;p&gt;Sito: &lt;a href=&quot;http://www.buzzi.pro/&quot;&gt;http://www.buzzi.pro/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;%2 è software libero; ne è consentita la redistribuzione e/o modifica entro i termini della GNU General Public License, come pubblicata dalla Free Software Foundation, versione 3 o successiva.&lt;/p&gt;&lt;p&gt;%2 è distribuito sperando sia utile, ma SENZA ALCUNA GARANZIA, espressa o implicita, di COMMERCIABILITÀ o di IDONEITÀ AD UNO SCOPO PARTICOLARE. Si veda la GNU General Public License per ulteriori dettagli.&lt;/p&gt;&lt;p&gt;Se non di dovesse aver ricevuto una copia della GNU General Public License insieme a %2, si veda &lt;a href=&quot;https://www.gnu.org/licenses/&quot;&gt;https://www.gnu.org/licenses/&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;Se trovi utile questa applicazione&lt;br&gt;e vuoi sostenerne lo sviluppo,&lt;br&gt;puoi fare una donazione:&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;https://www.paypal.com/donate/?hosted_button_id=B3TPDBK3ZF5YJ&quot;&gt;&lt;img src=&quot;:/images/PayPal_Donate_it.gif&quot; /&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/p&gt;</translation>
-    </message>
-</context>
-<context>
-    <name>QObject</name>
-    <message>
-        <source>Organization</source>
-        <translation>Organizzazione</translation>
-    </message>
-    <message>
-        <source>Event</source>
-        <translation>Evento</translation>
-    </message>
-    <message>
-        <source>Place</source>
-        <translation>Luogo</translation>
-    </message>
-    <message>
-        <source>Date</source>
-        <translation>Data</translation>
-    </message>
-    <message>
-        <source>Start Time</source>
-        <translation>Orario di partenza</translation>
-    </message>
-    <message>
-        <source>Race Type</source>
-        <translation>Tipo gara</translation>
-    </message>
-    <message>
-        <source>Length</source>
-        <translation>Lunghezza</translation>
-    </message>
-    <message>
-        <source>Elevation Gain</source>
-        <translation>Dislivello</translation>
-    </message>
-    <message>
-        <source>Referee</source>
-        <translation>Giudice</translation>
-    </message>
-    <message>
-        <source>Timekeeper 1</source>
-        <translation>Cronometrista 1</translation>
-    </message>
-    <message>
-        <source>Timekeeper 2</source>
-        <translation>Cronometrista 2</translation>
-    </message>
-    <message>
-        <source>Timekeeper 3</source>
-        <translation>Cronometrista 3</translation>
-    </message>
-    <message>
-        <source>Results</source>
-        <translation>Risultati</translation>
     </message>
 </context>
 <context>
@@ -2308,6 +2167,10 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
 <context>
     <name>RankingsWizardFormat</name>
     <message>
+        <source>Please note</source>
+        <translation>Attenzione</translation>
+    </message>
+    <message>
         <source>Start List file format</source>
         <translation>Formato del file Ordine di Partenza</translation>
     </message>
@@ -2318,6 +2181,26 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Please select a file format and, if required, an encoding type.</source>
         <translation>Selezionare un formato file e, se richiesto, una codifica.</translation>
+    </message>
+    <message>
+        <source>Mass start</source>
+        <translation>Partenza in linea</translation>
+    </message>
+    <message>
+        <source>Relay race</source>
+        <translation>Staffetta</translation>
+    </message>
+    <message>
+        <source>Timed race</source>
+        <translation>A cronometro</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Sconosciuto</translation>
+    </message>
+    <message>
+        <source>&lt;p style=&apos;word-wrap: break-word;&apos;&gt;The selected race type is &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Please check that it is correct.&lt;br&gt;If not, update it in the race settings.&lt;/p&gt;</source>
+        <translation>&lt;p style=&apos;word-wrap: break-word;&apos;&gt;Il tipo di gara selezionato è &lt;b&gt;%1&lt;/b&gt;.&lt;br&gt;Verifica che sia corretto.&lt;br&gt;In caso contrario, modificalo nelle impostazioni della gara.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Format</source>
@@ -2338,8 +2221,8 @@ la pubblicazione</translation>
         <translation>Predefinita</translation>
     </message>
     <message>
-        <source>Rankings language</source>
-        <translation>Lingua classifiche</translation>
+        <source>Language</source>
+        <translation>Lingua</translation>
     </message>
 </context>
 <context>
@@ -2455,14 +2338,6 @@ la pubblicazione</translation>
     <message>
         <source>Plain Text (*.txt)</source>
         <translation>Testo semplice (*.txt)</translation>
-    </message>
-    <message>
-        <source>Start List</source>
-        <translation>Ordine di Partenza</translation>
-    </message>
-    <message>
-        <source>Leg %1</source>
-        <translation>Frazione %1</translation>
     </message>
     <message>
         <source>Error: unable to open %1</source>
@@ -2598,6 +2473,77 @@ Riconfigura il grilletto e ripeti la procedura.</translation>
     <message>
         <source>Trigger keys do not match. Try again.</source>
         <translation>Il tasto non corrisponde. Riprova.</translation>
+    </message>
+</context>
+<context>
+    <name>Updates</name>
+    <message>
+        <source>Updates: update check already running</source>
+        <translation>Aggiornamenti: controllo aggiornamenti già in esecuzione</translation>
+    </message>
+    <message>
+        <source>Updates: checking for updates…</source>
+        <translation>Aggiornamenti: controllo in corso…</translation>
+    </message>
+    <message>
+        <source>Maintenance Tool not found</source>
+        <translation>Maintenance Tool non trovato</translation>
+    </message>
+    <message>
+        <source>update checking is not yet available for this operating system</source>
+        <translation>controllo aggiornamenti non ancora disponibile per questo sistema operativo</translation>
+    </message>
+    <message>
+        <source>Updates: Maintenance Tool crashed</source>
+        <translation>Aggiornamenti: Maintenance Tool interrotto inaspettatamente</translation>
+    </message>
+    <message>
+        <source>Updates: error executing Maintenance Tool&lt;br&gt;Exit Code: %1&lt;br&gt;Error Output: %2</source>
+        <translation>Aggiornamenti: errore nell&apos;esecuzione del Maintenance Tool&lt;br&gt;Codice di uscita: %1&lt;br&gt;Output Errore: %2</translation>
+    </message>
+    <message>
+        <source>Updates: application is up to date</source>
+        <translation>Aggiornamenti: l&apos;applicazione è aggiornata</translation>
+    </message>
+    <message>
+        <source>Updates:: XML parsing error (start tag not found)</source>
+        <translation>Aggiornamenti:: errore analisi XML (tag di apertura non trovato)</translation>
+    </message>
+    <message>
+        <source>Updates:: XML parsing error (end tag not found)</source>
+        <translation>Aggiornamenti:: errore analisi XML (tag di chiusura non trovato)</translation>
+    </message>
+    <message>
+        <source>Updates:: data errors (%1)</source>
+        <translation>Aggiornamenti:: dati errati (%1)</translation>
+    </message>
+    <message>
+        <source>no updates available</source>
+        <translation>nessun aggiornamento disponibile</translation>
+    </message>
+    <message>
+        <source>failed to start the update process.&lt;br&gt;Please try running the Maintenance Tool manually</source>
+        <translation>impossibile avviare il processo di aggiornamento.&lt;br&gt;Prova ad avviare manualmente lo Strumento di manutenzione</translation>
+    </message>
+    <message>
+        <source>Updates: %1</source>
+        <translation>Aggiornamenti: %1</translation>
+    </message>
+    <message>
+        <source>Updates:: %1</source>
+        <translation>Aggiornamenti:: %1</translation>
+    </message>
+    <message>
+        <source>Updates: available %1 %2</source>
+        <translation>Aggiornamenti: disponibile %1 %2</translation>
+    </message>
+    <message>
+        <source>%1 Updates</source>
+        <translation>Aggiornamento di %1</translation>
+    </message>
+    <message>
+        <source>&lt;p&gt;New updates are available:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Do you want to close %2 and launch the Maintenance Tool to install them?&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Sono disponibili nuovi aggiornamenti:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Vuoi chiudere %2 e avviare lo Strumento di manutenzione per installarli?&lt;/p&gt;</translation>
     </message>
 </context>
 </TS>

@@ -21,6 +21,7 @@
 #include "lbcrexception.hpp"
 
 QWidget *CRHelper::parentWidget = Q_NULLPTR;
+QString CRHelper::screenSerial = { };
 ChronoRaceData::NameComposition CRHelper::nameComposition = ChronoRaceData::NameComposition::SURNAME_FIRST;
 ChronoRaceData::Accuracy CRHelper::accuracy = ChronoRaceData::Accuracy::SECOND;
 
@@ -152,7 +153,7 @@ QString CRHelper::toOffsetString(int offset)
     if (offset < 0)
         return QString("%1").arg(qAbs(offset));
     else
-        return QString("%1:%2:%3").arg(((offset / 60) / 60)).arg(((offset / 60) % 60), 2, 10, QChar('0')).arg((offset % 60), 2, 10, QChar('0'));
+        return QString("%1:%2:%3").arg((offset / 60) / 60).arg(((offset / 60) % 60), 2, 10, QChar('0')).arg((offset % 60), 2, 10, QChar('0'));
 }
 
 Ranking::Type CRHelper::toRankingType(QString  const &type)
@@ -281,7 +282,7 @@ QString CRHelper::toTimeString(uint milliseconds, Timing::Status const status, c
 
 QString CRHelper::toTimeString(uint milliseconds, ChronoRaceData::Accuracy acc)
 {
-    QString retString { "" };
+    int digits = 0;
 
     auto hr = milliseconds / 3600000;
     milliseconds %= 3600000;
@@ -290,26 +291,51 @@ QString CRHelper::toTimeString(uint milliseconds, ChronoRaceData::Accuracy acc)
     auto sec = milliseconds / 1000;
     milliseconds %= 1000;
 
+    /* Apply rounding and carry-overs */
     switch (acc) {
         using enum ChronoRaceData::Accuracy;
 
         case SECOND:
-            retString.append(QString("%1:%2:%3").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec + ((milliseconds < 500) ? 0 : 1), 2, 10, QLatin1Char('0')));
+            milliseconds = (milliseconds + 500) / 1000;
+            if (milliseconds >= 1) {
+                milliseconds = 0;
+                sec += 1;
+            }
             break;
         case TENTH:
-            retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg((milliseconds + 50) / 100, 1, 10, QLatin1Char('0')));
+            digits = 1;
+            milliseconds = (milliseconds + 50) / 100;
+            if (milliseconds >= 10) {
+                milliseconds = 0;
+                sec += 1;
+            }
             break;
         case HUNDREDTH:
-            retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg((milliseconds + 5) / 10, 2, 10, QLatin1Char('0')));
+            digits = 2;
+            milliseconds = (milliseconds + 5) / 10;
+            if (milliseconds >= 100) {
+                milliseconds = 0;
+                sec += 1;
+            }
             break;
         case THOUSANDTH:
-            retString.append(QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg(milliseconds, 3, 10, QLatin1Char('0')));
+            digits = 3;
             break;
         default:
             throw(ChronoRaceException(tr("Invalid accuracy value %1").arg(static_cast<int>(acc))));
     }
+    if (sec >= 60) {
+        sec = 0;
+        min += 1;
+    }
+    if (min >= 60) {
+        min = 0;
+        hr += 1;
+    }
 
-    return retString;
+    return (digits == 0) ?
+        QString("%1:%2:%3").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')) :
+        QString("%1:%2:%3.%4").arg(hr).arg(min, 2, 10, QLatin1Char('0')).arg(sec, 2, 10, QLatin1Char('0')).arg(milliseconds, digits, 10, QLatin1Char('0'));
 }
 
 QString CRHelper::toTimeString(Timing const &timing)
@@ -488,4 +514,14 @@ void CRHelper::actionAbout()
 void CRHelper::actionAboutQt()
 {
     QMessageBox::aboutQt(parentWidget, tr("About Qt"));
+}
+
+QString CRHelper::getScreenSerial()
+{
+    return CRHelper::screenSerial;
+}
+
+void CRHelper::setScreenSerial(QString const &newScreenSerial)
+{
+    CRHelper::screenSerial = newScreenSerial;
 }

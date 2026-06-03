@@ -94,7 +94,7 @@ ChronoRaceData *RankingsWizard::getRaceData()
 void RankingsWizard::buildStartList()
 {
     // compute the startlist
-    rankingsBuilder.loadData();
+    rankingsBuilder.loadData(raceData->getRaceType() != ChronoRaceData::RaceType::MASS_START, true);
 }
 
 void RankingsWizard::buildRankings()
@@ -104,7 +104,7 @@ void RankingsWizard::buildRankings()
     QList<Ranking> const &rankings = CRLoader::getRankings();
 
     // compute individual general classifications (all included, sorted by bib)
-    numberOfCompetitors = rankingsBuilder.loadData();
+    numberOfCompetitors = rankingsBuilder.loadData(raceData->getRaceType() != ChronoRaceData::RaceType::MASS_START); // Not Mass Start
 
     rankingsList.resize(rankings.count());
     for (auto &rankingItem : rankingsList) {
@@ -160,7 +160,7 @@ void RankingsWizard::printStartList()
         printer->init(&startListFileName, raceData->getField(ChronoRaceData::StringField::EVENT), tr("Start List"), raceData->getTranslator());
 
         // print the startlist
-        printer->printStartList(startList);
+        printer->printStartList(startList, raceData->getRaceType());
 
         if (printer->finalize()) {
             QFileInfo outFileInfo(startListFileName);
@@ -333,9 +333,6 @@ void RankingsWizard::print(bool checked)
     // encoding
     CRLoader::setEncoding(static_cast<QStringConverter::Encoding>(field("format.encoding").toUInt()));
 
-    // results mode
-    raceData->setField(ChronoRaceData::IndexField::RESULTS, field("selection.results").toInt());
-
     switch (this->target) {
         using enum RankingsWizard::RankingsWizardTarget;
 
@@ -343,6 +340,9 @@ void RankingsWizard::print(bool checked)
             printStartList();
             break;
         case Rankings:
+            // results mode
+            raceData->setField(ChronoRaceData::IndexField::RESULTS, field("selection.results").toInt());
+
             if ((CRLoader::getFormat() != CRLoader::Format::PDF) || field("mode.multiFile").toBool())
                 printRankingsMultiFile();
             else

@@ -32,7 +32,7 @@ class CategoriesModel : public CRTableModel
 
 public:
     explicit CategoriesModel(QObject *parent = Q_NULLPTR) : CRTableModel(parent) { };
-    CategoriesModel(QList<Category> const &categoriesList, QObject *parent = Q_NULLPTR)
+    explicit CategoriesModel(QList<Category> const &categoriesList, QObject *parent = Q_NULLPTR)
         : CRTableModel(parent), categories(categoriesList) { };
 
     QDataStream &cmSerialize(QDataStream &out) const;

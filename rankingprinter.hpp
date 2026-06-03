@@ -39,7 +39,7 @@ public:
 
     virtual void init(QString *outFileName, QString const &title, QString const &subject, QTranslator const *translator) = 0;
 
-    virtual void printStartList(QList<Competitor const *> const &startList) = 0;
+    virtual void printStartList(QList<Competitor const *> const &startList, ChronoRaceData::RaceType raceType = ChronoRaceData::RaceType::MASS_START) = 0;
     virtual void printRanking(Ranking const &categories, QList<ClassEntry const *> const &ranking) = 0;
     virtual void printRanking(Ranking const &categories, QList<TeamClassEntry const *> const &ranking) = 0;
 
