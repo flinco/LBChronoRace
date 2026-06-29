@@ -26,6 +26,7 @@ ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
     ui->setupUi(this);
 
     ui->tableView->setSortingEnabled(true);
+    ui->tableView->installEventFilter(this);
 
     QObject::connect(ui->tableView->horizontalHeader(), &QHeaderView::sortIndicatorChanged, ui->tableView, &QTableView::sortByColumn);
     QObject::connect(ui->rowAdd, &QPushButton::clicked, this, &ChronoRaceTable::rowAdd);
@@ -34,6 +35,49 @@ ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
     QObject::connect(ui->modelExport, &QPushButton::clicked, this, &ChronoRaceTable::modelExport);
     QObject::connect(ui->dialogSave, &QPushButton::clicked, this, &ChronoRaceTable::saveRaceData);
     QObject::connect(ui->dialogQuit, &QPushButton::clicked, this, &ChronoRaceTable::close);
+}
+
+bool ChronoRaceTable::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == ui->tableView && event->type() == QEvent::Type::KeyPress) {
+        auto const *ke = static_cast<QKeyEvent *>(event);
+
+        if (ke->key() == Qt::Key::Key_Return ||
+            ke->key() == Qt::Key::Key_Enter) {
+
+            QModelIndex current = ui->tableView->currentIndex();
+            if (!current.isValid())
+                return false;
+
+            if (auto nextColumnIndex = current.column() + 1;
+                nextColumnIndex < ui->tableView->model()->columnCount()) {
+                auto next = current.siblingAtColumn(nextColumnIndex);
+
+                QMetaObject::invokeMethod(this, [this, next]() {
+                        ui->tableView->setCurrentIndex(next);
+                        //NOSONAR ui->tableView->edit(next);
+                    },
+                    Qt::ConnectionType::QueuedConnection);
+
+            } else {
+                auto model = ui->tableView->model();
+                //NOSONAR auto const nextRowIndex = model->rowCount();
+                auto const nextRowIndex = current.row() + 1;
+
+                QMetaObject::invokeMethod(this, [this, model, nextRowIndex]() {
+                        model->insertRow(nextRowIndex);
+                        auto first = model->index(nextRowIndex, 0);
+                        ui->tableView->setCurrentIndex(first);
+                        //NOSONAR ui->tableView->edit(first);
+                    },
+                    Qt::ConnectionType::QueuedConnection);
+            }
+
+            return true;
+        }
+    }
+
+    return QDialog::eventFilter(obj, event);
 }
 
 QAbstractTableModel *ChronoRaceTable::getModel() const

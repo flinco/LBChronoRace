@@ -35,6 +35,9 @@ public:
     void disableButtons() const;
     void setItemDelegateForColumn(int column, QAbstractItemDelegate *delegate);
 
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
 private slots:
     void rowAdd() const;
     void rowDel() const;
