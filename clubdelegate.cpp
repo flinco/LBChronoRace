@@ -79,4 +79,5 @@ void ClubDelegate::updateEditorGeometry(QWidget *editor, QStyleOptionViewItem co
     Q_UNUSED(index)
 
     editor->setGeometry(option.rect);
+    editor->setMinimumWidth(option.rect.width());
 }
