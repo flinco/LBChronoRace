@@ -176,6 +176,21 @@
     </message>
 </context>
 <context>
+    <name>CRLogger</name>
+    <message>
+        <source>Select Log File</source>
+        <translation>Select Log File</translation>
+    </message>
+    <message>
+        <source>ChronoRace Log (*.log)</source>
+        <translation>ChronoRace Log (*.log)</translation>
+    </message>
+    <message>
+        <source>Saved Logs: %1</source>
+        <translation>Saved Logs: %1</translation>
+    </message>
+</context>
+<context>
     <name>CSVRankingPrinter</name>
     <message>
         <source>CSV (*.csv)</source>
@@ -846,18 +861,6 @@ Are you sure you want to continue?</translation>
         <translation>No category fits the competitor with bib %1 - %2</translation>
     </message>
     <message>
-        <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3</source>
-        <translation>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3</translation>
-    </message>
-    <message>
-        <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3 - leg 1</source>
-        <translation>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3 - leg 1</translation>
-    </message>
-    <message>
-        <source>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</source>
-        <translation>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</translation>
-    </message>
-    <message>
         <source>No category fits the team with bib %1</source>
         <translation>No category fits the team with bib %1</translation>
     </message>
@@ -1445,6 +1448,14 @@ The definitions of Categories and Rankings must be reviewed and corrected.</tran
     <message>
         <source>Remove entries without references from the Club List</source>
         <translation>Remove entries without references from the Club List</translation>
+    </message>
+    <message>
+        <source>Export Logs</source>
+        <translation>Export Logs</translation>
+    </message>
+    <message>
+        <source>Save log file</source>
+        <translation>Save log file</translation>
     </message>
 </context>
 <context>

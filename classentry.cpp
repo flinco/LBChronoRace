@@ -563,13 +563,13 @@ void ClassEntryHelper::removeLowerWeigthCategories(QList<Category const *> &cate
 
             w2 = cat2->getWeight();
             if (w1 < w2) {
-                qDebug() << tr("Removing candidate category '%1' associated to competitor %2 - bib %3").arg(cat2->getFullDescription(), name, QString::number(bib));
+                qDebug() << "Removing candidate category" << cat2->getFullDescription() << "associated to competitor" << name << "- bib" << QString::number(bib);
                 cat1 = Q_NULLPTR;
                 break;
             }
 
             if (w1 > w2) {
-                qDebug() << tr("Removing candidate category '%1' associated to competitor %2 - bib %3").arg(j.peekPrevious()->getFullDescription(), name, QString::number(bib));
+                qDebug() << "Removing candidate category" << j.peekPrevious()->getFullDescription() << "associated to competitor" << name << "- bib" << QString::number(bib);
                 j.remove();
             }
         }
@@ -595,7 +595,7 @@ void ClassEntryHelper::setCategorySingleLeg(ClassEntry *entry, QStringList &mess
 
         qsizetype i = categories.count();
         while (i-- > 1) {
-            qDebug() << tr("Dropping category '%1' associated to competitor %2 - bib %3").arg(categories[i]->getFullDescription(), name, QString::number(entry->bib));
+            qDebug() << "Dropping category" << categories[i]->getFullDescription() << "associated to competitor" << name << "- bib" << QString::number(entry->bib);
             categories.removeAt(i);
         }
 
@@ -622,7 +622,7 @@ void ClassEntryHelper::setCategoryMultiLeg(ClassEntry *entry, QStringList &messa
         /* Category must be present in all the legs */
         for (leg = 1; leg < count; leg++) {
             if (!entries->at(leg).hasCategory(cat)) {
-                qDebug() <<  tr("Dropping category '%1' associated to competitor %2 - bib %3 - leg 1").arg(i.peekPrevious()->getFullDescription(), comp->getCompetitorName(CRHelper::nameComposition), QString::number(entry->bib));
+                qDebug() <<  "Dropping category" << i.peekPrevious()->getFullDescription() << "associated to competitor" << comp->getCompetitorName(CRHelper::nameComposition) << "- bib" << QString::number(entry->bib) << "- leg \"1\"";
                 i.remove();
                 break;
             }
@@ -640,7 +640,7 @@ void ClassEntryHelper::setCategoryMultiLeg(ClassEntry *entry, QStringList &messa
         i = comp->getCategories();
         while (i.hasNext()) {
             if (!entry->entries[0].hasCategory(i.next())) {
-                qDebug() <<  tr("Dropping category '%1' associated to competitor %2 - bib %3 - leg 1").arg(i.peekPrevious()->getFullDescription(), comp->getCompetitorName(CRHelper::nameComposition), QString::number(entry->bib));
+                qDebug() <<  "Dropping category" << i.peekPrevious()->getFullDescription() << "associated to competitor" << comp->getCompetitorName(CRHelper::nameComposition) << "- bib" << QString::number(entry->bib) << "- leg \"1\"";
                 i.remove();
             }
         }

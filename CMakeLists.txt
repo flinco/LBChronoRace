@@ -61,6 +61,7 @@ set(HEADER_FILES
     compsexdelegate.hpp
     crhelper.hpp
     crloader.hpp
+    crlogger.hpp
     crsettings.hpp
     crtablemodel.hpp
     csvrankingprinter.hpp
@@ -114,6 +115,7 @@ set(SOURCE_FILES
     compsexdelegate.cpp
     crhelper.cpp
     crloader.cpp
+    crlogger.cpp
     crsettings.cpp
     csvrankingprinter.cpp
     languages.cpp

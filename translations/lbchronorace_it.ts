@@ -176,6 +176,21 @@
     </message>
 </context>
 <context>
+    <name>CRLogger</name>
+    <message>
+        <source>Select Log File</source>
+        <translation>Seleziona File dei Log</translation>
+    </message>
+    <message>
+        <source>ChronoRace Log (*.log)</source>
+        <translation>Log ChronoRace (*.log)</translation>
+    </message>
+    <message>
+        <source>Saved Logs: %1</source>
+        <translation>Log salvati: %1</translation>
+    </message>
+</context>
+<context>
     <name>CSVRankingPrinter</name>
     <message>
         <source>CSV (*.csv)</source>
@@ -846,18 +861,6 @@ Sei sicuro di voler continuare?</translation>
         <translation>Il concorrente con pettorale %1, %2, non rientra in nessuna categoria</translation>
     </message>
     <message>
-        <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3</source>
-        <translation>Scartata categoria &apos;%1&apos; associata al concorrente %2 - pettorale %3</translation>
-    </message>
-    <message>
-        <source>Dropping category &apos;%1&apos; associated to competitor %2 - bib %3 - leg 1</source>
-        <translation>Scartata categoria &apos;%1&apos; associata al concorrente %2 - pettorale %3 - frazione 1</translation>
-    </message>
-    <message>
-        <source>Removing candidate category &apos;%1&apos; associated to competitor %2 - bib %3</source>
-        <translation>Rimozione categoria candidata &apos;%1&apos; associata al concorrente %2 - pettorale %3</translation>
-    </message>
-    <message>
         <source>No category fits the team with bib %1</source>
         <translation>La squadra con pettorale %1 non rientra in nessuna categoria</translation>
     </message>
@@ -1445,6 +1448,14 @@ Le definizioni di Categorie e Classifiche devono essere riviste e corrette.</tra
     <message>
         <source>Remove entries without references from the Club List</source>
         <translation>Rimuove dalla lista le Società non utilizzate</translation>
+    </message>
+    <message>
+        <source>Export Logs</source>
+        <translation>Esporta Logs</translation>
+    </message>
+    <message>
+        <source>Save log file</source>
+        <translation>Salva il file di log</translation>
     </message>
 </context>
 <context>

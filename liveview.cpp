@@ -284,7 +284,7 @@ void LiveView::removeEntry(quint64 values)
 void LiveView::addTimingIndividual(uint bib, uint timing, bool chrono)
 {
 #ifdef QT_QML_DEBUG
-    qDebug() << "Adding " << (chrono ? "chrono " : "individual ") << bib << " - " << timing;
+    qDebug() << "Adding" << (chrono ? "chrono " : "individual ") << bib << "-" << timing;
 #endif
     auto *model = liveRankings->getModel();
 
@@ -340,7 +340,7 @@ void LiveView::addTimingIndividual(uint bib, uint timing, bool chrono)
 void LiveView::removeTimingIndividual(uint bib, uint timing, bool chrono)
 {
 #ifdef QT_QML_DEBUG
-    qDebug() << "Removing " << (chrono ? "chrono " : "individual ") << bib << " - " << timing;
+    qDebug() << "Removing" << (chrono ? "chrono " : "individual ") << bib << "-" << timing;
 #endif
     auto *model = liveRankings->getModel();
 
@@ -414,7 +414,7 @@ void LiveView::removeTimingIndividual(uint bib, uint timing, bool chrono)
 void LiveView::addTimingRelay(uint bib, uint timing, bool chrono)
 {
 #ifdef QT_QML_DEBUG
-    qDebug() << "Adding " << (chrono ? "chrono relay " : "relay ") << bib << " - " << timing;
+    qDebug() << "Adding" << (chrono ? "chrono relay " : "relay ") << bib << "-" << timing;
 #endif
     auto *model = liveRankings->getModel();
 
@@ -475,7 +475,7 @@ void LiveView::addTimingRelay(uint bib, uint timing, bool chrono)
 void LiveView::removeTimingRelay(uint bib, uint timing, bool chrono)
 {
 #ifdef QT_QML_DEBUG
-    qDebug() << "Removing " << (chrono ? "chrono relay " : "relay ") << bib << " - " << timing;
+    qDebug() << "Removing" << (chrono ? "chrono relay " : "relay ") << bib << "-" << timing;
 #endif
     auto *model = liveRankings->getModel();
 
