@@ -20,10 +20,6 @@
 
 #include "classentry.hpp"
 
-namespace placement {
-class TeamClassEntry;
-}
-
 class TeamClassEntry
 {
     Q_DECLARE_TR_FUNCTIONS(TeamClassEntry)

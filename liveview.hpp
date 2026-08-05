@@ -38,11 +38,6 @@
 
 constexpr char DISPLAY_CHRONO_ZERO[] = "0:00:00";
 
-namespace liveview {
-class LiveView;
-class Highlighter;
-}
-
 class Highlighter : public QObject
 {
     Q_OBJECT

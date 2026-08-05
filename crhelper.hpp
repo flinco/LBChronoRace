@@ -29,10 +29,6 @@
 #include "category.hpp"
 #include "timing.hpp"
 
-namespace helper {
-class CRHelper;
-}
-
 class CRHelper
 {
     Q_DECLARE_TR_FUNCTIONS(CRHelper)

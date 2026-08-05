@@ -24,10 +24,6 @@
 #include <QKeyCombination>
 #include <QColor>
 
-namespace crsettings {
-    class CRSettings;
-}
-
 class CRSettings
 {
     Q_DECLARE_TR_FUNCTIONS(CRSettings)

@@ -26,12 +26,6 @@
 #include "competitor.hpp"
 #include "timing.hpp"
 
-namespace placement {
-    class ClassEntryElement;
-    class ClassEntry;
-    class ClassEntryHelper;
-}
-
 class ClassEntryElement {
     Q_DECLARE_TR_FUNCTIONS(ClassEntry);
 

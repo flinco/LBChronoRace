@@ -23,11 +23,6 @@
 #include <QCoreApplication>
 #include <QDataStream>
 
-namespace category {
-class Category;
-class CategorySorter;
-}
-
 class Category {
     Q_DECLARE_TR_FUNCTIONS(Category)
 
