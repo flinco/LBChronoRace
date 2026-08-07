@@ -19,6 +19,9 @@
 #define CHRONORACETABLE_HPP
 
 #include <QDialog>
+#include <QHash>
+#include <QStringView>
+#include <QChar>
 
 #include "ui_chronoracetable.h"
 #include "crtablemodel.hpp"
@@ -38,6 +41,10 @@ public:
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 
+private:
+    bool returnPressed(QModelIndex const &current);
+    bool accentPressed(QHash<QStringView, QChar> const &accents) const;
+
 private slots:
     void rowAdd() const;
     void rowDel() const;
@@ -55,6 +62,8 @@ signals:
 
 private:
     QScopedPointer<Ui::ChronoRaceTable> ui { new Ui::ChronoRaceTable };
+    static QHash<QStringView, QChar> const graveAccents;
+    static QHash<QStringView, QChar> const acuteAccents;
 };
 
 #endif // CHRONORACETABLE_HPP

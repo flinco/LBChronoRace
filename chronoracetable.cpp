@@ -21,6 +21,17 @@
 #include "crloader.hpp"
 #include "crhelper.hpp"
 
+QHash<QStringView, QChar> const ChronoRaceTable::graveAccents = {
+    { u"A''", u'À' }, { u"E''", u'È' }, { u"I''", u'Ì' }, { u"O''", u'Ò' }, { u"U''", u'Ù' },
+    { u"a''", u'à' }, { u"e''", u'è' }, { u"i''", u'ì' }, { u"o''", u'ò' }, { u"u''", u'ù' }
+};
+QHash<QStringView, QChar> const ChronoRaceTable::acuteAccents = {
+    { u"A``", u'Á' }, { u"E``", u'É' }, { u"I``", u'Í' }, { u"O``", u'Ó' }, { u"U``", u'Ú' },
+    { u"A''", u'Á' }, { u"E''", u'É' }, { u"I''", u'Í' }, { u"O''", u'Ó' }, { u"U''", u'Ú' },
+    { u"a``", u'á' }, { u"e``", u'é' }, { u"i``", u'í' }, { u"o``", u'ó' }, { u"u``", u'ú' },
+    { u"a''", u'á' }, { u"e''", u'é' }, { u"i''", u'í' }, { u"o''", u'ó' }, { u"u''", u'ú' }
+};
+
 ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
 {
     ui->setupUi(this);
@@ -39,45 +50,97 @@ ChronoRaceTable::ChronoRaceTable(QWidget *parent) : QDialog(parent)
 
 bool ChronoRaceTable::eventFilter(QObject *obj, QEvent *event)
 {
-    if (obj == ui->tableView && event->type() == QEvent::Type::KeyPress) {
-        auto const *ke = static_cast<QKeyEvent *>(event);
+    static bool alt { false };
+    static bool ctrl { false };
 
-        if (ke->key() == Qt::Key::Key_Return ||
-            ke->key() == Qt::Key::Key_Enter) {
+    bool handled { false };
 
-            QModelIndex current = ui->tableView->currentIndex();
-            if (!current.isValid())
-                return false;
-
-            if (auto nextColumnIndex = current.column() + 1;
-                nextColumnIndex < ui->tableView->model()->columnCount()) {
-                auto next = current.siblingAtColumn(nextColumnIndex);
-
-                QMetaObject::invokeMethod(this, [this, next]() {
-                        ui->tableView->setCurrentIndex(next);
-                        //NOSONAR ui->tableView->edit(next);
-                    },
-                    Qt::ConnectionType::QueuedConnection);
-
-            } else {
-                auto model = ui->tableView->model();
-                //NOSONAR auto const nextRowIndex = model->rowCount();
-                auto const nextRowIndex = current.row() + 1;
-
-                QMetaObject::invokeMethod(this, [this, model, nextRowIndex]() {
-                        model->insertRow(nextRowIndex);
-                        auto first = model->index(nextRowIndex, 0);
-                        ui->tableView->setCurrentIndex(first);
-                        //NOSONAR ui->tableView->edit(first);
-                    },
-                    Qt::ConnectionType::QueuedConnection);
-            }
-
-            return true;
+    if (obj == ui->tableView)
+    {
+        switch (event->type())
+        {
+            case QEvent::Type::KeyPress:
+                if (auto const pressedKey = (static_cast<QKeyEvent *>(event))->key();
+                    (pressedKey == Qt::Key::Key_Return) || (pressedKey == Qt::Key::Key_Enter)) {
+                    handled = returnPressed(ui->tableView->currentIndex());
+                } else if (pressedKey == Qt::Key::Key_Control) {
+                    ctrl = true;
+                } else if (pressedKey == Qt::Key::Key_Alt) {
+                    alt = true;
+                } else if (pressedKey == Qt::Key::Key_AltGr) {
+                    ctrl = true;
+                    alt = true;
+                }
+                break;
+            case QEvent::Type::KeyRelease:
+                if (auto const pressedKey = (static_cast<QKeyEvent *>(event))->key();
+                    pressedKey == Qt::Key::Key_Apostrophe) {
+                    handled = accentPressed((ctrl && alt) ? acuteAccents : graveAccents);
+                } else if (pressedKey == Qt::Key::Key_QuoteLeft) {
+                    handled = accentPressed(acuteAccents);
+                } else if (pressedKey == Qt::Key::Key_Control) {
+                    ctrl = false;
+                } else if (pressedKey == Qt::Key::Key_Alt) {
+                    alt = false;
+                } else if (pressedKey == Qt::Key::Key_AltGr) {
+                    ctrl = false;
+                    alt = false;
+                }
+                break;
+            default:
+                // do nothing
+                break;
         }
     }
 
-    return QDialog::eventFilter(obj, event);
+    return handled || QDialog::eventFilter(obj, event);
+}
+
+bool ChronoRaceTable::returnPressed(QModelIndex const &current)
+{
+    if (!current.isValid())
+        return false;
+
+    if (auto nextColumnIndex = current.column() + 1;
+        nextColumnIndex < ui->tableView->model()->columnCount()) {
+        auto next = current.siblingAtColumn(nextColumnIndex);
+
+        QMetaObject::invokeMethod(this, [this, next]() {
+            ui->tableView->setCurrentIndex(next);
+            //NOSONAR ui->tableView->edit(next);
+        }, Qt::ConnectionType::QueuedConnection);
+    } else {
+        auto model = ui->tableView->model();
+        //NOSONAR auto const nextRowIndex = model->rowCount();
+        auto const nextRowIndex = current.row() + 1;
+
+        QMetaObject::invokeMethod(this, [this, model, nextRowIndex]() {
+            model->insertRow(nextRowIndex);
+            auto first = model->index(nextRowIndex, 0);
+            ui->tableView->setCurrentIndex(first);
+            //NOSONAR ui->tableView->edit(first);
+        }, Qt::ConnectionType::QueuedConnection);
+    }
+
+    return true;
+}
+
+bool ChronoRaceTable::accentPressed(QHash<QStringView, QChar> const &accents) const
+{
+    if (auto *edit = qobject_cast<QLineEdit *>(QApplication::focusWidget()); edit) {
+        if (int pos = edit->cursorPosition(); pos >= 3) {
+            QString text = edit->text();
+            QStringView last = QStringView{ text }.mid(pos - 3, 3);
+            if (auto it = accents.find(last); it != accents.end()) {
+                text.replace(pos - 3, 3, it.value());
+                edit->setText(text);
+                edit->setCursorPosition(pos - 2);
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 QAbstractTableModel *ChronoRaceTable::getModel() const
