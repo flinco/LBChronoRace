@@ -172,6 +172,21 @@ void ChronoRaceTable::setItemDelegateForColumn(int column, QAbstractItemDelegate
 void ChronoRaceTable::show()
 {
     CRTableModel *model = qobject_cast<CRTableModel *>(ui->tableView->model());
+    if (model->rowCount() == 0) {
+        if (qobject_cast<StartListModel *>(model)) {
+            model->insertRows(0,1);
+        } else if (qobject_cast<RankingsModel *>(model)) {
+            model->insertRows(0,1);
+        } else if (qobject_cast<CategoriesModel *>(model)) {
+            model->insertRows(0,1);
+        } else if (qobject_cast<TimingsModel *>(model)) {
+            // nothing to add
+        } else if (qobject_cast<TeamsListModel *>(model)) {
+            // nothing to add
+        } else {
+            Q_UNREACHABLE();
+        }
+    }
     ui->retranslateUi(this);
     this->setWindowModality(Qt::ApplicationModal);
     QDialog::show();
