@@ -59,8 +59,8 @@ public:
     static QString toRankingTypeString(Ranking::Type type);
     static QString toCategoryTypeString(Category::Type const type);
 
-    static QString toTimeString(uint milliseconds, Timing::Status const status, char const *prefix = Q_NULLPTR);
-    static QString toTimeString(uint milliseconds, ChronoRaceData::Accuracy acc);
+    static QString toTimeString(uint timeMillis, uint referenceMillis, Timing::Status const status, char const *prefix = Q_NULLPTR);
+    static QString toTimeString(uint timeMillis, uint referenceMillis, ChronoRaceData::Accuracy acc);
     static QString toTimeString(Timing const &timing);
 
     static Timing::Status toTimingStatus(QString const &status);

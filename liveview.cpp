@@ -330,7 +330,7 @@ void LiveView::addTimingIndividual(uint bib, uint timing, bool chrono)
         this->lastRowItems[2]->setData(QVariant(extraTimings), Qt::UserRole);
     }
 
-    this->lastRowItems[2]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
+    this->lastRowItems[2]->setText(CRHelper::toTimeString(timing, 0, ChronoRaceData::Accuracy::SECOND));
     // Update the index and highlight best timing
     this->highlighter.add(sex, 0, timing, this->lastRowItems[2]);
 
@@ -403,7 +403,7 @@ void LiveView::removeTimingIndividual(uint bib, uint timing, bool chrono)
             /* A timing has been extracted from the extra
              * timings; set it as the displayed timing */
             this->lastRowItems[0]->setData(QVariant(timing), Qt::UserRole);
-            this->lastRowItems[2]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
+            this->lastRowItems[2]->setText(CRHelper::toTimeString(timing, 0, ChronoRaceData::Accuracy::SECOND));
         }
 
         /* A timing is still present in the item */
@@ -534,7 +534,7 @@ void LiveView::insertTimingRelay(uint timing, int columnCount, bool chrono, QVar
             } else {
                 timing -= (column == 2) ? 0 : this->lastRowItems[column - 2]->data(Qt::UserRole).toUInt();
             }
-            this->lastRowItems[column]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
+            this->lastRowItems[column]->setText(CRHelper::toTimeString(timing, 0, ChronoRaceData::Accuracy::SECOND));
             this->lastRowItems[column]->setData(QVariant(timing), Qt::UserRole + 1);
 
             // Update the index and highlight best timing
@@ -552,7 +552,7 @@ void LiveView::insertTimingRelay(uint timing, int columnCount, bool chrono, QVar
             } else {
                 timing -= (column == 2) ? 0 : this->lastRowItems[column - 2]->data(Qt::UserRole).toUInt();
             }
-            this->lastRowItems[column]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
+            this->lastRowItems[column]->setText(CRHelper::toTimeString(timing, 0, ChronoRaceData::Accuracy::SECOND));
             this->lastRowItems[column]->setData(QVariant(timing), Qt::UserRole + 1);
 
             // Update the index and highlight best timing
@@ -602,7 +602,7 @@ void LiveView::eraseTimingRelay(uint timing, int columnCount, bool chrono, QVari
             } else {
                 timing -= (column == 2) ? 0 : this->lastRowItems[column - 2]->data(Qt::UserRole).toUInt();
             }
-            this->lastRowItems[column]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
+            this->lastRowItems[column]->setText(CRHelper::toTimeString(timing, 0, ChronoRaceData::Accuracy::SECOND));
             this->lastRowItems[column]->setData(QVariant(timing), Qt::UserRole + 1);
 
             // Update the index and highlight best timing
@@ -633,7 +633,7 @@ void LiveView::updateTimingRelay(int columnCount, bool chrono) const
         }
     }
 
-    this->lastRowItems[columnCount - 1]->setText(CRHelper::toTimeString(timing, ChronoRaceData::Accuracy::SECOND));
+    this->lastRowItems[columnCount - 1]->setText(CRHelper::toTimeString(timing, 0, ChronoRaceData::Accuracy::SECOND));
     this->lastRowItems[0]->setData(QVariant(sortTiming), Qt::UserRole);
 }
 

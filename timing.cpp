@@ -165,7 +165,7 @@ void Timing::setStatus(QString const &newStatus)
 
 QString Timing::getTiming() const
 {
-    return CRHelper::toTimeString(this->milliseconds, Status::CLASSIFIED);
+    return CRHelper::toTimeString(this->milliseconds, 0, Status::CLASSIFIED);
 }
 
 void Timing::setTiming(QString const &timing)
