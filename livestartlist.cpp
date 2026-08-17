@@ -58,7 +58,9 @@ void LiveStartList::setHeaderData(QString const &title, QString const &place, QD
     QString lsSubTitle = place % (place.isEmpty() ? "" : " - ") % lsRaceDate;
     this->ui->raceInfo->setText(lsSubTitle);
 
-    int height = this->ui->titleLayout->geometry().height();
+    int height = this->ui->titleLayout->geometry().height()
+                 - this->ui->titleLayout->contentsMargins().top()
+                 - this->ui->titleLayout->contentsMargins().bottom();
     int width;
     int lWidth;
     int rWidth;
