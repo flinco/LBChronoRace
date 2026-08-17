@@ -72,7 +72,6 @@ private:
     QList<QList<ClassEntry const *>> splitIndividualRanking(QList<ClassEntry const *> const ranking) const;
     QList<QList<TeamClassEntry const *>> splitTeamRanking(QList<TeamClassEntry const *> const ranking) const;
 
-    void printHeaderStartList(QRectF &writeRect, bool first);
     void printHeaderSingleLeg(QRectF &writeRect, int page, RankingType type);
     void printHeaderMultiLeg(QRectF &writeRect, int page, RankingType type);
 
