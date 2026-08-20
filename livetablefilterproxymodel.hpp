@@ -25,7 +25,7 @@ class LiveTableFilterProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 public:
-    explicit LiveTableFilterProxyModel(QObject *parent = Q_NULLPTR);
+    using QSortFilterProxyModel::QSortFilterProxyModel;
 
     void setMinRow(int newMinRow);
 

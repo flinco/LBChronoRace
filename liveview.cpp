@@ -190,7 +190,7 @@ void LiveView::setLiveMode(LiveView::LiveMode newMode)
             startDemo();
             break;
         case TIMEKEEPER:
-            stopDemo();
+            startDemo();
             break;
         case RANKINGS:
             this->highlighter.unhighlight(); // remove highlighting
@@ -269,11 +269,11 @@ void LiveView::addEntry(quint64 values, bool add)
 
     // Set highlighted entry roles
     //this->highlighter.highlight();
-    // HIghlighting performed after rendering
+    // Highlighting performed after rendering
 
     auto *model = this->liveRankings->getModel();
     model->sort(0, Qt::SortOrder::AscendingOrder);
-    this->liveRankings->scrollToLastItem(this->lastRowItems.isEmpty() ? Q_NULLPTR : this->lastRowItems[0]);
+    //this->liveRankings->scrollToLastItem(this->lastRowItems.isEmpty() ? Q_NULLPTR : this->lastRowItems[0]);
 }
 
 void LiveView::removeEntry(quint64 values)

@@ -120,36 +120,10 @@ void LiveRankings::resizeColumns()
         model->setHeaderData(1, Qt::Horizontal, tr("Competitor", "long"), Qt::DisplayRole);
         this->ui->highTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeMode::Stretch);
         this->ui->lowTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeMode::Stretch);
-    } else if (fullWidth < 1680) {
-        auto bibWidth = availableWidth / 20;
-        auto timeWidth = (availableWidth * 56) / 1000;
-        auto sNameWidth = (availableWidth - ((3 * bibWidth / 2) + (timeWidth * (count + 1)))) / count;
-        this->ui->highTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeMode::Fixed);
-        this->ui->lowTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeMode::Fixed);
-        model->setHeaderData(0, Qt::Horizontal, tr("Bib", "short"), Qt::DisplayRole);
-        this->ui->highTable->verticalHeader()->setMinimumWidth(bibWidth / 2);
-        this->ui->highTable->setColumnWidth(0, bibWidth);
-        this->ui->lowTable->verticalHeader()->setMinimumWidth(bibWidth / 2);
-        this->ui->lowTable->setColumnWidth(0, bibWidth);
-        do {
-            this->ui->highTable->horizontalHeader()->setSectionResizeMode((2 * count) - 1, QHeaderView::ResizeMode::Fixed);
-            this->ui->lowTable->horizontalHeader()->setSectionResizeMode((2 * count) - 1, QHeaderView::ResizeMode::Fixed);
-            model->setHeaderData((2 * count) - 1, Qt::Horizontal, tr("Competitor %1", "short").arg(count), Qt::DisplayRole);
-            this->ui->highTable->setColumnWidth((2 * count) - 1, sNameWidth);
-            this->ui->lowTable->setColumnWidth((2 * count) - 1, sNameWidth);
-            this->ui->highTable->horizontalHeader()->setSectionResizeMode(2 * count, QHeaderView::ResizeMode::Fixed);
-            this->ui->lowTable->horizontalHeader()->setSectionResizeMode(2 * count, QHeaderView::ResizeMode::Fixed);
-            model->setHeaderData(2 * count, Qt::Horizontal, tr("Timing %1", "short").arg(count), Qt::DisplayRole);
-            this->ui->highTable->setColumnWidth(2 * count, timeWidth);
-            this->ui->lowTable->setColumnWidth(2 * count, timeWidth);
-        } while (--count);
-        model->setHeaderData(columns - 1, Qt::Horizontal, tr("Timing", "short"), Qt::DisplayRole);
-        this->ui->highTable->horizontalHeader()->setSectionResizeMode(columns - 1, QHeaderView::ResizeMode::Stretch);
-        this->ui->lowTable->horizontalHeader()->setSectionResizeMode(columns - 1, QHeaderView::ResizeMode::Stretch);
     } else {
         auto bibWidth = availableWidth / 20;
         auto timeWidth = (availableWidth * 56) / 1000;
-        auto lNameWidth = (availableWidth - ((3 * bibWidth / 2) + (timeWidth * (count + 1)))) / count;
+        auto nameWidth = (availableWidth - ((3 * bibWidth / 2) + (timeWidth * (count + 1)))) / count;
         this->ui->highTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeMode::Fixed);
         this->ui->lowTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeMode::Fixed);
         model->setHeaderData(0, Qt::Horizontal, (fullWidth < 1920) ? tr("Bib", "short") : tr("Bib", "long"), Qt::DisplayRole);
@@ -160,19 +134,22 @@ void LiveRankings::resizeColumns()
         do {
             this->ui->highTable->horizontalHeader()->setSectionResizeMode((2 * count) - 1, QHeaderView::ResizeMode::Fixed);
             this->ui->lowTable->horizontalHeader()->setSectionResizeMode((2 * count) - 1, QHeaderView::ResizeMode::Fixed);
-            model->setHeaderData((2 * count) - 1, Qt::Horizontal, tr("Competitor %1", "long").arg(count), Qt::DisplayRole);
-            this->ui->highTable->setColumnWidth((2 * count) - 1, lNameWidth);
-            this->ui->lowTable->setColumnWidth((2 * count) - 1, lNameWidth);
+            model->setHeaderData((2 * count) - 1, Qt::Horizontal, (fullWidth < 1680) ? tr("Competitor %1", "short").arg(count) : tr("Competitor %1", "long").arg(count), Qt::DisplayRole);
+            this->ui->highTable->setColumnWidth((2 * count) - 1, nameWidth);
+            this->ui->lowTable->setColumnWidth((2 * count) - 1, nameWidth);
             this->ui->highTable->horizontalHeader()->setSectionResizeMode(2 * count, QHeaderView::ResizeMode::Fixed);
             this->ui->lowTable->horizontalHeader()->setSectionResizeMode(2 * count, QHeaderView::ResizeMode::Fixed);
-            model->setHeaderData(2 * count, Qt::Horizontal, tr("Timing %1", "long").arg(count), Qt::DisplayRole);
+            model->setHeaderData(2 * count, Qt::Horizontal, (fullWidth < 1680) ? tr("Timing %1", "short").arg(count) : tr("Timing %1", "long").arg(count), Qt::DisplayRole);
             this->ui->highTable->setColumnWidth(2 * count, timeWidth);
             this->ui->lowTable->setColumnWidth(2 * count, timeWidth);
         } while (--count);
-        model->setHeaderData(columns - 1, Qt::Horizontal, tr("Timing", "long"), Qt::DisplayRole);
+        model->setHeaderData(columns - 1, Qt::Horizontal, (fullWidth < 1680) ? tr("Timing", "short") : tr("Timing", "long"), Qt::DisplayRole);
         this->ui->highTable->horizontalHeader()->setSectionResizeMode(columns - 1, QHeaderView::ResizeMode::Stretch);
         this->ui->lowTable->horizontalHeader()->setSectionResizeMode(columns - 1, QHeaderView::ResizeMode::Stretch);
     }
+
+    this->ui->separator->setStyleSheet(QString("background-color: %1; border: none;").arg(CRSettings::getColor(CRSettings::Color::LiveRankingsTitleColor).name()));
+    this->ui->separator->setFixedHeight(this->liveScreen->availableSize().height() * 10 / 1000);
 }
 
 void LiveRankings::activate()
