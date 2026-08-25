@@ -73,5 +73,6 @@
         <file>icons/delete_sweep.svg</file>
         <file>icons/published_with_changes.svg</file>
         <file>icons/sync_desktop.svg</file>
+        <file>icons/export_notes.svg</file>
     </qresource>
 </RCC>

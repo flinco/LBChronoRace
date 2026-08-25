@@ -28,7 +28,7 @@ project(LBChronoRace
     DESCRIPTION "Timings and Rankings for Races"
     HOMEPAGE_URL "http://github.com/flinco/LBChronoRace"
     LANGUAGES CXX)
-set(PROJECT_UPDATE 1)
+set(PROJECT_UPDATE 2)
 string(TIMESTAMP BUILD_DATE "%Y-%m-%d" UTC)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -61,6 +61,7 @@ set(HEADER_FILES
     compsexdelegate.hpp
     crhelper.hpp
     crloader.hpp
+    crlogger.hpp
     crsettings.hpp
     crtablemodel.hpp
     csvrankingprinter.hpp
@@ -114,6 +115,7 @@ set(SOURCE_FILES
     compsexdelegate.cpp
     crhelper.cpp
     crloader.cpp
+    crlogger.cpp
     crsettings.cpp
     csvrankingprinter.cpp
     languages.cpp

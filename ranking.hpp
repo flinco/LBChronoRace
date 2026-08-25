@@ -24,11 +24,6 @@
 
 #include "category.hpp"
 
-namespace ranking {
-class Ranking;
-class RankingSorter;
-}
-
 class Ranking {
     Q_DECLARE_TR_FUNCTIONS(Ranking)
 

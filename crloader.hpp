@@ -36,10 +36,6 @@
 #include "rankingsmodel.hpp"
 #include "categoriesmodel.hpp"
 
-namespace loader {
-class CRLoader;
-}
-
 class CRLoader
 {
     Q_DECLARE_TR_FUNCTIONS(CRLoader)

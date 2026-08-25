@@ -254,7 +254,7 @@ QString CRHelper::toCategoryTypeString(Category::Type const type)
     }
 }
 
-QString CRHelper::toTimeString(uint milliseconds, Timing::Status const status, char const *prefix)
+QString CRHelper::toTimeString(uint timeMillis, uint referenceMillis, Timing::Status const status, char const *prefix)
 {
     QString retString { prefix ? prefix : "" };
 
@@ -262,7 +262,7 @@ QString CRHelper::toTimeString(uint milliseconds, Timing::Status const status, c
         using enum Timing::Status;
 
         case CLASSIFIED:
-            retString.append(CRHelper::toTimeString(milliseconds, accuracy));
+            retString.append(CRHelper::toTimeString(timeMillis, referenceMillis, accuracy));
             break;
         case DSQ:
             retString.append("DSQ");
@@ -280,43 +280,27 @@ QString CRHelper::toTimeString(uint milliseconds, Timing::Status const status, c
     return retString;
 }
 
-QString CRHelper::toTimeString(uint milliseconds, ChronoRaceData::Accuracy acc)
+QString CRHelper::toTimeString(uint timeMillis, uint referenceMillis, ChronoRaceData::Accuracy acc)
 {
     int digits = 0;
 
-    auto hr = milliseconds / 3600000;
-    milliseconds %= 3600000;
-    auto min = milliseconds / 60000;
-    milliseconds %= 60000;
-    auto sec = milliseconds / 1000;
-    milliseconds %= 1000;
-
-    /* Apply rounding and carry-overs */
+    /* Apply roundings */
     switch (acc) {
         using enum ChronoRaceData::Accuracy;
 
         case SECOND:
-            milliseconds = (milliseconds + 500) / 1000;
-            if (milliseconds >= 1) {
-                milliseconds = 0;
-                sec += 1;
-            }
+            timeMillis = ((timeMillis + 500) / 1000) * 1000;
+            referenceMillis = ((referenceMillis + 500) / 1000) * 1000;
             break;
         case TENTH:
             digits = 1;
-            milliseconds = (milliseconds + 50) / 100;
-            if (milliseconds >= 10) {
-                milliseconds = 0;
-                sec += 1;
-            }
+            timeMillis = ((timeMillis + 50) / 100) * 100;
+            referenceMillis = ((referenceMillis + 50) / 100) * 100;
             break;
         case HUNDREDTH:
             digits = 2;
-            milliseconds = (milliseconds + 5) / 10;
-            if (milliseconds >= 100) {
-                milliseconds = 0;
-                sec += 1;
-            }
+            timeMillis = ((timeMillis + 5) / 10) * 10;
+            referenceMillis = ((referenceMillis + 5) / 10) * 10;
             break;
         case THOUSANDTH:
             digits = 3;
@@ -324,6 +308,16 @@ QString CRHelper::toTimeString(uint milliseconds, ChronoRaceData::Accuracy acc)
         default:
             throw(ChronoRaceException(tr("Invalid accuracy value %1").arg(static_cast<int>(acc))));
     }
+
+    auto milliseconds = timeMillis - referenceMillis;
+    auto hr = milliseconds / 3600000;
+    milliseconds %= 3600000;
+    auto min = milliseconds / 60000;
+    milliseconds %= 60000;
+    auto sec = milliseconds / 1000;
+    milliseconds %= 1000;
+
+    /* Apply carry-overs */
     if (sec >= 60) {
         sec = 0;
         min += 1;
@@ -340,7 +334,7 @@ QString CRHelper::toTimeString(uint milliseconds, ChronoRaceData::Accuracy acc)
 
 QString CRHelper::toTimeString(Timing const &timing)
 {
-    return toTimeString(timing.getMilliseconds(), timing.getStatus());
+    return toTimeString(timing.getMilliseconds(), 0, timing.getStatus());
 }
 
 Timing::Status CRHelper::toTimingStatus(QString const &status)

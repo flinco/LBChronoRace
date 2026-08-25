@@ -69,6 +69,7 @@ void RankingCategoriesDelegate::updateEditorGeometry(QWidget *editor, QStyleOpti
     Q_UNUSED(index)
 
     editor->setGeometry(option.rect);
+    editor->setMinimumWidth(option.rect.width());
 }
 
 void RankingCategoriesDelegate::setCategories(CategoriesModel const *newCategories)

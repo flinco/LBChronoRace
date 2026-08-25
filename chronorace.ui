@@ -553,6 +553,8 @@
     <addaction name="actionMakeStartList"/>
     <addaction name="actionCollectTimings"/>
     <addaction name="actionMakeRankings"/>
+    <addaction name="separator"/>
+    <addaction name="actionExportLogs"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -935,6 +937,18 @@
    </property>
    <property name="text">
     <string>Update LBChronoRace</string>
+   </property>
+  </action>
+  <action name="actionExportLogs">
+   <property name="icon">
+    <iconset resource="materialicons.qrc">
+     <normaloff>:/material/icons/export_notes.svg</normaloff>:/material/icons/export_notes.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Export Logs</string>
+   </property>
+   <property name="toolTip">
+    <string>Save log file</string>
    </property>
   </action>
  </widget>

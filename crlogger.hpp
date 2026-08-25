@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (C) 2024 by Lorenzo Buzzi (lorenzo@buzzi.pro)                   *
+ * Copyright (C) 2026 by Lorenzo Buzzi (lorenzo@buzzi.pro)                   *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU General Public License as published by      *
@@ -15,28 +15,38 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
-#ifndef LIVETABLEFILTERPROXYMODEL_H
-#define LIVETABLEFILTERPROXYMODEL_H
+#ifndef CRLOGGER_HPP
+#define CRLOGGER_HPP
 
-#include <QObject>
-#include <QSortFilterProxyModel>
+#include <QCoreApplication>
+#include <QString>
+#include <QTemporaryFile>
+#include <QMutex>
+#include <QTextStream>
+#include <QMessageLogContext>
+#include <QPointer>
 
-class LiveTableFilterProxyModel : public QSortFilterProxyModel
+#include "lbchronorace.hpp"
+
+class CRLogger
 {
-    Q_OBJECT
-public:
-    using QSortFilterProxyModel::QSortFilterProxyModel;
-
-    void setMinRow(int newMinRow);
-
-    void setMaxRow(int newMaxRow);
-
-protected:
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+    Q_DECLARE_TR_FUNCTIONS(CRLogger)
 
 private:
-    int minRow { -1 };
-    int maxRow { -1 };
+    static QPointer<LBChronoRace> app;
+    static QTemporaryFile logFile;
+    static QMutex         logMutex;
+    static QTextStream    logStream;
+
+    static void messageHandler(QtMsgType type, QMessageLogContext const &context, QString const &msg);
+
+public:
+    static void init();
+    static void finish();
+    static void setApp(LBChronoRace *appPtr);
+
+public slots:
+    static void save();
 };
 
-#endif // LIVETABLEFILTERPROXYMODEL_H
+#endif // CRLOGGER_HPP

@@ -36,6 +36,7 @@
 #include "recentraces.hpp"
 #include "languages.hpp"
 #include "triggerkeydialog.hpp"
+#include "crlogger.hpp"
 
 // static members initialization
 QDir LBChronoRace::lastSelectedPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
@@ -171,6 +172,7 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     QObject::connect(ui->actionEditTimings, &QAction::triggered, &timingsTable, &ChronoRaceTable::show);
     QObject::connect(ui->actionImportTimings, &QAction::triggered, &timingsTable, &ChronoRaceTable::modelImport);
     QObject::connect(ui->actionExportTimings, &QAction::triggered, &timingsTable, &ChronoRaceTable::modelExport);
+    QObject::connect(ui->actionExportLogs, &QAction::triggered, &CRLogger::save);
     QObject::connect(ui->actionSetEncoding, &QAction::triggered, this, &LBChronoRace::setEncoding);
     QObject::connect(ui->actionConfigureTrigger, &QAction::triggered, this, &LBChronoRace::setupTrigger);
     QObject::connect(ui->actionMakeStartList, &QAction::triggered, this, &LBChronoRace::makeStartList);

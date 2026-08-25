@@ -26,11 +26,6 @@
 #include "chronoracedata.hpp"
 #include "category.hpp"
 
-namespace competitor {
-class Competitor;
-class CompetitorSorter;
-}
-
 class Competitor
 {
     Q_DECLARE_TR_FUNCTIONS(Competitor)

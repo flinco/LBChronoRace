@@ -23,10 +23,6 @@
 
 #include "competitor.hpp"
 
-namespace nameslookup {
-class NamesLookup;
-}
-
 class NamesLookup
 {
 public:

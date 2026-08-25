@@ -23,11 +23,6 @@
 #include <QString>
 #include <QRegularExpression>
 
-namespace timing {
-class Timing;
-class TimingSorter;
-}
-
 class Timing {
     Q_DECLARE_TR_FUNCTIONS(Timing)
 

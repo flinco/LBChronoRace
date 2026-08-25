@@ -25,10 +25,6 @@
 #include <QProcess>
 #include <QScopedPointer>
 
-namespace updates {
-class Updates;
-}
-
 class Updates : public QObject
 {
     Q_OBJECT

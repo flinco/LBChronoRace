@@ -214,11 +214,11 @@ QString ClassEntry::getTimes(CRLoader::Format format, int legRankWidth) const
 
         case TEXT:
             for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
-                retString.append(QString("%1(%2) %3").arg((it == entries.constBegin()) ? "" : " - ").arg(it->legRanking, legRankWidth).arg(CRHelper::toTimeString(it->time, it->status), 7));
+                retString.append(QString("%1(%2) %3").arg((it == entries.constBegin()) ? "" : " - ").arg(it->legRanking, legRankWidth).arg(CRHelper::toTimeString(it->time, 0, it->status), 7));
             break;
         case CSV:
             for (QVector<ClassEntryElement>::ConstIterator it = entries.constBegin(); it < entries.constEnd(); it++)
-                retString.append(QString("%1%2,%3").arg((it == entries.constBegin()) ? "" : ",").arg(it->legRanking).arg(CRHelper::toTimeString(it->time, Timing::Status::CLASSIFIED)));
+                retString.append(QString("%1%2,%3").arg((it == entries.constBegin()) ? "" : ",").arg(it->legRanking).arg(CRHelper::toTimeString(it->time, 0, Timing::Status::CLASSIFIED)));
             break;
         case PDF:
             retString = "***Error***";
@@ -236,7 +236,7 @@ QString ClassEntry::getTime(uint legIdx) const
     if (static_cast<qsizetype>(legIdx) >= entries.size())
         throw(ChronoRaceException(tr("Leg %1 does not exist for bib %2").arg(legIdx + 1).arg(bib)));
 
-    return CRHelper::toTimeString(entries[legIdx].time, entries[legIdx].status);
+    return CRHelper::toTimeString(entries[legIdx].time, 0, entries[legIdx].status);
 }
 
 uint ClassEntry::getTimeValue(uint legIdx) const
@@ -434,13 +434,13 @@ QString ClassEntry::getTotalTime(CRLoader::Format format) const
             [[fallthrough]];
         case PDF:
             if (isDsq())
-                retString = CRHelper::toTimeString(totalTime, DSQ);
+                retString = CRHelper::toTimeString(totalTime, 0, DSQ);
             else if (isDnf())
-                retString = CRHelper::toTimeString(totalTime, DNF);
+                retString = CRHelper::toTimeString(totalTime, 0, DNF);
             else if (isDns())
-                retString = CRHelper::toTimeString(totalTime, DNS);
+                retString = CRHelper::toTimeString(totalTime, 0, DNS);
             else
-                retString = CRHelper::toTimeString(totalTime, CLASSIFIED);
+                retString = CRHelper::toTimeString(totalTime, 0, CLASSIFIED);
             break;
         default:
             Q_UNREACHABLE();
@@ -456,9 +456,9 @@ QString ClassEntry::getDiffTimeTxt(uint referenceTime) const
         return QString("");
 
     if (totalTime > referenceTime)
-        return CRHelper::toTimeString(totalTime - referenceTime, Timing::Status::CLASSIFIED, "+");
+        return CRHelper::toTimeString(totalTime, referenceTime, Timing::Status::CLASSIFIED, "+");
     else
-        return CRHelper::toTimeString(referenceTime - totalTime, Timing::Status::CLASSIFIED, "-");
+        return CRHelper::toTimeString(referenceTime, totalTime, Timing::Status::CLASSIFIED, "-");
 }
 
 bool ClassEntryHelper::allCompetitorsShareTheSameClub(QVector<ClassEntryElement> const &entries, qsizetype fromLeg, qsizetype toLeg, QString const &club)
@@ -563,13 +563,13 @@ void ClassEntryHelper::removeLowerWeigthCategories(QList<Category const *> &cate
 
             w2 = cat2->getWeight();
             if (w1 < w2) {
-                qDebug() << tr("Removing candidate category '%1' associated to competitor %2 - bib %3").arg(cat2->getFullDescription(), name, QString::number(bib));
+                qDebug() << "Removing candidate category" << cat2->getFullDescription() << "associated to competitor" << name << "- bib" << QString::number(bib);
                 cat1 = Q_NULLPTR;
                 break;
             }
 
             if (w1 > w2) {
-                qDebug() << tr("Removing candidate category '%1' associated to competitor %2 - bib %3").arg(j.peekPrevious()->getFullDescription(), name, QString::number(bib));
+                qDebug() << "Removing candidate category" << j.peekPrevious()->getFullDescription() << "associated to competitor" << name << "- bib" << QString::number(bib);
                 j.remove();
             }
         }
@@ -595,7 +595,7 @@ void ClassEntryHelper::setCategorySingleLeg(ClassEntry *entry, QStringList &mess
 
         qsizetype i = categories.count();
         while (i-- > 1) {
-            qDebug() << tr("Dropping category '%1' associated to competitor %2 - bib %3").arg(categories[i]->getFullDescription(), name, QString::number(entry->bib));
+            qDebug() << "Dropping category" << categories[i]->getFullDescription() << "associated to competitor" << name << "- bib" << QString::number(entry->bib);
             categories.removeAt(i);
         }
 
@@ -622,7 +622,7 @@ void ClassEntryHelper::setCategoryMultiLeg(ClassEntry *entry, QStringList &messa
         /* Category must be present in all the legs */
         for (leg = 1; leg < count; leg++) {
             if (!entries->at(leg).hasCategory(cat)) {
-                qDebug() <<  tr("Dropping category '%1' associated to competitor %2 - bib %3 - leg 1").arg(i.peekPrevious()->getFullDescription(), comp->getCompetitorName(CRHelper::nameComposition), QString::number(entry->bib));
+                qDebug() <<  "Dropping category" << i.peekPrevious()->getFullDescription() << "associated to competitor" << comp->getCompetitorName(CRHelper::nameComposition) << "- bib" << QString::number(entry->bib) << "- leg \"1\"";
                 i.remove();
                 break;
             }
@@ -640,7 +640,7 @@ void ClassEntryHelper::setCategoryMultiLeg(ClassEntry *entry, QStringList &messa
         i = comp->getCategories();
         while (i.hasNext()) {
             if (!entry->entries[0].hasCategory(i.next())) {
-                qDebug() <<  tr("Dropping category '%1' associated to competitor %2 - bib %3 - leg 1").arg(i.peekPrevious()->getFullDescription(), comp->getCompetitorName(CRHelper::nameComposition), QString::number(entry->bib));
+                qDebug() <<  "Dropping category" << i.peekPrevious()->getFullDescription() << "associated to competitor" << comp->getCompetitorName(CRHelper::nameComposition) << "- bib" << QString::number(entry->bib) << "- leg \"1\"";
                 i.remove();
             }
         }

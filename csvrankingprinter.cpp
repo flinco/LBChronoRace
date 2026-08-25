@@ -50,6 +50,8 @@ void CSVRankingPrinter::init(QString *outCSVFileName, QString const &title, QStr
 
 void CSVRankingPrinter::printStartList(QList<Competitor const *> const &startList, ChronoRaceData::RaceType raceType)
 {
+    Q_UNUSED(raceType)
+
     if (!csvFile.isOpen()) {
         throw(ChronoRaceException(tr("Error: attempted to write to a closed file")));
     }

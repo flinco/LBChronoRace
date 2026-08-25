@@ -213,7 +213,7 @@ void PDFRankingPrinter::printStartList(QList<Competitor const *> const &startLis
     int i = 1;
     int p = 1;
     auto pp = static_cast<int>(pages.size());
-    bool firstPage = true;
+    int subPage = 1;
     for (auto page = pages.constBegin(); page < pages.constEnd(); page++, p++) {
 
         if (currentPage++) // this is not the first loop, add a new page
@@ -221,15 +221,15 @@ void PDFRankingPrinter::printStartList(QList<Competitor const *> const &startLis
 
         switch (raceType) {
             case MASS_START:
-                drawTemplatePortrait(translator->translate("PDFRankingPrinter", "Competitors List"), firstPage, p, pp, true);
+            drawTemplatePortrait(translator->translate("PDFRankingPrinter", "Competitors List"), (subPage == 1), p, pp, true);
                 break;
             case RELAY_RACE:
-                drawTemplatePortrait(translator->translate("PDFRankingPrinter", "Competitors - Leg %1").arg(offset + 1), firstPage, p, pp, true);
+                drawTemplatePortrait(translator->translate("PDFRankingPrinter", "Competitors - Leg %1").arg(offset + 1), (subPage == 1), p, pp, true);
                 break;
             case TIMED_RACE:
                 [[fallthrough]];
             default:
-                drawTemplatePortrait(translator->translate("PDFRankingPrinter", "Start List"), firstPage, p, pp, true);
+                drawTemplatePortrait(translator->translate("PDFRankingPrinter", "Start List"), (subPage == 1), p, pp, true);
                 break;
         }
 
@@ -239,15 +239,16 @@ void PDFRankingPrinter::printStartList(QList<Competitor const *> const &startLis
         painter.setFont(rnkFontBold);
 
         // Rankings header
-        printHeaderStartList(writeRect, firstPage);
+        printHeaderSingleLeg(writeRect, subPage, RankingType::START_LIST);
 
-        writeRect.setTop(toVdots(firstPage ? 57.0 : 34.0));
+        writeRect.setTop(toVdots((subPage == 1) ? 57.0 : 34.0));
         writeRect.setHeight(toVdots(4.0));
-        firstPage = false;
+        subPage++;
         for (auto c = (*page).constBegin(); c < (*page).constEnd(); c++) {
 
             if (*c == Q_NULLPTR) { // new page indicator
-                firstPage = true;
+                i = 1;
+                subPage = 1;
                 continue;
             }
 
@@ -266,20 +267,25 @@ void PDFRankingPrinter::printStartList(QList<Competitor const *> const &startLis
                 writeRect.setWidth(this->areaWidth);
                 painter.fillRect(writeRect, Qt::lightGray);
             }
+            // Counter
+            painter.setFont(rnkFontBold);
+            writeRect.setLeft(toHdots(1.0));
+            writeRect.setWidth(toHdots(5.0));
+            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString("%1.").arg(i));
             i++;
             // Bib
             painter.setFont(rnkFont);
-            writeRect.setLeft(toHdots(1.0));
+            writeRect.translate(toHdots(5.0), 0.0);
             writeRect.setWidth(toHdots(7.0));
             painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignVCenter, QString::number((*c)->getBib()));
             // Name
             painter.setFont(rnkFontBold);
             writeRect.translate(toHdots(8.0), 0.0);
-            writeRect.setWidth(toHdots(65.0));
+            writeRect.setWidth(toHdots(60.0));
             painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, (*c)->getCompetitorName(CRHelper::nameComposition, 0));
             // Team
             painter.setFont(rnkFont);
-            writeRect.translate(toHdots(65.0), 0.0);
+            writeRect.translate(toHdots(60.0), 0.0);
             writeRect.setWidth(toHdots(45.0));
             painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignVCenter, clubAndTeam.join(" - "));
             // Year
@@ -595,47 +601,12 @@ QList<QList<TeamClassEntry const *>> PDFRankingPrinter::splitTeamRanking(QList<T
     return pages;
 }
 
-void PDFRankingPrinter::printHeaderStartList(QRectF &writeRect, bool first)
-{
-    QTranslator const *translator = getTranslator();
-
-    // Rankings header
-    writeRect.setTopLeft(QPointF(toHdots(1.0), toVdots(first ? 48.5 : 25.5)));
-    writeRect.setHeight(toVdots(8.0));
-    // Bib
-    writeRect.setWidth(toHdots(7.0));
-    painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, translator->translate("PDFRankingPrinter", "Bib"));
-    // Name
-    writeRect.translate(toHdots(8.0), 0.0);
-    writeRect.setWidth(toHdots(65.0));
-    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, translator->translate("PDFRankingPrinter", "Name"));
-    // Team
-    writeRect.translate(toHdots(65.0), 0.0);
-    writeRect.setWidth(toHdots(45.0));
-    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, translator->translate("PDFRankingPrinter", "Team"));
-    // Year
-    writeRect.translate(toHdots(45.0), 0.0);
-    writeRect.setWidth(toHdots(9.0));
-    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, translator->translate("PDFRankingPrinter", "Year"));
-    // Sex
-    writeRect.translate(toHdots(9.0), 0.0);
-    writeRect.setWidth(toHdots(6.0));
-    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, translator->translate("PDFRankingPrinter", "Sex"));
-    // Category
-    writeRect.translate(toHdots(6.0), 0.0);
-    writeRect.setWidth(toHdots(28.0));
-    painter.drawText(writeRect.toRect(), Qt::AlignLeft | Qt::AlignBottom, translator->translate("PDFRankingPrinter", "Class"));
-    // Time
-    writeRect.translate(toHdots(28.0), 0.0);
-    writeRect.setWidth(toHdots(27.0));
-    painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, (CRLoader::getStartListLegs() == 1) ? translator->translate("PDFRankingPrinter", "Start Time") : translator->translate("PDFRankingPrinter", "Leg", "long label"));
-}
-
 void PDFRankingPrinter::printHeaderSingleLeg(QRectF &writeRect, int page, RankingType type)
 {
     QTranslator const *translator = getTranslator();
 
     switch (type) {
+    case RankingType::START_LIST:
     case RankingType::INDIVIDUAL_SINGLE:
     case RankingType::TEAM_SINGLE:
         // Rankings header
@@ -677,7 +648,12 @@ void PDFRankingPrinter::printHeaderSingleLeg(QRectF &writeRect, int page, Rankin
         // Time
         writeRect.translate(toHdots((type == RankingType::TEAM_SINGLE) ? 23.0 : 28.0), 0.0);
         writeRect.setWidth(toHdots((type == RankingType::INDIVIDUAL_SINGLE) ? 12.0 : 27.0));
-        painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, translator->translate("PDFRankingPrinter", "Time"));
+
+        if (type == RankingType::START_LIST) {
+            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, (CRLoader::getStartListLegs() == 1) ? translator->translate("PDFRankingPrinter", "Start Time") : translator->translate("PDFRankingPrinter", "Leg", "long label"));
+        } else { // individual or team single
+            painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, translator->translate("PDFRankingPrinter", "Time"));
+        }
         // Time difference (individual ranking only)
         if (type == RankingType::INDIVIDUAL_SINGLE) {
             writeRect.translate(toHdots(12.0), 0.0);
@@ -685,8 +661,6 @@ void PDFRankingPrinter::printHeaderSingleLeg(QRectF &writeRect, int page, Rankin
             painter.drawText(writeRect.toRect(), Qt::AlignRight | Qt::AlignBottom, translator->translate("PDFRankingPrinter", "Diff"));
         }
         break;
-    case RankingType::START_LIST:
-        [[fallthrough]];
     default:
         emit error(tr("Error: ranking type not allowed"));
         break;

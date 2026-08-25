@@ -16,6 +16,7 @@
  *****************************************************************************/
 
 #include <QFile>
+#include <QDir>
 #include <QTemporaryFile>
 #include <QTextStream>
 #include <QStandardPaths>
@@ -32,8 +33,10 @@
 TimingsWorker::TimingsWorker()
 {
     QTemporaryFile outFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation) % "/lbchronorace_XXXXXX.csv");
+
     if (outFile.open()) {
         timingsFilePath.append(outFile.fileName());
+        qDebug() << "Writing timings to" << QDir::toNativeSeparators(timingsFilePath);
     } else {
         throw(ChronoRaceException(tr("Error: unable to open %1").arg(outFile.fileName())));
     }
@@ -158,7 +161,9 @@ bool ChronoRaceTimings::eventFilter(QObject *watched, QEvent *event)
     return retval;
 }
 
-void ChronoRaceTimings::timerEvent(QTimerEvent *event) {
+void ChronoRaceTimings::timerEvent(QTimerEvent *event)
+{
+    static uint bibPlaceholder = 9999;
 
     if (this->timerPaused)
         return;
@@ -168,10 +173,12 @@ void ChronoRaceTimings::timerEvent(QTimerEvent *event) {
         QTextStream outStream(&buffer);
         QTableWidgetItem const *item0;
         QTableWidgetItem const *item1;
+        char const *dnX = Q_NULLPTR;
         for (int r = 0; r < ui->dataArea->rowCount(); r++) {
             item0 = ui->dataArea->item(r, 0);
             item1 = ui->dataArea->item(r, 1);
-            outStream << (item0 ? item0->text() : "XXXX") << ",0," << (item1 ? item1->text() : "-:--:--") << Qt::endl;
+            dnX = item0 ?  "DNF" : "DNS";
+            outStream << (item0 ? item0->text() : QString::number(bibPlaceholder--)) << ",0," << (item1 ? item1->text().chopped(4) : "0:00:00") << "," << (item1 ? "CLS" : dnX) << Qt::endl;
             outStream.flush();
         }
 

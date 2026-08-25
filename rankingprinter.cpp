@@ -79,7 +79,8 @@ int Position::getCurrentPositionNumber(int posIndex, QString const &currTime)
     if ((posIndex == 1) || (time.compare(currTime) != 0) || (currTime.startsWith("D"))) {
         // First entry, DNS, DNF, DSQ, or Different time
         time = currTime;
-        returnedPosition = position = posIndex;
+        position = posIndex;
+        returnedPosition = position;
     }
 
     return returnedPosition;

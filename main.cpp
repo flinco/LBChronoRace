@@ -17,6 +17,7 @@
 
 #include "lbchronorace.hpp"
 #include "languages.hpp"
+#include "crlogger.hpp"
 
 #include <QTranslator>
 #include <QFontDatabase>
@@ -31,11 +32,18 @@
 
 int main(int argc, char *argv[])
 {
+    int ret;
+
     QApplication app(argc, argv);
 
     QSplashScreen splash(QPixmap(":/images/lbchronorace-splash.png"));
     splash.setWindowFlag(Qt::WindowStaysOnTopHint, true);
     splash.show();
+
+    splash.showMessage("Logging initialization…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
+
+    CRLogger::init();
+    qDebug() << "Starting" << LBCHRONORACE_NAME " " LBCHRONORACE_VERSION;
 
     splash.showMessage("Loading translations…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
 
@@ -67,6 +75,7 @@ int main(int argc, char *argv[])
 
     splash.showMessage("Initializing…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
     LBChronoRace w(Q_NULLPTR, &app);
+    CRLogger::setApp(&w);
     QTimer::singleShot(0, &w, &LBChronoRace::initialize);
     w.show();
 
@@ -83,7 +92,11 @@ int main(int argc, char *argv[])
     QTimer::singleShot(2000, &splash, &QWidget::close);
 #endif
 
-    return QApplication::exec();
+    ret = QApplication::exec();
+
+    CRLogger::finish();
+
+    return ret;
 }
 
 

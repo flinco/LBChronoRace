@@ -17,25 +17,20 @@
 
 #include "livetablefilterproxymodel.hpp"
 
-LiveTableFilterProxyModel::LiveTableFilterProxyModel(QObject *parent) :
-    QSortFilterProxyModel(parent)
-{
-}
+#include <QStandardItemModel>
 
 bool LiveTableFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
-    Q_UNUSED(sourceParent)
+    int flags = 0;
 
-    if ((minRow >= 0) && (maxRow >= 0))
-        return ((minRow <= sourceRow) && (sourceRow <= maxRow));
+    if ((minRow >= 0) && (maxRow >= 0)) {
+        auto model = qobject_cast<QStandardItemModel *>(sourceModel());
+        if (auto data = model->itemFromIndex(model->index(sourceRow, 0, sourceParent))->data(Qt::ItemDataRole::UserRole + 2); data.isValid()) {
+            flags = data.value<int>();
+        }
+    }
 
-    if (minRow < 0)
-        return (sourceRow <= maxRow);
-
-    if (maxRow < 0)
-        return (minRow <= sourceRow);
-
-    return true;
+    return (flags != 0) || (((minRow < 0) || (minRow <= sourceRow)) && ((maxRow < 0) || (sourceRow <= maxRow)));
 }
 
 void LiveTableFilterProxyModel::setMaxRow(int newMaxRow)
