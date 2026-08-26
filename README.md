@@ -23,6 +23,7 @@ Free Desktop software for producing the results of footraces in different format
 - All the tables allow both manual data entry and import/export to CSV
 - Latin1 or UTF-8 encoding for import/export from/to CSV
 - Results and Start list in PDF, CSV or plain text
+- Live View of Competitors List and Rankings 
 
 ## Download
 

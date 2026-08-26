@@ -22,6 +22,7 @@ Software Desktop gratuito per produrre le classifiche delle corse podistiche in 
 - Tutte le tabelle consentono sia l'inserimento manuale dei dati che l'importazione/esportazione in CSV
 - Codifica Latin1 o UTF-8 selezionabile per importazione/esportazione in CSV
 - Classifiche e Ordini di partenza in PDF, CSV o testo
+- Vista da vivo dell'Elenco concorrenti e della Classifica 
 
 ## Scaricare
 
