@@ -565,6 +565,19 @@ bool ChronoRaceTimings::digitPressed(QString const &key)
 
 void ChronoRaceTimings::clear()
 {
+    if (liveTables != Q_NULLPTR) {
+        QTableWidgetItem const *bibItem;
+        QTableWidgetItem const *timingItem;
+
+        for (auto rows = ui->dataArea->rowCount(); rows > 0; rows--) {
+            timingItem = ui->dataArea->item(rows - 1, 1);
+            bibItem = ui->dataArea->item(rows - 1, 0);
+            liveTables->removeEntry(timingItem->data(Qt::ItemDataRole::UserRole).toULongLong() | bibItem->data(Qt::ItemDataRole::UserRole).toULongLong());
+        }
+
+        emit timerValue(DISPLAY_CHRONO_ZERO);
+    }
+
     ui->timer->display(DISPLAY_CHRONO_ZERO);
     currentBibItem = Q_NULLPTR;
     timingRowCount = 0;
