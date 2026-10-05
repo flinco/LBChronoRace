@@ -206,29 +206,12 @@ LBChronoRace::LBChronoRace(QWidget *parent, QGuiApplication const *app) :
     categoriesTable.setItemDelegateForColumn(static_cast<int>(Category::Field::CTF_TYPE), &categoryTypeDelegate);
     timingsTable.setItemDelegateForColumn(static_cast<int>(Timing::Field::TMF_STATUS), &timingStatusDelegate);
 
-    QRegularExpressionMatch match;
-    QString liveText;
-    QIcon liveIcon;
-    bool screenEnabled;
-    QStandardItemModel const *liveModel;
-    auto liveIndex = this->ui->liveViewSelector->count();
     QList<QScreen *> screenList = QApplication::screens();
     for (QList<QScreen *>::const_iterator screenIt = screenList.constBegin(); screenIt != screenList.constEnd(); screenIt++) {
-        screenEnabled = ((*screenIt)->size().width() >= 1280);
-
-        match = screenNameRegEx.match((*screenIt)->name());
-        liveText = match.hasMatch() ? match.captured(1) : (*screenIt)->name();
-        liveIcon = QIcon(screenEnabled ? ":/material/icons/image.svg" : ":/material/icons/hide_image.svg");
-
-        this->ui->liveViewSelector->insertItem(liveIndex, liveIcon, liveText, QVariant::fromValue(*screenIt));
-
-        liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
-        liveModel->item(liveIndex)->setEnabled(screenEnabled);
-
-        liveIndex++;
+        screenAdded(*screenIt);
     }
 
-    if (liveIndex > 2)
+    if (this->ui->liveViewSelector->count() > 2)
         ui->liveViewSelector->setEnabled(true);
 
     // Race data for Live View
