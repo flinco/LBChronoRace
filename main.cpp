@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     splash.showMessage("Logging initialization…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
 
     CRLogger::init();
-    qDebug() << "Starting" << LBCHRONORACE_NAME " " LBCHRONORACE_VERSION;
+    qInfo() << "Starting" << LBCHRONORACE_NAME " " LBCHRONORACE_VERSION;
 
     splash.showMessage("Loading translations…", Qt::AlignmentFlag::AlignBottom | Qt::AlignmentFlag::AlignRight);
 

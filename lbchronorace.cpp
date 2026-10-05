@@ -15,6 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.     *
  *****************************************************************************/
 
+#include <QStringLiteral>
 #include <QStringList>
 #include <QStandardPaths>
 #include <QFile>
@@ -547,6 +548,8 @@ void LBChronoRace::resizeDialogs(QScreen const *screen)
 {
     QRect screenGeometry = screen->availableGeometry();
 
+    qDebug() << "Resizing dialogs:" << screenGeometry;
+
     //NOSONAR this->setMaximumHeight(screenGeometry.height());
     raceInfo.setMaximumHeight(screenGeometry.height());
     // 15/16 is about 94% of the height; this is an ugly
@@ -891,6 +894,10 @@ void LBChronoRace::makeRankings()
 
 void LBChronoRace::screenRemoved(QScreen const *screen)
 {
+    QRegularExpressionMatch match = screenNameRegEx.match(screen->name());
+    QString const &screenName = match.hasMatch() ? match.captured(1) : screen->name();
+    qInfo().noquote() << QStringLiteral("Remove screen: %1 (%2 - %3 - %4)").arg(screenName, screen->manufacturer(), screen->model(), screen->serialNumber());
+
     if (auto screenIndex = this->ui->liveViewSelector->findData(QVariant::fromValue(screen)); screenIndex >= 0) {
 
         auto const *liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
@@ -912,6 +919,14 @@ void LBChronoRace::screenAdded(QScreen const *screen)
 {
     QRegularExpressionMatch match = screenNameRegEx.match(screen->name());
     QString const &screenName = match.hasMatch() ? match.captured(1) : screen->name();
+    qInfo().noquote() << QStringLiteral("Add screen: %1 (%2 - %3 - %4)").arg(screenName, screen->manufacturer(), screen->model(), screen->serialNumber());
+
+    qDebug() << "Size and geometry:" << screen->size() << screen->geometry();
+    qDebug() << "Depth and refresh rate:" << screen->depth() << "bpp" << screen->refreshRate() << "Hz";
+    qDebug() << "Orientation:" << screen->orientation();
+    qDebug() << "Virtual size and geometry:" << screen->virtualSize() << screen->virtualGeometry();
+    qDebug() << "Available size and geometry:" << screen->availableSize() << screen->availableGeometry();
+    qDebug() << "Available virtual size and geometry:" << screen->availableVirtualSize() << screen->availableVirtualGeometry();
 
     auto itemCount = this->ui->liveViewSelector->count();
     auto const *liveModel = qobject_cast<QStandardItemModel *>(this->ui->liveViewSelector->model());
@@ -948,11 +963,15 @@ void LBChronoRace::live(int index)
         if (liveView.getLiveScreen() != Q_NULLPTR)
             appendInfoMessage(tr("Info: closing the Live Rankings"));
 
+        qInfo().noquote() << QStringLiteral("Live Screen closed (%1)").arg(index);
+
         liveView.setLiveScreen(Q_NULLPTR);
         timings.setLiveTables(Q_NULLPTR);
         screenSaver.inhibit(false);
     } else {
         liveScreen = this->ui->liveViewSelector->currentData().value<QScreen const *>();
+
+        qInfo().noquote() << QStringLiteral("Live Screen selected (%1)").arg(index);
 
         liveView.setLiveScreen(liveScreen);
         timings.setLiveTables(&liveView);

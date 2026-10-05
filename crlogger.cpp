@@ -45,7 +45,7 @@ void CRLogger::messageHandler(QtMsgType type, QMessageLogContext const &context,
 void CRLogger::init()
 {
     if (qEnvironmentVariableIntValue("QTC_RUN") == 1) {
-        qDebug() << "Running from QtCreator";
+        qInfo() << "Running from QtCreator";
     } else if (!logFile.isOpen() && logFile.open()) {
         qInstallMessageHandler(messageHandler);
         qSetMessagePattern("[%{time yyyy-MM-dd hh:mm:ss.zzz}] "

@@ -53,31 +53,31 @@ void ScreenSaver::inhibit(bool inhibit)
 #elif defined(Q_OS_LINUX)
     if (QDBusConnection bus_ = QDBusConnection::sessionBus();
         !bus_.isConnected()) {
-        qDebug() << "No connection to DBus";
+        qCritical() << "No connection to DBus";
     } else if (QDBusInterface sessionManagerInterface(QStringLiteral("org.freedesktop.ScreenSaver"), QStringLiteral("/org/freedesktop/ScreenSaver"), QStringLiteral("org.freedesktop.ScreenSaver"), bus_, this);
                !sessionManagerInterface.isValid()) {
-        qDebug() << "Invalid DBus interface";
+        qWarning() << "Invalid DBus interface";
     } else if (reqCount) {
         if (cookie_ != 0) {
-            qDebug() << "ScreenSaver" << (inhibit ? "already" : "still") << "inhibited";
+            qInfo() << "ScreenSaver" << (inhibit ? "already" : "still") << "inhibited";
         } else if (QDBusReply<uint> reply = sessionManagerInterface.call("Inhibit", QStringLiteral(LBCHRONORACE_NAME), "Timekeeping");
                    reply.isValid()) {
             cookie_ = reply.value();
-            qDebug() << "ScreenSaver disabled";
+            qInfo() << "ScreenSaver disabled";
         } else {
             QDBusError error = reply.error();
-            qDebug() << error.message() << error.name();
+            qWarning().noquote() << QStringLiteral("%1 - %2").arg(error.message(), error.name());
         }
     } else {
         if (cookie_ == 0) {
-            qDebug() << "ScreenSaver not inhibited";
+            qInfo() << "ScreenSaver not inhibited";
         } else if (QDBusReply<void> reply = sessionManagerInterface.call("UnInhibit", cookie_);
                    reply.isValid()) {
             cookie_ = 0u;
-            qDebug() << "ScreenSaver enabled";
+            qInfo() << "ScreenSaver enabled";
         } else {
             QDBusError error = reply.error();
-            qDebug() << error.message() << error.name();
+            qWarning().noquote() << QStringLiteral("%1 - %2").arg(error.message(), error.name());
         }
     }
 #endif

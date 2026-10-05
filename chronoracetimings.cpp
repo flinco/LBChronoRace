@@ -36,7 +36,7 @@ TimingsWorker::TimingsWorker()
 
     if (outFile.open()) {
         timingsFilePath.append(outFile.fileName());
-        qDebug() << "Writing timings to" << QDir::toNativeSeparators(timingsFilePath);
+        qInfo().noquote() << "Writing timings to" << QDir::toNativeSeparators(timingsFilePath);
     } else {
         throw(ChronoRaceException(tr("Error: unable to open %1").arg(outFile.fileName())));
     }
