@@ -18,8 +18,8 @@
 <Package>
     <DisplayName>Microsoft Visual C++ 2017-2026 Redistributable (x64)</DisplayName>
     <Description>Microsoft Visual C++ 2017-2026 64-bit redistributable installation package</Description>
-    <Version>14.51.36247.0</Version>
-    <ReleaseDate>2026-06-10</ReleaseDate>
+    <Version>14.52.37029.0</Version>
+    <ReleaseDate>2026-10-23</ReleaseDate>
     <Virtual>true</Virtual>
     <ForcedInstallation>true</ForcedInstallation>
     <Operations>
